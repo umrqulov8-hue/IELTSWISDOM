@@ -19,7 +19,7 @@ export function DashboardLayout({ children, title, description, showGreeting = f
     const displayName = user?.email?.split('@')[0] || "Student";
 
     return (
-        <div className="min-h-screen bg-[#F2F4F8] text-slate-900 flex overflow-hidden relative">
+        <div className="min-h-[calc(100vh-4rem)] bg-[#F2F4F8] text-slate-900 flex overflow-hidden relative">
             {/* Ambient Background Blobs */}
             {/* Ambient Background Blobs */}
             {!hideSidebar && (
@@ -33,7 +33,7 @@ export function DashboardLayout({ children, title, description, showGreeting = f
 
             {/* Main Content Area */}
             <main className={cn(
-                "flex-1 p-4 md:p-8 overflow-y-auto relative z-10 h-screen",
+                "flex-1 p-4 md:p-8 overflow-y-auto relative z-10 h-[calc(100vh-4rem)]",
                 !hideSidebar && "lg:ml-[90px] lg:peer-hover:ml-72 transition-[margin] duration-500 ease-in-out"
             )}>
                 {/* Dashboard Header */}

@@ -27,13 +27,13 @@ export function Header() {
     }, []);
 
     const navLinks = [
-        { name: "Courses", href: "#courses" },
-        { name: "Methodology", href: "#methodology" },
-        { name: "Success Stories", href: "#testimonials" },
-        { name: "Resources", href: "#lead-magnet" },
+        { name: "Courses", href: "/#courses" },
+        { name: "Methodology", href: "/#methodology" },
+        { name: "Success Stories", href: "/#testimonials" },
+        { name: "Resources", href: "/#lead-magnet" },
     ];
 
-    if (isDashboard || isReadingTest) return null;
+    if (isReadingTest) return null;
 
     return (
         <header

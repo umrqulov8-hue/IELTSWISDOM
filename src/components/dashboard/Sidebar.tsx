@@ -32,7 +32,7 @@ export function Sidebar() {
     const { user, signOut } = useAuthContext();
 
     return (
-        <aside className="fixed left-0 top-0 h-screen w-[90px] hover:w-72 bg-white/40 backdrop-blur-2xl border-r border-white/40 z-50 hidden lg:flex flex-col shadow-[4px_0_24px_rgba(0,0,0,0.02)] transition-all duration-500 ease-in-out group overflow-hidden peer">
+        <aside className="fixed left-0 top-16 h-[calc(100vh-4rem)] w-[90px] hover:w-72 bg-white/40 backdrop-blur-2xl border-r border-white/40 z-40 hidden lg:flex flex-col shadow-[4px_0_24px_rgba(0,0,0,0.02)] transition-all duration-500 ease-in-out group overflow-hidden peer">
 
             {/* Logo Section */}
             <div className="px-6 py-8 flex items-center h-[88px] flex-shrink-0 whitespace-nowrap overflow-hidden">
