@@ -1,7 +1,7 @@
 "use client";
 
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft as BackIcon, CheckCircle, XCircle, ArrowRight, Trophy, Link as LinkIcon, Keyboard, RotateCcw } from "lucide-react";
@@ -56,7 +56,7 @@ const generateQuizData = (passageId: string) => {
     });
 };
 
-export default function QuizPage() {
+function QuizContent() {
     const searchParams = useSearchParams();
     const router = useRouter();
     const passageId = searchParams.get("id") || "c18-t1-p1";
@@ -257,5 +257,13 @@ export default function QuizPage() {
                 </AnimatePresence>
             </main>
         </div>
+    );
+}
+
+export default function QuizPage() {
+    return (
+        <Suspense fallback={<div className="min-h-screen bg-[#F0F4F8] flex items-center justify-center font-sans text-slate-500">Loading quiz...</div>}>
+            <QuizContent />
+        </Suspense>
     );
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft as BackIcon, Sparkles, RefreshCcw, Trophy, Timer, Zap, CheckCircle2, XCircle } from "lucide-react";
@@ -19,7 +19,7 @@ interface GameItem {
 
 type ItemStatus = "idle" | "selected" | "matched" | "error";
 
-export default function MatchingGamePage() {
+function MatchingGameContent() {
     const searchParams = useSearchParams();
     const router = useRouter();
     const passageId = searchParams.get("id") || "c18-t1-p1";
@@ -257,5 +257,13 @@ export default function MatchingGamePage() {
                 </AnimatePresence>
             </main>
         </div>
+    );
+}
+
+export default function MatchingGamePage() {
+    return (
+        <Suspense fallback={<div className="min-h-screen bg-[#F0F4F8] flex items-center justify-center font-sans text-slate-500">Loading matching game...</div>}>
+            <MatchingGameContent />
+        </Suspense>
     );
 }

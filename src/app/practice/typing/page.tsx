@@ -1,7 +1,7 @@
 "use client";
 
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft as BackIcon, CheckCircle, XCircle, ArrowRight, Keyboard, Target, Sparkles, RefreshCcw } from "lucide-react";
@@ -10,7 +10,7 @@ import Link from "next/link";
 import confetti from 'canvas-confetti';
 import { getVocabularyForPassage } from "@/data/vocabulary";
 
-export default function TypingPage() {
+function TypingContent() {
     const searchParams = useSearchParams();
     const router = useRouter();
     const passageId = searchParams.get("id") || "c18-t1-p1";
@@ -235,5 +235,13 @@ export default function TypingPage() {
                 </AnimatePresence>
             </main>
         </div>
+    );
+}
+
+export default function TypingPage() {
+    return (
+        <Suspense fallback={<div className="min-h-screen bg-[#F0F4F8] flex items-center justify-center font-sans text-slate-500">Loading typing practice...</div>}>
+            <TypingContent />
+        </Suspense>
     );
 }

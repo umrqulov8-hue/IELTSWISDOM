@@ -1,7 +1,7 @@
 "use client";
 
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, ArrowRight, Shuffle, RotateCcw, Bookmark, Layers, Link as LinkIcon, ClipboardCheck, Keyboard, ArrowLeft as BackIcon, Sparkles } from "lucide-react";
@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { getVocabularyForPassage } from "@/data/vocabulary";
 
-export default function FlashcardsPage() {
+function FlashcardsContent() {
     const searchParams = useSearchParams();
     const router = useRouter();
     const passageId = searchParams.get("id") || "c18-t1-p1";
@@ -212,5 +212,13 @@ export default function FlashcardsPage() {
 
             </main>
         </div>
+    );
+}
+
+export default function FlashcardsPage() {
+    return (
+        <Suspense fallback={<div className="min-h-screen bg-[#F0F4F8] flex items-center justify-center font-sans text-slate-500">Loading flashcards...</div>}>
+            <FlashcardsContent />
+        </Suspense>
     );
 }
