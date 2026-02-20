@@ -37,6 +37,9 @@ const CATEGORIES = [
 ];
 
 const TESTS: TestItem[] = [
+    // Feb 11 Tests - FULL TEST (NEW)
+    { id: "feb11-full", mode: "academic", taskType: "full-test", title: "February 11 Test", subtitle: "Full Academic Writing Test", duration: "60 min", status: "free", isNew: true },
+
     // Feb 15.1 Tests - FULL TEST (NEW)
     { id: "feb15-1-full", mode: "academic", taskType: "full-test", title: "February 15.1 Test", subtitle: "Full Academic Writing Test", duration: "60 min", status: "free", isNew: true },
 

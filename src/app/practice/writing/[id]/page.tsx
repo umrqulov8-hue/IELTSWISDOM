@@ -16,6 +16,51 @@ type TestData = {
 };
 
 const PROMPTS: Record<string, TestData> = {
+    // Feb 11 Tests - FULL TEST (NEW)
+    "feb11-full": {
+        title: "February 11 - Full Academic Writing Test",
+        type: "full-test",
+        tasks: [
+            {
+                title: "Task 1: Poverty in the USA",
+                type: "task-1",
+                minWords: 150,
+                prompt: `
+                    <h3 class="text-lg font-bold mb-2">WRITING TASK 1</h3>
+                    <p class="mb-4">You should spend about 20 minutes on this task.</p>
+                    <p class="mb-4">The table show information about age, average income per person and population below poverty line in three stages in the USA.</p>
+                    
+                    <div class="mb-6 flex flex-col items-center gap-4">
+                       <img 
+                           src="https://azrmwfzrgdvkbzezwyfo.supabase.co/storage/v1/object/public/IELTS%20TASK%20PICTURES/febral%2011.jpg" 
+                           alt="Tables showing age, average income and population below poverty line in the USA" 
+                           class="w-full h-auto rounded-lg shadow-sm"
+                       />
+                    </div>
+
+                    <p class="mb-4">Summarise the information by selecting and reporting the main features, and make comparisons where relevant.</p>
+                    <p>Write at least 150 words.</p>
+                `
+            },
+            {
+                title: "Task 2: Fashion and Copying",
+                type: "task-2",
+                minWords: 250,
+                prompt: `
+                    <h3 class="text-lg font-bold mb-2">WRITING TASK 2</h3>
+                    <p class="mb-4">You should spend about 40 minutes on this task.</p>
+                    <p class="mb-4">Write about the following topic:</p>
+                    <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 mb-6 italic text-slate-700 leading-relaxed shadow-sm">
+                        The tendency of human copying one another is shown in the popularity of fashion in clothes and other commodities.<br/><br/>
+                        <strong>To what extent do you agree or disagree?</strong>
+                    </div>
+                    <p class="mb-4">Give reasons for your answer and include any relevant examples from your own knowledge or experience.</p>
+                    <p>Write at least 250 words.</p>
+                `
+            }
+        ]
+    },
+
     // Feb 15.1 Tests - FULL TEST (NEW)
     "feb15-1-full": {
         title: "February 15.1 - Full Academic Writing Test",
