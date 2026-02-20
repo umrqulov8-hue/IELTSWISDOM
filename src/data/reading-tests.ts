@@ -1,0 +1,297 @@
+export interface Question {
+    id: number;
+    type: "multiple-choice" | "true-false" | "fill-blank" | "matching";
+    text: string;
+    options?: string[];
+    correctAnswer: string | number;
+    image?: string;
+}
+
+export interface ReadingTest {
+    id: string;
+    title: string;
+    content: string;
+    questions: Question[];
+}
+
+export const READING_TESTS: Record<string, ReadingTest> = {
+    "fp-1": {
+        id: "fp-1",
+        title: "Evolution of the Calculator",
+        content: `
+        <p class="mb-4">Before the invention of the electronic calculator, people used a number of devices to help them with mathematical calculations.</p>
+        
+        <p class="mb-4">Humans have been using mathematics for so long that it is uncertain what the earliest aids to mental arithmetic were. But the first was probably our fingers, and the second was small piles of stones which were used to keep a record of the objects being counted. However, these methods were insufficient, only useful for minimal amounts and, in the case of fingers, could only be employed for short periods before sore muscles set in. With the advent of prehistoric agriculture, commerce and astronomy, maintaining large piles of stones for counting became cumbersome and hopelessly inadequate.</p>
+        
+        <p class="mb-4">A rudimentary version of the abacus, or counting frame, dating to around 2,500 BCE, was developed in Sumeria (present day Iraq) and subsequently spread to Europe and the rest of Asia. As the abacus was refined with the use of string and beads, calculations that had been considered extremely difficult became routine. For the next 4,500 years, the abacus was humanity's main counting tool and is still used in parts of Asia. However, it has its limitations; it is unable to multiply and divide as efficiently as it adds and subtracts.</p>
+        
+        <p class="mb-4">In 1617, Scottish mathematician John Napier published a document entitled Rabdology (calculation with rods) describing a device that came to be known as Napier's bones. The 'bones' are thin rods, inscribed with multiplication tables. The user calculates the sum by adjusting the rods' vertical alignment, and then reads off the multiplication totals horizontally. With a few hours of study, the average person can use a set to solve large multiplication and division problems. Experts can even use them for difficult calculations such as extracting square roots from fairly large numbers. However, these manually operated devices were not calculators; although the simplification of the sums had been achieved, a human operator still had to perform them mentally.</p>
+        
+        <p class="mb-4">In 1642, Blaise Pascal invented the Pascal calculator, a device truly capable of performing mathematical calculations by means of a clockwork-type mechanism. It was ingenious, attempting arithmetic functions previously thought impossible and it eventually performed all four arithmetic operations without relying on intelligence. It could add and subtract two numbers directly, and multiply and divide by repetition, but the machine was never a commercial success. This was due to the fact that the techniques for producing the interior parts were expensive to implement. In truth, the Pascal calculator did not replace Napier's bones or the abacus in many accountants' offices.</p>
+
+        <p class="mb-4">Thomas de Colmar, a French inventor and entrepreneur, invented and produced the first mechanical calculator robust enough for everyday use. It was known as the Arithmometer. Manufactured in 1851, this invention saw the rapid rise of faster calculating machines that could add, subtract, multiply and divide large numbers with greater accuracy. It became the first commercially successful unit. However, its biggest disadvantage was its size; it often filled a desktop and weighed 15 kilograms or more.</p>
+
+        <p class="mb-4">Another leading figure in the development of the calculator was Curt Herzstark. Born in Vienna, Austria, in 1902 into a family that produced calculators and other office machines, he regularly travelled through the former Austro-Hungarian Empire selling mechanical calculators to banks and other businesses and it was on these travels that he heard the same complaints from his customers. The impracticalities of the mechanical calculators in use was hindering them. They were large and heavy.</p>
+
+        <p class="mb-4">For 10 years, Herzstark thought about the problem of how to make calculators significantly smaller, but it was far from a simple task. His answer was to forget about the inside of his tiny calculator and concentrate first on designing the outside. Then in 1937, he had a breakthrough and began work on a calculator that was portable so it could be transported easily. The unit was approximately 10 centimetres high and only five centimetres in diameter with a cylindrical body. A year later, Herzstark had a finished design that achieved everything he wanted. In 1945, he took his plans to Vienna and was able to convince the Prince of Liechtenstein to provide financial backing for his Curta calculator.</p>
+
+        <p class="mb-4">His invention was a work of staggering ingenuity. From a distance, it resembles a short, stocky pepper grinder, yet it contains more than 600 precision parts, allowing the operator to add, subtract, multiply and perform long division with a mere turn of the crank. Advanced users could even calculate natural logs and square roots. Approximately 150,000 Curta calculators were made between 1948 and 1970, but by the early 1970s electronic pocket calculators ended the manufacture of mechanical calculators. However, the Curta still remains popular and people buy them to add to their collections. No truly mechanical calculators have been invented since; the Curta was the best and the last of its kind.</p>
+        `,
+        questions: [
+            // --- True / False / Not Given (1-6) ---
+            { id: 1, type: "true-false", text: "Counting methods before the abacus were limited to small quantities.", options: ["TRUE", "FALSE", "NOT GIVEN"], correctAnswer: 0 }, // TRUE
+            { id: 2, type: "true-false", text: "Development of trade helped spread the use of the abacus to Europe.", options: ["TRUE", "FALSE", "NOT GIVEN"], correctAnswer: 2 }, // NOT GIVEN
+            { id: 3, type: "true-false", text: "For 4,500 years, the abacus was constantly being improved.", options: ["TRUE", "FALSE", "NOT GIVEN"], correctAnswer: 1 }, // FALSE
+            { id: 4, type: "true-false", text: "The abacus can carry out some calculation tasks better than other tasks.", options: ["TRUE", "FALSE", "NOT GIVEN"], correctAnswer: 0 }, // TRUE
+            { id: 5, type: "true-false", text: "A complex knowledge of arithmetic was essential when using Napier's bones.", options: ["TRUE", "FALSE", "NOT GIVEN"], correctAnswer: 1 }, // FALSE
+            { id: 6, type: "true-false", text: "Napier's bones were automated counting devices.", options: ["TRUE", "FALSE", "NOT GIVEN"], correctAnswer: 1 }, // FALSE
+
+            // --- Table Completion (7-16) ---
+            { id: 7, type: "fill-blank", text: "_____ was not needed to carry out calculations", correctAnswer: "intelligence" },
+            { id: 8, type: "fill-blank", text: "high price was due to manufacturing _____", correctAnswer: "interior parts" },
+            { id: 9, type: "fill-blank", text: "the first of several devices with improved _____", correctAnswer: "accuracy" },
+            { id: 10, type: "fill-blank", text: "its _____ was impractical", correctAnswer: "size" },
+            { id: 11, type: "fill-blank", text: "people's _____ About previous devices led to its invention", correctAnswer: "complaints" },
+            { id: 12, type: "fill-blank", text: "his design initially focused on the _____ Of the device", correctAnswer: "outside" },
+            { id: 13, type: "fill-blank", text: "because it was so small, it was _____", correctAnswer: "portable" },
+            { id: 14, type: "fill-blank", text: "the device received _____ from a royal", correctAnswer: "financial backing" },
+            { id: 15, type: "fill-blank", text: "it was operated by moving a _____", correctAnswer: "crank" },
+            { id: 16, type: "fill-blank", text: "Curta calculations can be found today in _____", correctAnswer: "collections" },
+        ]
+    },
+    "fp-2": {
+        id: "fp-2",
+        title: "Sleeping on the Job",
+        content: `
+        <p class="mb-4"><strong>A</strong> North Americans are a group who do not take naps. Generally, Afternoon naps denote inefficiency and laziness. Latin American and some European cultures have a similar perspective. Taking naps during noon and 4:00 p.m. is common in nearby companies of Mexico and Greece. Recent research suggests that 15 – 30 minutes rest at work in the evening will serve employees to be more conscious, energetic and happier in what they are doing. They also become optimistic and carry the task more confidently. Still, napping on the work has not become normalised. In the academic world, there is a serious debate happening on the topic of “power napping” benefits.</p>
+
+        <p class="mb-4"><strong>B</strong> Some data reports that by estimating the standard of eight hours of sleep per night, the average American has 500 hours of sleep debt or sleep deficit. The National Sleep Foundation in America conducted a survey in which it is found that two out of every three Americans have less than 7 hours of sleep per night during the business week. 40 percent of people claim that fatigue disturbs their everyday lives. Exhaustion is considered as a major issue in contemporary culture by William Anthony, a professor of psychiatry at Boston University. He claims that after drunkenness, sleeping is the leading cause of car crashes. Professor Anthony says that “We have a clear message”.Citizens should be allowed to sleep after their breaks. It is reasoned based on productivity. They will not be efficient if they are tired and asleep on the job.</p>
+
+        <p class="mb-4"><strong>C</strong> Majorly for safety reasons, most employers motivate employees to sleep at work. The Metropolitan Transportation Authority, which runs both the New York subway system and the two commuter railroads, is permitting its bus and train technicians to take power sleep. One more railway starts to allow its train drivers to sleep about 45 minutes, during which trains are delayed when specified off-main-line locations and when emergency responders have been alerted. Some international airlines permit airline pilots to sleep in the cockpit, when they are not on service. United States’ airline companies still have not agreed to this procedure.</p>
+
+        <p class="mb-4"><strong>D</strong> According to the Encyclopedia of Sleep and Dreaming, taking naps in mid afternoon is regarded as a biologically-based inclination and so the habit of sleeping at night is formed. If the required sleep limit is disrupted or disturbed for some reason, a nap acts as an adjustment. Additionally, it could reduce sleepiness and boost metabolism. Many experiments suggest that the nap zone occurs between midday and 3:00 p.m. To solve this problem, several people use caffeine or sugar. But, the employer’s mood and efficiency will improve, if they are permitted to take naps.</p>
+
+        <p class="mb-4"><strong>E</strong> Workers could have the ability to focus better and complete assignments without taking a single day out. Still, Workers take naps without authorization, though some businesses started to implement the naps for employees to increase productivity. One of the US companies is constructing a 2,000 square foot building for nap which can be filled upto 20 of its employees at any given time. Even a Japanese firm in their corporate offices, sets up tents and gives eyeshades and earplugs and permits workers to take naps during the workday. According to Professor Anthony, napping will not be one of the operational activities. It will have a great influence on productivity. Smart managers identified that workers need rest in order to perform well in their work.</p>
+
+        <p class="mb-4"><strong>F</strong> There is also a belief that company naptime is just a way to keep employees to work for longer periods of time. On the other side, nap days come so frequently as work hours become more flexible for certain employees. Office hours are being there till employees awake. About 11 million Americans are teleworking and forty million spending bonus full or part time. Production hours are also increasing which takes their toll. As a consequence, Americans sleep little and work more hours. By understanding this, companies arrange quick naps for employees in the middle of the day for the benefit of the companies.</p>
+        `,
+        questions: [
+            // --- Yes / No / Not Given (1-5) ---
+            { id: 1, type: "true-false", text: "Recent research says that power napping does not have any impact on employees.", options: ["YES", "NO", "NOT GIVEN"], correctAnswer: 1 }, // NO
+            { id: 2, type: "true-false", text: "Americans have a sleep debt of 500 hours.", options: ["YES", "NO", "NOT GIVEN"], correctAnswer: 0 }, // YES
+            { id: 3, type: "true-false", text: "Employers motivate employees to take naps for safety reasons.", options: ["YES", "NO", "NOT GIVEN"], correctAnswer: 0 }, // YES
+            { id: 4, type: "true-false", text: "One US company builts 2,000 square foot building for play.", options: ["YES", "NO", "NOT GIVEN"], correctAnswer: 1 }, // NO
+            { id: 5, type: "true-false", text: "Power nap will increase the age.", options: ["YES", "NO", "NOT GIVEN"], correctAnswer: 2 }, // NOT GIVEN
+
+            // --- Note Completion (6-10) ---
+            { id: 6, type: "fill-blank", text: "Citizens should be allowed to sleep after their 6_____ which will increase their productivity.", correctAnswer: "breaks" },
+            { id: 7, type: "fill-blank", text: "Employees mood and 7_____ will improved", correctAnswer: "efficiency" },
+            { id: 8, type: "fill-blank", text: "if they are allowed to take 8____", correctAnswer: "naps" },
+            { id: 9, type: "fill-blank", text: "A nap can reduce sleepiness and boost 9_____", correctAnswer: "metabolism" },
+            { id: 10, type: "fill-blank", text: "Smart managers recognized that workers need 10_____ in order to perform better in their work", correctAnswer: "rest" },
+
+            // --- Summary Completion (11-13) ---
+            { id: 11, type: "fill-blank", text: "According to the Encyclopedia of Sleep and Dreaming, midafternoon nap is considered to be a 11______ inclination.", correctAnswer: "biologically-based" },
+            { id: 12, type: "fill-blank", text: "If sleep time is disturbed for some reason, nap acts as a 12______.", correctAnswer: "adjustment" },
+            { id: 13, type: "fill-blank", text: "It could reduce their 13_______ and boost their metabolism.", correctAnswer: "sleepiness" },
+        ]
+    },
+    "fp-9": {
+        id: "fp-9",
+        title: "Socially Responsible Businesses",
+        content: `
+        <p class="mb-4">Many economies today are witnessing the rise of socially responsible businesses, or SRBs. These are profit-making companies which have the additional goal of improving society in some way. Business commentators usually describe SRBs as a fundamentally 21st-century phenomenon. However, this common generalisation overlooks the significant contribution of Muhammad Yunus, among a number of other entrepreneurs. Yunus established a highly successful bank in Bangladesh in the 1980s lending money to small village business projects that could not attract conventional loans.</p>
+
+        <p class="mb-4">There are also those such as CEO Dan Rathbourne who dismiss SRBs as a passing fad which have had little impact on the real world of business. This cynical view is disproved by the evidence: in the UK alone, there are an estimated 80,000 SRBs, turning over about £25 billion a year. What is more, research by the Quorate Group based on interviews with over 5,000 respondents in twelve nations found that not only were consumers prepared to support SRBs but that employees preferred to work for them. Ten years ago Christine Dubois used her experience in corporate finance to establish the Concern Consultancy, which coordinates advice and funding for SRB start-ups. As professional investors increasingly recognise the potential of SRBs, the number of niche firms such as Dubois's will almost inevitably multiply. Professor of business studies Joel Drew claims that this is partly a consequence of the digital revolution. In his persuasive analysis, digital networks have allowed consumers to identify socially responsible products and services in ways never possible before.</p>
+
+        <p class="mb-4">So what are some examples of SRBs? Many that have come to my attention recently are small-scale local companies, such as Renew, which searches demolition sites for old materials - wooden floorboards and other construction timber, for example. Rather than allow these resources to be wasted, the team at Renew have fashioned them into a range of tables, chairs and similar items that are sold at relatively low cost. Other SRBs have rather different goals. The first Indulge cafe was established by owner Derek Jardine in an area with few local amenities. The idea for the cafe was to provide a meeting place for local residents - a community hub - not only by serving food and drink but also by running workshops, film evenings and art exhibitions. There are now six Indulge cafes around the country with more planned. Of course, large corporations may not be in a position to change their products or services quickly. But one international telecommunications corporation, for example, enables its employees to take part in the Green Scheme, whereby staff give short periods of their time unpaid to plant trees in conservation areas, and numerous other large companies have similar initiatives.</p>
+
+        <p class="mb-4">Another small SRB that caught my eye is Bright Sparks, where engineer Johann Jensen is investigating the use of things such as bamboo and soya beans to make coffee capsules and takeaway cups that will break down and decay naturally. In the longer term. Jensen hopes to work on other kinds of packaging for the food and hospitality industries. Meanwhile, Greater Good is now in its second decade of running a farm-to-table vegetable and fruit delivery box service to inner city residents. Recent years have seen a significant increase in demand for this type of direct service, bypassing traditional retailers.</p>
+
+        <p class="mb-4">The increase in the number of such SRBs is associated with the rise of' conscious consumers', who want to know exactly how the products they buy have been produced. What was the environmental impact? Were workers treated ethically? So the argument is sometimes put forward that SRBs are a response to new consumer values. But equally, many SRBs that I have studied were established by entrepreneurs who wanted to make a difference and have taken consumers along with them. In reality, both sides of the relationship have contributed to the fresh approach.</p>
+
+        <p class="mb-4">Consumers, of course, are not always members of the public. Recently I spoke to Lucinda Mitchell, procurement officer for my local council here in London, who told me that her organisation frequently purchases from SRBs because of shared values. Local, state and national authorities have huge purchasing power for both goods and services. And Mitchell's position is becoming commonplace internationally as these bodies are increasingly prepared to work with SRBs, provided they are competitive on price and quality.</p>
+
+        <p class="mb-4">In terms of goals, there are numerous types of social benefits that SRBs can hope to achieve. Many concern employment, whether creating opportunities in deprived areas, promoting gender equality in employment or providing jobs for disabled people. Others focus on fair and ethical treatment of employees and trading partners. Some SRBs add additional goals as they develop, which has worked well. Undoubtedly the most common goal, though, is environmental protection. While this is commendable and a reflection of deep concern in contemporary society, it would be good to see greater diversity as the SRB concept evolves.</p>
+
+        <p class="mb-4">As with any business, of course, there are issues to be faced. Some SRBs are set up with considerable energy and dedication, but with little knowledge or experience of business, and find it difficult to compete. Some find it a challenge to promote their values successfully and so never gain support from consumers or investors. Others lack an internal organisational structure, which leads to inefficiencies. However, few of these problems relate specifically to SRBs but are witnessed in many start-ups. Greater professionalism and business school education can solve all of these issues, ensuring the sector has a bright future.</p>
+        `,
+        questions: [
+            // --- Yes / No / Not Given (1-5) ---
+            { id: 1, type: "true-false", text: "Many business commentators forget the example of Muhammad Yunus.", options: ["YES", "NO", "NOT GIVEN"], correctAnswer: 0 }, // YES
+            { id: 2, type: "true-false", text: "Dan Rathbourne provides an accurate assessment of Socially Responsible Businesses (SRBs).", options: ["YES", "NO", "NOT GIVEN"], correctAnswer: 1 }, // NO
+            { id: 3, type: "true-false", text: "The Quorate Group is a good example of an influential SRB.", options: ["YES", "NO", "NOT GIVEN"], correctAnswer: 2 }, // NOT GIVEN
+            { id: 4, type: "true-false", text: "Few other businesses will wish to follow the example of the Concern Consultancy.", options: ["YES", "NO", "NOT GIVEN"], correctAnswer: 1 }, // NO
+            { id: 5, type: "true-false", text: "Professor Drew has correctly identified one reason for the emergence of SRBs.", options: ["YES", "NO", "NOT GIVEN"], correctAnswer: 0 }, // YES
+
+            // --- Summary Completion (6-10) ---
+            { id: 6, type: "fill-blank", text: "<strong>List of words:</strong> A. biodegradable materials, B. recycled clothing, C. fresh produce, D. closer neighbourhoods, E. secure accommodation, F. affordable furniture, G. permanent employment, H. volunteer work.<br/><br/>Renew has made a successful business out of designing 6_____.", correctAnswer: "F" },
+            { id: 7, type: "fill-blank", text: "On the other hand, Indulge wishes to promote 7_____ and is expanding to new sites.", correctAnswer: "D" },
+            { id: 8, type: "fill-blank", text: "Large corporations cannot always make quick changes but many make provision for 8_____ such as the Green Scheme.", correctAnswer: "H" },
+            { id: 9, type: "fill-blank", text: "On a smaller scale, Johann Jensen is experimenting with types of 9_____ and is planning other ventures.", correctAnswer: "A" },
+            { id: 10, type: "fill-blank", text: "In contrast, an example of a well-established business is Greater Good, which provides 10_____ to a growing market.", correctAnswer: "C" },
+
+            // --- Multiple Choice (11-14) ---
+            { id: 11, type: "multiple-choice", text: "When discussing 'conscious consumers' the writer concludes that", options: ["businesses are slow to respond to consumer demand.", "consumers and businesses have different interests.", "businesses and consumers are influencing each other.", "consumers should put more pressure on businesses."], correctAnswer: 2 }, // C
+            { id: 12, type: "multiple-choice", text: "The writer refers to Lucinda Mitchell in order to", options: ["explain why SRBs lose out to other businesses.", "exemplify the way governments often support SRBs.", "contrast the approach of different governments to SRBs.", "compare the role of SRBs in different regions."], correctAnswer: 1 }, // B
+            { id: 13, type: "multiple-choice", text: "What does the writer suggest about the goals of SRBs?", options: ["SRBs should have a wider range of goals.", "It is a mistake for an SRB to change goal.", "Some goals may make an SRB unprofitable.", "An SRB should not have more than one goal."], correctAnswer: 0 }, // A
+            { id: 14, type: "multiple-choice", text: "Which of the following best summarises the writer's argument in the final paragraph?", options: ["A minority of businesses will inevitably fail.", "SRBs are more successful than other businesses.", "Universities should do more research into SRBs.", "The problems faced by SRBs can be overcome."], correctAnswer: 3 }, // D
+        ]
+    },
+    "fp-10": {
+        id: "fp-10",
+        title: "Crop-growing skyscrapers",
+        content: `
+        <p class="mb-4">By the year 2050, nearly 80% of the Earth's population will live in urban centres. Applying the most conservative estimates to current demographic trends, the human population will increase by about three billion people by then. An estimated 10<sup>9</sup> hectares of new land (about 20% larger than Brazil) will be needed to grow enough food to feed them, if traditional farming methods continue as they are practised today. At present, throughout the world, over 80% of the land that is suitable for raising crops is in use. Historically, some 15% of that has been laid waste by poor management practices. What can be done to ensure enough food for the world's population to live on?</p>
+
+        <p class="mb-4">The concept of indoor farming is not new, since hothouse production of tomatoes and other produce has been in vogue for some time. What is new is the urgent need to scale up this technology to accommodate another three billion people. Many believe an entirely new approach to indoor farming is required, employing cutting-edge technologies. One such proposal is for the 'Vertical Farm'. The concept is of multi-storey buildings in which food crops are grown in environmentally controlled conditions. Situated in the heart of urban centres, they would drastically reduce the amount of transportation required to bring food to consumers. Vertical farms would need to be efficient, cheap to construct and safe to operate. If successfully implemented, proponents claim, vertical farms offer the promise of urban renewal, sustainable production of a safe and varied food supply (through year-round production of all crops), and the eventual repair of ecosystems that have been sacrificed for horizontal farming.</p>
+
+        <p class="mb-4">It took humans 10,000 years to learn how to grow most of the crops we now take for granted. Along the way, we despoiled most of the land we worked, often turning verdant, natural ecozones into semi-arid deserts. Within that same time frame, we evolved into an urban species, in which 60% of the human population now lives vertically in cities. This means that, for the majority, we humans have shelter from the elements, yet we subject our food-bearing plants to the rigours of the great outdoors and can do no more than hope for a good weather year. However, more often than not now, due to a rapidly changing climate, that is not what happens. Massive floods, long droughts, hurricanes and severe monsoons take their toll each year, destroying millions of tons of valuable crops.</p>
+
+        <p class="mb-4">The supporters of vertical farming claim many potential advantages for the system. For instance, crops would be produced all year round, as they would be kept in artificially controlled, optimum growing conditions. There would be no weather-related crop failures due to droughts, floods or pests. All the food could be grown organically, eliminating the need for herbicides, pesticides and fertilisers. The system would greatly reduce the incidence of many infectious diseases that are acquired at the agricultural interface. Although the system would consume energy, it would return energy to the grid via methane generation from composting non-edible parts of plants. It would also dramatically reduce fossil fuel use, by cutting out the need for tractors, ploughs and shipping.</p>
+
+        <p class="mb-4">A major drawback of vertical farming, however, is that the plants would require artificial light. Without it, those plants nearest the windows would be exposed to more sunlight and grow more quickly, reducing the efficiency of the system. Single-storey greenhouses have the benefit of natural overhead light: even so, many still need artificial lighting. A multi-storey facility with no natural overhead light would require far more. Generating enough light could be prohibitively expensive, unless cheap, renewable energy is available, and this appears to be rather a future aspiration than a likelihood for the near future.</p>
+
+        <p class="mb-4">One variation on vertical farming that has been developed is to grow plants in stacked trays that move on rails. Moving the trays allows the plants to get enough sunlight. This system is already in operation, and works well within a single-storey greenhouse with light reaching it from above: it is not certain, however, that it can be made to work without that overhead natural light.</p>
+
+        <p class="mb-4">Vertical farming is an attempt to address the undoubted problems that we face in producing enough food for a growing population. At the moment, though, more needs to be done to reduce the detrimental impact it would have on the environment, particularly as regards the use of energy. While it is possible that much of our food will be grown in skyscrapers in future, most experts currently believe it is far more likely that we will simply use the space available on urban rooftops.</p>
+        `,
+        questions: [
+            // --- Complete the sentences (1-7) ---
+            { id: 1, type: "fill-blank", text: "<strong>Indoor farming</strong><br/><br/>Some food plants, including 1______, are already grown indoors.", correctAnswer: "tomatoes" },
+            { id: 2, type: "fill-blank", text: "Vertical farms would be located in 2______, meaning that there would be less need to take them long distances to customers.", correctAnswer: "urban centres" },
+            { id: 3, type: "fill-blank", text: "Vertical farms could use methane from plants and animals to produce 3______.", correctAnswer: "energy" },
+            { id: 4, type: "fill-blank", text: "The consumption of 4______ would be cut because agricultural vehicles would be unnecessary.", correctAnswer: "fossil fuel" },
+            { id: 5, type: "fill-blank", text: "The fact that vertical farms would need 5______ light is a disadvantage.", correctAnswer: "artificial" },
+            { id: 6, type: "fill-blank", text: "One form of vertical farming involves planting in 6______ which are not fixed.", correctAnswer: "stacked trays" },
+            { id: 7, type: "fill-blank", text: "The most probable development is that food will be grown on 7______ in towns and cities.", correctAnswer: "urban rooftops" },
+
+            // --- True / False / Not Given (8-13) ---
+            { id: 8, type: "true-false", text: "Methods for predicting the Earth's population have recently changed.", options: ["TRUE", "FALSE", "NOT GIVEN"], correctAnswer: 2 }, // NOT GIVEN
+            { id: 9, type: "true-false", text: "Human beings are responsible for some of the destruction to food-producing land.", options: ["TRUE", "FALSE", "NOT GIVEN"], correctAnswer: 0 }, // TRUE
+            { id: 10, type: "true-false", text: "The crops produced in vertical farms will depend on the season.", options: ["TRUE", "FALSE", "NOT GIVEN"], correctAnswer: 1 }, // FALSE
+            { id: 11, type: "true-false", text: "Some damage to food crops is caused by climate change.", options: ["TRUE", "FALSE", "NOT GIVEN"], correctAnswer: 0 }, // TRUE
+            { id: 12, type: "true-false", text: "Fertilisers will be needed for certain crops in vertical farms.", options: ["TRUE", "FALSE", "NOT GIVEN"], correctAnswer: 1 }, // FALSE
+            { id: 13, type: "true-false", text: "Vertical farming will make plants less likely to be affected by infectious diseases.", options: ["TRUE", "FALSE", "NOT GIVEN"], correctAnswer: 0 }, // TRUE
+        ]
+    },
+    "fp-11": {
+        id: "fp-11",
+        title: "The Falkirk Wheel",
+        content: `
+        <h2 class="text-xl font-bold mb-4">A unique engineering achievement</h2>
+        <p class="mb-4">The Falkirk Wheel in Scotland is the world's first and only rotating boat lift. Opened in 2002, it is central to the ambitious £84.5m Millennium Link project to restore navigability across Scotland by reconnecting the historic waterways of the Forth & Clyde and Union Canals.</p>
+
+        <p class="mb-4">The major challenge of the project lay in the fact that the Forth & Clyde Canal is situated 35 metres below the level of the Union Canal. Historically, the two canals had been joined near the town of Falkirk by a sequence of 11 locks – enclosed sections of canal in which the water level could be raised or lowered – that stepped down across a distance of 1.5 km. This had been dismantled in 1933, thereby breaking the link. When the project was launched in 1994, the British Waterways authority were keen to create a dramatic twenty-first-century landmark which would not only be a fitting commemoration of the Millennium, but also a lasting symbol of the economic regeneration of the region.</p>
+
+        <p class="mb-4">Numerous ideas were submitted for the project, including concepts ranging from rolling eggs to tilting tanks, from giant see-saws to overhead monorails. The eventual winner was a plan for the huge rotating steel boat lift which was to become The Falkirk Wheel. The unique shape of the structure is claimed to have been inspired by various sources, both manmade and natural, most notably a Celtic double-headed axe, but also the vast turning propeller of a ship, the ribcage of a whale or the spine of a fish.</p>
+
+        <p class="mb-4">The various parts of The Falkirk Wheel were all constructed and assembled, like one giant toy building set, at Butterley Engineering's Steelworks in Derbyshire, some 400 km from Falkirk. A team there carefully assembled the 1,200 tonnes of steel, painstakingly fitting the pieces together to an accuracy of just 10 mm to ensure a perfect fit. In the summer of 2001, the structure was then dismantled and transported on 35 lorries to Falkirk, before all being bolted back together again on the ground, and finally lifted into position in five large sections by crane. The Wheel would need to withstand immense and constantly changing stresses as it rotated, so to make the structure more robust, the steel sections were bolted rather than welded together. Over 45,000 bolt holes were matched with their bolts, and each bolt was hand-tightened.</p>
+
+        <p class="mb-4">The Wheel consists of two sets of opposing axe-shaped arms, attached about 25 metres apart to a fixed central spine. Two diametrically opposed water-filled 'gondolas', each with a capacity of 360,000 litres, are fitted between the ends of the arms. These gondolas always weigh the same, whether or not they are carrying boats. This is because, according to Archimedes' principle of displacement, floating objects displace their own weight in water. So when a boat enters a gondola, the amount of water leaving the gondola weighs exactly the same as the boat. This keeps the Wheel balanced and so, despite its enormous mass, it rotates through 180° in five and a half minutes while using very little power. It takes just 1.5 kilowatt-hours (5.4 MJ) of energy to rotate the Wheel – roughly the same as boiling eight small domestic kettles of water.</p>
+
+        <p class="mb-4">Boats needing to be lifted up enter the canal basin at the level of the Forth & Clyde Canal and then enter the lower gondola of the Wheel. Two hydraulic steel gates are raised, so as to seal the gondola off from the water in the canal basin. The water between the gates is then pumped out. A hydraulic clamp, which prevents the arms of the Wheel moving while the gondola is docked, is removed, allowing the Wheel to turn. In the central machine room an array of ten hydraulic motors then begins to rotate the central axle. The axle connects to the outer arms of the Wheel, which begin to rotate at a speed of 1/8 of a revolution per minute. As the wheel rotates, the gondolas are kept in the upright position by a simple gearing system. Two eight-metre-wide cogs orbit a fixed inner cog of the same width, connected by two smaller cogs travelling in the opposite direction to the outer cogs – so ensuring that the gondolas always remain level. When the gondola reaches the top, the boat passes straight onto the aqueduct situated 24 metres above the canal basin.</p>
+
+        <p class="mb-4">The remaining 11 metres of lift needed to reach the Union Canal is achieved by means of a pair of locks. The Wheel could not be constructed to elevate boats over the full 35-metre difference between the two canals, owing to the presence of the historically important Antonine Wall, which was built by the Romans in the second century AD. Boats travel under this wall via a tunnel, then through the locks, and finally on to the Union Canal.</p>
+        `,
+        questions: [
+            // --- True / False / Not Given (14-19) ---
+            { id: 14, type: "true-false", text: "The Falkirk Wheel has linked the Forth & Clyde Canal with the Union Canal for the first time in their history.", options: ["TRUE", "FALSE", "NOT GIVEN"], correctAnswer: 1 }, // FALSE (reconnecting)
+            { id: 15, type: "true-false", text: "There was some opposition to the design of the Falkirk Wheel at first.", options: ["TRUE", "FALSE", "NOT GIVEN"], correctAnswer: 2 }, // NOT GIVEN
+            { id: 16, type: "true-false", text: "The Falkirk Wheel was initially put together at the location where its components were manufactured.", options: ["TRUE", "FALSE", "NOT GIVEN"], correctAnswer: 0 }, // TRUE
+            { id: 17, type: "true-false", text: "The Falkirk Wheel is the only boat lift in the world which has steel sections bolted together by hand.", options: ["TRUE", "FALSE", "NOT GIVEN"], correctAnswer: 2 }, // NOT GIVEN (doesn't say it's the ONLY one)
+            { id: 18, type: "true-false", text: "The weight of the gondolas varies according to the size of boat being carried.", options: ["TRUE", "FALSE", "NOT GIVEN"], correctAnswer: 1 }, // FALSE (always weigh the same)
+            { id: 19, type: "true-false", text: "The construction of the Falkirk Wheel site took into account the presence of a nearby ancient monument.", options: ["TRUE", "FALSE", "NOT GIVEN"], correctAnswer: 0 }, // TRUE
+
+            // --- Label the diagram (20-26) ---
+            { id: 20, type: "fill-blank", text: "<strong>How a boat is lifted on the Falkirk Wheel</strong><br/><br/>A pair of 20______ are lifted in order to shut out water from canal basin.", correctAnswer: "gates" }, // hydraulic steel gates? "gates" probably
+            { id: 21, type: "fill-blank", text: "A 21______ is taken out, enabling Wheel to rotate.", correctAnswer: "clamp" }, // hydraulic clamp
+            { id: 22, type: "fill-blank", text: "Hydraulic motors drive 22______", correctAnswer: "axle" }, // rotates the central axle
+            { id: 23, type: "fill-blank", text: "A range of different-sized 23______ ensures boat keeps upright.", correctAnswer: "cogs" }, // cogs
+            { id: 24, type: "fill-blank", text: "Boat reaches top Wheel, then moves directly onto 24______", correctAnswer: "aqueduct" },
+            { id: 25, type: "fill-blank", text: "Boat travels through tunnel beneath Roman 25______", correctAnswer: "wall" }, // Antonine Wall
+            { id: 26, type: "fill-blank", text: "26______ raise boat 11 m to level of Union Canal.", correctAnswer: "locks" }, // locks
+        ]
+    },
+    "fp-12": {
+        id: "fp-12",
+        title: "Reducing the Effects of Climate Change",
+        content: `
+        <h2 class="text-xl font-bold mb-4">Mark Rowe reports on the increasingly ambitious geo-engineering projects being explored by scientists</h2>
+        
+        <p class="mb-4"><strong>A</strong> Such is our dependence on fossil fuels, and such is the volume of carbon dioxide already released into the atmosphere, that many experts agree that significant global warming is now inevitable. They believe that the best we can do is keep it at a reasonable level, and at present the only serious option for doing this is cutting back on our carbon emissions. But while a few countries are making major strides in this regard, the majority are having great difficulty even stemming the rate of increase, let alone reversing it. Consequently, an increasing number of scientists are beginning to explore the alternative of geo-engineering – a term which generally refers to the intentional large-scale manipulation of the environment. According to its proponents, geo-engineering is the equivalent of a backup generator: if Plan A – reducing our dependency on fossil fuels – fails, we require a Plan B, employing grand schemes to slow down or reverse the process of global warming.</p>
+
+        <p class="mb-4"><strong>B</strong> Geo-engineering has been shown to work, at least on a small localised scale. For decades, May Day parades in Moscow have taken place under clear blue skies, aircraft having deposited dry ice, silver iodide and cement powder to disperse clouds. Many of the schemes now suggested look to do the opposite, and reduce the amount of sunlight reaching the planet. The most eye-catching idea of all is suggested by Professor Roger Angel of the University of Arizona. His scheme would employ up to 16 trillion minute spacecraft, each weighing about one gram, to form a transparent, sunlight-refracting sunshade in an orbit 1.5 million km above the Earth. This could, argues Angel, reduce the amount of light reaching the Earth by two per cent.</p>
+
+        <p class="mb-4"><strong>C</strong> The majority of geo-engineering projects so far carried out – which include planting forests in deserts and depositing iron in the ocean to stimulate the growth of algae – have focused on achieving a general cooling of the Earth. But some look specifically at reversing the melting at the poles, particularly the Arctic. The reasoning is that if you replenish the ice sheets and frozen waters of the high latitudes, more light will be reflected back into space, so reducing the warming of the oceans and atmosphere.</p>
+
+        <p class="mb-4"><strong>D</strong> The concept of releasing aerosol sprays into the stratosphere above the Arctic has been proposed by several scientists. This would involve using sulphur or hydrogen sulphide aerosols so that sulphur dioxide would form clouds, which would, in turn, lead to a global dimming. The idea is modelled on historic volcanic explosions, such as that of Mount Pinatubo in the Philippines in 1991, which led to a short-term cooling of global temperatures by 0.5 °C. Scientists have also scrutinised whether it's possible to preserve the ice sheets of Greenland with reinforced high-tension cables, preventing icebergs from moving into the sea. Meanwhile in the Russian Arctic, geo-engineering plans include the planting of millions of birch trees. Whereas the region's native evergreen pines shade the snow and absorb radiation, birches would shed their leaves in winter, thus enabling radiation to be reflected by the snow. Re-routing Russian rivers to increase cold water flow to ice-forming areas could also be used to slow down warming, say some climate scientists.</p>
+
+        <p class="mb-4"><strong>E</strong> But will such schemes ever be implemented? Generally speaking, those who are most cautious about geo-engineering are the scientists involved in the research. Angel says that his plan is 'no substitute for developing renewable energy: the only permanent solution'. And Dr Phil Rasch of the US-based Pacific Northwest National Laboratory is equally guarded about the role of geo-engineering: 'I think all of us agree that if we were to end geo-engineering on a given day, then the planet would return to its pre-engineered condition very rapidly, and probably within ten to twenty years. That's certainly something to worry about.'</p>
+
+        <p class="mb-4"><strong>F</strong> The US National Center for Atmospheric Research has already suggested that the proposal to inject sulphur into the atmosphere might affect rainfall patterns across the tropics and the Southern Ocean. 'Geo-engineering plans to inject stratospheric aerosols or to seed clouds would act to cool the planet, and act to increase the extent of sea ice,' says Rasch. 'But all the models suggest some impact on the distribution of precipitation.'</p>
+
+        <p class="mb-4"><strong>G</strong> 'A further risk with geo-engineering projects is that you can "overshoot",' says Dr Dan Lunt, from the University of Bristol's School of Geophysical Sciences, who has studied the likely impacts of the sunshade and aerosol schemes on the climate. 'You may bring global temperatures back to pre-industrial levels, but the risk is that the poles will still be warmer than they should be and the tropics will be cooler than before industrialisation.' To avoid such a scenario, Lunt says Angel's project would have to operate at half strength; all of which reinforces his view that the best option is to avoid the need for geo-engineering altogether.</p>
+
+        <p class="mb-4"><strong>H</strong> The main reason why geo-engineering is supported by many in the scientific community is that most researchers have little faith in the ability of politicians to agree – and then bring in – the necessary carbon cuts. Even leading conservation organisations see the value of investigating the potential of geo-engineering. According to Dr Martin Sommerkorn, climate change advisor for the World Wildlife Fund's International Arctic Programme, 'Human-induced climate change has brought humanity to a position where we shouldn't exclude thinking thoroughly about this topic and its possibilities.'</p>
+        `,
+        questions: [
+            // --- Matching Paragraph Information (27-29) ---
+            { id: 27, type: "multiple-choice", text: "mention of a geo-engineering project based on an earlier natural phenomenon", options: ["A", "B", "C", "D", "E", "F", "G", "H"], correctAnswer: 3 }, // D (volcanic explosions)
+            { id: 28, type: "multiple-choice", text: "an example of a successful use of geo-engineering", options: ["A", "B", "C", "D", "E", "F", "G", "H"], correctAnswer: 1 }, // B (Moscow May Day)
+            { id: 29, type: "multiple-choice", text: "a common definition of geo-engineering", options: ["A", "B", "C", "D", "E", "F", "G", "H"], correctAnswer: 0 }, // A (intentional large-scale manipulation)
+
+            // --- Table Completion (30-36) ---
+            // "GEO-ENGINEERING PROJECTS"
+            // We will render this using the custom GlassTable component.
+            // The questions below map to the numbered blanks in the table.
+
+            { id: 30, type: "fill-blank", text: "Spacecraft: put a large number of tiny spacecraft into orbit far above Earth to create a 30______ that would reduce amount of light.", correctAnswer: "sunshade" },
+            { id: 31, type: "fill-blank", text: "Sea usage: place 31______ in the sea to encourage algae to form.", correctAnswer: "iron" },
+            { id: 32, type: "fill-blank", text: "Sea usage: place iron in the sea to encourage 32______ to form.", correctAnswer: "algae" },
+            { id: 33, type: "fill-blank", text: "Atmosphere: release aerosol sprays into the stratosphere to create 33______ that would reduce amount of light.", correctAnswer: "clouds" },
+            { id: 34, type: "fill-blank", text: "Greenland: fix strong 34______ to Greenland ice sheets to prevent icebergs moving into the sea.", correctAnswer: "cables" },
+            { id: 35, type: "fill-blank", text: "Russian Arctic: plant trees to allow the 35______ to reflect radiation.", correctAnswer: "snow" },
+            { id: 36, type: "fill-blank", text: "Russian Arctic: change the direction of 36______ to bring more cold water into ice-forming areas.", correctAnswer: "rivers" },
+
+            // --- Matching People (37-40) ---
+            // 37. The effects of geo-engineering may not be long-lasting. => Dr Phil Rasch (B? No, E: pre-engineered condition very rapidly... ten to twenty years. Dr Phil Rasch -> E)
+            // Wait, standard IELTS matching often has a box of names.
+            // B: Dr Phil Rasch
+            // D: Dr Dan Lunt
+            // C: Dr Martin Sommerkorn
+            // A: Roger Angel
+            // Let's check text.
+            // 37. effects not long-lasting -> Rasch (E: "return to pre-engineered condition very rapidly"). So matches Rasch.
+            // 38. Ge-engineering is a topic worth exploring -> Sommerkorn (H: "shouldn't exclude thinking thoroughly about this"). So matches Sommerkorn.
+            // 39. It may be necessary to limit the effectiveness of geo-engineering projects -> Lunt (G: "Angel's project would have to operate at half strength"). So matches Lunt.
+            // 40. Research into non-fossil-based fuels cannot be replaced by geo-engineering -> Angel (E: "no substitute for developing renewable energy"). So matches Angel.
+
+            // Let's assume a simplified Multiple Choice for now or "Matching" type if supported.
+            // The current system supports "multiple-choice" with options. I will use that.
+            // Options: A: Roger Angel, B: Phil Rasch, C: Martin Sommerkorn, D: Dan Lunt.
+            // 37: B
+            // 38: D? No, Sommerkorn is C in my list above, but let's check the user provided image...
+            // User didn't provide image for 37-40 answers, but provided image for answers key!
+            // Image Key: 37 B, 38 D (Wait... 38 is D?), 39 C, 40 A.
+            // Let me re-read Passage.
+            // 38: "Geo-engineering is a topic worth exploring". H: Sommerkorn. If 38 is D, who is D?
+            // User Key says: 37 B, 38 D, 39 C, 40 A.
+            // List of People likely:
+            // A: Roger Angel
+            // B: Phil Rasch
+            // C: Dan Lunt
+            // D: Martin Sommerkorn
+            // Let's verify this mapping.
+            // 37 (Not long lasting) -> Rasch (B). Correct.
+            // 38 (Worth exploring) -> Sommerkorn (D). User Key 38=D. So Sommerkorn is D.
+            // 39 (Limit effectiveness) -> Lunt (C). User Key 39=C. So Lunt is C.
+            // 40 (Renewable energy) -> Angel (A). User Key 40=A. So Angel is A.
+
+            { id: 37, type: "multiple-choice", text: "The effects of geo-engineering may not be long-lasting.", options: ["A: Roger Angel", "B: Phil Rasch", "C: Dan Lunt", "D: Martin Sommerkorn"], correctAnswer: 1 },
+            { id: 38, type: "multiple-choice", text: "Geo-engineering is a topic worth exploring.", options: ["A: Roger Angel", "B: Phil Rasch", "C: Dan Lunt", "D: Martin Sommerkorn"], correctAnswer: 3 },
+            { id: 39, type: "multiple-choice", text: "It may be necessary to limit the effectiveness of geo-engineering projects.", options: ["A: Roger Angel", "B: Phil Rasch", "C: Dan Lunt", "D: Martin Sommerkorn"], correctAnswer: 2 },
+            { id: 40, type: "multiple-choice", text: "Research into non-fossil-based fuels cannot be replaced by geo-engineering.", options: ["A: Roger Angel", "B: Phil Rasch", "C: Dan Lunt", "D: Martin Sommerkorn"], correctAnswer: 0 },
+        ]
+    }
+};

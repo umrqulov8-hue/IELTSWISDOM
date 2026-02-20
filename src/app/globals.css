@@ -1,0 +1,149 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-plus-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  --color-primary: #001F3F;
+  /* Deep Navy */
+  --color-primary-foreground: #ffffff;
+
+  --color-secondary: #FF851B;
+  /* Action Orange */
+  --color-secondary-foreground: #ffffff;
+
+  --color-accent: #0074D9;
+  /* Electric Blue */
+  --color-accent-foreground: #ffffff;
+
+  --color-background: #F8FAFC;
+  /* Slate 50 */
+  --color-foreground: #334155;
+  /* Slate 700 */
+
+  --color-muted: #F1F5F9;
+  /* Slate 100 */
+  --color-muted-foreground: #64748B;
+  /* Slate 500 */
+
+  --card-background: #ffffff;
+  --card-border: #e2e8f0;
+  /* Slate 200 */
+}
+
+/* Custom Utilities */
+@utility container {
+  margin-inline: auto;
+  padding-inline: 1rem;
+  max-width: 80rem;
+  /* 1280px */
+}
+
+@layer base {
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-body);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-sans);
+    color: var(--color-primary);
+  }
+}
+
+/* Liquid Scrollbar Styles */
+@layer utilities {
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(156, 163, 175, 0.3);
+    /* gray-400 with opacity */
+    border-radius: 20px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(156, 163, 175, 0.5);
+  }
+}
+
+/* Global Scrollbar Override */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(156, 163, 175, 0.3);
+  border-radius: 20px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(156, 163, 175, 0.5);
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+/* Firefox Support */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(156, 163, 175, 0.3) transparent;
+}
+
+/* Highlight Styles */
+.custom-highlight {
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s;
+  border-radius: 2px;
+  padding: 0 2px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+.custom-highlight:hover {
+  filter: brightness(0.95);
+}
+
+.custom-highlight.yellow {
+  background-color: rgba(254, 240, 138, 0.5);
+  border-bottom-color: #facc15;
+}
+
+.custom-highlight.green {
+  background-color: rgba(187, 247, 208, 0.5);
+  border-bottom-color: #4ade80;
+}
+
+.custom-highlight.blue {
+  background-color: rgba(191, 219, 254, 0.5);
+  border-bottom-color: #60a5fa;
+}
+
+.custom-highlight.pink {
+  background-color: rgba(251, 207, 232, 0.5);
+  border-bottom-color: #f472b6;
+}
+
+.custom-highlight.red {
+  background-color: rgba(254, 202, 202, 0.5);
+  border-bottom-color: #f87171;
+}
