@@ -23,6 +23,7 @@ export const metadata: Metadata = {
 
 import { AuthProvider } from "@/context/AuthContext";
 import { Toaster } from 'sonner';
+import { Analytics } from "@vercel/analytics/react";
 
 export default function RootLayout({
   children,
@@ -45,6 +46,7 @@ export default function RootLayout({
             <Toaster position="top-center" richColors />
           </ModalProvider>
         </AuthProvider>
+        <Analytics />
       </body>
     </html>
   );
