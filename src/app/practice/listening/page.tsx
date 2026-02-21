@@ -25,11 +25,11 @@ interface TestItem {
 
 // --- Mock Data ---
 const CATEGORIES: TestCategory[] = [
-    { id: "all", title: "All Tests", count: 28 },
+    { id: "all", title: "All Tests", count: 29 },
+    { id: "authentic", title: "Free Authentic", count: 4 },
     { id: "trainer-1", title: "IELTS Trainer 1", count: 6 },
     { id: "trainer-2", title: "IELTS Trainer 2", count: 6 },
     { id: "test-plus-3", title: "Test Plus 3", count: 7 },
-    { id: "authentic", title: "Free Authentic", count: 3 },
     { id: "premium", title: "Premium Tests", count: 15, icon: Lock },
 ];
 
@@ -57,6 +57,7 @@ const TESTS: TestItem[] = [
     { id: "tp3-4", categoryId: "test-plus-3", title: "Test Plus 3, Test 4", duration: "30 min", status: "free" },
 
     // Authentic
+    { id: "cambridge-11-test-1", categoryId: "authentic", title: "Cambridge IELTS 11, Test 1", duration: "32 min", status: "free" },
     { id: "auth-1", categoryId: "authentic", title: "Authentic Test 1", duration: "30 min", status: "free" },
     { id: "auth-2", categoryId: "authentic", title: "Authentic Test 2", duration: "30 min", status: "free" },
     { id: "auth-3", categoryId: "authentic", title: "Authentic Test 3", duration: "30 min", status: "free" },
