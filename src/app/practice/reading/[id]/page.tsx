@@ -423,39 +423,67 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                                         })}
                                                     </div>
                                                 ) : (
-                                                    <div className="space-y-3 ml-12">
-                                                        {q.options?.map((option, index) => {
-                                                            const isSelected = answers[q.id] === String(index);
-                                                            return (
-                                                                <label key={index} className={cn(
-                                                                    "flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-all group",
-                                                                    isSelected ? "bg-blue-50 border-blue-200" : "bg-white border-slate-100 hover:border-slate-200 hover:bg-slate-50",
-                                                                    isSubmitted && index === Number(q.correctAnswer) && "bg-green-50 border-green-200",
-                                                                    isSubmitted && isSelected && index !== Number(q.correctAnswer) && "bg-red-50 border-red-200"
-                                                                )}>
-                                                                    <div className={cn(
-                                                                        "w-5 h-5 rounded-full border flex items-center justify-center transition-colors",
-                                                                        isSelected ? "border-blue-500 bg-blue-500" : "border-slate-300 group-hover:border-blue-400"
+                                                    testId === "fp-4" && q.id >= 14 && q.id <= 20 ? (
+                                                        <div className="ml-12 mt-2 relative">
+                                                            <select
+                                                                className={cn(
+                                                                    "w-full p-3 rounded-xl border appearance-none outline-none transition-all cursor-pointer font-medium bg-white shadow-sm",
+                                                                    answers[q.id] !== undefined ? "border-blue-400 bg-blue-50 text-blue-900 shadow-blue-500/10" : "border-slate-200 text-slate-700 hover:border-blue-300",
+                                                                    isSubmitted && answers[q.id] === q.correctAnswer && "border-green-400 bg-green-50 text-green-800",
+                                                                    isSubmitted && answers[q.id] !== undefined && answers[q.id] !== q.correctAnswer && "border-red-400 bg-red-50 text-red-800",
+                                                                    isSubmitted && "cursor-not-allowed opacity-90"
+                                                                )}
+                                                                value={answers[q.id] !== undefined ? answers[q.id] : ""}
+                                                                onChange={(e) => handleAnswer(q.id, Number(e.target.value))}
+                                                                disabled={isSubmitted}
+                                                            >
+                                                                <option value="" disabled>Select the correct heading...</option>
+                                                                {q.options?.map((option, index) => (
+                                                                    <option key={index} value={index}>
+                                                                        {option}
+                                                                    </option>
+                                                                ))}
+                                                            </select>
+                                                            {/* Custom Dropdown Arrow */}
+                                                            <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400 bg-white/80 rounded-full p-0.5">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6" /></svg>
+                                                            </div>
+                                                        </div>
+                                                    ) : (
+                                                        <div className="space-y-3 ml-12">
+                                                            {q.options?.map((option, index) => {
+                                                                const isSelected = answers[q.id] === String(index) || answers[q.id] === index;
+                                                                return (
+                                                                    <label key={index} className={cn(
+                                                                        "flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-all group",
+                                                                        isSelected ? "bg-blue-50 border-blue-200" : "bg-white border-slate-100 hover:border-slate-200 hover:bg-slate-50",
+                                                                        isSubmitted && index === Number(q.correctAnswer) && "bg-green-50 border-green-200",
+                                                                        isSubmitted && isSelected && index !== Number(q.correctAnswer) && "bg-red-50 border-red-200"
                                                                     )}>
-                                                                        {isSelected && <div className="w-2 h-2 rounded-full bg-white" />}
-                                                                    </div>
-                                                                    <input
-                                                                        type="radio"
-                                                                        name={`question-${q.id}`}
-                                                                        value={index}
-                                                                        checked={isSelected}
-                                                                        onChange={() => handleAnswer(q.id, String(index))}
-                                                                        disabled={isSubmitted}
-                                                                        className="hidden"
-                                                                    />
-                                                                    <span className={cn(
-                                                                        "text-sm",
-                                                                        isSelected ? "text-slate-900 font-medium" : "text-slate-600"
-                                                                    )}>{option}</span>
-                                                                </label>
-                                                            );
-                                                        })}
-                                                    </div>
+                                                                        <div className={cn(
+                                                                            "w-5 h-5 rounded-full border flex items-center justify-center transition-colors",
+                                                                            isSelected ? "border-blue-500 bg-blue-500" : "border-slate-300 group-hover:border-blue-400"
+                                                                        )}>
+                                                                            {isSelected && <div className="w-2 h-2 rounded-full bg-white" />}
+                                                                        </div>
+                                                                        <input
+                                                                            type="radio"
+                                                                            name={`question-${q.id}`}
+                                                                            value={index}
+                                                                            checked={isSelected}
+                                                                            onChange={() => handleAnswer(q.id, String(index))}
+                                                                            disabled={isSubmitted}
+                                                                            className="hidden"
+                                                                        />
+                                                                        <span className={cn(
+                                                                            "text-sm",
+                                                                            isSelected ? "text-slate-900 font-medium" : "text-slate-600"
+                                                                        )}>{option}</span>
+                                                                    </label>
+                                                                );
+                                                            })}
+                                                        </div>
+                                                    )
                                                 )}
 
                                                 {isSubmitted && !isCorrect && (
