@@ -301,9 +301,9 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                                     <div className="relative w-full max-w-2xl mx-auto mt-6 z-0">
                                                         <img src="https://azrmwfzrgdvkbzezwyfo.supabase.co/storage/v1/object/public/IELTS%20TASK%20PICTURES/Screenshot%202026-02-21%20223902.png" alt="Mary Rose Diagram" className="w-full h-auto pointer-events-none rounded-xl" />
 
-                                                        <div className="absolute" style={{ top: '10.5%', left: '36.5%', width: '21%', height: '3.5%' }}>
+                                                        <div className="absolute" style={{ top: '7.5%', left: '42.5%', width: '18%', height: '3.6%' }}>
                                                             <input type="text"
-                                                                className={cn("w-full h-full text-center text-sm font-bold bg-white border border-slate-300 rounded shadow-sm outline-none transition-all placeholder:text-slate-300",
+                                                                className={cn("w-full h-full px-2 text-center text-sm font-bold bg-white border border-slate-300 rounded shadow-sm outline-none transition-all placeholder:text-slate-300",
                                                                     isSubmitted ? (checkCorrect(9) ? "border-green-500 text-green-700 bg-green-50" : "border-red-500 text-red-700 bg-red-50") : "hover:border-blue-400 text-blue-700 focus:border-blue-600 focus:ring-2 focus:ring-blue-500/20"
                                                                 )}
                                                                 value={answers[9] || ""}
@@ -313,9 +313,9 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                                             />
                                                             {isSubmitted && !checkCorrect(9) && <div className="absolute top-full left-0 mt-1 bg-white border border-red-200 text-red-600 text-[10px] px-2 py-0.5 rounded shadow whitespace-nowrap z-50">Answer: {String(testData.questions.find(x => x.id === 9)?.correctAnswer)}</div>}
                                                         </div>
-                                                        <div id="question-10" className="absolute" style={{ top: '32.5%', left: '11%', width: '21%', height: '3.5%' }}>
+                                                        <div id="question-10" className="absolute" style={{ top: '29.2%', left: '10.5%', width: '15%', height: '3.6%' }}>
                                                             <input type="text"
-                                                                className={cn("w-full h-full text-center text-sm font-bold bg-white border border-slate-300 rounded shadow-sm outline-none transition-all placeholder:text-slate-300",
+                                                                className={cn("w-full h-full px-2 text-center text-sm font-bold bg-white border border-slate-300 rounded shadow-sm outline-none transition-all placeholder:text-slate-300",
                                                                     isSubmitted ? (checkCorrect(10) ? "border-green-500 text-green-700 bg-green-50" : "border-red-500 text-red-700 bg-red-50") : "hover:border-blue-400 text-blue-700 focus:border-blue-600 focus:ring-2 focus:ring-blue-500/20"
                                                                 )}
                                                                 value={answers[10] || ""}
@@ -325,9 +325,9 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                                             />
                                                             {isSubmitted && !checkCorrect(10) && <div className="absolute top-full left-0 mt-1 bg-white border border-red-200 text-red-600 text-[10px] px-2 py-0.5 rounded shadow whitespace-nowrap z-50">Answer: {String(testData.questions.find(x => x.id === 10)?.correctAnswer)}</div>}
                                                         </div>
-                                                        <div id="question-11" className="absolute" style={{ top: '73.5%', left: '68%', width: '21%', height: '3.5%' }}>
+                                                        <div id="question-11" className="absolute" style={{ top: '72%', left: '65.5%', width: '21%', height: '3.6%' }}>
                                                             <input type="text"
-                                                                className={cn("w-full h-full text-center text-sm font-bold bg-white border border-slate-300 rounded shadow-sm outline-none transition-all placeholder:text-slate-300",
+                                                                className={cn("w-full h-full px-2 text-center text-sm font-bold bg-white border border-slate-300 rounded shadow-sm outline-none transition-all placeholder:text-slate-300",
                                                                     isSubmitted ? (checkCorrect(11) ? "border-green-500 text-green-700 bg-green-50" : "border-red-500 text-red-700 bg-red-50") : "hover:border-blue-400 text-blue-700 focus:border-blue-600 focus:ring-2 focus:ring-blue-500/20"
                                                                 )}
                                                                 value={answers[11] || ""}
@@ -337,9 +337,9 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                                             />
                                                             {isSubmitted && !checkCorrect(11) && <div className="absolute top-full left-0 mt-1 bg-white border border-red-200 text-red-600 text-[10px] px-2 py-0.5 rounded shadow whitespace-nowrap z-50">Answer: {String(testData.questions.find(x => x.id === 11)?.correctAnswer)}</div>}
                                                         </div>
-                                                        <div id="question-12" className="absolute" style={{ top: '80.5%', left: '11%', width: '21%', height: '3.5%' }}>
+                                                        <div id="question-12" className="absolute" style={{ top: '79%', left: '9%', width: '18.5%', height: '3.6%' }}>
                                                             <input type="text"
-                                                                className={cn("w-full h-full text-center text-sm font-bold bg-white border border-slate-300 rounded shadow-sm outline-none transition-all placeholder:text-slate-300",
+                                                                className={cn("w-full h-full px-2 text-center text-sm font-bold bg-white border border-slate-300 rounded shadow-sm outline-none transition-all placeholder:text-slate-300",
                                                                     isSubmitted ? (checkCorrect(12) ? "border-green-500 text-green-700 bg-green-50" : "border-red-500 text-red-700 bg-red-50") : "hover:border-blue-400 text-blue-700 focus:border-blue-600 focus:ring-2 focus:ring-blue-500/20"
                                                                 )}
                                                                 value={answers[12] || ""}
@@ -349,9 +349,9 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                                             />
                                                             {isSubmitted && !checkCorrect(12) && <div className="absolute top-full left-0 mt-1 bg-white border border-red-200 text-red-600 text-[10px] px-2 py-0.5 rounded shadow whitespace-nowrap z-50">Answer: {String(testData.questions.find(x => x.id === 12)?.correctAnswer)}</div>}
                                                         </div>
-                                                        <div id="question-13" className="absolute" style={{ top: '85.5%', left: '31%', width: '21%', height: '3.5%' }}>
+                                                        <div id="question-13" className="absolute" style={{ top: '83.5%', left: '30%', width: '18.5%', height: '3.6%' }}>
                                                             <input type="text"
-                                                                className={cn("w-full h-full text-center text-sm font-bold bg-white border border-slate-300 rounded shadow-sm outline-none transition-all placeholder:text-slate-300",
+                                                                className={cn("w-full h-full px-2 text-center text-sm font-bold bg-white border border-slate-300 rounded shadow-sm outline-none transition-all placeholder:text-slate-300",
                                                                     isSubmitted ? (checkCorrect(13) ? "border-green-500 text-green-700 bg-green-50" : "border-red-500 text-red-700 bg-red-50") : "hover:border-blue-400 text-blue-700 focus:border-blue-600 focus:ring-2 focus:ring-blue-500/20"
                                                                 )}
                                                                 value={answers[13] || ""}
