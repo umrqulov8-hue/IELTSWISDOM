@@ -1,7 +1,8 @@
 "use client";
 
 import { use, useState, useEffect, useRef } from "react";
-import { LISTENING_TESTS, ListeningPart } from "@/data/listening-tests";
+import { LISTENING_TESTS } from "@/data/listening-tests";
+import type { ListeningPart } from "@/types/listening";
 import { Play, Pause, Volume2, MoreVertical, Menu, Headphones, AlertCircle, Send, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";

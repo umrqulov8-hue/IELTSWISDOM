@@ -1,4 +1,4 @@
-import type { ListeningTest } from "./listening-tests";
+import type { ListeningTest } from "@/types/listening";
 
 export const cambridge11Test1: ListeningTest = {
     id: "cambridge-11-test-1",
