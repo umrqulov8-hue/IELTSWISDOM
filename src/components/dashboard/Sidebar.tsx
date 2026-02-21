@@ -38,11 +38,11 @@ export function Sidebar() {
             <div className="px-6 py-8 flex items-center h-[88px] flex-shrink-0 whitespace-nowrap overflow-hidden">
                 <Link href="/dashboard" className="flex items-center gap-2 font-bold text-2xl tracking-tighter text-slate-800 hover:opacity-80 transition-opacity">
                     <div className="w-10 h-10 flex items-center justify-center bg-gradient-to-br from-[#FF8C00] to-orange-600 rounded-xl text-white shadow-lg shadow-orange-500/20 flex-shrink-0">
-                        <span className="text-xl">L</span>
+                        <span className="text-xl">I</span>
                     </div>
                     <div className="opacity-0 group-hover:opacity-100 max-w-0 group-hover:max-w-[200px] transition-all duration-500 ease-in-out flex items-center">
-                        <span className="translate-x-[-10px] group-hover:translate-x-0 transition-transform duration-500">earn</span>
-                        <span className="text-[#FF8C00] translate-x-[-10px] group-hover:translate-x-0 transition-transform duration-500 delay-75">English</span>
+                        <span className="translate-x-[-10px] group-hover:translate-x-0 transition-transform duration-500">ELTS</span>
+                        <span className="text-[#FF8C00] translate-x-[-10px] group-hover:translate-x-0 transition-transform duration-500 delay-75 ml-1">Wisdom</span>
                     </div>
                 </Link>
             </div>
