@@ -326,7 +326,7 @@ export const READING_TESTS: Record<string, ReadingTest> = {
             { id: 8, type: "multiple-choice", text: "Match the statement with the correct date:<br/>The site of the <em>Mary Rose</em> was found by chance.", options: ["A: 1836", "B: 1840", "C: 1965", "D: 1967", "E: 1971", "F: 1979", "G: 1982"], correctAnswer: 0 }, // 8: A (1836)
 
             // --- Diagram Labelling (9-13) ---
-            { id: 9, type: "fill-blank", text: "Raising the hull of the <em>Mary Rose</em>: Stages one and two<br/><br/>9_______ attached to hull by wires.", correctAnswer: "frame" }, // Accept: lifting frame, frame
+            { id: 9, type: "fill-blank", text: "Raising the hull of the <em>Mary Rose</em>: Stages one and two<br/><br/>9_______ attached to hull by wires.", image: "https://azrmwfzrgdvkbzezwyfo.supabase.co/storage/v1/object/public/IELTS%20TASK%20PICTURES/Screenshot%202026-02-21%20223902.png", correctAnswer: "frame" }, // Accept: lifting frame, frame
             { id: 10, type: "fill-blank", text: "10_______ to prevent hull being sucked into mud.", correctAnswer: "hydraulic jacks" }, // Accept: hydraulic jacks, jacks
             { id: 11, type: "fill-blank", text: "legs are placed into 11_______", correctAnswer: "stabbing guides" }, // Accept: stabbing guides
             { id: 12, type: "fill-blank", text: "hull is lowered into 12_______", correctAnswer: "cradle" }, // Accept: lifting cradle, cradle
