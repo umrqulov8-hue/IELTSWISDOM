@@ -277,6 +277,89 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                         ? q.options.every(opt => opt.length <= 2)
                                         : false;
 
+                                    // Special Handling for "Raising the Mary Rose" Diagram List (Q9-13)
+                                    if (testId === "fp-3" && q.id >= 9 && q.id <= 13) {
+                                        if (q.id === 9) {
+                                            const renderInput = (id: number) => {
+                                                const checkCorrect = (qid: number) => {
+                                                    const question = testData.questions.find(x => x.id === qid);
+                                                    if (!question) return false;
+                                                    const userAnswer = answers[qid];
+                                                    if (typeof userAnswer === 'string') {
+                                                        const acceptable = (question.correctAnswer as string).split(',').map(s => s.trim().toLowerCase());
+                                                        return acceptable.includes(userAnswer.trim().toLowerCase());
+                                                    }
+                                                    return false;
+                                                };
+                                                const isCorrect = checkCorrect(id);
+                                                return (
+                                                    <span id={`question-${id}`} className="inline-flex items-center gap-2 relative ml-1 mr-1">
+                                                        <span className="flex-none w-6 h-6 rounded-full border border-slate-300 text-slate-400 flex items-center justify-center text-[11px] font-semibold bg-white shadow-sm">{id}</span>
+                                                        <input type="text"
+                                                            className={cn("w-36 px-3 py-1.5 bg-white border border-slate-200 rounded-lg focus:outline-none transition-all text-sm shadow-sm",
+                                                                isSubmitted ? (isCorrect ? "border-green-400 bg-green-50 text-green-700 shadow-green-200" : "border-red-400 bg-red-50 text-red-700 shadow-red-200") : "hover:border-blue-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 text-slate-700"
+                                                            )}
+                                                            value={answers[id] || ""}
+                                                            onChange={(e) => handleAnswer(id, e.target.value)}
+                                                            disabled={isSubmitted}
+                                                        />
+                                                        {isSubmitted && !isCorrect && <span className="absolute top-full left-8 mt-1 bg-white border border-red-200 text-red-600 text-[11px] font-bold px-2 py-0.5 rounded shadow whitespace-nowrap z-50">Answer: {String(testData.questions.find(x => x.id === id)?.correctAnswer)}</span>}
+                                                    </span>
+                                                );
+                                            };
+
+                                            return (
+                                                <div key="mary-rose-list" className="mb-12">
+                                                    <div className="mb-10">
+                                                        <img src="https://azrmwfzrgdvkbzezwyfo.supabase.co/storage/v1/object/public/IELTS%20TASK%20PICTURES/Screenshot%202026-02-21%20223902.png" alt="Raising the Mary Rose Diagram" className="w-full max-w-2xl mx-auto object-contain" />
+                                                    </div>
+
+                                                    <div className="border border-slate-800 bg-white p-6 sm:p-10 max-w-2xl mx-auto text-slate-800 text-[17px]">
+                                                        <div className="space-y-6">
+                                                            <div className="flex items-center gap-4">
+                                                                <span className="text-xl leading-none">&bull;</span>
+                                                                <div className="flex items-center flex-wrap leading-loose">
+                                                                    {renderInput(9)}
+                                                                    <span>attached to hull by wires</span>
+                                                                </div>
+                                                            </div>
+                                                            <div className="flex items-center gap-4">
+                                                                <span className="text-xl leading-none">&bull;</span>
+                                                                <div className="flex items-center flex-wrap leading-loose">
+                                                                    {renderInput(10)}
+                                                                    <span>to prevent hull being sucked into mud</span>
+                                                                </div>
+                                                            </div>
+                                                            <div className="flex items-center gap-4">
+                                                                <span className="text-xl leading-none">&bull;</span>
+                                                                <div className="flex items-center flex-wrap leading-loose">
+                                                                    <span>legs are placed into</span>
+                                                                    {renderInput(11)}
+                                                                </div>
+                                                            </div>
+                                                            <div className="flex items-center gap-4">
+                                                                <span className="text-xl leading-none">&bull;</span>
+                                                                <div className="flex items-center flex-wrap leading-loose">
+                                                                    <span>hull is lowered into</span>
+                                                                    {renderInput(12)}
+                                                                </div>
+                                                            </div>
+                                                            <div className="flex items-center gap-4">
+                                                                <span className="text-xl leading-none">&bull;</span>
+                                                                <div className="flex items-center flex-wrap leading-loose">
+                                                                    {renderInput(13)}
+                                                                    <span>used as extra protection for the hull</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            );
+                                        } else {
+                                            return null; // Skip rendering 10-13 as they are inside the list
+                                        }
+                                    }
+
                                     // Special Handling for "Reducing the Effects of Climate Change" Table (Q30-36)
                                     if (testId === "fp-12" && q.id >= 30 && q.id <= 36) {
                                         if (q.id === 30) {
