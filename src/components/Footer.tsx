@@ -49,7 +49,7 @@ export function Footer() {
                     </div>
                 </div>
                 <div className="mt-8 pt-8 border-t border-slate-200 text-center text-sm text-muted-foreground">
-                    © {new Date().getFullYear()} Learn English Effectively. All rights reserved.
+                    © {new Date().getFullYear()} IELTS Wisdom. All rights reserved.
                 </div>
             </div>
         </footer>

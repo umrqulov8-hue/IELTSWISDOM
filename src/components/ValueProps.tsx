@@ -27,7 +27,7 @@ export function ValueProps() {
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center mb-16">
                     <h2 className="text-3xl font-bold tracking-tight text-primary sm:text-4xl mb-4">
-                        Why Choose <span className="text-secondary">LearnEnglish?</span>
+                        Why Choose <span className="text-secondary">IELTS Wisdom?</span>
                     </h2>
                     <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
                         We combine proven learning methods with modern technology to help you succeed.

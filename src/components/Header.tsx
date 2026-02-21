@@ -46,7 +46,7 @@ export function Header() {
                 <div className="flex h-16 items-center justify-between">
                     <div className="flex-shrink-0">
                         <Link href="/" className="font-bold text-2xl tracking-tighter text-primary">
-                            Learn<span className="text-secondary">English</span>
+                            IELTS <span className="text-secondary">Wisdom</span>
                         </Link>
                     </div>
 

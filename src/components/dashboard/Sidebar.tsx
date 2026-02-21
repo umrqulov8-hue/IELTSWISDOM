@@ -124,7 +124,7 @@ export function Sidebar() {
 
                 <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-200 pl-4">
                     <p className="text-[10px] text-slate-400 leading-relaxed max-w-[200px]">
-                        © 2025 LearnEnglish
+                        © 2025 IELTS Wisdom
                     </p>
                 </div>
             </div>

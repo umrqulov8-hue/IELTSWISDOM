@@ -17,7 +17,7 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Learn English Effectively",
+  title: "IELTS Wisdom",
   description: "Master English with a Proven System. Interactive lessons, native speaker support, and structured curriculum.",
 };
 
