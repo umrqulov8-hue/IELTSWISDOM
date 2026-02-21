@@ -281,9 +281,8 @@ function ListeningPartSection({
 }
 
 
-export default function ListeningTestPage({ params }: { params: Promise<{ id: string }> }) {
-    const resolvedParams = use(params);
-    const testId = resolvedParams.id;
+export default function ListeningTestPage({ params }: { params: { id: string } }) {
+    const testId = params.id;
     const testData = LISTENING_TESTS[testId];
 
     const [answers, setAnswers] = useState<Record<string, string>>({});
