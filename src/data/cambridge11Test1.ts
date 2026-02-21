@@ -8,7 +8,7 @@ export const cambridge11Test1: ListeningTest = {
             id: "part-1",
             title: "SECTION 1",
             instructions: "Questions 1-10",
-            audioUrl: "https://txxf3rn3qecdlp0z.public.blob.vercel-storage.com/Cambridge%20IELTS%2011.1.1%20%5B%40cambridgematerials%5D.mp3",
+            audioUrl: "https://azrmwfzrgdvkbzezwyfo.supabase.co/storage/v1/object/public/IELTSWISDOM/Cambridge%20IELTS%2011.1.1.mp3",
             content: `
       <div class="mb-6">
         <p class="font-bold mb-4">Complete the notes below.</p>
