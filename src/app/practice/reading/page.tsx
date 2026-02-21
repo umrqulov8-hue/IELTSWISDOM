@@ -41,6 +41,7 @@ const TESTS: TestItem[] = [
     { id: "fp-10", categoryId: "cambridge-ielts", title: "Crop-growing skyscrapers", isNew: true, status: "free" },
     { id: "fp-11", categoryId: "cambridge-ielts", title: "The Falkirk Wheel", isNew: true, status: "free" },
     { id: "fp-12", categoryId: "cambridge-ielts", title: "Reducing the Effects of Climate Change", isNew: true, status: "free" },
+    { id: "fp-3", categoryId: "cambridge-ielts", title: "Raising the Mary Rose", isNew: true, status: "free" },
 ];
 
 
