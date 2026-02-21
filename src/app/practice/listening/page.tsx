@@ -5,6 +5,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Headphones, PlayCircle, Clock, BarChart3, ChevronRight, Lock, Search, Filter, Sparkles, Music } from "lucide-react";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 // --- Types ---
 interface TestCategory {
@@ -254,14 +255,15 @@ export default function ListeningPage() {
                                                             <p className="text-xs text-slate-400 font-medium">Cambridge Official Materials</p>
                                                         </div>
 
-                                                        {/* Action Button */}
                                                         <div className="mt-auto relative z-10">
-                                                            <button className="w-full py-3.5 rounded-xl bg-slate-900 group-hover:bg-purple-600 text-white font-bold text-sm shadow-lg group-hover:shadow-purple-500/30 transition-all duration-300 flex items-center justify-center gap-2 group/btn relative overflow-hidden">
-                                                                <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
-                                                                <PlayCircle className="w-4 h-4 fill-current opacity-90 relative z-10" />
-                                                                <span className="relative z-10">Start Practice</span>
-                                                                <ChevronRight className="w-4 h-4 opacity-70 group-hover:opacity-100 group-hover:translate-x-1 transition-all relative z-10" />
-                                                            </button>
+                                                            <Link href={`/practice/listening/\${test.id}`}>
+                                                                <button className="w-full py-3.5 rounded-xl bg-slate-900 group-hover:bg-purple-600 text-white font-bold text-sm shadow-lg group-hover:shadow-purple-500/30 transition-all duration-300 flex items-center justify-center gap-2 group/btn relative overflow-hidden">
+                                                                    <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+                                                                    <PlayCircle className="w-4 h-4 fill-current opacity-90 relative z-10" />
+                                                                    <span className="relative z-10">Start Practice</span>
+                                                                    <ChevronRight className="w-4 h-4 opacity-70 group-hover:opacity-100 group-hover:translate-x-1 transition-all relative z-10" />
+                                                                </button>
+                                                            </Link>
                                                         </div>
 
                                                         {/* Decoration Blob */}
