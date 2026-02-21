@@ -22,7 +22,7 @@ export const cambridge11Test1: ListeningTest = {
                 <li>the Main Hall – seats <span class="border-b border-dashed border-slate-400 px-6 font-handwriting text-slate-700">200</span></li>
             </ul>
 
-            <b class="block mb-2 text-slate-800">Room and cost</b>
+            <p className="font-bold mb-2 text-slate-800">Room and cost</p>
             <ul class="list-disc pl-5 mb-6 space-y-3">
                 <li>the <span class="inline-flex items-center gap-2"><span class="font-bold text-sm">1</span><input id="q-1" type="text" class="border-b border-black w-32 focus:outline-none focus:border-blue-500 bg-transparent text-center font-semibold" /></span> Room – seats 100</li>
                 <li>Cost of Main Hall for Saturday evening: <b>£</b> <span class="inline-flex items-center gap-2"><span class="font-bold text-sm">2</span><input id="q-2" type="text" class="border-b border-black w-24 focus:outline-none focus:border-blue-500 bg-transparent text-center font-semibold" /></span></li>
@@ -31,13 +31,13 @@ export const cambridge11Test1: ListeningTest = {
                 <li>Additional charge for use of the kitchen: £25</li>
             </ul>
 
-            <b class="block mb-2 text-slate-800">Before the event</b>
+            <p className="font-bold mb-2 text-slate-800">Before the event</p>
             <ul class="list-disc pl-5 mb-6 space-y-3">
                 <li>Will need a <span class="inline-flex items-center gap-2"><span class="font-bold text-sm">5</span><input id="q-5" type="text" class="border-b border-black w-32 focus:outline-none focus:border-blue-500 bg-transparent text-center font-semibold" /></span> licence</li>
                 <li>Need to contact caretaker (Mr Evans) in advance to arrange <span class="inline-flex items-center gap-2"><span class="font-bold text-sm">6</span><input id="q-6" type="text" class="border-b border-black w-32 focus:outline-none focus:border-blue-500 bg-transparent text-center font-semibold" /></span></li>
             </ul>
 
-            <b class="block mb-2 text-slate-800">During the event</b>
+            <p class="font-bold mb-2 text-slate-800">During the event</p>
             <ul class="list-disc pl-5 mb-6 space-y-3">
                 <li>The building is no smoking</li>
                 <li>The band should use the <span class="inline-flex items-center gap-2"><span class="font-bold text-sm">7</span><input id="q-7" type="text" class="border-b border-black w-32 focus:outline-none focus:border-blue-500 bg-transparent text-center font-semibold" /></span> door at the back</li>
@@ -45,7 +45,7 @@ export const cambridge11Test1: ListeningTest = {
                 <li>For microphones, contact the caretaker</li>
             </ul>
 
-            <b class="block mb-2 text-slate-800">After the event</b>
+            <p className="font-bold mb-2 text-slate-800">After the event</p>
             <ul class="list-disc pl-5 mb-2 space-y-3">
                 <li>Need to know the <span class="inline-flex items-center gap-2"><span class="font-bold text-sm">8</span><input id="q-8" type="text" class="border-b border-black w-32 focus:outline-none focus:border-blue-500 bg-transparent text-center font-semibold" /></span> for the cleaning cupboard</li>
                 <li>The <span class="inline-flex items-center gap-2"><span class="font-bold text-sm">9</span><input id="q-9" type="text" class="border-b border-black w-32 focus:outline-none focus:border-blue-500 bg-transparent text-center font-semibold" /></span> must be washed and rubbish placed in black bags</li>
@@ -84,7 +84,7 @@ export const cambridge11Test1: ListeningTest = {
             
             <p class="mb-4 italic text-slate-700">Advice about visiting the farm</p>
             
-            <b class="block mb-2 text-slate-800">Visitors should</b>
+            <p class="font-bold mb-2 text-slate-800">Visitors should</p>
             <ul class="list-disc pl-5 space-y-4">
                 <li>take care not to harm any <span class="inline-flex items-center gap-2"><span class="font-bold text-sm">11</span><input id="q-11" type="text" class="border-b border-black w-32 focus:outline-none focus:border-blue-500 bg-transparent text-center font-semibold" /></span></li>
                 <li>not touch any <span class="inline-flex items-center gap-2"><span class="font-bold text-sm">12</span><input id="q-12" type="text" class="border-b border-black w-32 focus:outline-none focus:border-blue-500 bg-transparent text-center font-semibold" /></span></li>
@@ -282,14 +282,14 @@ export const cambridge11Test1: ListeningTest = {
         <div class="border-2 border-slate-800 p-6 sm:p-8 rounded-sm bg-white mb-10">
             <h3 class="font-bold text-center text-lg mb-6 tracking-wide">Ocean Biodiversity</h3>
             
-            <b class="block mb-2 text-slate-800">Biodiversity hotspots</b>
+            <p class="font-bold mb-2 text-slate-800">Biodiversity hotspots</p>
             <ul class="list-disc pl-5 mb-6 space-y-3">
                 <li>areas containing many different species</li>
                 <li>important for locating targets for <span class="inline-flex items-center gap-2"><span class="font-bold text-sm">31</span><input id="q-31" type="text" class="border-b border-black w-32 focus:outline-none focus:border-blue-500 bg-transparent text-center font-semibold" /></span></li>
                 <li>at first only identified on land</li>
             </ul>
 
-            <b class="block mb-2 text-slate-800">Boris Worm, 2005</b>
+            <p class="font-bold mb-2 text-slate-800">Boris Worm, 2005</p>
             <ul class="list-disc pl-5 mb-6 space-y-3">
                 <li>identified hotspots for large ocean predators, e.g. sharks</li>
                 <li>found that ocean hotspots:
@@ -301,13 +301,13 @@ export const cambridge11Test1: ListeningTest = {
                 </li>
             </ul>
 
-            <b class="block mb-2 text-slate-800">Lisa Ballance, 2007</b>
+            <p class="font-bold mb-2 text-slate-800">Lisa Ballance, 2007</p>
             <ul class="list-disc pl-5 mb-6 space-y-3">
                 <li>looked for hotspots for marine <span class="inline-flex items-center gap-2"><span class="font-bold text-sm">35</span><input id="q-35" type="text" class="border-b border-black w-32 focus:outline-none focus:border-blue-500 bg-transparent text-center font-semibold" /></span></li>
                 <li>found these were all located where ocean currents meet</li>
             </ul>
 
-            <b class="block mb-2 text-slate-800">Census of Marine Life</b>
+            <p class="font-bold mb-2 text-slate-800">Census of Marine Life</p>
             <ul class="list-disc pl-5 mb-6 space-y-3">
                 <li>found new ocean species living:
                     <ul class="list-[circle] pl-8 mt-3 space-y-3">
@@ -319,7 +319,7 @@ export const cambridge11Test1: ListeningTest = {
 
             <div class="h-px bg-slate-300 w-full my-8 border-dashed border-b"></div>
 
-            <b class="block mb-2 text-slate-800">Global Marine Species Assessment</b>
+            <p class="font-bold mb-2 text-slate-800">Global Marine Species Assessment</p>
             <ul class="list-disc pl-5 mb-6 space-y-3">
                 <li>want to list endangered ocean species, considering:
                     <ul class="list-[circle] pl-8 mt-3 space-y-3">
@@ -331,7 +331,7 @@ export const cambridge11Test1: ListeningTest = {
                 <li class="mt-4">Aim: to assess 20,000 species and make a distribution <span class="inline-flex items-center gap-2"><span class="font-bold text-sm">38</span><input id="q-38" type="text" class="border-b border-black w-32 focus:outline-none focus:border-blue-500 bg-transparent text-center font-semibold" /></span> for each one</li>
             </ul>
 
-            <b class="block mb-2 text-slate-800">Recommendations to retain ocean biodiversity</b>
+            <p class="font-bold mb-2 text-slate-800">Recommendations to retain ocean biodiversity</p>
             <ul class="list-disc pl-5 mb-2 space-y-3">
                 <li>increase the number of ocean reserves</li>
                 <li>establish <span class="inline-flex items-center gap-2"><span class="font-bold text-sm">39</span><input id="q-39" type="text" class="border-b border-black w-32 focus:outline-none focus:border-blue-500 bg-transparent text-center font-semibold" /></span> corridors (e.g. for turtles)</li>
