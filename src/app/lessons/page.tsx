@@ -18,9 +18,9 @@ export default function LessonsPage() {
                     <p className="text-slate-500 text-sm mb-6">
                         Join Mr. Sanokulov for a live breakdown of recent IELTS Speaking Part 2 topics.
                     </p>
-                    <button className="w-full py-3 rounded-xl bg-white border border-slate-200 text-slate-600 font-bold hover:bg-slate-50 hover:text-slate-900 transition-colors">
+                    <a href="https://t.me/ielts_wisdo" target="_blank" rel="noopener noreferrer" className="block text-center w-full py-3 rounded-xl bg-white border border-slate-200 text-slate-600 font-bold hover:bg-slate-50 hover:text-slate-900 transition-colors">
                         Join Class
-                    </button>
+                    </a>
                 </div>
 
                 <div className="bg-white/40 backdrop-blur-xl border border-white/60 p-8 rounded-3xl shadow-sm hover:shadow-md transition-all cursor-pointer group">
@@ -33,9 +33,9 @@ export default function LessonsPage() {
                     <p className="text-slate-500 text-sm mb-6">
                         Watch last week's session on structuring Agree/Disagree essays perfectly.
                     </p>
-                    <button className="w-full py-3 rounded-xl bg-white border border-slate-200 text-slate-600 font-bold hover:bg-slate-50 hover:text-slate-900 transition-colors">
+                    <a href="https://t.me/ielts_wisdo" target="_blank" rel="noopener noreferrer" className="block text-center w-full py-3 rounded-xl bg-white border border-slate-200 text-slate-600 font-bold hover:bg-slate-50 hover:text-slate-900 transition-colors">
                         Watch Recording
-                    </button>
+                    </a>
                 </div>
             </div>
         </DashboardLayout>
