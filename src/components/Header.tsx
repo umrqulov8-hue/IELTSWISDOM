@@ -7,6 +7,7 @@ import { Menu, X, Loader2 } from "lucide-react";
 import { Button } from "./Button";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "@/hooks/useAuth";
+import { LanguageToggle } from "./LanguageToggle";
 
 export function Header() {
     const [isOpen, setIsOpen] = useState(false);
@@ -118,7 +119,8 @@ export function Header() {
                         </div>
                     </div>
 
-                    <div className="hidden md:block">
+                    <div className="hidden md:flex items-center gap-3">
+                        <LanguageToggle />
                         <Button variant="secondary" size="sm" onClick={handleStartLearning} disabled={isLoading}>
                             {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Get Started"}
                         </Button>

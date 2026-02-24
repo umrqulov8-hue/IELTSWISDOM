@@ -5,6 +5,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { ModalProvider } from "@/context/ModalContext";
 import { AuthModal } from "@/components/AuthModal";
+import { LanguageProvider } from "@/context/LanguageContext";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -36,15 +37,17 @@ export default function RootLayout({
         className={`${inter.variable} ${plusJakartaSans.variable} antialiased font-sans bg-background text-foreground flex flex-col min-h-screen`}
       >
         <AuthProvider>
-          <ModalProvider>
-            <Header />
-            <main className="flex-grow pt-16">
-              {children}
-            </main>
-            <Footer />
-            <AuthModal />
-            <Toaster position="top-center" richColors />
-          </ModalProvider>
+          <LanguageProvider>
+            <ModalProvider>
+              <Header />
+              <main className="flex-grow pt-16">
+                {children}
+              </main>
+              <Footer />
+              <AuthModal />
+              <Toaster position="top-center" richColors />
+            </ModalProvider>
+          </LanguageProvider>
         </AuthProvider>
         <Analytics />
       </body>
