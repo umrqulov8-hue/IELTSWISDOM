@@ -77,17 +77,17 @@ export default function MockExamsPage() {
     const SECTION_CONFIG = {
         listening: {
             icon: Headphones,
-            circleBg: "bg-gradient-to-br from-[#1ea2e6] to-[#016baa]",
+            circleBg: "bg-gradient-to-br from-[#128ace] to-[#04619b]",
             iconColor: "text-white"
         },
         reading: {
             icon: BookOpen,
-            circleBg: "bg-gradient-to-br from-[#2ed184] to-[#01904a]",
+            circleBg: "bg-gradient-to-br from-[#20b268] to-[#097b3d]",
             iconColor: "text-white"
         },
         writing: {
             icon: Pencil,
-            circleBg: "bg-gradient-to-br from-[#fc9b44] to-[#d65f04]",
+            circleBg: "bg-gradient-to-br from-[#e88127] to-[#b75005]",
             iconColor: "text-white"
         }
     };
@@ -97,11 +97,10 @@ export default function MockExamsPage() {
             title="Full Mock Exams"
             description="Experience the real IELTS test environment with our complete mock exams."
         >
-            {/* Liquid milky background - softer now */}
-            <div className="absolute inset-0 bg-[#f7f9fc] overflow-hidden -z-20">
-                <div className="absolute top-[-15%] left-[-10%] w-[70vw] h-[70vw] rounded-[40%] bg-white opacity-80 blur-[80px]" />
-                <div className="absolute bottom-[-20%] right-[-10%] w-[80vw] h-[80vw] rounded-[45%] bg-white opacity-90 blur-[100px]" />
-                <div className="absolute top-[20%] left-[50%] w-[50vw] h-[50vw] rounded-full bg-[#eef2f6] opacity-50 blur-[90px]" />
+            {/* Very clean minimalist background with subtle soft color blobs in corners like the image */}
+            <div className="absolute inset-0 bg-[#f4f7fa] overflow-hidden -z-20">
+                <div className="absolute bottom-[-20%] left-[-10%] w-[60vw] h-[60vw] rounded-full bg-[#fae8d4] opacity-40 blur-[100px]" />
+                <div className="absolute bottom-[-10%] right-[-10%] w-[60vw] h-[60vw] rounded-full bg-[#dce8fa] opacity-60 blur-[100px]" />
             </div>
 
             <div className="max-w-[1200px] mx-auto px-4 md:px-8 space-y-12 relative z-10 pt-4 pb-16">
@@ -113,7 +112,7 @@ export default function MockExamsPage() {
                     transition={{ duration: 0.6 }}
                     className="text-center mb-14"
                 >
-                    <h1 className="text-3xl md:text-[2.5rem] font-bold tracking-tight text-[#111827] flex justify-center gap-2 flex-wrap drop-shadow-sm">
+                    <h1 className="text-3xl md:text-[2.5rem] font-bold tracking-tight text-[#111827] flex justify-center gap-2 flex-wrap">
                         Actual Tests <span className="text-[#2ebc82]">to Academic Library</span>
                     </h1>
                     <p className="text-[#8492a6] text-[13px] md:text-sm mt-3 font-medium">Actual Tests Academic collections for three skills</p>
@@ -127,22 +126,15 @@ export default function MockExamsPage() {
                             initial={{ opacity: 0, y: 30 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.6, delay: index * 0.1, type: "spring", stiffness: 40 }}
-                            className="rounded-[32px] p-6 md:p-8 relative overflow-hidden"
+                            className="rounded-[24px] p-6 md:p-8 relative overflow-hidden bg-white"
                             style={{
-                                // Much softer outer panel
-                                background: "rgba(252, 253, 255, 0.7)",
-                                backdropFilter: "blur(20px)",
-                                WebkitBackdropFilter: "blur(20px)",
-                                border: "1px solid rgba(255,255,255,0.8)",
-                                // Reduced shadow spread and opacity drastically
-                                boxShadow: "10px 10px 30px rgba(180, 195, 215, 0.15), -5px -5px 20px rgba(255,255,255,0.8), inset 0 2px 4px rgba(255,255,255,0.9)"
+                                // Clean white panel, very soft wide drop shadow, no border, no inset
+                                boxShadow: "0 15px 40px rgba(185, 200, 220, 0.4)"
                             }}
                         >
-                            <div className="absolute inset-x-0 top-0 h-[30%] bg-gradient-to-b from-white/50 to-transparent pointer-events-none rounded-t-[32px]" />
-
                             {/* Section Header */}
                             <div className="flex items-center gap-2 mb-10 ml-2 border-l-[3.5px] border-[#2ebc82] pl-3.5 h-[22px] relative z-10">
-                                <h2 className="text-[18px] font-bold text-[#1f2937] tracking-tight">
+                                <h2 className="text-[17px] font-bold text-[#1f2937] tracking-wider">
                                     {test.title}
                                 </h2>
                             </div>
@@ -169,56 +161,44 @@ export default function MockExamsPage() {
                                                 show: { opacity: 1, scale: 1, y: 0 }
                                             }}
                                             whileHover={{ y: -4, transition: { duration: 0.3, ease: "easeOut" } }}
-                                            className="rounded-[36px] p-6 md:p-9 flex flex-col items-center relative transition-all duration-500 overflow-hidden group"
+                                            className="rounded-[24px] p-6 md:p-9 flex flex-col items-center relative transition-all duration-500 bg-white group"
                                             style={{
-                                                // Softer inner card
-                                                background: "linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(248,250,252,0.9) 100%)",
-                                                border: "1px solid rgba(255,255,255,1)",
-                                                // Extremely softened shadows to match the new image exactly
-                                                boxShadow: `
-                                                    6px 6px 16px rgba(180, 195, 215, 0.2), 
-                                                    -6px -6px 16px rgba(255,255,255,1),
-                                                    inset 2px 2px 5px rgba(255,255,255,1), 
-                                                    inset -2px -2px 5px rgba(200, 210, 225, 0.15)
-                                                `
+                                                // Clean white card, slightly more pronounced but soft shadow
+                                                boxShadow: "0 10px 30px rgba(185, 200, 220, 0.35)"
                                             }}
                                         >
-                                            <div className="absolute top-[-20%] left-[-10%] right-[-10%] h-[50%] bg-[radial-gradient(ellipse_at_top,_rgba(255,255,255,1)_0%,_rgba(255,255,255,0)_70%)] opacity-60 pointer-events-none transform -skew-y-6" />
-
                                             {/* Vibrant 3D Circular Icon */}
                                             <motion.div
                                                 whileHover={{ scale: 1.05 }}
                                                 className={cn(
-                                                    "w-[60px] h-[60px] rounded-full flex items-center justify-center mb-6 relative z-10 transition-transform duration-300",
+                                                    "w-[56px] h-[56px] rounded-full flex items-center justify-center mb-6 relative z-10 transition-transform duration-300",
                                                     config.circleBg
                                                 )}
                                                 style={{
-                                                    // Floating sphere look, slightly softer
-                                                    boxShadow: "0 10px 20px rgba(0,0,0,0.1), inset 0 3px 6px rgba(255,255,255,0.4), inset 0 -3px 6px rgba(0,0,0,0.15)"
+                                                    // Soft drop shadow and a subtle inner highlight to keep it looking 3D like a pill
+                                                    boxShadow: "0 8px 16px rgba(0,0,0,0.1), inset 0 3px 6px rgba(255,255,255,0.4)"
                                                 }}
                                             >
-                                                <div className="absolute top-[2px] left-[15%] right-[15%] h-[40%] bg-gradient-to-b from-white/50 to-transparent rounded-full pointer-events-none" />
-                                                <config.icon className={cn("w-[26px] h-[26px] z-10 drop-shadow-sm", config.iconColor)} strokeWidth={2.2} />
+                                                <div className="absolute top-[2px] left-[15%] right-[15%] h-[40%] bg-gradient-to-b from-white/40 to-transparent rounded-full pointer-events-none" />
+                                                <config.icon className={cn("w-[24px] h-[24px] z-10 drop-shadow-sm", config.iconColor)} strokeWidth={2.2} />
                                             </motion.div>
 
                                             {/* Title */}
-                                            <h3 className="text-[#374151] font-semibold text-[14px] tracking-wide mb-6 relative z-10">
+                                            <h3 className="text-[#374151] font-semibold text-[13px] tracking-wide mb-6 relative z-10">
                                                 {section.title}
                                             </h3>
 
-                                            {/* Progress Info Ring */}
-                                            <div className="w-[46px] h-[46px] rounded-full flex items-center justify-center mb-8 relative z-10"
+                                            {/* Progress Info Ring - Small soft grey circle */}
+                                            <div className="w-[38px] h-[38px] rounded-full flex items-center justify-center mb-8 relative z-10 bg-[#f4f7f9]"
                                                 style={{
-                                                    background: "#f4f7f9",
-                                                    // Very soft sunken shadow
-                                                    boxShadow: "inset 2px 2px 5px rgba(185, 200, 215, 0.3), inset -2px -2px 5px rgba(255,255,255,1), 0 1px 2px rgba(255,255,255,0.8)"
+                                                    boxShadow: "inset 2px 2px 4px rgba(185, 200, 215, 0.2), inset -2px -2px 4px rgba(255,255,255,1)"
                                                 }}
                                             >
-                                                <span className="text-[11px] font-bold text-[#6b7280]">0%</span>
+                                                <span className="text-[10px] font-bold text-[#6b7280]">0%</span>
                                                 {section.progress > 0 && (
                                                     <svg className="absolute w-full h-full transform -rotate-90">
-                                                        <circle cx="23" cy="23" r="21" stroke="currentColor" strokeWidth="2.5" fill="none"
-                                                            strokeDasharray={132} strokeDashoffset={132 - (132 * section.progress) / 100}
+                                                        <circle cx="19" cy="19" r="17" stroke="currentColor" strokeWidth="2.5" fill="none"
+                                                            strokeDasharray={106} strokeDashoffset={106 - (106 * section.progress) / 100}
                                                             strokeLinecap="round"
                                                             className={cn("opacity-60", SECTION_CONFIG[section.type].iconColor.replace('text-white', 'text-current text-[#4fc490]'))}
                                                         />
@@ -226,40 +206,32 @@ export default function MockExamsPage() {
                                                 )}
                                             </div>
 
-                                            {/* "Take Test" Milky Button (Pill) */}
+                                            {/* "Take Test" Button (Soft White Pill) */}
                                             <motion.button
                                                 whileHover={{ scale: 1.03 }}
                                                 whileTap={{ scale: 0.97 }}
-                                                className="w-[85%] py-3.5 rounded-full text-[13px] font-bold flex items-center justify-center gap-2 relative overflow-hidden z-10 bg-white"
+                                                className="w-[85%] py-3.5 rounded-full text-[12px] font-bold flex items-center justify-center gap-2 relative overflow-hidden z-10 bg-white"
                                                 style={{
-                                                    // Softer pill shadow
-                                                    boxShadow: `
-                                                        4px 4px 10px rgba(180, 195, 210, 0.15), 
-                                                        -4px -4px 10px rgba(255,255,255,1), 
-                                                        inset 0 2px 4px rgba(255,255,255,1), 
-                                                        inset 0 -2px 4px rgba(200, 210, 225, 0.1)
-                                                    `,
-                                                    color: "#4b5563"
+                                                    // Very soft drop shadow, clean white
+                                                    boxShadow: "0 6px 15px rgba(185, 200, 220, 0.25)",
+                                                    color: "#374151"
                                                 }}
                                             >
-                                                <div className="absolute inset-0 bg-gradient-to-b from-white/90 via-transparent to-transparent opacity-80 rounded-full" />
-                                                <div className="absolute -inset-x-[100%] top-0 bottom-0 bg-gradient-to-r from-transparent via-white/50 to-transparent group-hover:animate-shine transform -skew-x-12 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-
                                                 {section.status === "upgrade" ? (
-                                                    <div className="flex items-center gap-1.5 relative z-10 pt-0.5">
-                                                        <Lock className="w-[14px] h-[14px]" strokeWidth={2.5} /> <span>Upgrade</span>
+                                                    <div className="flex items-center gap-1.5 pt-0.5">
+                                                        <Lock className="w-[13px] h-[13px]" strokeWidth={2.5} /> <span className="tracking-wide">Upgrade</span>
                                                     </div>
                                                 ) : (
-                                                    <div className="flex items-center gap-1.5 relative z-10 pt-0.5">
-                                                        <Play className="w-3 h-3 fill-[#4b5563]" /> <span className="tracking-wide">Take Test</span>
+                                                    <div className="flex items-center gap-1.5 pt-0.5">
+                                                        <Play className="w-2.5 h-2.5 fill-[#374151]" /> <span className="tracking-wide">Take Test</span>
                                                     </div>
                                                 )}
                                             </motion.button>
 
                                             {/* Two faint debossed dots below button */}
-                                            <div className="flex gap-2 opacity-40 mt-3 z-10 relative">
-                                                <div className="w-[5px] h-[5px] rounded-full bg-[#cbd5e1]" style={{ boxShadow: "inset 1px 1px 2px rgba(0,0,0,0.1), 1px 1px 2px rgba(255,255,255,1)" }} />
-                                                <div className="w-[5px] h-[5px] rounded-full bg-[#cbd5e1]" style={{ boxShadow: "inset 1px 1px 2px rgba(0,0,0,0.1), 1px 1px 2px rgba(255,255,255,1)" }} />
+                                            <div className="flex gap-1.5 opacity-30 mt-3 z-10 relative">
+                                                <div className="w-[4px] h-[4px] rounded-full bg-[#cbd5e1]" />
+                                                <div className="w-[4px] h-[4px] rounded-full bg-[#cbd5e1]" />
                                             </div>
                                         </motion.div>
                                     );
