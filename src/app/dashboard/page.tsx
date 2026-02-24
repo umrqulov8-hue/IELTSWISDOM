@@ -10,18 +10,11 @@ import { useLanguage } from "@/context/LanguageContext";
 import { translations as T, tx } from "@/lib/translations";
 
 export default function DashboardPage() {
-    const { stats, loading } = useDashboard();
+    const { stats } = useDashboard();
     const { lang } = useLanguage();
     const D = T.dashboard;
 
-    if (loading) {
-        return (
-            <div className="min-h-screen flex items-center justify-center bg-[#F2F4F8]">
-                <Loader2 className="w-10 h-10 text-orange-400 animate-spin" />
-            </div>
-        );
-    }
-
+    // Show 0/defaults while data loads in background — no blocking spinner
     const { progress_percentage, completed_lessons } = stats || { progress_percentage: 0, completed_lessons: 0 };
 
     return (

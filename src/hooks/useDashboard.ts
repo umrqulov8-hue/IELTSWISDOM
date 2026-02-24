@@ -49,49 +49,26 @@ export function useDashboard() {
             }
 
             try {
-                // 1. Fetch Stats
-                const { data: statsData } = await supabase
-                    .from('student_stats')
-                    .select('*')
-                    .eq('user_id', user.id)
-                    .single();
+                // Run all 3 queries in PARALLEL — 3x faster than sequential
+                const [statsResult, notifResult, lessonResult] = await Promise.all([
+                    supabase.from('student_stats').select('*').eq('user_id', user.id).single(),
+                    supabase.from('notifications').select('*').eq('user_id', user.id).order('created_at', { ascending: false }).limit(5),
+                    supabase.from('lessons').select('id, title, slug, module, icon_name').limit(20),
+                ]);
 
-                if (statsData) {
-                    setStats(statsData);
-                } else {
-                    // Fallback / Default
-                    setStats({
-                        progress_percentage: 0,
-                        completed_lessons: 0,
-                        total_lessons: 100,
-                        current_streak: 0
-                    });
+                setStats(statsResult.data || {
+                    progress_percentage: 0,
+                    completed_lessons: 0,
+                    total_lessons: 100,
+                    current_streak: 0,
+                });
+
+                if (notifResult.data) {
+                    setNotifications(notifResult.data.map(n => ({ ...n, time_ago: "Recently" })));
                 }
 
-                // 2. Fetch Notifications
-                const { data: notifData } = await supabase
-                    .from('notifications')
-                    .select('*')
-                    .eq('user_id', user.id)
-                    .order('created_at', { ascending: false })
-                    .limit(5);
-
-                if (notifData) {
-                    const formattedDetails = notifData.map(n => ({
-                        ...n,
-                        time_ago: "Recently"
-                    }));
-                    setNotifications(formattedDetails);
-                }
-
-                // 3. Fetch Lessons (For Search)
-                const { data: lessonData } = await supabase
-                    .from('lessons')
-                    .select('*')
-                    .limit(20);
-
-                if (lessonData) {
-                    setLessons(lessonData);
+                if (lessonResult.data) {
+                    setLessons(lessonResult.data);
                 }
 
             } catch (error) {
