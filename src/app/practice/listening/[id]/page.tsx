@@ -523,6 +523,12 @@ const liquidStyles = `
     box-shadow: 0 4px 20px rgba(100,120,160,0.08), inset 0 1px 0 rgba(255,255,255,0.9);
   }
 
+  /* Hide native play button */
+  audio::-webkit-media-controls-play-button {
+    display: none !important;
+  }
+
+
   /* Top bar glass */
   .glass-topbar {
     background: rgba(255,255,255,0.55);
