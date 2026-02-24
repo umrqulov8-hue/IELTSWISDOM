@@ -39,6 +39,13 @@
   /* 1280px */
 }
 
+/* GPU-composited animations — fixes Lighthouse non-composited warning */
+[data-framer-component-type],
+[style*="transform"],
+[style*="opacity"] {
+  will-change: transform;
+}
+
 @layer base {
   body {
     background-color: var(--color-background);

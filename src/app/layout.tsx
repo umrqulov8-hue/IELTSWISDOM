@@ -12,11 +12,15 @@ import { Analytics } from "@vercel/analytics/react";
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
+  display: "swap",   // prevents invisible text while font loads
+  preload: true,
 });
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   variable: "--font-plus-jakarta",
   subsets: ["latin"],
+  display: "swap",
+  preload: true,
 });
 
 export const metadata: Metadata = {
@@ -31,6 +35,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="scroll-smooth">
+      <head>
+        {/* Preconnect to external origins — reduces critical path latency */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://azrmwfzrgdvkbzezwyfo.supabase.co" />
+        <link rel="dns-prefetch" href="https://azrmwfzrgdvkbzezwyfo.supabase.co" />
+      </head>
       <body
         className={`${inter.variable} ${plusJakartaSans.variable} antialiased font-sans bg-background text-foreground flex flex-col min-h-screen`}
       >
