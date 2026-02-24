@@ -12,15 +12,15 @@ interface DashboardLayoutProps extends PropsWithChildren {
     showGreeting?: boolean;
     hideSidebar?: boolean;
     hideHeader?: boolean;
+    fullHeight?: boolean;
 }
 
-export function DashboardLayout({ children, title, description, showGreeting = false, hideSidebar = false, hideHeader = false }: DashboardLayoutProps) {
+export function DashboardLayout({ children, title, description, showGreeting = false, hideSidebar = false, hideHeader = false, fullHeight = false }: DashboardLayoutProps) {
     const { user } = useAuthContext();
     const displayName = user?.email?.split('@')[0] || "Student";
 
     return (
         <div className="min-h-[calc(100vh-4rem)] bg-[#F2F4F8] text-slate-900 flex overflow-hidden relative">
-            {/* Ambient Background Blobs */}
             {/* Ambient Background Blobs */}
             {!hideSidebar && (
                 <div className="fixed top-[-20%] left-[-10%] w-[800px] h-[800px] bg-orange-400/20 blur-[120px] rounded-full pointer-events-none" />
@@ -33,12 +33,13 @@ export function DashboardLayout({ children, title, description, showGreeting = f
 
             {/* Main Content Area */}
             <main className={cn(
-                "flex-1 p-4 md:p-8 overflow-y-auto relative z-10 h-[calc(100vh-4rem)]",
+                "flex-1 p-4 md:p-8 relative z-10",
+                fullHeight ? "overflow-hidden h-screen flex flex-col" : "overflow-y-auto h-[calc(100vh-4rem)]",
                 !hideSidebar && "lg:ml-[90px] lg:peer-hover:ml-72 transition-[margin] duration-500 ease-in-out"
             )}>
                 {/* Dashboard Header */}
                 {!hideHeader && (
-                    <header className="flex justify-between items-center mb-6 pt-2">
+                    <header className="flex justify-between items-center mb-6 pt-2 flex-shrink-0">
                         <div>
                             {showGreeting ? (
                                 <>
@@ -74,9 +75,15 @@ export function DashboardLayout({ children, title, description, showGreeting = f
                     </header>
                 )}
 
-                <div className="max-w-6xl mx-auto space-y-10 pb-10">
-                    {children}
-                </div>
+                {fullHeight ? (
+                    <div className="flex-1 overflow-hidden">
+                        {children}
+                    </div>
+                ) : (
+                    <div className="max-w-6xl mx-auto space-y-10 pb-10">
+                        {children}
+                    </div>
+                )}
             </main>
         </div>
     );

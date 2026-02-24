@@ -93,11 +93,17 @@ export default function AICheckPage() {
         text.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>").replace(/\n/g, "<br/>");
 
     return (
-        <DashboardLayout title={tx(AIC.title, lang)} description={tx(AIC.desc, lang)}>
-            <div className="flex flex-col h-[calc(100vh-148px)] max-w-3xl mx-auto">
+        <DashboardLayout hideHeader fullHeight>
+            <div className="flex flex-col h-full max-w-3xl mx-auto w-full">
 
-                {/* Top bar */}
-                <div className="flex items-center justify-between mb-5">
+                {/* Page title row */}
+                <div className="flex-shrink-0 mb-4">
+                    <h1 className="text-2xl font-extrabold text-slate-800 tracking-tight">{tx(AIC.title, lang)}</h1>
+                    <p className="text-slate-500 text-sm mt-0.5 font-medium">{tx(AIC.desc, lang)}</p>
+                </div>
+
+                {/* Top bar: AI status + clear button */}
+                <div className="flex items-center justify-between mb-4 flex-shrink-0">
                     <div className="flex items-center gap-3">
                         <div className="relative">
                             <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-violet-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-violet-200">
@@ -116,7 +122,7 @@ export default function AICheckPage() {
                 </div>
 
                 {/* Messages */}
-                <div className="flex-1 overflow-y-auto space-y-5 pr-1 pb-3">
+                <div className="flex-1 overflow-y-auto space-y-5 pr-1 pb-3 min-h-0">
                     {messages.map((msg, i) => (
                         <div key={i} className={`flex gap-3 ${msg.role === "user" ? "flex-row-reverse" : "flex-row"} items-end`}>
                             <div className={`w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm ${msg.role === "assistant" ? "bg-gradient-to-br from-violet-600 to-indigo-600" : "bg-gradient-to-br from-[#1c3e2e] to-[#2d6049]"}`}>
