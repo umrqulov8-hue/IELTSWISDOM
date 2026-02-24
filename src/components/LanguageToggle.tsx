@@ -27,13 +27,13 @@ export function LanguageToggle() {
                 style={{ background: "linear-gradient(135deg, rgba(255,255,255,0.30) 0%, transparent 55%)" }}
             />
 
-            {/* Label left */}
+            {/* Label left — shows when UZ is active → clicking will go to US */}
             <span className={`absolute left-2.5 text-[10px] font-bold drop-shadow transition-opacity duration-300 text-slate-700 ${isUz ? "opacity-100" : "opacity-0"}`}>
-                UZ
+                US
             </span>
-            {/* Label right */}
+            {/* Label right — shows when EN is active → clicking will go to UZ */}
             <span className={`absolute right-2 text-[10px] font-bold drop-shadow transition-opacity duration-300 text-slate-700 ${!isUz ? "opacity-100" : "opacity-0"}`}>
-                EN
+                UZ
             </span>
 
             {/* Sliding pill */}
