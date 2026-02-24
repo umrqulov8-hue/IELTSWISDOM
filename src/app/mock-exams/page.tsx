@@ -1,268 +1,179 @@
 "use client";
 
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Play, Lock, ChevronLeft, ChevronRight, Headphones, BookOpen, Pencil, ArrowRight } from "lucide-react";
+import { PlayCircle, List } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { motion } from "framer-motion";
 
-// --- Types ---
-interface MockTestSection {
-    id: string;
-    type: "listening" | "reading" | "writing";
-    title: string;
-    progress: number; // 0 to 100
-    status: "start" | "continue" | "completed" | "upgrade";
-}
-
-interface MockTest {
-    id: string;
-    title: string;
-    sections: [MockTestSection, MockTestSection, MockTestSection];
-}
-
-// --- Mock Data ---
-const MOCK_TESTS: MockTest[] = [
+const MOCK_TESTS = [
     {
-        id: "test-1",
-        title: "Actual Test 1",
-        sections: [
-            { id: "t1-l", type: "listening", title: "Listening Test 1 AC", progress: 0, status: "start" },
-            { id: "t1-r", type: "reading", title: "Reading Test 1 AC", progress: 0, status: "start" },
-            { id: "t1-w", type: "writing", title: "Writing Test 1 AC", progress: 0, status: "start" },
-        ]
+        id: "ac-1",
+        title: "Academic Mock Test 1",
+        type: "academic",
+        description: "Complete Academic IELTS test covering all four skills.",
+        listTitle: "TEST COMPONENTS:",
+        listItems: [
+            "Listening: 40 questions (30 min)",
+            "Reading: 40 questions (60 min)",
+            "Writing: 2 tasks (60 min)",
+            "Speaking: 3 parts (11-14 min)",
+        ],
+        theme: {
+            border: "border-[#6ea8fe]",
+            titleText: "text-[#208a8a]",
+            topBg: "bg-[#fdf8f0]",
+            buttonBg: "bg-[#188069]",
+            buttonHover: "hover:bg-[#126b56]"
+        }
     },
     {
-        id: "test-2",
-        title: "Actual Test 2",
-        sections: [
-            { id: "t2-l", type: "listening", title: "Listening Test 2 AC", progress: 0, status: "start" },
-            { id: "t2-r", type: "reading", title: "Reading Test 2 AC", progress: 0, status: "start" },
-            { id: "t2-w", type: "writing", title: "Writing Test 2 AC", progress: 0, status: "start" },
-        ]
+        id: "ac-2",
+        title: "Academic Mock Test 2",
+        type: "academic",
+        description: "Second complete Academic test with different topics.",
+        listTitle: "TEST FEATURES:",
+        listItems: [
+            "New topics and questions",
+            "Band score prediction",
+            "Detailed answer explanations",
+            "Performance analytics",
+        ],
+        theme: {
+            border: "border-[#6ea8fe]",
+            titleText: "text-[#208a8a]",
+            topBg: "bg-[#fdf8f0]",
+            buttonBg: "bg-[#188069]",
+            buttonHover: "hover:bg-[#126b56]"
+        }
     },
     {
-        id: "test-3",
-        title: "Actual Test 3",
-        sections: [
-            { id: "t3-l", type: "listening", title: "Listening Test 3 AC", progress: 0, status: "upgrade" },
-            { id: "t3-r", type: "reading", title: "Reading Test 3 AC", progress: 0, status: "upgrade" },
-            { id: "t3-w", type: "writing", title: "Writing Test 3 AC", progress: 0, status: "upgrade" },
-        ]
+        id: "gt-1",
+        title: "General Training Mock Test 1",
+        type: "general",
+        description: "Complete General Training test for work and migration.",
+        listTitle: "TEST COMPONENTS:",
+        listItems: [
+            "Listening: 40 questions (30 min)",
+            "Reading: 40 questions (60 min)",
+            "Writing: 2 tasks (60 min)",
+            "Speaking: 3 parts (11-14 min)",
+        ],
+        theme: {
+            border: "border-[#75c689]",
+            titleText: "text-[#28a745]",
+            topBg: "bg-[#fdf8f0]",
+            buttonBg: "bg-[#188069]",
+            buttonHover: "hover:bg-[#126b56]"
+        }
     },
     {
-        id: "test-4",
-        title: "Actual Test 4",
-        sections: [
-            { id: "t4-l", type: "listening", title: "Listening Test 4 AC", progress: 0, status: "upgrade" },
-            { id: "t4-r", type: "reading", title: "Reading Test 4 AC", progress: 0, status: "upgrade" },
-            { id: "t4-w", type: "writing", title: "Writing Test 4 AC", progress: 0, status: "upgrade" },
-        ]
-    },
-    {
-        id: "test-5",
-        title: "Actual Test 5",
-        sections: [
-            { id: "t5-l", type: "listening", title: "Listening Test 5 AC", progress: 0, status: "upgrade" },
-            { id: "t5-r", type: "reading", title: "Reading Test 5 AC", progress: 0, status: "upgrade" },
-            { id: "t5-w", type: "writing", title: "Writing Test 5 AC", progress: 0, status: "upgrade" },
-        ]
-    },
+        id: "gt-2",
+        title: "General Training Mock Test 2",
+        type: "general",
+        description: "Second complete General Training test with varied content.",
+        listTitle: "TEST FEATURES:",
+        listItems: [
+            "New topics and questions",
+            "Band score prediction",
+            "Detailed answer explanations",
+            "Performance analytics",
+        ],
+        theme: {
+            border: "border-[#75c689]",
+            titleText: "text-[#28a745]",
+            topBg: "bg-[#fdf8f0]",
+            buttonBg: "bg-[#188069]",
+            buttonHover: "hover:bg-[#126b56]"
+        }
+    }
 ];
 
 export default function MockExamsPage() {
-    const [currentPage, setCurrentPage] = useState(1);
-
-    // Config for each section type
-    const SECTION_CONFIG = {
-        listening: {
-            icon: Headphones,
-            circleBg: "bg-gradient-to-br from-[#128ace] to-[#04619b]",
-            iconColor: "text-white"
-        },
-        reading: {
-            icon: BookOpen,
-            circleBg: "bg-gradient-to-br from-[#20b268] to-[#097b3d]",
-            iconColor: "text-white"
-        },
-        writing: {
-            icon: Pencil,
-            circleBg: "bg-gradient-to-br from-[#e88127] to-[#b75005]",
-            iconColor: "text-white"
-        }
-    };
-
     return (
         <DashboardLayout
-            title="Full Mock Exams"
-            description="Experience the real IELTS test environment with our complete mock exams."
+            title="Practice Exams"
+            description="Take full mock exams and improve your performance."
         >
-            {/* Clean, uniform background to fix color harmony issues */}
-            <div className="absolute inset-0 bg-[#f8fafc] overflow-hidden -z-20">
-                {/* Subtle top gradient just to give a tiny bit of depth, not jarring */}
-                <div className="absolute top-0 inset-x-0 h-[400px] bg-gradient-to-b from-[#e2e8f0]/30 to-transparent pointer-events-none" />
-            </div>
+            {/* Clean white background for the whole page */}
+            <div className="absolute inset-0 bg-white -z-20"></div>
 
-            <div className="max-w-[1200px] mx-auto px-4 md:px-8 space-y-12 relative z-10 pt-4 pb-16">
+            <div className="max-w-[1100px] mx-auto px-4 md:px-8 py-8 md:py-12 relative z-10 w-full mb-20">
 
-                {/* --- Header --- */}
-                <motion.div
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6 }}
-                    className="text-center mb-14"
+                <div className="text-center mb-10">
+                    <p className="text-[#64748b] text-[15px] font-medium tracking-wide">
+                        improve your performance.
+                    </p>
+                </div>
+
+                {/* Main Container */}
+                <div className="bg-white rounded-xl overflow-hidden mb-16"
+                    style={{
+                        boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)"
+                    }}
                 >
-                    <h1 className="text-3xl md:text-[2.5rem] font-bold tracking-tight text-[#111827] flex justify-center gap-2 flex-wrap">
-                        Actual Tests <span className="text-[#2ebc82]">to Academic Library</span>
-                    </h1>
-                    <p className="text-[#8492a6] text-[13px] md:text-sm mt-3 font-medium">Actual Tests Academic collections for three skills</p>
-                </motion.div>
 
-                {/* --- Tests List --- */}
-                <div className="space-y-12">
-                    {MOCK_TESTS.map((test, index) => (
-                        <motion.div
-                            key={test.id}
-                            initial={{ opacity: 0, y: 30 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.6, delay: index * 0.1, type: "spring", stiffness: 40 }}
-                            className="rounded-[32px] p-6 lg:p-10 relative overflow-hidden bg-white"
-                            style={{
-                                // Tighter, more defined shadow for the main container
-                                boxShadow: "0 10px 40px rgba(140, 160, 190, 0.15), 0 2px 10px rgba(140, 160, 190, 0.05)"
-                            }}
-                        >
-                            {/* Section Header */}
-                            <div className="flex items-center gap-2 mb-10 ml-2 border-l-[3.5px] border-[#2ebc82] pl-3.5 h-[24px] relative z-10">
-                                <h2 className="text-[19px] font-extrabold text-[#111827] tracking-tight">
-                                    {test.title}
-                                </h2>
-                            </div>
+                    {/* Header */}
+                    <div className="bg-[#1b8a71] px-5 py-3.5 flex items-center gap-3 text-white">
+                        <List className="w-[18px] h-[18px]" strokeWidth={2.5} />
+                        <h2 className="text-[16px] font-bold tracking-wide">Available Mock Tests</h2>
+                    </div>
 
-                            <motion.div
-                                className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 relative z-10"
-                                variants={{
-                                    hidden: { opacity: 0 },
-                                    show: {
-                                        opacity: 1,
-                                        transition: { staggerChildren: 0.15 }
-                                    }
-                                }}
-                                initial="hidden"
-                                animate="show"
-                            >
-                                {test.sections.map((section) => {
-                                    const config = SECTION_CONFIG[section.type];
-                                    return (
-                                        <motion.div
-                                            key={section.id}
-                                            variants={{
-                                                hidden: { opacity: 0, scale: 0.95, y: 20 },
-                                                show: { opacity: 1, scale: 1, y: 0 }
-                                            }}
-                                            whileHover={{ y: -4, transition: { duration: 0.3, ease: "easeOut" } }}
-                                            className="rounded-[28px] p-6 lg:p-8 flex flex-col items-start relative transition-all duration-500 bg-white group h-full"
-                                            style={{
-                                                // Tighter, crisp edge shadow to make the card POP without glaring
-                                                boxShadow: "0 8px 24px rgba(149, 157, 165, 0.15), 0 2px 8px rgba(149, 157, 165, 0.05)",
-                                                border: "1px solid rgba(240, 244, 248, 1)"
-                                            }}
-                                        >
-                                            {/* Top badges row */}
-                                            <div className="flex items-center justify-between w-full mb-8">
-                                                <div className="px-3.5 py-1 rounded-full border border-[#b4eed3] bg-[#f0fbf6] text-[#22c55e] text-[11px] font-bold tracking-widest uppercase">
-                                                    {section.status === 'upgrade' ? 'PRO' : 'FREE'}
-                                                </div>
+                    {/* Cards Grid */}
+                    <div className="p-4 md:p-6 lg:p-8 border border-t-0 border-gray-100 rounded-b-xl">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+                            {MOCK_TESTS.map((test, index) => (
+                                <motion.div
+                                    key={test.id}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.4, delay: index * 0.1 }}
+                                    className={cn("rounded-xl border flex flex-col overflow-hidden bg-white", test.theme.border)}
+                                >
+                                    {/* Top Section */}
+                                    <div className={cn("px-6 py-5 border-b border-[#e2e8f0]", test.theme.topBg)}>
+                                        <h3 className={cn("text-[20px] font-bold mb-3 font-serif tracking-tight", test.theme.titleText)}>
+                                            {test.title}
+                                        </h3>
+                                        <div className="flex flex-wrap gap-2">
+                                            <span className="bg-[#1b8a71] text-white text-[11px] font-bold px-3 py-1.5 rounded-[5px] tracking-wide uppercase">
+                                                Full Test
+                                            </span>
+                                            <span className="bg-[#12b8b6] text-white text-[11px] font-bold px-3 py-1.5 rounded-[5px] tracking-wide uppercase">
+                                                3 Hours
+                                            </span>
+                                        </div>
+                                    </div>
 
-                                                {/* Optional Progress pill if there's progress, mimicking the blue tag in the image */}
-                                                {section.progress > 0 && (
-                                                    <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#3b82f6] text-white text-[11px] font-bold tracking-wide">
-                                                        <span className="w-3 h-3 flex justify-center items-center border border-white rounded-full">
-                                                            <span className="w-1.5 h-1.5 bg-white rounded-full"></span>
-                                                        </span>
-                                                        {section.progress}%
-                                                    </div>
-                                                )}
-                                            </div>
+                                    {/* Bottom Section */}
+                                    <div className="p-6 flex flex-col flex-grow">
+                                        <p className="text-[#475569] text-[13px] mb-6 font-medium leading-relaxed">
+                                            {test.description}
+                                        </p>
 
-                                            {/* Title */}
-                                            <h3 className="text-[#1e293b] font-extrabold text-[17px] leading-[1.3] mb-4 pr-4">
-                                                {section.title}
-                                            </h3>
+                                        <h4 className="font-bold text-[#1e293b] text-[12px] mb-3 tracking-wider uppercase">
+                                            {test.listTitle}
+                                        </h4>
+                                        <ul className="list-disc pl-[18px] text-[13px] text-[#475569] font-medium space-y-1.5 mb-10">
+                                            {test.listItems.map((item, i) => (
+                                                <li key={i}>{item}</li>
+                                            ))}
+                                        </ul>
 
-                                            {/* NEW Badge */}
-                                            <div className="mb-auto pb-8">
-                                                <div className="inline-block px-2.5 py-0.5 rounded-md border border-[#ffcdd2] bg-[#fff0f2] text-[#ff4d4f] text-[10px] font-bold tracking-widest uppercase">
-                                                    NEW
-                                                </div>
-                                            </div>
-
-                                            {/* Start Button */}
-                                            <motion.button
-                                                whileHover={{ scale: 1.02 }}
-                                                whileTap={{ scale: 0.98 }}
-                                                className="w-full mt-4 py-3.5 rounded-2xl text-[14px] font-bold flex items-center justify-center gap-3 relative overflow-hidden transition-colors"
-                                                style={{
-                                                    backgroundColor: "#0f172a", // Dark navy/black
-                                                    color: "#ffffff" // White text
-                                                }}
-                                            >
-                                                {section.status === "upgrade" ? (
-                                                    <>
-                                                        <Lock className="w-3.5 h-3.5" strokeWidth={2.5} />
-                                                        <span className="tracking-wide">Upgrade</span>
-                                                    </>
-                                                ) : (
-                                                    <>
-                                                        {/* Simple white circular dot like the image */}
-                                                        <div className="w-3.5 h-3.5 bg-[#e2e8f0] rounded-full" />
-                                                        <span className="tracking-wide">Start</span>
-                                                    </>
-                                                )}
-                                            </motion.button>
-                                        </motion.div>
-                                    );
-                                })}
-                            </motion.div>
-                        </motion.div>
-                    ))}
+                                        <div className="mt-auto">
+                                            <button className={cn("w-full text-white font-semibold py-[12px] rounded-lg flex items-center justify-center gap-2 transition-colors text-[14px]", test.theme.buttonBg, test.theme.buttonHover)}>
+                                                <PlayCircle className="w-5 h-5" strokeWidth={2} />
+                                                Start Test
+                                            </button>
+                                            <button className="w-full text-center text-[#64748b] hover:text-[#334155] text-[12px] mt-4 font-semibold transition-colors">
+                                                View Sample Answers
+                                            </button>
+                                        </div>
+                                    </div>
+                                </motion.div>
+                            ))}
+                        </div>
+                    </div>
                 </div>
-
-                {/* --- Pagination --- */}
-                <div className="flex justify-center items-center gap-2 pb-14 pt-4">
-                    <button className="w-10 h-10 flex items-center justify-center rounded-xl bg-white border border-slate-200 text-slate-400 hover:bg-slate-50 hover:text-slate-600 disabled:opacity-50 transition-all shadow-sm">
-                        <ChevronLeft className="w-4 h-4" />
-                    </button>
-                    {[1, 2, 3, 4, 5].map((page) => (
-                        <motion.button
-                            key={page}
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                            onClick={() => setCurrentPage(page)}
-                            className={cn(
-                                "w-10 h-10 flex items-center justify-center rounded-xl text-sm font-bold transition-all shadow-sm",
-                                currentPage === page
-                                    ? "bg-slate-800 border-transparent text-white shadow-md shadow-slate-300"
-                                    : "bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 hover:border-slate-300"
-                            )}
-                        >
-                            {page}
-                        </motion.button>
-                    ))}
-                    <span className="text-slate-400 px-1">...</span>
-                    <motion.button
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        onClick={() => setCurrentPage(83)}
-                        className="w-10 h-10 flex items-center justify-center rounded-xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 hover:border-slate-300 text-sm font-bold transition-all shadow-sm"
-                    >
-                        83
-                    </motion.button>
-                    <button className="h-10 px-5 flex items-center justify-center rounded-xl bg-white border border-slate-200 text-slate-700 font-bold hover:bg-slate-50 hover:border-slate-300 text-sm transition-all shadow-sm gap-1 ml-1">
-                        Next <ChevronRight className="w-4 h-4" />
-                    </button>
-                </div>
-
             </div>
         </DashboardLayout>
     );
