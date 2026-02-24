@@ -97,10 +97,10 @@ export default function MockExamsPage() {
             title="Full Mock Exams"
             description="Experience the real IELTS test environment with our complete mock exams."
         >
-            {/* Very clean minimalist background with subtle soft color blobs in corners like the image */}
-            <div className="absolute inset-0 bg-[#f4f7fa] overflow-hidden -z-20">
-                <div className="absolute bottom-[-20%] left-[-10%] w-[60vw] h-[60vw] rounded-full bg-[#fae8d4] opacity-40 blur-[100px]" />
-                <div className="absolute bottom-[-10%] right-[-10%] w-[60vw] h-[60vw] rounded-full bg-[#dce8fa] opacity-60 blur-[100px]" />
+            {/* Clean, uniform background to fix color harmony issues */}
+            <div className="absolute inset-0 bg-[#f8fafc] overflow-hidden -z-20">
+                {/* Subtle top gradient just to give a tiny bit of depth, not jarring */}
+                <div className="absolute top-0 inset-x-0 h-[400px] bg-gradient-to-b from-[#e2e8f0]/30 to-transparent pointer-events-none" />
             </div>
 
             <div className="max-w-[1200px] mx-auto px-4 md:px-8 space-y-12 relative z-10 pt-4 pb-16">
