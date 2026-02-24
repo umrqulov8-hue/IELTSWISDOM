@@ -53,63 +53,14 @@ export function Sidebar() {
 
                     {/* Expanded Logo (IELTS Wisdom with Crown) */}
                     <div className="absolute left-0 top-1/2 -translate-y-1/2 flex items-center w-auto overflow-visible pr-4 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] opacity-0 scale-75 translate-x-4 group-hover:opacity-100 group-hover:scale-100 group-hover:translate-x-0 origin-left pointer-events-none group-hover:pointer-events-auto z-10">
-                        <motion.div
-                            className="relative flex items-center"
-                            initial="hidden"
-                            whileInView="visible"
-                            viewport={{ once: true }}
-                            variants={{
-                                visible: { transition: { staggerChildren: 0.1 } }
-                            }}
-                        >
-                            <div className="relative flex translate-x-[-10px] group-hover:translate-x-0 transition-transform duration-500">
-                                {"IELTS".split('').map((letter, i) => (
-                                    <motion.span
-                                        key={i}
-                                        variants={{
-                                            hidden: { opacity: 0, y: 20, scale: 0.8, filter: "blur(4px)" },
-                                            visible: { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", transition: { type: "spring", stiffness: 350, damping: 15 } }
-                                        }}
-                                        className="text-[28px] font-serif font-black text-[#1c3e2e] tracking-tight drop-shadow-sm inline-block"
-                                    >
-                                        {letter}
-                                    </motion.span>
-                                ))}
-                            </div>
-
-                            <div className="relative ml-1.5 flex translate-x-[-10px] group-hover:translate-x-0 transition-transform duration-500 delay-75">
-                                {"Wisdom".split('').map((letter, i) => (
-                                    <motion.span
-                                        key={i}
-                                        variants={{
-                                            hidden: { opacity: 0, y: 20, scale: 0.8, filter: "blur(4px)" },
-                                            visible: { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", transition: { type: "spring", stiffness: 350, damping: 15 } }
-                                        }}
-                                        className="text-[28px] font-serif font-black text-[#1c3e2e] tracking-tight drop-shadow-sm relative inline-block"
-                                    >
-                                        {letter}
-                                        {/* Crown SVG positioned perfectly over the 's' (index 2) */}
-                                        {i === 2 && (
-                                            <motion.svg
-                                                variants={{
-                                                    hidden: { opacity: 0, y: -40, scale: 0, rotate: -30 },
-                                                    visible: { opacity: 1, y: 0, scale: 1, rotate: 0, transition: { delay: 1.0, type: "spring", stiffness: 500, damping: 10, mass: 0.5 } }
-                                                }}
-                                                className="absolute top-[2px] left-[55%] -translate-x-1/2 w-[18px] h-[12px] text-[#1c3e2e] fill-current drop-shadow-sm origin-bottom"
-                                                viewBox="0 0 24 24"
-                                            >
-                                                <path d="M3 16l-2-9 6 4.5L12 3l5 8.5 6-4.5-2 9H3zm-1-2h20v4H2v-4z" />
-                                                <circle cx="1" cy="6" r="1.5" />
-                                                <circle cx="7" cy="11.5" r="1.5" />
-                                                <circle cx="12" cy="2" r="1.5" />
-                                                <circle cx="17" cy="11.5" r="1.5" />
-                                                <circle cx="23" cy="6" r="1.5" />
-                                            </motion.svg>
-                                        )}
-                                    </motion.span>
-                                ))}
-                            </div>
-                        </motion.div>
+                        <div className="relative flex items-center justify-start py-2 px-1 translate-x-[-10px] group-hover:translate-x-0 transition-transform duration-500">
+                            {/* Using the new transparent owl logo */}
+                            <img
+                                src="/owl-logo.png"
+                                alt="IELTS Wisdom Logo"
+                                className="h-[46px] w-auto object-contain drop-shadow-sm"
+                            />
+                        </div>
                     </div>
                 </Link>
             </div>

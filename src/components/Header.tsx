@@ -47,60 +47,17 @@ export function Header() {
                     <div className="flex-shrink-0">
                         <Link href="/" className="flex items-center hover:opacity-80 transition-opacity">
                             <motion.div
-                                className="flex items-center relative overflow-visible py-2 px-1 pr-4"
-                                initial="hidden"
-                                animate="visible"
-                                variants={{
-                                    visible: { transition: { staggerChildren: 0.1 } }
-                                }}
+                                className="relative flex items-center justify-center py-2 px-1"
+                                initial={{ opacity: 0, scale: 0.9, filter: "blur(4px)" }}
+                                animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+                                transition={{ duration: 0.5, ease: "easeOut" }}
                             >
-                                <div className="relative flex">
-                                    {"IELTS".split('').map((letter, i) => (
-                                        <motion.span
-                                            key={i}
-                                            variants={{
-                                                hidden: { opacity: 0, y: 20, scale: 0.8, filter: "blur(4px)" },
-                                                visible: { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", transition: { type: "spring", stiffness: 350, damping: 15 } }
-                                            }}
-                                            className="text-[28px] font-serif font-black text-[#1c3e2e] tracking-tight drop-shadow-sm inline-block"
-                                        >
-                                            {letter}
-                                        </motion.span>
-                                    ))}
-                                </div>
-
-                                <div className="relative ml-1.5 flex">
-                                    {"Wisdom".split('').map((letter, i) => (
-                                        <motion.span
-                                            key={i}
-                                            variants={{
-                                                hidden: { opacity: 0, y: 20, scale: 0.8, filter: "blur(4px)" },
-                                                visible: { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", transition: { type: "spring", stiffness: 350, damping: 15 } }
-                                            }}
-                                            className="text-[28px] font-serif font-black text-[#1c3e2e] tracking-tight drop-shadow-sm relative inline-block"
-                                        >
-                                            {letter}
-                                            {/* Crown SVG positioned perfectly over the 's' (index 2) */}
-                                            {i === 2 && (
-                                                <motion.svg
-                                                    variants={{
-                                                        hidden: { opacity: 0, y: -40, scale: 0, rotate: -30 },
-                                                        visible: { opacity: 1, y: 0, scale: 1, rotate: 0, transition: { delay: 1.0, type: "spring", stiffness: 500, damping: 10, mass: 0.5 } }
-                                                    }}
-                                                    className="absolute top-[2px] left-[55%] -translate-x-1/2 w-[18px] h-[12px] text-[#1c3e2e] fill-current drop-shadow-sm origin-bottom"
-                                                    viewBox="0 0 24 24"
-                                                >
-                                                    <path d="M3 16l-2-9 6 4.5L12 3l5 8.5 6-4.5-2 9H3zm-1-2h20v4H2v-4z" />
-                                                    <circle cx="1" cy="6" r="1.5" />
-                                                    <circle cx="7" cy="11.5" r="1.5" />
-                                                    <circle cx="12" cy="2" r="1.5" />
-                                                    <circle cx="17" cy="11.5" r="1.5" />
-                                                    <circle cx="23" cy="6" r="1.5" />
-                                                </motion.svg>
-                                            )}
-                                        </motion.span>
-                                    ))}
-                                </div>
+                                {/* Using the new transparent owl logo */}
+                                <img
+                                    src="/owl-logo.png"
+                                    alt="IELTS Wisdom Logo"
+                                    className="h-12 w-auto object-contain drop-shadow-sm"
+                                />
                             </motion.div>
                         </Link>
                     </div>
