@@ -126,15 +126,15 @@ export default function MockExamsPage() {
                             initial={{ opacity: 0, y: 30 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.6, delay: index * 0.1, type: "spring", stiffness: 40 }}
-                            className="rounded-[24px] p-6 md:p-8 relative overflow-hidden bg-white"
+                            className="rounded-[32px] p-6 lg:p-10 relative overflow-hidden bg-white"
                             style={{
-                                // Clean white panel, increased drop shadow for more depth
-                                boxShadow: "0 20px 50px rgba(170, 190, 210, 0.6)"
+                                // Tighter, more defined shadow for the main container
+                                boxShadow: "0 10px 40px rgba(140, 160, 190, 0.15), 0 2px 10px rgba(140, 160, 190, 0.05)"
                             }}
                         >
                             {/* Section Header */}
-                            <div className="flex items-center gap-2 mb-10 ml-2 border-l-[3.5px] border-[#2ebc82] pl-3.5 h-[22px] relative z-10">
-                                <h2 className="text-[17px] font-bold text-[#1f2937] tracking-wider">
+                            <div className="flex items-center gap-2 mb-10 ml-2 border-l-[3.5px] border-[#2ebc82] pl-3.5 h-[24px] relative z-10">
+                                <h2 className="text-[19px] font-extrabold text-[#111827] tracking-tight">
                                     {test.title}
                                 </h2>
                             </div>
@@ -163,8 +163,9 @@ export default function MockExamsPage() {
                                             whileHover={{ y: -4, transition: { duration: 0.3, ease: "easeOut" } }}
                                             className="rounded-[28px] p-6 lg:p-8 flex flex-col items-start relative transition-all duration-500 bg-white group h-full"
                                             style={{
-                                                // Clean white card, increased shadow depth to match provided styling
-                                                boxShadow: "0 15px 40px rgba(175, 195, 215, 0.35)"
+                                                // Tighter, crisp edge shadow to make the card POP without glaring
+                                                boxShadow: "0 8px 24px rgba(149, 157, 165, 0.15), 0 2px 8px rgba(149, 157, 165, 0.05)",
+                                                border: "1px solid rgba(240, 244, 248, 1)"
                                             }}
                                         >
                                             {/* Top badges row */}
