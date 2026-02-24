@@ -3,11 +3,10 @@
 import { use, useState, useEffect, useRef } from "react";
 import { LISTENING_TESTS } from "@/data/listening-tests";
 import type { ListeningPart } from "@/types/listening";
-import { Play, Pause, Volume2, MoreVertical, Menu, Headphones, AlertCircle, Send, CheckCircle2 } from "lucide-react";
+import { AlertCircle, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
-// Sub-component for each Listening Section (Part)
 function ListeningPartSection({
     part,
     answers,
@@ -19,43 +18,7 @@ function ListeningPartSection({
     onAnswerChange: (id: string, value: string) => void,
     isSubmitted: boolean
 }) {
-    const [isPlaying, setIsPlaying] = useState(false);
-    const [currentTime, setCurrentTime] = useState(0);
-    const [duration, setDuration] = useState(0);
-    const audioRef = useRef<HTMLAudioElement>(null);
     const contentRef = useRef<HTMLDivElement>(null);
-
-    // Audio Event Listeners
-    useEffect(() => {
-        const audio = audioRef.current;
-        if (!audio) return;
-
-        const handleTimeUpdate = () => setCurrentTime(audio.currentTime);
-        const handleLoadedMetadata = () => setDuration(audio.duration);
-        const handleEnded = () => setIsPlaying(false);
-
-        audio.addEventListener('timeupdate', handleTimeUpdate);
-        audio.addEventListener('loadedmetadata', handleLoadedMetadata);
-        audio.addEventListener('ended', handleEnded);
-
-        return () => {
-            audio.removeEventListener('timeupdate', handleTimeUpdate);
-            audio.removeEventListener('loadedmetadata', handleLoadedMetadata);
-            audio.removeEventListener('ended', handleEnded);
-        };
-    }, []);
-
-    const togglePlay = () => {
-        if (audioRef.current) {
-            if (isPlaying) {
-                audioRef.current.pause();
-                setIsPlaying(false);
-            } else {
-                audioRef.current.play().catch(e => console.error("Audio playback failed", e));
-                setIsPlaying(true);
-            }
-        }
-    };
 
     // Attach event listeners to dangerouslySetInnerHTML inputs
     useEffect(() => {
@@ -70,7 +33,6 @@ function ListeningPartSection({
                 const questionId = target.id.replace('q-', '');
                 onAnswerChange(questionId, target.value);
 
-                // Add active styling dynamically
                 if (target.value.trim() !== '') {
                     target.classList.add('border-blue-500', 'bg-blue-50/50');
                 } else {
@@ -89,7 +51,7 @@ function ListeningPartSection({
                 container.removeEventListener('input', handleInput);
             }
         };
-    }, [isSubmitted, onAnswerChange]); // Re-bind if submission state changes
+    }, [isSubmitted, onAnswerChange]);
 
     // Update input styles when answers change (especially for showing results)
     useEffect(() => {
@@ -97,7 +59,7 @@ function ListeningPartSection({
         if (!container) return;
 
         part.questions.filter(q => q.type === 'fill-blank').forEach(q => {
-            const input = container.querySelector(`#q-\${q.id}`) as HTMLInputElement;
+            const input = container.querySelector(`#q-${q.id}`) as HTMLInputElement;
             if (input) {
                 input.value = answers[q.id.toString()] || '';
                 input.disabled = isSubmitted;
@@ -111,11 +73,10 @@ function ListeningPartSection({
                         input.classList.remove('border-blue-500', 'bg-blue-50/50', 'border-black');
                         input.classList.add('border-red-500', 'bg-red-50', 'text-red-700');
 
-                        // Optionally inject correct answer next to it
                         if (!input.nextElementSibling?.classList.contains('correction')) {
                             const correction = document.createElement('span');
                             correction.className = 'correction text-xs text-red-600 font-bold ml-2 bg-red-100 px-2 py-0.5 rounded';
-                            correction.textContent = `Correct: \${q.correctAnswer}`;
+                            correction.textContent = `Correct: ${q.correctAnswer}`;
                             input.parentNode?.insertBefore(correction, input.nextSibling);
                         }
                     }
@@ -124,86 +85,20 @@ function ListeningPartSection({
         });
     }, [isSubmitted, answers, part.questions]);
 
-    const formatTime = (timeInSeconds: number) => {
-        if (isNaN(timeInSeconds)) return "0:00";
-        const m = Math.floor(timeInSeconds / 60);
-        const s = Math.floor(timeInSeconds % 60);
-        return `\${m}:\${s < 10 ? '0' : ''}\${s}`;
-    };
-
-    const handleScrub = (e: React.MouseEvent<HTMLDivElement>) => {
-        if (!audioRef.current || !duration) return;
-        const rect = e.currentTarget.getBoundingClientRect();
-        const percent = (e.clientX - rect.left) / rect.width;
-        const newTime = percent * duration;
-        audioRef.current.currentTime = newTime;
-        setCurrentTime(newTime);
-    };
-
     return (
-        <div className="mb-16 border-b-4 border-slate-100 pb-12 last:border-0">
+        <div className="mb-0">
             {/* Header Section */}
-            <div className="flex items-center justify-between mb-4">
-                <h1 className="text-xl font-bold text-slate-800 tracking-tight">
-                    {part.title}
-                </h1>
-                <button className="p-2 hover:bg-slate-100 rounded-lg transition-colors text-slate-600">
-                    <Menu className="w-5 h-5" />
-                </button>
+            <div className="bg-[#2980b9] text-white p-4 rounded-t-lg font-bold text-lg mb-0 flex items-center shadow-sm">
+                {part.title}
             </div>
 
-            {/* Audio Player Component */}
-            {part.audioUrl && (
-                <div className="bg-slate-50 border border-slate-200 rounded-xl p-3 flex items-center gap-4 mb-6 relative overflow-hidden shadow-sm">
-                    <audio ref={audioRef} src={part.audioUrl} preload="metadata" />
-
-                    {/* Scrubber Background track */}
-                    <div className="absolute bottom-0 left-0 w-full h-1 bg-slate-200">
-                        <div
-                            className="h-full bg-slate-800 transition-all duration-100"
-                            style={{ width: `\${duration ? (currentTime / duration) * 100 : 0}%` }}
-                        />
-                    </div>
-
-                    <button
-                        onClick={togglePlay}
-                        className="w-12 h-12 flex-none rounded-full flex items-center justify-center text-slate-700 hover:bg-slate-200 transition-colors bg-white shadow-sm border border-slate-200"
-                    >
-                        {isPlaying ? <Pause className="w-5 h-5 fill-current" /> : <Play className="w-5 h-5 ml-1 fill-current" />}
-                    </button>
-
-                    <div className="text-sm font-medium font-mono text-slate-600 min-w-[6rem] bg-white px-3 py-1.5 rounded-md border border-slate-200">
-                        {formatTime(currentTime)} / {formatTime(duration)}
-                    </div>
-
-                    {/* Custom Scrubber */}
-                    <div className="flex-1 relative items-center hidden md:flex h-6 group cursor-pointer" onClick={handleScrub}>
-                        <div className="w-full h-2 bg-slate-200 rounded-full overflow-hidden">
-                            <div className="h-full bg-[#cc0000]" style={{ width: `\${duration ? (currentTime / duration) * 100 : 0}%` }} />
-                        </div>
-                        {/* Fake Scrubber knob */}
-                        <div
-                            className="absolute top-1/2 -translate-y-1/2 w-4 h-4 bg-white border-[3px] border-[#cc0000] rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity"
-                            style={{ left: `calc(\${duration ? (currentTime / duration) * 100 : 0}% - 8px)` }}
-                        />
-                    </div>
-
-                    <div className="flex items-center gap-2 text-slate-500 ml-auto">
-                        <button className="p-2 hover:bg-slate-200 rounded-lg transition-colors bg-white border border-slate-200"><Volume2 className="w-4 h-4" /></button>
-                    </div>
-                </div>
-            )}
-
-            {/* Instructions */}
-            <h2 className="text-lg font-medium text-slate-700 mb-4">{part.instructions}</h2>
-
-            <button className="flex items-center gap-2 bg-white border border-slate-300 shadow-sm hover:bg-slate-50 text-slate-700 font-bold px-5 py-2.5 rounded-lg transition-all text-sm mb-6 active:scale-95">
-                <Headphones className="w-5 h-5 text-slate-500" />
-                Listen from Here
-            </button>
+            {/* Instructions Box */}
+            <div className="bg-[#eef5f9] border-x border-[#d1e4ef] p-4 text-sm text-slate-700 mb-6 rounded-b-lg shadow-sm">
+                {part.instructions}
+            </div>
 
             {/* Content Box */}
-            <div className="border border-slate-300 rounded-xl bg-white p-6 md:p-8 shadow-sm">
+            <div className="px-2 md:px-4">
                 <div
                     ref={contentRef}
                     className="prose prose-slate max-w-none text-slate-800"
@@ -254,7 +149,7 @@ function ListeningPartSection({
                                                     </div>
                                                     <input
                                                         type="radio"
-                                                        name={`q-\${q.id}`}
+                                                        name={`q-${q.id}`}
                                                         className="hidden"
                                                         checked={isSelected}
                                                         onChange={() => !isSubmitted && onAnswerChange(q.id.toString(), idx.toString())}
@@ -286,6 +181,7 @@ export default function ListeningTestPage({ params }: { params: Promise<{ id: st
     const testId = resolvedParams.id;
     const testData = LISTENING_TESTS[testId];
 
+    const [currentPartIndex, setCurrentPartIndex] = useState(0);
     const [answers, setAnswers] = useState<Record<string, string>>({});
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [score, setScore] = useState(0);
@@ -338,21 +234,14 @@ export default function ListeningTestPage({ params }: { params: Promise<{ id: st
     }
 
     const totalQuestions = testData.parts.reduce((acc, part) => acc + part.questions.length, 0);
+    const currentPart = testData.parts[currentPartIndex];
 
     return (
-        <div className="min-h-screen bg-[#F8F9FB] flex flex-col font-sans pb-24">
-            {/* Top Red Promotional Banner */}
-            <div className="bg-[#cc0000] text-white text-center py-2.5 px-4 font-bold text-sm tracking-wide shadow-md sticky top-0 z-50">
-                24 Hours Only: Get 30% Off on Our Premium Plan - <a href="#" className="underline decoration-white/50 hover:decoration-white transition-all">Check Out Now!</a>
-            </div>
-
-            <main className="flex-1 max-w-[1000px] w-full mx-auto px-4 md:px-8 py-10">
-
-                <h1 className="text-3xl font-black text-slate-800 mb-2">{testData.title}</h1>
-                <p className="text-slate-500 mb-10 pb-4 border-b border-slate-200">Listen to the audio files and answer the questions below.</p>
+        <div className="min-h-screen bg-[#F1F5F9] flex flex-col font-sans pb-24">
+            <main className="flex-1 max-w-[900px] w-full mx-auto px-4 md:px-0 py-8">
 
                 {isSubmitted && (
-                    <div className="bg-white border-2 border-green-500 p-8 rounded-2xl mb-12 shadow-xl shadow-green-500/10 text-center animate-in slide-in-from-top-4">
+                    <div className="bg-white border-2 border-green-500 p-8 rounded-2xl mb-8 shadow-sm text-center">
                         <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                             <CheckCircle2 className="w-10 h-10 text-green-600" />
                         </div>
@@ -363,41 +252,67 @@ export default function ListeningTestPage({ params }: { params: Promise<{ id: st
                     </div>
                 )}
 
-                <div className="space-y-8">
-                    {testData.parts.map(part => (
-                        <ListeningPartSection
-                            key={part.id}
-                            part={part}
-                            answers={answers}
-                            onAnswerChange={handleAnswerChange}
-                            isSubmitted={isSubmitted}
-                        />
-                    ))}
+                {/* Global Audio Player Block */}
+                <div className="bg-white rounded-xl shadow-[0_2px_10px_rgba(0,0,0,0.06)] p-6 mb-6">
+                    <h2 className="text-xl font-bold text-[#2c3e50] text-center mb-4">{testData.title}</h2>
+                    <div className="bg-[#344454] rounded-[0.5rem] py-6 px-4 md:px-12 flex flex-col items-center">
+                        <h3 className="text-white font-semibold mb-4 text-sm tracking-wide">Audio Player</h3>
+                        {currentPart.audioUrl ? (
+                            <div className="w-full max-w-xl mb-4 bg-white rounded-full opacity-90 hover:opacity-100 transition-opacity">
+                                <audio
+                                    key={currentPart.audioUrl}
+                                    controls
+                                    src={currentPart.audioUrl}
+                                    className="w-full h-10 custom-audio"
+                                    preload="metadata"
+                                />
+                            </div>
+                        ) : (
+                            <div className="text-white/50 mb-4 italic text-sm">No audio available for this part</div>
+                        )}
+                        <p className="text-white/80 text-xs">Playing: {currentPart.title}</p>
+                    </div>
                 </div>
+
+                {/* Questions Block */}
+                <div className="bg-white rounded-xl shadow-[0_2px_10px_rgba(0,0,0,0.06)] p-4 md:p-6">
+                    <ListeningPartSection
+                        part={currentPart}
+                        answers={answers}
+                        onAnswerChange={handleAnswerChange}
+                        isSubmitted={isSubmitted}
+                    />
+
+                    {/* Navigation Buttons */}
+                    <div className="flex justify-between items-center mt-12 pt-6">
+                        <button
+                            onClick={() => setCurrentPartIndex(i => Math.max(0, i - 1))}
+                            disabled={currentPartIndex === 0}
+                            className="bg-[#bdc3c7] hover:bg-[#aab7b8] disabled:opacity-50 disabled:hover:bg-[#bdc3c7] text-white font-bold px-5 py-2.5 rounded transition-all text-sm shadow-sm flex items-center gap-1.5"
+                        >
+                            <span className="text-lg leading-none">&larr;</span> Previous Part
+                        </button>
+
+                        {currentPartIndex < testData.parts.length - 1 ? (
+                            <button
+                                onClick={() => setCurrentPartIndex(i => Math.min(testData.parts.length - 1, i + 1))}
+                                className="bg-[#3498db] hover:bg-[#2980b9] text-white font-bold px-5 py-2.5 rounded transition-all text-sm shadow-sm flex items-center gap-1.5"
+                            >
+                                Next Part <span className="text-lg leading-none">&rarr;</span>
+                            </button>
+                        ) : (
+                            <button
+                                onClick={handleSubmit}
+                                disabled={isSubmitted}
+                                className="bg-[#2ecc71] hover:bg-[#27ae60] disabled:bg-slate-300 text-white font-bold px-6 py-2.5 rounded transition-all text-sm shadow-sm"
+                            >
+                                {isSubmitted ? "Submitted" : "Submit Test"}
+                            </button>
+                        )}
+                    </div>
+                </div>
+
             </main>
-
-            {/* Bottom Sticky Action Bar */}
-            <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 px-6 py-4 flex justify-between items-center shadow-[0_-10px_30px_rgba(0,0,0,0.05)] z-50">
-                <div className="text-sm font-bold text-slate-500 hidden sm:block">
-                    Answered: <span className="text-slate-800">{Object.keys(answers).length}</span> / {totalQuestions}
-                </div>
-
-                <div className="flex gap-4 w-full sm:w-auto">
-                    <button
-                        onClick={() => window.scrollTo(0, 0)}
-                        className="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-6 py-3.5 rounded-xl transition-all w-full sm:w-auto"
-                    >
-                        Back to Top
-                    </button>
-                    <button
-                        onClick={handleSubmit}
-                        disabled={isSubmitted}
-                        className="bg-[#cc0000] hover:bg-red-700 disabled:opacity-50 disabled:bg-slate-300 text-white font-bold px-10 py-3.5 rounded-xl transition-all flex items-center justify-center gap-2 active:scale-95 w-full sm:w-auto shadow-lg shadow-red-500/30"
-                    >
-                        {isSubmitted ? "Submitted" : "Submit Test"} <Send className="w-4 h-4" />
-                    </button>
-                </div>
-            </div>
         </div>
     );
 }
