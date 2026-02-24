@@ -67,10 +67,10 @@ export function Sidebar() {
                                     <motion.span
                                         key={i}
                                         variants={{
-                                            hidden: { opacity: 0, y: 10 },
-                                            visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 200 } }
+                                            hidden: { opacity: 0, y: 20, scale: 0.8, filter: "blur(4px)" },
+                                            visible: { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", transition: { type: "spring", stiffness: 350, damping: 15 } }
                                         }}
-                                        className="text-[28px] font-serif font-black text-[#1c3e2e] tracking-tight drop-shadow-sm"
+                                        className="text-[28px] font-serif font-black text-[#1c3e2e] tracking-tight drop-shadow-sm inline-block"
                                     >
                                         {letter}
                                     </motion.span>
@@ -82,21 +82,21 @@ export function Sidebar() {
                                     <motion.span
                                         key={i}
                                         variants={{
-                                            hidden: { opacity: 0, y: 10 },
-                                            visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 200 } }
+                                            hidden: { opacity: 0, y: 20, scale: 0.8, filter: "blur(4px)" },
+                                            visible: { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", transition: { type: "spring", stiffness: 350, damping: 15 } }
                                         }}
-                                        className="text-[28px] font-serif font-black text-[#1c3e2e] tracking-tight drop-shadow-sm relative"
+                                        className="text-[28px] font-serif font-black text-[#1c3e2e] tracking-tight drop-shadow-sm relative inline-block"
                                     >
                                         {letter}
                                         {/* Crown SVG positioned perfectly over the 's' (index 2) */}
                                         {i === 2 && (
                                             <motion.svg
                                                 variants={{
-                                                    hidden: { opacity: 0, y: -20, scale: 0.5 },
-                                                    // Delays the crown drop until after letters finish
-                                                    visible: { opacity: 1, y: 0, scale: 1, transition: { delay: 0.8, type: "spring", stiffness: 300, damping: 12, mass: 0.8 } }
+                                                    hidden: { opacity: 0, y: -40, scale: 0, rotate: -30 },
+                                                    // Delays the crown drop until after letters finish, with an extra bouncy drop
+                                                    visible: { opacity: 1, y: 0, scale: 1, rotate: 0, transition: { delay: 1.0, type: "spring", stiffness: 500, damping: 10, mass: 0.5 } }
                                                 }}
-                                                className="absolute -top-[14px] left-1/2 -translate-x-1/2 w-[18px] h-[12px] text-[#1c3e2e] fill-current drop-shadow-sm"
+                                                className="absolute -top-[8px] left-[55%] -translate-x-1/2 w-[18px] h-[12px] text-[#1c3e2e] fill-current drop-shadow-sm origin-bottom"
                                                 viewBox="0 0 24 24"
                                             >
                                                 <path d="M3 16l-2-9 6 4.5L12 3l5 8.5 6-4.5-2 9H3zm-1-2h20v4H2v-4z" />
