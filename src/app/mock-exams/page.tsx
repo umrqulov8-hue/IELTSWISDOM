@@ -119,22 +119,20 @@ export default function MockExamsPage() {
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             transition={{ duration: 0.6, delay: index * 0.1, type: "spring", stiffness: 60 }}
                             className={cn(
-                                "relative rounded-[32px] p-8 lg:p-10 flex flex-col overflow-hidden group bg-gradient-to-br",
+                                "relative rounded-[40px] p-8 lg:p-10 flex flex-col overflow-hidden group bg-gradient-to-br transition-all duration-500",
                                 test.theme.cardBg
                             )}
                             style={{
-                                // Deep precise drop shadows and frosted white top border
-                                borderTop: "2px solid rgba(255, 255, 255, 0.6)",
-                                borderLeft: "2px solid rgba(255, 255, 255, 0.4)",
+                                // Volumetric "Liquid Glass" / Jelly effect
                                 boxShadow: `
-                                    inset 4px 4px 20px rgba(255, 255, 255, 0.4),
-                                    inset -4px -4px 20px rgba(0, 0, 0, 0.05),
-                                    0 25px 50px -12px rgba(0, 0, 0, 0.15)
+                                    inset 4px 4px 10px rgba(255, 255, 255, 0.7),
+                                    inset -4px -4px 15px rgba(0, 0, 0, 0.1),
+                                    0 20px 40px -10px ${index % 2 === 0 ? 'rgba(107, 234, 229, 0.4)' : 'rgba(255, 106, 90, 0.4)'}
                                 `
                             }}
                         >
-                            {/* Inner ambient shine to enhance crystalline highlights */}
-                            <div className="absolute top-[-30%] left-[-20%] w-[150%] h-[70%] bg-gradient-to-b from-white/60 to-transparent -rotate-[15deg] pointer-events-none rounded-full blur-[2px] opacity-70 group-hover:from-white/80 transition-all duration-700" />
+                            {/* Inner ambient shine to enhance the glossy, plump volume */}
+                            <div className="absolute top-[-20%] left-[-10%] w-[120%] h-[50%] bg-gradient-to-b from-white/40 to-transparent -rotate-6 pointer-events-none rounded-[100%] blur-[8px] opacity-80" />
 
                             <div className="relative z-10">
                                 {/* Title */}
@@ -144,10 +142,10 @@ export default function MockExamsPage() {
 
                                 {/* Badges */}
                                 <div className="flex flex-wrap gap-4 mb-8">
-                                    <span className={cn("text-[12px] font-black px-4 py-2.5 rounded-full tracking-widest uppercase border border-white/40", test.theme.badge1)}>
+                                    <span className={cn("text-[12px] font-black px-4 py-2.5 rounded-full tracking-widest uppercase shadow-sm", test.theme.badge1)}>
                                         FULL TEST
                                     </span>
-                                    <span className={cn("text-[12px] font-black px-4 py-2.5 rounded-full tracking-widest uppercase border border-white/40", test.theme.badge2)}>
+                                    <span className={cn("text-[12px] font-black px-4 py-2.5 rounded-full tracking-widest uppercase shadow-sm", test.theme.badge2)}>
                                         3 HOURS
                                     </span>
                                 </div>
@@ -173,9 +171,9 @@ export default function MockExamsPage() {
                                 <motion.button
                                     whileHover={{ scale: 1.03 }}
                                     whileTap={{ scale: 0.97 }}
-                                    className="w-full text-[#0f172a] font-black py-[16px] rounded-[18px] flex items-center justify-center gap-3 transition-all text-[16px] bg-white drop-shadow-[0_8px_20px_rgba(0,0,0,0.1)] hover:drop-shadow-[0_12px_25px_rgba(0,0,0,0.15)]"
+                                    className="w-full text-[#0f172a] font-black py-[16px] rounded-full flex items-center justify-center gap-3 transition-all text-[15px] bg-white shadow-[0_8px_20px_rgba(0,0,0,0.1)] hover:shadow-[0_12px_25px_rgba(0,0,0,0.15)]"
                                 >
-                                    <Play className="w-[20px] h-[20px] fill-[#0f172a]" strokeWidth={3} />
+                                    <Play className="w-[18px] h-[18px] fill-[#0f172a]" strokeWidth={3} />
                                     <span className="tracking-widest uppercase">Start Test</span>
                                 </motion.button>
                             </div>
