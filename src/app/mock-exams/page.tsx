@@ -1,7 +1,7 @@
 "use client";
 
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
-import { PlayCircle, List } from "lucide-react";
+import { Play } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 
@@ -19,11 +19,10 @@ const MOCK_TESTS = [
             "Speaking: 3 parts (11-14 min)",
         ],
         theme: {
-            border: "border-[#6ea8fe]",
-            titleText: "text-[#208a8a]",
-            topBg: "bg-[#fdf8f0]",
-            buttonBg: "bg-[#188069]",
-            buttonHover: "hover:bg-[#126b56]"
+            // A beautiful blue frosted glass look
+            cardBg: "from-[#6eb3f7] to-[#4b9dec] shadow-[0_8px_32px_rgba(75,157,236,0.3)]",
+            badge1: "bg-emerald-400/80 shadow-[inset_0_1px_2px_rgba(255,255,255,0.6)]",
+            badge2: "bg-teal-400/80 shadow-[inset_0_1px_2px_rgba(255,255,255,0.6)]"
         }
     },
     {
@@ -39,11 +38,9 @@ const MOCK_TESTS = [
             "Performance analytics",
         ],
         theme: {
-            border: "border-[#6ea8fe]",
-            titleText: "text-[#208a8a]",
-            topBg: "bg-[#fdf8f0]",
-            buttonBg: "bg-[#188069]",
-            buttonHover: "hover:bg-[#126b56]"
+            cardBg: "from-[#6eb3f7] to-[#4b9dec] shadow-[0_8px_32px_rgba(75,157,236,0.3)]",
+            badge1: "bg-emerald-400/80 shadow-[inset_0_1px_2px_rgba(255,255,255,0.6)]",
+            badge2: "bg-teal-400/80 shadow-[inset_0_1px_2px_rgba(255,255,255,0.6)]"
         }
     },
     {
@@ -59,11 +56,10 @@ const MOCK_TESTS = [
             "Speaking: 3 parts (11-14 min)",
         ],
         theme: {
-            border: "border-[#75c689]",
-            titleText: "text-[#28a745]",
-            topBg: "bg-[#fdf8f0]",
-            buttonBg: "bg-[#188069]",
-            buttonHover: "hover:bg-[#126b56]"
+            // A beautiful warm peachy/orange frosted glass look
+            cardBg: "from-[#fdae73] to-[#f9883f] shadow-[0_8px_32px_rgba(249,136,63,0.3)]",
+            badge1: "bg-orange-400/80 shadow-[inset_0_1px_2px_rgba(255,255,255,0.6)]",
+            badge2: "bg-cyan-500/80 shadow-[inset_0_1px_2px_rgba(255,255,255,0.6)]"
         }
     },
     {
@@ -79,11 +75,9 @@ const MOCK_TESTS = [
             "Performance analytics",
         ],
         theme: {
-            border: "border-[#75c689]",
-            titleText: "text-[#28a745]",
-            topBg: "bg-[#fdf8f0]",
-            buttonBg: "bg-[#188069]",
-            buttonHover: "hover:bg-[#126b56]"
+            cardBg: "from-[#fdae73] to-[#f9883f] shadow-[0_8px_32px_rgba(249,136,63,0.3)]",
+            badge1: "bg-orange-400/80 shadow-[inset_0_1px_2px_rgba(255,255,255,0.6)]",
+            badge2: "bg-cyan-500/80 shadow-[inset_0_1px_2px_rgba(255,255,255,0.6)]"
         }
     }
 ];
@@ -91,88 +85,95 @@ const MOCK_TESTS = [
 export default function MockExamsPage() {
     return (
         <DashboardLayout
-            title="Practice Exams"
-            description="Take full mock exams and improve your performance."
+            title="Available Mock Tests"
+            description="Experience the real IELTS test environment with our complete mock exams."
         >
-            {/* Clean white background for the whole page */}
+            {/* Pure white background as requested */}
             <div className="absolute inset-0 bg-white -z-20"></div>
 
-            <div className="max-w-[1100px] mx-auto px-4 md:px-8 py-8 md:py-12 relative z-10 w-full mb-20">
+            <div className="max-w-[1100px] mx-auto px-4 md:px-8 space-y-8 relative z-10 pt-4 pb-16">
 
-                <div className="text-center mb-10">
-                    <p className="text-[#64748b] text-[15px] font-medium tracking-wide">
-                        improve your performance.
-                    </p>
+                {/* Section Header */}
+                <div className="flex items-center gap-2 mb-6 ml-2 border-l-[3.5px] border-[#2ebc82] pl-3 h-[24px]">
+                    <h2 className="text-[19px] font-bold text-[#111827] tracking-tight">
+                        Available Mock Tests
+                    </h2>
                 </div>
 
-                {/* Main Container */}
-                <div className="bg-white rounded-xl overflow-hidden mb-16"
-                    style={{
-                        boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)"
-                    }}
-                >
+                {/* Cards Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+                    {MOCK_TESTS.map((test, index) => (
+                        <motion.div
+                            key={test.id}
+                            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                            transition={{ duration: 0.5, delay: index * 0.1, type: "spring", stiffness: 50 }}
+                            className={cn(
+                                "relative rounded-3xl p-8 flex flex-col overflow-hidden text-white backdrop-blur-xl bg-gradient-to-br",
+                                test.theme.cardBg
+                            )}
+                            style={{
+                                // Deep glassmorphism styling
+                                border: "1px solid rgba(255, 255, 255, 0.5)",
+                                boxShadow: `
+                                    inset 0 2px 20px rgba(255, 255, 255, 0.4),
+                                    inset 0 -2px 20px rgba(0, 0, 0, 0.05),
+                                    0 20px 40px -10px rgba(0, 0, 0, 0.1)
+                                `
+                            }}
+                        >
+                            {/* Inner ambient shine to enhance the highly glossy look */}
+                            <div className="absolute top-[-30%] left-[-20%] w-[120%] h-[60%] bg-gradient-to-b from-white/40 to-transparent -rotate-12 pointer-events-none rounded-full blur-2xl" />
 
-                    {/* Header */}
-                    <div className="bg-[#1b8a71] px-5 py-3.5 flex items-center gap-3 text-white">
-                        <List className="w-[18px] h-[18px]" strokeWidth={2.5} />
-                        <h2 className="text-[16px] font-bold tracking-wide">Available Mock Tests</h2>
-                    </div>
+                            <div className="relative z-10">
+                                {/* Title */}
+                                <h3 className="text-[24px] font-extrabold mb-4 tracking-tight drop-shadow-md">
+                                    {test.title}
+                                </h3>
 
-                    {/* Cards Grid */}
-                    <div className="p-4 md:p-6 lg:p-8 border border-t-0 border-gray-100 rounded-b-xl">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-                            {MOCK_TESTS.map((test, index) => (
-                                <motion.div
-                                    key={test.id}
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ duration: 0.4, delay: index * 0.1 }}
-                                    className={cn("rounded-xl border flex flex-col overflow-hidden bg-white", test.theme.border)}
+                                {/* Badges */}
+                                <div className="flex flex-wrap gap-3 mb-6">
+                                    <span className={cn("text-white text-[11px] font-extrabold px-3 py-1.5 rounded-full tracking-widest uppercase border border-white/40 drop-shadow-sm", test.theme.badge1)}>
+                                        FULL TEST
+                                    </span>
+                                    <span className={cn("text-white text-[11px] font-extrabold px-3 py-1.5 rounded-full tracking-widest uppercase border border-white/40 drop-shadow-sm", test.theme.badge2)}>
+                                        3 HOURS
+                                    </span>
+                                </div>
+
+                                {/* Description */}
+                                <p className="text-white/90 text-[14px] mb-6 font-medium leading-relaxed drop-shadow-sm">
+                                    {test.description}
+                                </p>
+
+                                {/* List Section */}
+                                <h4 className="font-extrabold text-white text-[12px] mb-3 tracking-widest uppercase drop-shadow-sm opacity-90">
+                                    {test.listTitle}
+                                </h4>
+                                <ul className="list-disc pl-[18px] text-[14px] text-white/95 font-medium space-y-2 mb-10 drop-shadow-sm">
+                                    {test.listItems.map((item, i) => (
+                                        <li key={i}>{item}</li>
+                                    ))}
+                                </ul>
+                            </div>
+
+                            {/* Push button to bottom */}
+                            <div className="mt-auto relative z-10 w-full px-2">
+                                <motion.button
+                                    whileHover={{ scale: 1.02 }}
+                                    whileTap={{ scale: 0.98 }}
+                                    className="w-full text-white font-bold py-[14px] rounded-2xl flex items-center justify-center gap-2 transition-all text-[15px] bg-white/20 hover:bg-white/30 backdrop-blur-md"
+                                    style={{
+                                        border: "1px solid rgba(255, 255, 255, 0.6)",
+                                        boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.1), inset 0 2px 4px rgba(255, 255, 255, 0.4)"
+                                    }}
                                 >
-                                    {/* Top Section */}
-                                    <div className={cn("px-6 py-5 border-b border-[#e2e8f0]", test.theme.topBg)}>
-                                        <h3 className={cn("text-[20px] font-bold mb-3 font-serif tracking-tight", test.theme.titleText)}>
-                                            {test.title}
-                                        </h3>
-                                        <div className="flex flex-wrap gap-2">
-                                            <span className="bg-[#1b8a71] text-white text-[11px] font-bold px-3 py-1.5 rounded-[5px] tracking-wide uppercase">
-                                                Full Test
-                                            </span>
-                                            <span className="bg-[#12b8b6] text-white text-[11px] font-bold px-3 py-1.5 rounded-[5px] tracking-wide uppercase">
-                                                3 Hours
-                                            </span>
-                                        </div>
-                                    </div>
-
-                                    {/* Bottom Section */}
-                                    <div className="p-6 flex flex-col flex-grow">
-                                        <p className="text-[#475569] text-[13px] mb-6 font-medium leading-relaxed">
-                                            {test.description}
-                                        </p>
-
-                                        <h4 className="font-bold text-[#1e293b] text-[12px] mb-3 tracking-wider uppercase">
-                                            {test.listTitle}
-                                        </h4>
-                                        <ul className="list-disc pl-[18px] text-[13px] text-[#475569] font-medium space-y-1.5 mb-10">
-                                            {test.listItems.map((item, i) => (
-                                                <li key={i}>{item}</li>
-                                            ))}
-                                        </ul>
-
-                                        <div className="mt-auto">
-                                            <button className={cn("w-full text-white font-semibold py-[12px] rounded-lg flex items-center justify-center gap-2 transition-colors text-[14px]", test.theme.buttonBg, test.theme.buttonHover)}>
-                                                <PlayCircle className="w-5 h-5" strokeWidth={2} />
-                                                Start Test
-                                            </button>
-                                            <button className="w-full text-center text-[#64748b] hover:text-[#334155] text-[12px] mt-4 font-semibold transition-colors">
-                                                View Sample Answers
-                                            </button>
-                                        </div>
-                                    </div>
-                                </motion.div>
-                            ))}
-                        </div>
-                    </div>
+                                    <Play className="w-[18px] h-[18px] fill-white/80" strokeWidth={2.5} />
+                                    <span className="tracking-wide">Start Test</span>
+                                </motion.button>
+                            </div>
+                        </motion.div>
+                    ))}
                 </div>
             </div>
         </DashboardLayout>
