@@ -46,17 +46,10 @@ export function Header() {
                 <div className="flex h-16 items-center justify-between">
                     <div className="flex-shrink-0">
                         <Link href="/" className="flex items-center hover:opacity-80 transition-opacity">
-                            <div className="flex items-center relative overflow-hidden py-2 px-1">
-                                {/* Beige background splash behind Wisdom */}
-                                <div className="absolute right-[4px] top-1/2 -translate-y-1/2 w-[80px] h-[36px] bg-[#fef4e3] rounded-[40%] -rotate-6 -z-10 mix-blend-multiply"></div>
-
-                                <span className="text-[28px] font-serif font-black text-[#1c3e2e] tracking-tight drop-shadow-sm">
-                                    IELTS
-                                </span>
-
-                                <div className="relative ml-1.5">
-                                    {/* Crown SVG positioned perfectly over the W */}
-                                    <svg className="absolute -top-[12px] left-[6px] w-[20px] h-[14px] text-[#1c3e2e] fill-current drop-shadow-sm" viewBox="0 0 24 24">
+                            <div className="flex items-center relative overflow-visible py-2 px-1 pr-4">
+                                <div className="relative">
+                                    {/* Crown SVG positioned perfectly over the S */}
+                                    <svg className="absolute -top-[12px] right-[-2px] w-[20px] h-[14px] text-[#1c3e2e] fill-current drop-shadow-sm" viewBox="0 0 24 24">
                                         <path d="M3 16l-2-9 6 4.5L12 3l5 8.5 6-4.5-2 9H3zm-1-2h20v4H2v-4z" />
                                         <circle cx="1" cy="6" r="1.5" />
                                         <circle cx="7" cy="11.5" r="1.5" />
@@ -64,6 +57,12 @@ export function Header() {
                                         <circle cx="17" cy="11.5" r="1.5" />
                                         <circle cx="23" cy="6" r="1.5" />
                                     </svg>
+                                    <span className="text-[28px] font-serif font-black text-[#1c3e2e] tracking-tight drop-shadow-sm">
+                                        IELTS
+                                    </span>
+                                </div>
+
+                                <div className="relative ml-1.5">
                                     <span className="text-[28px] font-serif font-black text-[#1c3e2e] tracking-tight drop-shadow-sm">
                                         Wisdom
                                     </span>

@@ -51,17 +51,10 @@ export function Sidebar() {
                     </div>
 
                     {/* Expanded Logo (IELTS Wisdom with Crown) */}
-                    <div className="hidden group-hover:flex opacity-0 group-hover:opacity-100 transition-all duration-500 ease-in-out items-center relative w-[200px] overflow-hidden">
-                        {/* Beige background splash behind Wisdom */}
-                        <div className="absolute right-[12px] top-1/2 -translate-y-1/2 w-[80px] h-[36px] bg-[#fef4e3] rounded-[40%] -rotate-6 -z-10 mix-blend-multiply"></div>
-
-                        <span className="text-[28px] font-serif font-black text-[#1c3e2e] tracking-tight translate-x-[-10px] group-hover:translate-x-0 transition-transform duration-500 drop-shadow-sm">
-                            IELTS
-                        </span>
-
-                        <div className="relative ml-1.5 translate-x-[-10px] group-hover:translate-x-0 transition-transform duration-500 delay-75">
-                            {/* Crown SVG positioned perfectly over the W */}
-                            <svg className="absolute -top-[12px] left-[6px] w-[20px] h-[14px] text-[#1c3e2e] fill-current drop-shadow-sm" viewBox="0 0 24 24">
+                    <div className="hidden group-hover:flex opacity-0 group-hover:opacity-100 transition-all duration-500 ease-in-out items-center relative w-auto overflow-visible pr-4">
+                        <div className="relative translate-x-[-10px] group-hover:translate-x-0 transition-transform duration-500">
+                            {/* Crown SVG positioned perfectly over the S */}
+                            <svg className="absolute -top-[12px] right-[-2px] w-[20px] h-[14px] text-[#1c3e2e] fill-current drop-shadow-sm" viewBox="0 0 24 24">
                                 <path d="M3 16l-2-9 6 4.5L12 3l5 8.5 6-4.5-2 9H3zm-1-2h20v4H2v-4z" />
                                 <circle cx="1" cy="6" r="1.5" />
                                 <circle cx="7" cy="11.5" r="1.5" />
@@ -69,6 +62,12 @@ export function Sidebar() {
                                 <circle cx="17" cy="11.5" r="1.5" />
                                 <circle cx="23" cy="6" r="1.5" />
                             </svg>
+                            <span className="text-[28px] font-serif font-black text-[#1c3e2e] tracking-tight drop-shadow-sm">
+                                IELTS
+                            </span>
+                        </div>
+
+                        <div className="relative ml-1.5 translate-x-[-10px] group-hover:translate-x-0 transition-transform duration-500 delay-75">
                             <span className="text-[28px] font-serif font-black text-[#1c3e2e] tracking-tight drop-shadow-sm">
                                 Wisdom
                             </span>
