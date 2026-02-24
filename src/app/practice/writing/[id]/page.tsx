@@ -579,7 +579,7 @@ export default function WritingTestPage({ params }: { params: Promise<{ id: stri
                                     </div>
 
                                     {/* 4 Criteria Cards */}
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                    <div className="grid grid-cols-1 gap-3">
                                         {Object.values(result.criteria).map((criterion) => (
                                             <CriterionCard key={criterion.title} criterion={criterion} />
                                         ))}
