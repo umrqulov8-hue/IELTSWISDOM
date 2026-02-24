@@ -128,8 +128,8 @@ export default function MockExamsPage() {
                             transition={{ duration: 0.6, delay: index * 0.1, type: "spring", stiffness: 40 }}
                             className="rounded-[24px] p-6 md:p-8 relative overflow-hidden bg-white"
                             style={{
-                                // Clean white panel, very soft wide drop shadow, no border, no inset
-                                boxShadow: "0 15px 40px rgba(185, 200, 220, 0.4)"
+                                // Clean white panel, increased drop shadow for more depth
+                                boxShadow: "0 20px 50px rgba(170, 190, 210, 0.6)"
                             }}
                         >
                             {/* Section Header */}
@@ -163,8 +163,8 @@ export default function MockExamsPage() {
                                             whileHover={{ y: -4, transition: { duration: 0.3, ease: "easeOut" } }}
                                             className="rounded-[24px] p-6 md:p-9 flex flex-col items-center relative transition-all duration-500 bg-white group"
                                             style={{
-                                                // Clean white card, slightly more pronounced but soft shadow
-                                                boxShadow: "0 10px 30px rgba(185, 200, 220, 0.35)"
+                                                // Clean white card, increased shadow depth
+                                                boxShadow: "0 20px 45px rgba(175, 195, 215, 0.45)"
                                             }}
                                         >
                                             {/* Vibrant 3D Circular Icon */}
@@ -175,8 +175,8 @@ export default function MockExamsPage() {
                                                     config.circleBg
                                                 )}
                                                 style={{
-                                                    // Soft drop shadow and a subtle inner highlight to keep it looking 3D like a pill
-                                                    boxShadow: "0 8px 16px rgba(0,0,0,0.1), inset 0 3px 6px rgba(255,255,255,0.4)"
+                                                    // Stronger drop shadow for the icon to pop
+                                                    boxShadow: "0 12px 24px rgba(0,0,0,0.15), inset 0 3px 6px rgba(255,255,255,0.4)"
                                                 }}
                                             >
                                                 <div className="absolute top-[2px] left-[15%] right-[15%] h-[40%] bg-gradient-to-b from-white/40 to-transparent rounded-full pointer-events-none" />
@@ -212,8 +212,8 @@ export default function MockExamsPage() {
                                                 whileTap={{ scale: 0.97 }}
                                                 className="w-[85%] py-3.5 rounded-full text-[12px] font-bold flex items-center justify-center gap-2 relative overflow-hidden z-10 bg-white"
                                                 style={{
-                                                    // Very soft drop shadow, clean white
-                                                    boxShadow: "0 6px 15px rgba(185, 200, 220, 0.25)",
+                                                    // Clean white with stronger drop shadow
+                                                    boxShadow: "0 10px 25px rgba(175, 195, 215, 0.35)",
                                                     color: "#374151"
                                                 }}
                                             >
