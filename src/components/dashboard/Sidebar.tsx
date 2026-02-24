@@ -37,10 +37,10 @@ export function Sidebar() {
 
             {/* Logo Section */}
             <div className="px-6 py-8 flex items-center h-[88px] flex-shrink-0 whitespace-nowrap overflow-hidden">
-                <Link href="/dashboard" className="flex items-center gap-0 font-bold hover:opacity-80 transition-opacity relative w-full">
+                <Link href="/dashboard" className="flex items-center hover:opacity-80 transition-opacity relative w-full h-10">
 
                     {/* Collapsed Logo (Dark Green 'I') */}
-                    <div className="w-10 h-10 flex items-center justify-center bg-[#1c3e2e] rounded-xl text-white shadow-lg shadow-[#1c3e2e]/20 flex-shrink-0 group-hover:hidden transition-all duration-300 relative">
+                    <div className="absolute left-0 top-0 w-10 h-10 flex items-center justify-center bg-[#1c3e2e] rounded-xl text-white shadow-lg shadow-[#1c3e2e]/20 flex-shrink-0 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] opacity-100 scale-100 translate-x-0 group-hover:opacity-0 group-hover:scale-75 group-hover:-translate-x-4 origin-left pointer-events-auto group-hover:pointer-events-none">
                         {/* Tiny crown on top of the I */}
                         <svg className="absolute top-1.5 w-3 h-3 text-white/80 fill-current" viewBox="0 0 24 24">
                             <path d="M4 15l-2-9 5.5 4.5L12 3l4.5 7.5L22 6l-2 9H4z" />
@@ -52,7 +52,7 @@ export function Sidebar() {
                     </div>
 
                     {/* Expanded Logo (IELTS Wisdom with Crown) */}
-                    <div className="hidden group-hover:flex items-center relative w-auto overflow-visible pr-4">
+                    <div className="absolute left-0 top-1/2 -translate-y-1/2 flex items-center w-auto overflow-visible pr-4 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] opacity-0 scale-75 translate-x-4 group-hover:opacity-100 group-hover:scale-100 group-hover:translate-x-0 origin-left pointer-events-none group-hover:pointer-events-auto z-10">
                         <motion.div
                             className="relative flex items-center"
                             initial="hidden"
