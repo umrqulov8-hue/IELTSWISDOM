@@ -3,29 +3,16 @@
 import { use, useState, useEffect, useRef } from "react";
 import { LISTENING_TESTS } from "@/data/listening-tests";
 import type { ListeningPart } from "@/types/listening";
-import {
-    AlertCircle,
-    CheckCircle2,
-    ChevronLeft,
-    Play,
-    Headphones,
-    Clock,
-    BookOpen,
-    ChevronRight,
-    Volume2,
-} from "lucide-react";
+import { AlertCircle, CheckCircle2, ChevronLeft, Play, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 
 // ─────────────────────────────────────────────
-// Part Section Component
+// Part Section
 // ─────────────────────────────────────────────
 function ListeningPartSection({
-    part,
-    answers,
-    onAnswerChange,
-    isSubmitted,
+    part, answers, onAnswerChange, isSubmitted,
 }: {
     part: ListeningPart;
     answers: Record<string, string>;
@@ -37,107 +24,96 @@ function ListeningPartSection({
     useEffect(() => {
         const handleInput = (e: Event) => {
             if (isSubmitted) { e.preventDefault(); return; }
-            const target = e.target as HTMLInputElement;
-            if (target?.tagName === "INPUT" && target.id.startsWith("q-")) {
-                const questionId = target.id.replace("q-", "");
-                onAnswerChange(questionId, target.value);
-                target.classList.toggle("border-blue-500", target.value.trim() !== "");
-                target.classList.toggle("bg-blue-50/50", target.value.trim() !== "");
+            const t = e.target as HTMLInputElement;
+            if (t?.tagName === "INPUT" && t.id.startsWith("q-")) {
+                onAnswerChange(t.id.replace("q-", ""), t.value);
             }
         };
-        const container = contentRef.current;
-        container?.addEventListener("input", handleInput);
-        return () => container?.removeEventListener("input", handleInput);
+        const el = contentRef.current;
+        el?.addEventListener("input", handleInput);
+        return () => el?.removeEventListener("input", handleInput);
     }, [isSubmitted, onAnswerChange]);
 
     useEffect(() => {
-        const container = contentRef.current;
-        if (!container) return;
-        part.questions.filter((q) => q.type === "fill-blank").forEach((q) => {
-            const input = container.querySelector(`#q-${q.id}`) as HTMLInputElement;
+        const el = contentRef.current;
+        if (!el) return;
+        part.questions.filter(q => q.type === "fill-blank").forEach(q => {
+            const input = el.querySelector(`#q-${q.id}`) as HTMLInputElement;
             if (!input) return;
             input.value = answers[q.id.toString()] || "";
             input.disabled = isSubmitted;
             if (isSubmitted) {
-                const correct = input.value.trim().toLowerCase() === q.correctAnswer.toString().toLowerCase();
-                input.classList.toggle("border-green-500", correct);
-                input.classList.toggle("bg-green-50", correct);
-                input.classList.toggle("text-green-700", correct);
-                input.classList.toggle("border-red-500", !correct);
-                input.classList.toggle("bg-red-50", !correct);
-                input.classList.toggle("text-red-700", !correct);
-                if (!correct && !input.nextElementSibling?.classList.contains("correction")) {
-                    const span = document.createElement("span");
-                    span.className = "correction text-xs text-red-600 font-bold ml-2 bg-red-100 px-2 py-0.5 rounded";
-                    span.textContent = `✓ ${q.correctAnswer}`;
-                    input.parentNode?.insertBefore(span, input.nextSibling);
+                const ok = input.value.trim().toLowerCase() === q.correctAnswer.toString().toLowerCase();
+                input.style.borderBottom = ok ? "2px solid #22c55e" : "2px solid #ef4444";
+                input.style.color = ok ? "#15803d" : "#b91c1c";
+                if (!ok && !input.nextElementSibling?.classList.contains("corr")) {
+                    const sp = document.createElement("span");
+                    sp.className = "corr text-[11px] text-red-500 font-bold ml-1";
+                    sp.textContent = `✓${q.correctAnswer}`;
+                    input.parentNode?.insertBefore(sp, input.nextSibling);
                 }
             }
         });
     }, [isSubmitted, answers, part.questions]);
 
     return (
-        <div className="mb-8">
-            <div className="bg-[#2980b9] text-white px-5 py-3 rounded-t-xl font-bold text-base">
-                {part.title}
+        <div>
+            {/* Section header */}
+            <div className="flex items-baseline gap-4 mb-5">
+                <h2 className="text-2xl font-black text-slate-700 tracking-tight">{part.title}</h2>
+                <span className="text-base text-slate-400 font-medium">{part.instructions}</span>
             </div>
-            <div className="bg-[#eef5f9] border border-[#c8dff0] border-t-0 px-5 py-3 text-sm text-slate-700 rounded-b-xl mb-6">
-                {part.instructions}
-            </div>
-            <div className="px-1">
+
+            {/* Glass content card */}
+            <div className="glass-card rounded-2xl p-6 md:p-8 mb-6">
                 <div
                     ref={contentRef}
-                    className="prose prose-slate max-w-none text-slate-800"
+                    className="prose prose-slate max-w-none text-slate-700 prose-p:my-1 prose-li:my-1"
                     dangerouslySetInnerHTML={{ __html: part.content }}
                 />
-                {part.questions.filter((q) => q.type === "multiple-choice").length > 0 && (
-                    <div className="mt-8 space-y-6">
-                        {part.questions.filter((q) => q.type === "multiple-choice").map((q) => {
+
+                {/* Multiple choice */}
+                {part.questions.filter(q => q.type === "multiple-choice").length > 0 && (
+                    <div className="mt-8 space-y-5">
+                        {part.questions.filter(q => q.type === "multiple-choice").map(q => {
                             const isCorrect = isSubmitted && answers[q.id.toString()] === q.correctAnswer.toString();
                             const isWrong = isSubmitted && answers[q.id.toString()] !== q.correctAnswer.toString();
                             return (
                                 <div key={q.id} className={cn(
-                                    "p-5 rounded-xl border-2",
-                                    isCorrect ? "border-green-300 bg-green-50/30" :
-                                        isWrong ? "border-red-300 bg-red-50/30" :
-                                            "border-slate-100 bg-slate-50/50"
+                                    "p-4 rounded-xl border backdrop-blur-sm transition-colors",
+                                    isCorrect ? "border-green-300/60 bg-green-50/40" :
+                                        isWrong ? "border-red-300/60 bg-red-50/40" :
+                                            "border-white/40 bg-white/20"
                                 )}>
-                                    <h4 className="font-bold text-base mb-4 flex gap-3">
-                                        <span className={cn(
-                                            "flex-none w-8 h-8 flex items-center justify-center rounded-lg text-sm bg-white border",
-                                            isCorrect ? "text-green-700 border-green-300" :
-                                                isWrong ? "text-red-700 border-red-300" :
-                                                    "text-slate-700 border-slate-300"
-                                        )}>{q.id}</span>
-                                        <span className="leading-tight pt-1">{q.text}</span>
-                                    </h4>
-                                    <div className="space-y-2.5 pl-11">
+                                    <p className="font-bold text-slate-700 mb-3 flex gap-2">
+                                        <span className="text-slate-400 font-mono text-sm mt-0.5">{q.id}.</span>
+                                        {q.text}
+                                    </p>
+                                    <div className="space-y-2 pl-5">
                                         {q.options?.map((opt, idx) => {
-                                            const isSelected = answers[q.id.toString()] === idx.toString();
-                                            const isCorrectOpt = idx.toString() === q.correctAnswer.toString();
+                                            const sel = answers[q.id.toString()] === idx.toString();
+                                            const correctOpt = idx.toString() === q.correctAnswer.toString();
                                             return (
                                                 <label key={idx} className={cn(
-                                                    "flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-all",
-                                                    isSelected && !isSubmitted ? "bg-blue-50 border-blue-300 shadow-sm" : "bg-white border-slate-200 hover:border-blue-200",
-                                                    isSubmitted && isCorrectOpt ? "bg-green-100 border-green-400" : "",
-                                                    isSubmitted && isSelected && !isCorrectOpt ? "bg-red-100 border-red-400" : ""
+                                                    "flex items-center gap-3 p-2.5 rounded-xl border cursor-pointer transition-all text-sm",
+                                                    sel && !isSubmitted ? "bg-white/60 border-slate-300 shadow-sm" : "bg-white/20 border-white/30 hover:bg-white/40",
+                                                    isSubmitted && correctOpt ? "bg-green-100/50 border-green-300" : "",
+                                                    isSubmitted && sel && !correctOpt ? "bg-red-100/50 border-red-300" : "",
                                                 )}>
                                                     <div className={cn(
-                                                        "w-5 h-5 rounded-full border flex items-center justify-center flex-shrink-0",
-                                                        isSelected ? "border-blue-600 bg-blue-600" : "border-slate-300",
-                                                        isSubmitted && isCorrectOpt ? "border-green-600 bg-green-600" : "",
-                                                        isSubmitted && isSelected && !isCorrectOpt ? "border-red-600 bg-red-600" : ""
+                                                        "w-4 h-4 rounded-full border-2 flex items-center justify-center flex-shrink-0",
+                                                        sel ? "border-slate-600 bg-slate-600" : "border-slate-300",
+                                                        isSubmitted && correctOpt ? "border-green-500 bg-green-500" : "",
+                                                        isSubmitted && sel && !correctOpt ? "border-red-500 bg-red-500" : "",
                                                     )}>
-                                                        {(isSelected || (isSubmitted && isCorrectOpt)) && (
-                                                            <div className="w-2 h-2 bg-white rounded-full" />
-                                                        )}
+                                                        {(sel || (isSubmitted && correctOpt)) && <div className="w-1.5 h-1.5 bg-white rounded-full" />}
                                                     </div>
                                                     <input type="radio" name={`q-${q.id}`} className="hidden"
-                                                        checked={isSelected}
+                                                        checked={sel}
                                                         onChange={() => !isSubmitted && onAnswerChange(q.id.toString(), idx.toString())}
                                                     />
-                                                    <span className="font-medium text-sm text-slate-700">
-                                                        <span className="mr-2 font-bold opacity-40">{String.fromCharCode(65 + idx)}.</span>
+                                                    <span className="text-slate-700">
+                                                        <span className="text-slate-400 mr-1 font-semibold">{String.fromCharCode(65 + idx)}.</span>
                                                         {opt}
                                                     </span>
                                                 </label>
@@ -168,13 +144,13 @@ export default function ListeningTestPage({ params }: { params: Promise<{ id: st
     const [score, setScore] = useState(0);
 
     const handleAnswerChange = (id: string, value: string) =>
-        setAnswers((prev) => ({ ...prev, [id]: value }));
+        setAnswers(p => ({ ...p, [id]: value }));
 
     const handleSubmit = () => {
         if (!testData) return;
         let s = 0;
-        testData.parts.forEach((part) =>
-            part.questions.forEach((q) => {
+        testData.parts.forEach(part =>
+            part.questions.forEach(q => {
                 const ua = answers[q.id.toString()];
                 if (!ua) return;
                 if (q.type === "fill-blank" && ua.trim().toLowerCase() === q.correctAnswer.toString().toLowerCase()) s++;
@@ -188,283 +164,375 @@ export default function ListeningTestPage({ params }: { params: Promise<{ id: st
 
     if (!testData) {
         return (
-            <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center text-center p-4">
-                <AlertCircle className="w-14 h-14 text-red-400 mb-4" />
-                <h2 className="text-2xl font-bold text-slate-800 mb-2">Test Not Found</h2>
-                <Link href="/practice/listening">
-                    <button className="mt-6 px-6 py-3 bg-purple-600 text-white rounded-xl font-bold">
-                        ← Return to Library
-                    </button>
-                </Link>
+            <div className="min-h-screen flex items-center justify-center bg-slate-50 p-4 text-center">
+                <div>
+                    <AlertCircle className="w-14 h-14 text-red-400 mx-auto mb-4" />
+                    <h2 className="text-2xl font-bold text-slate-800 mb-2">Test Not Found</h2>
+                    <Link href="/practice/listening">
+                        <button className="mt-6 px-6 py-3 bg-slate-800 text-white rounded-xl font-bold">← Back</button>
+                    </Link>
+                </div>
             </div>
         );
     }
 
-    const totalQuestions = testData.parts.reduce((a, p) => a + p.questions.length, 0);
+    const totalQ = testData.parts.reduce((a, p) => a + p.questions.length, 0);
     const currentPart = testData.parts[currentPartIndex];
-    const answeredCount = Object.values(answers).filter((v) => v !== "").length;
+    const answeredCount = Object.values(answers).filter(v => v !== "").length;
 
-    // ── PRE-START SCREEN ──────────────────────────────────────────────────
+    // ── PRE-START ──────────────────────────────────────────────────────
     if (!started) {
         return (
-            <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex flex-col">
-                {/* Top bar */}
-                <div className="sticky top-0 z-30 bg-white/80 backdrop-blur border-b border-slate-200 px-4 py-3 flex items-center gap-3 shadow-sm">
+            <div className="liquid-bg min-h-screen flex flex-col">
+                <div className="glass-topbar sticky top-0 z-30 px-5 py-3 flex items-center gap-3">
                     <Link href="/practice/listening">
                         <button className="flex items-center gap-1.5 text-slate-500 hover:text-slate-800 text-sm font-medium transition-colors">
                             <ChevronLeft className="w-4 h-4" /> Back
                         </button>
                     </Link>
                     <span className="text-slate-300">|</span>
-                    <span className="font-bold text-slate-800 text-sm">{testData.title}</span>
+                    <span className="font-bold text-slate-700 text-sm">{testData.title}</span>
                 </div>
 
                 <div className="flex-1 flex items-center justify-center p-6">
                     <motion.div
-                        initial={{ opacity: 0, scale: 0.95, y: 20 }}
-                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                        initial={{ opacity: 0, y: 20, scale: 0.96 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
                         transition={{ duration: 0.5 }}
-                        className="w-full max-w-xl"
+                        className="w-full max-w-md"
                     >
-                        {/* Card */}
-                        <div className="bg-white rounded-3xl shadow-2xl overflow-hidden border border-slate-100">
-                            {/* Gradient top */}
-                            <div className="bg-gradient-to-br from-[#1a1060] via-[#2d1b8e] to-[#4c1d95] p-10 text-center relative overflow-hidden">
-                                <div className="absolute inset-0 opacity-10"
-                                    style={{ backgroundImage: "radial-gradient(circle, white 1px, transparent 1px)", backgroundSize: "24px 24px" }}
-                                />
-                                <div className="relative z-10">
-                                    <div className="w-20 h-20 bg-white/10 border border-white/20 rounded-2xl flex items-center justify-center mx-auto mb-5 backdrop-blur">
-                                        <Headphones className="w-10 h-10 text-white" />
-                                    </div>
-                                    <h1 className="text-2xl md:text-3xl font-extrabold text-white mb-2">{testData.title}</h1>
-                                    <p className="text-purple-200 text-sm">IELTS Academic · Listening Section</p>
+                        <div className="glass-card rounded-3xl overflow-hidden shadow-2xl">
+                            <div className="p-8 text-center border-b border-white/30">
+                                <div className="w-16 h-16 glass-pill rounded-2xl flex items-center justify-center mx-auto mb-4">
+                                    <span className="text-3xl">🎧</span>
                                 </div>
+                                <h1 className="text-xl font-extrabold text-slate-800 mb-1">{testData.title}</h1>
+                                <p className="text-slate-500 text-sm">IELTS Academic · Listening</p>
                             </div>
 
-                            {/* Info grid */}
-                            <div className="grid grid-cols-3 divide-x divide-slate-100 border-b border-slate-100">
-                                {[
-                                    { icon: Clock, label: "Duration", value: "~30 min" },
-                                    { icon: BookOpen, label: "Questions", value: "40" },
-                                    { icon: Volume2, label: "Sections", value: `${testData.parts.length}` },
-                                ].map(({ icon: Icon, label, value }) => (
-                                    <div key={label} className="py-5 text-center">
-                                        <Icon className="w-5 h-5 text-purple-400 mx-auto mb-1.5" />
-                                        <div className="text-xl font-extrabold text-slate-800">{value}</div>
-                                        <div className="text-[11px] text-slate-400 font-medium">{label}</div>
+                            <div className="grid grid-cols-3 divide-x divide-white/30 border-b border-white/30">
+                                {[["~30 min", "Duration"], ["40", "Questions"], [`${testData.parts.length}`, "Sections"]].map(([v, l]) => (
+                                    <div key={l} className="py-4 text-center">
+                                        <div className="text-2xl font-black text-slate-800">{v}</div>
+                                        <div className="text-[11px] text-slate-400 font-medium">{l}</div>
                                     </div>
                                 ))}
                             </div>
 
-                            {/* Instructions */}
-                            <div className="p-6 space-y-3">
-                                <p className="text-slate-500 text-sm font-medium mb-4">Before you begin:</p>
-                                {[
-                                    "Listen carefully — audio plays only once in the real exam",
-                                    "Complete all 4 sections in order",
-                                    "Fill in blanks with ONE WORD AND/OR A NUMBER unless stated otherwise",
-                                    "You can submit your answers at the end of Part 4",
-                                ].map((tip, i) => (
-                                    <div key={i} className="flex items-start gap-3">
-                                        <div className="w-5 h-5 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center flex-shrink-0 mt-0.5 text-[10px] font-bold">
-                                            {i + 1}
+                            <div className="p-6 space-y-2.5">
+                                {["Listen once — pay attention to every detail",
+                                    "Complete 4 sections with 10 questions each",
+                                    "ONE WORD AND/OR A NUMBER unless stated"].map((tip, i) => (
+                                        <div key={i} className="flex items-start gap-2.5">
+                                            <span className="w-5 h-5 glass-pill rounded-full flex items-center justify-center text-[10px] font-bold text-slate-600 flex-shrink-0 mt-0.5">{i + 1}</span>
+                                            <p className="text-sm text-slate-600">{tip}</p>
                                         </div>
-                                        <p className="text-sm text-slate-600">{tip}</p>
-                                    </div>
-                                ))}
+                                    ))}
                             </div>
 
-                            {/* CTA */}
                             <div className="px-6 pb-6">
                                 <button
                                     onClick={() => setStarted(true)}
-                                    className="w-full py-4 bg-gradient-to-r from-purple-600 to-violet-600 hover:from-purple-700 hover:to-violet-700 text-white font-bold text-base rounded-2xl shadow-lg shadow-purple-400/30 transition-all duration-200 flex items-center justify-center gap-3 group"
+                                    className="w-full py-4 glass-pill-dark rounded-2xl font-bold text-base text-white transition-all flex items-center justify-center gap-3 group shadow-lg"
                                 >
                                     <Play className="w-5 h-5 fill-white group-hover:scale-110 transition-transform" />
                                     Start Test
-                                    <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                                    <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                                 </button>
-                                <p className="text-center text-xs text-slate-400 mt-3">
-                                    Audio player will appear after you start
-                                </p>
+                                <p className="text-center text-xs text-slate-400 mt-2.5">Audio player appears after you start</p>
                             </div>
                         </div>
                     </motion.div>
                 </div>
+
+                <style>{liquidStyles}</style>
             </div>
         );
     }
 
-    // ── TEST SCREEN ───────────────────────────────────────────────────────
+    // ── TEST SCREEN ────────────────────────────────────────────────────
     return (
-        <div className="min-h-screen bg-[#f1f5f9] flex flex-col font-sans pb-32">
+        <div className="liquid-bg min-h-screen flex flex-col pb-28">
+
+            {/* Global styles */}
+            <style>{liquidStyles}</style>
+
             {/* Top bar */}
-            <div className="sticky top-0 z-30 bg-white border-b border-slate-200 shadow-sm flex items-center justify-between px-4 py-2.5">
+            <div className="glass-topbar sticky top-0 z-30 px-5 py-3 flex items-center justify-between">
                 <div className="flex items-center gap-3">
                     <Link href="/practice/listening">
-                        <button className="flex items-center gap-1.5 text-slate-500 hover:text-slate-800 transition-colors text-sm font-medium">
+                        <button className="flex items-center gap-1.5 text-slate-500 hover:text-slate-800 text-sm font-medium">
                             <ChevronLeft className="w-4 h-4" /> Back
                         </button>
                     </Link>
                     <span className="text-slate-300 text-sm">|</span>
-                    <h1 className="font-bold text-slate-800 text-sm">{testData.title}</h1>
+                    <span className="font-bold text-slate-700 text-sm">{testData.title}</span>
                 </div>
-                <div className="text-xs text-slate-400 font-medium hidden sm:block">
-                    {answeredCount}/{totalQuestions} answered
-                </div>
+                <span className="text-xs text-slate-400 font-medium">{answeredCount}/{totalQ}</span>
             </div>
 
-            <main className="flex-1 max-w-[900px] w-full mx-auto px-4 md:px-6 py-6">
+            <main className="flex-1 max-w-[860px] w-full mx-auto px-4 md:px-6 py-6 space-y-5">
 
-                {/* Score banner */}
+                {/* Score */}
                 <AnimatePresence>
                     {isSubmitted && (
                         <motion.div
-                            initial={{ opacity: 0, y: -10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            className="bg-white border-2 border-green-500 p-6 rounded-2xl mb-6 shadow-sm text-center"
+                            initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
+                            className="glass-card rounded-2xl p-6 text-center"
                         >
-                            <CheckCircle2 className="w-12 h-12 text-green-500 mx-auto mb-3" />
-                            <h2 className="text-2xl font-bold text-slate-800 mb-1">Test Completed!</h2>
-                            <p className="text-slate-400 text-sm mb-4">{testData.title}</p>
-                            <div className="text-5xl font-black text-green-600 mb-1">
-                                {score} <span className="text-2xl text-slate-400">/ {totalQuestions}</span>
+                            <CheckCircle2 className="w-10 h-10 text-green-500 mx-auto mb-2" />
+                            <h2 className="text-xl font-bold text-slate-800 mb-1">Test Completed!</h2>
+                            <div className="text-4xl font-black text-slate-800 my-2">
+                                {score} <span className="text-xl text-slate-400">/ {totalQ}</span>
                             </div>
-                            <p className="font-bold text-slate-600 text-sm">
-                                Accuracy: {Math.round((score / totalQuestions) * 100)}%
-                            </p>
+                            <p className="text-slate-500 text-sm">Accuracy: {Math.round((score / totalQ) * 100)}%</p>
                         </motion.div>
                     )}
                 </AnimatePresence>
 
-                {/* Audio Player — shown only after start */}
-                <AnimatePresence>
-                    {started && (
-                        <motion.div
-                            initial={{ opacity: 0, y: -8 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            className="bg-[#2c3a4a] rounded-2xl shadow-lg px-6 py-5 mb-6"
-                        >
-                            <p className="text-white/50 text-xs text-center mb-2 font-medium tracking-wide uppercase">
-                                Audio Player
-                            </p>
-                            {currentPart.audioUrl ? (
-                                <audio
-                                    key={currentPart.audioUrl}
-                                    controls
-                                    src={currentPart.audioUrl}
-                                    className="w-full max-w-2xl mx-auto block h-10 mb-2"
-                                    preload="metadata"
-                                />
-                            ) : (
-                                <p className="text-white/30 text-sm text-center mb-2 italic">No audio for this section</p>
-                            )}
-                            <p className="text-white/50 text-xs text-center">Playing: {currentPart.title}</p>
-                        </motion.div>
+                {/* Audio Player */}
+                <motion.div
+                    initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }}
+                    className="glass-audio rounded-2xl px-6 py-4"
+                >
+                    <p className="text-slate-400 text-[10px] uppercase tracking-widest text-center mb-2 font-semibold">
+                        Audio Player
+                    </p>
+                    {currentPart.audioUrl ? (
+                        <audio
+                            key={currentPart.audioUrl}
+                            controls
+                            src={currentPart.audioUrl}
+                            className="w-full max-w-2xl mx-auto block h-9"
+                            preload="metadata"
+                        />
+                    ) : (
+                        <p className="text-slate-400 text-sm text-center italic">No audio for this section</p>
                     )}
-                </AnimatePresence>
+                    <p className="text-slate-400 text-xs text-center mt-2">Playing: {currentPart.title}</p>
+                </motion.div>
 
                 {/* Questions */}
-                <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-5 md:p-7">
-                    <ListeningPartSection
-                        part={currentPart}
-                        answers={answers}
-                        onAnswerChange={handleAnswerChange}
-                        isSubmitted={isSubmitted}
-                    />
+                <AnimatePresence mode="wait">
+                    <motion.div
+                        key={currentPartIndex}
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: -20 }}
+                        transition={{ duration: 0.25 }}
+                    >
+                        <ListeningPartSection
+                            part={currentPart}
+                            answers={answers}
+                            onAnswerChange={handleAnswerChange}
+                            isSubmitted={isSubmitted}
+                        />
+                    </motion.div>
+                </AnimatePresence>
 
-                    {/* Nav buttons */}
-                    <div className="flex justify-between items-center mt-10 pt-5 border-t border-slate-100">
+                {/* Nav buttons */}
+                <div className="flex justify-between items-center pt-2">
+                    <button
+                        onClick={() => setCurrentPartIndex(i => Math.max(0, i - 1))}
+                        disabled={currentPartIndex === 0}
+                        className="glass-pill px-5 py-2.5 rounded-2xl text-sm font-semibold text-slate-600 disabled:opacity-30 transition-all"
+                    >
+                        ← Previous
+                    </button>
+                    {currentPartIndex < testData.parts.length - 1 ? (
                         <button
-                            onClick={() => setCurrentPartIndex((i) => Math.max(0, i - 1))}
-                            disabled={currentPartIndex === 0}
-                            className="bg-slate-100 hover:bg-slate-200 disabled:opacity-40 disabled:cursor-not-allowed text-slate-700 font-semibold px-5 py-2.5 rounded-xl transition-all text-sm flex items-center gap-1.5"
+                            onClick={() => setCurrentPartIndex(i => Math.min(testData.parts.length - 1, i + 1))}
+                            className="glass-pill-dark px-5 py-2.5 rounded-2xl text-sm font-bold text-white transition-all"
                         >
-                            ← Previous
+                            Next Part →
                         </button>
-                        {currentPartIndex < testData.parts.length - 1 ? (
-                            <button
-                                onClick={() => setCurrentPartIndex((i) => Math.min(testData.parts.length - 1, i + 1))}
-                                className="bg-[#2980b9] hover:bg-[#2471a3] text-white font-semibold px-5 py-2.5 rounded-xl transition-all text-sm flex items-center gap-1.5"
-                            >
-                                Next Part →
-                            </button>
-                        ) : (
-                            <button
-                                onClick={handleSubmit}
-                                disabled={isSubmitted}
-                                className="bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600 disabled:from-slate-300 disabled:to-slate-300 disabled:cursor-not-allowed text-white font-bold px-6 py-2.5 rounded-xl transition-all text-sm shadow-md"
-                            >
-                                {isSubmitted ? "Submitted ✓" : "Submit Test"}
-                            </button>
-                        )}
-                    </div>
+                    ) : (
+                        <button
+                            onClick={handleSubmit}
+                            disabled={isSubmitted}
+                            className="glass-pill-dark px-6 py-2.5 rounded-2xl text-sm font-bold text-white disabled:opacity-40 transition-all"
+                        >
+                            {isSubmitted ? "Submitted ✓" : "Submit Test"}
+                        </button>
+                    )}
                 </div>
             </main>
 
-            {/* ── Fixed bottom nav ── */}
-            <div className="fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-slate-200 shadow-[0_-4px_20px_rgba(0,0,0,0.06)]">
-                <div className="max-w-[900px] mx-auto px-4 py-2.5 flex items-center justify-between gap-2">
-                    {/* Part tabs */}
-                    <div className="flex items-center gap-1.5 flex-wrap">
+            {/* ── Bottom Nav ── */}
+            <div className="glass-bottombar fixed bottom-0 left-0 right-0 z-40 px-4 py-3">
+                <div className="max-w-[860px] mx-auto flex items-center justify-between gap-3">
+                    {/* Part pills */}
+                    <div className="flex gap-2 flex-wrap">
                         {testData.parts.map((part, pIdx) => {
-                            const partQIds = part.questions.map((q) => q.id.toString());
-                            const answered = partQIds.filter((id) => answers[id] && answers[id] !== "").length;
+                            const pIds = part.questions.map(q => q.id.toString());
+                            const answered = pIds.filter(id => answers[id] && answers[id] !== "").length;
                             const isActive = pIdx === currentPartIndex;
                             return (
                                 <button
                                     key={part.id}
                                     onClick={() => setCurrentPartIndex(pIdx)}
                                     className={cn(
-                                        "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all border",
+                                        "px-4 py-2 rounded-2xl text-sm font-bold transition-all border",
                                         isActive
-                                            ? "bg-[#2980b9] text-white border-[#2980b9] shadow-sm"
-                                            : "bg-white text-slate-500 border-slate-200 hover:border-[#2980b9] hover:text-[#2980b9]"
+                                            ? "glass-pill-dark text-white border-transparent shadow-md"
+                                            : "glass-pill text-slate-600 border-white/40 hover:border-white/70"
                                     )}
                                 >
-                                    {part.title.replace("SECTION ", "Part ")}
-                                    <span className={cn(
-                                        "text-[10px] font-bold px-1.5 py-0.5 rounded-full",
-                                        isActive ? "bg-white/20 text-white" : "bg-slate-100 text-slate-400"
-                                    )}>
-                                        {answered}/{partQIds.length}
-                                    </span>
+                                    Part {pIdx + 1}
+                                    {answered > 0 && (
+                                        <span className={cn("ml-1.5 text-[10px]", isActive ? "text-white/70" : "text-slate-400")}>
+                                            {answered}/{pIds.length}
+                                        </span>
+                                    )}
                                 </button>
                             );
                         })}
                     </div>
 
                     {/* Question dots */}
-                    <div className="flex items-center gap-0.5 flex-wrap justify-end max-w-[55%]">
-                        {currentPart.questions.map((q) => {
+                    <div className="flex items-center gap-1 flex-wrap justify-end">
+                        {currentPart.questions.map(q => {
                             const answered = answers[q.id.toString()] && answers[q.id.toString()] !== "";
-                            let dot = "bg-slate-200";
+                            let cls = "bg-white/40 text-slate-400 border border-white/50";
                             if (isSubmitted) {
-                                const correct = q.type === "fill-blank"
+                                const ok = q.type === "fill-blank"
                                     ? answers[q.id.toString()]?.trim().toLowerCase() === q.correctAnswer.toString().toLowerCase()
                                     : answers[q.id.toString()] === q.correctAnswer.toString();
-                                dot = correct ? "bg-emerald-500" : "bg-red-400";
+                                cls = ok ? "bg-green-400/80 text-white border-green-300" : "bg-red-400/80 text-white border-red-300";
                             } else if (answered) {
-                                dot = "bg-[#2980b9]";
+                                cls = "bg-slate-600/70 text-white border-slate-500/50";
                             }
                             return (
                                 <div key={q.id} title={`Q${q.id}`}
-                                    className={cn("w-5 h-5 rounded-full flex items-center justify-center text-[9px] font-bold text-white transition-colors", dot)}>
+                                    className={cn("w-6 h-6 rounded-full flex items-center justify-center text-[9px] font-bold backdrop-blur-sm transition-all", cls)}>
                                     {q.id}
                                 </div>
                             );
                         })}
                     </div>
                 </div>
+
                 {/* Progress */}
-                <div className="h-1 bg-slate-100">
+                <div className="max-w-[860px] mx-auto mt-2.5 h-1 bg-white/20 rounded-full overflow-hidden">
                     <div
-                        className="h-full bg-gradient-to-r from-purple-500 to-violet-500 transition-all duration-500"
-                        style={{ width: `${totalQuestions ? (answeredCount / totalQuestions) * 100 : 0}%` }}
+                        className="h-full bg-gradient-to-r from-slate-500 to-slate-700 rounded-full transition-all duration-500"
+                        style={{ width: `${totalQ ? (answeredCount / totalQ) * 100 : 0}%` }}
                     />
                 </div>
             </div>
         </div>
     );
 }
+
+// ─────────────────────────────────────────────
+// Styles
+// ─────────────────────────────────────────────
+const liquidStyles = `
+  /* Liquid silver background */
+  .liquid-bg {
+    background: linear-gradient(135deg, #e8edf2 0%, #d4dce8 25%, #e2e8ef 50%, #cdd5e0 75%, #dde4ec 100%);
+    position: relative;
+    overflow-x: hidden;
+  }
+  .liquid-bg::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 70% 50% at 15% 30%, rgba(200,210,230,0.6) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 70% at 80% 70%, rgba(180,195,220,0.5) 0%, transparent 55%),
+      radial-gradient(ellipse 80% 40% at 50% 10%, rgba(220,228,240,0.7) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 60% at 90% 20%, rgba(185,200,225,0.4) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .liquid-bg::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 50% 30% at 20% 80%, rgba(210,220,240,0.5) 0%, transparent 50%),
+      radial-gradient(ellipse 60% 50% at 70% 40%, rgba(195,210,230,0.35) 0%, transparent 55%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .liquid-bg > * { position: relative; z-index: 1; }
+
+  /* Glass card */
+  .glass-card {
+    background: rgba(255,255,255,0.45);
+    backdrop-filter: blur(20px) saturate(1.4);
+    -webkit-backdrop-filter: blur(20px) saturate(1.4);
+    border: 1px solid rgba(255,255,255,0.65);
+    box-shadow: 0 8px 32px rgba(100,120,160,0.08), inset 0 1px 0 rgba(255,255,255,0.8);
+  }
+
+  /* Audio player glass */
+  .glass-audio {
+    background: rgba(255,255,255,0.5);
+    backdrop-filter: blur(24px) saturate(1.5);
+    -webkit-backdrop-filter: blur(24px) saturate(1.5);
+    border: 1px solid rgba(255,255,255,0.7);
+    box-shadow: 0 4px 20px rgba(100,120,160,0.08), inset 0 1px 0 rgba(255,255,255,0.9);
+  }
+
+  /* Top bar glass */
+  .glass-topbar {
+    background: rgba(255,255,255,0.55);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255,255,255,0.6);
+    box-shadow: 0 1px 12px rgba(100,120,160,0.06);
+  }
+
+  /* Bottom bar glass */
+  .glass-bottombar {
+    background: rgba(240,245,252,0.75);
+    backdrop-filter: blur(28px) saturate(1.6);
+    -webkit-backdrop-filter: blur(28px) saturate(1.6);
+    border-top: 1px solid rgba(255,255,255,0.7);
+    box-shadow: 0 -4px 24px rgba(100,120,160,0.08);
+  }
+
+  /* Pill glass (light) */
+  .glass-pill {
+    background: rgba(255,255,255,0.5);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 2px 8px rgba(100,120,160,0.06), inset 0 1px 0 rgba(255,255,255,0.8);
+    transition: all 0.2s;
+  }
+  .glass-pill:hover {
+    background: rgba(255,255,255,0.7);
+    box-shadow: 0 4px 16px rgba(100,120,160,0.1);
+  }
+
+  /* Pill glass (dark) */
+  .glass-pill-dark {
+    background: linear-gradient(135deg, rgba(60,70,90,0.85) 0%, rgba(40,50,70,0.9) 100%);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 4px 20px rgba(40,50,80,0.25), inset 0 1px 0 rgba(255,255,255,0.1);
+    transition: all 0.2s;
+  }
+  .glass-pill-dark:hover {
+    background: linear-gradient(135deg, rgba(70,80,105,0.9) 0%, rgba(50,60,85,0.95) 100%);
+    box-shadow: 0 6px 24px rgba(40,50,80,0.35);
+    transform: translateY(-1px);
+  }
+
+  /* Prose input styling */
+  .prose input[type="text"] {
+    border: none;
+    border-bottom: 1.5px solid rgba(100,120,160,0.4);
+    background: transparent;
+    outline: none;
+    padding: 0 4px;
+    font-weight: 600;
+    color: #1e293b;
+    transition: border-color 0.2s;
+  }
+  .prose input[type="text"]:focus {
+    border-bottom-color: rgba(60,80,120,0.7);
+  }
+`;
