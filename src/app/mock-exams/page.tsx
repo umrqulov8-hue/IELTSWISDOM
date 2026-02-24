@@ -77,26 +77,21 @@ export default function MockExamsPage() {
     const SECTION_CONFIG = {
         listening: {
             icon: Headphones,
-            borderColor: "border-[#40c0e7]/40",
-            iconColor: "text-[#008CC9]",
-            // 3D glossy gradient background for the icon container
-            iconBg: "bg-gradient-to-br from-cyan-50 via-cyan-100 to-cyan-200 shadow-[inset_0_2px_4px_rgba(255,255,255,0.8),_0_4px_10px_rgba(0,140,201,0.2)]",
-            // Gradient button
-            btnColor: "bg-gradient-to-r from-[#008CC9] to-[#00A9F4] hover:from-[#007AB0] hover:to-[#008CC9] shadow-[0_4px_12px_rgba(0,140,201,0.3)] text-white shadow-inner"
+            // Solid vibrant blue gradient for the circular icon background
+            circleBg: "bg-gradient-to-br from-[#1ea2e6] to-[#016baa]",
+            iconColor: "text-white"
         },
         reading: {
             icon: BookOpen,
-            borderColor: "border-[#25BFA2]/40",
-            iconColor: "text-[#00965E]",
-            iconBg: "bg-gradient-to-br from-emerald-50 via-emerald-100 to-emerald-200 shadow-[inset_0_2px_4px_rgba(255,255,255,0.8),_0_4px_10px_rgba(0,150,94,0.2)]",
-            btnColor: "bg-gradient-to-r from-[#00965E] to-[#25BFA2] hover:from-[#007F50] hover:to-[#00965E] shadow-[0_4px_12px_rgba(0,150,94,0.3)] text-white shadow-inner"
+            // Solid vibrant green gradient
+            circleBg: "bg-gradient-to-br from-[#2ed184] to-[#01904a]",
+            iconColor: "text-white"
         },
         writing: {
             icon: Pencil,
-            borderColor: "border-[#F05A28]/40",
-            iconColor: "text-[#D4481C]",
-            iconBg: "bg-gradient-to-br from-orange-50 via-orange-100 to-orange-200 shadow-[inset_0_2px_4px_rgba(255,255,255,0.8),_0_4px_10px_rgba(240,90,40,0.2)]",
-            btnColor: "bg-gradient-to-r from-[#F05A28] to-[#FF8C61] hover:from-[#D4481C] hover:to-[#F05A28] shadow-[0_4px_12px_rgba(240,90,40,0.3)] text-white shadow-inner"
+            // Solid vibrant orange gradient
+            circleBg: "bg-gradient-to-br from-[#fc9b44] to-[#d65f04]",
+            iconColor: "text-white"
         }
     };
 
@@ -105,46 +100,56 @@ export default function MockExamsPage() {
             title="Full Mock Exams"
             description="Experience the real IELTS test environment with our complete mock exams."
         >
-            {/* Soft background gradient for the page */}
-            <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-slate-100/50 -z-10" />
+            {/* Liquid milky background */}
+            <div className="absolute inset-0 bg-[#f4f7f9] overflow-hidden -z-20">
+                {/* Simulated liquid ripples in the background using large blurred shapes */}
+                <div className="absolute top-[-10%] left-[-10%] w-[60vw] h-[60vw] rounded-full bg-white opacity-60 blur-[100px]" />
+                <div className="absolute bottom-[-20%] right-[-10%] w-[70vw] h-[70vw] rounded-full bg-white opacity-80 blur-[120px]" />
+                <div className="absolute top-[30%] left-[60%] w-[40vw] h-[40vw] rounded-full bg-[#e8eef3] opacity-50 blur-[80px]" />
+            </div>
 
-            <div className="max-w-6xl mx-auto space-y-12 relative z-10">
+            <div className="max-w-[1200px] mx-auto px-4 md:px-8 space-y-12 relative z-10 pt-4 pb-16">
 
                 {/* --- Header --- */}
                 <motion.div
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
-                    className="text-center mb-12 mt-4"
+                    className="text-center mb-14"
                 >
-                    <h1 className="text-3xl md:text-[2.75rem] font-black tracking-tight text-[#111827] leading-tight">
-                        Actual Tests <span className="text-[#00A651]">to Academic Library</span>
+                    <h1 className="text-3xl md:text-[2.5rem] font-bold tracking-tight text-[#111827] flex justify-center gap-2 flex-wrap">
+                        Actual Tests <span className="text-[#2ebc82]">to Academic Library</span>
                     </h1>
-                    <p className="text-slate-500 text-sm md:text-base mt-3 font-medium">Actual Tests Academic collections for three skills.</p>
+                    <p className="text-[#8492a6] text-[13px] md:text-sm mt-2 font-medium">Actual Tests Academic collections for three skills</p>
                 </motion.div>
 
                 {/* --- Tests List --- */}
-                <div className="space-y-8">
+                <div className="space-y-10">
                     {MOCK_TESTS.map((test, index) => (
                         <motion.div
                             key={test.id}
                             initial={{ opacity: 0, y: 30 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.5, delay: index * 0.1, type: "spring", stiffness: 50 }}
-                            className="bg-white rounded-3xl p-6 md:p-10 border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] relative overflow-hidden"
+                            className="rounded-3xl p-6 md:p-8 relative overflow-hidden"
+                            style={{
+                                // Frosted glass outer panel
+                                background: "rgba(251, 252, 253, 0.7)",
+                                backdropFilter: "blur(24px)",
+                                WebkitBackdropFilter: "blur(24px)",
+                                border: "1px solid rgba(255,255,255,0.9)",
+                                boxShadow: "0 10px 40px rgba(180, 195, 210, 0.2), inset 0 2px 5px rgba(255,255,255,1)"
+                            }}
                         >
-                            {/* Subtle inner top highlight */}
-                            <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white to-transparent opacity-80" />
-
                             {/* Section Header */}
-                            <div className="flex items-center gap-2 mb-8 border-l-[4px] border-[#0091CF] pl-4 h-7">
-                                <h2 className="text-xl font-extrabold text-slate-800 tracking-tight">
+                            <div className="flex items-center gap-2 mb-8 ml-2 border-l-[3px] border-[#2ebc82] pl-3 h-5">
+                                <h2 className="text-[17px] font-semibold text-[#1f2937]">
                                     {test.title}
                                 </h2>
                             </div>
 
                             <motion.div
-                                className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8"
+                                className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8"
                                 variants={{
                                     hidden: { opacity: 0 },
                                     show: {
@@ -164,85 +169,88 @@ export default function MockExamsPage() {
                                                 hidden: { opacity: 0, scale: 0.95 },
                                                 show: { opacity: 1, scale: 1 }
                                             }}
-                                            whileHover={{ y: -5, transition: { duration: 0.2 } }}
-                                            className={cn(
-                                                "rounded-[20px] border bg-white p-6 md:p-8 flex flex-col items-center gap-6 h-full relative transition-all duration-300",
-                                                config.borderColor,
-                                                "shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_30px_rgba(0,0,0,0.08)]",
-                                                "before:absolute before:inset-0 before:bg-gradient-to-b before:from-white/60 before:to-transparent before:rounded-[20px] before:pointer-events-none"
-                                            )}
+                                            whileHover={{ y: -4, transition: { duration: 0.2 } }}
+                                            className="rounded-[28px] p-6 md:p-8 flex flex-col items-center relative transition-all duration-300"
+                                            style={{
+                                                // Glossy liquid inner card
+                                                background: "linear-gradient(145deg, rgba(255,255,255,0.95), rgba(245,248,252,0.8))",
+                                                border: "1px solid rgba(255,255,255,1)",
+                                                boxShadow: "0 12px 30px rgba(190, 205, 220, 0.25), inset 0 4px 15px rgba(255,255,255,0.9), inset 0 -4px 10px rgba(230, 240, 250, 0.4)"
+                                            }}
                                         >
-                                            {/* 3D Icon Container */}
+                                            {/* Top soft highlight curve (glass reflection) */}
+                                            <div className="absolute top-2 left-2 right-2 h-1/3 bg-gradient-to-b from-white to-transparent opacity-60 rounded-t-[20px] pointer-events-none" />
+
+                                            {/* Vibrant 3D Circular Icon */}
                                             <motion.div
-                                                whileHover={{ scale: 1.05, rotate: [-2, 2, 0] }}
-                                                className={cn("p-5 rounded-2xl mb-2 relative", config.iconBg)}
+                                                whileHover={{ scale: 1.05 }}
+                                                className={cn(
+                                                    "w-14 h-14 rounded-full flex items-center justify-center mb-5 relative z-10",
+                                                    config.circleBg
+                                                )}
+                                                style={{
+                                                    boxShadow: "0 10px 20px rgba(0,0,0,0.1), inset 0 3px 6px rgba(255,255,255,0.4), inset 0 -3px 6px rgba(0,0,0,0.15)"
+                                                }}
                                             >
-                                                {/* Inner top highlight for glass effect */}
-                                                <div className="absolute top-0 inset-x-2 h-1/2 bg-gradient-to-b from-white/60 to-transparent rounded-t-xl pointer-events-none" />
-                                                <config.icon className={cn("w-7 h-7 relative z-10 drop-shadow-md", config.iconColor)} strokeWidth={2.5} />
+                                                {/* Top bright highlight on the circle itself */}
+                                                <div className="absolute top-0.5 inset-x-2 h-[40%] bg-gradient-to-b from-white/40 to-transparent rounded-full pointer-events-none" />
+                                                <config.icon className={cn("w-6 h-6 z-10 drop-shadow-sm", config.iconColor)} strokeWidth={2} />
                                             </motion.div>
 
                                             {/* Title */}
-                                            <h3 className="text-slate-800 font-bold text-center text-sm md:text-[15px] tracking-tight">
+                                            <h3 className="text-[#374151] font-medium text-[13px] tracking-wide mb-5">
                                                 {section.title}
                                             </h3>
 
-                                            {/* Animated Progress Circle */}
-                                            <div className="relative w-12 h-12 flex items-center justify-center my-2">
-                                                <svg className="absolute w-full h-full transform -rotate-90 filter drop-shadow-sm">
-                                                    {/* Background track */}
-                                                    <circle
-                                                        cx="24" cy="24" r="20"
-                                                        stroke="#F1F5F9"
-                                                        strokeWidth="3.5"
-                                                        fill="transparent"
-                                                    />
-                                                    {/* Progress fill */}
-                                                    <motion.circle
-                                                        cx="24" cy="24" r="20"
-                                                        stroke="currentColor"
-                                                        strokeWidth="3.5"
-                                                        fill="transparent"
-                                                        strokeLinecap="round"
-                                                        strokeDasharray={125}
-                                                        strokeDashoffset={125}
-                                                        animate={{ strokeDashoffset: 125 - (125 * section.progress) / 100 }}
-                                                        transition={{ duration: 1.5, ease: "easeOut", delay: 0.5 }}
-                                                        className={cn(section.progress > 0 ? config.iconColor : "text-[#E2E8F0]")}
-                                                    />
-                                                </svg>
-                                                <span className="text-[9px] font-black text-slate-400">0%</span>
+                                            {/* Progress Info Ring (replacing animated SVG with the simple circle from the image) */}
+                                            <div className="w-10 h-10 rounded-full flex items-center justify-center mb-6 relative"
+                                                style={{
+                                                    background: "linear-gradient(135deg, #fdfefe, #edf1f6)",
+                                                    boxShadow: "inset 0 3px 6px rgba(180, 195, 210, 0.2), 0 2px 5px rgba(255,255,255,0.8)"
+                                                }}
+                                            >
+                                                <span className="text-[10px] font-bold text-[#6b7280]">0%</span>
+                                                {/* Small partial colored ring indicator if progress > 0 */}
+                                                {section.progress > 0 && (
+                                                    <svg className="absolute w-full h-full transform -rotate-90">
+                                                        <circle cx="20" cy="20" r="18" stroke="currentColor" strokeWidth="2" fill="none"
+                                                            strokeDasharray={113} strokeDashoffset={113 - (113 * section.progress) / 100}
+                                                            className={cn("opacity-40", SECTION_CONFIG[section.type].iconColor.replace('text-white', 'text-current text-[#4fc490]'))}
+                                                        />
+                                                    </svg>
+                                                )}
                                             </div>
 
-                                            {/* Action Button */}
+                                            {/* "Take Test" Milky Button */}
                                             <motion.button
                                                 whileHover={{ scale: 1.03 }}
-                                                whileTap={{ scale: 0.97 }}
-                                                className={cn(
-                                                    "w-full py-3.5 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 mt-auto overflow-hidden relative group",
-                                                    section.status === "upgrade"
-                                                        ? "bg-gradient-to-r from-slate-800 to-slate-700 text-[#FFC107] border border-slate-700 shadow-[inset_0_1px_0_rgba(255,255,255,0.1),_0_4px_10px_rgba(0,0,0,0.15)]"
-                                                        : cn(config.btnColor, "border border-black/5")
-                                                )}
+                                                whileTap={{ scale: 0.98 }}
+                                                className="w-[80%] py-3.5 rounded-full text-xs font-semibold flex items-center justify-center gap-1.5 relative overflow-hidden group mb-3"
+                                                style={{
+                                                    background: "linear-gradient(135deg, rgba(255,255,255,0.8), rgba(240,245,250,0.4))",
+                                                    border: "1px solid rgba(255,255,255,0.8)",
+                                                    boxShadow: "0 6px 16px rgba(180, 195, 210, 0.25), inset 0 3px 6px rgba(255,255,255,0.9), inset 0 -3px 6px rgba(210, 220, 235, 0.3)",
+                                                    color: "#4b5563" // slate-600
+                                                }}
                                             >
-                                                {/* Shimmer Effect */}
-                                                <div className="absolute top-0 -inset-full h-full w-1/2 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent via-white/30 to-transparent group-hover:animate-shine" />
+                                                {/* Milky highlight wave */}
+                                                <div className="absolute inset-0 bg-gradient-to-b from-white/70 to-transparent pointer-events-none rounded-full" />
 
                                                 {section.status === "upgrade" ? (
                                                     <>
-                                                        <Lock className="w-3.5 h-3.5 opacity-90" strokeWidth={2.5} /> <span className="tracking-wide">Upgrade to Pro</span>
+                                                        <Lock className="w-3.5 h-3.5 relative z-10" strokeWidth={2} /> <span className="relative z-10">Upgrade</span>
                                                     </>
                                                 ) : (
                                                     <>
-                                                        <Play className="w-4 h-4 fill-current drop-shadow-sm" /> <span className="tracking-wide">Take Test</span>
+                                                        <Play className="w-[11px] h-[11px] fill-[#4b5563] relative z-10" /> <span className="relative z-10 tracking-wide mt-0.5">Take Test</span>
                                                     </>
                                                 )}
                                             </motion.button>
 
-                                            {/* Soft dots indicator */}
-                                            <div className="flex gap-1.5 mt-1 opacity-60">
-                                                <div className="w-1.5 h-1.5 rounded-full bg-slate-200" />
-                                                <div className="w-1.5 h-1.5 rounded-full bg-slate-200" />
+                                            {/* Two faint dots below button */}
+                                            <div className="flex gap-1.5 opacity-30 mt-1">
+                                                <div className="w-[5px] h-[5px] rounded-full bg-slate-400" />
+                                                <div className="w-[5px] h-[5px] rounded-full bg-slate-400" />
                                             </div>
                                         </motion.div>
                                     );
