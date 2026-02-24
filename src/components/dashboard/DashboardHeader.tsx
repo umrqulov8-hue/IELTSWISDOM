@@ -67,19 +67,19 @@ export function DashboardHeader({ title, description, showGreeting, displayName 
         <header className="flex justify-between items-center mb-10 z-50 relative">
             <div>
                 {showGreeting ? (
-                    <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}>
+                    <div>
                         <h1 className="text-3xl md:text-4xl font-extrabold text-slate-800 tracking-tight">
                             {lang === "en" ? "Welcome back," : "Xush kelibsiz,"} <span className="text-[#FF8C00]">{displayName}</span>!
                         </h1>
                         <p className="text-slate-500 mt-2 font-medium">{lang === "en" ? "Ready to hit your targets today?" : "Bugun maqsadlaringizga erishishga tayyormisiz?"}</p>
-                    </motion.div>
+                    </div>
                 ) : (
-                    <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}>
+                    <div>
                         <h1 className="text-3xl font-extrabold text-slate-800 tracking-tight">
                             {title}
                         </h1>
                         {description && <p className="text-slate-500 mt-2 font-medium">{description}</p>}
-                    </motion.div>
+                    </div>
                 )}
             </div>
 
