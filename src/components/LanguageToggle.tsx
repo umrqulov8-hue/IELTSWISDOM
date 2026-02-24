@@ -13,29 +13,38 @@ export function LanguageToggle() {
         <button
             onClick={toggle}
             aria-label="Switch language"
-            className={`relative flex items-center w-[68px] h-[34px] rounded-full p-[3px] transition-colors duration-500 shadow-inner focus:outline-none
-                ${isUz
-                    ? "bg-gradient-to-r from-[#1eb53a] via-[#0099b5] to-[#1eb53a]"  // Uzbek flag colors
-                    : "bg-gradient-to-r from-[#002868] to-[#BF0A30]"             // US flag colors
-                }`}
+            className="relative flex items-center w-[68px] h-[34px] rounded-full p-[3px] 
+                       backdrop-blur-md border border-white/30
+                       shadow-[inset_0_1px_1px_rgba(255,255,255,0.5),0_4px_16px_rgba(0,0,0,0.12)]
+                       transition-all duration-500 focus:outline-none overflow-hidden group"
+            style={{
+                background: isUz
+                    ? "linear-gradient(135deg, rgba(30,181,58,0.45) 0%, rgba(0,153,181,0.45) 50%, rgba(30,181,58,0.45) 100%)"
+                    : "linear-gradient(135deg, rgba(0,40,104,0.45) 0%, rgba(191,10,48,0.45) 100%)",
+            }}
         >
-            {/* Track labels */}
-            <span className={`absolute left-2 text-[10px] font-bold transition-opacity duration-300 ${isUz ? "opacity-100 text-white" : "opacity-0"}`}>
+            {/* Glass highlight shimmer */}
+            <span className="absolute inset-0 rounded-full pointer-events-none"
+                style={{ background: "linear-gradient(135deg, rgba(255,255,255,0.25) 0%, transparent 60%)" }} />
+
+            {/* Labels */}
+            <span className={`absolute left-2.5 text-[10px] font-bold text-white drop-shadow transition-opacity duration-300 ${isUz ? "opacity-100" : "opacity-0"}`}>
                 UZ
             </span>
-            <span className={`absolute right-2 text-[10px] font-bold transition-opacity duration-300 ${!isUz ? "opacity-100 text-white" : "opacity-0"}`}>
+            <span className={`absolute right-2 text-[10px] font-bold text-white drop-shadow transition-opacity duration-300 ${!isUz ? "opacity-100" : "opacity-0"}`}>
                 EN
             </span>
 
-            {/* Sliding circle with flag */}
+            {/* Sliding glass pill with flag */}
             <motion.div
                 animate={{ x: isUz ? 34 : 0 }}
                 transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                className="w-[28px] h-[28px] rounded-full bg-white shadow-md flex items-center justify-center text-lg leading-none overflow-hidden flex-shrink-0"
+                className="w-[28px] h-[28px] rounded-full flex-shrink-0 flex items-center justify-center text-[18px]
+                           backdrop-blur-sm border border-white/50
+                           shadow-[0_2px_8px_rgba(0,0,0,0.2),inset_0_1px_1px_rgba(255,255,255,0.8)]"
+                style={{ background: "rgba(255,255,255,0.85)" }}
             >
-                <span className="text-[18px]">
-                    {isUz ? "🇺🇿" : "🇺🇸"}
-                </span>
+                {isUz ? "🇺🇿" : "🇺🇸"}
             </motion.div>
         </button>
     );
