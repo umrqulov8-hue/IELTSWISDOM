@@ -46,28 +46,63 @@ export function Header() {
                 <div className="flex h-16 items-center justify-between">
                     <div className="flex-shrink-0">
                         <Link href="/" className="flex items-center hover:opacity-80 transition-opacity">
-                            <div className="flex items-center relative overflow-visible py-2 px-1 pr-4">
-                                <div className="relative">
-                                    {/* Crown SVG positioned perfectly over the S */}
-                                    <svg className="absolute -top-[12px] right-[-2px] w-[20px] h-[14px] text-[#1c3e2e] fill-current drop-shadow-sm" viewBox="0 0 24 24">
-                                        <path d="M3 16l-2-9 6 4.5L12 3l5 8.5 6-4.5-2 9H3zm-1-2h20v4H2v-4z" />
-                                        <circle cx="1" cy="6" r="1.5" />
-                                        <circle cx="7" cy="11.5" r="1.5" />
-                                        <circle cx="12" cy="2" r="1.5" />
-                                        <circle cx="17" cy="11.5" r="1.5" />
-                                        <circle cx="23" cy="6" r="1.5" />
-                                    </svg>
-                                    <span className="text-[28px] font-serif font-black text-[#1c3e2e] tracking-tight drop-shadow-sm">
-                                        IELTS
-                                    </span>
+                            <motion.div
+                                className="flex items-center relative overflow-visible py-2 px-1 pr-4"
+                                initial="hidden"
+                                animate="visible"
+                                variants={{
+                                    visible: { transition: { staggerChildren: 0.1 } }
+                                }}
+                            >
+                                <div className="relative flex">
+                                    {"IELTS".split('').map((letter, i) => (
+                                        <motion.span
+                                            key={i}
+                                            variants={{
+                                                hidden: { opacity: 0, y: 10 },
+                                                visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 200 } }
+                                            }}
+                                            className="text-[28px] font-serif font-black text-[#1c3e2e] tracking-tight drop-shadow-sm"
+                                        >
+                                            {letter}
+                                        </motion.span>
+                                    ))}
                                 </div>
 
-                                <div className="relative ml-1.5">
-                                    <span className="text-[28px] font-serif font-black text-[#1c3e2e] tracking-tight drop-shadow-sm">
-                                        Wisdom
-                                    </span>
+                                <div className="relative ml-1.5 flex">
+                                    {"Wisdom".split('').map((letter, i) => (
+                                        <motion.span
+                                            key={i}
+                                            variants={{
+                                                hidden: { opacity: 0, y: 10 },
+                                                visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 200 } }
+                                            }}
+                                            className="text-[28px] font-serif font-black text-[#1c3e2e] tracking-tight drop-shadow-sm relative"
+                                        >
+                                            {letter}
+                                            {/* Crown SVG positioned perfectly over the 's' (index 2) */}
+                                            {i === 2 && (
+                                                <motion.svg
+                                                    variants={{
+                                                        hidden: { opacity: 0, y: -20, scale: 0.5 },
+                                                        // Delays the crown drop until after letters finish
+                                                        visible: { opacity: 1, y: 0, scale: 1, transition: { delay: 0.8, type: "spring", stiffness: 300, damping: 12, mass: 0.8 } }
+                                                    }}
+                                                    className="absolute -top-[14px] left-1/2 -translate-x-1/2 w-[18px] h-[12px] text-[#1c3e2e] fill-current drop-shadow-sm"
+                                                    viewBox="0 0 24 24"
+                                                >
+                                                    <path d="M3 16l-2-9 6 4.5L12 3l5 8.5 6-4.5-2 9H3zm-1-2h20v4H2v-4z" />
+                                                    <circle cx="1" cy="6" r="1.5" />
+                                                    <circle cx="7" cy="11.5" r="1.5" />
+                                                    <circle cx="12" cy="2" r="1.5" />
+                                                    <circle cx="17" cy="11.5" r="1.5" />
+                                                    <circle cx="23" cy="6" r="1.5" />
+                                                </motion.svg>
+                                            )}
+                                        </motion.span>
+                                    ))}
                                 </div>
-                            </div>
+                            </motion.div>
                         </Link>
                     </div>
 

@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useAuthContext } from '@/context/AuthContext';
+import { motion } from 'framer-motion';
 
 const navItems = [
     { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
@@ -51,27 +52,65 @@ export function Sidebar() {
                     </div>
 
                     {/* Expanded Logo (IELTS Wisdom with Crown) */}
-                    <div className="hidden group-hover:flex opacity-0 group-hover:opacity-100 transition-all duration-500 ease-in-out items-center relative w-auto overflow-visible pr-4">
-                        <div className="relative translate-x-[-10px] group-hover:translate-x-0 transition-transform duration-500">
-                            {/* Crown SVG positioned perfectly over the S */}
-                            <svg className="absolute -top-[12px] right-[-2px] w-[20px] h-[14px] text-[#1c3e2e] fill-current drop-shadow-sm" viewBox="0 0 24 24">
-                                <path d="M3 16l-2-9 6 4.5L12 3l5 8.5 6-4.5-2 9H3zm-1-2h20v4H2v-4z" />
-                                <circle cx="1" cy="6" r="1.5" />
-                                <circle cx="7" cy="11.5" r="1.5" />
-                                <circle cx="12" cy="2" r="1.5" />
-                                <circle cx="17" cy="11.5" r="1.5" />
-                                <circle cx="23" cy="6" r="1.5" />
-                            </svg>
-                            <span className="text-[28px] font-serif font-black text-[#1c3e2e] tracking-tight drop-shadow-sm">
-                                IELTS
-                            </span>
-                        </div>
+                    <div className="hidden group-hover:flex items-center relative w-auto overflow-visible pr-4">
+                        <motion.div
+                            className="relative flex items-center"
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true }}
+                            variants={{
+                                visible: { transition: { staggerChildren: 0.1 } }
+                            }}
+                        >
+                            <div className="relative flex translate-x-[-10px] group-hover:translate-x-0 transition-transform duration-500">
+                                {"IELTS".split('').map((letter, i) => (
+                                    <motion.span
+                                        key={i}
+                                        variants={{
+                                            hidden: { opacity: 0, y: 10 },
+                                            visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 200 } }
+                                        }}
+                                        className="text-[28px] font-serif font-black text-[#1c3e2e] tracking-tight drop-shadow-sm"
+                                    >
+                                        {letter}
+                                    </motion.span>
+                                ))}
+                            </div>
 
-                        <div className="relative ml-1.5 translate-x-[-10px] group-hover:translate-x-0 transition-transform duration-500 delay-75">
-                            <span className="text-[28px] font-serif font-black text-[#1c3e2e] tracking-tight drop-shadow-sm">
-                                Wisdom
-                            </span>
-                        </div>
+                            <div className="relative ml-1.5 flex translate-x-[-10px] group-hover:translate-x-0 transition-transform duration-500 delay-75">
+                                {"Wisdom".split('').map((letter, i) => (
+                                    <motion.span
+                                        key={i}
+                                        variants={{
+                                            hidden: { opacity: 0, y: 10 },
+                                            visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 200 } }
+                                        }}
+                                        className="text-[28px] font-serif font-black text-[#1c3e2e] tracking-tight drop-shadow-sm relative"
+                                    >
+                                        {letter}
+                                        {/* Crown SVG positioned perfectly over the 's' (index 2) */}
+                                        {i === 2 && (
+                                            <motion.svg
+                                                variants={{
+                                                    hidden: { opacity: 0, y: -20, scale: 0.5 },
+                                                    // Delays the crown drop until after letters finish
+                                                    visible: { opacity: 1, y: 0, scale: 1, transition: { delay: 0.8, type: "spring", stiffness: 300, damping: 12, mass: 0.8 } }
+                                                }}
+                                                className="absolute -top-[14px] left-1/2 -translate-x-1/2 w-[18px] h-[12px] text-[#1c3e2e] fill-current drop-shadow-sm"
+                                                viewBox="0 0 24 24"
+                                            >
+                                                <path d="M3 16l-2-9 6 4.5L12 3l5 8.5 6-4.5-2 9H3zm-1-2h20v4H2v-4z" />
+                                                <circle cx="1" cy="6" r="1.5" />
+                                                <circle cx="7" cy="11.5" r="1.5" />
+                                                <circle cx="12" cy="2" r="1.5" />
+                                                <circle cx="17" cy="11.5" r="1.5" />
+                                                <circle cx="23" cy="6" r="1.5" />
+                                            </motion.svg>
+                                        )}
+                                    </motion.span>
+                                ))}
+                            </div>
+                        </motion.div>
                     </div>
                 </Link>
             </div>
