@@ -88,7 +88,7 @@ export function Header() {
                                                         // Delays the crown drop until after letters finish, with an extra bouncy drop
                                                         visible: { opacity: 1, y: 0, scale: 1, rotate: 0, transition: { delay: 1.0, type: "spring", stiffness: 500, damping: 10, mass: 0.5 } }
                                                     }}
-                                                    className="absolute -top-[5px] left-[55%] -translate-x-1/2 w-[18px] h-[12px] text-[#1c3e2e] fill-current drop-shadow-sm origin-bottom"
+                                                    className="absolute -top-[1px] left-[55%] -translate-x-1/2 w-[18px] h-[12px] text-[#1c3e2e] fill-current drop-shadow-sm origin-bottom"
                                                     viewBox="0 0 24 24"
                                                 >
                                                     <path d="M3 16l-2-9 6 4.5L12 3l5 8.5 6-4.5-2 9H3zm-1-2h20v4H2v-4z" />
