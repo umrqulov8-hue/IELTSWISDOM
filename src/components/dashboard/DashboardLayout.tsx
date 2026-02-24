@@ -5,6 +5,8 @@ import { Bell, Search } from "lucide-react";
 import { PropsWithChildren } from "react";
 import { useAuthContext } from "@/context/AuthContext";
 import { cn } from "@/lib/utils";
+import { motion, AnimatePresence } from "framer-motion";
+import { usePathname } from "next/navigation";
 
 interface DashboardLayoutProps extends PropsWithChildren {
     title?: string;
@@ -15,9 +17,48 @@ interface DashboardLayoutProps extends PropsWithChildren {
     fullHeight?: boolean;
 }
 
-export function DashboardLayout({ children, title, description, showGreeting = false, hideSidebar = false, hideHeader = false, fullHeight = false }: DashboardLayoutProps) {
+// Premium page transition variants
+const pageVariants = {
+    initial: {
+        opacity: 0,
+        y: 18,
+        scale: 0.985,
+        filter: "blur(4px)",
+    },
+    animate: {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        filter: "blur(0px)",
+        transition: {
+            duration: 0.38,
+            ease: [0.22, 1, 0.36, 1], // custom easeOutExpo
+        },
+    },
+    exit: {
+        opacity: 0,
+        y: -12,
+        scale: 0.99,
+        filter: "blur(3px)",
+        transition: {
+            duration: 0.22,
+            ease: [0.4, 0, 1, 1],
+        },
+    },
+};
+
+export function DashboardLayout({
+    children,
+    title,
+    description,
+    showGreeting = false,
+    hideSidebar = false,
+    hideHeader = false,
+    fullHeight = false,
+}: DashboardLayoutProps) {
     const { user } = useAuthContext();
-    const displayName = user?.email?.split('@')[0] || "Student";
+    const displayName = user?.email?.split("@")[0] || "Student";
+    const pathname = usePathname();
 
     return (
         <div className="min-h-[calc(100vh-4rem)] bg-[#F2F4F8] text-slate-900 flex overflow-hidden relative">
@@ -32,11 +73,16 @@ export function DashboardLayout({ children, title, description, showGreeting = f
             {!hideSidebar && <Sidebar />}
 
             {/* Main Content Area */}
-            <main className={cn(
-                "flex-1 p-4 md:p-8 relative z-10",
-                fullHeight ? "overflow-hidden h-screen flex flex-col" : "overflow-y-auto h-[calc(100vh-4rem)]",
-                !hideSidebar && "lg:ml-[90px] lg:peer-hover:ml-72 transition-[margin] duration-500 ease-in-out"
-            )}>
+            <main
+                className={cn(
+                    "flex-1 p-4 md:p-8 relative z-10",
+                    fullHeight
+                        ? "overflow-hidden h-screen flex flex-col"
+                        : "overflow-y-auto h-[calc(100vh-4rem)]",
+                    !hideSidebar &&
+                    "lg:ml-[90px] lg:peer-hover:ml-72 transition-[margin] duration-500 ease-in-out"
+                )}
+            >
                 {/* Dashboard Header */}
                 {!hideHeader && (
                     <header className="flex justify-between items-center mb-6 pt-2 flex-shrink-0">
@@ -44,16 +90,23 @@ export function DashboardLayout({ children, title, description, showGreeting = f
                             {showGreeting ? (
                                 <>
                                     <h1 className="text-3xl md:text-4xl font-extrabold text-slate-800 tracking-tight">
-                                        Welcome back, <span className="text-[#FF8C00]">{displayName}</span>!
+                                        Welcome back,{" "}
+                                        <span className="text-[#FF8C00]">{displayName}</span>!
                                     </h1>
-                                    <p className="text-slate-500 mt-2 font-medium">Ready to hit your targets today?</p>
+                                    <p className="text-slate-500 mt-2 font-medium">
+                                        Ready to hit your targets today?
+                                    </p>
                                 </>
                             ) : (
                                 <>
                                     <h1 className="text-3xl font-extrabold text-slate-800 tracking-tight">
                                         {title}
                                     </h1>
-                                    {description && <p className="text-slate-500 mt-2 font-medium">{description}</p>}
+                                    {description && (
+                                        <p className="text-slate-500 mt-2 font-medium">
+                                            {description}
+                                        </p>
+                                    )}
                                 </>
                             )}
                         </div>
@@ -75,15 +128,23 @@ export function DashboardLayout({ children, title, description, showGreeting = f
                     </header>
                 )}
 
-                {fullHeight ? (
-                    <div className="flex-1 overflow-hidden">
+                {/* Page content with transition */}
+                <AnimatePresence mode="wait">
+                    <motion.div
+                        key={pathname}
+                        variants={pageVariants}
+                        initial="initial"
+                        animate="animate"
+                        exit="exit"
+                        className={cn(
+                            fullHeight
+                                ? "flex-1 overflow-hidden h-full"
+                                : "max-w-6xl mx-auto space-y-10 pb-10"
+                        )}
+                    >
                         {children}
-                    </div>
-                ) : (
-                    <div className="max-w-6xl mx-auto space-y-10 pb-10">
-                        {children}
-                    </div>
-                )}
+                    </motion.div>
+                </AnimatePresence>
             </main>
         </div>
     );
