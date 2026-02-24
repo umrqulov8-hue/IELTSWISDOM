@@ -101,11 +101,11 @@ export default function MockExamsPage() {
             description="Experience the real IELTS test environment with our complete mock exams."
         >
             {/* Liquid milky background */}
-            <div className="absolute inset-0 bg-[#f4f7f9] overflow-hidden -z-20">
-                {/* Simulated liquid ripples in the background using large blurred shapes */}
-                <div className="absolute top-[-10%] left-[-10%] w-[60vw] h-[60vw] rounded-full bg-white opacity-60 blur-[100px]" />
-                <div className="absolute bottom-[-20%] right-[-10%] w-[70vw] h-[70vw] rounded-full bg-white opacity-80 blur-[120px]" />
-                <div className="absolute top-[30%] left-[60%] w-[40vw] h-[40vw] rounded-full bg-[#e8eef3] opacity-50 blur-[80px]" />
+            <div className="absolute inset-0 bg-[#f0f4f8] overflow-hidden -z-20">
+                {/* Advanced liquid ripples in the background */}
+                <div className="absolute top-[-15%] left-[-10%] w-[70vw] h-[70vw] rounded-[40%] bg-white opacity-80 blur-[80px] animate-[spin_20s_linear_infinite]" />
+                <div className="absolute bottom-[-20%] right-[-10%] w-[80vw] h-[80vw] rounded-[45%] bg-white opacity-90 blur-[100px] animate-[spin_25s_linear_infinite_reverse]" />
+                <div className="absolute top-[20%] left-[50%] w-[50vw] h-[50vw] rounded-full bg-[#e2eaf4] opacity-50 blur-[90px]" />
             </div>
 
             <div className="max-w-[1200px] mx-auto px-4 md:px-8 space-y-12 relative z-10 pt-4 pb-16">
@@ -117,44 +117,48 @@ export default function MockExamsPage() {
                     transition={{ duration: 0.6 }}
                     className="text-center mb-14"
                 >
-                    <h1 className="text-3xl md:text-[2.5rem] font-bold tracking-tight text-[#111827] flex justify-center gap-2 flex-wrap">
+                    <h1 className="text-3xl md:text-[2.5rem] font-bold tracking-tight text-[#111827] flex justify-center gap-2 flex-wrap drop-shadow-sm">
                         Actual Tests <span className="text-[#2ebc82]">to Academic Library</span>
                     </h1>
-                    <p className="text-[#8492a6] text-[13px] md:text-sm mt-2 font-medium">Actual Tests Academic collections for three skills</p>
+                    <p className="text-[#8492a6] text-[13px] md:text-sm mt-3 font-medium">Actual Tests Academic collections for three skills</p>
                 </motion.div>
 
                 {/* --- Tests List --- */}
-                <div className="space-y-10">
+                <div className="space-y-12">
                     {MOCK_TESTS.map((test, index) => (
                         <motion.div
                             key={test.id}
                             initial={{ opacity: 0, y: 30 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.5, delay: index * 0.1, type: "spring", stiffness: 50 }}
-                            className="rounded-3xl p-6 md:p-8 relative overflow-hidden"
+                            transition={{ duration: 0.6, delay: index * 0.1, type: "spring", stiffness: 40 }}
+                            className="rounded-[32px] p-6 md:p-8 relative overflow-hidden"
                             style={{
-                                // Frosted glass outer panel
-                                background: "rgba(251, 252, 253, 0.7)",
-                                backdropFilter: "blur(24px)",
-                                WebkitBackdropFilter: "blur(24px)",
-                                border: "1px solid rgba(255,255,255,0.9)",
-                                boxShadow: "0 10px 40px rgba(180, 195, 210, 0.2), inset 0 2px 5px rgba(255,255,255,1)"
+                                // Frosted glass outer panel with thick liquid border simulation
+                                background: "rgba(247, 250, 253, 0.45)",
+                                backdropFilter: "blur(40px)",
+                                WebkitBackdropFilter: "blur(40px)",
+                                border: "1px solid rgba(255,255,255,0.7)",
+                                // Soft outer drop shadow + thick bright inner light
+                                boxShadow: "20px 20px 60px rgba(180, 195, 215, 0.35), -10px -10px 40px rgba(255,255,255,0.9), inset 0 2px 10px rgba(255,255,255,0.8)"
                             }}
                         >
+                            {/* Inner ambient light overlay to make the panel pop */}
+                            <div className="absolute inset-x-0 top-0 h-[40%] bg-gradient-to-b from-white/60 to-transparent pointer-events-none rounded-t-[32px]" />
+
                             {/* Section Header */}
-                            <div className="flex items-center gap-2 mb-8 ml-2 border-l-[3px] border-[#2ebc82] pl-3 h-5">
-                                <h2 className="text-[17px] font-semibold text-[#1f2937]">
+                            <div className="flex items-center gap-2 mb-10 ml-2 border-l-[3.5px] border-[#2ebc82] pl-3.5 h-[22px] relative z-10">
+                                <h2 className="text-[18px] font-bold text-[#1f2937] tracking-tight">
                                     {test.title}
                                 </h2>
                             </div>
 
                             <motion.div
-                                className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8"
+                                className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 relative z-10"
                                 variants={{
                                     hidden: { opacity: 0 },
                                     show: {
                                         opacity: 1,
-                                        transition: { staggerChildren: 0.1 }
+                                        transition: { staggerChildren: 0.15 }
                                     }
                                 }}
                                 initial="hidden"
@@ -166,91 +170,108 @@ export default function MockExamsPage() {
                                         <motion.div
                                             key={section.id}
                                             variants={{
-                                                hidden: { opacity: 0, scale: 0.95 },
-                                                show: { opacity: 1, scale: 1 }
+                                                hidden: { opacity: 0, scale: 0.95, y: 20 },
+                                                show: { opacity: 1, scale: 1, y: 0 }
                                             }}
-                                            whileHover={{ y: -4, transition: { duration: 0.2 } }}
-                                            className="rounded-[28px] p-6 md:p-8 flex flex-col items-center relative transition-all duration-300"
+                                            whileHover={{ y: -6, transition: { duration: 0.3, ease: "easeOut" } }}
+                                            className="rounded-[36px] p-6 md:p-9 flex flex-col items-center relative transition-all duration-500 overflow-hidden group"
                                             style={{
-                                                // Glossy liquid inner card
-                                                background: "linear-gradient(145deg, rgba(255,255,255,0.95), rgba(245,248,252,0.8))",
+                                                // Extremely glossy liquid inner card (blister pack style)
+                                                background: "linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(246,249,252,0.85) 100%)",
                                                 border: "1px solid rgba(255,255,255,1)",
-                                                boxShadow: "0 12px 30px rgba(190, 205, 220, 0.25), inset 0 4px 15px rgba(255,255,255,0.9), inset 0 -4px 10px rgba(230, 240, 250, 0.4)"
+                                                // The magic mix: strong white highlight on top left inner, dark shadow on bottom right inner, plus outer shadows
+                                                boxShadow: `
+                                                    15px 15px 35px rgba(175, 190, 210, 0.4), 
+                                                    -15px -15px 35px rgba(255,255,255,1),
+                                                    inset 6px 6px 15px rgba(255,255,255,1), 
+                                                    inset -6px -6px 15px rgba(190, 205, 225, 0.25)
+                                                `
                                             }}
                                         >
-                                            {/* Top soft highlight curve (glass reflection) */}
-                                            <div className="absolute top-2 left-2 right-2 h-1/3 bg-gradient-to-b from-white to-transparent opacity-60 rounded-t-[20px] pointer-events-none" />
+                                            {/* Extreme organic top highlight to mimic the "melty" fluid plastic wrap */}
+                                            <div className="absolute top-[-20%] left-[-10%] right-[-10%] h-[60%] bg-[radial-gradient(ellipse_at_top,_rgba(255,255,255,1)_0%,_rgba(255,255,255,0)_70%)] opacity-80 pointer-events-none transform -skew-y-6" />
 
                                             {/* Vibrant 3D Circular Icon */}
                                             <motion.div
-                                                whileHover={{ scale: 1.05 }}
+                                                whileHover={{ scale: 1.08 }}
                                                 className={cn(
-                                                    "w-14 h-14 rounded-full flex items-center justify-center mb-5 relative z-10",
+                                                    "w-[60px] h-[60px] rounded-full flex items-center justify-center mb-6 relative z-10 transition-transform duration-300",
                                                     config.circleBg
                                                 )}
                                                 style={{
-                                                    boxShadow: "0 10px 20px rgba(0,0,0,0.1), inset 0 3px 6px rgba(255,255,255,0.4), inset 0 -3px 6px rgba(0,0,0,0.15)"
+                                                    // Floating sphere look
+                                                    boxShadow: "0 15px 25px rgba(0,0,0,0.15), inset 0 4px 8px rgba(255,255,255,0.5), inset 0 -4px 8px rgba(0,0,0,0.2)"
                                                 }}
                                             >
-                                                {/* Top bright highlight on the circle itself */}
-                                                <div className="absolute top-0.5 inset-x-2 h-[40%] bg-gradient-to-b from-white/40 to-transparent rounded-full pointer-events-none" />
-                                                <config.icon className={cn("w-6 h-6 z-10 drop-shadow-sm", config.iconColor)} strokeWidth={2} />
+                                                {/* Spherical gloss highlight */}
+                                                <div className="absolute top-[2px] left-[15%] right-[15%] h-[45%] bg-gradient-to-b from-white/60 to-transparent rounded-full pointer-events-none" />
+                                                <config.icon className={cn("w-[26px] h-[26px] z-10 drop-shadow-md", config.iconColor)} strokeWidth={2.2} />
                                             </motion.div>
 
                                             {/* Title */}
-                                            <h3 className="text-[#374151] font-medium text-[13px] tracking-wide mb-5">
+                                            <h3 className="text-[#374151] font-semibold text-[14px] tracking-wide mb-6 relative z-10">
                                                 {section.title}
                                             </h3>
 
-                                            {/* Progress Info Ring (replacing animated SVG with the simple circle from the image) */}
-                                            <div className="w-10 h-10 rounded-full flex items-center justify-center mb-6 relative"
+                                            {/* Progress Info Ring - Depressed into the surface */}
+                                            <div className="w-[46px] h-[46px] rounded-full flex items-center justify-center mb-8 relative z-10"
                                                 style={{
-                                                    background: "linear-gradient(135deg, #fdfefe, #edf1f6)",
-                                                    boxShadow: "inset 0 3px 6px rgba(180, 195, 210, 0.2), 0 2px 5px rgba(255,255,255,0.8)"
+                                                    background: "#f3f6f9",
+                                                    // Sunken track shadow
+                                                    boxShadow: "inset 4px 4px 8px rgba(185, 200, 215, 0.4), inset -4px -4px 8px rgba(255,255,255,1), 0 1px 2px rgba(255,255,255,0.8)"
                                                 }}
                                             >
-                                                <span className="text-[10px] font-bold text-[#6b7280]">0%</span>
+                                                <span className="text-[11px] font-bold text-[#6b7280]">0%</span>
                                                 {/* Small partial colored ring indicator if progress > 0 */}
                                                 {section.progress > 0 && (
                                                     <svg className="absolute w-full h-full transform -rotate-90">
-                                                        <circle cx="20" cy="20" r="18" stroke="currentColor" strokeWidth="2" fill="none"
-                                                            strokeDasharray={113} strokeDashoffset={113 - (113 * section.progress) / 100}
-                                                            className={cn("opacity-40", SECTION_CONFIG[section.type].iconColor.replace('text-white', 'text-current text-[#4fc490]'))}
+                                                        <circle cx="23" cy="23" r="21" stroke="currentColor" strokeWidth="2.5" fill="none"
+                                                            strokeDasharray={132} strokeDashoffset={132 - (132 * section.progress) / 100}
+                                                            strokeLinecap="round"
+                                                            className={cn("opacity-50", SECTION_CONFIG[section.type].iconColor.replace('text-white', 'text-current text-[#4fc490]'))}
                                                         />
                                                     </svg>
                                                 )}
                                             </div>
 
-                                            {/* "Take Test" Milky Button */}
+                                            {/* "Take Test" Milky Button (Pill) */}
                                             <motion.button
-                                                whileHover={{ scale: 1.03 }}
-                                                whileTap={{ scale: 0.98 }}
-                                                className="w-[80%] py-3.5 rounded-full text-xs font-semibold flex items-center justify-center gap-1.5 relative overflow-hidden group mb-3"
+                                                whileHover={{ scale: 1.04 }}
+                                                whileTap={{ scale: 0.96 }}
+                                                className="w-[85%] py-3.5 rounded-full text-[13px] font-bold flex items-center justify-center gap-2 relative overflow-hidden z-10"
                                                 style={{
-                                                    background: "linear-gradient(135deg, rgba(255,255,255,0.8), rgba(240,245,250,0.4))",
-                                                    border: "1px solid rgba(255,255,255,0.8)",
-                                                    boxShadow: "0 6px 16px rgba(180, 195, 210, 0.25), inset 0 3px 6px rgba(255,255,255,0.9), inset 0 -3px 6px rgba(210, 220, 235, 0.3)",
-                                                    color: "#4b5563" // slate-600
+                                                    // Milky translucent background
+                                                    background: "linear-gradient(180deg, rgba(255,255,255,0.9) 0%, rgba(242,247,252,0.6) 100%)",
+                                                    border: "1px solid rgba(255,255,255,0.6)",
+                                                    // Very thick button profile protruding from the card
+                                                    boxShadow: `
+                                                        6px 6px 15px rgba(180, 195, 210, 0.25), 
+                                                        -4px -4px 10px rgba(255,255,255,0.9), 
+                                                        inset 0 4px 8px rgba(255,255,255,1), 
+                                                        inset 0 -3px 6px rgba(200, 210, 225, 0.3)
+                                                    `,
+                                                    color: "#4b5563"
                                                 }}
                                             >
-                                                {/* Milky highlight wave */}
-                                                <div className="absolute inset-0 bg-gradient-to-b from-white/70 to-transparent pointer-events-none rounded-full" />
+                                                {/* Liquid streak highlight across the button */}
+                                                <div className="absolute inset-0 bg-gradient-to-b from-white/90 via-transparent to-transparent opacity-80 rounded-full" />
+                                                <div className="absolute -inset-x-[100%] top-0 bottom-0 bg-gradient-to-r from-transparent via-white/50 to-transparent group-hover:animate-shine transform -skew-x-12 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
                                                 {section.status === "upgrade" ? (
-                                                    <>
-                                                        <Lock className="w-3.5 h-3.5 relative z-10" strokeWidth={2} /> <span className="relative z-10">Upgrade</span>
-                                                    </>
+                                                    <div className="flex items-center gap-1.5 relative z-10 pt-0.5">
+                                                        <Lock className="w-[14px] h-[14px]" strokeWidth={2.5} /> <span>Upgrade</span>
+                                                    </div>
                                                 ) : (
-                                                    <>
-                                                        <Play className="w-[11px] h-[11px] fill-[#4b5563] relative z-10" /> <span className="relative z-10 tracking-wide mt-0.5">Take Test</span>
-                                                    </>
+                                                    <div className="flex items-center gap-1.5 relative z-10 pt-0.5">
+                                                        <Play className="w-3 h-3 fill-[#4b5563]" /> <span className="tracking-wide">Take Test</span>
+                                                    </div>
                                                 )}
                                             </motion.button>
 
-                                            {/* Two faint dots below button */}
-                                            <div className="flex gap-1.5 opacity-30 mt-1">
-                                                <div className="w-[5px] h-[5px] rounded-full bg-slate-400" />
-                                                <div className="w-[5px] h-[5px] rounded-full bg-slate-400" />
+                                            {/* Two faint debossed dots below button */}
+                                            <div className="flex gap-2 opacity-60 mt-2 z-10 relative">
+                                                <div className="w-[6px] h-[6px] rounded-full bg-[#cbd5e1]" style={{ boxShadow: "inset 1px 1px 2px rgba(0,0,0,0.1), 1px 1px 2px rgba(255,255,255,1)" }} />
+                                                <div className="w-[6px] h-[6px] rounded-full bg-[#cbd5e1]" style={{ boxShadow: "inset 1px 1px 2px rgba(0,0,0,0.1), 1px 1px 2px rgba(255,255,255,1)" }} />
                                             </div>
                                         </motion.div>
                                     );
