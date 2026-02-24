@@ -119,47 +119,48 @@ export default function MockExamsPage() {
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             transition={{ duration: 0.6, delay: index * 0.1, type: "spring", stiffness: 60 }}
                             className={cn(
-                                "relative rounded-[40px] p-8 lg:p-10 flex flex-col overflow-hidden group bg-gradient-to-br transition-all duration-500",
-                                test.theme.cardBg
+                                "relative rounded-[40px] p-8 lg:p-10 flex flex-col overflow-hidden group transition-all duration-500",
+                                // Pure white liquid glass background with heavy blur
+                                "bg-white/90 backdrop-blur-3xl border border-white/60"
                             )}
                             style={{
-                                // Volumetric "Liquid Glass" / Jelly effect
+                                // Deep volumetric "Liquid Glass" effect but in pure white
                                 boxShadow: `
-                                    inset 4px 4px 10px rgba(255, 255, 255, 0.7),
-                                    inset -4px -4px 15px rgba(0, 0, 0, 0.1),
-                                    0 20px 40px -10px ${index % 2 === 0 ? 'rgba(107, 234, 229, 0.4)' : 'rgba(255, 106, 90, 0.4)'}
+                                    inset 4px 4px 15px rgba(255, 255, 255, 1),
+                                    inset -4px -4px 15px rgba(0, 0, 0, 0.03),
+                                    0 25px 50px -12px rgba(0, 0, 0, 0.15)
                                 `
                             }}
                         >
                             {/* Inner ambient shine to enhance the glossy, plump volume */}
-                            <div className="absolute top-[-20%] left-[-10%] w-[120%] h-[50%] bg-gradient-to-b from-white/40 to-transparent -rotate-6 pointer-events-none rounded-[100%] blur-[8px] opacity-80" />
+                            <div className="absolute top-[-20%] left-[-10%] w-[120%] h-[50%] bg-gradient-to-b from-white to-transparent -rotate-6 pointer-events-none rounded-[100%] blur-[12px] opacity-90" />
 
                             <div className="relative z-10">
                                 {/* Title */}
-                                <h3 className={cn("text-[26px] font-black mb-6 tracking-tight drop-shadow-sm", test.theme.titleColor)}>
+                                <h3 className="text-[26px] font-black mb-6 tracking-tight drop-shadow-sm text-[#0f172a]">
                                     {test.title}
                                 </h3>
 
-                                {/* Badges */}
+                                {/* Badges - softened to fit white theme */}
                                 <div className="flex flex-wrap gap-4 mb-8">
-                                    <span className={cn("text-[12px] font-black px-4 py-2.5 rounded-full tracking-widest uppercase shadow-sm", test.theme.badge1)}>
+                                    <span className="text-[12px] font-black px-4 py-2.5 rounded-full tracking-widest uppercase bg-[#f0fdf4] text-[#16a34a] border border-[#bbf7d0] shadow-sm">
                                         FULL TEST
                                     </span>
-                                    <span className={cn("text-[12px] font-black px-4 py-2.5 rounded-full tracking-widest uppercase shadow-sm", test.theme.badge2)}>
+                                    <span className="text-[12px] font-black px-4 py-2.5 rounded-full tracking-widest uppercase bg-[#f0f9ff] text-[#0284c7] border border-[#bae6fd] shadow-sm">
                                         3 HOURS
                                     </span>
                                 </div>
 
                                 {/* Description */}
-                                <p className={cn("text-[15px] mb-8 font-bold leading-relaxed opacity-95", test.theme.textColor)}>
+                                <p className="text-[#334155] text-[15px] mb-8 font-bold leading-relaxed opacity-95">
                                     {test.description}
                                 </p>
 
                                 {/* List Section */}
-                                <h4 className={cn("font-black text-[13px] mb-4 tracking-widest uppercase", test.theme.textColor)}>
+                                <h4 className="font-black text-[#0f172a] text-[13px] mb-4 tracking-widest uppercase">
                                     {test.listTitle}
                                 </h4>
-                                <ul className={cn("list-disc pl-[20px] text-[15px] font-bold space-y-3 mb-12 opacity-95", test.theme.textColor)}>
+                                <ul className="list-disc pl-[20px] text-[#334155] text-[15px] font-bold space-y-3 mb-12 opacity-95">
                                     {test.listItems.map((item, i) => (
                                         <li key={i}>{item}</li>
                                     ))}
@@ -171,9 +172,9 @@ export default function MockExamsPage() {
                                 <motion.button
                                     whileHover={{ scale: 1.03 }}
                                     whileTap={{ scale: 0.97 }}
-                                    className="w-full text-[#0f172a] font-black py-[16px] rounded-full flex items-center justify-center gap-3 transition-all text-[15px] bg-white shadow-[0_8px_20px_rgba(0,0,0,0.1)] hover:shadow-[0_12px_25px_rgba(0,0,0,0.15)]"
+                                    className="w-full text-white font-black py-[16px] rounded-full flex items-center justify-center gap-3 transition-all text-[15px] bg-[#0f172a] shadow-[0_8px_20px_rgba(15,23,42,0.2)] hover:shadow-[0_12px_25px_rgba(15,23,42,0.3)]"
                                 >
-                                    <Play className="w-[18px] h-[18px] fill-[#0f172a]" strokeWidth={3} />
+                                    <Play className="w-[18px] h-[18px] fill-white" strokeWidth={3} />
                                     <span className="tracking-widest uppercase">Start Test</span>
                                 </motion.button>
                             </div>
