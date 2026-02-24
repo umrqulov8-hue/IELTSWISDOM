@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
 import { ModalProvider } from "@/context/ModalContext";
 import { AuthModal } from "@/components/AuthModal";
 import { LanguageProvider } from "@/context/LanguageContext";
+import { ClientLayout } from "@/components/ClientLayout";
+import { AuthProvider } from "@/context/AuthContext";
+import { Toaster } from 'sonner';
+import { Analytics } from "@vercel/analytics/react";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -22,10 +24,6 @@ export const metadata: Metadata = {
   description: "Master English with a Proven System. Interactive lessons, native speaker support, and structured curriculum.",
 };
 
-import { AuthProvider } from "@/context/AuthContext";
-import { Toaster } from 'sonner';
-import { Analytics } from "@vercel/analytics/react";
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -39,11 +37,9 @@ export default function RootLayout({
         <AuthProvider>
           <LanguageProvider>
             <ModalProvider>
-              <Header />
-              <main className="flex-grow pt-16">
+              <ClientLayout>
                 {children}
-              </main>
-              <Footer />
+              </ClientLayout>
               <AuthModal />
               <Toaster position="top-center" richColors />
             </ModalProvider>
@@ -54,4 +50,3 @@ export default function RootLayout({
     </html>
   );
 }
-
