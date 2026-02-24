@@ -161,78 +161,64 @@ export default function MockExamsPage() {
                                                 show: { opacity: 1, scale: 1, y: 0 }
                                             }}
                                             whileHover={{ y: -4, transition: { duration: 0.3, ease: "easeOut" } }}
-                                            className="rounded-[24px] p-6 md:p-9 flex flex-col items-center relative transition-all duration-500 bg-white group"
+                                            className="rounded-[28px] p-6 lg:p-8 flex flex-col items-start relative transition-all duration-500 bg-white group h-full"
                                             style={{
-                                                // Clean white card, increased shadow depth
-                                                boxShadow: "0 20px 45px rgba(175, 195, 215, 0.45)"
+                                                // Clean white card, increased shadow depth to match provided styling
+                                                boxShadow: "0 15px 40px rgba(175, 195, 215, 0.35)"
                                             }}
                                         >
-                                            {/* Vibrant 3D Circular Icon */}
-                                            <motion.div
-                                                whileHover={{ scale: 1.05 }}
-                                                className={cn(
-                                                    "w-[56px] h-[56px] rounded-full flex items-center justify-center mb-6 relative z-10 transition-transform duration-300",
-                                                    config.circleBg
+                                            {/* Top badges row */}
+                                            <div className="flex items-center justify-between w-full mb-8">
+                                                <div className="px-3.5 py-1 rounded-full border border-[#b4eed3] bg-[#f0fbf6] text-[#22c55e] text-[11px] font-bold tracking-widest uppercase">
+                                                    {section.status === 'upgrade' ? 'PRO' : 'FREE'}
+                                                </div>
+
+                                                {/* Optional Progress pill if there's progress, mimicking the blue tag in the image */}
+                                                {section.progress > 0 && (
+                                                    <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#3b82f6] text-white text-[11px] font-bold tracking-wide">
+                                                        <span className="w-3 h-3 flex justify-center items-center border border-white rounded-full">
+                                                            <span className="w-1.5 h-1.5 bg-white rounded-full"></span>
+                                                        </span>
+                                                        {section.progress}%
+                                                    </div>
                                                 )}
-                                                style={{
-                                                    // Stronger drop shadow for the icon to pop
-                                                    boxShadow: "0 12px 24px rgba(0,0,0,0.15), inset 0 3px 6px rgba(255,255,255,0.4)"
-                                                }}
-                                            >
-                                                <div className="absolute top-[2px] left-[15%] right-[15%] h-[40%] bg-gradient-to-b from-white/40 to-transparent rounded-full pointer-events-none" />
-                                                <config.icon className={cn("w-[24px] h-[24px] z-10 drop-shadow-sm", config.iconColor)} strokeWidth={2.2} />
-                                            </motion.div>
+                                            </div>
 
                                             {/* Title */}
-                                            <h3 className="text-[#374151] font-semibold text-[13px] tracking-wide mb-6 relative z-10">
+                                            <h3 className="text-[#1e293b] font-extrabold text-[17px] leading-[1.3] mb-4 pr-4">
                                                 {section.title}
                                             </h3>
 
-                                            {/* Progress Info Ring - Small soft grey circle */}
-                                            <div className="w-[38px] h-[38px] rounded-full flex items-center justify-center mb-8 relative z-10 bg-[#f4f7f9]"
-                                                style={{
-                                                    boxShadow: "inset 2px 2px 4px rgba(185, 200, 215, 0.2), inset -2px -2px 4px rgba(255,255,255,1)"
-                                                }}
-                                            >
-                                                <span className="text-[10px] font-bold text-[#6b7280]">0%</span>
-                                                {section.progress > 0 && (
-                                                    <svg className="absolute w-full h-full transform -rotate-90">
-                                                        <circle cx="19" cy="19" r="17" stroke="currentColor" strokeWidth="2.5" fill="none"
-                                                            strokeDasharray={106} strokeDashoffset={106 - (106 * section.progress) / 100}
-                                                            strokeLinecap="round"
-                                                            className={cn("opacity-60", SECTION_CONFIG[section.type].iconColor.replace('text-white', 'text-current text-[#4fc490]'))}
-                                                        />
-                                                    </svg>
-                                                )}
+                                            {/* NEW Badge */}
+                                            <div className="mb-auto pb-8">
+                                                <div className="inline-block px-2.5 py-0.5 rounded-md border border-[#ffcdd2] bg-[#fff0f2] text-[#ff4d4f] text-[10px] font-bold tracking-widest uppercase">
+                                                    NEW
+                                                </div>
                                             </div>
 
-                                            {/* "Take Test" Button (Soft White Pill) */}
+                                            {/* Start Button */}
                                             <motion.button
-                                                whileHover={{ scale: 1.03 }}
-                                                whileTap={{ scale: 0.97 }}
-                                                className="w-[85%] py-3.5 rounded-full text-[12px] font-bold flex items-center justify-center gap-2 relative overflow-hidden z-10 bg-white"
+                                                whileHover={{ scale: 1.02 }}
+                                                whileTap={{ scale: 0.98 }}
+                                                className="w-full mt-4 py-3.5 rounded-2xl text-[14px] font-bold flex items-center justify-center gap-3 relative overflow-hidden transition-colors"
                                                 style={{
-                                                    // Clean white with stronger drop shadow
-                                                    boxShadow: "0 10px 25px rgba(175, 195, 215, 0.35)",
-                                                    color: "#374151"
+                                                    backgroundColor: "#0f172a", // Dark navy/black
+                                                    color: "#ffffff" // White text
                                                 }}
                                             >
                                                 {section.status === "upgrade" ? (
-                                                    <div className="flex items-center gap-1.5 pt-0.5">
-                                                        <Lock className="w-[13px] h-[13px]" strokeWidth={2.5} /> <span className="tracking-wide">Upgrade</span>
-                                                    </div>
+                                                    <>
+                                                        <Lock className="w-3.5 h-3.5" strokeWidth={2.5} />
+                                                        <span className="tracking-wide">Upgrade</span>
+                                                    </>
                                                 ) : (
-                                                    <div className="flex items-center gap-1.5 pt-0.5">
-                                                        <Play className="w-2.5 h-2.5 fill-[#374151]" /> <span className="tracking-wide">Take Test</span>
-                                                    </div>
+                                                    <>
+                                                        {/* Simple white circular dot like the image */}
+                                                        <div className="w-3.5 h-3.5 bg-[#e2e8f0] rounded-full" />
+                                                        <span className="tracking-wide">Start</span>
+                                                    </>
                                                 )}
                                             </motion.button>
-
-                                            {/* Two faint debossed dots below button */}
-                                            <div className="flex gap-1.5 opacity-30 mt-3 z-10 relative">
-                                                <div className="w-[4px] h-[4px] rounded-full bg-[#cbd5e1]" />
-                                                <div className="w-[4px] h-[4px] rounded-full bg-[#cbd5e1]" />
-                                            </div>
                                         </motion.div>
                                     );
                                 })}
