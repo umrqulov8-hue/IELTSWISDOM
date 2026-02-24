@@ -8,11 +8,14 @@ import { Button } from "./Button";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "@/hooks/useAuth";
 import { LanguageToggle } from "./LanguageToggle";
+import { useLanguage } from "@/context/LanguageContext";
+import { translations as T, tx } from "@/lib/translations";
 
 export function Header() {
     const [isOpen, setIsOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
     const { handleStartLearning, isLoading } = useAuth();
+    const { lang } = useLanguage();
     const pathname = usePathname();
     const isDashboard = pathname?.startsWith('/dashboard') || pathname?.startsWith('/welcome') || pathname?.startsWith('/practice');
     const isReadingTest = pathname?.startsWith('/practice/reading/') && pathname.split('/').length > 3;
@@ -28,10 +31,10 @@ export function Header() {
     }, []);
 
     const navLinks = [
-        { name: "Courses", href: "/#courses" },
-        { name: "Methodology", href: "/#methodology" },
-        { name: "Success Stories", href: "/#testimonials" },
-        { name: "Resources", href: "/#lead-magnet" },
+        { name: tx(T.nav.courses, lang), href: "/#courses" },
+        { name: tx(T.nav.method, lang), href: "/#methodology" },
+        { name: tx(T.nav.success, lang), href: "/#testimonials" },
+        { name: tx(T.nav.resources, lang), href: "/#lead-magnet" },
     ];
 
     if (isReadingTest) return null;

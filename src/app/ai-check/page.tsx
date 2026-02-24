@@ -3,32 +3,44 @@
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { Send, Bot, User, Trash2, AlertCircle, Sparkles, BookOpen, Mic, PenLine } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
+import { useLanguage } from "@/context/LanguageContext";
+import { translations as T, tx } from "@/lib/translations";
 
 interface Message {
     role: "user" | "assistant";
     content: string;
 }
 
-const QUICK_PROMPTS = [
-    { icon: PenLine, label: "Insho tekshir", text: "Mana mening Task 2 inshoim, iltimos tekshiring va band baholab bering:" },
-    { icon: BookOpen, label: "Task 1 yordam", text: "IELTS Writing Task 1 uchun qanday yozish kerak? Bosqichma-bosqich tushuntirib bering." },
-    { icon: Mic, label: "Speaking maslahat", text: "IELTS Speaking Part 2 uchun qanday tayyorlanaman? Eng yaxshi maslahatlarni bering." },
-    { icon: Sparkles, label: "Band 7+ sirlar", text: "IELTS da Band 7 va undan yuqori ball olish uchun asosiy sirlarni aytib bering." },
-];
-
-const WELCOME_MESSAGE: Message = {
-    role: "assistant",
-    content: "Salom! Men **IELTS Wisdom AI** yordamchisiman 🎓\n\nQuyida tezkor savollardan birini tanlang yoki o'z savolingizni yozing. Men sizga yordamga tayyorman!",
-};
-
 export default function AICheckPage() {
-    const [messages, setMessages] = useState<Message[]>([WELCOME_MESSAGE]);
+    const { lang } = useLanguage();
+    const AIC = T.aiCheck;
+
+    const WELCOME_MESSAGE = (): Message => ({
+        role: "assistant",
+        content: tx(AIC.welcome, lang),
+    });
+
+    const QUICK_PROMPTS = () => [
+        { icon: PenLine, label: tx(AIC.prompts.essay, lang), text: lang === "en" ? "Here is my Task 2 essay, please check and give a band score:" : "Mana mening Task 2 inshoim, iltimos tekshiring va band baholab bering:" },
+        { icon: BookOpen, label: tx(AIC.prompts.task1, lang), text: lang === "en" ? "How should I write IELTS Writing Task 1? Explain step by step." : "IELTS Writing Task 1 uchun qanday yozish kerak? Bosqichma-bosqich tushuntirib bering." },
+        { icon: Mic, label: tx(AIC.prompts.speaking, lang), text: lang === "en" ? "How do I prepare for IELTS Speaking Part 2? Give me the best tips." : "IELTS Speaking Part 2 uchun qanday tayyorlanaman? Eng yaxshi maslahatlarni bering." },
+        { icon: Sparkles, label: tx(AIC.prompts.band7, lang), text: lang === "en" ? "What are the secrets to getting Band 7 or above in IELTS?" : "IELTS da Band 7 va undan yuqori ball olish uchun asosiy sirlarni aytib bering." },
+    ];
+
+    const [messages, setMessages] = useState<Message[]>([WELCOME_MESSAGE()]);
     const [input, setInput] = useState("");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [showPrompts, setShowPrompts] = useState(true);
     const bottomRef = useRef<HTMLDivElement>(null);
     const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+    // Re-generate welcome message when language changes
+    useEffect(() => {
+        setMessages([WELCOME_MESSAGE()]);
+        setShowPrompts(true);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [lang]);
 
     useEffect(() => {
         bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -72,17 +84,16 @@ export default function AICheckPage() {
     };
 
     const clearChat = () => {
-        setMessages([WELCOME_MESSAGE]);
+        setMessages([{ role: "assistant", content: tx(AIC.cleared, lang) }]);
         setShowPrompts(true);
         setError(null);
     };
 
-    // Render markdown bold and line breaks
     const renderContent = (text: string) =>
         text.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>").replace(/\n/g, "<br/>");
 
     return (
-        <DashboardLayout title="Premium AI Check" description="IELTS bo'yicha AI yordamchi bilan klaviatura orqali muloqot qiling.">
+        <DashboardLayout title={tx(AIC.title, lang)} description={tx(AIC.desc, lang)}>
             <div className="flex flex-col h-[calc(100vh-148px)] max-w-3xl mx-auto">
 
                 {/* Top bar */}
@@ -95,51 +106,34 @@ export default function AICheckPage() {
                             <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-green-400 border-2 border-white rounded-full" />
                         </div>
                         <div>
-                            <p className="font-bold text-slate-800 text-sm">IELTS AI Yordamchisi</p>
-                            <p className="text-xs text-green-500 font-medium">● Online · GPT-4o Mini</p>
+                            <p className="font-bold text-slate-800 text-sm">IELTS AI {lang === "en" ? "Assistant" : "Yordamchisi"}</p>
+                            <p className="text-xs text-green-500 font-medium">● {tx(AIC.online, lang)}</p>
                         </div>
                     </div>
-                    <button
-                        onClick={clearChat}
-                        className="flex items-center gap-1.5 text-xs text-slate-400 hover:text-red-500 transition-colors px-3 py-1.5 rounded-xl hover:bg-red-50 border border-transparent hover:border-red-100"
-                    >
-                        <Trash2 className="w-3.5 h-3.5" /> Tozalash
+                    <button onClick={clearChat} className="flex items-center gap-1.5 text-xs text-slate-400 hover:text-red-500 transition-colors px-3 py-1.5 rounded-xl hover:bg-red-50 border border-transparent hover:border-red-100">
+                        <Trash2 className="w-3.5 h-3.5" /> {tx(AIC.clear, lang)}
                     </button>
                 </div>
 
-                {/* Messages area */}
+                {/* Messages */}
                 <div className="flex-1 overflow-y-auto space-y-5 pr-1 pb-3">
                     {messages.map((msg, i) => (
                         <div key={i} className={`flex gap-3 ${msg.role === "user" ? "flex-row-reverse" : "flex-row"} items-end`}>
-                            {/* Avatar */}
-                            <div className={`w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm ${msg.role === "assistant"
-                                    ? "bg-gradient-to-br from-violet-600 to-indigo-600"
-                                    : "bg-gradient-to-br from-[#1c3e2e] to-[#2d6049]"
-                                }`}>
-                                {msg.role === "assistant"
-                                    ? <Bot className="w-4 h-4 text-white" />
-                                    : <User className="w-4 h-4 text-white" />}
+                            <div className={`w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm ${msg.role === "assistant" ? "bg-gradient-to-br from-violet-600 to-indigo-600" : "bg-gradient-to-br from-[#1c3e2e] to-[#2d6049]"}`}>
+                                {msg.role === "assistant" ? <Bot className="w-4 h-4 text-white" /> : <User className="w-4 h-4 text-white" />}
                             </div>
-
-                            {/* Bubble */}
-                            <div className={`max-w-[78%] text-sm leading-[1.7] ${msg.role === "assistant"
-                                    ? "bg-white border border-slate-100 text-slate-700 rounded-2xl rounded-bl-md px-4 py-3 shadow-sm"
-                                    : "bg-gradient-to-br from-violet-600 to-indigo-600 text-white rounded-2xl rounded-br-md px-4 py-3 shadow-md shadow-violet-200"
-                                }`}
+                            <div className={`max-w-[78%] text-sm leading-[1.7] ${msg.role === "assistant" ? "bg-white border border-slate-100 text-slate-700 rounded-2xl rounded-bl-md px-4 py-3 shadow-sm" : "bg-gradient-to-br from-violet-600 to-indigo-600 text-white rounded-2xl rounded-br-md px-4 py-3 shadow-md shadow-violet-200"}`}
                                 dangerouslySetInnerHTML={{ __html: renderContent(msg.content) }}
                             />
                         </div>
                     ))}
 
-                    {/* Quick prompts shown on welcome */}
+                    {/* Quick prompts */}
                     {showPrompts && messages.length === 1 && (
                         <div className="grid grid-cols-2 gap-2 pt-1 pl-11">
-                            {QUICK_PROMPTS.map(({ icon: Icon, label, text }) => (
-                                <button
-                                    key={label}
-                                    onClick={() => sendMessage(text)}
-                                    className="flex items-center gap-2 text-left px-3 py-2.5 rounded-xl bg-white border border-slate-100 hover:border-violet-200 hover:bg-violet-50 transition-all text-xs text-slate-600 hover:text-violet-700 shadow-sm hover:shadow-md group"
-                                >
+                            {QUICK_PROMPTS().map(({ icon: Icon, label, text }) => (
+                                <button key={label} onClick={() => sendMessage(text)}
+                                    className="flex items-center gap-2 text-left px-3 py-2.5 rounded-xl bg-white border border-slate-100 hover:border-violet-200 hover:bg-violet-50 transition-all text-xs text-slate-600 hover:text-violet-700 shadow-sm hover:shadow-md group">
                                     <Icon className="w-3.5 h-3.5 text-violet-500 flex-shrink-0 group-hover:scale-110 transition-transform" />
                                     <span className="font-medium">{label}</span>
                                 </button>
@@ -163,7 +157,6 @@ export default function AICheckPage() {
                         </div>
                     )}
 
-                    {/* Error */}
                     {error && (
                         <div className="flex items-start gap-2 text-red-600 bg-red-50 border border-red-100 rounded-2xl px-4 py-3 text-sm ml-11">
                             <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5" />
@@ -181,7 +174,7 @@ export default function AICheckPage() {
                         value={input}
                         onChange={handleInput}
                         onKeyDown={handleKeyDown}
-                        placeholder="Savol bering yoki inshongizni yuboring... (Enter = yuborish)"
+                        placeholder={tx(AIC.placeholder, lang)}
                         rows={1}
                         className="flex-1 resize-none bg-transparent text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none py-1.5 px-2 max-h-[160px] overflow-y-auto leading-relaxed"
                         disabled={loading}
@@ -196,7 +189,7 @@ export default function AICheckPage() {
                 </div>
 
                 <p className="text-center text-[11px] text-slate-400 mt-2">
-                    AI xatolik qilishi mumkin · Muhim ma&apos;lumotlarni tekshiring
+                    {tx(AIC.disclaimer, lang)}
                 </p>
             </div>
         </DashboardLayout>

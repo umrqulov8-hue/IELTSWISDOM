@@ -4,9 +4,13 @@ import { Button } from "./Button";
 import { motion } from "framer-motion";
 import { ArrowRight, CheckCircle2, Loader2 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
+import { useLanguage } from "@/context/LanguageContext";
+import { translations as T, tx } from "@/lib/translations";
 
 export function Hero() {
     const { handleStartLearning, isLoading } = useAuth();
+    const { lang } = useLanguage();
+    const h = T.hero;
 
     return (
         <section className="relative overflow-hidden pt-10 pb-20 lg:pt-20 lg:pb-28">
@@ -28,35 +32,35 @@ export function Hero() {
                     >
                         <div className="inline-flex items-center rounded-full border px-3 py-1 text-sm font-medium text-primary bg-primary/5 mb-6">
                             <span className="flex h-2 w-2 rounded-full bg-secondary mr-2"></span>
-                            New Cohort Starting Soon
+                            {tx(h.badge, lang)}
                         </div>
 
                         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-primary mb-6">
-                            Master English with a <span className="text-secondary">Proven System</span>
+                            {tx(h.h1a, lang)} <span className="text-secondary">{tx(h.h1b, lang)}</span>{tx(h.h1c, lang) ? ` ${tx(h.h1c, lang)}` : ""}
                         </h1>
 
                         <p className="text-lg sm:text-xl text-muted-foreground mb-8 leading-relaxed">
-                            Stop memorizing random words. Learn with a structured curriculum designed by experts to make you fluent, faster.
+                            {tx(h.desc, lang)}
                         </p>
 
                         <div className="flex flex-col sm:flex-row gap-4 mb-10">
                             <Button size="lg" className="group" onClick={handleStartLearning} disabled={isLoading}>
-                                {isLoading ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : "Start Learning Now"}
+                                {isLoading ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : tx(h.cta, lang)}
                                 {!isLoading && <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />}
                             </Button>
                             <Button variant="outline" size="lg" href="#methodology">
-                                View Curriculum
+                                {tx(h.curriculum, lang)}
                             </Button>
                         </div>
 
                         <div className="flex items-center gap-6 text-sm text-muted-foreground">
                             <div className="flex items-center gap-2">
                                 <CheckCircle2 className="h-5 w-5 text-secondary" />
-                                <span>Native Teachers</span>
+                                <span>{tx(h.teachers, lang)}</span>
                             </div>
                             <div className="flex items-center gap-2">
                                 <CheckCircle2 className="h-5 w-5 text-secondary" />
-                                <span>Lifetime Access</span>
+                                <span>{tx(h.lifetime, lang)}</span>
                             </div>
                         </div>
                     </motion.div>
@@ -68,7 +72,6 @@ export function Hero() {
                         transition={{ duration: 0.8, delay: 0.2 }}
                         className="relative lg:h-[600px] flex items-center justify-center hidden md:flex"
                     >
-                        {/* Placeholder for Hero Image - using CSS shapes for now */}
                         <div className="relative w-full max-w-md aspect-square">
                             <div className="absolute inset-0 bg-gradient-to-tr from-primary to-secondary rounded-[2rem] rotate-3 opacity-20"></div>
                             <div className="absolute inset-0 bg-white dark:bg-slate-900 rounded-[2rem] shadow-2xl border border-slate-100 dark:border-slate-800 overflow-hidden flex items-center justify-center">
@@ -100,7 +103,7 @@ export function Hero() {
                                 <div className="flex items-center gap-3">
                                     <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-600 font-bold">A+</div>
                                     <div>
-                                        <p className="text-xs text-muted-foreground">Student Rating</p>
+                                        <p className="text-xs text-muted-foreground">{lang === "en" ? "Student Rating" : "Talaba reytingi"}</p>
                                         <p className="font-bold text-primary">4.9/5.0</p>
                                     </div>
                                 </div>
@@ -115,8 +118,8 @@ export function Hero() {
                                 <div className="flex items-center gap-3">
                                     <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold">24h</div>
                                     <div>
-                                        <p className="text-xs text-muted-foreground">Support</p>
-                                        <p className="font-bold text-primary">Live Chat</p>
+                                        <p className="text-xs text-muted-foreground">{lang === "en" ? "Support" : "Yordam"}</p>
+                                        <p className="font-bold text-primary">{lang === "en" ? "Live Chat" : "Jonli Chat"}</p>
                                     </div>
                                 </div>
                             </motion.div>
