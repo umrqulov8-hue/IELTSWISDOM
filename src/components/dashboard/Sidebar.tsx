@@ -16,21 +16,28 @@ import {
 import { cn } from '@/lib/utils';
 import { useAuthContext } from '@/context/AuthContext';
 import { motion } from 'framer-motion';
+import { useLanguage } from '@/context/LanguageContext';
+import { translations as T, tx } from '@/lib/translations';
+import type { Lang } from '@/lib/translations';
 
-const navItems = [
-    { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
-    { name: 'Leaderboard', href: '/leaderboard', icon: Trophy },
-    { name: 'Student Results', href: '/results', icon: Sparkles },
-    { name: 'Premium AI Check', href: '/ai-check', icon: Sparkles, premium: true },
-    { name: 'Translation Practice', href: '/translation', icon: Languages },
-    { name: 'Join My Lessons', href: '/lessons', icon: Users, featured: true },
-    { name: 'Read Articles', href: '/articles', icon: BookOpen },
-];
+function getNavItems(lang: Lang) {
+    return [
+        { name: tx(T.sidebar.dashboard, lang), href: '/dashboard', icon: LayoutDashboard },
+        { name: tx(T.sidebar.leaderboard, lang), href: '/leaderboard', icon: Trophy },
+        { name: tx(T.sidebar.results, lang), href: '/results', icon: Sparkles },
+        { name: tx(T.sidebar.aiCheck, lang), href: '/ai-check', icon: Sparkles, premium: true },
+        { name: tx(T.sidebar.translation, lang), href: '/translation', icon: Languages },
+        { name: tx(T.sidebar.lessons, lang), href: '/lessons', icon: Users, featured: true },
+        { name: tx(T.sidebar.articles, lang), href: '/articles', icon: BookOpen },
+    ];
+}
 
 export function Sidebar() {
     const pathname = usePathname();
     const router = useRouter();
     const { user, signOut } = useAuthContext();
+    const { lang } = useLanguage();
+    const navItems = getNavItems(lang);
 
     return (
         <aside className="fixed left-0 top-0 h-screen w-[90px] hover:w-72 bg-white/40 backdrop-blur-2xl border-r border-white/40 z-[110] hidden lg:flex flex-col shadow-[4px_0_24px_rgba(0,0,0,0.02)] transition-all duration-500 ease-in-out group overflow-hidden peer">

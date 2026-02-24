@@ -5,6 +5,7 @@ import { Book, FileText, ChevronDown, BookOpen, Star, Flame, ArrowRight, PlayCir
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { useLanguage } from "@/context/LanguageContext";
 
 // --- Types ---
 interface Passage {
@@ -384,7 +385,13 @@ import { ActivitySelectionModal } from "@/components/dashboard/ActivitySelection
 // ... [Keep existing types and data] ...
 
 export default function VocabularyPage() {
-    // State to track expanded book (Accordion Level 1)
+    const { lang } = useLanguage();
+    const selectBook = lang === "en" ? "Select a Book" : "Kitobni tanlang";
+    const booksLabel = lang === "en" ? "Books Available" : "Mavjud kitoblar";
+    const testsLabel = lang === "en" ? "Total Tests" : "Jami testlar";
+    const passagesLabel = lang === "en" ? "Passages" : "Matnlar";
+    const startActivities = lang === "en" ? "Start Activities" : "Mashqlarni boshlash";
+    const testsWord = lang === "en" ? "Tests" : "Testlar";
     const [expandedBook, setExpandedBook] = useState<string | null>("cam-20");
     // State to track expanded tests within books (Accordion Level 2)
     // Map of bookId -> expandedTestId
@@ -418,21 +425,21 @@ export default function VocabularyPage() {
 
     return (
         <DashboardLayout
-            title="Vocabulary Practice"
-            description="Master IELTS vocabulary with context-based passage practice."
+            title={lang === "en" ? "Vocabulary Practice" : "Lug'at Mashqi"}
+            description={lang === "en" ? "Master IELTS vocabulary with context-based passage practice." : "Kontekstga asoslangan matn mashqlari bilan IELTS lug'atini o'zlang."}
         >
             {/* Header Stats */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-                <StatsCard icon={Book} label="Books Available" value="13" color="text-blue-500" bg="bg-blue-50" />
-                <StatsCard icon={FileText} label="Total Tests" value="20+" color="text-purple-500" bg="bg-purple-50" />
-                <StatsCard icon={BookOpen} label="Passages" value="60+" color="text-emerald-500" bg="bg-emerald-50" />
+                <StatsCard icon={Book} label={booksLabel} value="13" color="text-blue-500" bg="bg-blue-50" />
+                <StatsCard icon={FileText} label={testsLabel} value="20+" color="text-purple-500" bg="bg-purple-50" />
+                <StatsCard icon={BookOpen} label={passagesLabel} value="60+" color="text-emerald-500" bg="bg-emerald-50" />
             </div>
 
             {/* Main Content Card - Liquid Glass */}
             <div className="bg-white/70 backdrop-blur-xl rounded-3xl p-6 md:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-white/60">
                 <h2 className="text-2xl font-bold text-[#1A1A1A] mb-6 flex items-center gap-2">
                     <span className="w-1 h-8 bg-[#D4AF37] rounded-full inline-block"></span>
-                    Select a Book
+                    {selectBook}
                 </h2>
 
                 <div className="space-y-4">
@@ -463,7 +470,7 @@ export default function VocabularyPage() {
                                             {book.title}
                                         </h3>
                                         <p className="text-xs text-slate-400 font-medium">
-                                            {book.tests.length} Tests
+                                            {book.tests.length} {testsWord}
                                         </p>
                                     </div>
                                 </div>
@@ -533,7 +540,7 @@ export default function VocabularyPage() {
                                                                                     onClick={() => handleStartActivity(book.title, test.title, passage)}
                                                                                     className="flex items-center gap-2 bg-red-50 hover:bg-red-100 text-red-600 px-4 py-2 rounded-lg text-sm font-semibold transition-colors group/btn"
                                                                                 >
-                                                                                    Start Activities
+                                                                                    {startActivities}
                                                                                     <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
                                                                                 </button>
                                                                             </div>

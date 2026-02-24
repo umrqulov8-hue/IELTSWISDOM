@@ -7,6 +7,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { useDashboard } from "@/hooks/useDashboard";
 import { useRouter } from "next/navigation";
+import { useLanguage } from "@/context/LanguageContext";
 
 // Fallback Mock Data (if DB is empty for demo)
 const FALLBACK_SEARCH_RESULTS = [
@@ -26,6 +27,7 @@ interface DashboardHeaderProps {
 export function DashboardHeader({ title, description, showGreeting, displayName }: DashboardHeaderProps) {
     const { notifications, lessons, markNotificationRead, clearNotifications } = useDashboard();
     const router = useRouter();
+    const { lang } = useLanguage();
 
     // Search State
     const [searchQuery, setSearchQuery] = useState("");
@@ -67,9 +69,9 @@ export function DashboardHeader({ title, description, showGreeting, displayName 
                 {showGreeting ? (
                     <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}>
                         <h1 className="text-3xl md:text-4xl font-extrabold text-slate-800 tracking-tight">
-                            Welcome back, <span className="text-[#FF8C00]">{displayName}</span>!
+                            {lang === "en" ? "Welcome back," : "Xush kelibsiz,"} <span className="text-[#FF8C00]">{displayName}</span>!
                         </h1>
-                        <p className="text-slate-500 mt-2 font-medium">Ready to hit your targets today?</p>
+                        <p className="text-slate-500 mt-2 font-medium">{lang === "en" ? "Ready to hit your targets today?" : "Bugun maqsadlaringizga erishishga tayyormisiz?"}</p>
                     </motion.div>
                 ) : (
                     <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}>
@@ -95,7 +97,7 @@ export function DashboardHeader({ title, description, showGreeting, displayName 
                         )} />
                         <input
                             type="text"
-                            placeholder="Search lessons..."
+                            placeholder={lang === "en" ? "Search lessons..." : "Darslarni qidirish..."}
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                             onFocus={() => setIsSearchFocused(true)}
@@ -141,7 +143,7 @@ export function DashboardHeader({ title, description, showGreeting, displayName 
                                         ))
                                     ) : (
                                         <div className="p-4 text-center text-slate-500 text-sm">
-                                            No results found.
+                                            {lang === "en" ? "No results found." : "Natija topilmadi."}
                                         </div>
                                     )}
                                 </div>
@@ -178,10 +180,10 @@ export function DashboardHeader({ title, description, showGreeting, displayName 
                             >
                                 {/* Header */}
                                 <div className="p-4 border-b border-white/20 flex justify-between items-center bg-white/40">
-                                    <h3 className="font-bold text-slate-800">Notifications</h3>
+                                    <h3 className="font-bold text-slate-800">{lang === "en" ? "Notifications" : "Bildirishnomalar"}</h3>
                                     {notifications && notifications.length > 0 && (
                                         <button onClick={clearNotifications} className="text-xs text-slate-500 hover:text-red-500 transition-colors">
-                                            Clear All
+                                            {lang === "en" ? "Clear All" : "Hammasini o'chirish"}
                                         </button>
                                     )}
                                 </div>
@@ -213,7 +215,7 @@ export function DashboardHeader({ title, description, showGreeting, displayName 
                                                             onClick={(e) => { e.stopPropagation(); markNotificationRead(notif.id); }}
                                                             className="text-[10px] bg-slate-200 hover:bg-green-100 hover:text-green-600 px-2 py-1 rounded-full transition-colors flex items-center gap-1"
                                                         >
-                                                            <Check className="w-3 h-3" /> Mark read
+                                                            <Check className="w-3 h-3" /> {lang === "en" ? "Mark read" : "O'qildi"}
                                                         </button>
                                                     )}
                                                 </div>
@@ -222,7 +224,7 @@ export function DashboardHeader({ title, description, showGreeting, displayName 
                                     ) : (
                                         <div className="p-8 text-center text-slate-400 text-sm flex flex-col items-center">
                                             <Bell className="w-8 h-8 opacity-20 mb-2" />
-                                            No notifications
+                                            {lang === "en" ? "No notifications" : "Bildirishnomalar yo'q"}
                                         </div>
                                     )}
                                 </div>

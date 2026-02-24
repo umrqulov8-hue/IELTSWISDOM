@@ -5,6 +5,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { BookOpen, ChevronRight, PenTool, Search, Star, FileText, BadgeCheck } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useLanguage } from "@/context/LanguageContext";
 
 // --- Types ---
 interface SampleItem {
@@ -122,6 +123,7 @@ import { X } from "lucide-react";
 import { AnimatePresence } from "framer-motion";
 
 export default function SamplesPage() {
+    const { lang } = useLanguage();
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedSample, setSelectedSample] = useState<SampleItem | null>(null);
 
@@ -131,8 +133,8 @@ export default function SamplesPage() {
 
     return (
         <DashboardLayout
-            title="Band 9.0 Samples"
-            description="Explore our curated collection of high-scoring IELTS essays and reports."
+            title={lang === "en" ? "Band 9.0 Samples" : "Band 9.0 Namunalari"}
+            description={lang === "en" ? "Explore our curated collection of high-scoring IELTS essays and reports." : "Yuqori ball olgan IELTS insholari va hisobotlarning tanlangan to'plamini o'rganing."}
         >
             <div className="max-w-5xl mx-auto space-y-8">
 
@@ -153,7 +155,7 @@ export default function SamplesPage() {
                         </div>
 
                         <h1 className="text-3xl md:text-5xl font-extrabold text-white mb-6 drop-shadow-sm">
-                            My Writing Sample Book
+                            {lang === "en" ? "My Writing Sample Book" : "Mening Yozish Namunalar Kitobim"}
                         </h1>
 
                         <div className="flex flex-wrap justify-center gap-4 mb-8">
@@ -167,7 +169,7 @@ export default function SamplesPage() {
 
                         <button className="bg-white text-red-600 font-bold px-8 py-3 rounded-full flex items-center gap-2 hover:bg-red-50 transition-colors shadow-lg shadow-black/10 group">
                             <PenTool className="w-4 h-4" />
-                            Access Now
+                            {lang === "en" ? "Access Now" : "Hozir kirish"}
                             <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                         </button>
                     </div>
@@ -180,7 +182,7 @@ export default function SamplesPage() {
                     </div>
                     <input
                         type="text"
-                        placeholder="Search for a topic..."
+                        placeholder={lang === "en" ? "Search for a topic..." : "Mavzuni qidiring..."}
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         className="w-full bg-white border border-slate-200 text-slate-700 rounded-full py-3.5 pl-12 pr-6 shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-400 transition-all placeholder:text-slate-400"
@@ -216,7 +218,7 @@ export default function SamplesPage() {
 
                                     <div className="hidden md:flex items-center gap-1.5 text-xs font-medium text-slate-400 min-w-[80px]">
                                         <FileText className="w-3.5 h-3.5" />
-                                        {sample.wordCount} words
+                                        {sample.wordCount} {lang === "en" ? "words" : "so'z"}
                                     </div>
 
                                     <ChevronRight className="w-5 h-5 text-slate-300 group-hover:text-red-400 transition-colors" />
@@ -288,9 +290,9 @@ export default function SamplesPage() {
                                             <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mb-4">
                                                 <PenTool className="w-8 h-8 text-slate-400" />
                                             </div>
-                                            <h3 className="text-lg font-bold text-slate-700 mb-2">Content Coming Soon</h3>
+                                            <h3 className="text-lg font-bold text-slate-700 mb-2">{lang === "en" ? "Content Coming Soon" : "Kontent tez kunda"}</h3>
                                             <p className="text-slate-500 max-w-xs mx-auto">
-                                                The full text for this sample is being digitized. Please check back later.
+                                                {lang === "en" ? "The full text for this sample is being digitized. Please check back later." : "Bu namuna uchun to'liq matn tayyorlanmoqda. Keyinroq kiring."}
                                             </p>
                                         </div>
                                     )}

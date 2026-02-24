@@ -5,6 +5,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Download, FileText, Headphones, Archive, Star, Search, Filter, Lock, FileType, HardDrive } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useLanguage } from "@/context/LanguageContext";
 
 // --- Types ---
 type MaterialType = "all" | "ebook" | "worksheet" | "audio";
@@ -42,6 +43,13 @@ const CATEGORIES = [
 ];
 
 export default function MaterialsPage() {
+    const { lang } = useLanguage();
+    const CATEGORIES = [
+        { id: "all", label: lang === "en" ? "All Resources" : "Barcha resurslar", icon: Archive },
+        { id: "ebook", label: lang === "en" ? "E-Books" : "E-Kitoblar", icon: FileText },
+        { id: "worksheet", label: lang === "en" ? "Worksheets" : "Ishchi varaqlar", icon: FileType },
+        { id: "audio", label: lang === "en" ? "Audio Files" : "Audio fayllar", icon: Headphones },
+    ];
     const [selectedType, setSelectedType] = useState<MaterialType>("all");
     const [searchQuery, setSearchQuery] = useState("");
 
@@ -54,8 +62,8 @@ export default function MaterialsPage() {
 
     return (
         <DashboardLayout
-            title="Premium Materials"
-            description="Exclusive downloadable resources to accelerate your learning."
+            title={lang === "en" ? "Premium Materials" : "Premium Materiallar"}
+            description={lang === "en" ? "Exclusive downloadable resources to accelerate your learning." : "O'rganishingizni tezlashtiradigan eksklyuziv yuklab olinadigan resurslar."}
         >
             <div className="flex flex-col lg:flex-row gap-8 relative z-10">
                 {/* Background Blobs for Cyan/Teal Aesthetic */}
@@ -79,7 +87,7 @@ export default function MaterialsPage() {
                         </div>
                         <input
                             type="text"
-                            placeholder="Search resources..."
+                            placeholder={lang === "en" ? "Search resources..." : "Resurslarni qidiring..."}
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                             className="w-full bg-white/70 backdrop-blur-md border border-cyan-100/50 text-slate-700 rounded-2xl py-3 pl-10 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500/20 focus:border-cyan-400 transition-all shadow-sm placeholder:text-cyan-400/50"
@@ -95,7 +103,7 @@ export default function MaterialsPage() {
                     >
                         <div className="flex items-center gap-2 px-3 pb-3 mb-2 border-b border-cyan-100/50">
                             <Filter className="w-4 h-4 text-cyan-600" />
-                            <span className="text-xs font-bold text-cyan-500 uppercase tracking-wider">File Type</span>
+                            <span className="text-xs font-bold text-cyan-500 uppercase tracking-wider">{lang === "en" ? "File Type" : "Fayl turi"}</span>
                         </div>
 
                         {CATEGORIES.map((cat) => (
@@ -148,12 +156,12 @@ export default function MaterialsPage() {
                         <div className="relative z-10 text-white max-w-2xl">
                             <div className="flex items-center gap-2 mb-4">
                                 <span className="bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest border border-white/20 flex items-center gap-2">
-                                    <Star className="w-3 h-3 text-cyan-200 fill-cyan-200" /> Premium Vault
+                                    <Star className="w-3 h-3 text-cyan-200 fill-cyan-200" /> {lang === "en" ? "Premium Vault" : "Premium Xazina"}
                                 </span>
                             </div>
-                            <h2 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight">Downloads</h2>
+                            <h2 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight">{lang === "en" ? "Downloads" : "Yuklab olish"}</h2>
                             <p className="text-cyan-50 text-lg leading-relaxed font-light">
-                                Access our exclusive library of high-quality study materials, cheat sheets, and audio files.
+                                {lang === "en" ? "Access our exclusive library of high-quality study materials, cheat sheets, and audio files." : "Yuqori sifatli o'quv materiallari, qo'llanmalar va audio fayllarning eksklyuziv kutubxonasidan foydalaning."}
                             </p>
                         </div>
                     </motion.div>
@@ -209,11 +217,11 @@ export default function MaterialsPage() {
                                         {/* Metadata Footer */}
                                         <div className="mt-auto pt-4 border-t border-slate-100 flex items-center justify-between relative z-10">
                                             <div className="flex flex-col">
-                                                <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Size</span>
+                                                <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">{lang === "en" ? "Size" : "Hajm"}</span>
                                                 <span className="text-xs font-semibold text-slate-600">{item.size}</span>
                                             </div>
                                             <div className="flex flex-col border-l border-slate-100 pl-4">
-                                                <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Format</span>
+                                                <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">{lang === "en" ? "Format" : "Format"}</span>
                                                 <span className="text-xs font-semibold text-slate-600">{item.format}</span>
                                             </div>
 
@@ -234,7 +242,7 @@ export default function MaterialsPage() {
 
                     {filteredMaterials.length === 0 && (
                         <div className="text-center py-24">
-                            <p className="text-slate-400">No resources found matching your search.</p>
+                            <p className="text-slate-400">{lang === "en" ? "No resources found matching your search." : "Qidiruv bo'yicha resurslar topilmadi."}</p>
                         </div>
                     )}
                 </main>

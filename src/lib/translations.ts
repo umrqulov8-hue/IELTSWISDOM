@@ -1,5 +1,5 @@
 export const translations = {
-    // ──── HEADER ────
+    // ──── HEADER NAV ────
     nav: {
         courses: { en: "Courses", uz: "Kurslar" },
         method: { en: "Methodology", uz: "Metodologiya" },
@@ -22,17 +22,6 @@ export const translations = {
         curriculum: { en: "View Curriculum", uz: "Dasturni ko'rish" },
         teachers: { en: "Native Teachers", uz: "Ona tilli o'qituvchilar" },
         lifetime: { en: "Lifetime Access", uz: "Umrbod kirish" },
-    },
-
-    // ──── VALUE PROPS ────
-    value: {
-        title: { en: "Why IELTS Wisdom?", uz: "Nega IELTS Wisdom?" },
-        items: [
-            { en: "Structured Curriculum", uz: "Tizimli dastur" },
-            { en: "Expert Instructors", uz: "Mutaxassis o'qituvchilar" },
-            { en: "Practice Tests", uz: "Amaliy testlar" },
-            { en: "Band Guarantee", uz: "Ball kafolati" },
-        ],
     },
 
     // ──── DASHBOARD ────
@@ -65,17 +54,12 @@ export const translations = {
     // ──── SIDEBAR MENU ────
     sidebar: {
         dashboard: { en: "Dashboard", uz: "Boshqaruv" },
-        vocabulary: { en: "Vocabulary", uz: "Lug'at" },
-        listening: { en: "Listening", uz: "Tinglash" },
-        reading: { en: "Reading", uz: "O'qish" },
-        writing: { en: "Writing", uz: "Yozish" },
-        speaking: { en: "Speaking", uz: "Gapirish" },
-        mock: { en: "Mock Exams", uz: "Mock imtihon" },
-        materials: { en: "Materials", uz: "Materiallar" },
-        samples: { en: "Samples", uz: "Namunalar" },
         leaderboard: { en: "Leaderboard", uz: "Reyting" },
-        aiCheck: { en: "AI Check", uz: "AI Tekshirish" },
-        lessons: { en: "Lessons", uz: "Darslar" },
+        results: { en: "Student Results", uz: "Talaba natijalari" },
+        aiCheck: { en: "Premium AI Check", uz: "Premium AI Tekshirish" },
+        translation: { en: "Translation Practice", uz: "Tarjima mashqi" },
+        lessons: { en: "Join My Lessons", uz: "Darslarga qo'shilish" },
+        articles: { en: "Read Articles", uz: "Maqolalar o'qish" },
         logout: { en: "Logout", uz: "Chiqish" },
     },
 
@@ -108,6 +92,178 @@ export const translations = {
         },
     },
 
+    // ──── LEADERBOARD ────
+    leaderboard: {
+        title: { en: "Leaderboard", uz: "Reyting" },
+        desc: { en: "Compete with other students and climb the ranks!", uz: "Boshqa talabalar bilan raqobatlashing va yuqoriga ko'tariling!" },
+        comingSoon: { en: "Leaderboard Coming Soon", uz: "Reyting tez kunda" },
+        info: { en: "We're currently calculating the scores. Check back later to see where you stand among your peers!", uz: "Hozirda ballar hisoblanmoqda. O'rtoqlaringiz orasida o'rningizni bilish uchun keyinroq kiring!" },
+        viewStats: { en: "View My Stats", uz: "Mening natijalarim" },
+    },
+
+    // ──── MOCK EXAMS ────
+    mockExams: {
+        title: { en: "Available Mock Tests", uz: "Mavjud Mock Testlar" },
+        desc: { en: "Experience the real IELTS test environment with our complete mock exams.", uz: "To'liq mock imtihonlar bilan haqiqiy IELTS muhitini his qiling." },
+        sectionTitle: { en: "Available Mock Tests", uz: "Mavjud Mock Testlar" },
+        startTest: { en: "Start Test", uz: "Testni boshlash" },
+        fullTest: { en: "FULL TEST", uz: "TO'LIQ TEST" },
+        hours: { en: "3 HOURS", uz: "3 SOAT" },
+        tests: [
+            {
+                title: { en: "Academic Mock Test 1", uz: "Akademik Mock Test 1" },
+                desc: { en: "Complete Academic IELTS test covering all four skills.", uz: "To'rtta ko'nikmani qamrab oluvchi to'liq Akademik IELTS testi." },
+                listTitle: { en: "TEST COMPONENTS:", uz: "TEST TARKIBI:" },
+                listItems: [
+                    { en: "Listening: 40 questions (30 min)", uz: "Tinglash: 40 savol (30 daq)" },
+                    { en: "Reading: 40 questions (60 min)", uz: "O'qish: 40 savol (60 daq)" },
+                    { en: "Writing: 2 tasks (60 min)", uz: "Yozish: 2 topshiriq (60 daq)" },
+                    { en: "Speaking: 3 parts (11-14 min)", uz: "Gapirish: 3 qism (11-14 daq)" },
+                ],
+            },
+            {
+                title: { en: "Academic Mock Test 2", uz: "Akademik Mock Test 2" },
+                desc: { en: "Second complete Academic test with different topics.", uz: "Turli mavzular bilan ikkinchi to'liq Akademik test." },
+                listTitle: { en: "TEST FEATURES:", uz: "TEST XUSUSIYATLARI:" },
+                listItems: [
+                    { en: "New topics and questions", uz: "Yangi mavzular va savollar" },
+                    { en: "Band score prediction", uz: "Ball bashorati" },
+                    { en: "Detailed answer explanations", uz: "Batafsil javob tushuntirishlari" },
+                    { en: "Performance analytics", uz: "Natijalar tahlili" },
+                ],
+            },
+            {
+                title: { en: "General Training Mock Test 1", uz: "Umumiy Trening Mock Test 1" },
+                desc: { en: "Complete General Training test for work and migration.", uz: "Ish va migratsiya uchun to'liq Umumiy Trening testi." },
+                listTitle: { en: "TEST COMPONENTS:", uz: "TEST TARKIBI:" },
+                listItems: [
+                    { en: "Listening: 40 questions (30 min)", uz: "Tinglash: 40 savol (30 daq)" },
+                    { en: "Reading: 40 questions (60 min)", uz: "O'qish: 40 savol (60 daq)" },
+                    { en: "Writing: 2 tasks (60 min)", uz: "Yozish: 2 topshiriq (60 daq)" },
+                    { en: "Speaking: 3 parts (11-14 min)", uz: "Gapirish: 3 qism (11-14 daq)" },
+                ],
+            },
+            {
+                title: { en: "General Training Mock Test 2", uz: "Umumiy Trening Mock Test 2" },
+                desc: { en: "Second complete General Training test with varied content.", uz: "Xilma-xil mazmunga ega ikkinchi to'liq Umumiy Trening testi." },
+                listTitle: { en: "TEST FEATURES:", uz: "TEST XUSUSIYATLARI:" },
+                listItems: [
+                    { en: "New topics and questions", uz: "Yangi mavzular va savollar" },
+                    { en: "Band score prediction", uz: "Ball bashorati" },
+                    { en: "Detailed answer explanations", uz: "Batafsil javob tushuntirishlari" },
+                    { en: "Performance analytics", uz: "Natijalar tahlili" },
+                ],
+            },
+        ],
+    },
+
+    // ──── WRITING PRACTICE ────
+    writing: {
+        title: { en: "Writing Practice", uz: "Yozish Mashqi" },
+        desc: { en: "Master your essay structure and vocabulary with our extensive library.", uz: "Keng kutubxonamiz yordamida inshoning strukturasi va lug'atini mukammallashtiring." },
+        searchPlaceholder: { en: "Search writing tests...", uz: "Yozish testlarini qidiring..." },
+        testMode: { en: "Test Mode", uz: "Test rejimi" },
+        taskType: { en: "Task Type", uz: "Topshiriq turi" },
+        allTests: { en: "All Tests", uz: "Barcha testlar" },
+        academic: { en: "Academic", uz: "Akademik" },
+        general: { en: "General Training", uz: "Umumiy Trening" },
+        allTypes: { en: "All Task Types", uz: "Barcha turlar" },
+        task1: { en: "Task 1 (Report/Letter)", uz: "Task 1 (Hisobot/Xat)" },
+        task2: { en: "Task 2 (Essay)", uz: "Task 2 (Insho)" },
+        fullTest: { en: "Full Test", uz: "To'liq test" },
+        applyFilter: { en: "Apply Filter", uz: "Filtr qo'llash" },
+        availableTests: { en: "Available Tests", uz: "Mavjud testlar" },
+        workshop: { en: "Writing Workshop", uz: "Yozish seminari" },
+        excellence: { en: "Writing Excellence", uz: "Yozish mukammalligi" },
+        excellenceDesc: {
+            en: "Perfect your essay structure, coherence, and vocabulary with our extensive library of Academic and General Training tasks.",
+            uz: "Akademik va Umumiy Trening topshiriqlarimizning keng kutubxonasi yordamida insho strukturasi, izchillik va lug'atni mukammallashtiring."
+        },
+        takeTest: { en: "Take Test", uz: "Testni boshlash" },
+        premium: { en: "Premium Access", uz: "Premium kirish" },
+        noTests: { en: "No writing tests found", uz: "Yozish testlari topilmadi" },
+        noTestsDesc: { en: "Try searching for something else or clear filters.", uz: "Boshqa narsani qidiring yoki filtrlarni tozalang." },
+    },
+
+    // ──── VOCABULARY ────
+    vocabulary: {
+        title: { en: "Vocabulary Practice", uz: "Lug'at Mashqi" },
+        desc: { en: "Build your IELTS vocabulary with smart flashcards and quizzes.", uz: "Aqlli flashkardlar va testlar yordamida IELTS lug'atini kengaytiring." },
+        coming: { en: "Vocabulary builder coming soon!", uz: "Lug'at quruvchi tez kunda!" },
+    },
+
+    // ──── MATERIALS ────
+    materials: {
+        title: { en: "Special Materials", uz: "Maxsus Materiallar" },
+        desc: { en: "Exclusive study materials curated by IELTS experts.", uz: "IELTS mutaxassislari tomonidan tanlangan eksklyuziv o'quv materiallari." },
+        coming: { en: "New materials being added!", uz: "Yangi materiallar qo'shilmoqda!" },
+    },
+
+    // ──── SAMPLES ────
+    samples: {
+        title: { en: "Band 9.0 Samples", uz: "Band 9.0 Namunalari" },
+        desc: { en: "Study top-scoring IELTS essays and speaking responses.", uz: "Eng yuqori bal olgan IELTS insholari va gapirish javoblarini o'rganing." },
+        coming: { en: "sample essays being updated!", uz: "Namuna inshoları yangilanmoqda!" },
+    },
+
+    // ──── ARTICLES ────
+    articles: {
+        title: { en: "Articles", uz: "Maqolalar" },
+        desc: { en: "Read expert tips, strategies, and IELTS guides.", uz: "Mutaxassis maslahatlari, strategiyalar va IELTS qo'llanmalarini o'qing." },
+        coming: { en: "New articles published regularly.", uz: "Yangi maqolalar muntazam chop etiladi." },
+    },
+
+    // ──── TRANSLATION PRACTICE ────
+    translation: {
+        title: { en: "Translation Practice", uz: "Tarjima Mashqi" },
+        desc: { en: "Practice translating sentences to boost your language skills.", uz: "Til ko'nikmalarini oshirish uchun jumlalarni tarjima qilishni mashq qiling." },
+        coming: { en: "Translation exercises being prepared!", uz: "Tarjima mashqlari tayyorlanmoqda!" },
+    },
+
+    // ──── LESSONS ────
+    lessons: {
+        title: { en: "Join My Lessons", uz: "Darslarga Qo'shilish" },
+        desc: { en: "Live and recorded lessons with expert instructors.", uz: "Mutaxassis o'qituvchilar bilan jonli va yozib olingan darslar." },
+        coming: { en: "New lessons scheduled!", uz: "Yangi darslar rejalashtirilmoqda!" },
+    },
+
+    // ──── RESULTS ────
+    results: {
+        title: { en: "Student Results", uz: "Talaba Natijalari" },
+        desc: { en: "See the achievements of our successful students.", uz: "Muvaffaqiyatli talabalarimizning yutuqlarini ko'ring." },
+        coming: { en: "Student results being compiled.", uz: "Talaba natijalari to'planmoqda." },
+    },
+
+    // ──── LISTENING PRACTICE ────
+    listening: {
+        title: { en: "Listening Practice", uz: "Tinglash Mashqi" },
+        desc: { en: "Sharpen your listening skills with real IELTS-style audio tests.", uz: "Haqiqiy IELTS formatidagi audio testlar bilan tinglash ko'nikmalarini o'tkir qiling." },
+        start: { en: "Start Test", uz: "Testni boshlash" },
+        continue: { en: "Resume", uz: "Davom ettirish" },
+        submit: { en: "Submit Answers", uz: "Javoblarni topshirish" },
+        audio: { en: "Audio Player", uz: "Audio o'ynatuvchi" },
+        question: { en: "Question", uz: "Savol" },
+        of: { en: "of", uz: "dan" },
+        part: { en: "Part", uz: "Qism" },
+    },
+
+    // ──── SPEAKING PRACTICE ────
+    speaking: {
+        title: { en: "Speaking Practice", uz: "Gapirish Mashqi" },
+        desc: { en: "Record yourself and get AI feedback on your IELTS speaking.", uz: "O'zingizni yozib oling va IELTS gapirish bo'yicha AI fikr-mulohazasini oling." },
+        coming: { en: "AI Speaking evaluation coming soon!", uz: "AI ovozli baholash tez kunda!" },
+    },
+
+    // ──── READING PRACTICE ────
+    reading: {
+        title: { en: "Reading Practice", uz: "O'qish Mashqi" },
+        desc: { en: "Build your reading speed and comprehension skills.", uz: "O'qish tezligi va tushunish ko'nikmalarini rivojlantiring." },
+        start: { en: "Start Test", uz: "Testni boshlash" },
+        submit: { en: "Submit Answers", uz: "Javoblarni topshirish" },
+        question: { en: "Question", uz: "Savol" },
+        of: { en: "of", uz: "dan" },
+    },
+
     // ──── LEAD MAGNET ────
     lead: {
         title: { en: "Get Free IELTS Resources", uz: "Bepul IELTS materiallarini oling" },
@@ -126,7 +282,6 @@ export const translations = {
 
 export type Lang = "en" | "uz";
 
-/** Simple helper: pick the correct translation */
 export function tx(obj: { en: string; uz: string }, lang: Lang): string {
     return obj[lang];
 }

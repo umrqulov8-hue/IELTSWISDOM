@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Pencil, PlayCircle, Clock, CheckCircle2, ChevronRight, Lock, Search, Filter, Sparkles, FileText, BookOpen, GraduationCap, Briefcase } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { useLanguage } from "@/context/LanguageContext";
 
 // --- Types ---
 interface TestCategory {
@@ -73,6 +74,35 @@ const TESTS: TestItem[] = [
 
 
 export default function WritingPage() {
+    const { lang } = useLanguage();
+    const W = {
+        title: lang === "en" ? "Writing Practice" : "Yozish Mashqi",
+        desc: lang === "en" ? "Master your essay structure and vocabulary with our extensive library." : "Keng kutubxonamiz yordamida inshoning strukturasi va lug'atini mukammallashtiring.",
+        searchPlh: lang === "en" ? "Search writing tests..." : "Yozish testlarini qidiring...",
+        testMode: lang === "en" ? "Test Mode" : "Test rejimi",
+        taskType: lang === "en" ? "Task Type" : "Topshiriq turi",
+        allTests: lang === "en" ? "All Tests" : "Barcha testlar",
+        academic: lang === "en" ? "Academic" : "Akademik",
+        general: lang === "en" ? "General Training" : "Umumiy Trening",
+        allTypes: lang === "en" ? "All Task Types" : "Barcha turlar",
+        t1: lang === "en" ? "Task 1 (Report/Letter)" : "Task 1 (Hisobot/Xat)",
+        t2: lang === "en" ? "Task 2 (Essay)" : "Task 2 (Insho)",
+        full: lang === "en" ? "Full Test" : "To'liq test",
+        applyFilter: lang === "en" ? "Apply Filter" : "Filtr qo'llash",
+        available: lang === "en" ? "Available Tests" : "Mavjud testlar",
+        workshop: lang === "en" ? "Writing Workshop" : "Yozish seminari",
+        excellence: lang === "en" ? "Writing Excellence" : "Yozish mukammalligi",
+        exDesc: lang === "en" ? "Perfect your essay structure, coherence, and vocabulary with our extensive library of Academic and General Training tasks." : "Akademik va Umumiy Trening topshiriqlarimizning keng kutubxonasi yordamida insho strukturasi va lug'atini mukammallashtiring.",
+        takeTest: lang === "en" ? "Take Test" : "Testni boshlash",
+        premium: lang === "en" ? "Premium Access" : "Premium kirish",
+        noTests: lang === "en" ? "No writing tests found" : "Yozish testlari topilmadi",
+        noTestsDesc: lang === "en" ? "Try searching for something else or clear filters." : "Boshqa narsani qidiring yoki filtrlarni tozalang.",
+    };
+    const CATEGORIES = [
+        { id: "all", title: W.allTests, count: 42 },
+        { id: "academic", title: W.academic, count: 28, icon: GraduationCap },
+        { id: "general", title: W.general, count: 14, icon: Briefcase },
+    ];
     const [selectedMode, setSelectedMode] = useState<WritingMode>("all");
     const [selectedTaskType, setSelectedTaskType] = useState<WritingTaskType>("all");
     const [searchQuery, setSearchQuery] = useState("");
@@ -88,10 +118,7 @@ export default function WritingPage() {
     });
 
     return (
-        <DashboardLayout
-            title="Writing Practice"
-            description="Master your essay structure and vocabulary with our extensive library."
-        >
+        <DashboardLayout title={W.title} description={W.desc}>
             <div className="flex flex-col lg:flex-row gap-8 relative z-10">
                 {/* Background Blobs for Red Aesthetic */}
                 <div className="fixed top-0 left-0 w-full h-full overflow-hidden pointer-events-none -z-10">
@@ -114,7 +141,7 @@ export default function WritingPage() {
                         </div>
                         <input
                             type="text"
-                            placeholder="Search writing tests..."
+                            placeholder={W.searchPlh}
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                             className="w-full bg-white/70 backdrop-blur-md border border-rose-100 text-slate-700 rounded-2xl py-3 pl-10 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-rose-500/20 focus:border-rose-400 transition-all shadow-[0_4px_20px_rgba(244,63,94,0.05)] placeholder:text-rose-300/70"
@@ -130,7 +157,7 @@ export default function WritingPage() {
                     >
                         <div className="flex items-center gap-2 px-3 pb-3 mb-2 border-b border-rose-100/50">
                             <Filter className="w-4 h-4 text-rose-600" />
-                            <span className="text-xs font-bold text-rose-400 uppercase tracking-wider">Test Mode</span>
+                            <span className="text-xs font-bold text-rose-400 uppercase tracking-wider">{W.testMode}</span>
                         </div>
 
                         {CATEGORIES.map((category) => (
@@ -185,20 +212,20 @@ export default function WritingPage() {
                         transition={{ duration: 0.5, delay: 0.2 }}
                         className="bg-white/60 backdrop-blur-xl rounded-2xl border border-white/50 p-4 space-y-3 lg:sticky lg:top-[22rem] shadow-[0_4px_20px_rgb(0,0,0,0.02)]"
                     >
-                        <label className="text-xs font-bold text-rose-400 uppercase tracking-wider px-2">Task Type</label>
+                        <label className="text-xs font-bold text-rose-400 uppercase tracking-wider px-2">{W.taskType}</label>
                         <select
                             value={selectedTaskType}
                             onChange={(e) => setSelectedTaskType(e.target.value as WritingTaskType)}
                             className="w-full bg-white/50 border border-rose-100 text-slate-700 text-sm rounded-xl px-3 py-2.5 outline-none focus:ring-2 focus:ring-rose-500/20 focus:border-rose-400 transition-all cursor-pointer"
                         >
-                            <option value="all">All Task Types</option>
-                            <option value="task-1">Task 1 (Report/Letter)</option>
-                            <option value="task-2">Task 2 (Essay)</option>
-                            <option value="full-test">Full Test</option>
+                            <option value="all">{W.allTypes}</option>
+                            <option value="task-1">{W.t1}</option>
+                            <option value="task-2">{W.t2}</option>
+                            <option value="full-test">{W.full}</option>
                         </select>
 
                         <button className="w-full bg-rose-600 hover:bg-rose-700 text-white text-sm font-semibold py-2.5 rounded-xl transition-all shadow-md shadow-rose-500/20 flex items-center justify-center gap-2">
-                            <Filter className="w-4 h-4" /> Apply Filter
+                            <Filter className="w-4 h-4" /> {W.applyFilter}
                         </button>
                     </motion.div>
                 </aside>
@@ -224,10 +251,8 @@ export default function WritingPage() {
                                     <Pencil className="w-3 h-3 text-rose-200" /> Writing Workshop
                                 </span>
                             </div>
-                            <h2 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight">Writing Excellence</h2>
-                            <p className="text-rose-100 text-lg leading-relaxed font-light">
-                                Perfect your essay structure, coherence, and vocabulary with our extensive library of Academic and General Training tasks.
-                            </p>
+                            <h2 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight">{W.excellence}</h2>
+                            <p className="text-rose-100 text-lg leading-relaxed font-light">{W.exDesc}</p>
                         </div>
                     </motion.div>
 
@@ -235,7 +260,7 @@ export default function WritingPage() {
                     <div className="space-y-8">
                         <div className="flex items-center justify-between">
                             <h3 className="text-xl font-bold text-slate-800 flex items-center gap-2">
-                                Available Tests <span className="text-sm font-normal text-slate-400">({filteredTests.length})</span>
+                                {W.available} <span className="text-sm font-normal text-slate-400">({filteredTests.length})</span>
                             </h3>
                         </div>
 
@@ -306,7 +331,7 @@ export default function WritingPage() {
                                                     ) : (
                                                         <>
                                                             <Pencil className="w-3.5 h-3.5 fill-current opacity-90 relative z-10" />
-                                                            <span className="relative z-10">Take Test</span>
+                                                            <span className="relative z-10">{W.takeTest}</span>
                                                         </>
                                                     )}
                                                 </Link>
@@ -329,8 +354,8 @@ export default function WritingPage() {
                                 <div className="w-20 h-20 bg-rose-50 rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse">
                                     <Search className="w-8 h-8 text-rose-300" />
                                 </div>
-                                <h3 className="text-xl font-bold text-slate-700 mb-2">No writing tests found</h3>
-                                <p className="text-slate-400">Try searching for something else or clear filters.</p>
+                                <h3 className="text-xl font-bold text-slate-700 mb-2">{W.noTests}</h3>
+                                <p className="text-slate-400">{W.noTestsDesc}</p>
                             </motion.div>
                         )}
                     </div>
