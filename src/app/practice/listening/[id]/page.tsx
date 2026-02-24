@@ -271,7 +271,7 @@ export default function ListeningTestPage({ params }: { params: Promise<{ id: st
                 <span className="text-xs text-slate-400 font-medium">{answeredCount}/{totalQ}</span>
             </div>
 
-            <main className="flex-1 max-w-[1140px] w-full mx-auto px-4 md:px-6 py-6 space-y-5">
+            <main className="flex-1 max-w-[1400px] w-full mx-auto px-6 md:px-10 py-6 space-y-5">
 
                 {/* Score */}
                 <AnimatePresence>
@@ -360,7 +360,7 @@ export default function ListeningTestPage({ params }: { params: Promise<{ id: st
 
             {/* ── Bottom Nav ── */}
             <div className="glass-bottombar fixed bottom-0 left-0 right-0 z-40 px-4 py-3">
-                <div className="max-w-[1140px] mx-auto flex items-center justify-between gap-3">
+                <div className="max-w-[1400px] mx-auto flex items-center justify-between gap-3">
                     {/* Part pills */}
                     <div className="flex gap-2 flex-wrap">
                         {testData.parts.map((part, pIdx) => {
