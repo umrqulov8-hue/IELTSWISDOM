@@ -88,6 +88,7 @@ function IeltsAudioPlayer() {
     const [isMuted, setIsMuted] = useState(false);
     const [volume, setVolume] = useState(0.85);
     const [isTransitioning, setIsTransitioning] = useState(false);
+    const [audioError, setAudioError] = useState<string | null>(null);
 
     const audioRef = useRef<HTMLAudioElement>(null);
     const seekRef = useRef<HTMLInputElement>(null);
@@ -100,8 +101,14 @@ function IeltsAudioPlayer() {
         if (!audio) return;
         setCurrentTime(0);
         setDuration(0);
+        setAudioError(null);
         audio.load();
-        if (isPlaying) audio.play().catch(() => setIsPlaying(false));
+        if (isPlaying) {
+            audio.play().catch((err) => {
+                console.error("Audio play failed:", err);
+                setIsPlaying(false);
+            });
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [activeIndex]);
 
@@ -119,14 +126,20 @@ function IeltsAudioPlayer() {
                 setIsPlaying(false);
             }
         };
+        const onError = () => {
+            setIsPlaying(false);
+            setAudioError(`Audio file not found: ${PARTS[activeIndex].src}`);
+        };
 
         audio.addEventListener("timeupdate", onTimeUpdate);
         audio.addEventListener("loadedmetadata", onLoadedMetadata);
         audio.addEventListener("ended", onEnded);
+        audio.addEventListener("error", onError);
         return () => {
             audio.removeEventListener("timeupdate", onTimeUpdate);
             audio.removeEventListener("loadedmetadata", onLoadedMetadata);
             audio.removeEventListener("ended", onEnded);
+            audio.removeEventListener("error", onError);
         };
     }, [activeIndex]);
 
@@ -160,8 +173,14 @@ function IeltsAudioPlayer() {
             audio.pause();
             setIsPlaying(false);
         } else {
-            audio.play().catch(() => setIsPlaying(false));
+            setAudioError(null);
+            // Update UI immediately so button feels responsive
             setIsPlaying(true);
+            audio.play().catch((err) => {
+                console.error("Play failed:", err);
+                setIsPlaying(false);
+                setAudioError(`Cannot play: ${PARTS[activeIndex].src} — make sure the file exists in /public/audio/`);
+            });
         }
     };
 
@@ -475,6 +494,26 @@ function IeltsAudioPlayer() {
                     </div>
                 </div>
 
+                {/* ── Error banner ── */}
+                <AnimatePresence>
+                    {audioError && (
+                        <motion.div
+                            initial={{ opacity: 0, y: -8 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -8 }}
+                            className="mx-6 mb-4 px-4 py-3 rounded-xl bg-red-500/15 border border-red-400/30 text-red-300 text-xs font-medium flex items-start gap-2"
+                        >
+                            <span className="text-red-400 text-sm mt-0.5">⚠</span>
+                            <span>
+                                <strong>Audio file not found.</strong> Please place your MP3 files in{" "}
+                                <code className="bg-red-400/10 px-1 rounded font-mono">/public/audio/</code> as{" "}
+                                <code className="bg-red-400/10 px-1 rounded font-mono">listening1.mp3</code> …{" "}
+                                <code className="bg-red-400/10 px-1 rounded font-mono">listening4.mp3</code>.
+                            </span>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+
                 {/* ── Footer note ── */}
                 <div className="px-8 py-3 bg-blue-950/40 border-t border-blue-900/30 flex items-center justify-between">
                     <p className="text-[10px] text-blue-500/60 font-medium">
@@ -490,7 +529,7 @@ function IeltsAudioPlayer() {
             <audio ref={audioRef} src={currentPart.src} preload="metadata" />
 
             {/* Spin animation */}
-            <style jsx>{`
+            <style>{`
         @keyframes spin-slow {
           from { transform: rotate(0deg); }
           to   { transform: rotate(360deg); }
