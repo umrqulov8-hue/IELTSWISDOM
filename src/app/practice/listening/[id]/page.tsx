@@ -142,6 +142,18 @@ export default function ListeningTestPage({ params }: { params: Promise<{ id: st
     const [answers, setAnswers] = useState<Record<string, string>>({});
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [score, setScore] = useState(0);
+    const [isPlaying, setIsPlaying] = useState(false);
+    const audioRef = useRef<HTMLAudioElement>(null);
+
+    const togglePlay = () => {
+        const audio = audioRef.current;
+        if (!audio) return;
+        if (isPlaying) { audio.pause(); setIsPlaying(false); }
+        else { audio.play().catch(() => { }); setIsPlaying(true); }
+    };
+
+    // Reset play state when part changes
+    useEffect(() => { setIsPlaying(false); audioRef.current?.pause(); }, [currentPartIndex]);
 
     const handleAnswerChange = (id: string, value: string) =>
         setAnswers(p => ({ ...p, [id]: value }));
@@ -293,23 +305,58 @@ export default function ListeningTestPage({ params }: { params: Promise<{ id: st
                 {/* Audio Player */}
                 <motion.div
                     initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }}
-                    className="glass-audio rounded-2xl px-6 py-4"
+                    className="glass-audio rounded-2xl px-5 py-4"
                 >
-                    <p className="text-slate-400 text-[10px] uppercase tracking-widest text-center mb-2 font-semibold">
-                        Audio Player
-                    </p>
-                    {currentPart.audioUrl ? (
-                        <audio
-                            key={currentPart.audioUrl}
-                            controls
-                            src={currentPart.audioUrl}
-                            className="w-full max-w-2xl mx-auto block h-9"
-                            preload="metadata"
-                        />
-                    ) : (
-                        <p className="text-slate-400 text-sm text-center italic">No audio for this section</p>
-                    )}
-                    <p className="text-slate-400 text-xs text-center mt-2">Playing: {currentPart.title}</p>
+                    <div className="flex items-center gap-4">
+                        {/* Start / Pause button */}
+                        <button
+                            onClick={togglePlay}
+                            disabled={!currentPart.audioUrl}
+                            className={cn(
+                                "flex-shrink-0 w-11 h-11 rounded-full flex items-center justify-center transition-all shadow-md",
+                                currentPart.audioUrl
+                                    ? "glass-pill-dark hover:scale-105 active:scale-95"
+                                    : "bg-slate-200 cursor-not-allowed opacity-40"
+                            )}
+                            title={isPlaying ? "Pause" : "Start"}
+                        >
+                            {isPlaying ? (
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" className="w-5 h-5">
+                                    <path fillRule="evenodd" d="M6.75 5.25a.75.75 0 0 1 .75-.75H9a.75.75 0 0 1 .75.75v13.5a.75.75 0 0 1-.75.75H7.5a.75.75 0 0 1-.75-.75V5.25zm7.5 0A.75.75 0 0 1 15 4.5h1.5a.75.75 0 0 1 .75.75v13.5a.75.75 0 0 1-.75.75H15a.75.75 0 0 1-.75-.75V5.25z" clipRule="evenodd" />
+                                </svg>
+                            ) : (
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" className="w-5 h-5 ml-0.5">
+                                    <path fillRule="evenodd" d="M4.5 5.653c0-1.427 1.529-2.33 2.779-1.643l11.54 6.347c1.295.712 1.295 2.573 0 3.286L7.28 19.99c-1.25.687-2.779-.217-2.779-1.643V5.653z" clipRule="evenodd" />
+                                </svg>
+                            )}
+                        </button>
+
+                        {/* Native audio (hidden controls, driven by ref) */}
+                        <div className="flex-1">
+                            <p className="text-slate-400 text-[10px] uppercase tracking-widest font-semibold mb-1.5">Audio Player</p>
+                            {currentPart.audioUrl ? (
+                                <audio
+                                    ref={audioRef}
+                                    key={currentPart.audioUrl}
+                                    controls
+                                    src={currentPart.audioUrl}
+                                    className="w-full h-9"
+                                    preload="metadata"
+                                    onPlay={() => setIsPlaying(true)}
+                                    onPause={() => setIsPlaying(false)}
+                                    onEnded={() => setIsPlaying(false)}
+                                />
+                            ) : (
+                                <p className="text-slate-400 text-sm italic">No audio for this section</p>
+                            )}
+                        </div>
+
+                        {/* Playing label */}
+                        <div className="flex-shrink-0 text-right hidden sm:block">
+                            <p className="text-[10px] text-slate-400 font-medium">Playing</p>
+                            <p className="text-xs font-bold text-slate-600">{currentPart.title}</p>
+                        </div>
+                    </div>
                 </motion.div>
 
                 {/* Questions */}
