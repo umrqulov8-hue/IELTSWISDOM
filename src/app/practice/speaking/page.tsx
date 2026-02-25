@@ -7,6 +7,7 @@ import { Mic, Zap, ChevronDown, ChevronUp, Book, Star, Clock, Globe } from "luci
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { useLanguage } from "@/context/LanguageContext";
+import { BouncyText } from "@/components/ui/BouncyText";
 
 // --- Types ---
 interface SpeakingTest {
@@ -80,7 +81,12 @@ export default function SpeakingPage() {
                 <div className="flex-1 min-w-0">
 
                     {/* Header Card with Book Cover */}
-                    <div className="bg-white rounded-3xl p-8 shadow-sm border border-slate-100 mb-8 flex flex-col md:flex-row items-center md:items-start gap-8 relative overflow-hidden">
+                    <motion.div
+                        initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        transition={{ duration: 0.6, type: "spring", bounce: 0.4 }}
+                        className="bg-white rounded-3xl p-8 shadow-sm border border-slate-100 mb-8 flex flex-col md:flex-row items-center md:items-start gap-8 relative overflow-hidden"
+                    >
                         {/* Background Decoration */}
                         <div className="absolute top-0 right-0 w-64 h-64 bg-orange-50 rounded-full blur-3xl -z-10 translate-x-1/2 -translate-y-1/2" />
 
@@ -100,10 +106,10 @@ export default function SpeakingPage() {
                         {/* Title Section */}
                         <div className="flex-1 text-center md:text-left pt-4">
                             <h2 className="text-2xl md:text-3xl font-bold text-slate-800 mb-4">
-                                {S.mainTitle}
+                                <BouncyText key={`sp-title-${lang}`} text={S.mainTitle} type="word" />
                             </h2>
                             <p className="text-slate-500 leading-relaxed mb-6">
-                                {S.mainDesc}
+                                <BouncyText key={`sp-desc-${lang}`} text={S.mainDesc} type="word" />
                             </p>
                             <div className="flex flex-wrap gap-3 justify-center md:justify-start">
                                 <div className="px-4 py-2 bg-orange-50 text-orange-600 rounded-full text-sm font-semibold flex items-center gap-2">
@@ -114,18 +120,29 @@ export default function SpeakingPage() {
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </motion.div>
 
                     {/* Test Grid */}
-                    <motion.div layout className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                    <motion.div
+                        layout
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true, margin: "-30px" }}
+                        variants={{
+                            hidden: { opacity: 0 },
+                            visible: { opacity: 1, transition: { staggerChildren: 0.06 } }
+                        }}
+                        className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8"
+                    >
                         <AnimatePresence>
                             {visibleTests.map((test) => (
                                 <motion.button
                                     layout
-                                    initial={{ opacity: 0, scale: 0.9 }}
-                                    animate={{ opacity: 1, scale: 1 }}
+                                    variants={{
+                                        hidden: { opacity: 0, y: 20, scale: 0.9 },
+                                        visible: { opacity: 1, y: 0, scale: 1, transition: { type: "spring", bounce: 0.45 } }
+                                    }}
                                     exit={{ opacity: 0, scale: 0.9 }}
-                                    transition={{ duration: 0.2 }}
                                     key={test.id}
                                     className="bg-white hover:bg-orange-50/50 border border-slate-200 hover:border-orange-200 rounded-xl p-5 text-left transition-all group shadow-sm hover:shadow-md flex flex-col justify-between h-28"
                                 >
@@ -166,17 +183,28 @@ export default function SpeakingPage() {
                 <aside className="w-full lg:w-80 flex-shrink-0 space-y-6">
 
                     {/* Upgrade Promo Card */}
-                    <div className="bg-gradient-to-br from-orange-400 via-pink-500 to-purple-600 rounded-3xl p-8 text-white text-center relative overflow-hidden shadow-xl sticky top-24">
+                    <motion.div
+                        initial={{ opacity: 0, x: 30, scale: 0.95 }}
+                        animate={{ opacity: 1, x: 0, scale: 1 }}
+                        transition={{ duration: 0.7, delay: 0.3, type: "spring", bounce: 0.3 }}
+                        className="bg-gradient-to-br from-orange-400 via-pink-500 to-purple-600 rounded-3xl p-8 text-white text-center relative overflow-hidden shadow-xl sticky top-24"
+                    >
                         {/* Decorative Background Elements */}
                         <div className="absolute top-0 right-0 w-32 h-32 bg-white/20 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2" />
                         <div className="absolute bottom-0 left-0 w-40 h-40 bg-black/10 rounded-full blur-2xl translate-y-1/2 -translate-x-1/2" />
 
                         <div className="relative z-10">
-                            <div className="w-14 h-14 bg-white/20 backdrop-blur-md rounded-2xl mx-auto mb-6 flex items-center justify-center border border-white/30 shadow-inner">
+                            <motion.div
+                                animate={{ y: [0, -6, 0] }}
+                                transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
+                                className="w-14 h-14 bg-white/20 backdrop-blur-md rounded-2xl mx-auto mb-6 flex items-center justify-center border border-white/30 shadow-inner"
+                            >
                                 <Globe className="w-8 h-8 text-white" />
-                            </div>
+                            </motion.div>
 
-                            <h3 className="text-xl font-bold mb-6">{S.promoTitle}</h3>
+                            <h3 className="text-xl font-bold mb-6">
+                                <BouncyText key={`promo-title-${lang}`} text={S.promoTitle} type="word" />
+                            </h3>
 
                             <ul className="text-left space-y-3 mb-8 text-orange-50 text-sm font-medium">
                                 <li className="flex items-start gap-2">
@@ -202,7 +230,7 @@ export default function SpeakingPage() {
                                 <span className="bg-orange-600 text-white rounded text-[10px] px-1 py-0.5 group-hover:scale-110 transition-transform">+</span>
                             </button>
                         </div>
-                    </div>
+                    </motion.div>
                 </aside>
 
             </div>
