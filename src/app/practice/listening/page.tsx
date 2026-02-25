@@ -19,6 +19,7 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
 import { translations as T, tx } from "@/lib/translations";
+import { BouncyText } from "@/components/ui/BouncyText";
 
 interface TestCategory {
     id: string;
@@ -96,9 +97,9 @@ export default function ListeningPage() {
         >
             {/* ── Hero ── */}
             <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
+                initial={{ opacity: 0, scale: 0.95, y: 30 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                transition={{ duration: 0.6, type: "spring", bounce: 0.4 }}
                 className="relative rounded-3xl overflow-hidden mb-10 bg-gradient-to-br from-[#1a1060] via-[#2d1b8e] to-[#4c1d95] p-8 md:p-10 shadow-2xl"
             >
                 {/* grid texture */}
@@ -111,14 +112,14 @@ export default function ListeningPage() {
                         <div className="flex items-center gap-2 mb-3">
                             <span className="bg-white/10 border border-white/20 text-white text-xs font-semibold px-3 py-1 rounded-full flex items-center gap-1.5">
                                 <Sparkles className="w-3 h-3 text-yellow-300" />
-                                IELTS Academic
+                                <BouncyText key={`ielts-ac-${lang}`} text="IELTS Academic" type="word" />
                             </span>
                         </div>
                         <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-3 tracking-tight">
-                            Listening Studio
+                            <BouncyText key={`ls-title-${lang}`} text="Listening Studio" type="word" />
                         </h1>
                         <p className="text-purple-200 text-base md:text-lg leading-relaxed max-w-xl">
-                            Train with real Cambridge exam audio. 4 sections · 40 questions per test · All accents covered.
+                            <BouncyText key={`ls-desc-${lang}`} text="Train with real Cambridge exam audio. 4 sections · 40 questions per test · All accents covered." type="word" />
                         </p>
                     </div>
                     <div className="flex gap-5 md:flex-col md:text-right">
@@ -148,9 +149,21 @@ export default function ListeningPage() {
             </div>
 
             {/* ── Category Pills ── */}
-            <div className="flex gap-2 flex-wrap mb-8">
+            <motion.div
+                initial="hidden"
+                animate="visible"
+                variants={{
+                    hidden: { opacity: 0 },
+                    visible: { opacity: 1, transition: { staggerChildren: 0.05 } }
+                }}
+                className="flex gap-2 flex-wrap mb-8"
+            >
                 {CATEGORIES.map((cat) => (
-                    <button
+                    <motion.button
+                        variants={{
+                            hidden: { opacity: 0, scale: 0.8, y: 10 },
+                            visible: { opacity: 1, scale: 1, y: 0, transition: { type: "spring", bounce: 0.5 } }
+                        }}
                         key={cat.id}
                         onClick={() => setSelectedCategory(cat.id)}
                         className={cn(
@@ -168,9 +181,9 @@ export default function ListeningPage() {
                         )}>
                             {cat.count}
                         </span>
-                    </button>
+                    </motion.button>
                 ))}
-            </div>
+            </motion.div>
 
             {/* ── Test Grid ── */}
             <AnimatePresence mode="popLayout">
@@ -202,9 +215,9 @@ export default function ListeningPage() {
                         {filteredTests.map((test, index) => (
                             <motion.div
                                 key={test.id}
-                                initial={{ opacity: 0, y: 16 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.35, delay: index * 0.04 }}
+                                initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                                animate={{ opacity: 1, y: 0, scale: 1 }}
+                                transition={{ duration: 0.5, delay: index * 0.05, type: "spring", bounce: 0.4 }}
                                 className="group bg-white rounded-3xl border border-slate-100 shadow-sm hover:shadow-xl hover:border-purple-200 transition-all duration-300 hover:-translate-y-1 overflow-hidden"
                             >
                                 {/* Card top accent */}
