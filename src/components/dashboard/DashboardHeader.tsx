@@ -67,19 +67,63 @@ export function DashboardHeader({ title, description, showGreeting, displayName 
         <header className="flex justify-between items-center mb-10 z-50 relative">
             <div>
                 {showGreeting ? (
-                    <div>
-                        <h1 className="text-3xl md:text-4xl font-extrabold text-slate-800 tracking-tight">
+                    <motion.div
+                        initial="hidden"
+                        animate="visible"
+                        variants={{
+                            hidden: { opacity: 0 },
+                            visible: { opacity: 1, transition: { staggerChildren: 0.1 } }
+                        }}
+                    >
+                        <motion.h1
+                            variants={{
+                                hidden: { opacity: 0, y: -20, filter: "blur(4px)" },
+                                visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.6, ease: [0.34, 1.56, 0.64, 1] } }
+                            }}
+                            className="text-3xl md:text-4xl font-extrabold text-slate-800 tracking-tight"
+                        >
                             {lang === "en" ? "Welcome back," : "Xush kelibsiz,"} <span className="text-[#FF8C00]">{displayName}</span>!
-                        </h1>
-                        <p className="text-slate-500 mt-2 font-medium">{lang === "en" ? "Ready to hit your targets today?" : "Bugun maqsadlaringizga erishishga tayyormisiz?"}</p>
-                    </div>
+                        </motion.h1>
+                        <motion.p
+                            variants={{
+                                hidden: { opacity: 0, y: -10, filter: "blur(4px)" },
+                                visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.6, ease: [0.34, 1.56, 0.64, 1] } }
+                            }}
+                            className="text-slate-500 mt-2 font-medium"
+                        >
+                            {lang === "en" ? "Ready to hit your targets today?" : "Bugun maqsadlaringizga erishishga tayyormisiz?"}
+                        </motion.p>
+                    </motion.div>
                 ) : (
-                    <div>
-                        <h1 className="text-3xl font-extrabold text-slate-800 tracking-tight">
+                    <motion.div
+                        initial="hidden"
+                        animate="visible"
+                        variants={{
+                            hidden: { opacity: 0 },
+                            visible: { opacity: 1, transition: { staggerChildren: 0.1 } }
+                        }}
+                    >
+                        <motion.h1
+                            variants={{
+                                hidden: { opacity: 0, y: -20, filter: "blur(4px)" },
+                                visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.6, ease: [0.34, 1.56, 0.64, 1] } }
+                            }}
+                            className="text-3xl font-extrabold text-slate-800 tracking-tight"
+                        >
                             {title}
-                        </h1>
-                        {description && <p className="text-slate-500 mt-2 font-medium">{description}</p>}
-                    </div>
+                        </motion.h1>
+                        {description && (
+                            <motion.p
+                                variants={{
+                                    hidden: { opacity: 0, y: -10, filter: "blur(4px)" },
+                                    visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.6, ease: [0.34, 1.56, 0.64, 1] } }
+                                }}
+                                className="text-slate-500 mt-2 font-medium"
+                            >
+                                {description}
+                            </motion.p>
+                        )}
+                    </motion.div>
                 )}
             </div>
 
