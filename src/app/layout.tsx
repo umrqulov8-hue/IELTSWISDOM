@@ -2,16 +2,12 @@ import type { Metadata } from "next";
 import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { ModalProvider } from "@/context/ModalContext";
-import dynamic from 'next/dynamic';
+import { AuthModal } from "@/components/AuthModal";
 import { LanguageProvider } from "@/context/LanguageContext";
 import { ClientLayout } from "@/components/ClientLayout";
 import { AuthProvider } from "@/context/AuthContext";
 import { Toaster } from 'sonner';
 import { Analytics } from "@vercel/analytics/react";
-
-const AuthModal = dynamic(() => import('@/components/AuthModal').then(module => ({ default: module.AuthModal })), {
-  ssr: false,
-});
 
 const inter = Inter({
   variable: "--font-inter",
