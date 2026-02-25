@@ -45,8 +45,8 @@ export default function UpgradePage() {
                 "Early Access to Features"
             ],
             cta: lang === 'en' ? "Go Pro" : "Proga o'ting",
-            theme: "dark",
-            gradient: "from-slate-900/95 via-slate-800/98 to-slate-900/95",
+            theme: "light",
+            gradient: "from-amber-500/10 via-white/40 to-orange-500/10",
             buttonColor: "bg-gradient-to-r from-amber-400 to-orange-500",
             highlight: "gold"
         }
@@ -98,8 +98,8 @@ export default function UpgradePage() {
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             transition={{ delay: 0.2 + idx * 0.1, type: "spring", stiffness: 200, damping: 20 }}
                             className={`relative rounded-[40px] p-8 lg:p-10 border shadow-2xl overflow-hidden group flex flex-col ${plan.theme === 'dark'
-                                    ? 'bg-slate-900 border-white/10 text-white'
-                                    : 'bg-white/40 backdrop-blur-3xl border-white/60 text-slate-900'
+                                ? 'bg-slate-900 border-white/10 text-white'
+                                : 'bg-white/40 backdrop-blur-3xl border-white/60 text-slate-900'
                                 }`}
                         >
                             {/* Background Liquid Effects */}
