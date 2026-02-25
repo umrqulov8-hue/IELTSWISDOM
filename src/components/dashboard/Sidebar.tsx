@@ -166,6 +166,12 @@ export function Sidebar() {
                         <p className="text-slate-500 text-xs font-medium bg-white/50 px-2 py-0.5 rounded-full w-fit mt-1 border border-white/40">Premium Member</p>
                     </div>
                 </button>
+
+                {/* Settings Panel Popover (Anchored to Profile) */}
+                <UserSettingsPanel
+                    isOpen={isSettingsOpen}
+                    onClose={() => setIsSettingsOpen(false)}
+                />
             </div>
 
             {/* Navigation */}
@@ -233,12 +239,6 @@ export function Sidebar() {
 
             {/* Hover Hint Overlay (Optional aesthetic touch) */}
             <div className="absolute inset-y-0 right-0 w-px bg-gradient-to-b from-transparent via-orange-400/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-            {/* Settings Panel Popover */}
-            <UserSettingsPanel
-                isOpen={isSettingsOpen}
-                onClose={() => setIsSettingsOpen(false)}
-            />
         </aside>
     );
 }

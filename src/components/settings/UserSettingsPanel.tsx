@@ -106,11 +106,11 @@ export function UserSettingsPanel({ isOpen, onClose }: UserSettingsPanelProps) {
             {isOpen && (
                 <motion.div
                     ref={panelRef}
-                    initial={{ opacity: 0, y: 30, scale: 0.9, transformOrigin: 'bottom left' }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 20, scale: 0.95 }}
+                    initial={{ opacity: 0, x: -20, scale: 0.95, transformOrigin: 'top left' }}
+                    animate={{ opacity: 1, x: 0, scale: 1 }}
+                    exit={{ opacity: 0, x: -20, scale: 0.95 }}
                     transition={{ duration: 0.3, type: "spring", stiffness: 300, damping: 25 }}
-                    className="fixed left-[90px] bottom-[90px] w-72 bg-white rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.12)] border border-slate-100 z-[120] overflow-hidden flex flex-col"
+                    className="absolute left-[80px] top-[100px] w-72 bg-white rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.12)] border border-slate-100 z-[120] overflow-hidden flex flex-col"
                 >
                     {/* Header / Avatar Section */}
                     <div className="bg-gradient-to-br from-[#001F3F]/5 to-[#0074D9]/5 p-5 border-b border-slate-100 relative">
