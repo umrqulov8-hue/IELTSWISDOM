@@ -119,6 +119,7 @@ export default function TranslationPage() {
                                     value={sourceText}
                                     onChange={(e) => setSourceText(e.target.value)}
                                     placeholder={lang === "uz" ? "Bu yerga matn kiriting..." : "Enter text here..."}
+                                    maxLength={5000}
                                     className="w-full flex-1 bg-transparent resize-none outline-none text-slate-800 placeholder:text-slate-400 text-lg"
                                 />
                                 <div className="flex justify-between items-center mt-2 opacity-50 text-slate-500 text-xs font-semibold">

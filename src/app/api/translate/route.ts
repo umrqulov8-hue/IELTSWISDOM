@@ -4,13 +4,40 @@ import Bytez from "bytez.js";
 const key = "26b2c8283a455ed739dc60e7385663fc";
 const sdk = new Bytez(key);
 
+// Simple server-side lock to ensure only 1 request at a time hits Bytez
+// This is necessary for free-tier accounts
+let isRequestPending = false;
+const queue: (() => void)[] = [];
+
+const processQueue = () => {
+    if (queue.length > 0 && !isRequestPending) {
+        const next = queue.shift();
+        if (next) next();
+    }
+};
+
+const waitForLock = () => {
+    return new Promise<void>((resolve) => {
+        queue.push(resolve);
+        processQueue();
+    });
+};
+
 export async function POST(req: NextRequest) {
+    await waitForLock();
+    isRequestPending = true;
+
     try {
         const body = await req.json();
         const { text, source = "en", target = "uz" } = body;
 
         if (!text) {
             return NextResponse.json({ error: "Missing required field: text" }, { status: 400 });
+        }
+
+        // Enforce 5000 character limit
+        if (text.length > 5000) {
+            return NextResponse.json({ error: "Text too long. Max 5000 characters." }, { status: 400 });
         }
 
         // Build translation prompt
@@ -29,6 +56,7 @@ export async function POST(req: NextRequest) {
 
         if (error) {
             console.error("Bytez Translation Error:", error);
+            // If it's a rate limit error, we could retry here, but the lock should prevent most cases
             return NextResponse.json({ error: "Translation failed: " + error }, { status: 500 });
         }
 
@@ -56,5 +84,8 @@ export async function POST(req: NextRequest) {
     } catch (error: any) {
         console.error("API Route Error:", error);
         return NextResponse.json({ error: error.message || "Internal server error" }, { status: 500 });
+    } finally {
+        isRequestPending = false;
+        processQueue();
     }
 }
