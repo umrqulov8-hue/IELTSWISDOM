@@ -217,6 +217,14 @@ export const translations = {
         title: { en: "Join My Lessons", uz: "Darslarga Qo'shilish" },
         desc: { en: "Live and recorded lessons with expert instructors.", uz: "Mutaxassis o'qituvchilar bilan jonli va yozib olingan darslar." },
         coming: { en: "New lessons scheduled!", uz: "Yangi darslar rejalashtirilmoqda!" },
+        live: { en: "Live", uz: "Jonli" },
+        recorded: { en: "Recorded", uz: "Yozib olingan" },
+        joinClass: { en: "Join Class", uz: "Darsga qo'shilish" },
+        watchRecording: { en: "Watch Recording", uz: "Yozuvni ko'rish" },
+        l1Title: { en: "Speaking Masterclass", uz: "Speaking Master-klassi" },
+        l1Desc: { en: "Join Mr. Sanokulov for a live breakdown of recent IELTS Speaking Part 2 topics.", uz: "Janob Sanokulov bilan so'nggi IELTS Speaking Part 2 mavzularining jonli tahliliga qo'shiling." },
+        l2Title: { en: "Task 2 Writing Structure", uz: "Task 2 Yozish Strukturasi" },
+        l2Desc: { en: "Watch last week's session on structuring Agree/Disagree essays perfectly.", uz: "O'tgan haftadagi Agree/Disagree insholarini mukammal tuzish bo'yicha dars yozuvini ko'ring." },
     },
 
     // ──── RESULTS ────

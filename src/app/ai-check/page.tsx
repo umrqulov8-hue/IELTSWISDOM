@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { useLanguage } from "@/context/LanguageContext";
 import { translations as T, tx } from "@/lib/translations";
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
+import { BouncyText } from "@/components/ui/BouncyText";
 
 interface Message {
     role: "user" | "assistant";
@@ -103,10 +104,12 @@ export default function AICheckPage() {
                     <div className="max-w-5xl mx-auto backdrop-blur-md bg-white/80 border border-slate-200/60 rounded-3xl p-3 md:p-4 flex items-center justify-between shadow-sm">
                         <button
                             onClick={() => router.push('/dashboard')}
-                            className="flex items-center gap-2 px-3 py-2 rounded-xl hover:bg-slate-100 transition-colors text-slate-600 hover:text-slate-900"
+                            className="flex items-center gap-2 px-3 py-2 rounded-xl hover:bg-slate-100 transition-colors text-slate-600 hover:text-slate-900 group"
                         >
-                            <ChevronLeft className="w-5 h-5" />
-                            <span className="font-semibold text-sm hidden sm:inline">{lang === "en" ? "Back to Dashboard" : "Boshqaruv paneliga qaytish"}</span>
+                            <ChevronLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
+                            <span className="font-semibold text-sm hidden sm:inline">
+                                <BouncyText key={`back-${lang}`} text={lang === "en" ? "Back to Dashboard" : "Boshqaruv paneliga qaytish"} type="word" />
+                            </span>
                         </button>
 
                         <div className="flex items-center gap-3">
@@ -121,8 +124,8 @@ export default function AICheckPage() {
                                 <h1 className="font-bold text-slate-800 text-base tracking-wide">
                                     IELTS AI Assistant
                                 </h1>
-                                <p className="text-[11px] text-orange-500 font-bold font-mono uppercase tracking-wider">
-                                    ● {tx(AIC.online, lang)}
+                                <p className="text-[11px] text-orange-500 font-bold font-mono uppercase tracking-wider flex items-center gap-1">
+                                    ● <BouncyText key={`ol-${lang}`} text={tx(AIC.online, lang)} type="word" />
                                 </p>
                             </div>
                         </div>
@@ -131,7 +134,10 @@ export default function AICheckPage() {
                             onClick={clearChat}
                             className="flex items-center gap-2 px-3 py-2 md:px-4 md:py-2 rounded-xl border border-red-200 text-red-500 hover:bg-red-50 hover:border-red-300 transition-all text-sm font-semibold"
                         >
-                            <Trash2 className="w-4 h-4" /> <span className="hidden sm:inline">{tx(AIC.clear, lang)}</span>
+                            <Trash2 className="w-4 h-4" />
+                            <span className="hidden sm:inline">
+                                <BouncyText key={`cl-${lang}`} text={tx(AIC.clear, lang)} type="word" />
+                            </span>
                         </button>
                     </div>
                 </header>
@@ -187,8 +193,11 @@ export default function AICheckPage() {
                                     transition={{ duration: 0.5, delay: 0.2 }}
                                     className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-4 md:pl-14 w-full max-w-3xl"
                                 >
-                                    {QUICK_PROMPTS().map(({ icon: Icon, label, text }) => (
-                                        <button
+                                    {QUICK_PROMPTS().map(({ icon: Icon, label, text }, idx) => (
+                                        <motion.button
+                                            initial={{ opacity: 0, y: 20 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            transition={{ duration: 0.4, delay: 0.3 + (idx * 0.1), type: "spring", bounce: 0.4 }}
                                             key={label}
                                             onClick={() => sendMessage(text)}
                                             className="flex items-center gap-4 text-left px-5 py-4 rounded-3xl bg-white border border-slate-200 hover:border-orange-400 hover:shadow-[0_4px_20px_rgba(255,140,0,0.1)] transition-all duration-300 group overflow-hidden relative"
@@ -196,8 +205,10 @@ export default function AICheckPage() {
                                             <div className="w-12 h-12 rounded-xl bg-orange-50 flex items-center justify-center flex-shrink-0 group-hover:bg-orange-100 transition-colors">
                                                 <Icon className="w-6 h-6 text-orange-500 group-hover:text-orange-600 transition-colors" />
                                             </div>
-                                            <span className="font-semibold text-slate-700 group-hover:text-slate-900 transition-colors text-[15px]">{label}</span>
-                                        </button>
+                                            <span className="font-semibold text-slate-700 group-hover:text-slate-900 transition-colors text-[15px]">
+                                                <BouncyText key={`qp-${idx}-${lang}`} text={label} type="word" />
+                                            </span>
+                                        </motion.button>
                                     ))}
                                 </motion.div>
                             )}
@@ -262,7 +273,7 @@ export default function AICheckPage() {
                         </div>
 
                         <p className="text-center text-[10px] sm:text-[11px] text-slate-500 mt-4 tracking-wide font-medium">
-                            {tx(AIC.disclaimer, lang)}
+                            <BouncyText key={`disc-${lang}`} text={tx(AIC.disclaimer, lang)} type="word" />
                         </p>
                     </div>
                 </div>
