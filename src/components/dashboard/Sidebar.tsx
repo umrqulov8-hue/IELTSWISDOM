@@ -29,7 +29,6 @@ function getNavItems(lang: Lang) {
         { name: tx(T.sidebar.leaderboard, lang), href: '/leaderboard', icon: Trophy },
         { name: tx(T.sidebar.results, lang), href: '/results', icon: Sparkles },
         { name: tx(T.sidebar.aiCheck, lang), href: '/ai-check', icon: Sparkles, premium: true },
-        { name: tx(T.sidebar.translation, lang), href: '/translation', icon: Languages },
         { name: tx(T.sidebar.lessons, lang), href: '/lessons', icon: Users, featured: true },
         { name: tx(T.sidebar.articles, lang), href: '/articles', icon: BookOpen },
     ];

@@ -13,7 +13,6 @@ const DASHBOARD_ROUTES = [
     "/materials",
     "/samples",
     "/articles",
-    "/translation",
     "/lessons",
     "/results",
     "/mock-exams",

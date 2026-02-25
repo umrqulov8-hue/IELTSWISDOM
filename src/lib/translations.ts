@@ -57,7 +57,6 @@ export const translations = {
         leaderboard: { en: "Leaderboard", uz: "Reyting" },
         results: { en: "Student Results", uz: "Talaba natijalari" },
         aiCheck: { en: "Premium AI Check", uz: "Premium AI Tekshirish" },
-        translation: { en: "Translation Practice", uz: "Tarjima mashqi" },
         lessons: { en: "Join My Lessons", uz: "Darslarga qo'shilish" },
         articles: { en: "Read Articles", uz: "Maqolalar o'qish" },
         logout: { en: "Logout", uz: "Chiqish" },
@@ -211,13 +210,6 @@ export const translations = {
         title: { en: "Articles", uz: "Maqolalar" },
         desc: { en: "Read expert tips, strategies, and IELTS guides.", uz: "Mutaxassis maslahatlari, strategiyalar va IELTS qo'llanmalarini o'qing." },
         coming: { en: "New articles published regularly.", uz: "Yangi maqolalar muntazam chop etiladi." },
-    },
-
-    // ──── TRANSLATION PRACTICE ────
-    translation: {
-        title: { en: "Translation Practice", uz: "Tarjima Mashqi" },
-        desc: { en: "Practice translating sentences to boost your language skills.", uz: "Til ko'nikmalarini oshirish uchun jumlalarni tarjima qilishni mashq qiling." },
-        coming: { en: "Translation exercises being prepared!", uz: "Tarjima mashqlari tayyorlanmoqda!" },
     },
 
     // ──── LESSONS ────
