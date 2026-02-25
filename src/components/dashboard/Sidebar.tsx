@@ -63,10 +63,10 @@ export function Sidebar() {
     }, [user, supabase]);
 
     return (
-        <aside className="fixed left-0 top-0 h-screen w-[90px] hover:w-72 bg-white/40 backdrop-blur-2xl border-r border-white/40 z-[110] hidden lg:flex flex-col shadow-[4px_0_24px_rgba(0,0,0,0.02)] transition-all duration-500 ease-in-out group overflow-hidden peer">
+        <aside className="fixed left-0 top-0 h-screen w-[90px] hover:w-72 bg-white/40 backdrop-blur-2xl border-r border-white/40 z-[110] hidden lg:flex flex-col shadow-[4px_0_24px_rgba(0,0,0,0.02)] transition-all duration-500 ease-in-out group peer">
 
             {/* Logo Section */}
-            <div className="px-6 py-8 flex items-center h-[88px] flex-shrink-0 whitespace-nowrap overflow-hidden">
+            <div className="px-6 py-8 flex items-center h-[88px] flex-shrink-0 whitespace-nowrap">
                 <Link href="/dashboard" className="flex items-center hover:opacity-80 transition-opacity relative w-full h-10">
 
                     {/* Collapsed Logo (Dark Green 'I') */}
@@ -147,7 +147,7 @@ export function Sidebar() {
             <div className="px-5 pb-8 pt-2 border-b border-white/20 flex-shrink-0 relative">
                 <button
                     onClick={() => setIsSettingsOpen(!isSettingsOpen)}
-                    className="flex w-full items-center gap-4 mb-2 overflow-hidden hover:bg-white/50 p-2 -ml-2 rounded-2xl transition-all duration-300 text-left cursor-pointer group/profilebtn"
+                    className="flex w-full items-center gap-4 mb-2 hover:bg-white/50 p-2 -ml-2 rounded-2xl transition-all duration-300 text-left cursor-pointer group/profilebtn"
                 >
                     <div className="w-12 h-12 flex-shrink-0 rounded-full ring-2 ring-white/50 shadow-lg p-[2px] bg-gradient-to-tr from-orange-400 to-blue-500 relative group/avatar">
                         <div className="w-full h-full rounded-full bg-slate-100 flex items-center justify-center overflow-hidden border-2 border-white">

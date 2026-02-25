@@ -110,7 +110,7 @@ export function UserSettingsPanel({ isOpen, onClose }: UserSettingsPanelProps) {
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 10, scale: 0.95 }}
                     transition={{ duration: 0.2, ease: "easeOut" }}
-                    className="absolute left-[80px] bottom-[20px] w-72 bg-white rounded-2xl shadow-2xl border border-slate-100 z-[120] overflow-hidden flex flex-col"
+                    className="fixed left-[90px] bottom-[20px] w-72 bg-white rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.1)] border border-slate-100 z-[120] overflow-hidden flex flex-col"
                 >
                     {/* Header / Avatar Section */}
                     <div className="bg-gradient-to-br from-[#001F3F]/5 to-[#0074D9]/5 p-5 border-b border-slate-100 relative">
