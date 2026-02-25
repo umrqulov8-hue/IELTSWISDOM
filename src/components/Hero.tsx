@@ -70,61 +70,118 @@ export function Hero() {
 
                     {/* Visual Content */}
                     <motion.div
-                        initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
-                        animate={{ opacity: 1, scale: 1, rotate: 0 }}
-                        transition={{ duration: 0.8, delay: 0.2, type: "spring", stiffness: 200, damping: 20 }}
+                        initial={{ opacity: 0, scale: 0.8, rotateY: 30, rotateX: 20, z: -200 }}
+                        animate={{ opacity: 1, scale: 1, rotateY: 0, rotateX: 0, z: 0 }}
+                        transition={{ duration: 1.2, delay: 0.2, type: "spring", bounce: 0.4 }}
                         className="relative lg:h-[600px] flex items-center justify-center hidden md:flex"
+                        style={{ perspective: "1000px" }}
                     >
-                        <div className="relative w-full max-w-md aspect-square">
-                            <div className="absolute inset-0 bg-gradient-to-tr from-primary to-secondary rounded-[2rem] rotate-3 opacity-20"></div>
-                            <div className="absolute inset-0 bg-white dark:bg-slate-900 rounded-[2rem] shadow-2xl border border-slate-100 dark:border-slate-800 overflow-hidden flex items-center justify-center">
-                                <div className="p-8 text-center">
-                                    <div className="w-24 h-24 bg-primary/10 rounded-full mx-auto mb-6 flex items-center justify-center">
-                                        <span className="text-4xl">🎓</span>
-                                    </div>
-                                    <h3 className="text-2xl font-bold text-primary mb-2">IELTS Prep</h3>
-                                    <p className="text-muted-foreground">Band 7.0+ Guaranteed</p>
-                                    <div className="mt-6 flex justify-center -space-x-3">
-                                        {[1, 2, 3, 4].map(i => (
-                                            <div key={i} className="w-10 h-10 rounded-full border-2 border-white bg-slate-200 flex items-center justify-center text-xs font-bold text-slate-500">
-                                                U{i}
-                                            </div>
-                                        ))}
-                                        <div className="w-10 h-10 rounded-full border-2 border-white bg-secondary text-white flex items-center justify-center text-xs font-bold">
-                                            +2k
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Floating Badge 1 */}
+                        <div className="relative w-full max-w-md aspect-square" style={{ transformStyle: "preserve-3d" }}>
                             <motion.div
-                                animate={{ y: [0, -10, 0] }}
-                                transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-                                className="absolute -top-6 -right-6 bg-white dark:bg-slate-800 p-4 rounded-xl shadow-xl border border-slate-100 dark:border-slate-700"
+                                initial={{ opacity: 0, rotate: -15, scale: 0.8 }}
+                                animate={{ opacity: 0.2, rotate: 3, scale: 1 }}
+                                transition={{ duration: 1.2, delay: 0.4, type: "spring", bounce: 0.5 }}
+                                className="absolute inset-0 bg-gradient-to-tr from-primary to-secondary rounded-[2rem] shadow-2xl"
+                                style={{ transform: "translateZ(-50px)" }}
+                            />
+
+                            <motion.div
+                                className="absolute inset-0 bg-white dark:bg-slate-900 rounded-[2rem] shadow-2xl border border-slate-100 dark:border-slate-800 overflow-hidden flex items-center justify-center p-8"
+                                style={{ transform: "translateZ(0px)" }}
                             >
-                                <div className="flex items-center gap-3">
-                                    <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-600 font-bold">A+</div>
-                                    <div>
-                                        <p className="text-xs text-muted-foreground">{lang === "en" ? "Student Rating" : "Talaba reytingi"}</p>
-                                        <p className="font-bold text-primary">4.9/5.0</p>
+                                <div className="text-center w-full flex flex-col items-center">
+                                    <motion.div
+                                        initial={{ scale: 0, rotate: -180 }}
+                                        animate={{ scale: 1, rotate: 0 }}
+                                        transition={{ delay: 0.6, type: "spring", bounce: 0.6, duration: 0.8 }}
+                                        className="w-24 h-24 bg-primary/10 rounded-full mb-6 flex items-center justify-center shadow-inner"
+                                    >
+                                        <span className="text-4xl drop-shadow-sm">🎓</span>
+                                    </motion.div>
+                                    <motion.h3
+                                        initial={{ opacity: 0, y: 20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: 0.8, duration: 0.5 }}
+                                        className="text-2xl font-bold text-primary mb-2"
+                                    >
+                                        IELTS Prep
+                                    </motion.h3>
+                                    <motion.p
+                                        initial={{ opacity: 0, y: 20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: 0.9, duration: 0.5 }}
+                                        className="text-muted-foreground font-medium"
+                                    >
+                                        Band 7.0+ Guaranteed
+                                    </motion.p>
+                                    <div className="mt-8 flex justify-center -space-x-4 pl-4">
+                                        {[1, 2, 3, 4].map((i, idx) => (
+                                            <motion.div
+                                                key={i}
+                                                initial={{ opacity: 0, x: -20, scale: 0.5 }}
+                                                animate={{ opacity: 1, x: 0, scale: 1 }}
+                                                transition={{ delay: 1.0 + idx * 0.1, type: "spring", bounce: 0.6 }}
+                                                className="w-12 h-12 rounded-full border-[3px] border-white bg-slate-200 flex items-center justify-center text-xs font-bold text-slate-600 shadow-sm relative z-10"
+                                            >
+                                                U{i}
+                                            </motion.div>
+                                        ))}
+                                        <motion.div
+                                            initial={{ opacity: 0, x: -20, scale: 0.5 }}
+                                            animate={{ opacity: 1, x: 0, scale: 1 }}
+                                            transition={{ delay: 1.4, type: "spring", bounce: 0.6 }}
+                                            className="w-12 h-12 rounded-full border-[3px] border-white bg-secondary text-white flex items-center justify-center text-xs font-bold shadow-sm relative z-20"
+                                        >
+                                            +2k
+                                        </motion.div>
                                     </div>
                                 </div>
                             </motion.div>
 
+                            {/* Floating Badge 1 */}
+                            <motion.div
+                                initial={{ opacity: 0, scale: 0, x: 40, y: -40 }}
+                                animate={{ opacity: 1, scale: 1, x: 0, y: 0 }}
+                                transition={{ delay: 1.3, type: "spring", bounce: 0.5, duration: 0.8 }}
+                                className="absolute -top-6 -right-6 z-30"
+                                style={{ transform: "translateZ(80px)" }}
+                            >
+                                <motion.div
+                                    animate={{ y: [0, -12, 0] }}
+                                    transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
+                                    className="bg-white dark:bg-slate-800 p-5 rounded-2xl shadow-xl border border-slate-100 dark:border-slate-700"
+                                >
+                                    <div className="flex items-center gap-4">
+                                        <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center text-green-600 font-black text-lg shadow-inner">A+</div>
+                                        <div>
+                                            <p className="text-xs text-muted-foreground tracking-wide font-medium uppercase">{lang === "en" ? "Student Rating" : "Talaba reytingi"}</p>
+                                            <p className="font-bold text-primary text-lg">4.9/5.0</p>
+                                        </div>
+                                    </div>
+                                </motion.div>
+                            </motion.div>
+
                             {/* Floating Badge 2 */}
                             <motion.div
-                                animate={{ y: [0, 10, 0] }}
-                                transition={{ repeat: Infinity, duration: 5, ease: "easeInOut", delay: 1 }}
-                                className="absolute -bottom-6 -left-6 bg-white dark:bg-slate-800 p-4 rounded-xl shadow-xl border border-slate-100 dark:border-slate-700"
+                                initial={{ opacity: 0, scale: 0, x: -40, y: 40 }}
+                                animate={{ opacity: 1, scale: 1, x: 0, y: 0 }}
+                                transition={{ delay: 1.5, type: "spring", bounce: 0.5, duration: 0.8 }}
+                                className="absolute -bottom-6 -left-6 z-30"
+                                style={{ transform: "translateZ(60px)" }}
                             >
-                                <div className="flex items-center gap-3">
-                                    <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold">24h</div>
-                                    <div>
-                                        <p className="text-xs text-muted-foreground">{lang === "en" ? "Support" : "Yordam"}</p>
-                                        <p className="font-bold text-primary">{lang === "en" ? "Live Chat" : "Jonli Chat"}</p>
+                                <motion.div
+                                    animate={{ y: [0, 12, 0] }}
+                                    transition={{ repeat: Infinity, duration: 5, ease: "easeInOut", delay: 1 }}
+                                    className="bg-white dark:bg-slate-800 p-5 rounded-2xl shadow-xl border border-slate-100 dark:border-slate-700"
+                                >
+                                    <div className="flex items-center gap-4">
+                                        <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-black text-lg shadow-inner">24h</div>
+                                        <div>
+                                            <p className="text-xs text-muted-foreground tracking-wide font-medium uppercase">{lang === "en" ? "Support" : "Yordam"}</p>
+                                            <p className="font-bold text-primary text-lg">{lang === "en" ? "Live Chat" : "Jonli Chat"}</p>
+                                        </div>
                                     </div>
-                                </div>
+                                </motion.div>
                             </motion.div>
                         </div>
                     </motion.div>
