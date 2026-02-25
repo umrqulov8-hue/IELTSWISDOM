@@ -47,10 +47,10 @@ export function Testimonials() {
                     {testimonials.map((testimonial, index) => (
                         <motion.div
                             key={testimonial.name}
-                            initial={{ opacity: 0, scale: 0.95 }}
-                            whileInView={{ opacity: 1, scale: 1 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.5, delay: index * 0.2 }}
+                            initial={{ opacity: 0, scale: 0.8, y: 30 }}
+                            whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                            viewport={{ once: false, amount: 0.2 }}
+                            transition={{ duration: 0.6, delay: index * 0.1, type: "spring", stiffness: 200, damping: 20 }}
                             className="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 p-8 rounded-2xl shadow-sm relative"
                         >
                             <Quote className="absolute top-6 right-6 h-8 w-8 text-slate-100 dark:text-slate-800" />

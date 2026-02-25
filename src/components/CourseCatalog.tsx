@@ -42,18 +42,19 @@ export function CourseCatalog() {
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="max-w-3xl mx-auto text-center mb-16">
                     <motion.h2
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
+                        initial={{ opacity: 0, y: 20, filter: "blur(4px)" }}
+                        whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                        viewport={{ once: false, amount: 0.5 }}
+                        transition={{ duration: 0.6, ease: [0.34, 1.56, 0.64, 1] }}
                         className="text-3xl font-bold tracking-tight text-primary sm:text-4xl mb-4"
                     >
                         Explore Our <span className="text-secondary">Premium Courses</span>
                     </motion.h2>
                     <motion.p
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.2 }}
+                        initial={{ opacity: 0, y: 20, filter: "blur(4px)" }}
+                        whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                        viewport={{ once: false, amount: 0.5 }}
+                        transition={{ duration: 0.6, delay: 0.1, ease: [0.34, 1.56, 0.64, 1] }}
                         className="text-lg text-muted-foreground"
                     >
                         Whether you want to travel, advance your career, or pass an exam, we have a structured path for you.
@@ -61,11 +62,18 @@ export function CourseCatalog() {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {courses.map((course) => (
-                        <CourseCard
+                    {courses.map((course, index) => (
+                        <motion.div
                             key={course.title}
-                            {...course}
-                        />
+                            initial={{ opacity: 0, y: 40, scale: 0.9 }}
+                            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                            viewport={{ once: false, amount: 0.2 }}
+                            transition={{ duration: 0.6, delay: index * 0.1, type: "spring", stiffness: 200, damping: 20 }}
+                        >
+                            <CourseCard
+                                {...course}
+                            />
+                        </motion.div>
                     ))}
                 </div>
             </div>

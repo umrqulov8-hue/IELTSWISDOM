@@ -3,6 +3,7 @@
 import { Button } from "./Button";
 import { Mail, CheckCircle } from "lucide-react";
 import { useState } from "react";
+import { motion } from "framer-motion";
 
 export function LeadMagnet() {
     const [email, setEmail] = useState("");
@@ -26,7 +27,13 @@ export function LeadMagnet() {
             </div>
 
             <div className="container relative mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="max-w-4xl mx-auto bg-white/5 backdrop-blur-lg rounded-3xl p-8 md:p-12 border border-white/10 shadow-2xl">
+                <motion.div
+                    initial={{ opacity: 0, y: 50, scale: 0.95 }}
+                    whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                    viewport={{ once: false, amount: 0.2 }}
+                    transition={{ duration: 0.8, type: "spring", stiffness: 150, damping: 20 }}
+                    className="max-w-4xl mx-auto bg-white/5 backdrop-blur-lg rounded-3xl p-8 md:p-12 border border-white/10 shadow-2xl"
+                >
                     <div className="grid md:grid-cols-2 gap-12 items-center">
                         <div>
                             <div className="inline-flex items-center rounded-full border border-secondary/30 bg-secondary/10 px-3 py-1 text-sm font-medium text-secondary mb-6">
@@ -110,7 +117,7 @@ export function LeadMagnet() {
                             )}
                         </div>
                     </div>
-                </div>
+                </motion.div>
             </div>
         </section>
     );

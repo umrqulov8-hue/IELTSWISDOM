@@ -38,10 +38,10 @@ export function ValueProps() {
                     {features.map((feature, index) => (
                         <motion.div
                             key={feature.title}
-                            initial={{ opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.5, delay: index * 0.2 }}
+                            initial={{ opacity: 0, y: 40, scale: 0.9 }}
+                            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                            viewport={{ once: false, amount: 0.2 }}
+                            transition={{ duration: 0.6, delay: index * 0.1, type: "spring", stiffness: 200, damping: 20 }}
                             className="group p-8 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800 hover:border-secondary/20 hover:shadow-xl hover:shadow-secondary/5 transition-all text-center"
                         >
                             <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/5 text-primary mb-6 group-hover:bg-primary group-hover:text-white transition-colors">
