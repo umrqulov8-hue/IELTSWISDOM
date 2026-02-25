@@ -1,17 +1,83 @@
 "use client";
 
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
-import { useState } from "react";
-import { ArrowLeftRight, Search, Settings2, BookOpen, Clock, ChevronRight, Globe, Volume2, Mic, Copy, Star } from "lucide-react";
+import { useState, useEffect } from "react";
+import { ArrowLeftRight, Search, Settings2, BookOpen, Clock, ChevronRight, Globe, Volume2, Mic, Copy, Star, Loader2 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useLanguage } from "@/context/LanguageContext";
+
+// Simple debounce utility
+function useDebounce<T>(value: T, delay: number): T {
+    const [debouncedValue, setDebouncedValue] = useState<T>(value);
+    useEffect(() => {
+        const timer = setTimeout(() => setDebouncedValue(value), delay);
+        return () => clearTimeout(timer);
+    }, [value, delay]);
+    return debouncedValue;
+}
 
 export default function TranslationPage() {
     const { lang } = useLanguage();
     const [sourceText, setSourceText] = useState("");
     const [translatedText, setTranslatedText] = useState("");
+
+    // Translation direction state
+    const [sourceLang, setSourceLang] = useState<"en" | "uz">("en");
+    const [targetLang, setTargetLang] = useState<"en" | "uz">("uz");
+
+    const [isTranslating, setIsTranslating] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+
     const [isAutoDetect, setIsAutoDetect] = useState(true);
     const [isOfflineMode, setIsOfflineMode] = useState(false);
+
+    const debouncedSourceText = useDebounce(sourceText, 600); // 600ms delay
+
+    const handleSwap = () => {
+        setSourceLang(targetLang);
+        setTargetLang(sourceLang);
+        setSourceText(translatedText);
+        setTranslatedText(sourceText);
+    };
+
+    const handleCopy = () => {
+        if (translatedText) navigator.clipboard.writeText(translatedText);
+    };
+
+    useEffect(() => {
+        const performTranslation = async () => {
+            if (!debouncedSourceText.trim()) {
+                setTranslatedText("");
+                setError(null);
+                return;
+            }
+
+            setIsTranslating(true);
+            setError(null);
+
+            try {
+                const response = await fetch('/api/translate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        text: debouncedSourceText,
+                    })
+                });
+
+                const data = await response.json();
+                if (!response.ok) throw new Error(data.error || "Failed to translate");
+
+                setTranslatedText(data.translatedText);
+            } catch (err: any) {
+                console.error("Translation error:", err);
+                setError(err.message);
+            } finally {
+                setIsTranslating(false);
+            }
+        };
+
+        performTranslation();
+    }, [debouncedSourceText, sourceLang, targetLang]);
 
     // Mock data
     const historyItems = [
@@ -54,8 +120,8 @@ export default function TranslationPage() {
                                     className="w-full flex-1 bg-transparent resize-none outline-none text-slate-800 placeholder:text-slate-400 text-lg"
                                 />
                                 <div className="flex justify-between items-center mt-2 opacity-50 text-slate-500 text-xs font-semibold">
-                                    <div className="flex items-center gap-1.5 px-2 py-1 bg-white rounded-lg shadow-sm border border-slate-100 uppercase tracking-widest">
-                                        <Globe className="w-3 h-3 text-blue-500" /> EN
+                                    <div className="flex items-center gap-1.5 px-2 py-1 bg-white rounded-lg shadow-sm border border-slate-100 uppercase tracking-widest text-[#00E5FF] font-bold">
+                                        <Globe className="w-3 h-3" /> {sourceLang === "en" ? "EN" : "UZ"}
                                     </div>
                                     <span>{sourceText.length} / 5000</span>
                                 </div>
@@ -64,7 +130,10 @@ export default function TranslationPage() {
 
                         {/* Swap Button container (Absolute center on desktop, inline hidden on mobile or shown between) */}
                         <div className="hidden md:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 items-center justify-center">
-                            <button className="w-16 h-16 rounded-full bg-gradient-to-tr from-cyan-500 to-blue-500 shadow-[0_0_20px_rgba(6,182,212,0.5)] border-4 border-white/80 hover:scale-110 active:scale-95 transition-transform flex items-center justify-center group overflow-hidden relative">
+                            <button
+                                onClick={handleSwap}
+                                className="w-16 h-16 rounded-full bg-gradient-to-tr from-cyan-500 to-blue-500 shadow-[0_0_20px_rgba(6,182,212,0.5)] border-4 border-white/80 hover:scale-110 active:scale-95 transition-transform flex items-center justify-center group overflow-hidden relative"
+                            >
                                 <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity"></div>
                                 <ArrowLeftRight className="w-6 h-6 text-white group-hover:rotate-180 transition-transform duration-500" />
                             </button>
@@ -72,7 +141,10 @@ export default function TranslationPage() {
 
                         {/* Mobile Swap Button */}
                         <div className="md:hidden flex justify-center -my-3 relative z-20">
-                            <button className="w-12 h-12 rounded-full bg-gradient-to-tr from-cyan-500 to-blue-500 shadow-[0_0_15px_rgba(6,182,212,0.4)] border-4 border-white flex items-center justify-center">
+                            <button
+                                onClick={handleSwap}
+                                className="w-12 h-12 rounded-full bg-gradient-to-tr from-cyan-500 to-blue-500 shadow-[0_0_15px_rgba(6,182,212,0.4)] border-4 border-white flex items-center justify-center active:scale-95 transition-transform"
+                            >
                                 <ArrowLeftRight className="w-5 h-5 text-white" />
                             </button>
                         </div>
@@ -80,19 +152,26 @@ export default function TranslationPage() {
                         {/* Translated Text Box */}
                         <div className="flex-1 bg-white/50 backdrop-blur-md rounded-3xl p-5 border border-white/70 shadow-sm relative group transition-all duration-300 hover:shadow-md hover:bg-white/60">
                             <div className="flex justify-between items-center mb-4 px-2">
-                                <span className="font-semibold text-slate-700">{lang === "uz" ? "Tarjima" : "Translated Text"}</span>
+                                <div className="flex items-center gap-3">
+                                    <span className="font-semibold text-slate-700">{lang === "uz" ? "Tarjima" : "Translated Text"}</span>
+                                    {isTranslating && <Loader2 className="w-4 h-4 text-cyan-500 animate-spin" />}
+                                </div>
                                 <div className="flex gap-2 items-center">
                                     <button className="text-slate-400 hover:text-blue-500 transition-colors"><Volume2 className="w-4 h-4" /></button>
-                                    <button className="text-slate-400 hover:text-blue-500 transition-colors"><Copy className="w-4 h-4" /></button>
+                                    <button onClick={handleCopy} className="text-slate-400 hover:text-blue-500 active:scale-90 transition-all"><Copy className="w-4 h-4" /></button>
                                 </div>
                             </div>
-                            <div className="bg-slate-50/70 border border-slate-100 rounded-2xl min-h-[160px] p-4 flex flex-col pt-5">
+                            <div className="bg-slate-50/70 border border-slate-100 rounded-2xl min-h-[160px] p-4 flex flex-col pt-5 relative">
                                 <div className="w-full flex-1 text-slate-700 text-lg">
-                                    {translatedText || <span className="text-slate-400">{lang === "uz" ? "Tarjima bu yerda paydo bo'ladi..." : "Translation will appear here..."}</span>}
+                                    {error ? (
+                                        <span className="text-red-400 text-sm font-medium">{error}</span>
+                                    ) : (
+                                        translatedText || <span className="text-slate-400">{lang === "uz" ? "Tarjima bu yerda paydo bo'ladi..." : "Translation will appear here..."}</span>
+                                    )}
                                 </div>
                                 <div className="flex justify-between items-center mt-2 opacity-50 text-slate-500 text-xs font-semibold">
-                                    <div className="flex items-center gap-1.5 px-2 py-1 bg-white rounded-lg shadow-sm border border-slate-100 uppercase tracking-widest">
-                                        <Globe className="w-3 h-3 text-green-500" /> UZ
+                                    <div className="flex items-center gap-1.5 px-2 py-1 bg-white rounded-lg shadow-sm border border-slate-100 uppercase tracking-widest text-[#00E5FF] font-bold">
+                                        <Globe className="w-3 h-3" /> {targetLang === "uz" ? "UZ" : "EN"}
                                     </div>
                                 </div>
                             </div>
