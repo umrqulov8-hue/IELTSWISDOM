@@ -62,7 +62,7 @@ export function Sidebar() {
     }, [user, supabase]);
 
     return (
-        <aside className="fixed left-0 top-0 h-screen w-[90px] hover:w-72 bg-white/40 backdrop-blur-2xl border-r border-white/40 z-[110] hidden lg:flex flex-col shadow-[4px_0_24px_rgba(0,0,0,0.02)] transition-all duration-500 ease-in-out group peer">
+        <aside className="fixed left-0 top-0 h-screen w-[90px] hover:w-[280px] bg-white/40 backdrop-blur-2xl border-r border-white/40 z-[110] hidden lg:flex flex-col shadow-[4px_0_24px_rgba(0,0,0,0.02)] transition-all duration-[600ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] group peer">
 
             {/* Logo Section */}
             <div className="px-6 py-8 flex items-center h-[88px] flex-shrink-0 whitespace-nowrap">
@@ -158,7 +158,7 @@ export function Sidebar() {
                         </div>
                     </div>
 
-                    <div className="opacity-0 group-hover:opacity-100 max-w-0 group-hover:max-w-[150px] transition-all duration-500 ease-in-out whitespace-nowrap overflow-hidden flex flex-col justify-center">
+                    <div className="opacity-0 group-hover:opacity-100 max-w-0 group-hover:max-w-[160px] transition-all duration-[600ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] whitespace-nowrap overflow-hidden flex flex-col justify-center">
                         <h3 className="text-slate-800 font-bold text-lg truncate group-hover/profilebtn:text-blue-600 transition-colors">
                             {user?.email?.split('@')[0] || "Student"}
                         </h3>
@@ -175,7 +175,7 @@ export function Sidebar() {
 
             {/* Navigation */}
             <nav className="flex-1 overflow-y-auto overflow-x-hidden py-6 px-4 space-y-2 custom-scrollbar">
-                {navItems.map((item) => {
+                {navItems.map((item, i) => {
                     const isActive = pathname === item.href;
                     const Icon = item.icon;
 
@@ -195,24 +195,29 @@ export function Sidebar() {
                                 isActive ? "text-white" : "text-slate-400 group-hover/item:text-[#FF8C00]"
                             )} />
 
-                            <span className={cn(
-                                "opacity-0 group-hover:opacity-100 max-w-0 group-hover:max-w-[160px] transition-all duration-500 ease-in-out font-medium translate-x-[-10px] group-hover:translate-x-0"
-                            )}>
+                            <span
+                                className={cn(
+                                    "opacity-0 group-hover:opacity-100 max-w-0 group-hover:max-w-[160px] transition-all duration-[600ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] font-medium translate-x-[-15px] group-hover:translate-x-0 group-hover:[transition-delay:var(--stagger-delay)] [transition-delay:0ms]"
+                                )}
+                                style={{ '--stagger-delay': `${i * 40}ms` } as React.CSSProperties}
+                            >
                                 {item.name}
                             </span>
 
                             {item.featured && (
                                 <span className={cn(
-                                    "absolute right-2 text-[10px] font-bold px-2 py-0.5 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 delay-100 scale-0 group-hover:scale-100",
+                                    "absolute right-2 text-[10px] font-bold px-2 py-0.5 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-[600ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] scale-0 group-hover:scale-100 group-hover:[transition-delay:calc(var(--stagger-delay)+100ms)] [transition-delay:0ms]",
                                     isActive ? "bg-white/20 text-white" : "bg-[#FF8C00] text-white"
-                                )}>
+                                )}
+                                    style={{ '--stagger-delay': `${i * 40}ms` } as React.CSSProperties}
+                                >
                                     NEW
                                 </span>
                             )}
 
                             {/* Hover Indicator for Collapsed State */}
                             {!isActive && (
-                                <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-0 group-hover/item:h-1/2 bg-[#FF8C00] rounded-r-full transition-all duration-300 opacity-0 group-hover:opacity-0 group-hover/item:opacity-100 group-hover:opacity-0" />
+                                <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-0 group-hover/item:h-1/2 bg-[#FF8C00] rounded-r-full transition-all duration-[400ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] opacity-0 group-hover/item:opacity-100" />
                             )}
                         </Link>
                     );
@@ -223,10 +228,10 @@ export function Sidebar() {
             <div className="p-4 border-t border-white/20 overflow-hidden flex-shrink-0">
                 <button
                     onClick={() => signOut()}
-                    className="flex items-center gap-4 px-4 py-3 w-full text-slate-500 hover:text-red-500 hover:bg-red-50 rounded-xl transition-colors mb-2 whitespace-nowrap group/logout"
+                    className="flex items-center gap-4 px-4 py-3 w-full text-slate-500 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all duration-[400ms] mb-2 whitespace-nowrap group/logout"
                 >
-                    <LogOut className="w-6 h-6 flex-shrink-0 group-hover/logout:rotate-180 transition-transform duration-500" />
-                    <span className="font-medium opacity-0 group-hover:opacity-100 max-w-0 group-hover:max-w-[150px] transition-all duration-500 ease-in-out">Sign Out</span>
+                    <LogOut className="w-6 h-6 flex-shrink-0 group-hover/logout:rotate-180 transition-transform duration-[600ms] ease-[cubic-bezier(0.34,1.56,0.64,1)]" />
+                    <span className="font-medium opacity-0 group-hover:opacity-100 max-w-0 group-hover:max-w-[150px] transition-all duration-[600ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] translate-x-[-15px] group-hover:translate-x-0">Sign Out</span>
                 </button>
 
                 <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-200 pl-4">
