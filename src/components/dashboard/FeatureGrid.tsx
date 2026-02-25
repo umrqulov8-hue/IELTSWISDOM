@@ -37,9 +37,9 @@ export function FeatureGrid() {
                 return (
                     <Link href={feature.href} key={feature.key} className="block">
                         <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: index * 0.05 }}
+                            initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            transition={{ delay: index * 0.08, type: "spring", bounce: 0.5 }}
                             className="group relative bg-white/40 backdrop-blur-xl border border-white/60 p-6 rounded-3xl hover:bg-white/60 transition-all duration-300 cursor-pointer overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 h-full"
                         >
                             <div className={`absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r ${gradientClass} opacity-50 group-hover:opacity-100 group-hover:h-full transition-all duration-500 -z-10`} />

@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/context/LanguageContext";
+import { BouncyText } from "@/components/ui/BouncyText";
 
 // --- Types ---
 interface Passage {
@@ -429,22 +430,50 @@ export default function VocabularyPage() {
             description={lang === "en" ? "Master IELTS vocabulary with context-based passage practice." : "Kontekstga asoslangan matn mashqlari bilan IELTS lug'atini o'zlang."}
         >
             {/* Header Stats */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+            <motion.div
+                initial="hidden"
+                animate="visible"
+                variants={{
+                    hidden: { opacity: 0 },
+                    visible: { opacity: 1, transition: { staggerChildren: 0.1 } }
+                }}
+                className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8"
+            >
                 <StatsCard icon={Book} label={booksLabel} value="13" color="text-blue-500" bg="bg-blue-50" />
                 <StatsCard icon={FileText} label={testsLabel} value="20+" color="text-purple-500" bg="bg-purple-50" />
                 <StatsCard icon={BookOpen} label={passagesLabel} value="60+" color="text-emerald-500" bg="bg-emerald-50" />
-            </div>
+            </motion.div>
 
             {/* Main Content Card - Liquid Glass */}
-            <div className="bg-white/70 backdrop-blur-xl rounded-3xl p-6 md:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-white/60">
+            <motion.div
+                initial={{ opacity: 0, y: 20, scale: 0.98 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ duration: 0.5, delay: 0.2, type: "spring", bounce: 0.3 }}
+                className="bg-white/70 backdrop-blur-xl rounded-3xl p-6 md:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-white/60"
+            >
                 <h2 className="text-2xl font-bold text-[#1A1A1A] mb-6 flex items-center gap-2">
                     <span className="w-1 h-8 bg-[#D4AF37] rounded-full inline-block"></span>
-                    {selectBook}
+                    <BouncyText key={`sb-${lang}`} text={selectBook} type="word" />
                 </h2>
 
-                <div className="space-y-4">
+                <motion.div
+                    initial="hidden"
+                    animate="visible"
+                    variants={{
+                        hidden: { opacity: 0 },
+                        visible: { opacity: 1, transition: { staggerChildren: 0.1, delayChildren: 0.3 } }
+                    }}
+                    className="space-y-4"
+                >
                     {BOOKS.map((book) => (
-                        <div key={book.id} className="group">
+                        <motion.div
+                            variants={{
+                                hidden: { opacity: 0, y: 20 },
+                                visible: { opacity: 1, y: 0, transition: { type: "spring", bounce: 0.4 } }
+                            }}
+                            key={book.id}
+                            className="group"
+                        >
                             {/* Book Header */}
                             <motion.button
                                 onClick={() => setExpandedBook(expandedBook === book.id ? null : book.id)}
@@ -556,10 +585,10 @@ export default function VocabularyPage() {
                                     </motion.div>
                                 )}
                             </AnimatePresence>
-                        </div>
+                        </motion.div>
                     ))}
-                </div>
-            </div>
+                </motion.div>
+            </motion.div>
 
             {/* Activity Selection Modal */}
             <ActivitySelectionModal
@@ -574,14 +603,20 @@ export default function VocabularyPage() {
 
 function StatsCard({ icon: Icon, label, value, color, bg }: { icon: any, label: string, value: string, color: string, bg: string }) {
     return (
-        <div className="bg-white/60 backdrop-blur-md border border-white/50 p-5 rounded-2xl flex items-center gap-4 shadow-sm hover:shadow-md transition-shadow">
-            <div className={cn("p-3 rounded-xl", bg, color)}>
+        <motion.div
+            variants={{
+                hidden: { opacity: 0, scale: 0.9, y: 20 },
+                visible: { opacity: 1, scale: 1, y: 0, transition: { type: "spring", bounce: 0.5 } }
+            }}
+            className="bg-white/60 backdrop-blur-md border border-white/50 p-5 rounded-2xl flex items-center gap-4 shadow-sm hover:shadow-md transition-shadow"
+        >
+            <div className={cn("p-3 rounded-xl transform transition-transform group-hover:scale-110", bg, color)}>
                 <Icon className="w-6 h-6" />
             </div>
             <div>
                 <h4 className="text-2xl font-bold text-[#1A1A1A]">{value}</h4>
                 <p className="text-xs text-slate-500 font-medium uppercase tracking-wider">{label}</p>
             </div>
-        </div>
+        </motion.div>
     );
 }
