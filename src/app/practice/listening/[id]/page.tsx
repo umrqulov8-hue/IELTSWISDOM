@@ -6,8 +6,9 @@ import type { ListeningPart } from "@/types/listening";
 import { AlertCircle, CheckCircle2, ChevronLeft, Play, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
 import { useParams } from "next/navigation";
+import { BouncyText } from "@/components/ui/BouncyText";
 
 // ─────────────────────────────────────────────
 // Static Content
@@ -99,16 +100,22 @@ const ListeningPartSection = memo(function ListeningPartSection({
                 {/* Multiple choice */}
                 {part.questions.filter(q => q.type === "multiple-choice").length > 0 && (
                     <div className="mt-8 space-y-5">
-                        {part.questions.filter(q => q.type === "multiple-choice").map(q => {
+                        {part.questions.filter(q => q.type === "multiple-choice").map((q, qIndex) => {
                             const isCorrect = isSubmitted && answers[q.id.toString()] === q.correctAnswer.toString();
                             const isWrong = isSubmitted && answers[q.id.toString()] !== q.correctAnswer.toString();
                             return (
-                                <div key={q.id} className={cn(
-                                    "p-4 rounded-xl border backdrop-blur-sm transition-colors",
-                                    isCorrect ? "border-green-300/60 bg-green-50/40" :
-                                        isWrong ? "border-red-300/60 bg-red-50/40" :
-                                            "border-white/40 bg-white/20"
-                                )}>
+                                <motion.div
+                                    initial={{ opacity: 0, y: 20 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true, margin: "-50px" }}
+                                    transition={{ duration: 0.4, delay: qIndex * 0.05 }}
+                                    key={q.id}
+                                    className={cn(
+                                        "p-4 rounded-xl border backdrop-blur-sm transition-colors",
+                                        isCorrect ? "border-green-300/60 bg-green-50/40" :
+                                            isWrong ? "border-red-300/60 bg-red-50/40" :
+                                                "border-white/40 bg-white/20 hover:bg-white/30 hover:shadow-sm"
+                                    )}>
                                     <p className="font-bold text-slate-700 mb-3 flex gap-2">
                                         <span className="text-slate-400 font-mono text-sm mt-0.5">{q.id}.</span>
                                         {q.text}
@@ -144,7 +151,7 @@ const ListeningPartSection = memo(function ListeningPartSection({
                                             );
                                         })}
                                     </div>
-                                </div>
+                                </motion.div>
                             );
                         })}
                     </div>
@@ -168,7 +175,19 @@ export default function ListeningTestPage() {
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [score, setScore] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);
-    const [startedAudio, setStartedAudio] = useState(false); // Track if audio has started at least once
+    const [startedAudio, setStartedAudio] = useState(false);
+    const [showTopbar, setShowTopbar] = useState(true);
+    const { scrollY } = useScroll();
+
+    useMotionValueEvent(scrollY, "change", (latest) => {
+        const previous = scrollY.getPrevious() ?? 0;
+        if (latest > previous && latest > 150) {
+            setShowTopbar(false);
+        } else if (latest < previous || latest <= 150) {
+            setShowTopbar(true);
+        }
+    });
+
     const audioRef = useRef<HTMLAudioElement>(null);
 
     const togglePlay = () => {
@@ -242,10 +261,16 @@ export default function ListeningTestPage() {
                     >
                         <div className="glass-card rounded-3xl overflow-hidden shadow-2xl">
                             <div className="p-8 text-center border-b border-white/30">
-                                <div className="w-16 h-16 glass-pill rounded-2xl flex items-center justify-center mx-auto mb-4">
+                                <motion.div
+                                    animate={{ y: [0, -8, 0] }}
+                                    transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
+                                    className="w-16 h-16 glass-pill rounded-2xl flex items-center justify-center mx-auto mb-4"
+                                >
                                     <span className="text-3xl">🎧</span>
-                                </div>
-                                <h1 className="text-xl font-extrabold text-slate-800 mb-1">{testData.title}</h1>
+                                </motion.div>
+                                <h1 className="text-xl font-extrabold text-slate-800 mb-1">
+                                    <BouncyText key={`ps-title`} text={testData.title} type="word" />
+                                </h1>
                                 <p className="text-slate-500 text-sm">IELTS Academic · Listening</p>
                             </div>
 
@@ -297,7 +322,12 @@ export default function ListeningTestPage() {
             <style>{liquidStyles}</style>
 
             {/* Top bar */}
-            <div className="glass-topbar sticky top-0 z-30 px-5 py-3 flex items-center justify-between">
+            <motion.div
+                initial={{ y: 0 }}
+                animate={{ y: showTopbar ? 0 : -100 }}
+                transition={{ duration: 0.3, ease: "easeInOut" }}
+                className="glass-topbar fixed top-0 left-0 right-0 z-50 px-5 py-3 flex items-center justify-between"
+            >
                 <div className="flex items-center gap-3">
                     <Link href="/practice/listening">
                         <button className="flex items-center gap-1.5 text-slate-500 hover:text-slate-800 text-sm font-medium">
@@ -307,10 +337,10 @@ export default function ListeningTestPage() {
                     <span className="text-slate-300 text-sm">|</span>
                     <span className="font-bold text-slate-700 text-sm">{testData.title}</span>
                 </div>
-                <span className="text-xs text-slate-400 font-medium">{answeredCount}/{totalQ}</span>
-            </div>
+                <span className="text-xs text-slate-400 font-medium bg-white/50 px-2.5 py-1 rounded-full">{answeredCount}/{totalQ}</span>
+            </motion.div>
 
-            <main className="flex-1 max-w-[1400px] w-full mx-auto px-6 md:px-10 py-6 space-y-5">
+            <main className="flex-1 max-w-[1400px] w-full mx-auto px-6 md:px-10 py-6 space-y-5 mt-16 pb-32">
 
                 {/* Score */}
                 <AnimatePresence>
@@ -330,7 +360,11 @@ export default function ListeningTestPage() {
                 </AnimatePresence>
 
                 {/* Audio Player and Overlay */}
-                <div className="relative">
+                <motion.div
+                    className="sticky z-40"
+                    animate={{ top: showTopbar ? "70px" : "16px" }}
+                    transition={{ duration: 0.3, ease: "easeInOut" }}
+                >
                     {/* Glass Overlay for Start Play */}
                     <AnimatePresence>
                         {!isPlaying && !startedAudio && (
@@ -430,7 +464,7 @@ export default function ListeningTestPage() {
                             </div>
                         </div>
                     </motion.div>
-                </div>
+                </motion.div>
 
                 {/* Questions */}
                 <AnimatePresence mode="wait">
