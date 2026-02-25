@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
 import { translations as T, tx } from "@/lib/translations";
+import { BouncyText } from "@/components/ui/BouncyText";
 
 // --- Types ---
 interface TestCategory {
@@ -117,7 +118,7 @@ export default function ReadingPage() {
                     <motion.div
                         initial={{ opacity: 0, y: -20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.4 }}
+                        transition={{ duration: 0.5, type: "spring", bounce: 0.4 }}
                         className="relative group"
                     >
                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -133,9 +134,9 @@ export default function ReadingPage() {
                     </motion.div>
 
                     <motion.div
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.5, delay: 0.1 }}
+                        initial={{ opacity: 0, x: -30, scale: 0.95 }}
+                        animate={{ opacity: 1, x: 0, scale: 1 }}
+                        transition={{ duration: 0.6, delay: 0.1, type: "spring", bounce: 0.3 }}
                         className="bg-white/60 backdrop-blur-xl rounded-3xl border border-white/50 p-4 space-y-2 lg:sticky lg:top-24 shadow-[0_8px_30px_rgb(0,0,0,0.04)]"
                     >
                         <div className="flex items-center gap-2 px-3 pb-3 mb-2 border-b border-blue-100/50">
@@ -205,9 +206,9 @@ export default function ReadingPage() {
                 <main className="flex-1 min-w-0">
                     {/* Header Banner */}
                     <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6 }}
+                        initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        transition={{ duration: 0.6, type: "spring", bounce: 0.4 }}
                         className="relative rounded-[2rem] overflow-hidden bg-gradient-to-br from-blue-600 via-sky-600 to-indigo-600 p-8 md:p-10 mb-10 shadow-[0_20px_50px_rgba(37,99,235,0.3)] group"
                     >
                         {/* Animated Mesh Gradient Overlay */}
@@ -219,12 +220,15 @@ export default function ReadingPage() {
                         <div className="relative z-10 text-white max-w-2xl">
                             <div className="flex items-center gap-2 mb-4">
                                 <span className="bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest border border-white/20 flex items-center gap-2">
-                                    <FileText className="w-3 h-3 text-sky-200" /> {lang === 'uz' ? "Keng kutubxona" : "Extensive Library"}
+                                    <FileText className="w-3 h-3 text-sky-200" />
+                                    <BouncyText key={`rl-badge-${lang}`} text={lang === 'uz' ? "Keng kutubxona" : "Extensive Library"} type="word" />
                                 </span>
                             </div>
-                            <h2 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight">{lang === 'uz' ? "O'qish Kutubxonasi" : "Reading Library"}</h2>
+                            <h2 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight">
+                                <BouncyText key={`rl-title-${lang}`} text={lang === 'uz' ? "O'qish Kutubxonasi" : "Reading Library"} type="word" />
+                            </h2>
                             <p className="text-blue-100 text-lg leading-relaxed font-light">
-                                {lang === 'uz' ? "Akademik va umumiy o'quv matnlarimiz to'plami bilan o'qish tezligi va tushunish qobiliyatingizni oshiring." : "Enhance your reading speed and comprehension with our vast collection of academic and general training texts."}
+                                <BouncyText key={`rl-desc-${lang}`} text={lang === 'uz' ? "Akademik va umumiy o'quv matnlarimiz to'plami bilan o'qish tezligi va tushunish qobiliyatingizni oshiring." : "Enhance your reading speed and comprehension with our vast collection of academic and general training texts."} type="word" />
                             </p>
                         </div>
                     </motion.div>
@@ -263,13 +267,23 @@ export default function ReadingPage() {
                                             </div>
                                         </div>
 
-                                        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
+                                        <motion.div
+                                            initial="hidden"
+                                            whileInView="visible"
+                                            viewport={{ once: true, margin: "-40px" }}
+                                            variants={{
+                                                hidden: { opacity: 0 },
+                                                visible: { opacity: 1, transition: { staggerChildren: 0.08 } }
+                                            }}
+                                            className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5"
+                                        >
                                             {categoryTests.map((test, index) => (
                                                 <motion.div
                                                     key={test.id}
-                                                    initial={{ opacity: 0, scale: 0.9 }}
-                                                    animate={{ opacity: 1, scale: 1 }}
-                                                    transition={{ duration: 0.4, delay: index * 0.05 }}
+                                                    variants={{
+                                                        hidden: { opacity: 0, y: 25, scale: 0.9 },
+                                                        visible: { opacity: 1, y: 0, scale: 1, transition: { type: "spring", bounce: 0.45, duration: 0.6 } }
+                                                    }}
                                                     className="group bg-white/70 backdrop-blur-xl rounded-[1.5rem] p-1 border border-white/60 hover:border-blue-200/50 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgba(59,130,246,0.15)] transition-all duration-500 relative hover:-translate-y-1"
                                                 >
                                                     <div className="bg-white/50 rounded-[1.2rem] p-5 h-full flex flex-col relative overflow-hidden group-hover:bg-gradient-to-b group-hover:from-white group-hover:to-blue-50/30 transition-colors duration-500">
@@ -324,7 +338,7 @@ export default function ReadingPage() {
                                                     </div>
                                                 </motion.div>
                                             ))}
-                                        </div>
+                                        </motion.div>
                                     </motion.div>
                                 );
                             })}
