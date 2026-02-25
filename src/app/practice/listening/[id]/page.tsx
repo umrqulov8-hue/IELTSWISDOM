@@ -1,17 +1,18 @@
 "use client";
 
-import { use, useState, useEffect, useRef } from "react";
+import { use, useState, useEffect, useRef, useCallback, memo, useMemo } from "react";
 import { LISTENING_TESTS } from "@/data/listening-tests";
 import type { ListeningPart } from "@/types/listening";
 import { AlertCircle, CheckCircle2, ChevronLeft, Play, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
+import { useParams } from "next/navigation";
 
 // ─────────────────────────────────────────────
 // Part Section
 // ─────────────────────────────────────────────
-function ListeningPartSection({
+const ListeningPartSection = memo(function ListeningPartSection({
     part, answers, onAnswerChange, isSubmitted,
 }: {
     part: ListeningPart;
@@ -139,14 +140,15 @@ function ListeningPartSection({
             </div>
         </div>
     );
-}
+});
 
 // ─────────────────────────────────────────────
 // Main Page
 // ─────────────────────────────────────────────
-export default function ListeningTestPage({ params }: { params: Promise<{ id: string }> }) {
-    const { id: testId } = use(params);
-    const testData = LISTENING_TESTS[testId];
+export default function ListeningTestPage() {
+    const params = useParams();
+    const testId = params?.id as string;
+    const testData = testId ? LISTENING_TESTS[testId] : null;
 
     const [started, setStarted] = useState(false);
     const [currentPartIndex, setCurrentPartIndex] = useState(0);
@@ -167,8 +169,9 @@ export default function ListeningTestPage({ params }: { params: Promise<{ id: st
     // Reset play state when part changes
     useEffect(() => { setIsPlaying(false); audioRef.current?.pause(); }, [currentPartIndex]);
 
-    const handleAnswerChange = (id: string, value: string) =>
+    const handleAnswerChange = useCallback((id: string, value: string) => {
         setAnswers(p => ({ ...p, [id]: value }));
+    }, []);
 
     const handleSubmit = () => {
         if (!testData) return;
