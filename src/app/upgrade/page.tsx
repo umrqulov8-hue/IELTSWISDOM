@@ -1,7 +1,8 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Check, X, Zap, Star, ArrowLeft, Shield, Clock, Users, Gift, Sparkles } from "lucide-react";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Check, X, Zap, Star, ArrowLeft, Shield, Clock, Users, Gift, Sparkles, PartyPopper } from "lucide-react";
 import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
 import { useSubscription } from "@/context/SubscriptionContext";
@@ -12,6 +13,14 @@ import { ProBadge } from "@/components/ui/ProBadge";
 export default function UpgradePage() {
     const { lang } = useLanguage();
     const { isPro, isTrialing, trialDaysLeft, subscribe, cancelSubscription } = useSubscription();
+    const [showCelebration, setShowCelebration] = useState(false);
+
+    const handleSubscribe = () => {
+        setShowCelebration(true);
+        setTimeout(() => {
+            subscribe();
+        }, 1500);
+    };
 
     const T = {
         back: lang === "en" ? "Back to Dashboard" : "Boshqaruvga qaytish",
@@ -28,7 +37,7 @@ export default function UpgradePage() {
         activePro: lang === "en" ? "You're Pro!" : "Siz Pro siz!",
         trialActive: lang === "en" ? `Trial: ${trialDaysLeft} days left` : `Sinov: ${trialDaysLeft} kun qoldi`,
         cancelBtn: lang === "en" ? "Cancel Subscription" : "Obunani bekor qilish",
-        afterTrial: lang === "en" ? "Then $9.99/month · Auto-renews" : "Keyin $9.99/oy · Avtomatik yangilanadi",
+        afterTrial: lang === "en" ? "Then $1.99/month · Auto-renews" : "Keyin $1.99/oy · Avtomatik yangilanadi",
         secure: lang === "en" ? "Secure payments handled by Stripe. Cancel anytime." : "Xavfsiz to'lovlar Stripe orqali. Istalgan vaqtda bekor qiling.",
         month: lang === "en" ? "/month" : "/oy",
         forever: lang === "en" ? "forever" : "doim",
@@ -194,7 +203,7 @@ export default function UpgradePage() {
                             <p className="text-slate-500 font-medium mb-6">{T.proDesc}</p>
 
                             <div className="flex items-baseline gap-1 mb-2">
-                                <span className="text-5xl font-black tracking-tighter">$9.99</span>
+                                <span className="text-5xl font-black tracking-tighter">$1.99</span>
                                 <span className="text-slate-400 font-bold">{T.month}</span>
                             </div>
                             {!isPro && (
@@ -225,12 +234,67 @@ export default function UpgradePage() {
 
                             {/* Button */}
                             {!isPro ? (
-                                <button
-                                    onClick={subscribe}
-                                    className="w-full py-5 rounded-[22px] text-sm font-black uppercase tracking-[0.2em] text-white shadow-xl transition-all hover:scale-[1.03] active:scale-[0.98] bg-gradient-to-r from-amber-400 to-orange-500 hover:shadow-amber-500/30"
-                                >
-                                    {T.startTrial}
-                                </button>
+                                <div className="relative">
+                                    {/* Celebration particles */}
+                                    <AnimatePresence>
+                                        {showCelebration && (
+                                            <>
+                                                {[...Array(12)].map((_, i) => (
+                                                    <motion.div
+                                                        key={i}
+                                                        initial={{ opacity: 1, scale: 0, x: 0, y: 0 }}
+                                                        animate={{
+                                                            opacity: [1, 1, 0],
+                                                            scale: [0, 1.5, 0.5],
+                                                            x: (Math.random() - 0.5) * 300,
+                                                            y: (Math.random() - 0.5) * 200 - 80,
+                                                            rotate: Math.random() * 720,
+                                                        }}
+                                                        transition={{ duration: 1.2, ease: "easeOut" }}
+                                                        className="absolute top-1/2 left-1/2 z-50 pointer-events-none"
+                                                    >
+                                                        <div className={`w-3 h-3 rounded-full ${['bg-amber-400', 'bg-orange-500', 'bg-yellow-300', 'bg-pink-400', 'bg-purple-400', 'bg-emerald-400'][i % 6]
+                                                            }`} />
+                                                    </motion.div>
+                                                ))}
+                                                {/* Big sparkle icon */}
+                                                <motion.div
+                                                    initial={{ opacity: 0, scale: 0, rotate: -30 }}
+                                                    animate={{ opacity: [0, 1, 0], scale: [0, 2, 0], rotate: [0, 180, 360] }}
+                                                    transition={{ duration: 1.2, ease: "easeOut" }}
+                                                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 pointer-events-none"
+                                                >
+                                                    <Sparkles className="w-10 h-10 text-amber-400" />
+                                                </motion.div>
+                                            </>
+                                        )}
+                                    </AnimatePresence>
+
+                                    <motion.button
+                                        onClick={handleSubscribe}
+                                        whileTap={{ scale: 0.92 }}
+                                        animate={showCelebration ? {
+                                            scale: [1, 1.08, 0.95, 1.05, 1],
+                                            boxShadow: [
+                                                "0 10px 25px rgba(245,158,11,0.3)",
+                                                "0 20px 50px rgba(245,158,11,0.6)",
+                                                "0 10px 25px rgba(245,158,11,0.3)",
+                                            ]
+                                        } : {}}
+                                        transition={showCelebration ? { duration: 0.8, ease: "easeOut" } : {}}
+                                        className="w-full py-5 rounded-[22px] text-sm font-black uppercase tracking-[0.2em] text-white shadow-xl transition-all hover:scale-[1.03] bg-gradient-to-r from-amber-400 to-orange-500 hover:shadow-amber-500/30 relative overflow-hidden"
+                                    >
+                                        {/* Button shine */}
+                                        <motion.div
+                                            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/25 to-transparent -skew-x-12"
+                                            animate={showCelebration ? { x: ["-100%", "200%"] } : {}}
+                                            transition={{ duration: 0.6, ease: "easeInOut" }}
+                                        />
+                                        <span className="relative z-10">
+                                            {showCelebration ? (lang === "en" ? "🎉 Welcome to Pro!" : "🎉 Pro ga xush kelibsiz!") : T.startTrial}
+                                        </span>
+                                    </motion.button>
+                                </div>
                             ) : (
                                 <div className="space-y-3">
                                     <div className="py-5 rounded-[22px] text-sm font-black uppercase tracking-[0.2em] text-amber-600 border-2 border-amber-200 bg-amber-50 text-center flex items-center justify-center gap-2">
