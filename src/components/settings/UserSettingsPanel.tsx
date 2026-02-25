@@ -108,14 +108,18 @@ export function UserSettingsPanel({ isOpen, onClose }: UserSettingsPanelProps) {
             {isOpen && (
                 <motion.div
                     ref={panelRef}
-                    initial={{ opacity: 0, x: -30, y: -20, scale: 0.8, transformOrigin: 'top left' }}
-                    animate={{ opacity: 1, x: 0, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, x: -30, y: -20, scale: 0.8 }}
-                    transition={{ duration: 0.3, type: "spring", stiffness: 350, damping: 25 }}
+                    variants={{
+                        hidden: { opacity: 0, x: -30, y: -20, scale: 0.8, transformOrigin: 'top left' },
+                        visible: { opacity: 1, x: 0, y: 0, scale: 1, transition: { duration: 0.5, ease: [0.34, 1.56, 0.64, 1], staggerChildren: 0.05, delayChildren: 0.05 } },
+                        exit: { opacity: 0, x: -30, y: -20, scale: 0.8, transition: { duration: 0.3, ease: "easeIn" } }
+                    }}
+                    initial="hidden"
+                    animate="visible"
+                    exit="exit"
                     className="absolute left-[70px] top-[70px] w-72 bg-white/40 backdrop-blur-[40px] backdrop-saturate-150 rounded-3xl shadow-[0_8px_32px_rgba(0,0,0,0.1)] border border-white/60 z-[120] overflow-hidden flex flex-col ring-1 ring-white/50"
                 >
                     {/* Header / Avatar Section */}
-                    <div className="bg-white/40 p-5 border-b border-white/50 relative">
+                    <motion.div variants={{ hidden: { opacity: 0, y: 15, scale: 0.95 }, visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.4, ease: [0.34, 1.56, 0.64, 1] } } }} className="bg-white/40 p-5 border-b border-white/50 relative">
                         <button onClick={onClose} className="absolute right-3 top-3 text-slate-500 hover:text-slate-800 bg-white/60 hover:bg-white p-1 rounded-full transition-all backdrop-blur-md shadow-sm border border-white/60">
                             <X className="w-4 h-4" />
                         </button>
@@ -154,11 +158,11 @@ export function UserSettingsPanel({ isOpen, onClose }: UserSettingsPanelProps) {
                                 <p className="text-xs text-slate-600 font-semibold mt-0.5">{user?.email}</p>
                             </div>
                         </div>
-                    </div>
+                    </motion.div>
 
                     <div className="p-2 flex flex-col gap-1">
                         {/* Language Selection */}
-                        <div className="p-3 bg-white/50 backdrop-blur-xl rounded-2xl shadow-sm border border-white/60">
+                        <motion.div variants={{ hidden: { opacity: 0, y: 15, scale: 0.95 }, visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.4, ease: [0.34, 1.56, 0.64, 1] } } }} className="p-3 bg-white/50 backdrop-blur-xl rounded-2xl shadow-sm border border-white/60">
                             <div className="flex items-center gap-2 mb-2.5 text-[11px] font-black tracking-wider text-slate-700 uppercase">
                                 <Languages className="w-4 h-4 text-slate-500" />
                                 {lang === 'en' ? "Language" : "Tilni tanlash"}
@@ -177,10 +181,10 @@ export function UserSettingsPanel({ isOpen, onClose }: UserSettingsPanelProps) {
                                     O'zbek {lang === 'uz' && <Check className="w-3.5 h-3.5 ml-1.5" />}
                                 </button>
                             </div>
-                        </div>
+                        </motion.div>
 
                         {/* Font Size Selection */}
-                        <div className="p-3 bg-white/50 backdrop-blur-xl rounded-2xl shadow-sm border border-white/60">
+                        <motion.div variants={{ hidden: { opacity: 0, y: 15, scale: 0.95 }, visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.4, ease: [0.34, 1.56, 0.64, 1] } } }} className="p-3 bg-white/50 backdrop-blur-xl rounded-2xl shadow-sm border border-white/60">
                             <div className="flex items-center gap-2 mb-2.5 text-[11px] font-black tracking-wider text-slate-700 uppercase">
                                 <Type className="w-4 h-4 text-slate-500" />
                                 {lang === 'en' ? "Text Size" : "Shrift o'lchami"}
@@ -208,10 +212,10 @@ export function UserSettingsPanel({ isOpen, onClose }: UserSettingsPanelProps) {
                                     </button>
                                 ))}
                             </div>
-                        </div>
+                        </motion.div>
 
                         {/* Premium / Upgrade Section (Moved to bottom) */}
-                        <div className="mt-1 p-3 bg-gradient-to-br from-indigo-50/50 to-purple-50/50 rounded-2xl border border-indigo-100 shadow-sm relative overflow-hidden group">
+                        <motion.div variants={{ hidden: { opacity: 0, y: 15, scale: 0.95 }, visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.4, ease: [0.34, 1.56, 0.64, 1] } } }} className="mt-1 p-3 bg-gradient-to-br from-indigo-50/50 to-purple-50/50 rounded-2xl border border-indigo-100 shadow-sm relative overflow-hidden group">
                             <div className="flex items-center justify-between gap-3 relative z-10">
                                 <div className="flex flex-col">
                                     <div className="flex items-center gap-1.5 mb-0.5">
@@ -232,7 +236,7 @@ export function UserSettingsPanel({ isOpen, onClose }: UserSettingsPanelProps) {
                                     {lang === 'en' ? "Upgrade" : "Yangilash"}
                                 </button>
                             </div>
-                        </div>
+                        </motion.div>
                     </div>
                 </motion.div>
             )}
