@@ -7,6 +7,7 @@ import { Pencil, PlayCircle, Clock, CheckCircle2, ChevronRight, Lock, Search, Fi
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
+import { BouncyText } from "@/components/ui/BouncyText";
 
 // --- Types ---
 interface TestCategory {
@@ -133,7 +134,7 @@ export default function WritingPage() {
                     <motion.div
                         initial={{ opacity: 0, y: -20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.4 }}
+                        transition={{ duration: 0.5, type: "spring", bounce: 0.4 }}
                         className="relative group"
                     >
                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -150,9 +151,9 @@ export default function WritingPage() {
 
                     {/* Mode Filter */}
                     <motion.div
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.5, delay: 0.1 }}
+                        initial={{ opacity: 0, x: -30, scale: 0.95 }}
+                        animate={{ opacity: 1, x: 0, scale: 1 }}
+                        transition={{ duration: 0.6, delay: 0.1, type: "spring", bounce: 0.3 }}
                         className="bg-white/60 backdrop-blur-xl rounded-3xl border border-white/50 p-4 space-y-2 lg:sticky lg:top-24 shadow-[0_8px_30px_rgb(0,0,0,0.04)]"
                     >
                         <div className="flex items-center gap-2 px-3 pb-3 mb-2 border-b border-rose-100/50">
@@ -207,9 +208,9 @@ export default function WritingPage() {
 
                     {/* Task Type Filter */}
                     <motion.div
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.5, delay: 0.2 }}
+                        initial={{ opacity: 0, x: -30, scale: 0.95 }}
+                        animate={{ opacity: 1, x: 0, scale: 1 }}
+                        transition={{ duration: 0.6, delay: 0.2, type: "spring", bounce: 0.3 }}
                         className="bg-white/60 backdrop-blur-xl rounded-2xl border border-white/50 p-4 space-y-3 lg:sticky lg:top-[22rem] shadow-[0_4px_20px_rgb(0,0,0,0.02)]"
                     >
                         <label className="text-xs font-bold text-rose-400 uppercase tracking-wider px-2">{W.taskType}</label>
@@ -234,9 +235,9 @@ export default function WritingPage() {
                 <main className="flex-1 min-w-0">
                     {/* Header Banner */}
                     <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6 }}
+                        initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        transition={{ duration: 0.6, type: "spring", bounce: 0.4 }}
                         className="relative rounded-[2rem] overflow-hidden bg-gradient-to-br from-rose-600 via-pink-600 to-orange-500 p-8 md:p-10 mb-10 shadow-[0_20px_50px_rgba(225,29,72,0.3)] group"
                     >
                         {/* Animated Mesh Gradient Overlay */}
@@ -248,11 +249,16 @@ export default function WritingPage() {
                         <div className="relative z-10 text-white max-w-2xl">
                             <div className="flex items-center gap-2 mb-4">
                                 <span className="bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest border border-white/20 flex items-center gap-2">
-                                    <Pencil className="w-3 h-3 text-rose-200" /> Writing Workshop
+                                    <Pencil className="w-3 h-3 text-rose-200" />
+                                    <BouncyText key={`ww-badge-${lang}`} text={W.workshop} type="word" />
                                 </span>
                             </div>
-                            <h2 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight">{W.excellence}</h2>
-                            <p className="text-rose-100 text-lg leading-relaxed font-light">{W.exDesc}</p>
+                            <h2 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight">
+                                <BouncyText key={`ww-title-${lang}`} text={W.excellence} type="word" />
+                            </h2>
+                            <p className="text-rose-100 text-lg leading-relaxed font-light">
+                                <BouncyText key={`ww-desc-${lang}`} text={W.exDesc} type="word" />
+                            </p>
                         </div>
                     </motion.div>
 
@@ -264,15 +270,25 @@ export default function WritingPage() {
                             </h3>
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+                        <motion.div
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true, margin: "-40px" }}
+                            variants={{
+                                hidden: { opacity: 0 },
+                                visible: { opacity: 1, transition: { staggerChildren: 0.08 } }
+                            }}
+                            className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5"
+                        >
                             <AnimatePresence mode="popLayout">
                                 {filteredTests.map((test, index) => (
                                     <motion.div
                                         key={test.id}
-                                        initial={{ opacity: 0, scale: 0.9 }}
-                                        animate={{ opacity: 1, scale: 1 }}
+                                        variants={{
+                                            hidden: { opacity: 0, y: 25, scale: 0.9 },
+                                            visible: { opacity: 1, y: 0, scale: 1, transition: { type: "spring", bounce: 0.45, duration: 0.6 } }
+                                        }}
                                         exit={{ opacity: 0, scale: 0.9 }}
-                                        transition={{ duration: 0.4, delay: index * 0.05 }}
                                         className="group bg-white/70 backdrop-blur-xl rounded-[1.5rem] p-1 border border-white/60 hover:border-rose-200/50 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgba(244,63,94,0.15)] transition-all duration-500 relative hover:-translate-y-1"
                                     >
                                         <div className="bg-white/50 rounded-[1.2rem] p-6 h-full flex flex-col relative overflow-hidden group-hover:bg-gradient-to-b group-hover:from-white group-hover:to-rose-50/30 transition-colors duration-500">
@@ -343,7 +359,7 @@ export default function WritingPage() {
                                     </motion.div>
                                 ))}
                             </AnimatePresence>
-                        </div>
+                        </motion.div>
 
                         {filteredTests.length === 0 && (
                             <motion.div
