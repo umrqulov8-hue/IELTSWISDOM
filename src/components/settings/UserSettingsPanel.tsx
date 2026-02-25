@@ -146,10 +146,10 @@ export function UserSettingsPanel({ isOpen, onClose }: UserSettingsPanelProps) {
                                 />
                             </div>
                             <div className="text-center">
-                                <h4 className="font-bold text-slate-800 leading-tight">
+                                <h4 className="font-extrabold text-slate-900 text-lg leading-tight tracking-tight drop-shadow-sm">
                                     {user?.email?.split('@')[0] || "User"}
                                 </h4>
-                                <p className="text-xs text-slate-500 font-medium">{user?.email}</p>
+                                <p className="text-xs text-slate-600 font-semibold mt-0.5">{user?.email}</p>
                             </div>
                         </div>
                     </div>
@@ -157,8 +157,8 @@ export function UserSettingsPanel({ isOpen, onClose }: UserSettingsPanelProps) {
                     <div className="p-2 flex flex-col gap-1">
                         {/* Language Selection */}
                         <div className="p-3 bg-white/50 backdrop-blur-xl rounded-2xl shadow-sm border border-white/60">
-                            <div className="flex items-center gap-2 mb-2 text-xs font-bold text-slate-500 uppercase">
-                                <Languages className="w-3.5 h-3.5" />
+                            <div className="flex items-center gap-2 mb-2.5 text-[11px] font-black tracking-wider text-slate-700 uppercase">
+                                <Languages className="w-4 h-4 text-slate-500" />
                                 {lang === 'en' ? "Language" : "Tilni tanlash"}
                             </div>
                             <div className="grid grid-cols-2 gap-2">
@@ -179,8 +179,8 @@ export function UserSettingsPanel({ isOpen, onClose }: UserSettingsPanelProps) {
 
                         {/* Font Size Selection */}
                         <div className="p-3 bg-white/50 backdrop-blur-xl rounded-2xl shadow-sm border border-white/60">
-                            <div className="flex items-center gap-2 mb-2 text-xs font-bold text-slate-500 uppercase">
-                                <Type className="w-3.5 h-3.5" />
+                            <div className="flex items-center gap-2 mb-2.5 text-[11px] font-black tracking-wider text-slate-700 uppercase">
+                                <Type className="w-4 h-4 text-slate-500" />
                                 {lang === 'en' ? "Text Size" : "Shrift o'lchami"}
                             </div>
                             <div className="flex bg-white/50 backdrop-blur-sm border border-white/60 rounded-xl overflow-hidden relative shadow-inner">
