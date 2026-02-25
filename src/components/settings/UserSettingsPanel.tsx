@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "@/context/LanguageContext";
 import { useAuthContext } from "@/context/AuthContext";
 import { translations as T, tx } from "@/lib/translations";
-import { User, Camera, Languages, Type, Check, X, LogOut } from "lucide-react";
+import { User, Camera, Languages, Type, Check, X, LogOut, Crown, Zap, ChevronRight } from "lucide-react";
 import { createClient } from "@/utils/supabase/client";
 import { toast } from "sonner";
 import Image from "next/image";
@@ -150,6 +150,34 @@ export function UserSettingsPanel({ isOpen, onClose }: UserSettingsPanelProps) {
                                     {user?.email?.split('@')[0] || "User"}
                                 </h4>
                                 <p className="text-xs text-slate-600 font-semibold mt-0.5">{user?.email}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="px-3 pt-3 pb-1">
+                        <div className="p-4 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 rounded-[24px] shadow-2xl border border-white/10 relative overflow-hidden group cursor-pointer transition-all active:scale-[0.98]">
+                            <div className="absolute -right-6 -top-6 w-24 h-24 bg-blue-500/20 rounded-full blur-2xl group-hover:bg-blue-400/30 transition-colors duration-500" />
+                            <div className="absolute -left-6 -bottom-6 w-24 h-24 bg-orange-500/10 rounded-full blur-2xl group-hover:bg-orange-400/20 transition-colors duration-500" />
+
+                            <div className="relative z-10">
+                                <div className="flex items-center justify-between mb-3">
+                                    <div className="flex items-center gap-2">
+                                        <div className="p-1.5 bg-gradient-to-tr from-amber-400 to-orange-500 rounded-lg shadow-lg">
+                                            <Crown className="w-4 h-4 text-white" />
+                                        </div>
+                                        <span className="text-[10px] font-black tracking-[0.2em] text-amber-400 uppercase">Premium</span>
+                                    </div>
+                                    <div className="bg-white/10 backdrop-blur-md px-2 py-0.5 rounded-full border border-white/10">
+                                        <span className="text-[9px] font-bold text-white/50">FREE</span>
+                                    </div>
+                                </div>
+                                <h5 className="text-white font-bold text-[15px] mb-1 tracking-tight">Unlock Pro Features</h5>
+                                <p className="text-slate-400 text-[11px] leading-snug mb-4 font-medium">Get unlimited access to AI speaking tests and all practice materials.</p>
+
+                                <button className="w-full py-2.5 bg-gradient-to-r from-amber-400 to-orange-500 text-white rounded-xl text-xs font-black uppercase tracking-widest shadow-[0_4px_15px_rgba(245,158,11,0.3)] hover:shadow-[0_6px_20px_rgba(245,158,11,0.4)] hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2">
+                                    <Zap className="w-3.5 h-3.5 fill-current" />
+                                    {lang === 'en' ? "Upgrade to PRO" : "PRO'ga o'tish"}
+                                </button>
                             </div>
                         </div>
                     </div>
