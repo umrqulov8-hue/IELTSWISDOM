@@ -20,8 +20,10 @@ import { cn } from '@/lib/utils';
 import { useAuthContext } from '@/context/AuthContext';
 import { motion } from 'framer-motion';
 import { useLanguage } from '@/context/LanguageContext';
+import { useSubscription } from '@/context/SubscriptionContext';
 import { translations as T, tx } from '@/lib/translations';
 import type { Lang } from '@/lib/translations';
+import { ProBadge } from '@/components/ui/ProBadge';
 
 function getNavItems(lang: Lang) {
     return [
@@ -39,6 +41,7 @@ export function Sidebar() {
     const router = useRouter();
     const { user, signOut } = useAuthContext();
     const { lang } = useLanguage();
+    const { isPro } = useSubscription();
     const navItems = getNavItems(lang);
 
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
@@ -162,7 +165,13 @@ export function Sidebar() {
                         <h3 className="text-slate-800 font-bold text-lg truncate group-hover/profilebtn:text-blue-600 transition-colors">
                             {user?.email?.split('@')[0] || "Student"}
                         </h3>
-                        <p className="text-slate-500 text-xs font-medium bg-white/50 px-2 py-0.5 rounded-full w-fit mt-1 border border-white/40">Premium Member</p>
+                        {isPro ? (
+                            <ProBadge size="sm" className="mt-1" />
+                        ) : (
+                            <p className="text-slate-500 text-xs font-medium bg-white/50 px-2 py-0.5 rounded-full w-fit mt-1 border border-white/40">
+                                {lang === 'en' ? 'Free Member' : 'Bepul foydalanuvchi'}
+                            </p>
+                        )}
                     </div>
                 </button>
 

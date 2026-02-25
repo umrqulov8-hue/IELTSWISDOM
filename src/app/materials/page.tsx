@@ -6,7 +6,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Download, FileText, Headphones, Archive, Star, Search, Filter, Lock, FileType, HardDrive } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/context/LanguageContext";
+import { useSubscription } from "@/context/SubscriptionContext";
 import { BouncyText } from "@/components/ui/BouncyText";
+import { ProBadge } from "@/components/ui/ProBadge";
+import Link from "next/link";
 
 // --- Types ---
 type MaterialType = "all" | "ebook" | "worksheet" | "audio";
@@ -51,6 +54,7 @@ export default function MaterialsPage() {
         { id: "worksheet", label: lang === "en" ? "Worksheets" : "Ishchi varaqlar", icon: FileType },
         { id: "audio", label: lang === "en" ? "Audio Files" : "Audio fayllar", icon: Headphones },
     ];
+    const { isPro } = useSubscription();
     const [selectedType, setSelectedType] = useState<MaterialType>("all");
     const [searchQuery, setSearchQuery] = useState("");
 
@@ -60,6 +64,10 @@ export default function MaterialsPage() {
             item.description.toLowerCase().includes(searchQuery.toLowerCase());
         return matchesType && matchesSearch;
     });
+
+    // 70% free, 30% Pro-only (last ~30% of items are locked for free users)
+    const freeCount = Math.ceil(filteredMaterials.length * 0.7);
+    const isItemLocked = (index: number) => !isPro && index >= freeCount;
 
     return (
         <DashboardLayout
@@ -191,8 +199,25 @@ export default function MaterialsPage() {
                                         visible: { opacity: 1, y: 0, scale: 1, transition: { type: "spring", bounce: 0.45, duration: 0.6 } }
                                     }}
                                     exit={{ opacity: 0, scale: 0.9 }}
-                                    className="group bg-white/70 backdrop-blur-xl rounded-[1.5rem] border border-white/60 hover:border-cyan-200/50 p-1 shadow-sm hover:shadow-xl hover:shadow-cyan-500/10 transition-all duration-500 hover:-translate-y-1 relative"
+                                    className={cn(
+                                        "group bg-white/70 backdrop-blur-xl rounded-[1.5rem] border border-white/60 hover:border-cyan-200/50 p-1 shadow-sm hover:shadow-xl hover:shadow-cyan-500/10 transition-all duration-500 relative",
+                                        isItemLocked(index) ? "opacity-75" : "hover:-translate-y-1"
+                                    )}
                                 >
+                                    {/* Pro-only lock overlay */}
+                                    {isItemLocked(index) && (
+                                        <div className="absolute inset-0 z-20 rounded-[1.5rem] backdrop-blur-[2px] bg-white/40 flex flex-col items-center justify-center gap-3 cursor-pointer" onClick={() => { }}>
+                                            <div className="w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center border border-amber-200 shadow-lg">
+                                                <Lock className="w-5 h-5 text-amber-600" />
+                                            </div>
+                                            <div className="text-center">
+                                                <p className="text-sm font-bold text-slate-700">{lang === 'en' ? 'Pro Only' : 'Faqat Pro'}</p>
+                                                <Link href="/upgrade" className="text-xs text-amber-600 font-semibold hover:underline">
+                                                    {lang === 'en' ? 'Upgrade to unlock →' : 'Ochish uchun yangilang →'}
+                                                </Link>
+                                            </div>
+                                        </div>
+                                    )}
                                     <div className="bg-white/50 rounded-[1.2rem] p-5 h-full flex flex-col relative overflow-hidden group-hover:bg-gradient-to-b group-hover:from-white group-hover:to-cyan-50/20 transition-colors duration-500">
 
                                         {/* Icon & Badge */}
@@ -242,11 +267,13 @@ export default function MaterialsPage() {
 
                                             <button className={cn(
                                                 "ml-auto w-10 h-10 rounded-full flex items-center justify-center transition-all shadow-md group/btn",
-                                                item.isPremium
+                                                isItemLocked(index)
                                                     ? "bg-slate-800 text-amber-400 hover:bg-black"
-                                                    : "bg-cyan-500 text-white hover:bg-cyan-600 hover:shadow-cyan-500/30"
+                                                    : item.isPremium && !isPro
+                                                        ? "bg-slate-800 text-amber-400 hover:bg-black"
+                                                        : "bg-cyan-500 text-white hover:bg-cyan-600 hover:shadow-cyan-500/30"
                                             )}>
-                                                {item.isPremium ? <Lock className="w-4 h-4" /> : <Download className="w-4 h-4 group-hover/btn:scale-110 transition-transform" />}
+                                                {(isItemLocked(index) || (item.isPremium && !isPro)) ? <Lock className="w-4 h-4" /> : <Download className="w-4 h-4 group-hover/btn:scale-110 transition-transform" />}
                                             </button>
                                         </div>
                                     </div>
@@ -260,8 +287,58 @@ export default function MaterialsPage() {
                             <p className="text-slate-400">{lang === "en" ? "No resources found matching your search." : "Qidiruv bo'yicha resurslar topilmadi."}</p>
                         </div>
                     )}
+
+                    {/* Upgrade CTA Banner for Free Users */}
+                    {!isPro && (
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.5, type: "spring", bounce: 0.3 }}
+                            className="mt-10 relative rounded-3xl overflow-hidden bg-gradient-to-r from-amber-400 via-orange-500 to-amber-500 p-8 md:p-10 shadow-xl group"
+                        >
+                            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                                <motion.div
+                                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12"
+                                    animate={{ x: ["-100%", "200%"] }}
+                                    transition={{ repeat: Infinity, duration: 4, ease: "easeInOut", repeatDelay: 2 }}
+                                />
+                            </div>
+                            <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
+                                <div className="text-white">
+                                    <h3 className="text-2xl font-black mb-2">
+                                        {lang === 'en' ? '🔓 Unlock All Materials' : '🔓 Barcha materiallarni oching'}
+                                    </h3>
+                                    <p className="text-amber-100 text-sm font-medium">
+                                        {lang === 'en'
+                                            ? 'Get unlimited access, weekly updates, curated guides, and dedicated support with Pro.'
+                                            : 'Pro bilan cheksiz kirish, haftalik yangilanishlar, tanlab olingan qo\'llanmalar va maxsus qo\'llab-quvvatlash oling.'}
+                                    </p>
+                                </div>
+                                <Link href="/upgrade">
+                                    <button className="whitespace-nowrap bg-white text-amber-600 font-black text-sm px-8 py-4 rounded-2xl shadow-lg hover:scale-105 hover:shadow-xl transition-all">
+                                        {lang === 'en' ? 'Start Free Trial →' : 'Bepul sinov boshlash →'}
+                                    </button>
+                                </Link>
+                            </div>
+                        </motion.div>
+                    )}
+
+                    {/* Pro User Badge Banner */}
+                    {isPro && (
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            className="mt-10 flex items-center justify-center gap-3 py-4 px-6 bg-amber-50 rounded-2xl border border-amber-200"
+                        >
+                            <ProBadge size="md" />
+                            <span className="text-sm font-bold text-amber-700">
+                                {lang === 'en' ? 'You have unlimited access to all materials!' : 'Barcha materiallarga cheksiz kirish imkoniyatingiz bor!'}
+                            </span>
+                        </motion.div>
+                    )}
                 </main>
-            </div>
-        </DashboardLayout>
+            </div >
+        </DashboardLayout >
     );
 }
