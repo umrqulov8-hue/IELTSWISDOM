@@ -288,14 +288,14 @@ export default function WritingPage() {
                                                                 ? "bg-purple-50/80 border-purple-100 text-purple-600"
                                                                 : "bg-orange-50/80 border-orange-100 text-orange-600"
                                                     )}>
-                                                        {test.taskType === "task-1" ? "Task 1" : test.taskType === "task-2" ? "Task 2" : "Full Test"}
+                                                        {test.taskType === "task-1" ? (lang === 'uz' ? "Task 1" : "Task 1") : test.taskType === "task-2" ? (lang === 'uz' ? "Task 2" : "Task 2") : (lang === 'uz' ? "To'liq Test" : "Full Test")}
                                                     </span>
                                                 </div>
 
                                                 <div className="flex items-center gap-2">
                                                     {test.isNew && (
                                                         <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-rose-500 text-white shadow-sm shadow-rose-500/20 animate-pulse">
-                                                            NEW
+                                                            {lang === 'uz' ? "YANGI" : "NEW"}
                                                         </span>
                                                     )}
                                                     <div className="flex items-center gap-1 text-[10px] text-slate-400 font-semibold bg-slate-100/50 px-2 py-1 rounded-lg">
@@ -326,7 +326,7 @@ export default function WritingPage() {
                                                     {test.status === "premium" ? (
                                                         <>
                                                             <Lock className="w-3.5 h-3.5 opacity-80 relative z-10" />
-                                                            <span className="relative z-10">Premium Access</span>
+                                                            <span className="relative z-10">{W.premium}</span>
                                                         </>
                                                     ) : (
                                                         <>

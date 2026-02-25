@@ -6,6 +6,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { BookOpen, PlayCircle, CheckCircle2, Clock, BarChart3, ChevronRight, Lock, Search, Filter, Sparkles, Layers, FileText, Bookmark, GraduationCap } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { useLanguage } from "@/context/LanguageContext";
+import { translations as T, tx } from "@/lib/translations";
 
 // --- Types ---
 interface TestCategory {
@@ -52,6 +54,8 @@ import { useEffect } from "react";
 
 
 export default function ReadingPage() {
+    const { lang } = useLanguage();
+    const D = T.reading;
     const [selectedCategory, setSelectedCategory] = useState("all");
     const [searchQuery, setSearchQuery] = useState("");
     const [bestScores, setBestScores] = useState<Record<string, { score: number, total: number }>>({});
@@ -96,8 +100,8 @@ export default function ReadingPage() {
 
     return (
         <DashboardLayout
-            title="Reading Practice"
-            description="Comprehensive reading practice with authentic IELTS materials and detailed feedback."
+            title={tx(D.title, lang)}
+            description={tx(D.desc, lang)}
         >
             <div className="flex flex-col lg:flex-row gap-8 relative z-10">
                 {/* Background Blobs for Blue Aesthetic */}
@@ -121,7 +125,7 @@ export default function ReadingPage() {
                         </div>
                         <input
                             type="text"
-                            placeholder="Find a reading passage..."
+                            placeholder={lang === 'uz' ? "O'qish matnini toping..." : "Find a reading passage..."}
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                             className="w-full bg-white/70 backdrop-blur-md border border-blue-100 text-slate-700 rounded-2xl py-3 pl-10 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 transition-all shadow-[0_4px_20px_rgba(59,130,246,0.05)] placeholder:text-blue-300/70"
@@ -136,7 +140,7 @@ export default function ReadingPage() {
                     >
                         <div className="flex items-center gap-2 px-3 pb-3 mb-2 border-b border-blue-100/50">
                             <Filter className="w-4 h-4 text-blue-600" />
-                            <span className="text-xs font-bold text-blue-400 uppercase tracking-wider">Test Types</span>
+                            <span className="text-xs font-bold text-blue-400 uppercase tracking-wider">{lang === 'uz' ? "Test Turlari" : "Test Types"}</span>
                         </div>
 
                         {CATEGORIES.map((category) => {
@@ -165,7 +169,13 @@ export default function ReadingPage() {
                                             )} />
                                         )}
                                         <span className={cn("transition-colors", selectedCategory === category.id && "font-semibold")}>
-                                            {category.title}
+                                            {lang === 'uz' ? (
+                                                category.id === "all" ? "Barcha Testlar" :
+                                                    category.id === "free-passages" ? "Bepul Matnlar" :
+                                                        category.id === "premium-passages" ? "Premium Matnlar" :
+                                                            category.id === "full-tests" ? "To'liq Testlar" :
+                                                                category.id === "cambridge-ielts" ? "Cambridge IELTS O'qish" : category.title
+                                            ) : category.title}
                                         </span>
                                     </div>
                                     <span className={cn(
@@ -209,12 +219,12 @@ export default function ReadingPage() {
                         <div className="relative z-10 text-white max-w-2xl">
                             <div className="flex items-center gap-2 mb-4">
                                 <span className="bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest border border-white/20 flex items-center gap-2">
-                                    <FileText className="w-3 h-3 text-sky-200" /> Extensive Library
+                                    <FileText className="w-3 h-3 text-sky-200" /> {lang === 'uz' ? "Keng kutubxona" : "Extensive Library"}
                                 </span>
                             </div>
-                            <h2 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight">Reading Library</h2>
+                            <h2 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight">{lang === 'uz' ? "O'qish Kutubxonasi" : "Reading Library"}</h2>
                             <p className="text-blue-100 text-lg leading-relaxed font-light">
-                                Enhance your reading speed and comprehension with our vast collection of academic and general training texts.
+                                {lang === 'uz' ? "Akademik va umumiy o'quv matnlarimiz to'plami bilan o'qish tezligi va tushunish qobiliyatingizni oshiring." : "Enhance your reading speed and comprehension with our vast collection of academic and general training texts."}
                             </p>
                         </div>
                     </motion.div>
@@ -241,9 +251,15 @@ export default function ReadingPage() {
                                             </div>
                                             <div>
                                                 <h3 className="text-xl font-bold text-slate-800 flex items-center gap-2">
-                                                    {category.title}
+                                                    {lang === 'uz' ? (
+                                                        category.id === "all" ? "Barcha Testlar" :
+                                                            category.id === "free-passages" ? "Bepul Matnlar" :
+                                                                category.id === "premium-passages" ? "Premium Matnlar" :
+                                                                    category.id === "full-tests" ? "To'liq Testlar" :
+                                                                        category.id === "cambridge-ielts" ? "Cambridge IELTS O'qish" : category.title
+                                                    ) : category.title}
                                                 </h3>
-                                                <p className="text-sm text-slate-400 font-medium">{categoryTests.length} Items Available</p>
+                                                <p className="text-sm text-slate-400 font-medium">{categoryTests.length} {lang === 'uz' ? "Test mavjud" : "Items Available"}</p>
                                             </div>
                                         </div>
 
@@ -266,7 +282,7 @@ export default function ReadingPage() {
                                                                     ? "bg-emerald-50/80 border-emerald-100 text-emerald-600"
                                                                     : "bg-amber-50/80 border-amber-100 text-amber-600"
                                                             )}>
-                                                                {test.status === "free" ? "Free" : "Premium"}
+                                                                {test.status === "free" ? (lang === 'uz' ? "Bepul" : "Free") : (lang === 'uz' ? "Premium" : "Premium")}
                                                             </span>
 
                                                             {test.progress && (
@@ -288,7 +304,7 @@ export default function ReadingPage() {
                                                             </h4>
                                                             {test.isNew && (
                                                                 <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-rose-50 text-rose-500 border border-rose-100">
-                                                                    NEW
+                                                                    {lang === 'uz' ? "YANGI" : "NEW"}
                                                                 </span>
                                                             )}
                                                         </div>
@@ -298,7 +314,7 @@ export default function ReadingPage() {
                                                             <Link href={`/practice/reading/${test.id}`} className="w-full">
                                                                 <button className="w-full py-3 rounded-xl bg-slate-900 group-hover:bg-blue-600 text-white font-bold text-xs shadow-lg group-hover:shadow-blue-500/30 transition-all duration-300 flex items-center justify-center gap-2 group/btn relative overflow-hidden ring-1 ring-white/20">
                                                                     <PlayCircle className="w-3.5 h-3.5 fill-current opacity-90 relative z-10" />
-                                                                    <span className="relative z-10">Start</span>
+                                                                    <span className="relative z-10">{lang === 'uz' ? "Boshlash" : "Start"}</span>
                                                                 </button>
                                                             </Link>
                                                         </div>
@@ -323,8 +339,8 @@ export default function ReadingPage() {
                                 <div className="w-20 h-20 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse">
                                     <Search className="w-8 h-8 text-blue-300" />
                                 </div>
-                                <h3 className="text-xl font-bold text-slate-700 mb-2">No passages found</h3>
-                                <p className="text-slate-400">Try searching for something else or clear filters.</p>
+                                <h3 className="text-xl font-bold text-slate-700 mb-2">{lang === 'uz' ? "Matnlar topilmadi" : "No passages found"}</h3>
+                                <p className="text-slate-400">{lang === 'uz' ? "Boshqa narsani qidirib ko'ring yoki filtrlarni tozalang." : "Try searching for something else or clear filters."}</p>
                             </motion.div>
                         )}
                     </div>

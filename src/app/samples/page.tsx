@@ -160,10 +160,10 @@ export default function SamplesPage() {
 
                         <div className="flex flex-wrap justify-center gap-4 mb-8">
                             <div className="flex items-center gap-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-xl border border-white/10 text-white font-medium text-sm">
-                                <FileText className="w-4 h-4" /> 20 Band 8-9 Essays
+                                <FileText className="w-4 h-4" /> 20 Band 8-9 {lang === 'uz' ? "Insholar" : "Essays"}
                             </div>
                             <div className="flex items-center gap-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-xl border border-white/10 text-white font-medium text-sm">
-                                <BadgeCheck className="w-4 h-4" /> 20 Band 8-9 Reports
+                                <BadgeCheck className="w-4 h-4" /> 20 Band 8-9 {lang === 'uz' ? "Hisobotlar" : "Reports"}
                             </div>
                         </div>
 
@@ -229,7 +229,9 @@ export default function SamplesPage() {
 
                     {filteredSamples.length === 0 && (
                         <div className="text-center py-12">
-                            <p className="text-slate-500">No samples found matching "{searchQuery}"</p>
+                            <p className="text-slate-500">
+                                {lang === 'uz' ? `"${searchQuery}" so'rovi bo'yicha namunalar topilmadi` : `No samples found matching "${searchQuery}"`}
+                            </p>
                         </div>
                     )}
                 </div>
@@ -260,7 +262,7 @@ export default function SamplesPage() {
                                                 "px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider",
                                                 selectedSample.type === 'report' ? "bg-blue-100 text-blue-700" : "bg-orange-100 text-orange-700"
                                             )}>
-                                                {selectedSample.type}
+                                                {selectedSample.type === 'report' ? (lang === 'uz' ? 'HISOBOT' : 'REPORT') : (lang === 'uz' ? 'INSHO' : 'ESSAY')}
                                             </span>
                                             <span className="text-sm font-bold text-red-600 bg-red-50 px-2 py-0.5 rounded">
                                                 Band {selectedSample.band}
@@ -300,7 +302,7 @@ export default function SamplesPage() {
 
                                 {/* Modal Footer */}
                                 <div className="p-4 border-t border-slate-100 bg-slate-50/50 text-center text-sm text-slate-400">
-                                    {selectedSample.wordCount} words • {selectedSample.type === 'report' ? 'Task 1' : 'Task 2'}
+                                    {selectedSample.wordCount} {lang === 'uz' ? "so'z" : "words"} • {selectedSample.type === 'report' ? 'Task 1' : 'Task 2'}
                                 </div>
                             </motion.div>
                         </div>

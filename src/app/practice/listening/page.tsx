@@ -17,6 +17,8 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { useLanguage } from "@/context/LanguageContext";
+import { translations as T, tx } from "@/lib/translations";
 
 interface TestCategory {
     id: string;
@@ -74,6 +76,8 @@ const DIFF_COLORS: Record<string, string> = {
 };
 
 export default function ListeningPage() {
+    const { lang } = useLanguage();
+    const D = T.listening;
     const [selectedCategory, setSelectedCategory] = useState("all");
     const [searchQuery, setSearchQuery] = useState("");
 
@@ -87,8 +91,8 @@ export default function ListeningPage() {
 
     return (
         <DashboardLayout
-            title="Listening Practice"
-            description="Master IELTS Listening with authentic Cambridge tests."
+            title={tx(D.title, lang)}
+            description={tx(D.desc, lang)}
         >
             {/* ── Hero ── */}
             <motion.div
@@ -135,7 +139,7 @@ export default function ListeningPage() {
                     <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                     <input
                         type="text"
-                        placeholder="Search tests…"
+                        placeholder={lang === 'uz' ? "Testlarni qidiring..." : "Search tests…"}
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         className="w-full pl-11 pr-4 py-3 bg-white border border-slate-200 rounded-2xl text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-400/30 focus:border-purple-400 shadow-sm transition-all"
@@ -179,8 +183,12 @@ export default function ListeningPage() {
                         <div className="w-20 h-20 bg-purple-50 rounded-full flex items-center justify-center mx-auto mb-4">
                             <Search className="w-8 h-8 text-purple-300" />
                         </div>
-                        <h3 className="text-xl font-bold text-slate-700 mb-2">No tests found</h3>
-                        <p className="text-slate-400">Try different search or category.</p>
+                        <h3 className="text-xl font-bold text-slate-700 mb-2">
+                            {lang === 'uz' ? "Testlar topilmadi" : "No tests found"}
+                        </h3>
+                        <p className="text-slate-400">
+                            {lang === 'uz' ? "Boshqa so'z bilan qidiring yoki toifani o'zgartiring." : "Try different search or category."}
+                        </p>
                     </motion.div>
                 ) : (
                     <motion.div
@@ -245,11 +253,11 @@ export default function ListeningPage() {
                                         </span>
                                         <span className="flex items-center gap-1.5 text-xs text-slate-500 bg-slate-50 border border-slate-200 px-3 py-1.5 rounded-xl font-medium">
                                             <Mic2 className="w-3.5 h-3.5 text-slate-400" />
-                                            {test.parts ?? 4} Sections
+                                            {test.parts ?? 4} {lang === 'uz' ? "Qism" : "Sections"}
                                         </span>
                                         <span className="flex items-center gap-1.5 text-xs text-slate-500 bg-slate-50 border border-slate-200 px-3 py-1.5 rounded-xl font-medium">
                                             <BookOpen className="w-3.5 h-3.5 text-slate-400" />
-                                            40 Questions
+                                            40 {lang === 'uz' ? "Savol" : "Questions"}
                                         </span>
                                         {test.difficulty && (
                                             <span className={cn(
@@ -270,11 +278,11 @@ export default function ListeningPage() {
                                                 : "bg-slate-900 group-hover:bg-gradient-to-r group-hover:from-purple-600 group-hover:to-violet-600 text-white shadow-md group-hover:shadow-purple-400/30"
                                         )}>
                                             {test.status === "premium" ? (
-                                                <><Lock className="w-4 h-4" /> Unlock Test</>
+                                                <><Lock className="w-4 h-4" /> {lang === 'uz' ? "Qulfni ochish" : "Unlock Test"}</>
                                             ) : (
                                                 <>
                                                     <PlayCircle className="w-4 h-4 fill-current" />
-                                                    Start Practice
+                                                    {tx(D.start, lang)}
                                                     <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                                                 </>
                                             )}

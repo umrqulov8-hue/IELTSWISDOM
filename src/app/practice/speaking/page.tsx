@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Mic, Zap, ChevronDown, ChevronUp, Book, Star, Clock, Globe } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
+import { useLanguage } from "@/context/LanguageContext";
 
 // --- Types ---
 interface SpeakingTest {
@@ -39,13 +40,39 @@ const SPEAKING_TESTS: SpeakingTest[] = [
 ];
 
 export default function SpeakingPage() {
+    const { lang } = useLanguage();
+    const S = {
+        title: lang === 'en' ? "Speaking Practice" : "Gapirish Mashqi",
+        desc: lang === 'en' ? "Master IELTS Speaking with our latest practice tests." : "Chet tilida erkin gapirishni eng so'nggi testlar bilan o'zlang.",
+        coverTitle: lang === 'en' ? "IELTS\nPRACTICE TEST" : "IELTS\nAMALIY TEST",
+        coverSub: lang === 'en' ? "Speaking Edition" : "Gapirish Bo'limi",
+        mainTitle: lang === 'en' ? "IELTS Speaking Practice Tests" : "IELTS Gapirish Amaliy Testlari",
+        mainDesc: lang === 'en' ? "Practice with the latest actual speaking test questions. Each test includes Part 1, Part 2, and Part 3 topics." : "Eng so'nggi haqiqiy gapirish test savollari bilan mashq qiling. Har bir test 1, 2 va 3-qismlarni o'z ichiga oladi.",
+        testsText: lang === 'en' ? "18+ Tests" : "18+ Testlar",
+        updatedText: lang === 'en' ? "Updated Weekly" : "Haftalik yangilanadi",
+        testWord: lang === 'en' ? "Speaking Practice Test" : "Gapirish Amaliy Test",
+        taken: lang === 'en' ? "tests taken" : "marta topshirilgan",
+        viewLess: lang === 'en' ? "View less" : "Kamroq ko'rsatish",
+        viewAll: lang === 'en' ? "View all tests" : "Barcha testlarni ko'rish",
+        promoTitle: lang === 'en' ? "Unlock Full Potential" : "To'liq imkoniyatni oching",
+        p1: lang === 'en' ? "Bite-Sized Lessons and Exercises" : "Qisqa darslar va mashqlar",
+        p2: lang === 'en' ? "Learn Anytime, Anywhere" : "Istalgan vaqt, istalgan joyda",
+        p3: lang === 'en' ? "Instant AI Feedback" : "Tezkor AI baholashi",
+        p4: lang === 'en' ? "Save 90% Compared to In-Person Classes" : "Jonli darslarga qaraganda 90% tejaysiz",
+        btn: lang === 'en' ? "Learn more" : "Batafsil ma'lumot",
+    };
+
+    const MONTH_UZ: Record<string, string> = {
+        "January": "Yanvar", "February": "Fevral", "March": "Mart", "April": "Aprel", "May": "May", "June": "Iyun", "July": "Iyul", "August": "Avgust", "September": "Sentabr", "October": "Oktabr", "November": "Noyabr", "December": "Dekabr",
+    };
+
     const [showAll, setShowAll] = useState(false);
     const visibleTests = showAll ? SPEAKING_TESTS : SPEAKING_TESTS.slice(0, 8); // Show first 4 rows (8 cards) initially
 
     return (
         <DashboardLayout
-            title="Speaking Practice"
-            description="Master IELTS Speaking with our latest practice tests."
+            title={S.title}
+            description={S.desc}
         >
             <div className="flex flex-col lg:flex-row gap-8 max-w-7xl mx-auto">
 
@@ -63,8 +90,8 @@ export default function SpeakingPage() {
                             <div className="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center mb-3 shadow-lg">
                                 <Mic className="w-6 h-6 text-white" />
                             </div>
-                            <h3 className="text-white font-bold text-lg leading-tight mb-2">IELTS<br />PRACTICE TEST</h3>
-                            <div className="mt-4 text-[10px] text-slate-400 uppercase tracking-widest">Speaking Edition</div>
+                            <h3 className="text-white font-bold text-lg leading-tight mb-2 whitespace-pre-line">{S.coverTitle}</h3>
+                            <div className="mt-4 text-[10px] text-slate-400 uppercase tracking-widest">{S.coverSub}</div>
 
                             {/* Lighting Glint */}
                             <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
@@ -73,17 +100,17 @@ export default function SpeakingPage() {
                         {/* Title Section */}
                         <div className="flex-1 text-center md:text-left pt-4">
                             <h2 className="text-2xl md:text-3xl font-bold text-slate-800 mb-4">
-                                IELTS Speaking Practice Tests
+                                {S.mainTitle}
                             </h2>
                             <p className="text-slate-500 leading-relaxed mb-6">
-                                Practice with the latest actual speaking test questions. Each test includes Part 1, Part 2, and Part 3 topics.
+                                {S.mainDesc}
                             </p>
                             <div className="flex flex-wrap gap-3 justify-center md:justify-start">
                                 <div className="px-4 py-2 bg-orange-50 text-orange-600 rounded-full text-sm font-semibold flex items-center gap-2">
-                                    <Star className="w-4 h-4 fill-current" /> 18+ Tests
+                                    <Star className="w-4 h-4 fill-current" /> {S.testsText}
                                 </div>
                                 <div className="px-4 py-2 bg-blue-50 text-blue-600 rounded-full text-sm font-semibold flex items-center gap-2">
-                                    <Clock className="w-4 h-4" /> Updated Weekly
+                                    <Clock className="w-4 h-4" /> {S.updatedText}
                                 </div>
                             </div>
                         </div>
@@ -104,14 +131,14 @@ export default function SpeakingPage() {
                                 >
                                     <div>
                                         <h4 className="font-bold text-slate-700 group-hover:text-orange-600 transition-colors line-clamp-1">
-                                            {test.month} Speaking Practice Test {test.testNumber}
+                                            {lang === 'uz' ? MONTH_UZ[test.month] : test.month} {S.testWord} {test.testNumber}
                                         </h4>
                                     </div>
 
                                     <div className="flex items-center gap-2 mt-2">
                                         <Zap className="w-4 h-4 text-orange-400 fill-orange-400" />
                                         <span className="text-sm text-slate-500 font-medium">
-                                            {test.takenCount.toLocaleString()} tests taken
+                                            {test.takenCount.toLocaleString()} {S.taken}
                                         </span>
                                     </div>
                                 </motion.button>
@@ -126,9 +153,9 @@ export default function SpeakingPage() {
                             className="inline-flex items-center gap-2 text-slate-500 hover:text-orange-600 font-medium transition-colors px-6 py-3 rounded-full hover:bg-slate-100"
                         >
                             {showAll ? (
-                                <>View less <ChevronUp className="w-4 h-4" /></>
+                                <>{S.viewLess} <ChevronUp className="w-4 h-4" /></>
                             ) : (
-                                <>View all tests <ChevronDown className="w-4 h-4" /></>
+                                <>{S.viewAll} <ChevronDown className="w-4 h-4" /></>
                             )}
                         </button>
                     </div>
@@ -149,29 +176,29 @@ export default function SpeakingPage() {
                                 <Globe className="w-8 h-8 text-white" />
                             </div>
 
-                            <h3 className="text-xl font-bold mb-6">Unlock Full Potential</h3>
+                            <h3 className="text-xl font-bold mb-6">{S.promoTitle}</h3>
 
                             <ul className="text-left space-y-3 mb-8 text-orange-50 text-sm font-medium">
                                 <li className="flex items-start gap-2">
                                     <div className="mt-1 min-w-[6px] min-h-[6px] rounded-full bg-white" />
-                                    <span>Bite-Sized Lessons and Exercises</span>
+                                    <span>{S.p1}</span>
                                 </li>
                                 <li className="flex items-start gap-2">
                                     <div className="mt-1 min-w-[6px] min-h-[6px] rounded-full bg-white" />
-                                    <span>Learn Anytime, Anywhere</span>
+                                    <span>{S.p2}</span>
                                 </li>
                                 <li className="flex items-start gap-2">
                                     <div className="mt-1 min-w-[6px] min-h-[6px] rounded-full bg-white" />
-                                    <span>Instant AI Feedback</span>
+                                    <span>{S.p3}</span>
                                 </li>
                                 <li className="flex items-start gap-2">
                                     <div className="mt-1 min-w-[6px] min-h-[6px] rounded-full bg-white" />
-                                    <span>Save 90% Compared to In-Person Classes</span>
+                                    <span>{S.p4}</span>
                                 </li>
                             </ul>
 
                             <button className="w-full bg-white text-orange-600 font-bold py-3 rounded-xl hover:bg-orange-50 transition-colors shadow-lg flex items-center justify-center gap-2 group">
-                                Learn more
+                                {S.btn}
                                 <span className="bg-orange-600 text-white rounded text-[10px] px-1 py-0.5 group-hover:scale-110 transition-transform">+</span>
                             </button>
                         </div>

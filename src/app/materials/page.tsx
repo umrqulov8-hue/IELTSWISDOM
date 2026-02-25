@@ -195,11 +195,11 @@ export default function MaterialsPage() {
 
                                             {item.isPremium ? (
                                                 <div className="bg-amber-100 text-amber-600 px-2 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider flex items-center gap-1 border border-amber-200">
-                                                    <Lock className="w-3 h-3" /> Premium
+                                                    <Lock className="w-3 h-3" /> {lang === 'uz' ? 'Premium' : 'Premium'}
                                                 </div>
                                             ) : (
                                                 <div className="bg-emerald-100 text-emerald-600 px-2 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider border border-emerald-200">
-                                                    Free
+                                                    {lang === 'uz' ? 'Bepul' : 'Free'}
                                                 </div>
                                             )}
                                         </div>
