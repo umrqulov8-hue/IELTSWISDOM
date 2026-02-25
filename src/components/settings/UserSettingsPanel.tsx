@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "@/context/LanguageContext";
 import { useAuthContext } from "@/context/AuthContext";
 import { translations as T, tx } from "@/lib/translations";
+import { useRouter } from "next/navigation";
 import { User, Camera, Languages, Type, Check, X, LogOut, Crown, Zap, ChevronRight } from "lucide-react";
 import { createClient } from "@/utils/supabase/client";
 import { toast } from "sonner";
@@ -17,6 +18,7 @@ interface UserSettingsPanelProps {
 
 export function UserSettingsPanel({ isOpen, onClose }: UserSettingsPanelProps) {
     const { lang, setLang } = useLanguage();
+    const router = useRouter();
     const { user, signOut } = useAuthContext();
     const [fontSize, setFontSize] = useState<"small" | "medium" | "large">("medium");
     const [uploading, setUploading] = useState(false);
@@ -220,7 +222,13 @@ export function UserSettingsPanel({ isOpen, onClose }: UserSettingsPanelProps) {
                                     </div>
                                     <h5 className="text-slate-800 font-bold text-[13px] tracking-tight">Expand Learning</h5>
                                 </div>
-                                <button className="py-1.5 px-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-[10px] font-black uppercase tracking-wider transition-all active:scale-95 shadow-sm">
+                                <button
+                                    onClick={() => {
+                                        router.push('/ai-check');
+                                        onClose();
+                                    }}
+                                    className="py-1.5 px-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-[10px] font-black uppercase tracking-wider transition-all active:scale-95 shadow-sm"
+                                >
                                     {lang === 'en' ? "Upgrade" : "Yangilash"}
                                 </button>
                             </div>
