@@ -25,25 +25,28 @@ export function Hero() {
 
                     {/* Text Content */}
                     <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6 }}
+                        initial="hidden"
+                        animate="visible"
+                        variants={{
+                            hidden: { opacity: 0 },
+                            visible: { opacity: 1, transition: { staggerChildren: 0.1 } }
+                        }}
                         className="max-w-2xl"
                     >
-                        <div className="inline-flex items-center rounded-full border px-3 py-1 text-sm font-medium text-primary bg-primary/5 mb-6">
+                        <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.34, 1.56, 0.64, 1] } } }} className="inline-flex items-center rounded-full border px-3 py-1 text-sm font-medium text-primary bg-primary/5 mb-6">
                             <span className="flex h-2 w-2 rounded-full bg-secondary mr-2"></span>
                             {tx(h.badge, lang)}
-                        </div>
+                        </motion.div>
 
-                        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-primary mb-6">
+                        <motion.h1 variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.34, 1.56, 0.64, 1] } } }} className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-primary mb-6">
                             {tx(h.h1a, lang)} <span className="text-secondary">{tx(h.h1b, lang)}</span>{tx(h.h1c, lang) ? ` ${tx(h.h1c, lang)}` : ""}
-                        </h1>
+                        </motion.h1>
 
-                        <p className="text-lg sm:text-xl text-muted-foreground mb-8 leading-relaxed">
+                        <motion.p variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.34, 1.56, 0.64, 1] } } }} className="text-lg sm:text-xl text-muted-foreground mb-8 leading-relaxed">
                             {tx(h.desc, lang)}
-                        </p>
+                        </motion.p>
 
-                        <div className="flex flex-col sm:flex-row gap-4 mb-10">
+                        <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.34, 1.56, 0.64, 1] } } }} className="flex flex-col sm:flex-row gap-4 mb-10">
                             <Button size="lg" className="group" onClick={handleStartLearning} disabled={isLoading}>
                                 {isLoading ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : tx(h.cta, lang)}
                                 {!isLoading && <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />}
@@ -51,9 +54,9 @@ export function Hero() {
                             <Button variant="outline" size="lg" href="#methodology">
                                 {tx(h.curriculum, lang)}
                             </Button>
-                        </div>
+                        </motion.div>
 
-                        <div className="flex items-center gap-6 text-sm text-muted-foreground">
+                        <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.34, 1.56, 0.64, 1] } } }} className="flex items-center gap-6 text-sm text-muted-foreground">
                             <div className="flex items-center gap-2">
                                 <CheckCircle2 className="h-5 w-5 text-secondary" />
                                 <span>{tx(h.teachers, lang)}</span>
@@ -62,14 +65,14 @@ export function Hero() {
                                 <CheckCircle2 className="h-5 w-5 text-secondary" />
                                 <span>{tx(h.lifetime, lang)}</span>
                             </div>
-                        </div>
+                        </motion.div>
                     </motion.div>
 
                     {/* Visual Content */}
                     <motion.div
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.8, delay: 0.2 }}
+                        initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
+                        animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                        transition={{ duration: 0.8, delay: 0.2, type: "spring", stiffness: 200, damping: 20 }}
                         className="relative lg:h-[600px] flex items-center justify-center hidden md:flex"
                     >
                         <div className="relative w-full max-w-md aspect-square">
