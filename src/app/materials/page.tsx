@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Download, FileText, Headphones, Archive, Star, Search, Filter, Lock, FileType, HardDrive } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/context/LanguageContext";
+import { BouncyText } from "@/components/ui/BouncyText";
 
 // --- Types ---
 type MaterialType = "all" | "ebook" | "worksheet" | "audio";
@@ -79,7 +80,7 @@ export default function MaterialsPage() {
                     <motion.div
                         initial={{ opacity: 0, y: -20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.4 }}
+                        transition={{ duration: 0.5, type: "spring", bounce: 0.4 }}
                         className="relative group"
                     >
                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -96,9 +97,9 @@ export default function MaterialsPage() {
 
                     {/* Categories */}
                     <motion.div
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.5, delay: 0.1 }}
+                        initial={{ opacity: 0, x: -30, scale: 0.95 }}
+                        animate={{ opacity: 1, x: 0, scale: 1 }}
+                        transition={{ duration: 0.6, delay: 0.1, type: "spring", bounce: 0.3 }}
                         className="bg-white/60 backdrop-blur-xl rounded-3xl border border-white/50 p-4 space-y-2 lg:sticky lg:top-24 shadow-[0_8px_30px_rgb(0,0,0,0.04)]"
                     >
                         <div className="flex items-center gap-2 px-3 pb-3 mb-2 border-b border-cyan-100/50">
@@ -142,9 +143,9 @@ export default function MaterialsPage() {
                 <main className="flex-1 min-w-0">
                     {/* Header Banner */}
                     <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6 }}
+                        initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        transition={{ duration: 0.6, type: "spring", bounce: 0.4 }}
                         className="relative rounded-[2rem] overflow-hidden bg-gradient-to-br from-cyan-500 via-teal-500 to-emerald-500 p-8 md:p-10 mb-10 shadow-[0_20px_50px_rgba(20,184,166,0.3)] group"
                     >
                         {/* Animated Mesh Gradient Overlay */}
@@ -156,26 +157,40 @@ export default function MaterialsPage() {
                         <div className="relative z-10 text-white max-w-2xl">
                             <div className="flex items-center gap-2 mb-4">
                                 <span className="bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest border border-white/20 flex items-center gap-2">
-                                    <Star className="w-3 h-3 text-cyan-200 fill-cyan-200" /> {lang === "en" ? "Premium Vault" : "Premium Xazina"}
+                                    <Star className="w-3 h-3 text-cyan-200 fill-cyan-200" />
+                                    <BouncyText key={`pv-badge-${lang}`} text={lang === "en" ? "Premium Vault" : "Premium Xazina"} type="word" />
                                 </span>
                             </div>
-                            <h2 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight">{lang === "en" ? "Downloads" : "Yuklab olish"}</h2>
+                            <h2 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight">
+                                <BouncyText key={`dl-title-${lang}`} text={lang === "en" ? "Downloads" : "Yuklab olish"} type="word" />
+                            </h2>
                             <p className="text-cyan-50 text-lg leading-relaxed font-light">
-                                {lang === "en" ? "Access our exclusive library of high-quality study materials, cheat sheets, and audio files." : "Yuqori sifatli o'quv materiallari, qo'llanmalar va audio fayllarning eksklyuziv kutubxonasidan foydalaning."}
+                                <BouncyText key={`dl-desc-${lang}`} text={lang === "en" ? "Access our exclusive library of high-quality study materials, cheat sheets, and audio files." : "Yuqori sifatli o'quv materiallari, qo'llanmalar va audio fayllarning eksklyuziv kutubxonasidan foydalaning."} type="word" />
                             </p>
                         </div>
                     </motion.div>
 
                     {/* Grid */}
-                    <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <motion.div
+                        layout
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true, margin: "-40px" }}
+                        variants={{
+                            hidden: { opacity: 0 },
+                            visible: { opacity: 1, transition: { staggerChildren: 0.08 } }
+                        }}
+                        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                    >
                         <AnimatePresence mode="popLayout">
                             {filteredMaterials.map((item, index) => (
                                 <motion.div
                                     key={item.id}
-                                    initial={{ opacity: 0, scale: 0.9 }}
-                                    animate={{ opacity: 1, scale: 1 }}
+                                    variants={{
+                                        hidden: { opacity: 0, y: 25, scale: 0.9 },
+                                        visible: { opacity: 1, y: 0, scale: 1, transition: { type: "spring", bounce: 0.45, duration: 0.6 } }
+                                    }}
                                     exit={{ opacity: 0, scale: 0.9 }}
-                                    transition={{ duration: 0.3, delay: index * 0.05 }}
                                     className="group bg-white/70 backdrop-blur-xl rounded-[1.5rem] border border-white/60 hover:border-cyan-200/50 p-1 shadow-sm hover:shadow-xl hover:shadow-cyan-500/10 transition-all duration-500 hover:-translate-y-1 relative"
                                 >
                                     <div className="bg-white/50 rounded-[1.2rem] p-5 h-full flex flex-col relative overflow-hidden group-hover:bg-gradient-to-b group-hover:from-white group-hover:to-cyan-50/20 transition-colors duration-500">
