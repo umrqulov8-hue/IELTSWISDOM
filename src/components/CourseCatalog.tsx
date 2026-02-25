@@ -40,26 +40,35 @@ export function CourseCatalog() {
     return (
         <section id="courses" className="py-20 bg-slate-50 dark:bg-slate-950/50">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="max-w-3xl mx-auto text-center mb-16">
+                <motion.div
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: false, amount: 0.5 }}
+                    variants={{
+                        hidden: { opacity: 0 },
+                        visible: { opacity: 1, transition: { staggerChildren: 0.15 } }
+                    }}
+                    className="max-w-3xl mx-auto text-center mb-16"
+                >
                     <motion.h2
-                        initial={{ opacity: 0, y: 20, filter: "blur(4px)" }}
-                        whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                        viewport={{ once: false, amount: 0.5 }}
-                        transition={{ duration: 0.6, ease: [0.34, 1.56, 0.64, 1] }}
+                        variants={{
+                            hidden: { opacity: 0, y: 30, scale: 0.95, filter: "blur(8px)" },
+                            visible: { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", transition: { type: "spring", bounce: 0.5, duration: 1 } }
+                        }}
                         className="text-3xl font-bold tracking-tight text-primary sm:text-4xl mb-4"
                     >
                         Explore Our <span className="text-secondary">Premium Courses</span>
                     </motion.h2>
                     <motion.p
-                        initial={{ opacity: 0, y: 20, filter: "blur(4px)" }}
-                        whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                        viewport={{ once: false, amount: 0.5 }}
-                        transition={{ duration: 0.6, delay: 0.1, ease: [0.34, 1.56, 0.64, 1] }}
+                        variants={{
+                            hidden: { opacity: 0, y: 20, filter: "blur(4px)" },
+                            visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { type: "spring", bounce: 0.5, duration: 1 } }
+                        }}
                         className="text-lg text-muted-foreground"
                     >
                         Whether you want to travel, advance your career, or pass an exam, we have a structured path for you.
                     </motion.p>
-                </div>
+                </motion.div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {courses.map((course, index) => (

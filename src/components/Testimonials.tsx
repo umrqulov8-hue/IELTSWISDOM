@@ -34,14 +34,35 @@ export function Testimonials() {
     return (
         <section id="testimonials" className="py-24 bg-slate-50 dark:bg-slate-950">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="text-center mb-16">
-                    <h2 className="text-3xl font-bold tracking-tight text-primary sm:text-4xl mb-4">
+                <motion.div
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: false, amount: 0.5 }}
+                    variants={{
+                        hidden: { opacity: 0 },
+                        visible: { opacity: 1, transition: { staggerChildren: 0.15 } }
+                    }}
+                    className="text-center mb-16"
+                >
+                    <motion.h2
+                        variants={{
+                            hidden: { opacity: 0, y: 30, scale: 0.95, filter: "blur(8px)" },
+                            visible: { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", transition: { type: "spring", bounce: 0.5, duration: 1 } }
+                        }}
+                        className="text-3xl font-bold tracking-tight text-primary sm:text-4xl mb-4"
+                    >
                         Real Students, <span className="text-secondary">Real Results</span>
-                    </h2>
-                    <p className="text-lg text-muted-foreground">
+                    </motion.h2>
+                    <motion.p
+                        variants={{
+                            hidden: { opacity: 0, y: 20, filter: "blur(4px)" },
+                            visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { type: "spring", bounce: 0.5, duration: 1 } }
+                        }}
+                        className="text-lg text-muted-foreground"
+                    >
                         Join thousands of students who have transformed their English skills.
-                    </p>
-                </div>
+                    </motion.p>
+                </motion.div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     {testimonials.map((testimonial, index) => (

@@ -35,30 +35,38 @@ export function LeadMagnet() {
                     className="max-w-4xl mx-auto bg-white/5 backdrop-blur-lg rounded-3xl p-8 md:p-12 border border-white/10 shadow-2xl"
                 >
                     <div className="grid md:grid-cols-2 gap-12 items-center">
-                        <div>
-                            <div className="inline-flex items-center rounded-full border border-secondary/30 bg-secondary/10 px-3 py-1 text-sm font-medium text-secondary mb-6">
+                        <motion.div
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: false, amount: 0.5 }}
+                            variants={{
+                                hidden: { opacity: 0 },
+                                visible: { opacity: 1, transition: { staggerChildren: 0.15 } }
+                            }}
+                        >
+                            <motion.div variants={{ hidden: { opacity: 0, scale: 0.8, filter: "blur(4px)" }, visible: { opacity: 1, scale: 1, filter: "blur(0px)", transition: { type: "spring", bounce: 0.5, duration: 1 } } }} className="inline-flex items-center rounded-full border border-secondary/30 bg-secondary/10 px-3 py-1 text-sm font-medium text-secondary mb-6">
                                 <span className="mr-2">🎁</span> Free Resource
-                            </div>
-                            <h2 className="text-3xl font-bold tracking-tight text-white mb-4">
+                            </motion.div>
+                            <motion.h2 variants={{ hidden: { opacity: 0, y: 30, scale: 0.95, filter: "blur(8px)" }, visible: { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", transition: { type: "spring", bounce: 0.5, duration: 1 } } }} className="text-3xl font-bold tracking-tight text-white mb-4">
                                 Stop Making Simple Grammar Mistakes
-                            </h2>
-                            <p className="text-slate-300 mb-8 text-lg">
+                            </motion.h2>
+                            <motion.p variants={{ hidden: { opacity: 0, y: 20, filter: "blur(4px)" }, visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { type: "spring", bounce: 0.5, duration: 1 } } }} className="text-slate-300 mb-8 text-lg">
                                 Download our free "Essential Grammar Guide" and fix the 50 most common errors English learners make.
-                            </p>
+                            </motion.p>
 
-                            <ul className="space-y-4 mb-8">
+                            <motion.ul variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { type: "spring", bounce: 0.5, duration: 1, staggerChildren: 0.1 } } }} className="space-y-4 mb-8">
                                 {[
                                     "Master tricky prepositions",
                                     "Perfect your verb tenses",
                                     "Sound more like a native speaker"
                                 ].map((item, i) => (
-                                    <li key={i} className="flex items-center text-slate-200">
+                                    <motion.li variants={{ hidden: { opacity: 0, x: -20 }, visible: { opacity: 1, x: 0, transition: { type: "spring", bounce: 0.5 } } }} key={i} className="flex items-center text-slate-200">
                                         <CheckCircle className="h-5 w-5 text-secondary mr-3 flex-shrink-0" />
                                         {item}
-                                    </li>
+                                    </motion.li>
                                 ))}
-                            </ul>
-                        </div>
+                            </motion.ul>
+                        </motion.div>
 
                         <div className="bg-white p-8 rounded-2xl shadow-xl">
                             {!submitted ? (
