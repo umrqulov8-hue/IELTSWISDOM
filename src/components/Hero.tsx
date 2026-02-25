@@ -6,41 +6,7 @@ import { ArrowRight, CheckCircle2, Loader2 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useLanguage } from "@/context/LanguageContext";
 import { translations as T, tx } from "@/lib/translations";
-
-const BouncyText = ({
-    text,
-    className = "",
-    type = "letter"
-}: {
-    text: string,
-    className?: string,
-    type?: "word" | "letter"
-}) => {
-    const items = type === "word" ? text.split(" ") : Array.from(text);
-    return (
-        <motion.span
-            variants={{
-                hidden: { opacity: 0 },
-                visible: { opacity: 1, transition: { staggerChildren: type === "word" ? 0.04 : 0.02 } }
-            }}
-            className={`inline-block ${className}`}
-        >
-            {items.map((item, i) => (
-                <motion.span
-                    key={`${item}-${i}`}
-                    variants={{
-                        hidden: { opacity: 0, y: 15, rotateX: 45, scale: 0.8 },
-                        visible: { opacity: 1, y: 0, rotateX: 0, scale: 1, transition: { type: "spring", bounce: 0.6, duration: 0.6 } }
-                    }}
-                    className="inline-block"
-                    style={{ whiteSpace: "pre" }}
-                >
-                    {item}{type === "word" && i < items.length - 1 ? " " : ""}
-                </motion.span>
-            ))}
-        </motion.span>
-    );
-};
+import { BouncyText } from "@/components/ui/BouncyText";
 
 export function Hero() {
     const { handleStartLearning, isLoading } = useAuth();

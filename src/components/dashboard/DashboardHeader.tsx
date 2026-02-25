@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import { useDashboard } from "@/hooks/useDashboard";
 import { useRouter } from "next/navigation";
 import { useLanguage } from "@/context/LanguageContext";
+import { BouncyText } from "@/components/ui/BouncyText";
 
 // Fallback Mock Data (if DB is empty for demo)
 const FALLBACK_SEARCH_RESULTS = [
@@ -76,13 +77,14 @@ export function DashboardHeader({ title, description, showGreeting, displayName 
                         }}
                     >
                         <motion.h1
+                            key={lang}
                             variants={{
                                 hidden: { opacity: 0, y: -20, filter: "blur(4px)" },
                                 visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.6, ease: [0.34, 1.56, 0.64, 1] } }
                             }}
                             className="text-3xl md:text-4xl font-extrabold text-slate-800 tracking-tight"
                         >
-                            {lang === "en" ? "Welcome back," : "Xush kelibsiz,"} <span className="text-[#FF8C00]">{displayName}</span>!
+                            <BouncyText text={lang === "en" ? "Welcome back," : "Xush kelibsiz,"} type="word" /> <span className="text-[#FF8C00]">{displayName}</span>!
                         </motion.h1>
                         <motion.p
                             variants={{

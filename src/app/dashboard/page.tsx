@@ -8,6 +8,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { useLanguage } from "@/context/LanguageContext";
 import { translations as T, tx } from "@/lib/translations";
+import { BouncyText } from "@/components/ui/BouncyText";
 
 export default function DashboardPage() {
     const { stats } = useDashboard();
@@ -47,7 +48,9 @@ export default function DashboardPage() {
                         <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-white/20 blur-3xl rounded-full group-hover:scale-150 transition-transform duration-700" />
 
                         <div className="relative z-10">
-                            <h3 className="text-lg font-bold text-orange-100 mb-6">{tx(D.progress, lang)}</h3>
+                            <h3 className="text-lg font-bold text-orange-100 mb-6">
+                                <BouncyText key={`prog-${lang}`} text={tx(D.progress, lang)} type="word" />
+                            </h3>
 
                             <div className="flex items-end gap-2 mb-3">
                                 <span className="text-6xl font-black">{progress_percentage}</span>
@@ -68,7 +71,7 @@ export default function DashboardPage() {
                                 </div>
                             </div>
                             <p className="text-sm text-orange-100 font-medium">
-                                {progress_percentage < 50 ? tx(D.keep, lang) : tx(D.excellent, lang)}
+                                <BouncyText key={`msg-${lang}`} text={progress_percentage < 50 ? tx(D.keep, lang) : tx(D.excellent, lang)} type="word" />
                             </p>
                         </div>
                     </motion.div>
@@ -86,7 +89,7 @@ export default function DashboardPage() {
 
                         <div className="relative z-10">
                             <div className="flex items-center gap-2 text-blue-100 text-xs font-black mb-3 tracking-widest uppercase bg-white/10 w-fit px-3 py-1 rounded-full backdrop-blur-sm">
-                                <PlayCircle className="w-3 h-3" /> {tx(D.nextLesson, lang)}
+                                <PlayCircle className="w-3 h-3" /> <BouncyText key={`nl-${lang}`} text={tx(D.nextLesson, lang)} type="word" />
                             </div>
                             <h2 className="text-3xl font-bold mb-3 leading-tight">
                                 {tx(D.lessonTitle, lang)}
@@ -98,7 +101,7 @@ export default function DashboardPage() {
 
                         <div className="relative z-10 mt-8 flex justify-end">
                             <Link href="/lessons" className="flex items-center gap-2 bg-white text-blue-600 hover:bg-blue-50 hover:text-blue-700 font-bold px-8 py-3.5 rounded-xl transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0">
-                                {tx(D.continue, lang)}
+                                <BouncyText key={`cont-${lang}`} text={tx(D.continue, lang)} type="word" />
                                 <ArrowRight className="w-5 h-5" />
                             </Link>
                         </div>
@@ -114,7 +117,7 @@ export default function DashboardPage() {
                     className="mt-10"
                 >
                     <h3 className="text-center text-slate-400 text-xs font-bold uppercase tracking-[0.2em] mb-8">
-                        {tx(D.popular, lang)}
+                        <BouncyText key={`pop-${lang}`} text={tx(D.popular, lang)} type="word" />
                     </h3>
                     <FeatureGrid />
                 </motion.section>

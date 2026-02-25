@@ -7,6 +7,7 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useLanguage } from "@/context/LanguageContext";
 import { translations as T, tx } from "@/lib/translations";
+import { BouncyText } from "@/components/ui/BouncyText";
 
 const featureDefs = [
     { key: "vocabulary" as const, icon: Headphones, color: "text-blue-400", href: "/vocabulary" },
@@ -47,7 +48,7 @@ export function FeatureGrid() {
                                     <Icon className="w-7 h-7" />
                                 </div>
                                 <h3 className="text-sm font-bold text-slate-700 group-hover:text-white transition-colors">
-                                    {tx(T.features[feature.key], lang)}
+                                    <BouncyText key={lang} text={tx(T.features[feature.key], lang)} type="word" />
                                 </h3>
                             </div>
                         </motion.div>
