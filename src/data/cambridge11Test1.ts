@@ -24,32 +24,32 @@ export const cambridge11Test1: ListeningTest = {
 
             <p className="font-bold mb-2 text-slate-800">Room and cost</p>
             <ul class="list-disc pl-5 mb-6 space-y-3">
-                <li>the <span class="inline-flex items-center gap-2"><span class="font-bold text-sm">1</span><input id="q-1" type="text" class="border-b border-black w-32 focus:outline-none focus:border-blue-500 bg-transparent text-center font-semibold" /></span> Room – seats 100</li>
+                <li>the <span class="inline-flex items-center gap-2"><span class="font-bold text-sm">1</span><input id="q-1" type="text" class="border-b border-black w-32 focus:outline-none focus:border-blue-500 bg-transparent font-semibold" /></span> Room – seats 100</li>
                 <li>Cost of Main Hall for Saturday evening: <b>£</b> <span class="inline-flex items-center gap-2"><span class="font-bold text-sm">2</span><input id="q-2" type="text" class="border-b border-black w-24 focus:outline-none focus:border-blue-500 bg-transparent text-center font-semibold" /></span></li>
-                <li class="list-none pl-2">+ £250 deposit (<span class="inline-flex items-center gap-2"><span class="font-bold text-sm">3</span><input id="q-3" type="text" class="border-b border-black w-32 focus:outline-none focus:border-blue-500 bg-transparent text-center font-semibold" /></span> payment is required)</li>
-                <li>Cost includes use of tables and chairs and also <span class="inline-flex items-center gap-2"><span class="font-bold text-sm">4</span><input id="q-4" type="text" class="border-b border-black w-32 focus:outline-none focus:border-blue-500 bg-transparent text-center font-semibold" /></span></li>
+                <li class="list-none pl-2">+ £250 deposit (<span class="inline-flex items-center gap-2"><span class="font-bold text-sm">3</span><input id="q-3" type="text" class="border-b border-black w-32 focus:outline-none focus:border-blue-500 bg-transparent font-semibold" /></span> payment is required)</li>
+                <li>Cost includes use of tables and chairs and also <span class="inline-flex items-center gap-2"><span class="font-bold text-sm">4</span><input id="q-4" type="text" class="border-b border-black w-32 focus:outline-none focus:border-blue-500 bg-transparent font-semibold" /></span></li>
                 <li>Additional charge for use of the kitchen: £25</li>
             </ul>
 
             <p className="font-bold mb-2 text-slate-800">Before the event</p>
             <ul class="list-disc pl-5 mb-6 space-y-3">
-                <li>Will need a <span class="inline-flex items-center gap-2"><span class="font-bold text-sm">5</span><input id="q-5" type="text" class="border-b border-black w-32 focus:outline-none focus:border-blue-500 bg-transparent text-center font-semibold" /></span> licence</li>
-                <li>Need to contact caretaker (Mr Evans) in advance to arrange <span class="inline-flex items-center gap-2"><span class="font-bold text-sm">6</span><input id="q-6" type="text" class="border-b border-black w-32 focus:outline-none focus:border-blue-500 bg-transparent text-center font-semibold" /></span></li>
+                <li>Will need a <span class="inline-flex items-center gap-2"><span class="font-bold text-sm">5</span><input id="q-5" type="text" class="border-b border-black w-32 focus:outline-none focus:border-blue-500 bg-transparent font-semibold" /></span> licence</li>
+                <li>Need to contact caretaker (Mr Evans) in advance to arrange <span class="inline-flex items-center gap-2"><span class="font-bold text-sm">6</span><input id="q-6" type="text" class="border-b border-black w-32 focus:outline-none focus:border-blue-500 bg-transparent font-semibold" /></span></li>
             </ul>
 
             <p class="font-bold mb-2 text-slate-800">During the event</p>
             <ul class="list-disc pl-5 mb-6 space-y-3">
                 <li>The building is no smoking</li>
-                <li>The band should use the <span class="inline-flex items-center gap-2"><span class="font-bold text-sm">7</span><input id="q-7" type="text" class="border-b border-black w-32 focus:outline-none focus:border-blue-500 bg-transparent text-center font-semibold" /></span> door at the back</li>
+                <li>The band should use the <span class="inline-flex items-center gap-2"><span class="font-bold text-sm">7</span><input id="q-7" type="text" class="border-b border-black w-32 focus:outline-none focus:border-blue-500 bg-transparent font-semibold" /></span> door at the back</li>
                 <li>Don't touch the system that controls the volume</li>
                 <li>For microphones, contact the caretaker</li>
             </ul>
 
             <p className="font-bold mb-2 text-slate-800">After the event</p>
             <ul class="list-disc pl-5 mb-2 space-y-3">
-                <li>Need to know the <span class="inline-flex items-center gap-2"><span class="font-bold text-sm">8</span><input id="q-8" type="text" class="border-b border-black w-32 focus:outline-none focus:border-blue-500 bg-transparent text-center font-semibold" /></span> for the cleaning cupboard</li>
-                <li>The <span class="inline-flex items-center gap-2"><span class="font-bold text-sm">9</span><input id="q-9" type="text" class="border-b border-black w-32 focus:outline-none focus:border-blue-500 bg-transparent text-center font-semibold" /></span> must be washed and rubbish placed in black bags</li>
-                <li>All <span class="inline-flex items-center gap-2"><span class="font-bold text-sm">10</span><input id="q-10" type="text" class="border-b border-black w-32 focus:outline-none focus:border-blue-500 bg-transparent text-center font-semibold" /></span> must be taken down</li>
+                <li>Need to know the <span class="inline-flex items-center gap-2"><span class="font-bold text-sm">8</span><input id="q-8" type="text" class="border-b border-black w-32 focus:outline-none focus:border-blue-500 bg-transparent font-semibold" /></span> for the cleaning cupboard</li>
+                <li>The <span class="inline-flex items-center gap-2"><span class="font-bold text-sm">9</span><input id="q-9" type="text" class="border-b border-black w-32 focus:outline-none focus:border-blue-500 bg-transparent font-semibold" /></span> must be washed and rubbish placed in black bags</li>
+                <li>All <span class="inline-flex items-center gap-2"><span class="font-bold text-sm">10</span><input id="q-10" type="text" class="border-b border-black w-32 focus:outline-none focus:border-blue-500 bg-transparent font-semibold" /></span> must be taken down</li>
                 <li>Chairs and tables must be piled up</li>
             </ul>
         </div>

@@ -40,16 +40,27 @@ function ListeningPartSection({
         part.questions.filter(q => q.type === "fill-blank").forEach(q => {
             const input = el.querySelector(`#q-${q.id}`) as HTMLInputElement;
             if (!input) return;
-            input.value = answers[q.id.toString()] || "";
+
+            // Only update value if it's different and NOT the current active element
+            // to prevent cursor jumping while typing
+            const newValue = answers[q.id.toString()] || "";
+            if (input.value !== newValue && document.activeElement !== input) {
+                input.value = newValue;
+            }
+
             input.disabled = isSubmitted;
+            input.setAttribute("spellcheck", "false");
+            input.setAttribute("autocomplete", "off");
+
             if (isSubmitted) {
                 const ok = input.value.trim().toLowerCase() === q.correctAnswer.toString().toLowerCase();
-                input.style.borderBottom = ok ? "2px solid #22c55e" : "2px solid #ef4444";
+                input.style.borderBottom = ok ? "3px solid #22c55e" : "3px solid #ef4444";
                 input.style.color = ok ? "#15803d" : "#b91c1c";
+                input.style.backgroundColor = ok ? "rgba(34, 197, 94, 0.05)" : "rgba(239, 68, 68, 0.05)";
                 if (!ok && !input.nextElementSibling?.classList.contains("corr")) {
                     const sp = document.createElement("span");
-                    sp.className = "corr text-[11px] text-red-500 font-bold ml-1";
-                    sp.textContent = `✓${q.correctAnswer}`;
+                    sp.className = "corr text-[11px] text-red-500 font-bold ml-1 bg-white px-1.5 py-0.5 rounded border border-red-200 shadow-sm";
+                    sp.textContent = `✓ ${q.correctAnswer}`;
                     input.parentNode?.insertBefore(sp, input.nextSibling);
                 }
             }
@@ -621,18 +632,37 @@ const liquidStyles = `
     transform: translateY(-1px);
   }
 
-  /* Prose input styling */
+  /* Prose input styling (Listening blanks) */
   .prose input[type="text"] {
     border: none;
-    border-bottom: 1.5px solid rgba(100,120,160,0.4);
-    background: transparent;
+    border-bottom: 2px solid rgba(100,120,160,0.3);
+    background: rgba(255, 255, 255, 0.2);
     outline: none;
-    padding: 0 4px;
-    font-weight: 600;
-    color: #1e293b;
-    transition: border-color 0.2s;
+    padding: 2px 8px;
+    font-weight: 700;
+    color: #0f172a;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 4px 4px 0 0;
+    font-family: inherit;
+    min-width: 60px;
+    letter-spacing: 0.025em;
+  }
+  .prose input[type="text"]:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.4);
+    border-bottom-color: rgba(100, 120, 160, 0.5);
   }
   .prose input[type="text"]:focus {
-    border-bottom-color: rgba(60,80,120,0.7);
+    background: rgba(255, 255, 255, 0.6);
+    border-bottom-color: #3b82f6;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.08);
+  }
+  .prose input[type="text"]:disabled {
+    cursor: default;
+    background: transparent;
+  }
+  /* Map questions (single letter) */
+  .prose input[type="text"][maxlength="1"] {
+    text-align: center;
+    padding: 2px 0;
   }
 `;
