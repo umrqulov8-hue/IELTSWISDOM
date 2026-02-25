@@ -192,31 +192,20 @@ export function UserSettingsPanel({ isOpen, onClose }: UserSettingsPanelProps) {
                                     }}
                                 />
                                 {[
-                                    { id: 'small', label: '14px', icon: 'text-sm' },
-                                    { id: 'medium', label: '16px', icon: 'text-base' },
-                                    { id: 'large', label: '18px', icon: 'text-lg' }
+                                    { id: 'small', label: 'A-' },
+                                    { id: 'medium', label: 'A' },
+                                    { id: 'large', label: 'A+' }
                                 ].map((size) => (
                                     <button
                                         key={size.id}
                                         onClick={() => setFontSize(size.id as any)}
-                                        className={`flex-1 py-2 text-center relative z-10 transition-colors ${fontSize === size.id ? 'text-white font-bold' : 'text-slate-600 hover:bg-slate-50'}`}
+                                        className={`flex-1 py-2 text-center relative z-10 transition-colors ${fontSize === size.id ? 'text-white font-bold' : 'text-slate-600 hover:bg-slate-50'} text-base font-semibold font-serif`}
                                     >
-                                        <span className={size.icon}>A</span>
+                                        <span>{size.label}</span>
                                     </button>
                                 ))}
                             </div>
                         </div>
-                    </div>
-
-                    {/* Footer / Sign Out */}
-                    <div className="p-3 border-t border-slate-100 mt-2 bg-rose-50/50">
-                        <button
-                            onClick={() => signOut()}
-                            className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl text-rose-600 hover:bg-rose-100 hover:text-rose-700 transition-colors font-medium text-sm"
-                        >
-                            <LogOut className="w-4 h-4" />
-                            {lang === 'en' ? "Sign Out" : "Tizimdan chiqish"}
-                        </button>
                     </div>
                 </motion.div>
             )}
