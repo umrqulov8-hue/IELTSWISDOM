@@ -7,6 +7,41 @@ import { useAuth } from "@/hooks/useAuth";
 import { useLanguage } from "@/context/LanguageContext";
 import { translations as T, tx } from "@/lib/translations";
 
+const BouncyText = ({
+    text,
+    className = "",
+    type = "letter"
+}: {
+    text: string,
+    className?: string,
+    type?: "word" | "letter"
+}) => {
+    const items = type === "word" ? text.split(" ") : Array.from(text);
+    return (
+        <motion.span
+            variants={{
+                hidden: { opacity: 0 },
+                visible: { opacity: 1, transition: { staggerChildren: type === "word" ? 0.04 : 0.02 } }
+            }}
+            className={`inline-block ${className}`}
+        >
+            {items.map((item, i) => (
+                <motion.span
+                    key={`${item}-${i}`}
+                    variants={{
+                        hidden: { opacity: 0, y: 15, rotateX: 45, scale: 0.8 },
+                        visible: { opacity: 1, y: 0, rotateX: 0, scale: 1, transition: { type: "spring", bounce: 0.6, duration: 0.6 } }
+                    }}
+                    className="inline-block"
+                    style={{ whiteSpace: "pre" }}
+                >
+                    {item}{type === "word" && i < items.length - 1 ? " " : ""}
+                </motion.span>
+            ))}
+        </motion.span>
+    );
+};
+
 export function Hero() {
     const { handleStartLearning, isLoading } = useAuth();
     const { lang } = useLanguage();
@@ -25,11 +60,12 @@ export function Hero() {
 
                     {/* Text Content */}
                     <motion.div
+                        key={lang}
                         initial="hidden"
                         animate="visible"
                         variants={{
                             hidden: { opacity: 0 },
-                            visible: { opacity: 1, transition: { staggerChildren: 0.15, delayChildren: 0.2 } }
+                            visible: { opacity: 1, transition: { staggerChildren: 0.15, delayChildren: 0.1 } }
                         }}
                         className="max-w-2xl"
                     >
@@ -38,12 +74,16 @@ export function Hero() {
                             {tx(h.badge, lang)}
                         </motion.div>
 
-                        <motion.h1 variants={{ hidden: { opacity: 0, y: 30, scale: 0.95, filter: "blur(8px)" }, visible: { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", transition: { type: "spring", bounce: 0.4, duration: 1 } } }} className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-primary mb-6 leading-[1.1]">
-                            {tx(h.h1a, lang)} <span className="text-secondary">{tx(h.h1b, lang)}</span>{tx(h.h1c, lang) ? ` ${tx(h.h1c, lang)}` : ""}
+                        <motion.h1 variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }} className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-primary mb-6 leading-[1.1]">
+                            <BouncyText text={tx(h.h1a, lang)} type="letter" />{" "}
+                            <BouncyText text={tx(h.h1b, lang)} type="letter" className="text-secondary" />
+                            {tx(h.h1c, lang) && (
+                                <>{" "}<BouncyText text={tx(h.h1c, lang)} type="letter" /></>
+                            )}
                         </motion.h1>
 
-                        <motion.p variants={{ hidden: { opacity: 0, y: 20, filter: "blur(4px)" }, visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { type: "spring", bounce: 0.4, duration: 1 } } }} className="text-lg sm:text-xl text-muted-foreground mb-8 leading-relaxed max-w-xl">
-                            {tx(h.desc, lang)}
+                        <motion.p variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }} className="text-lg sm:text-xl text-muted-foreground mb-8 leading-relaxed max-w-xl">
+                            <BouncyText text={tx(h.desc, lang)} type="word" />
                         </motion.p>
 
                         <motion.div variants={{ hidden: { opacity: 0, y: 20, scale: 0.95 }, visible: { opacity: 1, y: 0, scale: 1, transition: { type: "spring", bounce: 0.5, duration: 0.8 } } }} className="flex flex-col sm:flex-row gap-4 mb-10">

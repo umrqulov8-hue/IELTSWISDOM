@@ -34,18 +34,9 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
     return (
         <>
             {!isDashboard && <Header />}
-            <AnimatePresence mode="wait">
-                <motion.main
-                    key={lang}
-                    initial={{ opacity: 0, filter: "blur(8px)" }}
-                    animate={{ opacity: 1, filter: "blur(0px)" }}
-                    exit={{ opacity: 0, filter: "blur(8px)" }}
-                    transition={{ duration: 0.4, ease: "easeInOut" }}
-                    className={isDashboard ? "flex-grow" : "flex-grow pt-16"}
-                >
-                    {children}
-                </motion.main>
-            </AnimatePresence>
+            <main className={isDashboard ? "flex-grow" : "flex-grow pt-16"}>
+                {children}
+            </main>
             {!isDashboard && <Footer />}
         </>
     );
