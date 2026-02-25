@@ -12,42 +12,39 @@ export function LanguageToggle() {
         <button
             onClick={toggle}
             aria-label="Switch language"
-            className="relative flex items-center w-[68px] h-[34px] rounded-full p-[3px] focus:outline-none overflow-hidden"
-            style={{
-                background: "rgba(255,255,255,0.18)",
-                backdropFilter: "blur(14px)",
-                WebkitBackdropFilter: "blur(14px)",
-                border: "1px solid rgba(255,255,255,0.35)",
-                boxShadow: "inset 0 1px 1px rgba(255,255,255,0.55), 0 4px 16px rgba(0,0,0,0.10)",
-            }}
+            className="relative flex items-center w-[72px] h-[36px] rounded-full p-[4px] focus:outline-none transition-colors bg-slate-100/80 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 shadow-inner"
         >
-            {/* Glass shimmer highlight */}
+            {/* Inactive labels on the track */}
             <span
-                className="absolute inset-0 rounded-full pointer-events-none"
-                style={{ background: "linear-gradient(135deg, rgba(255,255,255,0.30) 0%, transparent 55%)" }}
-            />
-
-            {/* Label left — shows when UZ is active → clicking will go to US */}
-            <span className={`absolute left-2.5 text-[10px] font-bold drop-shadow transition-opacity duration-300 text-slate-700 ${isUz ? "opacity-100" : "opacity-0"}`}>
+                className={`absolute left-[12px] text-xs font-bold text-slate-400 dark:text-slate-500 transition-opacity duration-300 ${isUz ? "opacity-100" : "opacity-0"}`}
+            >
                 US
             </span>
-            {/* Label right — shows when EN is active → clicking will go to UZ */}
-            <span className={`absolute right-2 text-[10px] font-bold drop-shadow transition-opacity duration-300 text-slate-700 ${!isUz ? "opacity-100" : "opacity-0"}`}>
+            <span
+                className={`absolute right-[12px] text-xs font-bold text-slate-400 dark:text-slate-500 transition-opacity duration-300 ${!isUz ? "opacity-100" : "opacity-0"}`}
+            >
                 UZ
             </span>
 
-            {/* Sliding pill */}
+            {/* Sliding handle */}
             <motion.div
-                animate={{ x: isUz ? 34 : 0 }}
-                transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                className="w-[28px] h-[28px] rounded-full flex-shrink-0 flex items-center justify-center text-[18px]"
-                style={{
-                    background: "rgba(255,255,255,0.85)",
-                    border: "1px solid rgba(255,255,255,0.6)",
-                    boxShadow: "0 2px 8px rgba(0,0,0,0.12), inset 0 1px 1px rgba(255,255,255,0.9)",
+                layout
+                initial={false}
+                animate={{
+                    x: isUz ? 36 : 0,
                 }}
+                transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                className="w-[28px] h-[28px] rounded-full flex items-center justify-center bg-white dark:bg-slate-200 shadow-md border border-slate-100 z-10"
             >
-                {isUz ? "🇺🇿" : "🇺🇸"}
+                <motion.span
+                    key={lang}
+                    initial={{ opacity: 0, scale: 0.5, rotate: -45 }}
+                    animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                    transition={{ duration: 0.2 }}
+                    className="text-[11px] font-bold text-slate-800"
+                >
+                    {isUz ? "UZ" : "US"}
+                </motion.span>
             </motion.div>
         </button>
     );
