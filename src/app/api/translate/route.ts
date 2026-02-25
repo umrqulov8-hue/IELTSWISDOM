@@ -34,22 +34,21 @@ export async function POST(req: NextRequest) {
 
         console.log("Bytez output:", { error, output });
 
-        // Parse response - Qwen model returns generated text
+        // Parse response - Qwen model returns a chat message object or generated text
         let translatedText = "";
+
+        const getRawText = (obj: any) => {
+            if (typeof obj === 'string') return obj;
+            if (obj?.content) return obj.content;
+            if (obj?.generated_text) return obj.generated_text;
+            if (obj?.translation_text) return obj.translation_text;
+            return JSON.stringify(obj);
+        };
+
         if (Array.isArray(output) && output.length > 0) {
-            if (typeof output[0] === "string") {
-                translatedText = output[0];
-            } else if (output[0]?.generated_text) {
-                translatedText = output[0].generated_text;
-            } else if (output[0]?.translation_text) {
-                translatedText = output[0].translation_text;
-            } else {
-                translatedText = JSON.stringify(output[0]);
-            }
-        } else if (typeof output === "string") {
-            translatedText = output;
+            translatedText = getRawText(output[0]);
         } else {
-            translatedText = JSON.stringify(output);
+            translatedText = getRawText(output);
         }
 
         return NextResponse.json({ translatedText });
