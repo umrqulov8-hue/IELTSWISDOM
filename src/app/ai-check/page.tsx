@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { useLanguage } from "@/context/LanguageContext";
 import { translations as T, tx } from "@/lib/translations";
+import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 
 interface Message {
     role: "user" | "assistant";
@@ -95,198 +96,194 @@ export default function AICheckPage() {
         text.replace(/\*\*(.*?)\*\*/g, "<strong class='text-white font-bold'>$1</strong>").replace(/\n/g, "<br/>");
 
     return (
-        <div className="relative min-h-screen bg-[#F2F4F8] text-slate-800 overflow-hidden font-sans selection:bg-orange-500/30">
-            {/* --- Background Effects --- */}
-            <div className="fixed inset-0 pointer-events-none z-0">
-                <div className="absolute top-[-20%] left-[-10%] w-[800px] h-[800px] bg-orange-400/20 blur-[120px] rounded-full" />
-                <div className="absolute bottom-[-20%] right-[-10%] w-[600px] h-[600px] bg-blue-400/20 blur-[100px] rounded-full" />
-            </div>
-
-            {/* --- Floating Header --- */}
-            <header className="fixed top-0 left-0 w-full z-50 pt-4 px-4 md:px-8">
-                <div className="max-w-5xl mx-auto backdrop-blur-md bg-white/80 border border-slate-200/60 rounded-3xl p-3 md:p-4 flex items-center justify-between shadow-sm">
-                    <button
-                        onClick={() => router.push('/dashboard')}
-                        className="flex items-center gap-2 px-3 py-2 rounded-xl hover:bg-slate-100 transition-colors text-slate-600 hover:text-slate-900"
-                    >
-                        <ChevronLeft className="w-5 h-5" />
-                        <span className="font-semibold text-sm hidden sm:inline">{lang === "en" ? "Back to Dashboard" : "Boshqaruv paneliga qaytish"}</span>
-                    </button>
-
-                    <div className="flex items-center gap-3">
-                        <div className="relative">
-                            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#FF8C00] to-amber-500 flex items-center justify-center shadow-[0_0_15px_rgba(255,140,0,0.3)] relative z-10">
-                                <Sparkles className="w-5 h-5 text-white animate-pulse" />
-                            </div>
-                            <div className="absolute inset-0 bg-orange-400 rounded-xl blur-md opacity-40 animate-pulse" />
-                            <span className="absolute -bottom-1 -right-1 w-3.5 h-3.5 bg-green-500 border-2 border-white rounded-full z-20 shadow-sm" />
-                        </div>
-                        <div className="hidden sm:block">
-                            <h1 className="font-bold text-slate-800 text-base tracking-wide">
-                                IELTS AI Assistant
-                            </h1>
-                            <p className="text-[11px] text-orange-500 font-bold font-mono uppercase tracking-wider">
-                                ● {tx(AIC.online, lang)}
-                            </p>
-                        </div>
-                    </div>
-
-                    <button
-                        onClick={clearChat}
-                        className="flex items-center gap-2 px-3 py-2 md:px-4 md:py-2 rounded-xl border border-red-200 text-red-500 hover:bg-red-50 hover:border-red-300 transition-all text-sm font-semibold"
-                    >
-                        <Trash2 className="w-4 h-4" /> <span className="hidden sm:inline">{tx(AIC.clear, lang)}</span>
-                    </button>
-                </div>
-            </header>
-
-            {/* --- Main Chat Area --- */}
-            <main className="relative z-10 w-full max-w-5xl mx-auto pt-32 pb-40 px-4 md:px-8 h-screen overflow-y-auto custom-scrollbar flex flex-col">
-                <div className="flex-1 w-full space-y-6 flex flex-col">
-                    <AnimatePresence>
-                        {messages.map((msg, i) => (
-                            <motion.div
-                                key={i}
-                                initial={{ opacity: 0, y: 20, scale: 0.95 }}
-                                animate={{ opacity: 1, y: 0, scale: 1 }}
-                                transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
-                                className={`flex gap-3 md:gap-4 items-end w-full group ${msg.role === "user" ? "flex-row-reverse" : "flex-row"}`}
-                            >
-                                {/* Avatar */}
-                                <div className={`w-10 h-10 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-md relative ${msg.role === "assistant" ? "bg-gradient-to-br from-[#FF8C00] to-amber-500" : "bg-gradient-to-br from-blue-500 to-cyan-500"}`}>
-                                    {msg.role === "assistant" ? (
-                                        <Bot className="w-5 h-5 text-white relative z-10" />
-                                    ) : (
-                                        <User className="w-5 h-5 text-white" />
-                                    )}
-                                </div>
-
-                                {/* Message Bubble */}
-                                <div
-                                    className={`max-w-[85%] md:max-w-[75%] px-5 py-4 text-[15px] leading-relaxed border shadow-sm relative
-                                        ${msg.role === "assistant"
-                                            ? "bg-white border-slate-200 text-slate-800 rounded-3xl rounded-bl-sm"
-                                            : "bg-blue-50 border-blue-100 text-blue-900 rounded-3xl rounded-br-sm"
-                                        }
-                                    `}
-                                >
-                                    <div
-                                        className="prose prose-p:my-1 prose-headings:text-slate-800 max-w-none break-words"
-                                        dangerouslySetInnerHTML={{ __html: msg.role === "assistant" ? renderContent(msg.content).replace(/class='text-white/g, "class='text-slate-900") : renderContent(msg.content) }}
-                                    />
-                                    {/* Subtle edge highlight */}
-                                    <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-white/60 to-transparent rounded-t-3xl" />
-                                </div>
-                            </motion.div>
-                        ))}
-                    </AnimatePresence>
-
-                    {/* Quick Prompts */}
-                    <AnimatePresence>
-                        {showPrompts && messages.length === 1 && (
-                            <motion.div
-                                initial={{ opacity: 0, scale: 0.9 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                exit={{ opacity: 0, scale: 0.9, filter: "blur(10px)" }}
-                                transition={{ duration: 0.5, delay: 0.2 }}
-                                className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-4 md:pl-14 w-full max-w-3xl"
-                            >
-                                {QUICK_PROMPTS().map(({ icon: Icon, label, text }) => (
-                                    <button
-                                        key={label}
-                                        onClick={() => sendMessage(text)}
-                                        className="flex items-center gap-4 text-left px-5 py-4 rounded-3xl bg-white border border-slate-200 hover:border-orange-400 hover:shadow-[0_4px_20px_rgba(255,140,0,0.1)] transition-all duration-300 group overflow-hidden relative"
-                                    >
-                                        <div className="w-12 h-12 rounded-xl bg-orange-50 flex items-center justify-center flex-shrink-0 group-hover:bg-orange-100 transition-colors">
-                                            <Icon className="w-6 h-6 text-orange-500 group-hover:text-orange-600 transition-colors" />
-                                        </div>
-                                        <span className="font-semibold text-slate-700 group-hover:text-slate-900 transition-colors text-[15px]">{label}</span>
-                                    </button>
-                                ))}
-                            </motion.div>
-                        )}
-                    </AnimatePresence>
-
-                    {/* Typing Indicator */}
-                    {loading && (
-                        <motion.div
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            className="flex gap-4 items-end max-w-[85%]"
-                        >
-                            <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#FF8C00] to-amber-500 shadow-md flex items-center justify-center flex-shrink-0">
-                                <Bot className="w-5 h-5 text-white animate-pulse" />
-                            </div>
-                            <div className="bg-white border border-slate-200 rounded-3xl rounded-bl-sm px-5 py-4 shadow-sm">
-                                <div className="flex gap-1.5 items-center h-5">
-                                    <span className="w-2 h-2 bg-orange-400 rounded-full animate-bounce [animation-delay:-0.3s]" />
-                                    <span className="w-2 h-2 bg-orange-400 rounded-full animate-bounce [animation-delay:-0.15s]" />
-                                    <span className="w-2 h-2 bg-orange-400 rounded-full animate-bounce [animation-delay:0s]" />
-                                </div>
-                            </div>
-                        </motion.div>
-                    )}
-
-                    {error && (
-                        <motion.div
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            className="flex items-start gap-3 text-red-600 bg-red-50 border border-red-200 rounded-2xl px-5 py-4 text-sm md:ml-14 max-w-2xl shadow-sm"
-                        >
-                            <AlertCircle className="w-5 h-5 flex-shrink-0 text-red-500" />
-                            <span className="leading-relaxed">{error}</span>
-                        </motion.div>
-                    )}
-
-                    <div ref={bottomRef} className="h-4" />
-                </div>
-            </main>
-
-            {/* --- Input Dock --- */}
-            <div className="fixed bottom-0 left-0 w-full z-50 p-4 md:p-8 bg-gradient-to-t from-[#F2F4F8] via-[#F2F4F8]/90 to-transparent pt-12">
-                <div className="max-w-4xl mx-auto relative group">
-                    <div className="relative backdrop-blur-xl bg-white/90 border border-slate-200 rounded-3xl p-3 flex items-end gap-3 shadow-lg transition-all duration-300 group-focus-within:border-orange-400/50 group-focus-within:shadow-[0_8px_30px_rgba(255,140,0,0.15)] group-focus-within:bg-white text-slate-800">
-                        <textarea
-                            ref={textareaRef}
-                            value={input}
-                            onChange={handleInput}
-                            onKeyDown={handleKeyDown}
-                            placeholder={tx(AIC.placeholder, lang)}
-                            rows={1}
-                            className="flex-1 resize-none bg-transparent text-slate-800 placeholder:text-slate-400 focus:outline-none py-3 px-4 min-h-[50px] max-h-[200px] overflow-y-auto leading-relaxed text-[15px] font-medium custom-scrollbar"
-                            disabled={loading}
-                        />
+        <DashboardLayout fullHeight hideHeader>
+            <div className="flex flex-col h-full w-full font-sans selection:bg-orange-500/30">
+                {/* --- Header --- */}
+                <header className="w-full z-50 pb-4 flex-shrink-0">
+                    <div className="max-w-5xl mx-auto backdrop-blur-md bg-white/80 border border-slate-200/60 rounded-3xl p-3 md:p-4 flex items-center justify-between shadow-sm">
                         <button
-                            onClick={() => sendMessage(input)}
-                            disabled={!input.trim() || loading}
-                            className="w-12 h-12 rounded-2xl bg-gradient-to-br from-orange-400 to-[#FF8C00] flex items-center justify-center text-white flex-shrink-0 shadow-md disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 hover:scale-105 active:scale-95 mb-0.5 mr-0.5"
+                            onClick={() => router.push('/dashboard')}
+                            className="flex items-center gap-2 px-3 py-2 rounded-xl hover:bg-slate-100 transition-colors text-slate-600 hover:text-slate-900"
                         >
-                            <Send className="w-5 h-5" />
+                            <ChevronLeft className="w-5 h-5" />
+                            <span className="font-semibold text-sm hidden sm:inline">{lang === "en" ? "Back to Dashboard" : "Boshqaruv paneliga qaytish"}</span>
+                        </button>
+
+                        <div className="flex items-center gap-3">
+                            <div className="relative">
+                                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#FF8C00] to-amber-500 flex items-center justify-center shadow-[0_0_15px_rgba(255,140,0,0.3)] relative z-10">
+                                    <Sparkles className="w-5 h-5 text-white animate-pulse" />
+                                </div>
+                                <div className="absolute inset-0 bg-orange-400 rounded-xl blur-md opacity-40 animate-pulse" />
+                                <span className="absolute -bottom-1 -right-1 w-3.5 h-3.5 bg-green-500 border-2 border-white rounded-full z-20 shadow-sm" />
+                            </div>
+                            <div className="hidden sm:block">
+                                <h1 className="font-bold text-slate-800 text-base tracking-wide">
+                                    IELTS AI Assistant
+                                </h1>
+                                <p className="text-[11px] text-orange-500 font-bold font-mono uppercase tracking-wider">
+                                    ● {tx(AIC.online, lang)}
+                                </p>
+                            </div>
+                        </div>
+
+                        <button
+                            onClick={clearChat}
+                            className="flex items-center gap-2 px-3 py-2 md:px-4 md:py-2 rounded-xl border border-red-200 text-red-500 hover:bg-red-50 hover:border-red-300 transition-all text-sm font-semibold"
+                        >
+                            <Trash2 className="w-4 h-4" /> <span className="hidden sm:inline">{tx(AIC.clear, lang)}</span>
                         </button>
                     </div>
+                </header>
 
-                    <p className="text-center text-[10px] sm:text-[11px] text-slate-500 mt-4 tracking-wide font-medium">
-                        {tx(AIC.disclaimer, lang)}
-                    </p>
+                {/* --- Main Chat Area --- */}
+                <div className="flex-1 w-full max-w-5xl mx-auto overflow-y-auto custom-scrollbar flex flex-col pr-1 md:pr-4">
+                    <div className="w-full space-y-6 flex flex-col pt-2 pb-4">
+                        <AnimatePresence>
+                            {messages.map((msg, i) => (
+                                <motion.div
+                                    key={i}
+                                    initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                                    transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
+                                    className={`flex gap-3 md:gap-4 items-end w-full group ${msg.role === "user" ? "flex-row-reverse" : "flex-row"}`}
+                                >
+                                    {/* Avatar */}
+                                    <div className={`w-10 h-10 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-md relative ${msg.role === "assistant" ? "bg-gradient-to-br from-[#FF8C00] to-amber-500" : "bg-gradient-to-br from-blue-500 to-cyan-500"}`}>
+                                        {msg.role === "assistant" ? (
+                                            <Bot className="w-5 h-5 text-white relative z-10" />
+                                        ) : (
+                                            <User className="w-5 h-5 text-white" />
+                                        )}
+                                    </div>
+
+                                    {/* Message Bubble */}
+                                    <div
+                                        className={`max-w-[85%] md:max-w-[75%] px-5 py-4 text-[15px] leading-relaxed border shadow-sm relative
+                                            ${msg.role === "assistant"
+                                                ? "bg-white border-slate-200 text-slate-800 rounded-3xl rounded-bl-sm"
+                                                : "bg-blue-50 border-blue-100 text-blue-900 rounded-3xl rounded-br-sm"
+                                            }
+                                        `}
+                                    >
+                                        <div
+                                            className="prose prose-p:my-1 prose-headings:text-slate-800 max-w-none break-words"
+                                            dangerouslySetInnerHTML={{ __html: msg.role === "assistant" ? renderContent(msg.content).replace(/class='text-white/g, "class='text-slate-900") : renderContent(msg.content) }}
+                                        />
+                                        {/* Subtle edge highlight */}
+                                        <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-white/60 to-transparent rounded-t-3xl" />
+                                    </div>
+                                </motion.div>
+                            ))}
+                        </AnimatePresence>
+
+                        {/* Quick Prompts */}
+                        <AnimatePresence>
+                            {showPrompts && messages.length === 1 && (
+                                <motion.div
+                                    initial={{ opacity: 0, scale: 0.9 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    exit={{ opacity: 0, scale: 0.9, filter: "blur(10px)" }}
+                                    transition={{ duration: 0.5, delay: 0.2 }}
+                                    className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-4 md:pl-14 w-full max-w-3xl"
+                                >
+                                    {QUICK_PROMPTS().map(({ icon: Icon, label, text }) => (
+                                        <button
+                                            key={label}
+                                            onClick={() => sendMessage(text)}
+                                            className="flex items-center gap-4 text-left px-5 py-4 rounded-3xl bg-white border border-slate-200 hover:border-orange-400 hover:shadow-[0_4px_20px_rgba(255,140,0,0.1)] transition-all duration-300 group overflow-hidden relative"
+                                        >
+                                            <div className="w-12 h-12 rounded-xl bg-orange-50 flex items-center justify-center flex-shrink-0 group-hover:bg-orange-100 transition-colors">
+                                                <Icon className="w-6 h-6 text-orange-500 group-hover:text-orange-600 transition-colors" />
+                                            </div>
+                                            <span className="font-semibold text-slate-700 group-hover:text-slate-900 transition-colors text-[15px]">{label}</span>
+                                        </button>
+                                    ))}
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
+
+                        {/* Typing Indicator */}
+                        {loading && (
+                            <motion.div
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                className="flex gap-4 items-end max-w-[85%]"
+                            >
+                                <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#FF8C00] to-amber-500 shadow-md flex items-center justify-center flex-shrink-0">
+                                    <Bot className="w-5 h-5 text-white animate-pulse" />
+                                </div>
+                                <div className="bg-white border border-slate-200 rounded-3xl rounded-bl-sm px-5 py-4 shadow-sm">
+                                    <div className="flex gap-1.5 items-center h-5">
+                                        <span className="w-2 h-2 bg-orange-400 rounded-full animate-bounce [animation-delay:-0.3s]" />
+                                        <span className="w-2 h-2 bg-orange-400 rounded-full animate-bounce [animation-delay:-0.15s]" />
+                                        <span className="w-2 h-2 bg-orange-400 rounded-full animate-bounce [animation-delay:0s]" />
+                                    </div>
+                                </div>
+                            </motion.div>
+                        )}
+
+                        {error && (
+                            <motion.div
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                className="flex items-start gap-3 text-red-600 bg-red-50 border border-red-200 rounded-2xl px-5 py-4 text-sm md:ml-14 max-w-2xl shadow-sm"
+                            >
+                                <AlertCircle className="w-5 h-5 flex-shrink-0 text-red-500" />
+                                <span className="leading-relaxed">{error}</span>
+                            </motion.div>
+                        )}
+
+                        <div ref={bottomRef} className="h-4" />
+                    </div>
                 </div>
-            </div>
 
-            <style dangerouslySetInnerHTML={{
-                __html: `
-                .custom-scrollbar::-webkit-scrollbar {
-                    width: 6px;
-                }
-                .custom-scrollbar::-webkit-scrollbar-track {
-                    background: transparent;
-                }
-                .custom-scrollbar::-webkit-scrollbar-thumb {
-                    background-color: rgba(0, 0, 0, 0.1);
-                    border-radius: 20px;
-                }
-                .custom-scrollbar:hover::-webkit-scrollbar-thumb {
-                    background-color: rgba(0, 0, 0, 0.2);
-                }
-            `}} />
-        </div>
+                {/* --- Input Dock --- */}
+                <div className="w-full z-50 pt-4 pb-2 flex-shrink-0 bg-transparent">
+                    <div className="max-w-4xl mx-auto relative group">
+                        <div className="relative backdrop-blur-xl bg-white/90 border border-slate-200 rounded-3xl p-3 flex items-end gap-3 shadow-lg transition-all duration-300 group-focus-within:border-orange-400/50 group-focus-within:shadow-[0_8px_30px_rgba(255,140,0,0.15)] group-focus-within:bg-white text-slate-800">
+                            <textarea
+                                ref={textareaRef}
+                                value={input}
+                                onChange={handleInput}
+                                onKeyDown={handleKeyDown}
+                                placeholder={tx(AIC.placeholder, lang)}
+                                rows={1}
+                                className="flex-1 resize-none bg-transparent text-slate-800 placeholder:text-slate-400 focus:outline-none py-3 px-4 min-h-[50px] max-h-[200px] overflow-y-auto leading-relaxed text-[15px] font-medium custom-scrollbar"
+                                disabled={loading}
+                            />
+                            <button
+                                onClick={() => sendMessage(input)}
+                                disabled={!input.trim() || loading}
+                                className="w-12 h-12 rounded-2xl bg-gradient-to-br from-orange-400 to-[#FF8C00] flex items-center justify-center text-white flex-shrink-0 shadow-md disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 hover:scale-105 active:scale-95 mb-0.5 mr-0.5"
+                            >
+                                <Send className="w-5 h-5" />
+                            </button>
+                        </div>
+
+                        <p className="text-center text-[10px] sm:text-[11px] text-slate-500 mt-4 tracking-wide font-medium">
+                            {tx(AIC.disclaimer, lang)}
+                        </p>
+                    </div>
+                </div>
+
+                <style dangerouslySetInnerHTML={{
+                    __html: `
+                    .custom-scrollbar::-webkit-scrollbar {
+                        width: 6px;
+                    }
+                    .custom-scrollbar::-webkit-scrollbar-track {
+                        background: transparent;
+                    }
+                    .custom-scrollbar::-webkit-scrollbar-thumb {
+                        background-color: rgba(0, 0, 0, 0.1);
+                        border-radius: 20px;
+                    }
+                    .custom-scrollbar:hover::-webkit-scrollbar-thumb {
+                        background-color: rgba(0, 0, 0, 0.2);
+                    }
+                `}} />
+            </div>
+        </DashboardLayout>
     );
 }
