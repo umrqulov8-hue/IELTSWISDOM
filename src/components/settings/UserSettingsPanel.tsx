@@ -110,11 +110,11 @@ export function UserSettingsPanel({ isOpen, onClose }: UserSettingsPanelProps) {
                     animate={{ opacity: 1, x: 0, y: 0, scale: 1 }}
                     exit={{ opacity: 0, x: -30, y: -20, scale: 0.8 }}
                     transition={{ duration: 0.3, type: "spring", stiffness: 350, damping: 25 }}
-                    className="absolute left-[70px] top-[70px] w-72 bg-white rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.12)] border border-slate-100 z-[120] overflow-hidden flex flex-col"
+                    className="absolute left-[70px] top-[70px] w-72 bg-white/40 backdrop-blur-2xl rounded-3xl shadow-[0_10px_40px_rgba(0,0,0,0.1)] border border-white/50 z-[120] overflow-hidden flex flex-col"
                 >
                     {/* Header / Avatar Section */}
-                    <div className="bg-gradient-to-br from-[#001F3F]/5 to-[#0074D9]/5 p-5 border-b border-slate-100 relative">
-                        <button onClick={onClose} className="absolute right-3 top-3 text-slate-400 hover:text-slate-700 bg-white/50 hover:bg-white p-1 rounded-full transition-colors backdrop-blur-sm">
+                    <div className="bg-white/30 p-5 border-b border-white/40 relative">
+                        <button onClick={onClose} className="absolute right-3 top-3 text-slate-500 hover:text-slate-800 bg-white/50 hover:bg-white p-1 rounded-full transition-colors backdrop-blur-md shadow-sm">
                             <X className="w-4 h-4" />
                         </button>
 
@@ -156,7 +156,7 @@ export function UserSettingsPanel({ isOpen, onClose }: UserSettingsPanelProps) {
 
                     <div className="p-2 flex flex-col gap-1">
                         {/* Language Selection */}
-                        <div className="p-3 bg-slate-50 rounded-xl">
+                        <div className="p-3 bg-white/40 rounded-2xl shadow-sm border border-white/50">
                             <div className="flex items-center gap-2 mb-2 text-xs font-bold text-slate-500 uppercase">
                                 <Languages className="w-3.5 h-3.5" />
                                 {lang === 'en' ? "Language" : "Tilni tanlash"}
@@ -164,13 +164,13 @@ export function UserSettingsPanel({ isOpen, onClose }: UserSettingsPanelProps) {
                             <div className="grid grid-cols-2 gap-2">
                                 <button
                                     onClick={() => setLang("en")}
-                                    className={`flex items-center justify-center py-2 px-3 rounded-lg text-sm font-medium transition-all ${lang === 'en' ? 'bg-[#0074D9] text-white shadow-md' : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'}`}
+                                    className={`flex items-center justify-center py-2 px-3 rounded-xl text-sm font-medium transition-all ${lang === 'en' ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md border border-blue-400/50' : 'bg-white/50 text-slate-700 hover:bg-white/80 border border-white/60 shadow-sm'}`}
                                 >
                                     English {lang === 'en' && <Check className="w-3.5 h-3.5 ml-1.5" />}
                                 </button>
                                 <button
                                     onClick={() => setLang("uz")}
-                                    className={`flex items-center justify-center py-2 px-3 rounded-lg text-sm font-medium transition-all ${lang === 'uz' ? 'bg-[#0074D9] text-white shadow-md' : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'}`}
+                                    className={`flex items-center justify-center py-2 px-3 rounded-xl text-sm font-medium transition-all ${lang === 'uz' ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md border border-blue-400/50' : 'bg-white/50 text-slate-700 hover:bg-white/80 border border-white/60 shadow-sm'}`}
                                 >
                                     O'zbek {lang === 'uz' && <Check className="w-3.5 h-3.5 ml-1.5" />}
                                 </button>
@@ -178,14 +178,14 @@ export function UserSettingsPanel({ isOpen, onClose }: UserSettingsPanelProps) {
                         </div>
 
                         {/* Font Size Selection */}
-                        <div className="p-3 bg-slate-50 rounded-xl">
+                        <div className="p-3 bg-white/40 rounded-2xl shadow-sm border border-white/50">
                             <div className="flex items-center gap-2 mb-2 text-xs font-bold text-slate-500 uppercase">
                                 <Type className="w-3.5 h-3.5" />
                                 {lang === 'en' ? "Text Size" : "Shrift o'lchami"}
                             </div>
-                            <div className="flex bg-white border border-slate-200 rounded-lg overflow-hidden relative">
+                            <div className="flex bg-white/50 border border-white/60 rounded-xl overflow-hidden relative shadow-inner">
                                 <div
-                                    className="absolute inset-y-0 bg-[#FF851B] transition-all duration-300 ease-out"
+                                    className="absolute inset-y-0 bg-gradient-to-r from-orange-400 to-orange-500 shadow-sm transition-all duration-300 ease-out"
                                     style={{
                                         left: fontSize === 'small' ? '0%' : fontSize === 'medium' ? '33.33%' : '66.66%',
                                         width: '33.33%'
@@ -199,7 +199,7 @@ export function UserSettingsPanel({ isOpen, onClose }: UserSettingsPanelProps) {
                                     <button
                                         key={size.id}
                                         onClick={() => setFontSize(size.id as any)}
-                                        className={`flex-1 py-2 text-center relative z-10 transition-colors ${fontSize === size.id ? 'text-white font-bold' : 'text-slate-600 hover:bg-slate-50'} text-base font-semibold font-serif`}
+                                        className={`flex-1 py-2 text-center relative z-10 transition-colors ${fontSize === size.id ? 'text-white font-bold drop-shadow-sm' : 'text-slate-700 hover:bg-white/50'} text-base font-semibold font-serif`}
                                     >
                                         <span>{size.label}</span>
                                     </button>
