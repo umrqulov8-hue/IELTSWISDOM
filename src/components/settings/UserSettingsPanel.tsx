@@ -224,7 +224,7 @@ export function UserSettingsPanel({ isOpen, onClose }: UserSettingsPanelProps) {
                                 </div>
                                 <button
                                     onClick={() => {
-                                        router.push('/ai-check');
+                                        router.push('/upgrade');
                                         onClose();
                                     }}
                                     className="py-1.5 px-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-[10px] font-black uppercase tracking-wider transition-all active:scale-95 shadow-sm"
