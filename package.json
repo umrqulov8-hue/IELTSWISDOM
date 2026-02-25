@@ -16,6 +16,7 @@
     "bytez.js": "^3.0.0",
     "canvas-confetti": "^1.9.4",
     "clsx": "^2.1.1",
+    "critters": "^0.0.23",
     "framer-motion": "^12.34.1",
     "lucide-react": "^0.574.0",
     "next": "^16.1.6",
@@ -34,5 +35,10 @@
     "eslint-config-next": "16.1.6",
     "tailwindcss": "^4",
     "typescript": "^5"
-  }
+  },
+  "browserslist": [
+    ">0.3%",
+    "not dead",
+    "not op_mini all"
+  ]
 }

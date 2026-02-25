@@ -37,10 +37,11 @@ export default function DashboardPage() {
                         <div className="w-full h-3 bg-black/10 rounded-full overflow-hidden mb-4 border border-white/10">
                             <div className="h-full w-full rounded-full shadow-[0_0_10px_rgba(255,255,255,0.5)] relative overflow-hidden bg-transparent">
                                 <motion.div
-                                    initial={{ width: 0 }}
-                                    animate={{ width: `${progress_percentage}%` }}
+                                    initial={{ scaleX: 0 }}
+                                    animate={{ scaleX: progress_percentage / 100 }}
                                     transition={{ duration: 1.5, ease: "easeOut" }}
-                                    className="absolute left-0 top-0 bottom-0 bg-white rounded-full"
+                                    style={{ transformOrigin: "left" }}
+                                    className="absolute left-0 top-0 bottom-0 bg-white rounded-full w-full"
                                 >
                                     <div className="absolute inset-0 bg-white/30 animate-[shimmer_2s_infinite]" />
                                 </motion.div>
