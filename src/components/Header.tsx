@@ -109,25 +109,50 @@ export function Header() {
                     </div>
 
                     <div className="hidden md:block">
-                        <div className="ml-10 flex items-baseline space-x-8">
+                        <motion.div
+                            initial="hidden"
+                            animate="visible"
+                            variants={{
+                                visible: { transition: { staggerChildren: 0.1, delayChildren: 0.6 } }
+                            }}
+                            className="ml-10 flex items-baseline space-x-8"
+                        >
                             {navLinks.map((link) => (
-                                <Link
+                                <motion.div
                                     key={link.name}
-                                    href={link.href}
-                                    className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+                                    variants={{
+                                        hidden: { opacity: 0, y: -20, filter: "blur(4px)" },
+                                        visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { type: "spring", bounce: 0.5, duration: 0.8 } }
+                                    }}
                                 >
-                                    {link.name}
-                                </Link>
+                                    <Link
+                                        href={link.href}
+                                        className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors block"
+                                    >
+                                        {link.name}
+                                    </Link>
+                                </motion.div>
                             ))}
-                        </div>
+                        </motion.div>
                     </div>
 
-                    <div className="hidden md:flex items-center gap-3">
-                        <LanguageToggle />
-                        <Button variant="secondary" size="sm" onClick={handleStartLearning} disabled={isLoading}>
-                            {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Get Started"}
-                        </Button>
-                    </div>
+                    <motion.div
+                        initial="hidden"
+                        animate="visible"
+                        variants={{
+                            visible: { transition: { staggerChildren: 0.1, delayChildren: 1.0 } }
+                        }}
+                        className="hidden md:flex items-center gap-3"
+                    >
+                        <motion.div variants={{ hidden: { opacity: 0, scale: 0.8 }, visible: { opacity: 1, scale: 1, transition: { type: "spring", bounce: 0.5 } } }}>
+                            <LanguageToggle />
+                        </motion.div>
+                        <motion.div variants={{ hidden: { opacity: 0, scale: 0.8 }, visible: { opacity: 1, scale: 1, transition: { type: "spring", bounce: 0.5 } } }}>
+                            <Button variant="secondary" size="sm" onClick={handleStartLearning} disabled={isLoading}>
+                                {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Get Started"}
+                            </Button>
+                        </motion.div>
+                    </motion.div>
 
                     <div className="-mr-2 flex md:hidden">
                         <button
