@@ -95,23 +95,19 @@ export default function AICheckPage() {
         text.replace(/\*\*(.*?)\*\*/g, "<strong class='text-white font-bold'>$1</strong>").replace(/\n/g, "<br/>");
 
     return (
-        <div className="relative min-h-screen bg-[#05050A] text-slate-200 overflow-hidden font-sans selection:bg-cyan-500/30">
+        <div className="relative min-h-screen bg-[#F2F4F8] text-slate-800 overflow-hidden font-sans selection:bg-orange-500/30">
             {/* --- Background Effects --- */}
             <div className="fixed inset-0 pointer-events-none z-0">
-                {/* Top left giant bloom */}
-                <div className="absolute -top-[20%] -left-[10%] w-[50vw] h-[50vw] rounded-full bg-indigo-900/20 blur-[120px] mix-blend-screen animate-pulse duration-[8s]" />
-                {/* Bottom right electric cyan bloom */}
-                <div className="absolute -bottom-[20%] -right-[10%] w-[60vw] h-[60vw] rounded-full bg-cyan-900/10 blur-[150px] mix-blend-screen" />
-                {/* Center subtle purple glow */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[40vw] rounded-full bg-violet-900/10 blur-[140px]" />
+                <div className="absolute top-[-20%] left-[-10%] w-[800px] h-[800px] bg-orange-400/20 blur-[120px] rounded-full" />
+                <div className="absolute bottom-[-20%] right-[-10%] w-[600px] h-[600px] bg-blue-400/20 blur-[100px] rounded-full" />
             </div>
 
             {/* --- Floating Header --- */}
             <header className="fixed top-0 left-0 w-full z-50 pt-4 px-4 md:px-8">
-                <div className="max-w-5xl mx-auto backdrop-blur-2xl bg-white/[0.03] border border-white/[0.08] rounded-3xl p-3 md:p-4 flex items-center justify-between shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
+                <div className="max-w-5xl mx-auto backdrop-blur-md bg-white/80 border border-slate-200/60 rounded-3xl p-3 md:p-4 flex items-center justify-between shadow-sm">
                     <button
                         onClick={() => router.push('/dashboard')}
-                        className="flex items-center gap-2 px-3 py-2 rounded-xl hover:bg-white/10 transition-colors text-slate-300 hover:text-white"
+                        className="flex items-center gap-2 px-3 py-2 rounded-xl hover:bg-slate-100 transition-colors text-slate-600 hover:text-slate-900"
                     >
                         <ChevronLeft className="w-5 h-5" />
                         <span className="font-semibold text-sm hidden sm:inline">{lang === "en" ? "Back to Dashboard" : "Boshqaruv paneliga qaytish"}</span>
@@ -119,17 +115,17 @@ export default function AICheckPage() {
 
                     <div className="flex items-center gap-3">
                         <div className="relative">
-                            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center shadow-[0_0_20px_rgba(6,182,212,0.4)] relative z-10">
+                            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#FF8C00] to-amber-500 flex items-center justify-center shadow-[0_0_15px_rgba(255,140,0,0.3)] relative z-10">
                                 <Sparkles className="w-5 h-5 text-white animate-pulse" />
                             </div>
-                            <div className="absolute inset-0 bg-cyan-400 rounded-xl blur-md opacity-50 animate-pulse" />
-                            <span className="absolute -bottom-1 -right-1 w-3.5 h-3.5 bg-green-500 border-2 border-[#13141c] rounded-full z-20 shadow-[0_0_10px_rgba(34,197,94,0.5)]" />
+                            <div className="absolute inset-0 bg-orange-400 rounded-xl blur-md opacity-40 animate-pulse" />
+                            <span className="absolute -bottom-1 -right-1 w-3.5 h-3.5 bg-green-500 border-2 border-white rounded-full z-20 shadow-sm" />
                         </div>
                         <div className="hidden sm:block">
-                            <h1 className="font-bold text-white text-base tracking-wide bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400">
+                            <h1 className="font-bold text-slate-800 text-base tracking-wide">
                                 IELTS AI Assistant
                             </h1>
-                            <p className="text-[11px] text-cyan-400 font-medium font-mono uppercase tracking-wider">
+                            <p className="text-[11px] text-orange-500 font-bold font-mono uppercase tracking-wider">
                                 ● {tx(AIC.online, lang)}
                             </p>
                         </div>
@@ -137,7 +133,7 @@ export default function AICheckPage() {
 
                     <button
                         onClick={clearChat}
-                        className="flex items-center gap-2 px-3 py-2 md:px-4 md:py-2 rounded-xl border border-red-500/30 text-red-400 hover:bg-red-500/10 hover:border-red-500 hover:text-red-300 hover:shadow-[0_0_15px_rgba(239,68,68,0.2)] transition-all text-sm font-semibold"
+                        className="flex items-center gap-2 px-3 py-2 md:px-4 md:py-2 rounded-xl border border-red-200 text-red-500 hover:bg-red-50 hover:border-red-300 transition-all text-sm font-semibold"
                     >
                         <Trash2 className="w-4 h-4" /> <span className="hidden sm:inline">{tx(AIC.clear, lang)}</span>
                     </button>
@@ -157,12 +153,9 @@ export default function AICheckPage() {
                                 className={`flex gap-3 md:gap-4 items-end w-full group ${msg.role === "user" ? "flex-row-reverse" : "flex-row"}`}
                             >
                                 {/* Avatar */}
-                                <div className={`w-10 h-10 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg relative ${msg.role === "assistant" ? "bg-gradient-to-br from-cyan-500 to-blue-600 shadow-cyan-500/20" : "bg-gradient-to-br from-indigo-500 to-purple-600 shadow-purple-500/20"}`}>
+                                <div className={`w-10 h-10 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-md relative ${msg.role === "assistant" ? "bg-gradient-to-br from-[#FF8C00] to-amber-500" : "bg-gradient-to-br from-blue-500 to-cyan-500"}`}>
                                     {msg.role === "assistant" ? (
-                                        <>
-                                            <Bot className="w-5 h-5 text-white relative z-10" />
-                                            <div className="absolute inset-0 bg-cyan-500 rounded-2xl blur-md opacity-30 group-hover:opacity-60 transition-opacity" />
-                                        </>
+                                        <Bot className="w-5 h-5 text-white relative z-10" />
                                     ) : (
                                         <User className="w-5 h-5 text-white" />
                                     )}
@@ -170,19 +163,19 @@ export default function AICheckPage() {
 
                                 {/* Message Bubble */}
                                 <div
-                                    className={`max-w-[85%] md:max-w-[75%] px-5 py-4 text-[15px] leading-relaxed backdrop-blur-xl border shadow-2xl relative
+                                    className={`max-w-[85%] md:max-w-[75%] px-5 py-4 text-[15px] leading-relaxed border shadow-sm relative
                                         ${msg.role === "assistant"
-                                            ? "bg-white/[0.03] border-white/10 text-slate-200 rounded-3xl rounded-bl-sm"
-                                            : "bg-indigo-500/10 border-indigo-500/20 text-white rounded-3xl rounded-br-sm shadow-[0_4px_20px_rgba(99,102,241,0.1)]"
+                                            ? "bg-white border-slate-200 text-slate-800 rounded-3xl rounded-bl-sm"
+                                            : "bg-blue-50 border-blue-100 text-blue-900 rounded-3xl rounded-br-sm"
                                         }
                                     `}
                                 >
                                     <div
-                                        className="prose prose-invert prose-p:my-1 prose-headings:text-white max-w-none break-words"
-                                        dangerouslySetInnerHTML={{ __html: renderContent(msg.content) }}
+                                        className="prose prose-p:my-1 prose-headings:text-slate-800 max-w-none break-words"
+                                        dangerouslySetInnerHTML={{ __html: msg.role === "assistant" ? renderContent(msg.content).replace(/class='text-white/g, "class='text-slate-900") : renderContent(msg.content) }}
                                     />
                                     {/* Subtle edge highlight */}
-                                    <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-white/20 to-transparent rounded-t-3xl" />
+                                    <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-white/60 to-transparent rounded-t-3xl" />
                                 </div>
                             </motion.div>
                         ))}
@@ -202,13 +195,12 @@ export default function AICheckPage() {
                                     <button
                                         key={label}
                                         onClick={() => sendMessage(text)}
-                                        className="flex items-center gap-4 text-left px-5 py-4 rounded-3xl bg-white/[0.02] border border-white/[0.05] hover:bg-cyan-500/10 hover:border-cyan-500/30 hover:shadow-[0_0_20px_rgba(6,182,212,0.15)] transition-all duration-300 group overflow-hidden relative"
+                                        className="flex items-center gap-4 text-left px-5 py-4 rounded-3xl bg-white border border-slate-200 hover:border-orange-400 hover:shadow-[0_4px_20px_rgba(255,140,0,0.1)] transition-all duration-300 group overflow-hidden relative"
                                     >
-                                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/[0.02] to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]" />
-                                        <div className="w-12 h-12 rounded-xl bg-white/[0.05] flex items-center justify-center flex-shrink-0 group-hover:bg-cyan-500/20 transition-colors">
-                                            <Icon className="w-6 h-6 text-slate-400 group-hover:text-cyan-400 transition-colors" />
+                                        <div className="w-12 h-12 rounded-xl bg-orange-50 flex items-center justify-center flex-shrink-0 group-hover:bg-orange-100 transition-colors">
+                                            <Icon className="w-6 h-6 text-orange-500 group-hover:text-orange-600 transition-colors" />
                                         </div>
-                                        <span className="font-semibold text-slate-300 group-hover:text-white transition-colors text-[15px]">{label}</span>
+                                        <span className="font-semibold text-slate-700 group-hover:text-slate-900 transition-colors text-[15px]">{label}</span>
                                     </button>
                                 ))}
                             </motion.div>
@@ -222,14 +214,14 @@ export default function AICheckPage() {
                             animate={{ opacity: 1, y: 0 }}
                             className="flex gap-4 items-end max-w-[85%]"
                         >
-                            <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-cyan-500 to-blue-600 shadow-lg shadow-cyan-500/20 flex items-center justify-center flex-shrink-0">
+                            <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#FF8C00] to-amber-500 shadow-md flex items-center justify-center flex-shrink-0">
                                 <Bot className="w-5 h-5 text-white animate-pulse" />
                             </div>
-                            <div className="bg-white/[0.03] border border-white/10 backdrop-blur-xl rounded-3xl rounded-bl-sm px-5 py-4 shadow-2xl">
+                            <div className="bg-white border border-slate-200 rounded-3xl rounded-bl-sm px-5 py-4 shadow-sm">
                                 <div className="flex gap-1.5 items-center h-5">
-                                    <span className="w-2 h-2 bg-cyan-400 rounded-full animate-bounce shadow-[0_0_8px_rgba(34,211,238,0.8)] [animation-delay:-0.3s]" />
-                                    <span className="w-2 h-2 bg-cyan-400 rounded-full animate-bounce shadow-[0_0_8px_rgba(34,211,238,0.8)] [animation-delay:-0.15s]" />
-                                    <span className="w-2 h-2 bg-cyan-400 rounded-full animate-bounce shadow-[0_0_8px_rgba(34,211,238,0.8)] [animation-delay:0s]" />
+                                    <span className="w-2 h-2 bg-orange-400 rounded-full animate-bounce [animation-delay:-0.3s]" />
+                                    <span className="w-2 h-2 bg-orange-400 rounded-full animate-bounce [animation-delay:-0.15s]" />
+                                    <span className="w-2 h-2 bg-orange-400 rounded-full animate-bounce [animation-delay:0s]" />
                                 </div>
                             </div>
                         </motion.div>
@@ -239,9 +231,9 @@ export default function AICheckPage() {
                         <motion.div
                             initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
-                            className="flex items-start gap-3 text-red-200 bg-red-500/10 border border-red-500/30 backdrop-blur-md rounded-2xl px-5 py-4 text-sm md:ml-14 max-w-2xl shadow-[0_0_30px_rgba(239,68,68,0.1)]"
+                            className="flex items-start gap-3 text-red-600 bg-red-50 border border-red-200 rounded-2xl px-5 py-4 text-sm md:ml-14 max-w-2xl shadow-sm"
                         >
-                            <AlertCircle className="w-5 h-5 flex-shrink-0 text-red-400" />
+                            <AlertCircle className="w-5 h-5 flex-shrink-0 text-red-500" />
                             <span className="leading-relaxed">{error}</span>
                         </motion.div>
                     )}
@@ -251,12 +243,9 @@ export default function AICheckPage() {
             </main>
 
             {/* --- Input Dock --- */}
-            <div className="fixed bottom-0 left-0 w-full z-50 p-4 md:p-8 bg-gradient-to-t from-[#05050A] via-[#05050A]/90 to-transparent pt-12">
+            <div className="fixed bottom-0 left-0 w-full z-50 p-4 md:p-8 bg-gradient-to-t from-[#F2F4F8] via-[#F2F4F8]/90 to-transparent pt-12">
                 <div className="max-w-4xl mx-auto relative group">
-                    {/* Glowing aura around input */}
-                    <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500/30 via-indigo-500/30 to-purple-500/30 rounded-3xl blur-lg opacity-30 group-focus-within:opacity-70 transition-opacity duration-500" />
-
-                    <div className="relative backdrop-blur-2xl bg-[#0D0E15]/80 border border-white/10 rounded-3xl p-3 flex items-end gap-3 shadow-[0_8px_32px_rgba(0,0,0,0.5)] transition-all duration-300 group-focus-within:border-cyan-500/50 group-focus-within:bg-[#0D0E15]/95 group-focus-within:shadow-[0_0_30px_rgba(6,182,212,0.15)]">
+                    <div className="relative backdrop-blur-xl bg-white/90 border border-slate-200 rounded-3xl p-3 flex items-end gap-3 shadow-lg transition-all duration-300 group-focus-within:border-orange-400/50 group-focus-within:shadow-[0_8px_30px_rgba(255,140,0,0.15)] group-focus-within:bg-white text-slate-800">
                         <textarea
                             ref={textareaRef}
                             value={input}
@@ -264,16 +253,15 @@ export default function AICheckPage() {
                             onKeyDown={handleKeyDown}
                             placeholder={tx(AIC.placeholder, lang)}
                             rows={1}
-                            className="flex-1 resize-none bg-transparent text-white placeholder:text-slate-500 focus:outline-none py-3 px-4 min-h-[50px] max-h-[200px] overflow-y-auto leading-relaxed text-[15px] font-medium custom-scrollbar"
+                            className="flex-1 resize-none bg-transparent text-slate-800 placeholder:text-slate-400 focus:outline-none py-3 px-4 min-h-[50px] max-h-[200px] overflow-y-auto leading-relaxed text-[15px] font-medium custom-scrollbar"
                             disabled={loading}
                         />
                         <button
                             onClick={() => sendMessage(input)}
                             disabled={!input.trim() || loading}
-                            className="w-12 h-12 rounded-2xl bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center text-white flex-shrink-0 hover:opacity-100 opacity-90 disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-300 hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(6,182,212,0.4)] mb-0.5 mr-0.5 relative overflow-hidden group/btn disabled:hover:scale-100"
+                            className="w-12 h-12 rounded-2xl bg-gradient-to-br from-orange-400 to-[#FF8C00] flex items-center justify-center text-white flex-shrink-0 shadow-md disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 hover:scale-105 active:scale-95 mb-0.5 mr-0.5"
                         >
-                            <div className="absolute inset-0 bg-white/20 translate-y-full group-hover/btn:translate-y-0 transition-transform duration-300 ease-out" />
-                            <Send className="w-5 h-5 relative z-10 -ml-0.5" />
+                            <Send className="w-5 h-5" />
                         </button>
                     </div>
 
@@ -283,7 +271,6 @@ export default function AICheckPage() {
                 </div>
             </div>
 
-            {/* Global Custom Scrollbar for dark theme */}
             <style dangerouslySetInnerHTML={{
                 __html: `
                 .custom-scrollbar::-webkit-scrollbar {
@@ -293,15 +280,11 @@ export default function AICheckPage() {
                     background: transparent;
                 }
                 .custom-scrollbar::-webkit-scrollbar-thumb {
-                    background-color: rgba(255, 255, 255, 0.1);
+                    background-color: rgba(0, 0, 0, 0.1);
                     border-radius: 20px;
                 }
                 .custom-scrollbar:hover::-webkit-scrollbar-thumb {
-                    background-color: rgba(255, 255, 255, 0.2);
-                }
-                
-                @keyframes shimmer {
-                    100% { transform: translateX(100%); }
+                    background-color: rgba(0, 0, 0, 0.2);
                 }
             `}} />
         </div>
