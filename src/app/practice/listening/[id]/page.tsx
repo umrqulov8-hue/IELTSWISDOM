@@ -1,6 +1,6 @@
 "use client";
 
-import { use, useState, useEffect, useRef, useCallback, memo, useMemo } from "react";
+import { use, useState, useEffect, useRef, useCallback, memo, useMemo, forwardRef } from "react";
 import { LISTENING_TESTS } from "@/data/listening-tests";
 import type { ListeningPart } from "@/types/listening";
 import { AlertCircle, CheckCircle2, ChevronLeft, Play, ChevronRight } from "lucide-react";
@@ -8,6 +8,22 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 import { useParams } from "next/navigation";
+
+// ─────────────────────────────────────────────
+// Static Content
+// ─────────────────────────────────────────────
+const StaticContent = memo(
+    forwardRef<HTMLDivElement, { content: string }>(({ content }, ref) => {
+        return (
+            <div
+                ref={ref}
+                className="prose prose-slate max-w-none text-slate-700 prose-p:my-1 prose-li:my-1"
+                dangerouslySetInnerHTML={{ __html: content }}
+            />
+        );
+    }),
+    (prev, next) => prev.content === next.content
+);
 
 // ─────────────────────────────────────────────
 // Part Section
@@ -42,10 +58,9 @@ const ListeningPartSection = memo(function ListeningPartSection({
             const input = el.querySelector(`#q-${q.id}`) as HTMLInputElement;
             if (!input) return;
 
-            // Only update value if it's different and NOT the current active element
-            // to prevent cursor jumping while typing
+            // Only set value on mount/part-change to let the DOM manage typing natively
             const newValue = answers[q.id.toString()] || "";
-            if (input.value !== newValue && document.activeElement !== input) {
+            if (input.value !== newValue) {
                 input.value = newValue;
             }
 
@@ -66,7 +81,8 @@ const ListeningPartSection = memo(function ListeningPartSection({
                 }
             }
         });
-    }, [isSubmitted, answers, part.questions]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isSubmitted, part.questions]);
 
     return (
         <div>
@@ -78,11 +94,7 @@ const ListeningPartSection = memo(function ListeningPartSection({
 
             {/* Glass content card */}
             <div className="glass-card rounded-2xl p-6 md:p-8 mb-6">
-                <div
-                    ref={contentRef}
-                    className="prose prose-slate max-w-none text-slate-700 prose-p:my-1 prose-li:my-1"
-                    dangerouslySetInnerHTML={{ __html: part.content }}
-                />
+                <StaticContent ref={contentRef} content={part.content} />
 
                 {/* Multiple choice */}
                 {part.questions.filter(q => q.type === "multiple-choice").length > 0 && (
