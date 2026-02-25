@@ -1,7 +1,10 @@
 "use client";
 
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
+import { createClient } from '@/utils/supabase/client';
+import { UserSettingsPanel } from '@/components/settings/UserSettingsPanel';
 import {
     LayoutDashboard,
     Trophy,
@@ -38,6 +41,26 @@ export function Sidebar() {
     const { user, signOut } = useAuthContext();
     const { lang } = useLanguage();
     const navItems = getNavItems(lang);
+
+    const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+    const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+    const supabase = createClient();
+
+    // Fetch avatar URL if exists for Sidebar
+    useEffect(() => {
+        async function loadProfile() {
+            if (!user) return;
+            const { data } = await supabase
+                .from('profiles')
+                .select('avatar_url')
+                .eq('id', user.id)
+                .single();
+            if (data?.avatar_url) {
+                setAvatarUrl(data.avatar_url);
+            }
+        }
+        loadProfile();
+    }, [user, supabase]);
 
     return (
         <aside className="fixed left-0 top-0 h-screen w-[90px] hover:w-72 bg-white/40 backdrop-blur-2xl border-r border-white/40 z-[110] hidden lg:flex flex-col shadow-[4px_0_24px_rgba(0,0,0,0.02)] transition-all duration-500 ease-in-out group overflow-hidden peer">
@@ -120,23 +143,29 @@ export function Sidebar() {
                 </Link>
             </div>
 
-            {/* User Profile Section */}
-            <div className="px-5 pb-8 pt-2 border-b border-white/20 flex-shrink-0">
-                <div className="flex items-center gap-4 mb-2 overflow-hidden">
+            {/* User Profile Section (Clickable for Settings) */}
+            <div className="px-5 pb-8 pt-2 border-b border-white/20 flex-shrink-0 relative">
+                <button
+                    onClick={() => setIsSettingsOpen(!isSettingsOpen)}
+                    className="flex w-full items-center gap-4 mb-2 overflow-hidden hover:bg-white/50 p-2 -ml-2 rounded-2xl transition-all duration-300 text-left cursor-pointer group/profilebtn"
+                >
                     <div className="w-12 h-12 flex-shrink-0 rounded-full ring-2 ring-white/50 shadow-lg p-[2px] bg-gradient-to-tr from-orange-400 to-blue-500 relative group/avatar">
                         <div className="w-full h-full rounded-full bg-slate-100 flex items-center justify-center overflow-hidden border-2 border-white">
-                            {/* Placeholder Avatar */}
-                            <User className="text-slate-400 w-6 h-6" />
+                            {avatarUrl ? (
+                                <img src={avatarUrl} alt="Avatar" className="w-full h-full object-cover" />
+                            ) : (
+                                <User className="text-slate-400 w-6 h-6 group-hover/profilebtn:text-blue-500 transition-colors" />
+                            )}
                         </div>
                     </div>
 
                     <div className="opacity-0 group-hover:opacity-100 max-w-0 group-hover:max-w-[150px] transition-all duration-500 ease-in-out whitespace-nowrap overflow-hidden flex flex-col justify-center">
-                        <h3 className="text-slate-800 font-bold text-lg truncate">
+                        <h3 className="text-slate-800 font-bold text-lg truncate group-hover/profilebtn:text-blue-600 transition-colors">
                             {user?.email?.split('@')[0] || "Student"}
                         </h3>
                         <p className="text-slate-500 text-xs font-medium bg-white/50 px-2 py-0.5 rounded-full w-fit mt-1 border border-white/40">Premium Member</p>
                     </div>
-                </div>
+                </button>
             </div>
 
             {/* Navigation */}
@@ -204,6 +233,12 @@ export function Sidebar() {
 
             {/* Hover Hint Overlay (Optional aesthetic touch) */}
             <div className="absolute inset-y-0 right-0 w-px bg-gradient-to-b from-transparent via-orange-400/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+            {/* Settings Panel Popover */}
+            <UserSettingsPanel
+                isOpen={isSettingsOpen}
+                onClose={() => setIsSettingsOpen(false)}
+            />
         </aside>
     );
 }
