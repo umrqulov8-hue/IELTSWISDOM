@@ -47,20 +47,39 @@ export async function POST(req: NextRequest) {
         // Use Qwen3-4B-Instruct-2507 chat model
         const model = sdk.model("Qwen/Qwen3-4B-Instruct-2507");
 
-        const { error, output } = await model.run([
-            {
-                role: "user",
-                content: `Translate this text from ${sourceName} to ${targetName}. Only output the translation: ${text}`
+        let error: any = null;
+        let output: any = null;
+        let retries = 5;
+        let backoff = 1000;
+
+        while (retries > 0) {
+            const res = await model.run([
+                {
+                    role: "user",
+                    content: `Translate this text from ${sourceName} to ${targetName}. Only output the translation: ${text}`
+                }
+            ]);
+
+            error = res.error;
+            output = res.output;
+
+            if (error && String(error).includes("Rate limited")) {
+                retries--;
+                if (retries === 0) break;
+                console.log(`Rate limited by Bytez, retrying in ${backoff}ms... (${retries} retries left)`);
+                await new Promise(resolve => setTimeout(resolve, backoff));
+                backoff *= 2; // Exponential backoff
+            } else {
+                break; // Success or non-rate-limit error
             }
-        ]);
+        }
 
         if (error) {
             console.error("Bytez Translation Error:", error);
-            // If it's a rate limit error, we could retry here, but the lock should prevent most cases
             return NextResponse.json({ error: "Translation failed: " + error }, { status: 500 });
         }
 
-        console.log("Bytez output:", { error, output });
+        console.log("Bytez output received.");
 
         // Parse response - Qwen model returns a chat message object or generated text
         let translatedText = "";

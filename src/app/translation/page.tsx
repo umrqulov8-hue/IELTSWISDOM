@@ -45,15 +45,21 @@ export default function TranslationPage() {
     };
 
     useEffect(() => {
+        let ignore = false;
+
         const performTranslation = async () => {
             if (!debouncedSourceText.trim()) {
-                setTranslatedText("");
-                setError(null);
+                if (!ignore) {
+                    setTranslatedText("");
+                    setError(null);
+                }
                 return;
             }
 
-            setIsTranslating(true);
-            setError(null);
+            if (!ignore) {
+                setIsTranslating(true);
+                setError(null);
+            }
 
             try {
                 const response = await fetch('/api/translate', {
@@ -69,16 +75,22 @@ export default function TranslationPage() {
                 const data = await response.json();
                 if (!response.ok) throw new Error(data.error || "Failed to translate");
 
-                setTranslatedText(data.translatedText);
+                if (!ignore) setTranslatedText(data.translatedText);
             } catch (err: any) {
-                console.error("Translation error:", err);
-                setError(err.message);
+                if (!ignore) {
+                    console.error("Translation error:", err);
+                    setError(err.message);
+                }
             } finally {
-                setIsTranslating(false);
+                if (!ignore) setIsTranslating(false);
             }
         };
 
         performTranslation();
+
+        return () => {
+            ignore = true;
+        };
     }, [debouncedSourceText, sourceLang, targetLang]);
 
     // Mock data
