@@ -7,25 +7,36 @@ const sdk = new Bytez(key);
 export async function POST(req: NextRequest) {
     try {
         const body = await req.json();
-        const { text } = body;
+        const { text, source = "en", target = "uz" } = body;
 
         if (!text) {
             return NextResponse.json({ error: "Missing required field: text" }, { status: 400 });
         }
 
-        // Use google-t5/t5-small for translation
-        const model = sdk.model("google-t5/t5-small");
+        // Choose the correct Helsinki-NLP model based on direction
+        let modelId = "Helsinki-NLP/opus-mt-en-mul"; // default: en -> multilingual
 
-        const { error, output } = await model.run(`translate English to Uzbek: ${text}`);
+        if (source === "en" && target === "uz") {
+            modelId = "Helsinki-NLP/opus-mt-en-mul";
+        } else if (source === "uz" && target === "en") {
+            modelId = "Helsinki-NLP/opus-mt-mul-en";
+        } else if (source === "en" && target === "ru") {
+            modelId = "Helsinki-NLP/opus-mt-en-ru";
+        } else if (source === "ru" && target === "en") {
+            modelId = "Helsinki-NLP/opus-mt-ru-en";
+        }
+
+        const model = sdk.model(modelId);
+        const { error, output } = await model.run(text);
 
         if (error) {
             console.error("Bytez Translation Error:", error);
             return NextResponse.json({ error: "Translation failed: " + error }, { status: 500 });
         }
 
-        console.log("Bytez output:", output);
+        console.log("Bytez output:", JSON.stringify(output));
 
-        // Parse various possible response shapes
+        // Parse various possible response shapes from Helsinki-NLP models
         let translatedText = "";
         if (Array.isArray(output) && output.length > 0) {
             if (typeof output[0] === "string") {

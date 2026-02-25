@@ -61,6 +61,8 @@ export default function TranslationPage() {
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         text: debouncedSourceText,
+                        source: sourceLang,
+                        target: targetLang,
                     })
                 });
 
