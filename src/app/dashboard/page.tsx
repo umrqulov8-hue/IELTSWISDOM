@@ -70,9 +70,10 @@ export default function DashboardPage() {
                 }}
             >
                 {/* Progress & Next Lesson - Vivid Cards */}
-                <section className="grid md:grid-cols-5 gap-6">
+                <motion.section layout className="grid md:grid-cols-5 gap-6 items-start">
                     {/* Current Progress - Detailed Stats */}
                     <motion.div
+                        layout
                         variants={{
                             hidden: { opacity: 0, y: 30, scale: 0.95 },
                             visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.6, ease: [0.34, 1.56, 0.64, 1] } }
@@ -258,6 +259,7 @@ export default function DashboardPage() {
 
                     {/* Next Lesson - Electric Blue Glass */}
                     <motion.div
+                        layout
                         variants={{
                             hidden: { opacity: 0, y: 30, scale: 0.95 },
                             visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.6, ease: [0.34, 1.56, 0.64, 1] } }
@@ -286,9 +288,10 @@ export default function DashboardPage() {
                             </Link>
                         </div>
                     </motion.div>
-                </section>
+                </motion.section>
 
                 <motion.section
+                    layout
                     variants={{
                         hidden: { opacity: 0, y: 20 },
                         visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } }
