@@ -138,8 +138,8 @@ export function DashboardHeader({ title, description, showGreeting, displayName 
                         className="relative"
                     >
                         <Search className={cn(
-                            "absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 transition-colors",
-                            isSearchFocused ? "text-[#007BFF]" : "text-slate-400"
+                            "absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 transition-colors duration-400 ease-in-out z-10",
+                            isSearchFocused ? "text-blue-500" : "text-slate-400"
                         )} />
                         <input
                             type="text"
@@ -148,22 +148,40 @@ export function DashboardHeader({ title, description, showGreeting, displayName 
                             onChange={(e) => setSearchQuery(e.target.value)}
                             onFocus={() => setIsSearchFocused(true)}
                             className={cn(
-                                "w-full bg-white/50 border backdrop-blur-md rounded-full py-2.5 pl-10 pr-4 text-sm focus:outline-none transition-all shadow-sm placeholder:text-slate-400",
+                                "relative w-full bg-white rounded-full py-2.5 pl-11 pr-4 text-sm focus:outline-none transition-all duration-400 ease-in-out shadow-[0_4px_20px_rgba(0,0,0,0.05)] placeholder:text-slate-400 overflow-hidden",
                                 isSearchFocused
-                                    ? "border-[#FF8C00] ring-4 ring-orange-500/10 shadow-lg bg-white/80"
-                                    : "border-white/60 hover:bg-white/80"
+                                    ? "ring-1 ring-blue-500/50 shadow-[0_0_15px_rgba(59,130,246,0.3)] bg-gradient-to-r from-white via-blue-50/10 to-white"
+                                    : "border border-transparent hover:shadow-[0_6px_25px_rgba(0,0,0,0.08)]"
                             )}
                         />
+                        {/* Liquid Glass Overlay Effect on Focus */}
+                        <AnimatePresence>
+                            {isSearchFocused && (
+                                <motion.div
+                                    initial={{ opacity: 0, scaleX: 0.9 }}
+                                    animate={{ opacity: 1, scaleX: 1 }}
+                                    exit={{ opacity: 0, scaleX: 0.9 }}
+                                    transition={{ duration: 0.4, ease: "easeInOut" }}
+                                    className="absolute inset-0 rounded-full pointer-events-none border border-transparent"
+                                    style={{
+                                        background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent)",
+                                        backgroundSize: "200% 100%",
+                                        animation: "shimmer 2s infinite linear"
+                                    }}
+                                />
+                            )}
+                        </AnimatePresence>
                     </motion.div>
 
                     {/* Search Dropdown */}
                     <AnimatePresence>
                         {isSearchFocused && searchQuery.length > 0 && (
                             <motion.div
-                                initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                                animate={{ opacity: 1, y: 0, scale: 1 }}
-                                exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                                className="absolute top-full mt-2 w-full bg-white/70 backdrop-blur-xl border border-white/50 rounded-2xl shadow-xl overflow-hidden"
+                                initial={{ opacity: 0, y: 15 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: 15 }}
+                                transition={{ duration: 0.4, ease: "easeInOut" }}
+                                className="absolute top-full mt-3 w-[120%] -left-[10%] bg-white/40 backdrop-blur-2xl border border-white/60 rounded-3xl shadow-[0_10px_40px_rgba(0,0,0,0.1)] overflow-hidden"
                             >
                                 <div className="p-2">
                                     {filteredResults.length > 0 ? (
@@ -200,29 +218,41 @@ export function DashboardHeader({ title, description, showGreeting, displayName 
 
                 {/* --- Notification Bell --- */}
                 <div ref={notificationRef} className="relative z-40">
-                    <button
+                    <motion.button
+                        whileHover={!showNotifications ? { scale: 1.05 } : {}}
+                        whileTap={{ scale: 0.95 }}
+                        transition={{ duration: 0.4, ease: "easeInOut" }}
                         onClick={() => setShowNotifications(!showNotifications)}
                         className={cn(
-                            "p-2.5 rounded-full bg-white/50 backdrop-blur-md border border-white/60 shadow-sm relative transition-all hover:scale-105 active:scale-95",
-                            showNotifications ? "bg-white/80 border-[#FF8C00] shadow-md" : "hover:bg-white/80"
+                            "p-3 rounded-full bg-white shadow-[0_4px_20px_rgba(0,0,0,0.05)] relative transition-all duration-400 ease-in-out border border-transparent",
+                            showNotifications ? "ring-2 ring-blue-500/20 shadow-md" : "hover:shadow-[0_6px_25px_rgba(0,0,0,0.08)]"
                         )}
                     >
-                        <Bell className={cn("w-5 h-5 transition-colors", showNotifications ? "text-[#FF8C00] fill-orange-500/20" : "text-slate-600")} />
+                        <motion.div
+                            animate={showNotifications || unreadCount === 0 ? {} : { rotate: [0, -15, 15, -15, 15, 0] }}
+                            transition={showNotifications || unreadCount === 0 ? {} : { repeat: Infinity, repeatDelay: 3, duration: 0.5 }}
+                        >
+                            <Bell className={cn("w-5 h-5 transition-colors duration-400 ease-in-out", showNotifications ? "text-blue-500" : "text-slate-600")} />
+                        </motion.div>
                         {unreadCount > 0 && (
-                            <span className="absolute top-0 right-0 w-3 h-3 bg-red-500 rounded-full border-2 border-[#F2F4F8] flex items-center justify-center">
-                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                            </span>
+                            <motion.span 
+                                initial={{ scale: 0 }}
+                                animate={{ scale: 1 }}
+                                className="absolute top-0 right-0 w-3.5 h-3.5 bg-red-500 rounded-full border-2 border-white flex items-center justify-center z-10"
+                            >
+                            </motion.span>
                         )}
-                    </button>
+                    </motion.button>
 
                     {/* Notification Dropdown */}
                     <AnimatePresence>
                         {showNotifications && (
                             <motion.div
-                                initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                                animate={{ opacity: 1, y: 0, scale: 1 }}
-                                exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                                className="absolute right-0 top-full mt-4 w-80 bg-white/70 backdrop-blur-2xl border border-white/50 rounded-3xl shadow-2xl overflow-hidden origin-top-right"
+                                initial={{ opacity: 0, scale: 0.9, y: 20, x: 20 }}
+                                animate={{ opacity: 1, scale: 1, y: 0, x: 0 }}
+                                exit={{ opacity: 0, scale: 0.9, y: 20, x: 20 }}
+                                transition={{ type: "spring", stiffness: 300, damping: 20, duration: 0.4 }}
+                                className="absolute right-0 top-[calc(100%+12px)] w-80 bg-white/50 backdrop-blur-2xl border border-white/60 rounded-3xl shadow-[0_10px_40px_rgba(0,0,0,0.1)] overflow-hidden origin-top-right"
                             >
                                 {/* Header */}
                                 <div className="p-4 border-b border-white/20 flex justify-between items-center bg-white/40">
