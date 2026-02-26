@@ -206,7 +206,7 @@ export function Sidebar() {
                                     }}
                                     whileHover={{ x: 5 }}
                                     className={cn(
-                                        "flex items-center gap-4 px-4 py-3.5 rounded-2xl transition-all duration-500 group/item relative whitespace-nowrap mb-2",
+                                        "flex items-center px-4 py-3.5 rounded-2xl transition-all duration-500 group/item relative whitespace-nowrap mb-2",
                                         isActive
                                             ? "text-white"
                                             : "text-slate-600 hover:bg-white/80 hover:text-slate-900"
@@ -225,31 +225,31 @@ export function Sidebar() {
                                     <motion.div
                                         whileHover={{ scale: 1.2, rotate: isActive ? 0 : 5 }}
                                         transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                                        className="relative flex-shrink-0"
                                     >
                                         <Icon className={cn(
-                                            "w-6 h-6 flex-shrink-0 transition-colors duration-300",
+                                            "w-6 h-6 transition-colors duration-300",
                                             isActive ? "text-white" : "text-slate-400 group-hover/item:text-[#FF8C00]"
                                         )} />
                                     </motion.div>
 
                                     <span className={cn(
-                                        "opacity-0 group-hover:opacity-100 max-w-0 group-hover:max-w-[160px] transition-all duration-[700ms] ease-[cubic-bezier(0.23,1,0.32,1)] font-semibold text-sm",
+                                        "block overflow-hidden opacity-0 group-hover:opacity-100 max-w-0 group-hover:max-w-[160px] ml-0 group-hover:ml-4 transition-all duration-[700ms] ease-[cubic-bezier(0.23,1,0.32,1)] font-semibold text-[15px]",
                                         isActive ? "text-white" : "text-slate-700"
                                     )}>
                                         {item.name}
                                     </span>
 
                                     {item.featured && (
-                                        <motion.span
-                                            initial={{ scale: 0, opacity: 0 }}
-                                            animate={{ scale: 1, opacity: 1 }}
+                                        <span
                                             className={cn(
-                                                "absolute right-3 text-[9px] font-black px-2 py-0.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300",
+                                                "absolute right-3 text-[9px] font-black px-2 py-0.5 rounded-full transition-all duration-[700ms] ease-[cubic-bezier(0.23,1,0.32,1)]",
+                                                "opacity-0 scale-50 group-hover:opacity-100 group-hover:scale-100",
                                                 isActive ? "bg-white/20 text-white" : "bg-[#FF8C00] text-white"
                                             )}
                                         >
                                             NEW
-                                        </motion.span>
+                                        </span>
                                     )}
 
                                     {/* Left Indicator bar */}
@@ -269,10 +269,10 @@ export function Sidebar() {
                     onClick={() => signOut()}
                     whileHover={{ scale: 1.02, x: 5 }}
                     whileTap={{ scale: 0.98 }}
-                    className="flex items-center gap-4 px-4 py-3.5 w-full text-slate-500 hover:text-red-600 hover:bg-red-50/50 rounded-2xl transition-all duration-400 mb-2 whitespace-nowrap group/logout"
+                    className="flex items-center px-4 py-3.5 w-full text-slate-500 hover:text-red-600 hover:bg-red-50/50 rounded-2xl transition-all duration-400 mb-2 whitespace-nowrap group/logout"
                 >
                     <LogOut className="w-5 h-5 flex-shrink-0 group-hover/logout:rotate-12 transition-transform" />
-                    <span className="font-semibold text-sm opacity-0 group-hover:opacity-100 max-w-0 group-hover:max-w-[150px] transition-all duration-[700ms]">
+                    <span className="block overflow-hidden ml-0 group-hover:ml-4 font-semibold text-[15px] opacity-0 group-hover:opacity-100 max-w-0 group-hover:max-w-[150px] transition-all duration-[700ms]">
                         {lang === 'en' ? 'Sign Out' : 'Chiqish'}
                     </span>
                 </motion.button>
