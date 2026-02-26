@@ -132,9 +132,29 @@ export function DashboardHeader({ title, description, showGreeting, displayName 
             <div className="flex items-center gap-4">
                 {/* --- Search Bar --- */}
                 <div ref={searchRef} className="relative hidden md:block group z-50">
+                    <div className="absolute inset-x-0 -top-full h-[200%] pointer-events-none opacity-20 blur-3xl overflow-hidden rounded-full">
+                        <motion.div
+                            animate={{
+                                x: [0, 100, -100, 0],
+                                y: [0, -50, 50, 0],
+                                scale: [1, 1.2, 0.8, 1]
+                            }}
+                            transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+                            className="absolute -left-1/4 top-1/4 w-1/2 h-1/2 bg-gradient-to-tr from-blue-400 to-indigo-500 rounded-full"
+                        />
+                        <motion.div
+                            animate={{
+                                x: [0, -100, 100, 0],
+                                y: [0, 50, -50, 0],
+                                scale: [1, 1.5, 0.7, 1]
+                            }}
+                            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                            className="absolute -right-1/4 bottom-1/4 w-1/2 h-1/2 bg-gradient-to-br from-orange-400 to-purple-500 rounded-full"
+                        />
+                    </div>
                     <motion.div
                         initial={false}
-                        animate={{ width: isSearchFocused ? 320 : 256 }}
+                        animate={{ width: isSearchFocused ? 380 : 280 }}
                         className="relative"
                     >
                         <Search className={cn(
@@ -148,25 +168,23 @@ export function DashboardHeader({ title, description, showGreeting, displayName 
                             onChange={(e) => setSearchQuery(e.target.value)}
                             onFocus={() => setIsSearchFocused(true)}
                             className={cn(
-                                "relative w-full bg-white rounded-full py-2.5 pl-11 pr-4 text-sm focus:outline-none transition-all duration-400 ease-in-out shadow-[0_4px_20px_rgba(0,0,0,0.05)] placeholder:text-slate-400 overflow-hidden",
+                                "relative w-full bg-white/10 backdrop-blur-2xl rounded-full py-3 pl-12 pr-4 text-sm focus:outline-none transition-all duration-500 ease-in-out shadow-[0_8px_32px_rgba(0,0,0,0.1)] placeholder:text-slate-400 overflow-hidden border-t border-l border-white/40 border-b border-r border-black/10",
                                 isSearchFocused
-                                    ? "ring-1 ring-blue-500/50 shadow-[0_0_15px_rgba(59,130,246,0.3)] bg-gradient-to-r from-white via-blue-50/10 to-white"
-                                    : "border border-transparent hover:shadow-[0_6px_25px_rgba(0,0,0,0.08)]"
+                                    ? "ring-1 ring-white/50 bg-white/20 shadow-[0_0_20px_rgba(255,255,255,0.2)]"
+                                    : "hover:bg-white/20 hover:shadow-[0_12px_40px_rgba(0,0,0,0.15)]"
                             )}
                         />
-                        {/* Liquid Glass Overlay Effect on Focus */}
+                        {/* Realistic Shimmer Refraction Effect */}
                         <AnimatePresence>
                             {isSearchFocused && (
                                 <motion.div
-                                    initial={{ opacity: 0, scaleX: 0.9 }}
-                                    animate={{ opacity: 1, scaleX: 1 }}
-                                    exit={{ opacity: 0, scaleX: 0.9 }}
-                                    transition={{ duration: 0.4, ease: "easeInOut" }}
-                                    className="absolute inset-0 rounded-full pointer-events-none border border-transparent"
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: [0, 0.5, 0] }}
+                                    transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                                    className="absolute inset-0 rounded-full pointer-events-none"
                                     style={{
-                                        background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent)",
-                                        backgroundSize: "200% 100%",
-                                        animation: "shimmer 2s infinite linear"
+                                        background: "linear-gradient(135deg, transparent, rgba(255,255,255,0.4), transparent)",
+                                        backgroundSize: "200% 200%",
                                     }}
                                 />
                             )}
@@ -177,11 +195,11 @@ export function DashboardHeader({ title, description, showGreeting, displayName 
                     <AnimatePresence>
                         {isSearchFocused && searchQuery.length > 0 && (
                             <motion.div
-                                initial={{ opacity: 0, y: 15 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: 15 }}
-                                transition={{ duration: 0.4, ease: "easeInOut" }}
-                                className="absolute top-full mt-3 w-[120%] -left-[10%] bg-white/40 backdrop-blur-2xl border border-white/60 rounded-3xl shadow-[0_10px_40px_rgba(0,0,0,0.1)] overflow-hidden"
+                                initial={{ opacity: 0, y: 30, filter: "blur(20px)" }}
+                                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                                exit={{ opacity: 0, y: 30, filter: "blur(20px)" }}
+                                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                                className="absolute top-full mt-4 w-[110%] -left-[5%] bg-white/20 backdrop-blur-3xl border-t border-l border-white/50 border-b border-r border-black/10 rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.2)] overflow-hidden"
                             >
                                 <div className="p-2">
                                     {filteredResults.length > 0 ? (
@@ -224,18 +242,18 @@ export function DashboardHeader({ title, description, showGreeting, displayName 
                         transition={{ duration: 0.4, ease: "easeInOut" }}
                         onClick={() => setShowNotifications(!showNotifications)}
                         className={cn(
-                            "p-3 rounded-full bg-white shadow-[0_4px_20px_rgba(0,0,0,0.05)] relative transition-all duration-400 ease-in-out border border-transparent",
-                            showNotifications ? "ring-2 ring-blue-500/20 shadow-md" : "hover:shadow-[0_6px_25px_rgba(0,0,0,0.08)]"
+                            "p-3 rounded-full bg-white/10 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.1)] relative transition-all duration-500 ease-in-out border-t border-l border-white/40 border-b border-r border-black/10",
+                            showNotifications ? "ring-1 ring-white/50 bg-white/20" : "hover:bg-white/20 hover:shadow-[0_12px_40px_rgba(0,0,0,0.15)]"
                         )}
                     >
                         <motion.div
-                            animate={showNotifications || unreadCount === 0 ? {} : { rotate: [0, -15, 15, -15, 15, 0] }}
-                            transition={showNotifications || unreadCount === 0 ? {} : { repeat: Infinity, repeatDelay: 3, duration: 0.5 }}
+                            animate={showNotifications || unreadCount === 0 ? {} : { rotate: [0, -20, 20, -20, 20, 0] }}
+                            transition={showNotifications || unreadCount === 0 ? {} : { repeat: Infinity, repeatDelay: 4, duration: 0.6 }}
                         >
-                            <Bell className={cn("w-5 h-5 transition-colors duration-400 ease-in-out", showNotifications ? "text-blue-500" : "text-slate-600")} />
+                            <Bell className={cn("w-5 h-5 transition-colors duration-500 ease-in-out", showNotifications ? "text-orange-400" : "text-slate-600")} />
                         </motion.div>
                         {unreadCount > 0 && (
-                            <motion.span 
+                            <motion.span
                                 initial={{ scale: 0 }}
                                 animate={{ scale: 1 }}
                                 className="absolute top-0 right-0 w-3.5 h-3.5 bg-red-500 rounded-full border-2 border-white flex items-center justify-center z-10"
@@ -248,11 +266,11 @@ export function DashboardHeader({ title, description, showGreeting, displayName 
                     <AnimatePresence>
                         {showNotifications && (
                             <motion.div
-                                initial={{ opacity: 0, scale: 0.9, y: 20, x: 20 }}
-                                animate={{ opacity: 1, scale: 1, y: 0, x: 0 }}
-                                exit={{ opacity: 0, scale: 0.9, y: 20, x: 20 }}
-                                transition={{ type: "spring", stiffness: 300, damping: 20, duration: 0.4 }}
-                                className="absolute right-0 top-[calc(100%+12px)] w-80 bg-white/50 backdrop-blur-2xl border border-white/60 rounded-3xl shadow-[0_10px_40px_rgba(0,0,0,0.1)] overflow-hidden origin-top-right"
+                                initial={{ opacity: 0, scale: 0.8, y: 40, x: 20, filter: "blur(20px)" }}
+                                animate={{ opacity: 1, scale: 1, y: 0, x: 0, filter: "blur(0px)" }}
+                                exit={{ opacity: 0, scale: 0.8, y: 40, x: 20, filter: "blur(20px)" }}
+                                transition={{ type: "spring", stiffness: 260, damping: 25 }}
+                                className="absolute right-0 top-[calc(100%+20px)] w-85 bg-white/20 backdrop-blur-3xl border-t border-l border-white/50 border-b border-r border-black/10 rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.2)] overflow-hidden origin-top-right"
                             >
                                 {/* Header */}
                                 <div className="p-4 border-b border-white/20 flex justify-between items-center bg-white/40">
