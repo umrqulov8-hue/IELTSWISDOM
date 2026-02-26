@@ -102,7 +102,10 @@ export default function SpeakingTestInterface() {
                 body: formData,
             });
 
-            if (!transcribeRes.ok) throw new Error("Transcription failed");
+            if (!transcribeRes.ok) {
+                const errData = await transcribeRes.json();
+                throw new Error(errData.details || errData.error || "Transcription failed");
+            }
             const { text } = await transcribeRes.json();
 
             // 2. Evaluate
@@ -112,16 +115,19 @@ export default function SpeakingTestInterface() {
                 body: JSON.stringify({ text }),
             });
 
-            if (!evaluateRes.ok) throw new Error("Evaluation failed");
+            if (!evaluateRes.ok) {
+                const errData = await evaluateRes.json();
+                throw new Error(errData.details || errData.error || "Evaluation failed");
+            }
             const data = await evaluateRes.json();
 
             setResults({
                 score: data.bandScore || "7.5",
                 feedback: data.feedback || "Good coherence and lexical resource. Try to use more complex structures."
             });
-        } catch (err) {
+        } catch (err: any) {
             console.error("Analysis error:", err);
-            setError("Failed to analyze your answer. Please try again.");
+            setError(err.message || "Failed to analyze your answer. Please try again.");
         } finally {
             setIsAnalyzing(false);
         }

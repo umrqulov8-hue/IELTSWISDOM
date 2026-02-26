@@ -29,8 +29,15 @@ export async function POST(request: NextRequest) {
         const { error, output } = await model.run(blob.url);
 
         if (error) {
-            console.error("Bytez Transcription Error:", error);
-            return NextResponse.json({ error: "Transcription failed" }, { status: 500 });
+            console.error("Bytez Transcription Error Details:", {
+                error,
+                blobUrl: blob.url
+            });
+            const errorMessage = typeof error === 'string' ? error : (error as any)?.message || JSON.stringify(error);
+            return NextResponse.json({
+                error: "Transcription failed",
+                details: errorMessage
+            }, { status: 500 });
         }
 
         // Output from Whisper is usually { text: "..." }

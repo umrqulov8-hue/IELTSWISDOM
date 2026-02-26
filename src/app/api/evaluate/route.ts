@@ -38,8 +38,15 @@ export async function POST(request: NextRequest) {
         ]);
 
         if (error) {
-            console.error("Bytez Evaluation Error:", error);
-            return NextResponse.json({ error: "Evaluation failed" }, { status: 500 });
+            console.error("Bytez Evaluation Error Details:", {
+                error,
+                promptPreview: prompt.substring(0, 100) + "..."
+            });
+            const errorMessage = typeof error === 'string' ? error : (error as any)?.message || JSON.stringify(error);
+            return NextResponse.json({
+                error: "Evaluation failed",
+                details: errorMessage
+            }, { status: 500 });
         }
 
         // Output from GPT models in Bytez usually contains the message in a specific structure
