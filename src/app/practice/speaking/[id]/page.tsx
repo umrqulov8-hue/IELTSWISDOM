@@ -66,9 +66,12 @@ export default function SpeakingTestInterface() {
             {/* Top Navigation Bar */}
             <header className="relative z-50 bg-white/40 backdrop-blur-md h-16 flex items-center justify-between px-6 border-b border-slate-200/50">
                 <Link href="/practice/speaking" className="flex items-center gap-3 group">
-                    <div className="bg-[#1A362D] w-10 h-10 rounded-[12px] flex flex-col items-center justify-center shadow-[0_4px_10px_rgba(26,54,45,0.2)] group-hover:scale-105 transition-transform relative overflow-hidden ring-1 ring-white/10">
-                        <Crown className="w-5 h-5 text-slate-200 fill-slate-200 absolute top-1.5" strokeWidth={1} />
-                        <span className="text-white font-serif font-bold text-[22px] leading-none mt-3.5 tracking-tighter">I</span>
+                    <div className="bg-[#143124] w-[42px] h-[42px] rounded-[14px] flex flex-col items-center justify-center shadow-sm group-hover:scale-105 transition-transform">
+                        <Crown className="w-[18px] h-[18px] text-[#e5edf5] fill-[#e5edf5] mb-[-3px] relative z-10" strokeWidth={1.5} strokeLinejoin="round" />
+                        <div className="relative flex flex-col items-center">
+                            <div className="w-[18px] h-[2px] bg-white absolute top-[2px] z-20" />
+                            <span className="text-white font-serif font-bold text-[20px] leading-none relative z-10">I</span>
+                        </div>
                     </div>
                 </Link>
 
