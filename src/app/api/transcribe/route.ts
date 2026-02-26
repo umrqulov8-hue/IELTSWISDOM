@@ -13,6 +13,7 @@ export async function POST(request: NextRequest) {
 
         const apiKey = process.env.BYTEZ_API_KEY;
         if (!apiKey) {
+            console.error("Available ENV keys:", Object.keys(process.env));
             return NextResponse.json({ error: "API key not configured" }, { status: 500 });
         }
 
