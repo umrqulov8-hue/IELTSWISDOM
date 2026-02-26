@@ -16,7 +16,21 @@ export default function DashboardPage() {
     const D = T.dashboard;
 
     // Show 0/defaults while data loads in background — no blocking spinner
-    const { progress_percentage, completed_lessons } = stats || { progress_percentage: 0, completed_lessons: 0 };
+    const {
+        progress_percentage,
+        completed_lessons,
+        reading_tests_completed,
+        reading_average_score,
+        estimated_level,
+    } = stats || {
+        progress_percentage: 0,
+        completed_lessons: 0,
+        reading_tests_completed: 0,
+        reading_average_score: 0,
+        estimated_level: "Beginner (A1/A2)",
+    };
+
+    const TOTAL_READING_TESTS = 8; // Total reading tests available
 
     return (
         <DashboardLayout showGreeting={true}>
@@ -36,7 +50,7 @@ export default function DashboardPage() {
             >
                 {/* Progress & Next Lesson - Vivid Cards */}
                 <section className="grid md:grid-cols-5 gap-6">
-                    {/* Current Progress - Orange Liquid */}
+                    {/* Current Progress - Detailed Stats */}
                     <motion.div
                         variants={{
                             hidden: { opacity: 0, y: 30, scale: 0.95 },
@@ -48,30 +62,57 @@ export default function DashboardPage() {
                         <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-white/20 blur-3xl rounded-full group-hover:scale-150 transition-transform duration-700" />
 
                         <div className="relative z-10">
-                            <h3 className="text-lg font-bold text-orange-100 mb-6">
+                            <h3 className="text-lg font-bold text-orange-100 mb-4">
                                 <BouncyText key={`prog-${lang}`} text={tx(D.progress, lang)} type="word" />
                             </h3>
 
-                            <div className="flex items-end gap-2 mb-3">
-                                <span className="text-6xl font-black">{progress_percentage}</span>
-                                <span className="text-xl text-orange-200 mb-2 font-bold">%</span>
+                            {/* Overall Score */}
+                            <div className="flex items-end gap-2 mb-1">
+                                <span className="text-5xl font-black">{progress_percentage}</span>
+                                <span className="text-xl text-orange-200 mb-1 font-bold">%</span>
+                            </div>
+                            <div className="w-full h-2.5 bg-black/10 rounded-full overflow-hidden mb-4 border border-white/10">
+                                <motion.div
+                                    initial={{ width: 0 }}
+                                    animate={{ width: `${progress_percentage}%` }}
+                                    transition={{ duration: 1.5, ease: "easeOut" }}
+                                    className="h-full bg-white rounded-full shadow-[0_0_8px_rgba(255,255,255,0.6)]"
+                                />
                             </div>
 
-                            <div className="w-full h-3 bg-black/10 rounded-full overflow-hidden mb-4 border border-white/10">
-                                <div className="h-full w-full rounded-full shadow-[0_0_10px_rgba(255,255,255,0.5)] relative overflow-hidden bg-transparent">
+                            {/* Level Badge */}
+                            <div className="flex items-center gap-2 mb-5">
+                                <span className="bg-white/20 backdrop-blur-sm text-white text-xs font-bold px-3 py-1 rounded-full border border-white/30">
+                                    🎓 {estimated_level}
+                                </span>
+                            </div>
+
+                            {/* Reading Section */}
+                            <div className="bg-black/10 rounded-2xl p-4 border border-white/10">
+                                <div className="flex justify-between items-center mb-2">
+                                    <span className="text-sm font-semibold text-orange-100">📖 Reading Tests</span>
+                                    <span className="text-sm font-bold text-white">{reading_tests_completed}/{TOTAL_READING_TESTS}</span>
+                                </div>
+                                <div className="w-full h-2 bg-black/20 rounded-full overflow-hidden mb-3">
                                     <motion.div
-                                        initial={{ scaleX: 0 }}
-                                        animate={{ scaleX: progress_percentage / 100 }}
-                                        transition={{ duration: 1.5, ease: "easeOut" }}
-                                        style={{ transformOrigin: "left" }}
-                                        className="absolute left-0 top-0 bottom-0 bg-white rounded-full w-full"
-                                    >
-                                        <div className="absolute inset-0 bg-white/30 animate-[shimmer_2s_infinite]" />
-                                    </motion.div>
+                                        initial={{ width: 0 }}
+                                        animate={{ width: `${(reading_tests_completed / TOTAL_READING_TESTS) * 100}%` }}
+                                        transition={{ duration: 1.2, ease: "easeOut", delay: 0.3 }}
+                                        className="h-full bg-white/80 rounded-full"
+                                    />
+                                </div>
+                                <div className="flex items-center justify-between text-xs text-orange-100">
+                                    <span>Average Accuracy</span>
+                                    <span className="font-bold text-white">{reading_average_score}%</span>
                                 </div>
                             </div>
-                            <p className="text-sm text-orange-100 font-medium">
-                                <BouncyText key={`msg-${lang}`} text={progress_percentage < 50 ? tx(D.keep, lang) : tx(D.excellent, lang)} type="word" />
+
+                            <p className="text-xs text-orange-200 font-medium mt-3">
+                                {progress_percentage === 0
+                                    ? "Complete a practice test to see your progress!"
+                                    : progress_percentage < 50
+                                        ? tx(D.keep, lang)
+                                        : tx(D.excellent, lang)}
                             </p>
                         </div>
                     </motion.div>
