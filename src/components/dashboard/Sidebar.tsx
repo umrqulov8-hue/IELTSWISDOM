@@ -221,14 +221,19 @@ export function Sidebar() {
                                         />
                                     )}
 
-                                    <div className="relative flex-shrink-0 flex items-center justify-center w-[22px] h-[22px]">
+                                    <motion.div
+                                        className="relative flex-shrink-0 flex items-center justify-center w-[22px] h-[22px]"
+                                        animate={isActive ? { y: [0, -1.5, 0] } : {}}
+                                        transition={isActive ? { duration: 3, repeat: Infinity, ease: "easeInOut" } : { type: "spring", stiffness: 400, damping: 10 }}
+                                        whileHover={!isActive ? { rotate: [0, -10, 8, -5, 0], scale: 1.15 } : { scale: 1.1 }}
+                                    >
                                         <Icon className={cn(
-                                            "w-[20px] h-[20px] transition-all duration-[400ms] ease-out",
+                                            "w-[20px] h-[20px] transition-colors duration-[400ms] ease-out",
                                             isActive
-                                                ? "text-white scale-110"
-                                                : "text-slate-400 group-hover/item:text-[#FF8C00] group-hover/item:scale-110"
+                                                ? "text-white"
+                                                : "text-slate-400 group-hover/item:text-[#FF8C00]"
                                         )} strokeWidth={isActive ? 2.5 : 2} />
-                                    </div>
+                                    </motion.div>
 
                                     <span className={cn(
                                         "block overflow-hidden opacity-0 group-hover:opacity-100 max-w-0 group-hover:max-w-[150px] transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] tracking-tight",
