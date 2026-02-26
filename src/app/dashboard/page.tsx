@@ -9,14 +9,11 @@ import { motion } from "framer-motion";
 import { useLanguage } from "@/context/LanguageContext";
 import { translations as T, tx } from "@/lib/translations";
 import { BouncyText } from "@/components/ui/BouncyText";
-import { useState } from "react";
-import { AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 export default function DashboardPage() {
     const { stats } = useDashboard();
     const { lang } = useLanguage();
-    const [showFullStats, setShowFullStats] = useState(false);
     const D = T.dashboard;
 
     // Show 0/defaults while data loads in background — no blocking spinner
@@ -113,136 +110,13 @@ export default function DashboardPage() {
                                     </span>
                                 </div>
 
-                                {/* Section-wise Stats Grid (Collapsible) */}
-                                <AnimatePresence>
-                                    {showFullStats && (
-                                        <motion.div
-                                            initial={{ height: 0, opacity: 0 }}
-                                            animate={{ height: "auto", opacity: 1 }}
-                                            exit={{ height: 0, opacity: 0 }}
-                                            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                                            className="overflow-hidden mt-4"
-                                        >
-                                            <motion.div
-                                                initial="hidden"
-                                                animate="visible"
-                                                variants={{
-                                                    visible: {
-                                                        transition: {
-                                                            staggerChildren: 0.08
-                                                        }
-                                                    }
-                                                }}
-                                                className="grid grid-cols-1 gap-3 pb-2"
-                                            >
-                                                {/* Reading */}
-                                                <motion.div
-                                                    variants={{
-                                                        hidden: { opacity: 0, y: 10, scale: 0.95 },
-                                                        visible: { opacity: 1, y: 0, scale: 1 }
-                                                    }}
-                                                    whileHover={{ scale: 1.02, backgroundColor: "rgba(0,0,0,0.15)" }}
-                                                    className="bg-black/10 rounded-xl p-3 border border-white/10 transition-colors cursor-default group/item"
-                                                >
-                                                    <div className="flex justify-between items-center mb-1.5">
-                                                        <div className="flex items-center gap-2">
-                                                            <BookOpen className="w-3.5 h-3.5 text-orange-100 group-hover/item:text-white transition-colors" />
-                                                            <span className="text-[13px] font-bold text-orange-100 group-hover/item:text-white">Reading</span>
-                                                        </div>
-                                                        <span className="text-xs font-black text-white">{reading_tests_completed}/{TOTAL_TESTS.reading}</span>
-                                                    </div>
-                                                    <div className="flex items-center justify-between text-[11px] text-orange-100/80">
-                                                        <span>Accuracy</span>
-                                                        <span className="font-bold text-white group-hover/item:scale-110 transition-transform">{reading_average_score}%</span>
-                                                    </div>
-                                                </motion.div>
-
-                                                {/* Listening */}
-                                                <motion.div
-                                                    variants={{
-                                                        hidden: { opacity: 0, y: 10, scale: 0.95 },
-                                                        visible: { opacity: 1, y: 0, scale: 1 }
-                                                    }}
-                                                    whileHover={{ scale: 1.02, backgroundColor: "rgba(0,0,0,0.15)" }}
-                                                    className="bg-black/10 rounded-xl p-3 border border-white/10 transition-colors cursor-default group/item"
-                                                >
-                                                    <div className="flex justify-between items-center mb-1.5">
-                                                        <div className="flex items-center gap-2">
-                                                            <Headphones className="w-3.5 h-3.5 text-orange-100 group-hover/item:text-white transition-colors" />
-                                                            <span className="text-[13px] font-bold text-orange-100 group-hover/item:text-white">Listening</span>
-                                                        </div>
-                                                        <span className="text-xs font-black text-white">{listening_tests_completed}/{TOTAL_TESTS.listening}</span>
-                                                    </div>
-                                                    <div className="flex items-center justify-between text-[11px] text-orange-100/80">
-                                                        <span>Accuracy</span>
-                                                        <span className="font-bold text-white group-hover/item:scale-110 transition-transform">{listening_average_score}%</span>
-                                                    </div>
-                                                </motion.div>
-
-                                                {/* Writing */}
-                                                <motion.div
-                                                    variants={{
-                                                        hidden: { opacity: 0, y: 10, scale: 0.95 },
-                                                        visible: { opacity: 1, y: 0, scale: 1 }
-                                                    }}
-                                                    whileHover={{ scale: 1.02, backgroundColor: "rgba(0,0,0,0.15)" }}
-                                                    className="bg-black/10 rounded-xl p-3 border border-white/10 transition-colors cursor-default group/item"
-                                                >
-                                                    <div className="flex justify-between items-center mb-1.5">
-                                                        <div className="flex items-center gap-2">
-                                                            <PenTool className="w-3.5 h-3.5 text-orange-100 group-hover/item:text-white transition-colors" />
-                                                            <span className="text-[13px] font-bold text-orange-100 group-hover/item:text-white">Writing</span>
-                                                        </div>
-                                                        <span className="text-xs font-black text-white">{writing_tests_completed}/{TOTAL_TESTS.writing}</span>
-                                                    </div>
-                                                    <div className="flex items-center justify-between text-[11px] text-orange-100/80">
-                                                        <span>Avg. Band</span>
-                                                        <span className="font-bold text-white group-hover/item:scale-110 transition-transform">{writing_average_score}</span>
-                                                    </div>
-                                                </motion.div>
-
-                                                {/* Vocabulary */}
-                                                <motion.div
-                                                    variants={{
-                                                        hidden: { opacity: 0, y: 10, scale: 0.95 },
-                                                        visible: { opacity: 1, y: 0, scale: 1 }
-                                                    }}
-                                                    whileHover={{ scale: 1.02, backgroundColor: "rgba(0,0,0,0.15)" }}
-                                                    className="bg-black/10 rounded-xl p-3 border border-white/10 transition-colors cursor-default group/item"
-                                                >
-                                                    <div className="flex justify-between items-center mb-1.5">
-                                                        <div className="flex items-center gap-2">
-                                                            <Brain className="w-3.5 h-3.5 text-orange-100 group-hover/item:text-white transition-colors" />
-                                                            <span className="text-[13px] font-bold text-orange-100 group-hover/item:text-white">Vocabulary</span>
-                                                        </div>
-                                                        <span className="text-xs font-black text-white">{vocab_tests_completed}/{TOTAL_TESTS.vocab}</span>
-                                                    </div>
-                                                    <div className="flex items-center justify-between text-[11px] text-orange-100/80">
-                                                        <span>Accuracy</span>
-                                                        <span className="font-bold text-white group-hover/item:scale-110 transition-transform">{vocab_average_score}%</span>
-                                                    </div>
-                                                </motion.div>
-                                            </motion.div>
-                                        </motion.div>
-                                    )}
-                                </AnimatePresence>
-
-                                <motion.button
-                                    whileHover={{ scale: 1.01 }}
-                                    whileTap={{ scale: 0.98 }}
-                                    onClick={() => setShowFullStats(!showFullStats)}
+                                <Link
+                                    href="/leaderboard"
                                     className="w-full mt-4 py-3 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-xl text-xs font-black text-orange-50 uppercase tracking-widest transition-all border border-white/10 flex items-center justify-center gap-2 group shadow-lg shadow-black/5"
                                 >
-                                    <motion.div
-                                        animate={{ rotate: showFullStats ? 180 : 0 }}
-                                        transition={{ type: "spring", stiffness: 200, damping: 15 }}
-                                    >
-                                        <Trophy className="w-3.5 h-3.5 transition-transform group-hover:scale-110" />
-                                    </motion.div>
-                                    {showFullStats
-                                        ? (lang === 'en' ? "Show Less" : "Kamroq ko'rish")
-                                        : (lang === 'en' ? "Full View" : "To'liq ko'rish")}
-                                </motion.button>
+                                    <Trophy className="w-3.5 h-3.5 transition-transform group-hover:scale-110" />
+                                    {lang === 'en' ? "Full View" : "To'liq ko'rish"}
+                                </Link>
 
                                 <p className="text-xs text-orange-200 font-medium mt-3">
                                     {progress_percentage === 0
