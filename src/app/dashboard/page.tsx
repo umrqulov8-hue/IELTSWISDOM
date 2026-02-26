@@ -69,11 +69,11 @@ export default function DashboardPage() {
                     }
                 }}
             >
-                {/* Progress & Next Lesson - Float Layout for wrapping */}
-                <motion.section layout className="block w-full mb-10 md:-mx-3 after:content-[''] after:table after:clear-both">
+                <motion.section layout transition={{ type: "spring", stiffness: 100, damping: 14, mass: 0.8 }} className="block w-full mb-10 md:-mx-3 after:content-[''] after:table after:clear-both">
                     {/* Current Progress - Detailed Stats */}
                     <motion.div
                         layout
+                        transition={{ layout: { type: "spring", stiffness: 100, damping: 14, mass: 0.8 } }}
                         className="float-left w-full md:w-1/2 md:px-3 mb-6"
                     >
                         <div className="w-full bg-gradient-to-br from-orange-400 to-amber-500 rounded-[2rem] p-8 text-white relative overflow-hidden group shadow-xl shadow-orange-500/20 hover:shadow-2xl hover:shadow-orange-500/30 transition-shadow duration-300">
@@ -258,6 +258,7 @@ export default function DashboardPage() {
                     {/* Next Lesson - Electric Blue Glass */}
                     <motion.div
                         layout
+                        transition={{ layout: { type: "spring", stiffness: 100, damping: 14, mass: 0.8 } }}
                         className="float-left w-full md:w-1/2 md:px-3 mb-6"
                     >
                         <div className="w-full bg-gradient-to-br from-blue-600 to-cyan-500 rounded-[2rem] p-8 text-white relative flex flex-col justify-between group shadow-xl shadow-blue-500/20 hover:shadow-2xl hover:shadow-blue-500/30 transition-shadow duration-300 overflow-hidden">
@@ -283,6 +284,12 @@ export default function DashboardPage() {
                                 </Link>
                             </div>
                         </div>
+                    </motion.div>
+
+                    <motion.div layout transition={{ layout: { type: "spring", stiffness: 100, damping: 14, mass: 0.8 } }} className="block w-full pt-4 mb-8 after:content-[''] after:table after:clear-both">
+                        <h3 className="text-center text-slate-400 text-xs font-bold uppercase tracking-[0.2em]">
+                            <BouncyText key={`pop-${lang}`} text={tx(D.popular, lang)} type="word" />
+                        </h3>
                     </motion.div>
 
                     <FeatureGrid />

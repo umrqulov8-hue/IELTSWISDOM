@@ -39,7 +39,10 @@ export function FeatureGrid() {
                         layout
                         initial={{ opacity: 0, y: 30, scale: 0.95 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
-                        transition={{ delay: index * 0.08, type: "spring", bounce: 0.5 }}
+                        transition={{
+                            default: { delay: index * 0.08, type: "spring", bounce: 0.5 },
+                            layout: { type: "spring", stiffness: 100, damping: 14, mass: 0.8, delay: index * 0.03 }
+                        }}
                         key={feature.key}
                         className="float-left w-1/2 md:w-1/4 px-2 md:px-3 mb-4 md:mb-6 h-[170px]"
                     >
