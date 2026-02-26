@@ -206,9 +206,9 @@ export function Sidebar() {
                                     }}
                                     whileHover={{ x: 5 }}
                                     className={cn(
-                                        "flex items-center gap-4 px-4 py-3.5 rounded-2xl transition-all duration-500 group/item relative overflow-hidden whitespace-nowrap mb-2",
+                                        "flex items-center gap-4 px-4 py-3.5 rounded-2xl transition-all duration-500 group/item relative whitespace-nowrap mb-2",
                                         isActive
-                                            ? "bg-[#FF8C00] text-white shadow-[0_12px_24px_-8px_rgba(255,140,0,0.4)]"
+                                            ? "text-white"
                                             : "text-slate-600 hover:bg-white/80 hover:text-slate-900"
                                     )}
                                 >
@@ -216,9 +216,9 @@ export function Sidebar() {
                                     {isActive && (
                                         <motion.div
                                             layoutId="active-indicator"
-                                            className="absolute inset-0 bg-[#FF8C00] -z-10"
+                                            className="absolute inset-0 bg-[#FF8C00] rounded-2xl shadow-[0_12px_24px_-8px_rgba(255,140,0,0.5)] -z-10"
                                             initial={false}
-                                            transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                                            transition={{ type: "spring", stiffness: 350, damping: 25 }}
                                         />
                                     )}
 
