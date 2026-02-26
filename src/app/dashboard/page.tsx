@@ -10,10 +10,14 @@ import { motion } from "framer-motion";
 import { useLanguage } from "@/context/LanguageContext";
 import { translations as T, tx } from "@/lib/translations";
 import { BouncyText } from "@/components/ui/BouncyText";
+import { useState } from "react";
+import { AnimatePresence } from "framer-motion";
+import { cn } from "@/lib/utils";
 
 export default function DashboardPage() {
     const { stats } = useDashboard();
     const { lang } = useLanguage();
+    const [showFullStats, setShowFullStats] = useState(false);
     const D = T.dashboard;
 
     // Show 0/defaults while data loads in background — no blocking spinner
@@ -105,68 +109,90 @@ export default function DashboardPage() {
                                 </span>
                             </div>
 
-                            {/* Section-wise Stats Grid */}
-                            <div className="grid grid-cols-1 gap-3 mt-4">
-                                {/* Reading */}
-                                <div className="bg-black/10 rounded-xl p-3 border border-white/10">
-                                    <div className="flex justify-between items-center mb-1.5">
-                                        <div className="flex items-center gap-2">
-                                            <BookOpen className="w-3.5 h-3.5 text-orange-100" />
-                                            <span className="text-[13px] font-bold text-orange-100">Reading</span>
-                                        </div>
-                                        <span className="text-xs font-black text-white">{reading_tests_completed}/{TOTAL_TESTS.reading}</span>
-                                    </div>
-                                    <div className="flex items-center justify-between text-[11px] text-orange-100/80">
-                                        <span>Accuracy</span>
-                                        <span className="font-bold text-white">{reading_average_score}%</span>
-                                    </div>
-                                </div>
+                            {/* Section-wise Stats Grid (Collapsible) */}
+                            <AnimatePresence>
+                                {showFullStats && (
+                                    <motion.div
+                                        initial={{ height: 0, opacity: 0 }}
+                                        animate={{ height: "auto", opacity: 1 }}
+                                        exit={{ height: 0, opacity: 0 }}
+                                        transition={{ duration: 0.3, ease: "easeInOut" }}
+                                        className="overflow-hidden mt-4"
+                                    >
+                                        <div className="grid grid-cols-1 gap-3">
+                                            {/* Reading */}
+                                            <div className="bg-black/10 rounded-xl p-3 border border-white/10">
+                                                <div className="flex justify-between items-center mb-1.5">
+                                                    <div className="flex items-center gap-2">
+                                                        <BookOpen className="w-3.5 h-3.5 text-orange-100" />
+                                                        <span className="text-[13px] font-bold text-orange-100">Reading</span>
+                                                    </div>
+                                                    <span className="text-xs font-black text-white">{reading_tests_completed}/{TOTAL_TESTS.reading}</span>
+                                                </div>
+                                                <div className="flex items-center justify-between text-[11px] text-orange-100/80">
+                                                    <span>Accuracy</span>
+                                                    <span className="font-bold text-white">{reading_average_score}%</span>
+                                                </div>
+                                            </div>
 
-                                {/* Listening */}
-                                <div className="bg-black/10 rounded-xl p-3 border border-white/10">
-                                    <div className="flex justify-between items-center mb-1.5">
-                                        <div className="flex items-center gap-2">
-                                            <Headphones className="w-3.5 h-3.5 text-orange-100" />
-                                            <span className="text-[13px] font-bold text-orange-100">Listening</span>
-                                        </div>
-                                        <span className="text-xs font-black text-white">{listening_tests_completed}/{TOTAL_TESTS.listening}</span>
-                                    </div>
-                                    <div className="flex items-center justify-between text-[11px] text-orange-100/80">
-                                        <span>Accuracy</span>
-                                        <span className="font-bold text-white">{listening_average_score}%</span>
-                                    </div>
-                                </div>
+                                            {/* Listening */}
+                                            <div className="bg-black/10 rounded-xl p-3 border border-white/10">
+                                                <div className="flex justify-between items-center mb-1.5">
+                                                    <div className="flex items-center gap-2">
+                                                        <Headphones className="w-3.5 h-3.5 text-orange-100" />
+                                                        <span className="text-[13px] font-bold text-orange-100">Listening</span>
+                                                    </div>
+                                                    <span className="text-xs font-black text-white">{listening_tests_completed}/{TOTAL_TESTS.listening}</span>
+                                                </div>
+                                                <div className="flex items-center justify-between text-[11px] text-orange-100/80">
+                                                    <span>Accuracy</span>
+                                                    <span className="font-bold text-white">{listening_average_score}%</span>
+                                                </div>
+                                            </div>
 
-                                {/* Writing */}
-                                <div className="bg-black/10 rounded-xl p-3 border border-white/10">
-                                    <div className="flex justify-between items-center mb-1.5">
-                                        <div className="flex items-center gap-2">
-                                            <PenTool className="w-3.5 h-3.5 text-orange-100" />
-                                            <span className="text-[13px] font-bold text-orange-100">Writing</span>
-                                        </div>
-                                        <span className="text-xs font-black text-white">{writing_tests_completed}/{TOTAL_TESTS.writing}</span>
-                                    </div>
-                                    <div className="flex items-center justify-between text-[11px] text-orange-100/80">
-                                        <span>Avg. Band</span>
-                                        <span className="font-bold text-white">{writing_average_score}</span>
-                                    </div>
-                                </div>
+                                            {/* Writing */}
+                                            <div className="bg-black/10 rounded-xl p-3 border border-white/10">
+                                                <div className="flex justify-between items-center mb-1.5">
+                                                    <div className="flex items-center gap-2">
+                                                        <PenTool className="w-3.5 h-3.5 text-orange-100" />
+                                                        <span className="text-[13px] font-bold text-orange-100">Writing</span>
+                                                    </div>
+                                                    <span className="text-xs font-black text-white">{writing_tests_completed}/{TOTAL_TESTS.writing}</span>
+                                                </div>
+                                                <div className="flex items-center justify-between text-[11px] text-orange-100/80">
+                                                    <span>Avg. Band</span>
+                                                    <span className="font-bold text-white">{writing_average_score}</span>
+                                                </div>
+                                            </div>
 
-                                {/* Vocabulary */}
-                                <div className="bg-black/10 rounded-xl p-3 border border-white/10">
-                                    <div className="flex justify-between items-center mb-1.5">
-                                        <div className="flex items-center gap-2">
-                                            <Brain className="w-3.5 h-3.5 text-orange-100" />
-                                            <span className="text-[13px] font-bold text-orange-100">Vocabulary</span>
+                                            {/* Vocabulary */}
+                                            <div className="bg-black/10 rounded-xl p-3 border border-white/10">
+                                                <div className="flex justify-between items-center mb-1.5">
+                                                    <div className="flex items-center gap-2">
+                                                        <Brain className="w-3.5 h-3.5 text-orange-100" />
+                                                        <span className="text-[13px] font-bold text-orange-100">Vocabulary</span>
+                                                    </div>
+                                                    <span className="text-xs font-black text-white">{vocab_tests_completed}/{TOTAL_TESTS.vocab}</span>
+                                                </div>
+                                                <div className="flex items-center justify-between text-[11px] text-orange-100/80">
+                                                    <span>Accuracy</span>
+                                                    <span className="font-bold text-white">{vocab_average_score}%</span>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <span className="text-xs font-black text-white">{vocab_tests_completed}/{TOTAL_TESTS.vocab}</span>
-                                    </div>
-                                    <div className="flex items-center justify-between text-[11px] text-orange-100/80">
-                                        <span>Accuracy</span>
-                                        <span className="font-bold text-white">{vocab_average_score}%</span>
-                                    </div>
-                                </div>
-                            </div>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+
+                            <button
+                                onClick={() => setShowFullStats(!showFullStats)}
+                                className="w-full mt-4 py-3 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-xl text-xs font-bold text-orange-100 transition-all border border-white/10 flex items-center justify-center gap-2 group"
+                            >
+                                <Trophy className={cn("w-3.5 h-3.5 transition-transform group-hover:scale-110", showFullStats && "rotate-180")} />
+                                {showFullStats
+                                    ? (lang === 'en' ? "Show Less" : "Kamroq ko'rish")
+                                    : (lang === 'en' ? "Full View" : "To'liq ko'rish")}
+                            </button>
 
                             <p className="text-xs text-orange-200 font-medium mt-3">
                                 {progress_percentage === 0
