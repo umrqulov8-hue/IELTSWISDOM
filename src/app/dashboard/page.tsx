@@ -2,8 +2,9 @@
 
 import { useDashboard } from "@/hooks/useDashboard";
 import { FeatureGrid } from "@/components/dashboard/FeatureGrid";
+import { Leaderboard } from "@/components/dashboard/Leaderboard";
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
-import { PlayCircle, ArrowRight, Loader2 } from "lucide-react";
+import { PlayCircle, ArrowRight, Loader2, BookOpen, Headphones, PenTool, Brain, Trophy } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { useLanguage } from "@/context/LanguageContext";
@@ -21,16 +22,33 @@ export default function DashboardPage() {
         completed_lessons,
         reading_tests_completed,
         reading_average_score,
+        listening_tests_completed,
+        listening_average_score,
+        writing_tests_completed,
+        writing_average_score,
+        vocab_tests_completed,
+        vocab_average_score,
         estimated_level,
     } = stats || {
         progress_percentage: 0,
         completed_lessons: 0,
         reading_tests_completed: 0,
         reading_average_score: 0,
+        listening_tests_completed: 0,
+        listening_average_score: 0,
+        writing_tests_completed: 0,
+        writing_average_score: 0,
+        vocab_tests_completed: 0,
+        vocab_average_score: 0,
         estimated_level: "Beginner (A1/A2)",
     };
 
-    const TOTAL_READING_TESTS = 8; // Total reading tests available
+    const TOTAL_TESTS = {
+        reading: 8,
+        listening: 15,
+        writing: 10,
+        vocab: 20
+    };
 
     return (
         <DashboardLayout showGreeting={true}>
@@ -87,23 +105,66 @@ export default function DashboardPage() {
                                 </span>
                             </div>
 
-                            {/* Reading Section */}
-                            <div className="bg-black/10 rounded-2xl p-4 border border-white/10">
-                                <div className="flex justify-between items-center mb-2">
-                                    <span className="text-sm font-semibold text-orange-100">📖 Reading Tests</span>
-                                    <span className="text-sm font-bold text-white">{reading_tests_completed}/{TOTAL_READING_TESTS}</span>
+                            {/* Section-wise Stats Grid */}
+                            <div className="grid grid-cols-1 gap-3 mt-4">
+                                {/* Reading */}
+                                <div className="bg-black/10 rounded-xl p-3 border border-white/10">
+                                    <div className="flex justify-between items-center mb-1.5">
+                                        <div className="flex items-center gap-2">
+                                            <BookOpen className="w-3.5 h-3.5 text-orange-100" />
+                                            <span className="text-[13px] font-bold text-orange-100">Reading</span>
+                                        </div>
+                                        <span className="text-xs font-black text-white">{reading_tests_completed}/{TOTAL_TESTS.reading}</span>
+                                    </div>
+                                    <div className="flex items-center justify-between text-[11px] text-orange-100/80">
+                                        <span>Accuracy</span>
+                                        <span className="font-bold text-white">{reading_average_score}%</span>
+                                    </div>
                                 </div>
-                                <div className="w-full h-2 bg-black/20 rounded-full overflow-hidden mb-3">
-                                    <motion.div
-                                        initial={{ width: 0 }}
-                                        animate={{ width: `${(reading_tests_completed / TOTAL_READING_TESTS) * 100}%` }}
-                                        transition={{ duration: 1.2, ease: "easeOut", delay: 0.3 }}
-                                        className="h-full bg-white/80 rounded-full"
-                                    />
+
+                                {/* Listening */}
+                                <div className="bg-black/10 rounded-xl p-3 border border-white/10">
+                                    <div className="flex justify-between items-center mb-1.5">
+                                        <div className="flex items-center gap-2">
+                                            <Headphones className="w-3.5 h-3.5 text-orange-100" />
+                                            <span className="text-[13px] font-bold text-orange-100">Listening</span>
+                                        </div>
+                                        <span className="text-xs font-black text-white">{listening_tests_completed}/{TOTAL_TESTS.listening}</span>
+                                    </div>
+                                    <div className="flex items-center justify-between text-[11px] text-orange-100/80">
+                                        <span>Accuracy</span>
+                                        <span className="font-bold text-white">{listening_average_score}%</span>
+                                    </div>
                                 </div>
-                                <div className="flex items-center justify-between text-xs text-orange-100">
-                                    <span>Average Accuracy</span>
-                                    <span className="font-bold text-white">{reading_average_score}%</span>
+
+                                {/* Writing */}
+                                <div className="bg-black/10 rounded-xl p-3 border border-white/10">
+                                    <div className="flex justify-between items-center mb-1.5">
+                                        <div className="flex items-center gap-2">
+                                            <PenTool className="w-3.5 h-3.5 text-orange-100" />
+                                            <span className="text-[13px] font-bold text-orange-100">Writing</span>
+                                        </div>
+                                        <span className="text-xs font-black text-white">{writing_tests_completed}/{TOTAL_TESTS.writing}</span>
+                                    </div>
+                                    <div className="flex items-center justify-between text-[11px] text-orange-100/80">
+                                        <span>Avg. Band</span>
+                                        <span className="font-bold text-white">{writing_average_score}</span>
+                                    </div>
+                                </div>
+
+                                {/* Vocabulary */}
+                                <div className="bg-black/10 rounded-xl p-3 border border-white/10">
+                                    <div className="flex justify-between items-center mb-1.5">
+                                        <div className="flex items-center gap-2">
+                                            <Brain className="w-3.5 h-3.5 text-orange-100" />
+                                            <span className="text-[13px] font-bold text-orange-100">Vocabulary</span>
+                                        </div>
+                                        <span className="text-xs font-black text-white">{vocab_tests_completed}/{TOTAL_TESTS.vocab}</span>
+                                    </div>
+                                    <div className="flex items-center justify-between text-[11px] text-orange-100/80">
+                                        <span>Accuracy</span>
+                                        <span className="font-bold text-white">{vocab_average_score}%</span>
+                                    </div>
                                 </div>
                             </div>
 
@@ -149,19 +210,17 @@ export default function DashboardPage() {
                     </motion.div>
                 </section>
 
-                {/* Feature Grid */}
-                <motion.section
-                    variants={{
-                        hidden: { opacity: 0, y: 20 },
-                        visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } }
-                    }}
-                    className="mt-10"
-                >
-                    <h3 className="text-center text-slate-400 text-xs font-bold uppercase tracking-[0.2em] mb-8">
-                        <BouncyText key={`pop-${lang}`} text={tx(D.popular, lang)} type="word" />
-                    </h3>
-                    <FeatureGrid />
-                </motion.section>
+                <div className="grid md:grid-cols-5 gap-6 mt-10">
+                    <div className="md:col-span-3">
+                        <h3 className="text-slate-400 text-xs font-bold uppercase tracking-[0.2em] mb-6">
+                            <BouncyText key={`pop-${lang}`} text={tx(D.popular, lang)} type="word" />
+                        </h3>
+                        <FeatureGrid />
+                    </div>
+                    <div className="md:col-span-2">
+                        <Leaderboard />
+                    </div>
+                </div>
             </motion.div>
         </DashboardLayout>
     );

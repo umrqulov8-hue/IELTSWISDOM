@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import confetti from 'canvas-confetti';
 import { getVocabularyForPassage, VocabItem } from "@/data/vocabulary";
+import { createClient } from "@/utils/supabase/client";
 
 // --- Dynamic Quiz Generator ---
 const generateQuizData = (passageId: string) => {
@@ -98,6 +99,27 @@ function QuizContent() {
             setIsAnswered(false);
         } else {
             setIsQuizComplete(true);
+
+            // Save result to Supabase
+            const saveResult = async () => {
+                const supabase = createClient();
+                const { data: { user } } = await supabase.auth.getUser();
+                if (user) {
+                    try {
+                        await supabase.from("test_results").insert({
+                            user_id: user.id,
+                            test_id: `vocab-${passageId}`,
+                            score: score,
+                            total_questions: questions.length
+                        });
+                    } catch (err) {
+                        console.error("Failed to save vocabulary quiz result", err);
+                    }
+                }
+            };
+
+            saveResult();
+
             if (score === questions.length) {
                 confetti({
                     particleCount: 150,

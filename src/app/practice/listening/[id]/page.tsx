@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
 import { useParams } from "next/navigation";
 import { BouncyText } from "@/components/ui/BouncyText";
+import { createClient } from "@/utils/supabase/client";
 
 // ─────────────────────────────────────────────
 // Static Content
@@ -204,7 +205,7 @@ export default function ListeningTestPage() {
         setAnswers(p => ({ ...p, [id]: value }));
     }, []);
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         if (!testData) return;
         let s = 0;
         testData.parts.forEach(part =>
@@ -218,6 +219,23 @@ export default function ListeningTestPage() {
         setScore(s);
         setIsSubmitted(true);
         window.scrollTo({ top: 0, behavior: "smooth" });
+
+        // Save result to Supabase
+        const supabase = createClient();
+        const { data: { user } } = await supabase.auth.getUser();
+
+        if (user) {
+            try {
+                await supabase.from("test_results").insert({
+                    user_id: user.id,
+                    test_id: testId,
+                    score: s,
+                    total_questions: totalQ
+                });
+            } catch (err) {
+                console.error("Failed to save test result", err);
+            }
+        }
     };
 
     if (!testData) {

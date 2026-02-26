@@ -10,6 +10,7 @@ import {
     ChevronUp, Star, TrendingUp, Lightbulb, RotateCcw
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { createClient } from "@/utils/supabase/client";
 
 // --- Types ---
 type TaskData = { title: string; prompt: string; type: "task-1" | "task-2"; minWords: number };
@@ -390,6 +391,28 @@ export default function WritingTestPage({ params }: { params: Promise<{ id: stri
         }
         setResults(allResults);
         setIsChecking(false);
+
+        // Save result to Supabase
+        const supabase = createClient();
+        const { data: { user } } = await supabase.auth.getUser();
+
+        if (user && allResults.length > 0) {
+            // Calculate a combined band score if multiple tasks
+            const averageBand = allResults.reduce((acc, curr) => acc + curr.overallBand, 0) / allResults.length;
+
+            try {
+                // "w" prefix to distinguish it as a writing test if test data doesn't have one naturally
+                const finalTestId = testId.startsWith("w-") || testId.startsWith("feb") ? testId : `w-${testId}`;
+                await supabase.from("test_results").insert({
+                    user_id: user.id,
+                    test_id: finalTestId,
+                    score: averageBand,
+                    total_questions: 9 // Using 9 total since band is out of 9
+                });
+            } catch (err) {
+                console.error("Failed to save writing test result", err);
+            }
+        }
     };
 
     return (
@@ -491,7 +514,7 @@ export default function WritingTestPage({ params }: { params: Promise<{ id: stri
                                 <div className="w-32 h-2 bg-slate-100 rounded-full overflow-hidden">
                                     <div
                                         className={cn("h-full transition-all duration-500", currentWordCount >= minWords ? "bg-emerald-500" : "bg-rose-500")}
-                                        style={{ width: `${progress}%` }}
+                                        style={{ width: `${progress}% ` }}
                                     />
                                 </div>
                             </div>

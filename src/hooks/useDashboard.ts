@@ -12,6 +12,12 @@ export interface StudentStats {
     current_streak: number;
     reading_tests_completed: number;
     reading_average_score: number;
+    listening_tests_completed: number;
+    listening_average_score: number;
+    writing_tests_completed: number;
+    writing_average_score: number; // This will actually be the average Band score 0-9
+    vocab_tests_completed: number;
+    vocab_average_score: number;
     estimated_level: string;
 }
 
@@ -61,31 +67,50 @@ export function useDashboard() {
                 ]);
 
                 // Calculate real stats from test_results
-                let reading_tests_completed = 0;
-                let reading_average_score = 0;
+                let reading_tests_completed = 0, reading_score_sum = 0, reading_q_sum = 0, reading_unique = new Set();
+                let listening_tests_completed = 0, listening_score_sum = 0, listening_q_sum = 0, listening_unique = new Set();
+                let writing_tests_completed = 0, writing_score_sum = 0, writing_unique = new Set();
+                let vocab_tests_completed = 0, vocab_score_sum = 0, vocab_q_sum = 0, vocab_unique = new Set();
+
                 let totalScorePercentage = 0;
                 let completedTestsCount = 0;
 
                 if (testResults.data && testResults.data.length > 0) {
-                    const uniqueReadingTests = new Set();
-                    let readingScoreSum = 0;
-                    let readingQuestionsSum = 0;
-
                     testResults.data.forEach((test) => {
-                        // Assuming reading test IDs usually start with 'fp-' or similar. 
-                        // If all current tests are reading, we can just classify all.
-                        // For now we assume all tests in db are reading until we add others.
-                        uniqueReadingTests.add(test.test_id);
-                        readingScoreSum += test.score;
-                        readingQuestionsSum += test.total_questions;
+                        const id = test.test_id.toLowerCase();
+                        const percentage = (test.score / test.total_questions) * 100;
+
+                        // Categorize
+                        if (id.startsWith('vocab-')) {
+                            vocab_unique.add(test.test_id);
+                            vocab_score_sum += test.score;
+                            vocab_q_sum += test.total_questions;
+                        }
+                        else if (id.startsWith('w-') || id.startsWith('feb')) {
+                            writing_unique.add(test.test_id);
+                            writing_score_sum += test.score; // Band score
+                        }
+                        else if (id.startsWith('t1-') || id.startsWith('t2-') || id.startsWith('tp3-') || id.startsWith('cambridge-') || id.startsWith('auth-')) {
+                            listening_unique.add(test.test_id);
+                            listening_score_sum += test.score;
+                            listening_q_sum += test.total_questions;
+                        }
+                        else {
+                            // Default to Reading (covers fp-, c17-, c18-, etc.)
+                            reading_unique.add(test.test_id);
+                            reading_score_sum += test.score;
+                            reading_q_sum += test.total_questions;
+                        }
 
                         // For overall
                         completedTestsCount++;
-                        totalScorePercentage += (test.score / test.total_questions) * 100;
+                        totalScorePercentage += percentage;
                     });
 
-                    reading_tests_completed = uniqueReadingTests.size;
-                    reading_average_score = readingQuestionsSum > 0 ? (readingScoreSum / readingQuestionsSum) * 100 : 0;
+                    reading_tests_completed = reading_unique.size;
+                    listening_tests_completed = listening_unique.size;
+                    writing_tests_completed = writing_unique.size;
+                    vocab_tests_completed = vocab_unique.size;
                 }
 
                 const avgScore = completedTestsCount > 0 ? totalScorePercentage / completedTestsCount : 0;
@@ -99,9 +124,15 @@ export function useDashboard() {
                         total_lessons: 100,
                         current_streak: 0,
                     }),
-                    progress_percentage: completedTestsCount > 0 ? Math.round(avgScore) : 0, // Use average score as overall progress % for now
+                    progress_percentage: completedTestsCount > 0 ? Math.round(avgScore) : 0,
                     reading_tests_completed,
-                    reading_average_score: Math.round(reading_average_score),
+                    reading_average_score: reading_q_sum > 0 ? Math.round((reading_score_sum / reading_q_sum) * 100) : 0,
+                    listening_tests_completed,
+                    listening_average_score: listening_q_sum > 0 ? Math.round((listening_score_sum / listening_q_sum) * 100) : 0,
+                    writing_tests_completed,
+                    writing_average_score: writing_tests_completed > 0 ? Number((writing_score_sum / writing_tests_completed).toFixed(1)) : 0,
+                    vocab_tests_completed,
+                    vocab_average_score: vocab_q_sum > 0 ? Math.round((vocab_score_sum / vocab_q_sum) * 100) : 0,
                     estimated_level
                 });
 
