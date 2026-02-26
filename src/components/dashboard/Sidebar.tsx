@@ -183,13 +183,13 @@ export function Sidebar() {
             </div>
 
             {/* Navigation */}
-            <nav className="flex-1 overflow-y-auto overflow-x-hidden py-8 px-4 space-y-2.5 custom-scrollbar">
+            <nav className="flex-1 overflow-y-auto overflow-x-hidden py-8 px-4 space-y-1 custom-scrollbar">
                 <motion.div
                     initial="hidden"
                     animate="visible"
                     variants={{
                         visible: {
-                            transition: { staggerChildren: 0.05 }
+                            transition: { staggerChildren: 0.04 }
                         }
                     }}
                 >
@@ -201,41 +201,38 @@ export function Sidebar() {
                             <Link key={item.name} href={item.href}>
                                 <motion.div
                                     variants={{
-                                        hidden: { opacity: 0, x: -10 },
-                                        visible: { opacity: 1, x: 0 }
+                                        hidden: { opacity: 0, y: 15 },
+                                        visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 450, damping: 30 } }
                                     }}
-                                    whileHover={{ x: 5 }}
                                     className={cn(
-                                        "flex items-center px-4 py-3.5 rounded-2xl transition-all duration-500 group/item relative whitespace-nowrap mb-2",
+                                        "flex items-center gap-3.5 px-3.5 py-3 rounded-[14px] transition-colors duration-[400ms] group/item relative whitespace-nowrap mb-1.5",
                                         isActive
                                             ? "text-white"
-                                            : "text-slate-600 hover:bg-white/80 hover:text-slate-900"
+                                            : "text-slate-500 hover:text-slate-800 hover:bg-slate-100/50"
                                     )}
                                 >
                                     {/* Active background indicator */}
                                     {isActive && (
                                         <motion.div
                                             layoutId="active-indicator"
-                                            className="absolute inset-0 bg-[#FF8C00] rounded-2xl shadow-[0_12px_24px_-8px_rgba(255,140,0,0.5)] -z-10"
+                                            className="absolute inset-0 bg-gradient-to-r from-[#FF8C00] to-[#F57C00] rounded-[14px] shadow-sm -z-10"
                                             initial={false}
-                                            transition={{ type: "spring", stiffness: 350, damping: 25 }}
+                                            transition={{ type: "spring", stiffness: 500, damping: 35, mass: 1 }}
                                         />
                                     )}
 
-                                    <motion.div
-                                        whileHover={{ scale: 1.2, rotate: isActive ? 0 : 5 }}
-                                        transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                                        className="relative flex-shrink-0"
-                                    >
+                                    <div className="relative flex-shrink-0 flex items-center justify-center w-[22px] h-[22px]">
                                         <Icon className={cn(
-                                            "w-6 h-6 transition-colors duration-300",
-                                            isActive ? "text-white" : "text-slate-400 group-hover/item:text-[#FF8C00]"
-                                        )} />
-                                    </motion.div>
+                                            "w-[20px] h-[20px] transition-all duration-[400ms] ease-out",
+                                            isActive
+                                                ? "text-white scale-110"
+                                                : "text-slate-400 group-hover/item:text-[#FF8C00] group-hover/item:scale-110"
+                                        )} strokeWidth={isActive ? 2.5 : 2} />
+                                    </div>
 
                                     <span className={cn(
-                                        "block overflow-hidden opacity-0 group-hover:opacity-100 max-w-0 group-hover:max-w-[160px] ml-0 group-hover:ml-4 transition-all duration-[700ms] ease-[cubic-bezier(0.23,1,0.32,1)] font-semibold text-[15px]",
-                                        isActive ? "text-white" : "text-slate-700"
+                                        "block overflow-hidden opacity-0 group-hover:opacity-100 max-w-0 group-hover:max-w-[150px] transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] tracking-tight",
+                                        isActive ? "text-white font-semibold text-[14px]" : "font-medium text-[14px]"
                                     )}>
                                         {item.name}
                                     </span>
@@ -243,18 +240,18 @@ export function Sidebar() {
                                     {item.featured && (
                                         <span
                                             className={cn(
-                                                "absolute right-3 text-[9px] font-black px-2 py-0.5 rounded-full transition-all duration-[700ms] ease-[cubic-bezier(0.23,1,0.32,1)]",
+                                                "absolute right-3 text-[9px] font-bold px-2 py-[2px] rounded-md transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] shadow-sm",
                                                 "opacity-0 scale-50 group-hover:opacity-100 group-hover:scale-100",
-                                                isActive ? "bg-white/20 text-white" : "bg-[#FF8C00] text-white"
+                                                isActive ? "bg-white/20 text-white" : "bg-gradient-to-r from-orange-400 to-amber-500 text-white"
                                             )}
                                         >
                                             NEW
                                         </span>
                                     )}
 
-                                    {/* Left Indicator bar */}
+                                    {/* Subtle active border indicator when collapsed */}
                                     {!isActive && (
-                                        <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-0 group-hover/item:h-1/2 bg-[#FF8C00] rounded-r-full transition-all duration-300 opacity-0 group-hover/item:opacity-100" />
+                                        <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-0 group-hover/item:h-[50%] bg-[#FF8C00]/40 rounded-r-full transition-all duration-300 opacity-0 group-hover/item:opacity-100" />
                                     )}
                                 </motion.div>
                             </Link>
@@ -264,21 +261,21 @@ export function Sidebar() {
             </nav>
 
             {/* Footer */}
-            <div className="p-4 border-t border-white/10 overflow-hidden flex-shrink-0">
-                <motion.button
+            <div className="p-4 border-t border-slate-100 overflow-hidden flex-shrink-0">
+                <button
                     onClick={() => signOut()}
-                    whileHover={{ scale: 1.02, x: 5 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="flex items-center px-4 py-3.5 w-full text-slate-500 hover:text-red-600 hover:bg-red-50/50 rounded-2xl transition-all duration-400 mb-2 whitespace-nowrap group/logout"
+                    className="flex items-center gap-3.5 px-3.5 py-3 w-full text-slate-500 hover:text-red-500 hover:bg-red-50/60 rounded-[14px] transition-all duration-[400ms] mb-2 whitespace-nowrap group/logout"
                 >
-                    <LogOut className="w-5 h-5 flex-shrink-0 group-hover/logout:rotate-12 transition-transform" />
-                    <span className="block overflow-hidden ml-0 group-hover:ml-4 font-semibold text-[15px] opacity-0 group-hover:opacity-100 max-w-0 group-hover:max-w-[150px] transition-all duration-[700ms]">
+                    <div className="relative flex-shrink-0 flex items-center justify-center w-[22px] h-[22px]">
+                        <LogOut className="w-[20px] h-[20px] transition-transform duration-300 ease-out group-hover/logout:-translate-x-0.5" strokeWidth={2} />
+                    </div>
+                    <span className="block overflow-hidden font-medium text-[14px] tracking-tight opacity-0 group-hover:opacity-100 max-w-0 group-hover:max-w-[150px] transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)]">
                         {lang === 'en' ? 'Sign Out' : 'Chiqish'}
                     </span>
-                </motion.button>
+                </button>
 
-                <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-700 delay-300 pl-4">
-                    <p className="text-[10px] text-slate-400 font-medium tracking-tight">
+                <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-700 delay-200 pl-4 py-1">
+                    <p className="text-[10px] text-slate-400/80 font-medium tracking-wide font-sans">
                         © 2025 IELTS Wisdom
                     </p>
                 </div>
