@@ -6,6 +6,7 @@ import { useLanguage } from "@/context/LanguageContext";
 import { SPEAKING_TESTS } from "@/data/speaking-tests";
 import { Menu, Clock, Mic, Upload, Send } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 export default function SpeakingTestInterface() {
@@ -65,9 +66,13 @@ export default function SpeakingTestInterface() {
             {/* Top Navigation Bar */}
             <header className="relative z-50 bg-white/40 backdrop-blur-md h-16 flex items-center justify-between px-6 border-b border-slate-200/50">
                 <Link href="/practice/speaking" className="flex items-center gap-3 group">
-                    <div className="bg-[#e63946] text-white font-bold w-9 h-9 rounded-[10px] flex items-center justify-center text-xl tracking-tighter hover:bg-[#d62839] transition-colors shadow-sm">
-                        E
-                    </div>
+                    <Image
+                        src="/owl-logo.png"
+                        alt="IELTS Wisdom"
+                        width={40}
+                        height={40}
+                        className="object-contain group-hover:scale-105 transition-transform drop-shadow-sm"
+                    />
                 </Link>
 
                 {/* Timer Pill */}
