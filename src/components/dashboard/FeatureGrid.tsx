@@ -23,7 +23,7 @@ const featureDefs = [
 export function FeatureGrid() {
     const { lang } = useLanguage();
     return (
-        <div className="block w-full -mx-2 md:-mx-3 mb-12 after:content-[''] after:table after:clear-both">
+        <>
             {featureDefs.map((feature, index) => {
                 const Icon = feature.icon;
                 let gradientClass = "from-blue-500 to-cyan-400";
@@ -41,7 +41,7 @@ export function FeatureGrid() {
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         transition={{ delay: index * 0.08, type: "spring", bounce: 0.5 }}
                         key={feature.key}
-                        className="float-left w-[calc(50%-1rem)] md:w-[calc(25%-1.5rem)] mx-2 md:mx-3 mb-4 md:mb-6 h-[170px]"
+                        className="float-left w-1/2 md:w-1/4 px-2 md:px-3 mb-4 md:mb-6 h-[170px]"
                     >
                         <Link href={feature.href} className="block h-full">
                             <div className="group relative bg-white/40 backdrop-blur-xl border border-white/60 p-6 rounded-3xl hover:bg-white/60 transition-all duration-300 cursor-pointer overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 h-full flex flex-col items-center justify-center">
@@ -59,6 +59,6 @@ export function FeatureGrid() {
                     </motion.div>
                 );
             })}
-        </div>
+        </>
     );
 }
