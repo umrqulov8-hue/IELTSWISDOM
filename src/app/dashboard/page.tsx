@@ -2,7 +2,6 @@
 
 import { useDashboard } from "@/hooks/useDashboard";
 import { FeatureGrid } from "@/components/dashboard/FeatureGrid";
-import { Leaderboard } from "@/components/dashboard/Leaderboard";
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { PlayCircle, ArrowRight, Loader2, BookOpen, Headphones, PenTool, Brain, Trophy } from "lucide-react";
 import Link from "next/link";
@@ -236,17 +235,18 @@ export default function DashboardPage() {
                     </motion.div>
                 </section>
 
-                <div className="grid md:grid-cols-5 gap-6 mt-10">
-                    <div className="md:col-span-3">
-                        <h3 className="text-slate-400 text-xs font-bold uppercase tracking-[0.2em] mb-6">
-                            <BouncyText key={`pop-${lang}`} text={tx(D.popular, lang)} type="word" />
-                        </h3>
-                        <FeatureGrid />
-                    </div>
-                    <div className="md:col-span-2">
-                        <Leaderboard />
-                    </div>
-                </div>
+                <motion.section
+                    variants={{
+                        hidden: { opacity: 0, y: 20 },
+                        visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } }
+                    }}
+                    className="mt-10"
+                >
+                    <h3 className="text-center text-slate-400 text-xs font-bold uppercase tracking-[0.2em] mb-8">
+                        <BouncyText key={`pop-${lang}`} text={tx(D.popular, lang)} type="word" />
+                    </h3>
+                    <FeatureGrid />
+                </motion.section>
             </motion.div>
         </DashboardLayout>
     );
