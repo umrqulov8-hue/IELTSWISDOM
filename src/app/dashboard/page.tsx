@@ -69,16 +69,12 @@ export default function DashboardPage() {
                     }
                 }}
             >
-                {/* Progress & Next Lesson - Vivid Cards */}
-                <motion.section layout className="grid md:grid-cols-5 gap-6 items-start">
+                {/* Progress & Next Lesson - Float Layout for wrapping */}
+                <motion.section layout className="block w-full mb-10 after:content-[''] after:table after:clear-both">
                     {/* Current Progress - Detailed Stats */}
                     <motion.div
                         layout
-                        variants={{
-                            hidden: { opacity: 0, y: 30, scale: 0.95 },
-                            visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.6, ease: [0.34, 1.56, 0.64, 1] } }
-                        }}
-                        className="md:col-span-2 bg-gradient-to-br from-orange-400 to-amber-500 rounded-[2rem] p-8 text-white relative overflow-hidden group shadow-xl shadow-orange-500/20 hover:shadow-2xl hover:shadow-orange-500/30 transition-shadow duration-300"
+                        className="float-left w-full md:w-[calc(50%-12px)] md:mr-6 mb-6 bg-gradient-to-br from-orange-400 to-amber-500 rounded-[2rem] p-8 text-white relative overflow-hidden group shadow-xl shadow-orange-500/20 hover:shadow-2xl hover:shadow-orange-500/30 transition-shadow duration-300"
                     >
                         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjAwIDIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZmlsdGVyIGlkPSJub2lzZUZpbHRlciI+PGZlVHVyYnVsZW5jZSB0eXBlPSJmcmFjdGFsTm9pc2UiIGJhc2VGcmVxdWVuY3k9IjAuNjUiIG51bU9jdGF2ZXM9IjMiIHN0aXRjaFRpbGVzPSJzdGl0Y2giLz48L2ZpbHRlcj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWx0ZXI9InVybCgjbm9pc2VGaWx0ZXIpIiBvcGFjaXR5PSIxIi8+PC9zdmc+')] opacity-20 mix-blend-overlay" />
                         <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-white/20 blur-3xl rounded-full group-hover:scale-150 transition-transform duration-700" />
@@ -260,11 +256,7 @@ export default function DashboardPage() {
                     {/* Next Lesson - Electric Blue Glass */}
                     <motion.div
                         layout
-                        variants={{
-                            hidden: { opacity: 0, y: 30, scale: 0.95 },
-                            visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.6, ease: [0.34, 1.56, 0.64, 1] } }
-                        }}
-                        className="md:col-span-3 bg-gradient-to-br from-blue-600 to-cyan-500 rounded-[2rem] p-8 text-white relative overflow-hidden flex flex-col justify-between group shadow-xl shadow-blue-500/20 hover:shadow-2xl hover:shadow-blue-500/30 transition-shadow duration-300"
+                        className="float-left w-full md:w-[calc(50%-12px)] mb-6 bg-gradient-to-br from-blue-600 to-cyan-500 rounded-[2rem] p-8 text-white relative flex flex-col justify-between group shadow-xl shadow-blue-500/20 hover:shadow-2xl hover:shadow-blue-500/30 transition-shadow duration-300 overflow-hidden"
                     >
                         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjAwIDIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZmlsdGVyIGlkPSJub2lzZUZpbHRlciI+PGZlVHVyYnVsZW5jZSB0eXBlPSJmcmFjdGFsTm9pc2UiIGJhc2VGcmVxdWVuY3k9IjAuNjUiIG51bU9jdGF2ZXM9IjMiIHN0aXRjaFRpbGVzPSJzdGl0Y2giLz48L2ZpbHRlcj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWx0ZXI9InVybCgjbm9pc2VGaWx0ZXIpIiBvcGFjaXR5PSIxIi8+PC9zdmc+')] opacity-20 mix-blend-overlay" />
                         <div className="absolute -top-20 -right-20 w-64 h-64 bg-white/10 blur-3xl rounded-full pointer-events-none" />
@@ -288,19 +280,12 @@ export default function DashboardPage() {
                             </Link>
                         </div>
                     </motion.div>
-                </motion.section>
+                    <motion.div layout className="block w-full pt-4 mb-8">
+                        <h3 className="text-center text-slate-400 text-xs font-bold uppercase tracking-[0.2em]">
+                            <BouncyText key={`pop-${lang}`} text={tx(D.popular, lang)} type="word" />
+                        </h3>
+                    </motion.div>
 
-                <motion.section
-                    layout
-                    variants={{
-                        hidden: { opacity: 0, y: 20 },
-                        visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } }
-                    }}
-                    className="mt-10"
-                >
-                    <h3 className="text-center text-slate-400 text-xs font-bold uppercase tracking-[0.2em] mb-8">
-                        <BouncyText key={`pop-${lang}`} text={tx(D.popular, lang)} type="word" />
-                    </h3>
                     <FeatureGrid />
                 </motion.section>
             </motion.div>
