@@ -273,13 +273,9 @@ export function Sidebar() {
                     whileTap={{ scale: 0.98 }}
                     className="flex items-center gap-3.5 px-3.5 py-3 w-full text-slate-500 hover:text-red-500 hover:bg-red-50/60 rounded-[14px] transition-all duration-[400ms] mb-2 whitespace-nowrap group/logout"
                 >
-                    <motion.div
-                        className="relative flex-shrink-0 flex items-center justify-center w-[22px] h-[22px]"
-                        whileHover={{ x: [0, 4, -2, 2, 0], rotate: [0, -10, 10, -5, 0] }}
-                        transition={{ duration: 0.5, ease: "easeInOut" }}
-                    >
-                        <LogOut className="w-[20px] h-[20px] transition-transform duration-300 ease-out" strokeWidth={2} />
-                    </motion.div>
+                    <div className="relative flex-shrink-0 flex items-center justify-center w-[22px] h-[22px] overflow-hidden">
+                        <LogOut className="w-[20px] h-[20px] transition-all duration-[400ms] ease-[cubic-bezier(0.23,1,0.32,1)] group-hover/logout:translate-x-1 group-hover/logout:scale-110" strokeWidth={2} />
+                    </div>
                     <span className="block overflow-hidden font-medium text-[14px] tracking-tight opacity-0 group-hover:opacity-100 max-w-0 group-hover:max-w-[150px] transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)]">
                         {lang === 'en' ? 'Sign Out' : 'Chiqish'}
                     </span>
