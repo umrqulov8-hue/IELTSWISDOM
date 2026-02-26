@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Mic, Zap, ChevronDown, ChevronUp, Book, Star, Clock, Globe } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
+import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
 import { BouncyText } from "@/components/ui/BouncyText";
 
@@ -136,29 +137,30 @@ export default function SpeakingPage() {
                     >
                         <AnimatePresence>
                             {visibleTests.map((test) => (
-                                <motion.button
-                                    layout
-                                    variants={{
-                                        hidden: { opacity: 0, y: 20, scale: 0.9 },
-                                        visible: { opacity: 1, y: 0, scale: 1, transition: { type: "spring", bounce: 0.45 } }
-                                    }}
-                                    exit={{ opacity: 0, scale: 0.9 }}
-                                    key={test.id}
-                                    className="bg-white hover:bg-orange-50/50 border border-slate-200 hover:border-orange-200 rounded-xl p-5 text-left transition-all group shadow-sm hover:shadow-md flex flex-col justify-between h-28"
-                                >
-                                    <div>
-                                        <h4 className="font-bold text-slate-700 group-hover:text-orange-600 transition-colors line-clamp-1">
-                                            {lang === 'uz' ? MONTH_UZ[test.month] : test.month} {S.testWord} {test.testNumber}
-                                        </h4>
-                                    </div>
+                                <Link href={`/practice/speaking/${test.id}`} key={test.id} className="block w-full h-full">
+                                    <motion.div
+                                        layout
+                                        variants={{
+                                            hidden: { opacity: 0, y: 20, scale: 0.9 },
+                                            visible: { opacity: 1, y: 0, scale: 1, transition: { type: "spring", bounce: 0.45 } }
+                                        }}
+                                        exit={{ opacity: 0, scale: 0.9 }}
+                                        className="bg-white hover:bg-orange-50/50 border border-slate-200 hover:border-orange-200 rounded-xl p-5 text-left transition-all group shadow-sm hover:shadow-md flex flex-col justify-between h-28 cursor-pointer w-full"
+                                    >
+                                        <div>
+                                            <h4 className="font-bold text-slate-700 group-hover:text-orange-600 transition-colors line-clamp-1">
+                                                {lang === 'uz' ? MONTH_UZ[test.month] : test.month} {S.testWord} {test.testNumber}
+                                            </h4>
+                                        </div>
 
-                                    <div className="flex items-center gap-2 mt-2">
-                                        <Zap className="w-4 h-4 text-orange-400 fill-orange-400" />
-                                        <span className="text-sm text-slate-500 font-medium">
-                                            {test.takenCount.toLocaleString()} {S.taken}
-                                        </span>
-                                    </div>
-                                </motion.button>
+                                        <div className="flex items-center gap-2 mt-2">
+                                            <Zap className="w-4 h-4 text-orange-400 fill-orange-400" />
+                                            <span className="text-sm text-slate-500 font-medium">
+                                                {test.takenCount.toLocaleString()} {S.taken}
+                                            </span>
+                                        </div>
+                                    </motion.div>
+                                </Link>
                             ))}
                         </AnimatePresence>
                     </motion.div>
