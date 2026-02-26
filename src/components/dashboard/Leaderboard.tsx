@@ -103,11 +103,6 @@ export function Leaderboard() {
                 )}
             </div>
 
-            <div className="mt-4 pt-4 border-t border-slate-50">
-                <button className="w-full text-[11px] font-bold text-slate-400 hover:text-orange-600 transition-colors uppercase tracking-widest flex items-center justify-center gap-2">
-                    View Complete Ranking
-                </button>
-            </div>
         </div>
     );
 }
