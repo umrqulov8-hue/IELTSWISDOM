@@ -57,102 +57,116 @@ export default function SpeakingTestInterface() {
     };
 
     return (
-        <div className="min-h-screen bg-[#f8f9fa] flex flex-col font-sans">
-            {/* Top Bar matching screenshot */}
-            <header className="bg-white border-t-4 border-[#e63946] border-b border-gray-200 h-14 flex items-center justify-between px-4 sticky top-0 z-50">
-                {/* Logo Placeholder (similar to E logo in picture) */}
-                <Link href="/practice/speaking" className="flex items-center gap-2">
-                    <div className="bg-[#e63946] text-white font-bold w-8 h-8 rounded flex items-center justify-center text-xl tracking-tighter shadow-sm">
+        <div className="flex flex-col min-h-screen font-sans text-slate-200 relative overflow-hidden bg-slate-950">
+            {/* Liquid Background Orbs */}
+            <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-purple-600/30 rounded-full mix-blend-screen filter blur-[120px] opacity-60 animate-blob" />
+            <div className="absolute top-[20%] right-[-10%] w-[400px] h-[400px] bg-blue-600/20 rounded-full mix-blend-screen filter blur-[120px] opacity-60 animate-blob animation-delay-2000" />
+            <div className="absolute bottom-[-20%] left-[20%] w-[600px] h-[600px] bg-indigo-600/20 rounded-full mix-blend-screen filter blur-[120px] opacity-60 animate-blob animation-delay-4000" />
+            <div className="absolute inset-0 bg-[url('/noise.png')] opacity-[0.03] mix-blend-overlay z-0" />
+
+            {/* Top Navigation Bar - Frosted Glass */}
+            <header className="relative z-50 bg-white/5 backdrop-blur-md border-b border-white/10 h-16 flex items-center justify-between px-6 sticky top-0 shadow-lg">
+                <Link href="/practice/speaking" className="flex items-center gap-3 group">
+                    <div className="bg-gradient-to-br from-[#e63946] to-rose-600 text-white font-bold w-9 h-9 rounded-xl flex items-center justify-center text-xl tracking-tighter shadow-[0_0_15px_rgba(230,57,70,0.5)] group-hover:scale-105 transition-transform duration-300">
                         E
                     </div>
                 </Link>
 
-                {/* Timer */}
-                <div className="flex items-center gap-2 font-bold text-black ml-auto mr-auto absolute left-1/2 -translate-x-1/2">
-                    <Clock className="w-5 h-5 fill-black text-white" />
-                    <span className="text-[15px]">{formatTime(timeLeft)}</span>
+                {/* Timer Glass Pill */}
+                <div className="flex items-center gap-2 font-bold text-white bg-white/10 backdrop-blur-md border border-white/10 px-4 py-1.5 rounded-full shadow-inner absolute left-1/2 -translate-x-1/2">
+                    <Clock className="w-4 h-4 text-rose-400" />
+                    <span className="text-[15px] tracking-wider font-mono">{formatTime(timeLeft)}</span>
                 </div>
 
-                {/* Menu Icon */}
-                <button className="text-gray-600 hover:text-black hover:bg-gray-100 p-2 rounded transition-colors">
-                    <Menu className="w-6 h-6" strokeWidth={2.5} />
+                <button className="text-slate-300 hover:text-white hover:bg-white/10 p-2 rounded-xl transition-all duration-300 backdrop-blur-sm">
+                    <Menu className="w-5 h-5" strokeWidth={2.5} />
                 </button>
             </header>
 
             {/* Main Content Area */}
-            <main className="flex-1 max-w-[1200px] w-full mx-auto p-4 md:p-8 flex flex-col pt-8">
+            <main className="flex-1 w-full max-w-5xl mx-auto p-4 md:p-8 flex flex-col pt-8 lg:pt-12 relative z-10">
 
-                {/* Part Header */}
-                <div className="border border-gray-200 rounded-md bg-white text-center py-4 mb-8 shadow-sm">
-                    <h2 className="font-bold text-gray-900 text-[15px] tracking-wide">{currentPart.title}</h2>
-                    <p className="text-gray-600 text-sm mt-1">{currentPart.instructions}</p>
+                {/* Part Header - Glass Card */}
+                <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-6 mb-10 shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-center relative overflow-hidden">
+                    <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent" />
+                    <h2 className="font-bold text-white text-lg md:text-xl tracking-wide mb-2">
+                        {currentPart.title}
+                    </h2>
+                    <p className="text-slate-400 text-sm md:text-base font-medium max-w-2xl mx-auto leading-relaxed">
+                        {currentPart.instructions}
+                    </p>
                 </div>
 
-                {/* Top Navigation Row */}
-                <div className="flex justify-between items-center mb-10 w-full relative h-[40px]">
+                {/* Navigation & Question Controls */}
+                <div className="flex justify-between items-center mb-8 w-full relative h-[40px]">
                     <button
                         onClick={handlePrev}
                         disabled={!hasPrevQuestion && currentPartIndex === 0}
                         className={cn(
-                            "bg-[#a0aab8] text-white font-bold text-[13px] py-1.5 px-3 flex items-center gap-1 rounded tracking-wide z-10",
-                            (!hasPrevQuestion && currentPartIndex === 0) ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-500 transition-colors shadow-sm"
+                            "bg-white/10 backdrop-blur-md border border-white/10 text-slate-200 font-bold text-[13px] py-2 px-4 flex items-center gap-2 rounded-xl tracking-wide z-10 transition-all duration-300",
+                            (!hasPrevQuestion && currentPartIndex === 0) ? "opacity-30 cursor-not-allowed" : "hover:bg-white/20 hover:shadow-[0_0_15px_rgba(255,255,255,0.1)] hover:-translate-x-1"
                         )}
                     >
-                        ← Previous Question
+                        ← <span className="hidden sm:inline">Previous</span>
                     </button>
 
                     <div className="absolute left-1/2 -translate-x-1/2 text-center w-full">
-                        <p className="text-gray-600 text-[15px] font-medium">Question {currentQuestion.id}:</p>
+                        <span className="inline-block bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 px-3 py-1 rounded-full text-[13px] font-bold tracking-widest uppercase shadow-[0_0_10px_rgba(99,102,241,0.2)]">
+                            Question {currentQuestion.id}
+                        </span>
                     </div>
 
                     <button
                         onClick={handleNext}
                         disabled={!hasNextQuestion && currentPartIndex === testData.parts.length - 1}
                         className={cn(
-                            "bg-[#212529] text-white font-bold text-[13px] py-1.5 px-3 flex items-center gap-1 rounded tracking-wide z-10",
-                            (!hasNextQuestion && currentPartIndex === testData.parts.length - 1) ? "opacity-50 cursor-not-allowed" : "hover:bg-black transition-colors shadow-sm"
+                            "bg-white/10 backdrop-blur-md border border-white/10 text-slate-200 font-bold text-[13px] py-2 px-4 flex items-center gap-2 rounded-xl tracking-wide z-10 transition-all duration-300",
+                            (!hasNextQuestion && currentPartIndex === testData.parts.length - 1) ? "opacity-30 cursor-not-allowed" : "hover:bg-white/20 hover:shadow-[0_0_15px_rgba(255,255,255,0.1)] hover:translate-x-1"
                         )}
                     >
-                        Next Question →
+                        <span className="hidden sm:inline">Next</span> →
                     </button>
                 </div>
 
-                {/* Question Text */}
-                <h1 className="text-[24px] font-bold text-center text-gray-900 mb-10 whitespace-pre-line max-w-4xl mx-auto leading-snug">
+                {/* Question Text displayed prominently */}
+                <h1 className="text-[26px] md:text-[32px] font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-white via-slate-200 to-slate-400 text-center mb-12 whitespace-pre-line max-w-4xl mx-auto leading-snug drop-shadow-lg">
                     {currentQuestion.text}
                 </h1>
 
-                {/* Recording Fieldset Area */}
-                <div className="relative mt-2">
-                    <fieldset className="border-[1px] border-gray-300 rounded-[5px] bg-[#f4f6f8] px-6 pb-8 pt-12 text-center shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] relative w-full"
-                        style={{ borderTopWidth: '1px' }}>
+                {/* Liquid Glass Recording Area */}
+                <div className="relative mt-2 w-full max-w-3xl mx-auto">
+                    <div className="bg-white/5 backdrop-blur-2xl border border-white/10 rounded-[2rem] p-8 md:p-12 text-center shadow-[0_20px_50px_rgba(0,0,0,0.5)] relative overflow-hidden group">
+                        {/* Glow effect inside card */}
+                        <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
 
-                        {/* Legend overlaid on border */}
-                        <div className="absolute left-4 top-0 -translate-y-1/2 bg-[#f8f9fa] px-2 text-[12px] text-gray-600">
-                            Question {currentQuestion.id} Answer
+                        <p className="text-slate-300 text-[16px] mb-8 font-medium tracking-wide relative z-10">
+                            Click the mic icon to start recording your answer
+                        </p>
+
+                        {/* Premium Liquid Mic Button */}
+                        <div className="relative w-[90px] h-[90px] mx-auto mb-10 z-10">
+                            <div className="absolute inset-0 bg-emerald-500 rounded-full blur-xl opacity-40 animate-pulse" />
+                            <button className="absolute inset-0 bg-gradient-to-br from-emerald-400 via-emerald-500 to-teal-600 rounded-full flex items-center justify-center shadow-[0_0_30px_rgba(16,185,129,0.4)] hover:shadow-[0_0_50px_rgba(16,185,129,0.6)] hover:scale-105 active:scale-95 transition-all duration-300 group/btn border border-white/20">
+                                <Mic className="w-[38px] h-[38px] text-white group-hover/btn:scale-110 transition-transform duration-300 drop-shadow-md" strokeWidth={2.5} />
+                            </button>
                         </div>
 
-                        <p className="text-gray-500 text-[15px] mb-6 font-medium">Click the mic icon to start recording...</p>
-
-                        {/* Mic Button */}
-                        <button className="w-[68px] h-[68px] bg-[#00a65a] rounded-full flex items-center justify-center mx-auto mb-6 hover:bg-[#008d4c] transition-colors shadow-md hover:shadow-lg active:scale-95 group">
-                            <Mic className="w-[34px] h-[34px] text-white group-hover:scale-110 transition-transform" strokeWidth={2.5} />
-                        </button>
-
                         {/* Upload Button */}
-                        <button className="bg-[#0073b7] text-white font-bold text-[13px] py-2 px-4 rounded flex items-center justify-center gap-1 mx-auto hover:bg-[#00639d] transition-colors shadow-sm">
-                            Or upload an audio file <Upload className="w-4 h-4 ml-0.5" strokeWidth={2.5} />
+                        <button className="relative z-10 bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300 hover:text-white font-semibold text-[14px] py-3 px-6 rounded-2xl flex items-center justify-center gap-2 mx-auto transition-all duration-300 backdrop-blur-md shadow-sm">
+                            Or upload an audio file <Upload className="w-4 h-4" strokeWidth={2.5} />
                         </button>
-                    </fieldset>
+                    </div>
 
                     {/* Speaking Time Indicator */}
-                    <p className="text-[11px] text-gray-600 mt-1 italic pl-1">Speaking Time: 0s</p>
+                    <p className="text-[12px] text-indigo-300 mt-4 text-center font-medium tracking-widest uppercase">
+                        Speaking Time: <span className="text-white">00:00</span>
+                    </p>
                 </div>
 
                 {/* Submit Controls */}
-                <div className="mt-10 flex justify-center">
-                    <button className="bg-[#008000] text-white font-bold text-sm py-2 px-5 rounded flex items-center gap-2 hover:bg-[#006600] transition-colors shadow-md">
-                        Submit Answer <Send className="w-4 h-4" />
+                <div className="mt-14 mb-8 flex justify-center relative z-10 w-full max-w-md mx-auto">
+                    <button className="w-full bg-gradient-to-r from-emerald-500 hover:from-emerald-400 to-teal-600 hover:to-teal-500 text-white font-bold text-[15px] py-4 px-8 rounded-2xl flex items-center justify-center gap-2 transition-all duration-300 shadow-[0_10px_30px_rgba(16,185,129,0.3)] hover:shadow-[0_15px_40px_rgba(16,185,129,0.5)] hover:-translate-y-1">
+                        Submit Final Answer <Send className="w-5 h-5" />
                     </button>
                 </div>
 
