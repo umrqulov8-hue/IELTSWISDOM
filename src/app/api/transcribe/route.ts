@@ -11,9 +11,18 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ error: "No file provided" }, { status: 400 });
         }
 
-        const apiKey = process.env.BYTEZ_API_KEY;
+        let apiKey = process.env.BYTEZ_API_KEY?.trim();
+
+        // DEBUG: If missing, log everything we see
         if (!apiKey) {
-            console.error("Available ENV keys:", Object.keys(process.env));
+            console.error("ENVIRONMENT LOADING FAILED!");
+            console.error("All visible keys:", Object.keys(process.env));
+            // Temporary hardcoded fallback to verify if the rest of the logic works
+            apiKey = "26b2c8283a455ed739dc60e7385663fc".trim();
+            console.log("Using hardcoded fallback key for verification.");
+        }
+
+        if (!apiKey) {
             return NextResponse.json({ error: "API key not configured" }, { status: 500 });
         }
 
@@ -27,7 +36,7 @@ export async function POST(request: NextRequest) {
         const sdk = new Bytez(apiKey);
         const model = sdk.model("hyojin99/whisper");
 
-        const { error, output } = await model.run(blob.url);
+        const { error, output } = await model.run(blob.url, { return_timestamps: true });
 
         if (error) {
             console.error("Bytez Transcription Error Details:", {
