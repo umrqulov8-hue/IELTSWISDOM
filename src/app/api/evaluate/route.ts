@@ -57,18 +57,34 @@ export async function POST(request: NextRequest) {
         Evaluate this transcript: "${text}"
 
         Provide a breakdown for each category (Band 9-4) and a final overall Band Score (averaging the 4 criteria and rounding to the nearest 0.5).
+        Furthermore, provide:
+        - accuracyPercentage: A number from 0 to 100 representing the grammatical and natural accuracy of the speech.
+        - polishedTranscript: A grammatically perfect, native-speaker rewrite of the student's answer.
+        - wordAnalysis: An array dividing the original transcript strictly word-by-word. For each word, provide the "word" itself, a "status" ("correct", "minor_error", "major_error"), a simulated accuracy "percentage", and an optional "tip" if there is an error.
+        - vocabulary: An object containing "complexity" ("A1 - Beginner" up to "C2 - Mastery") with a related "feedback" sentence, and "repetition" containing feedback on whether they repeated words.
         
-        Return the response in JSON format:
+        Return the response in JSON format. The JSON must exactly follow this schema:
         {
-            "bandScore": "value",
-            "feedback": "value",
-            "breakdown": {
-                "fluency": "score",
-                "lexical": "score",
-                "grammar": "score",
-                "pronunciation": "score"
+            "overallBand": 5.5,
+            "accuracyPercentage": 85,
+            "polishedTranscript": "native speaker version here",
+            "wordAnalysis": [
+                { "word": "Guys", "status": "correct", "percentage": 98 },
+                { "word": "only", "status": "minor_error", "percentage": 54, "tip": "Use 'just' instead" }
+            ],
+            "vocabulary": {
+                "complexity": { "level": "B2 - Upper Intermediate", "feedback": "Good vocabulary range" },
+                "repetition": { "feedback": "No noticeable repetition! Great job!" }
+            },
+            "criteria": {
+                "taskResponse": { "score": 6.0, "feedback": "Good response but slightly off-topic." },
+                "fluency": { "score": 6.5, "feedback": "..." },
+                "lexical": { "score": 5.5, "feedback": "..." },
+                "grammar": { "score": 6.0, "feedback": "..." },
+                "pronunciation": { "score": 6.0, "feedback": "..." }
             }
         }`;
+
 
         const { error, output } = await model.run([
             { role: "system", content: "You are an IELTS examiner. Always return JSON." },

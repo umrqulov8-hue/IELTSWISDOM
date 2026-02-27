@@ -25,7 +25,7 @@ export default function SpeakingTestInterface() {
     const [audioBlob, setAudioBlob] = useState<Blob | null>(null);
     const [audioUrl, setAudioUrl] = useState<string | null>(null);
     const [isAnalyzing, setIsAnalyzing] = useState(false);
-    const [results, setResults] = useState<{ score: string; feedback: string } | null>(null);
+    const [results, setResults] = useState<any>(null);
     const [error, setError] = useState<string | null>(null);
 
     const mediaRecorderRef = useRef<MediaRecorder | null>(null);
@@ -121,10 +121,7 @@ export default function SpeakingTestInterface() {
             }
             const data = await evaluateRes.json();
 
-            setResults({
-                score: data.bandScore || "7.5",
-                feedback: data.feedback || "Good coherence and lexical resource. Try to use more complex structures."
-            });
+            setResults(data);
         } catch (err: any) {
             console.error("Analysis error:", err);
             setError(err.message || "Failed to analyze your answer. Please try again.");
@@ -328,31 +325,172 @@ export default function SpeakingTestInterface() {
                     )}
 
                     {results && (
-                        <div className="relative z-10 animate-in fade-in slide-in-from-bottom-4 duration-500">
-                            <div className="flex items-center justify-center gap-3 mb-6">
-                                <div className="bg-emerald-100 p-2 rounded-full">
-                                    <CheckCircle className="w-6 h-6 text-emerald-600" />
+                        <div className="relative z-10 animate-in fade-in slide-in-from-bottom-4 duration-500 w-full max-w-4xl mx-auto text-left">
+
+                            {/* Top Accuracy Section */}
+                            <div className="flex flex-col items-center justify-center mb-10 border-b border-slate-100 pb-10">
+                                <div className="relative w-24 h-24 mb-3">
+                                    <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+                                        <circle cx="50" cy="50" r="45" fill="none" stroke="#f1f5f9" strokeWidth="8" />
+                                        <circle
+                                            cx="50" cy="50" r="45" fill="none" stroke="#d97706" strokeWidth="8"
+                                            strokeDasharray="282.7"
+                                            strokeDashoffset={282.7 - (282.7 * (results.accuracyPercentage || 0)) / 100}
+                                            className="transition-all duration-1000 ease-out"
+                                        />
+                                    </svg>
+                                    <div className="absolute inset-0 flex items-center justify-center">
+                                        <span className="text-xl font-bold text-slate-800">{results.accuracyPercentage || 0}%</span>
+                                    </div>
                                 </div>
-                                <h3 className="text-2xl font-black text-slate-900 tracking-tight">AI Evaluation</h3>
+                                <span className="text-sm font-bold text-slate-700 tracking-wide">Accuracy</span>
                             </div>
 
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-                                <div className="bg-blue-50 border border-blue-100 rounded-3xl p-6 flex flex-col items-center justify-center">
-                                    <span className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-600 mb-1">Band Score</span>
-                                    <span className="text-4xl font-black text-blue-700">{results.score}</span>
+                            {/* Transcripts Section */}
+                            <div className="mb-10">
+                                <p className="text-sm font-medium text-slate-600 mb-2">Polished transcript:</p>
+                                <div className="flex gap-2 mb-3">
+                                    <button className="flex items-center gap-1.5 px-3 py-1 bg-white border border-slate-200 rounded-md text-sm shadow-sm hover:bg-slate-50 transition-colors">
+                                        <Play className="w-3.5 h-3.5" /> Male
+                                    </button>
+                                    <button className="flex items-center gap-1.5 px-3 py-1 bg-white border border-slate-200 rounded-md text-sm shadow-sm hover:bg-slate-50 transition-colors">
+                                        <Play className="w-3.5 h-3.5" /> Female
+                                    </button>
                                 </div>
-                                <div className="col-span-2 bg-white/80 border border-slate-100 rounded-3xl p-6 text-left">
-                                    <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-3 block">Feedback</span>
-                                    <p className="text-slate-700 text-sm leading-relaxed font-medium">{results.feedback}</p>
+                                <p className="text-slate-800 text-[15px] leading-relaxed mb-8">
+                                    {results.polishedTranscript}
+                                </p>
+
+                                <p className="text-sm font-medium text-slate-600 mb-3 border-b border-slate-200 inline-block pb-0.5">
+                                    Actual audio transcript (What native speakers are likely to hear):
+                                </p>
+                                <div className="flex flex-wrap gap-x-1.5 gap-y-3 mt-4 mb-4">
+                                    {results.wordAnalysis?.map((item: any, idx: number) => {
+                                        let colorClass = "text-emerald-600";
+                                        let percentColor = "text-emerald-500";
+                                        if (item.status === "minor_error") {
+                                            colorClass = "text-amber-500";
+                                            percentColor = "text-amber-400";
+                                        } else if (item.status === "major_error") {
+                                            colorClass = "text-rose-600 font-bold";
+                                            percentColor = "text-rose-400";
+                                        }
+
+                                        return (
+                                            <div key={idx} className="flex flex-col items-center group relative cursor-pointer">
+                                                <span className={cn("text-[10px] font-bold mb-0.5", percentColor)}>
+                                                    {item.percentage}%
+                                                </span>
+                                                <span className={cn("text-[15px] font-bold", colorClass)}>
+                                                    {item.word}
+                                                </span>
+                                                {item.tip && (
+                                                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max max-w-[150px] bg-slate-800 text-white text-[11px] p-2 rounded shadow-xl opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-20 text-center">
+                                                        {item.tip}
+                                                        <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-slate-800" />
+                                                    </div>
+                                                )}
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                                <p className="text-xs text-slate-400 italic text-center w-full mt-6">Tips: Click on each word to see feedback.</p>
+                            </div>
+
+                            {/* Score Card Container */}
+                            <div className="border border-slate-200 rounded-xl overflow-hidden bg-white shadow-sm mb-10">
+                                {/* Overall Band Hero */}
+                                <div className="py-10 flex flex-col items-center border-b border-slate-100">
+                                    <h3 className="text-slate-700 font-bold mb-2">Overall Band Score</h3>
+                                    <div className="flex flex-col items-center bg-white px-8 rounded-2xl relative">
+                                        <div className="text-[64px] font-black text-[#8b0000] leading-none mb-1">
+                                            {results.overallBand?.toFixed(1) || results.bandScore}
+                                        </div>
+                                        <div className="text-sm font-medium text-slate-500">(+/- 0.5)</div>
+                                    </div>
+                                    <button className="mt-6 bg-[#004b87] text-white px-6 py-2 rounded-md font-medium text-sm hover:bg-[#003666] transition-colors flex items-center gap-2">
+                                        Export Result to Word <Upload className="w-4 h-4" />
+                                    </button>
+                                </div>
+
+                                {/* Vocabulary Bars */}
+                                <div className="p-4 flex flex-col gap-3 border-b border-slate-100 bg-slate-50">
+                                    <div className="bg-[#fef08a] rounded-lg p-4 text-center border border-[#fde047]">
+                                        <p className="text-[13px] font-bold text-slate-800 mb-0.5">Vocabulary Complexity:</p>
+                                        <p className="text-[15px] font-black text-slate-900 mb-1">{results.vocabulary?.complexity?.level || "Evaluating..."}</p>
+                                        <p className="text-[12px] font-medium text-slate-700">{results.vocabulary?.complexity?.feedback || ""}</p>
+                                    </div>
+                                    <div className="bg-[#e0e7ff] rounded-lg p-4 text-center border border-[#c7d2fe]">
+                                        <p className="text-[13px] font-bold text-slate-800 mb-0.5">Vocabulary Repetition:</p>
+                                        <p className="text-[14px] font-bold text-slate-900">{results.vocabulary?.repetition?.feedback || "Evaluating..."}</p>
+                                    </div>
+                                </div>
+
+                                {/* Criteria Details */}
+                                <div className="p-4 md:p-6 flex flex-col gap-4 bg-white divide-y divide-dotted divide-slate-300">
+                                    {results.criteria && Object.entries(results.criteria).map(([key, item]: [string, any]) => {
+                                        let title = "Criterion";
+                                        if (key === "taskResponse") title = "Task Response";
+                                        if (key === "fluency") title = "Fluency & Coherence";
+                                        if (key === "lexical") title = "Lexical Resource";
+                                        if (key === "grammar") title = "Grammatical Range & Accuracy";
+                                        if (key === "pronunciation") title = "Pronunciation";
+
+                                        // Fallback if the AI uses the old structure
+                                        const score = item.score || item.band;
+                                        const feedback = item.feedback || "Feedback not provided.";
+
+                                        return (
+                                            <div key={key} className="flex flex-col items-center text-center pt-6 pb-2 first:pt-2">
+                                                <h4 className="text-[16px] font-bold text-slate-700 tracking-wide">{title}</h4>
+                                                <div className="text-[28px] font-black text-[#8b0000] mb-2">{score?.toFixed(1) || "-.*"}</div>
+                                                <p className="text-slate-600 text-[13px] leading-relaxed max-w-3xl font-medium">{feedback}</p>
+                                            </div>
+                                        );
+                                    })}
+
+                                    {(!results.criteria && results.breakdown) && Object.entries(results.breakdown).map(([key, score]: [string, any]) => (
+                                        <div key={key} className="flex flex-col items-center text-center pt-6 pb-2 first:pt-2">
+                                            <h4 className="text-[16px] font-bold text-slate-700 tracking-wide capitalize">{key}</h4>
+                                            <div className="text-[28px] font-black text-[#8b0000] mb-2">{Number(score).toFixed(1) || score}</div>
+                                            <p className="text-slate-600 text-[13px] leading-relaxed max-w-3xl font-medium">{results.feedback}</p>
+                                        </div>
+                                    ))}
+
                                 </div>
                             </div>
 
-                            <button
-                                onClick={resetRecording}
-                                className="bg-slate-900 text-white font-bold py-3.5 px-10 rounded-2xl hover:bg-slate-800 transition-all shadow-xl shadow-slate-900/10"
-                            >
-                                Try Again
-                            </button>
+                            {/* Audio Player and Answer Playback */}
+                            <div className="border border-slate-200 bg-white shadow-sm rounded-xl overflow-hidden mb-8 w-full">
+                                <div className="px-4 py-2 border-b border-slate-100 bg-slate-50 flex items-center">
+                                    <span className="text-xs font-bold text-slate-500 uppercase tracking-widest bg-white px-2 py-1 rounded border border-slate-200 -mt-5 ml-4">Question 1 Answer</span>
+                                </div>
+                                <div className="p-6 md:p-10 text-center flex flex-col items-center">
+                                    <p className="text-[15px] font-medium text-slate-800 mb-10 max-w-3xl leading-relaxed">
+                                        {results.polishedTranscript || "Your answer was recorded successfully."}
+                                    </p>
+
+                                    <div className="bg-slate-50 border border-slate-200 rounded-full px-6 py-3 flex items-center justify-center min-w-[300px] gap-4 mb-4 relative">
+                                        {audioUrl && <audio src={audioUrl} controls className="h-10 outline-none max-w-[250px]" />}
+                                        <button onClick={resetRecording} className="absolute -right-3 -top-3 bg-white text-rose-500 border border-slate-200 rounded-full p-1.5 shadow-sm hover:scale-110 transition-transform">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
+                                        </button>
+                                    </div>
+                                    <div className="w-full text-left -mt-2 mb-8">
+                                        <span className="text-[11px] font-bold italic text-slate-500">Speaking Time: {formatTime(timeLeft)}</span>
+                                    </div>
+
+                                    <div className="flex gap-4">
+                                        <button className="bg-[#008080] text-white px-6 py-2.5 rounded shadow hover:bg-teal-700 transition-colors font-bold text-sm">
+                                            Improve Naturalness
+                                        </button>
+                                        <button className="bg-[#483d8b] text-white px-6 py-2.5 rounded shadow hover:bg-indigo-900 transition-colors font-bold text-sm">
+                                            Enhance Speech
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     )}
 
