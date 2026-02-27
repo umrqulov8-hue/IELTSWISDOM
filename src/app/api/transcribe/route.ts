@@ -10,14 +10,19 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ error: "No file provided" }, { status: 400 });
         }
 
-        const apiKey = process.env.OPENAI_API_KEY?.trim();
+        const apiKey = process.env.IELTS_API_KEY?.trim();
 
         if (!apiKey) {
-            return NextResponse.json({ error: "OpenAI API key not configured" }, { status: 500 });
+            return NextResponse.json({ error: "IELTS_API_KEY not configured" }, { status: 500 });
         }
 
         const openai = new OpenAI({
+            baseURL: "https://openrouter.ai/api/v1",
             apiKey: apiKey,
+            defaultHeaders: {
+                "HTTP-Referer": "http://localhost:3000",
+                "X-Title": "IELTS Wisdom",
+            }
         });
 
         // Convert File to a format OpenAI SDK accepts

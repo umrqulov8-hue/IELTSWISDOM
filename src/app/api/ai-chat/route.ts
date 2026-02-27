@@ -1,13 +1,23 @@
 import { NextRequest, NextResponse } from "next/server";
-// @ts-ignore no types
-import Bytez from "bytez.js";
-
-const sdk = new Bytez("26b2c8283a455ed739dc60e7385663fc");
-const model = sdk.model("openai/gpt-4o-mini");
+import OpenAI from "openai";
 
 export async function POST(req: NextRequest) {
     try {
         const { messages } = await req.json();
+
+        const apiKey = process.env.IELTS_API_KEY?.trim();
+        if (!apiKey) {
+            return NextResponse.json({ error: "IELTS_API_KEY not configured" }, { status: 500 });
+        }
+
+        const openai = new OpenAI({
+            baseURL: "https://openrouter.ai/api/v1",
+            apiKey: apiKey,
+            defaultHeaders: {
+                "HTTP-Referer": "http://localhost:3000",
+                "X-Title": "IELTS Wisdom",
+            }
+        });
 
         const systemMessage = {
             role: "system",
@@ -22,21 +32,12 @@ You help students with:
 Always be encouraging, specific, and provide actionable feedback. When evaluating writing, mention the band score criteria: Task Achievement, Coherence & Cohesion, Lexical Resource, and Grammatical Range & Accuracy.`,
         };
 
-        const { error, output } = await model.run([systemMessage, ...messages]);
+        const completion = await openai.chat.completions.create({
+            model: "openai/gpt-4o-mini",
+            messages: [systemMessage, ...messages]
+        });
 
-        if (error) {
-            console.error("Bytez error:", error);
-            return NextResponse.json({ error: String(error) }, { status: 500 });
-        }
-
-        // output may be the full completion object or just text
-        // output can be: a string, {role, content} object, or OpenAI choices array
-        const reply =
-            typeof output === "string"
-                ? output
-                : (output as { content?: string })?.content
-                ?? (output as { choices?: { message?: { content?: string } }[] })?.choices?.[0]?.message?.content
-                ?? JSON.stringify(output);
+        const reply = completion.choices[0].message.content;
 
         return NextResponse.json({ reply });
     } catch (err) {

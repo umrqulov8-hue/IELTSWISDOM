@@ -1,9 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-// @ts-ignore no types
-import Bytez from "bytez.js";
-
-const sdk = new Bytez("26b2c8283a455ed739dc60e7385663fc");
-const model = sdk.model("openai/gpt-4o-mini");
+import OpenAI from "openai";
 
 const SYSTEM_PROMPT = `You are an official IELTS examiner with 20+ years of experience. Your job is to evaluate IELTS Writing responses using the official band descriptors.
 
@@ -81,16 +77,30 @@ GRAMMATICAL RANGE & ACCURACY:
 Calculate overallBand as the mean of all 4 criteria, rounded to nearest 0.5. Be honest and realistic in your assessment.`;
 
 export async function POST(req: NextRequest) {
-    try {
-        const { taskType, prompt, essay } = await req.json();
+  try {
+    const { taskType, prompt, essay } = await req.json();
 
-        if (!essay || essay.trim().length < 20) {
-            return NextResponse.json({ error: "Essay too short to evaluate." }, { status: 400 });
-        }
+    if (!essay || essay.trim().length < 20) {
+      return NextResponse.json({ error: "Essay too short to evaluate." }, { status: 400 });
+    }
 
-        const userMessage = {
-            role: "user",
-            content: `Please evaluate this IELTS ${taskType === "task-1" ? "Writing Task 1" : "Writing Task 2"} response.
+    const apiKey = process.env.IELTS_API_KEY?.trim();
+    if (!apiKey) {
+      return NextResponse.json({ error: "IELTS_API_KEY not configured" }, { status: 500 });
+    }
+
+    const openai = new OpenAI({
+      baseURL: "https://openrouter.ai/api/v1",
+      apiKey: apiKey,
+      defaultHeaders: {
+        "HTTP-Referer": "http://localhost:3000",
+        "X-Title": "IELTS Wisdom",
+      }
+    });
+
+    const userMessage = {
+      role: "user",
+      content: `Please evaluate this IELTS ${taskType === "task-1" ? "Writing Task 1" : "Writing Task 2"} response.
 
 TASK PROMPT:
 ${prompt}
@@ -99,35 +109,34 @@ STUDENT'S ESSAY:
 ${essay}
 
 Respond ONLY with the JSON evaluation.`
-        };
+    };
 
-        const { error, output } = await model.run([
-            { role: "system", content: SYSTEM_PROMPT },
-            userMessage
-        ]);
+    const completion = await openai.chat.completions.create({
+      model: "openai/gpt-4o-mini",
+      messages: [
+        { role: "system", content: SYSTEM_PROMPT },
+        // @ts-ignore
+        userMessage
+      ],
+      response_format: { type: "json_object" }
+    });
 
-        if (error) {
-            console.error("Bytez error:", error);
-            return NextResponse.json({ error: String(error) }, { status: 500 });
-        }
+    const raw = completion.choices[0].message.content;
 
-        const raw =
-            typeof output === "string"
-                ? output
-                : (output as { content?: string })?.content
-                ?? (output as { choices?: { message?: { content?: string } }[] })?.choices?.[0]?.message?.content
-                ?? JSON.stringify(output);
-
-        // Extract JSON from the response (in case there's extra text)
-        const jsonMatch = raw.match(/\{[\s\S]*\}/);
-        if (!jsonMatch) {
-            return NextResponse.json({ error: "Invalid AI response format." }, { status: 500 });
-        }
-
-        const result = JSON.parse(jsonMatch[0]);
-        return NextResponse.json(result);
-    } catch (err) {
-        console.error("AI writing check error:", err);
-        return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    if (!raw) {
+      throw new Error("No response from AI");
     }
+
+    // Extract JSON from the response (in case there's extra text)
+    const jsonMatch = raw.match(/\{[\s\S]*\}/);
+    if (!jsonMatch) {
+      return NextResponse.json({ error: "Invalid AI response format." }, { status: 500 });
+    }
+
+    const result = JSON.parse(jsonMatch[0]);
+    return NextResponse.json(result);
+  } catch (err) {
+    console.error("AI writing check error:", err);
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+  }
 }
