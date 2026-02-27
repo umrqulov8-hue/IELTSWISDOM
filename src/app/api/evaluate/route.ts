@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import OpenAI from "openai";
+// @ts-ignore no types
+import Bytez from "bytez.js";
 
 export async function POST(request: NextRequest) {
     try {
@@ -9,20 +10,11 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ error: "No text provided" }, { status: 400 });
         }
 
-        const apiKey = process.env.IELTS_API_KEY?.trim();
+        // Use environment variable or fallback to the provided key
+        const apiKey = process.env.IELTS_API_KEY?.trim() || "26b2c8283a455ed739dc60e7385663fc";
 
-        if (!apiKey) {
-            return NextResponse.json({ error: "IELTS_API_KEY not configured" }, { status: 500 });
-        }
-
-        const openai = new OpenAI({
-            baseURL: "https://openrouter.ai/api/v1",
-            apiKey: apiKey,
-            defaultHeaders: {
-                "HTTP-Referer": "http://localhost:3000",
-                "X-Title": "IELTS Wisdom",
-            }
-        });
+        const sdk = new Bytez(apiKey);
+        const model = sdk.model("openai/gpt-5.2");
 
         const prompt = `You are a Senior IELTS Speaking Examiner. Evaluate the following student's answer based on the official IELTS Speaking Band Descriptors (9-4 bands).
         
@@ -75,25 +67,38 @@ export async function POST(request: NextRequest) {
             }
         }`;
 
-        const completion = await openai.chat.completions.create({
-            model: "gpt-4o-mini",
-            messages: [
-                { role: "system", content: "You are an IELTS examiner." },
-                { role: "user", content: prompt }
-            ],
-            response_format: { type: "json_object" }
-        });
+        const { error, output } = await model.run([
+            { role: "system", content: "You are an IELTS examiner. Always return JSON." },
+            { role: "user", content: prompt }
+        ]);
 
-        const resultString = completion.choices[0].message.content;
-        if (!resultString) {
-            throw new Error("Empty response from OpenAI");
+        if (error) {
+            console.error("Bytez evaluate error:", error);
+            return NextResponse.json({ error: String(error) }, { status: 500 });
         }
 
-        const result = JSON.parse(resultString);
+        const raw =
+            typeof output === "string"
+                ? output
+                : (output as any)?.content
+                ?? (output as any)?.choices?.[0]?.message?.content
+                ?? JSON.stringify(output);
+
+        if (!raw) {
+            throw new Error("Empty response from Bytez AI");
+        }
+
+        // Extract JSON from the response
+        const jsonMatch = raw.match(/\{[\s\S]*\}/);
+        if (!jsonMatch) {
+            throw new Error("Invalid AI response format, expected JSON.");
+        }
+
+        const result = JSON.parse(jsonMatch[0]);
         return NextResponse.json(result);
 
     } catch (err) {
-        console.error("OpenAI Evaluate Error:", err);
+        console.error("Bytez Evaluate Error:", err);
         const errorMessage = err instanceof Error ? err.message : "Internal server error";
         return NextResponse.json({
             error: "Evaluation failed",

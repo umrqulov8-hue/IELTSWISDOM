@@ -1,23 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
-import OpenAI from "openai";
+// @ts-ignore no types
+import Bytez from "bytez.js";
 
 export async function POST(req: NextRequest) {
     try {
         const { messages } = await req.json();
 
-        const apiKey = process.env.IELTS_API_KEY?.trim();
-        if (!apiKey) {
-            return NextResponse.json({ error: "IELTS_API_KEY not configured" }, { status: 500 });
-        }
+        // Use environment variable or fallback to the provided key
+        const apiKey = process.env.IELTS_API_KEY?.trim() || "26b2c8283a455ed739dc60e7385663fc";
 
-        const openai = new OpenAI({
-            baseURL: "https://openrouter.ai/api/v1",
-            apiKey: apiKey,
-            defaultHeaders: {
-                "HTTP-Referer": "http://localhost:3000",
-                "X-Title": "IELTS Wisdom",
-            }
-        });
+        const sdk = new Bytez(apiKey);
+        const model = sdk.model("openai/gpt-5.2");
 
         const systemMessage = {
             role: "system",
@@ -32,12 +25,19 @@ You help students with:
 Always be encouraging, specific, and provide actionable feedback. When evaluating writing, mention the band score criteria: Task Achievement, Coherence & Cohesion, Lexical Resource, and Grammatical Range & Accuracy.`,
         };
 
-        const completion = await openai.chat.completions.create({
-            model: "openai/gpt-4o-mini",
-            messages: [systemMessage, ...messages]
-        });
+        const { error, output } = await model.run([systemMessage, ...messages]);
 
-        const reply = completion.choices[0].message.content;
+        if (error) {
+            console.error("Bytez chat error:", error);
+            return NextResponse.json({ error: String(error) }, { status: 500 });
+        }
+
+        const reply =
+            typeof output === "string"
+                ? output
+                : (output as any)?.content
+                ?? (output as any)?.choices?.[0]?.message?.content
+                ?? JSON.stringify(output);
 
         return NextResponse.json({ reply });
     } catch (err) {

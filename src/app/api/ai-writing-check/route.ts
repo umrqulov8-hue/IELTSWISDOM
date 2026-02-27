@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import OpenAI from "openai";
+// @ts-ignore no types
+import Bytez from "bytez.js";
 
 const SYSTEM_PROMPT = `You are an official IELTS examiner with 20+ years of experience. Your job is to evaluate IELTS Writing responses using the official band descriptors.
 
@@ -84,19 +85,11 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Essay too short to evaluate." }, { status: 400 });
     }
 
-    const apiKey = process.env.IELTS_API_KEY?.trim();
-    if (!apiKey) {
-      return NextResponse.json({ error: "IELTS_API_KEY not configured" }, { status: 500 });
-    }
+    // Use environment variable or fallback to the provided key
+    const apiKey = process.env.IELTS_API_KEY?.trim() || "26b2c8283a455ed739dc60e7385663fc";
 
-    const openai = new OpenAI({
-      baseURL: "https://openrouter.ai/api/v1",
-      apiKey: apiKey,
-      defaultHeaders: {
-        "HTTP-Referer": "http://localhost:3000",
-        "X-Title": "IELTS Wisdom",
-      }
-    });
+    const sdk = new Bytez(apiKey);
+    const model = sdk.model("openai/gpt-5.2");
 
     const userMessage = {
       role: "user",
@@ -111,17 +104,22 @@ ${essay}
 Respond ONLY with the JSON evaluation.`
     };
 
-    const completion = await openai.chat.completions.create({
-      model: "openai/gpt-4o-mini",
-      messages: [
-        { role: "system", content: SYSTEM_PROMPT },
-        // @ts-ignore
-        userMessage
-      ],
-      response_format: { type: "json_object" }
-    });
+    const { error, output } = await model.run([
+      { role: "system", content: SYSTEM_PROMPT },
+      userMessage
+    ]);
 
-    const raw = completion.choices[0].message.content;
+    if (error) {
+      console.error("Bytez writing check error:", error);
+      return NextResponse.json({ error: String(error) }, { status: 500 });
+    }
+
+    const raw =
+      typeof output === "string"
+        ? output
+        : (output as any)?.content
+        ?? (output as any)?.choices?.[0]?.message?.content
+        ?? JSON.stringify(output);
 
     if (!raw) {
       throw new Error("No response from AI");
