@@ -131,7 +131,6 @@ export function DashboardHeader({ title, description, showGreeting, displayName 
             </div>
 
             <div className="flex items-center gap-4">
-                <DarkModeToggle />
                 {/* --- Search Bar --- */}
                 <div ref={searchRef} className="relative hidden md:block group z-50">
                     <div className="absolute inset-x-0 -top-full h-[200%] pointer-events-none opacity-20 blur-3xl overflow-hidden rounded-full">
@@ -236,6 +235,7 @@ export function DashboardHeader({ title, description, showGreeting, displayName 
                     </AnimatePresence>
                 </div>
 
+                <DarkModeToggle />
                 {/* --- Notification Bell --- */}
                 <div ref={notificationRef} className="relative z-40">
                     <motion.button
