@@ -35,28 +35,18 @@
     /* slate-800 */
 }
 
-/* Login State (Default) */
-.form_box.login {
-    visibility: visible;
-    transition-delay: 0.6s, 0s;
+/* Active State Slide */
+.container.active .form_box {
+    right: 50%;
 }
 
-/* Register State */
+/* Register State Visibility */
 .form_box.register {
     visibility: hidden;
 }
 
-/* Active State (Register is visible, Login is hidden) */
-.container.active .form_box.login {
-    visibility: hidden;
-    transition-delay: 0s, 0.6s;
-}
-
 .container.active .form_box.register {
     visibility: visible;
-    transition-delay: 0.6s, 0s;
-    right: 50%;
-    /* Slides form box to the left */
 }
 
 .toggle_box {
