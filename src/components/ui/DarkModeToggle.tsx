@@ -4,7 +4,11 @@ import React from "react";
 import { useTheme } from "@/context/ThemeContext";
 import styles from "./DarkModeToggle.module.css";
 
-export function DarkModeToggle() {
+interface DarkModeToggleProps {
+    onToggle?: (isDark: boolean) => void;
+}
+
+export function DarkModeToggle({ onToggle }: DarkModeToggleProps) {
     const { theme, toggleTheme } = useTheme();
     const [mounted, setMounted] = React.useState(false);
 
@@ -12,18 +16,25 @@ export function DarkModeToggle() {
         setMounted(true);
     }, []);
 
-    if (!mounted) {
-        return <div className="w-[100px] h-[37.5px]" />; // Placeholder with same dimensions
-    }
-
     const isDark = theme === "dark";
+
+    const handleToggle = () => {
+        toggleTheme();
+        if (onToggle) {
+            onToggle(!isDark);
+        }
+    };
+
+    if (!mounted) {
+        return <div className="w-[100px] h-[37.5px] opacity-0" />;
+    }
 
     return (
         <button
             className={styles.toggle}
             aria-pressed={isDark}
             title="Toggle Dark Mode"
-            onClick={toggleTheme}
+            onClick={handleToggle}
         >
             <span className={styles.toggle__content}>
                 <svg
