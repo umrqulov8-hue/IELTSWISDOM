@@ -4,7 +4,7 @@ import { useState } from "react";
 import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
 import { useModal } from "@/context/ModalContext";
-import { X, Mail, Lock, Loader2, User } from "lucide-react";
+import { X, Mail, Lock, Loader2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
 import styles from "./AuthModal.module.css";
@@ -15,7 +15,6 @@ export function AuthModal() {
     const [isLogin, setIsLogin] = useState(true);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [name, setName] = useState(""); // Added name for registration
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const router = useRouter();
@@ -45,7 +44,7 @@ export function AuthModal() {
                     options: {
                         emailRedirectTo: `${location.origin}/auth/callback`,
                         data: {
-                            full_name: name || email.split('@')[0],
+                            full_name: email.split('@')[0],
                         }
                     },
                 });
@@ -161,18 +160,6 @@ export function AuthModal() {
                     <div className={cn(styles.form_box, styles.register)}>
                         <form onSubmit={(e) => handleAuth(e, 'register')} className="w-full px-4 md:px-12">
                             <h1 className="text-3xl font-bold text-slate-800 mb-6">Registration</h1>
-
-                            <div className="relative mb-6">
-                                <input
-                                    type="text"
-                                    placeholder="Username"
-                                    value={name}
-                                    onChange={(e) => setName(e.target.value)}
-                                    className="w-full bg-slate-100 rounded-xl py-3 pl-12 pr-4 text-slate-800 focus:outline-none focus:ring-2 focus:ring-secondary/50 placeholder:text-slate-400"
-                                    required
-                                />
-                                <User className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400" />
-                            </div>
 
                             <div className="relative mb-6">
                                 <input
