@@ -15,7 +15,8 @@
 
 /* Specific size override for the header */
 .toggle {
-    --width: clamp(80px, 12vmin, 120px);
+    --width: clamp(60px, 8vmin, 80px);
+    /* Reduced size */
     -webkit-tap-highlight-color: transparent;
     width: var(--width);
     flex-shrink: 0;
