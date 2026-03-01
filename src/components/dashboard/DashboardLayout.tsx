@@ -1,8 +1,8 @@
 "use client";
 
 import { Sidebar } from "@/components/dashboard/Sidebar";
-import { Bell, Search } from "lucide-react";
-import { PropsWithChildren } from "react";
+import { Bell, Search, X } from "lucide-react";
+import { PropsWithChildren, useState, useRef, useEffect } from "react";
 import { useAuthContext } from "@/context/AuthContext";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
@@ -59,6 +59,19 @@ export function DashboardLayout({
     const { user } = useAuthContext();
     const displayName = user?.email?.split("@")[0] || "Student";
     const pathname = usePathname();
+    const [isSearchExpanded, setIsSearchExpanded] = useState(false);
+    const searchRef = useRef<HTMLDivElement>(null);
+
+    // Close search on click outside
+    useEffect(() => {
+        function handleClickOutside(event: MouseEvent) {
+            if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
+                setIsSearchExpanded(false);
+            }
+        }
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
 
     return (
         <div className="min-h-[calc(100vh-4rem)] bg-[#F2F4F8] text-slate-900 flex overflow-hidden relative">
@@ -112,25 +125,60 @@ export function DashboardLayout({
                         </div>
 
                         <div className="flex items-center gap-4">
-                            <div className="relative hidden md:flex items-center group">
-                                {/* Soft White/Silver Ambient Glow */}
-                                <div className="absolute -inset-[3px] bg-gradient-to-r from-white/40 via-white/20 to-white/40 rounded-full opacity-20 group-hover:opacity-40 group-focus-within:opacity-60 blur-xl transition-all duration-700 pointer-events-none" />
+                            <div className="relative flex items-center" ref={searchRef}>
+                                {/* Expandable Search Container */}
+                                <motion.div
+                                    initial={false}
+                                    animate={{
+                                        width: isSearchExpanded ? "320px" : "48px",
+                                    }}
+                                    transition={{ type: "spring", stiffness: 350, damping: 25 }}
+                                    className="relative flex items-center group overflow-hidden"
+                                >
+                                    {/* Soft White/Silver Ambient Glow */}
+                                    <div className="absolute -inset-[3px] bg-gradient-to-r from-white/40 via-white/20 to-white/40 rounded-full opacity-20 group-hover:opacity-40 blur-xl transition-all duration-700 pointer-events-none" />
 
-                                {/* Premium White Liquid Glass Container */}
-                                <div className="relative flex items-center bg-white/30 backdrop-blur-[24px] border-[1.5px] border-white/70 hover:border-white/90 focus-within:border-white/100 rounded-full shadow-[0_8px_32px_rgba(255,255,255,0.15),inset_0_1px_8px_rgba(255,255,255,0.4)] overflow-hidden transition-all duration-500 group-hover:shadow-[0_8px_32px_rgba(255,255,255,0.25),inset_0_1px_8px_rgba(255,255,255,0.6)] group-focus-within:shadow-[0_12px_40px_rgba(255,255,255,0.3),inset_0_1px_8px_rgba(255,255,255,0.8)]">
+                                    {/* Liquid Glass Container */}
+                                    <div
+                                        onClick={() => !isSearchExpanded && setIsSearchExpanded(true)}
+                                        className={cn(
+                                            "relative flex items-center bg-white/30 backdrop-blur-[24px] border-[1.5px] border-white/70 hover:border-white/90 rounded-full shadow-[0_8px_32px_rgba(255,255,255,0.15),inset_0_1px_8px_rgba(255,255,255,0.4)] transition-all duration-300 w-full h-[48px]",
+                                            isSearchExpanded ? "cursor-text" : "cursor-pointer"
+                                        )}
+                                    >
+                                        <div className="absolute left-[15px] flex items-center justify-center">
+                                            <Search className="w-[18px] h-[18px] text-slate-500 hover:text-slate-800 transition-colors duration-300" />
+                                        </div>
 
-                                    {/* Subtle White Shine Overlay */}
-                                    <div className="absolute inset-0 bg-gradient-to-tr from-white/10 via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+                                        <AnimatePresence>
+                                            {isSearchExpanded && (
+                                                <motion.input
+                                                    autoFocus
+                                                    initial={{ opacity: 0, x: -10 }}
+                                                    animate={{ opacity: 1, x: 0 }}
+                                                    exit={{ opacity: 0, x: -10 }}
+                                                    type="text"
+                                                    placeholder="Search..."
+                                                    className="bg-transparent border-none outline-none py-[10px] pl-[46px] pr-10 text-[15px] font-medium text-slate-800 placeholder:text-slate-400/80 w-full"
+                                                />
+                                            )}
+                                        </AnimatePresence>
 
-                                    <Search className="absolute left-4 w-[18px] h-[18px] text-slate-400 group-focus-within:text-slate-800 group-hover:text-slate-600 transition-colors duration-500 drop-shadow-sm z-10" />
-
-                                    <input
-                                        type="text"
-                                        placeholder="Search..."
-                                        className="relative z-10 bg-transparent border-none outline-none py-[10px] pl-[42px] pr-5 text-[15px] font-medium text-slate-800 placeholder:text-slate-400/80 w-64 focus:w-80 transition-all duration-500"
-                                    />
-                                </div>
+                                        {isSearchExpanded && (
+                                            <button
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    setIsSearchExpanded(false);
+                                                }}
+                                                className="absolute right-3 p-1 rounded-full hover:bg-black/5 text-slate-400 hover:text-slate-600 transition-colors"
+                                            >
+                                                <X className="w-4 h-4" />
+                                            </button>
+                                        )}
+                                    </div>
+                                </motion.div>
                             </div>
+
 
 
                             <button className="p-2.5 rounded-full bg-white/50 hover:bg-white/80 border border-white/60 shadow-sm relative transition-all hover:scale-105 active:scale-95">
