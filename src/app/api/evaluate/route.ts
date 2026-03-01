@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-// @ts-ignore no types
-import Bytez from "bytez.js";
+import OpenAI from "openai";
+
+const openai = new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY,
+});
 
 export async function POST(request: NextRequest) {
     try {
@@ -10,11 +13,9 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ error: "No text provided" }, { status: 400 });
         }
 
-        // Use environment variable or fallback to the provided key
-        const apiKey = process.env.IELTS_API_KEY?.trim() || "26b2c8283a455ed739dc60e7385663fc";
-
-        const sdk = new Bytez(apiKey);
-        const model = sdk.model("openai/gpt-5.2");
+        if (!process.env.OPENAI_API_KEY) {
+            return NextResponse.json({ error: "OPENAI_API_KEY not configured" }, { status: 500 });
+        }
 
         const prompt = `You are a Senior IELTS Speaking Examiner. Evaluate the following student's transcript based on the official IELTS Speaking Band Descriptors.
 
@@ -85,39 +86,23 @@ export async function POST(request: NextRequest) {
             }
         }`;
 
+        const completion = await openai.chat.completions.create({
+            model: "gpt-4o-mini",
+            messages: [{ role: "user", content: prompt }],
+            response_format: { type: "json_object" },
+        });
 
-        const { error, output } = await model.run([
-            { role: "system", content: "You are an IELTS examiner. Always return JSON." },
-            { role: "user", content: prompt }
-        ]);
-
-        if (error) {
-            console.error("Bytez evaluate error:", error);
-            return NextResponse.json({ error: String(error) }, { status: 500 });
-        }
-
-        const raw =
-            typeof output === "string"
-                ? output
-                : (output as any)?.content
-                ?? (output as any)?.choices?.[0]?.message?.content
-                ?? JSON.stringify(output);
+        const raw = completion.choices[0].message.content;
 
         if (!raw) {
-            throw new Error("Empty response from Bytez AI");
+            throw new Error("Empty response from AI");
         }
 
-        // Extract JSON from the response
-        const jsonMatch = raw.match(/\{[\s\S]*\}/);
-        if (!jsonMatch) {
-            throw new Error("Invalid AI response format, expected JSON.");
-        }
-
-        const result = JSON.parse(jsonMatch[0]);
+        const result = JSON.parse(raw);
         return NextResponse.json(result);
 
     } catch (err) {
-        console.error("Bytez Evaluate Error:", err);
+        console.error("OpenAI Evaluate Error:", err);
         const errorMessage = err instanceof Error ? err.message : "Internal server error";
         return NextResponse.json({
             error: "Evaluation failed",

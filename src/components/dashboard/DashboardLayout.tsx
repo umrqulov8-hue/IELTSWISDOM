@@ -112,13 +112,24 @@ export function DashboardLayout({
                         </div>
 
                         <div className="flex items-center gap-4">
-                            <div className="relative hidden md:block group">
-                                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-[#FF8C00] transition-colors" />
-                                <input
-                                    type="text"
-                                    placeholder="Search..."
-                                    className="bg-white/50 border border-white/60 backdrop-blur-md rounded-full py-2.5 pl-10 pr-4 text-sm focus:outline-none focus:border-orange-400/50 focus:ring-4 focus:ring-orange-500/10 w-64 transition-all shadow-sm group-hover:bg-white/80 placeholder:text-slate-400"
-                                />
+                            <div className="relative hidden md:flex items-center group">
+                                {/* Glowing Blur Background Container */}
+                                <div className="absolute -inset-[2px] bg-gradient-to-r from-cyan-400 via-purple-500 to-cyan-400 rounded-full opacity-30 group-hover:opacity-60 group-focus-within:opacity-75 blur-md transition-all duration-500 animate-pulse pointer-events-none" />
+
+                                {/* Futuristic Glass Container */}
+                                <div className="relative flex items-center bg-white/40 backdrop-blur-2xl border-[1.5px] border-white/60 hover:border-white/80 focus-within:border-cyan-400/50 rounded-full shadow-[0_8px_30px_rgba(31,38,135,0.1),inset_0_1px_4px_rgba(255,255,255,0.6)] overflow-hidden transition-all duration-500 group-hover:shadow-[0_8px_30px_rgba(168,85,247,0.2),inset_0_1px_4px_rgba(255,255,255,0.8)] group-focus-within:shadow-[0_8px_32px_rgba(34,211,238,0.3),inset_0_1px_4px_rgba(255,255,255,0.9)]">
+
+                                    {/* Neon Gradient Border overlay for inner edge */}
+                                    <div className="absolute inset-0 bg-gradient-to-r from-cyan-400/20 via-purple-500/20 to-cyan-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+
+                                    <Search className="absolute left-4 w-[18px] h-[18px] text-slate-500 group-focus-within:text-purple-600 group-hover:text-cyan-600 transition-colors duration-500 drop-shadow-sm z-10" />
+
+                                    <input
+                                        type="text"
+                                        placeholder="Search..."
+                                        className="relative z-10 bg-transparent border-none outline-none py-[10px] pl-[42px] pr-5 text-[15px] font-medium text-slate-800 placeholder:text-slate-500/80 w-64 focus:w-80 transition-all duration-500"
+                                    />
+                                </div>
                             </div>
                             <button className="p-2.5 rounded-full bg-white/50 hover:bg-white/80 border border-white/60 shadow-sm relative transition-all hover:scale-105 active:scale-95">
                                 <Bell className="w-5 h-5 text-slate-600" />

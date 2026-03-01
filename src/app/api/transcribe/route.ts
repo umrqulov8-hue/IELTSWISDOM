@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
 
+const openai = new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY,
+});
+
 export async function POST(request: NextRequest) {
     try {
         const formData = await request.formData();
@@ -10,25 +14,20 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ error: "No file provided" }, { status: 400 });
         }
 
-        const apiKey = process.env.IELTSWISDOM_API_KEY?.trim();
-
-        if (!apiKey) {
-            return NextResponse.json({ error: "IELTSWISDOM_API_KEY not configured" }, { status: 500 });
+        if (!process.env.OPENAI_API_KEY) {
+            return NextResponse.json({ error: "OpenAI API key not configured" }, { status: 500 });
         }
 
-        const openai = new OpenAI({
-            baseURL: "https://api.groq.com/openai/v1",
-            apiKey: apiKey,
-        });
-
-        // Convert File to a format OpenAI SDK accepts
-        const response = await openai.audio.transcriptions.create({
+        const transcription = await openai.audio.transcriptions.create({
             file: file,
-            model: "whisper-large-v3",
+            model: "whisper-1",
             response_format: "text",
         });
 
-        return NextResponse.json({ text: response });
+        // The exact type returned depends on response_format, for "text" it returns a string directly
+        const text = (typeof transcription === 'string' ? transcription : (transcription as any).text).trim();
+
+        return NextResponse.json({ text });
 
     } catch (err) {
         console.error("OpenAI Transcribe Error:", err);
