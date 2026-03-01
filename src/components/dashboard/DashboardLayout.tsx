@@ -113,24 +113,25 @@ export function DashboardLayout({
 
                         <div className="flex items-center gap-4">
                             <div className="relative hidden md:flex items-center group">
-                                {/* Glowing Blur Background Container - Updated to Brand Orange/Blue */}
-                                <div className="absolute -inset-[2px] bg-gradient-to-r from-orange-400 via-blue-500 to-orange-400 rounded-full opacity-30 group-hover:opacity-60 group-focus-within:opacity-75 blur-md transition-all duration-500 animate-pulse pointer-events-none" />
+                                {/* Soft White/Silver Ambient Glow */}
+                                <div className="absolute -inset-[3px] bg-gradient-to-r from-white/40 via-white/20 to-white/40 rounded-full opacity-20 group-hover:opacity-40 group-focus-within:opacity-60 blur-xl transition-all duration-700 pointer-events-none" />
 
-                                {/* Futuristic Glass Container */}
-                                <div className="relative flex items-center bg-white/40 backdrop-blur-2xl border-[1.5px] border-white/60 hover:border-white/80 focus-within:border-blue-400/50 rounded-full shadow-[0_8px_30px_rgba(31,38,135,0.1),inset_0_1px_4px_rgba(255,255,255,0.6)] overflow-hidden transition-all duration-500 group-hover:shadow-[0_8px_30px_rgba(255,133,27,0.2),inset_0_1px_4px_rgba(255,255,255,0.8)] group-focus-within:shadow-[0_8px_32px_rgba(0,116,217,0.3),inset_0_1px_4px_rgba(255,255,255,0.9)]">
+                                {/* Premium White Liquid Glass Container */}
+                                <div className="relative flex items-center bg-white/30 backdrop-blur-[24px] border-[1.5px] border-white/70 hover:border-white/90 focus-within:border-white/100 rounded-full shadow-[0_8px_32px_rgba(255,255,255,0.15),inset_0_1px_8px_rgba(255,255,255,0.4)] overflow-hidden transition-all duration-500 group-hover:shadow-[0_8px_32px_rgba(255,255,255,0.25),inset_0_1px_8px_rgba(255,255,255,0.6)] group-focus-within:shadow-[0_12px_40px_rgba(255,255,255,0.3),inset_0_1px_8px_rgba(255,255,255,0.8)]">
 
-                                    {/* Neon Gradient Border overlay - Updated to Brand Orange/Blue */}
-                                    <div className="absolute inset-0 bg-gradient-to-r from-orange-400/20 via-blue-500/20 to-orange-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                                    {/* Subtle White Shine Overlay */}
+                                    <div className="absolute inset-0 bg-gradient-to-tr from-white/10 via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
 
-                                    <Search className="absolute left-4 w-[18px] h-[18px] text-slate-500 group-focus-within:text-blue-600 group-hover:text-orange-600 transition-colors duration-500 drop-shadow-sm z-10" />
+                                    <Search className="absolute left-4 w-[18px] h-[18px] text-slate-400 group-focus-within:text-slate-800 group-hover:text-slate-600 transition-colors duration-500 drop-shadow-sm z-10" />
 
                                     <input
                                         type="text"
                                         placeholder="Search..."
-                                        className="relative z-10 bg-transparent border-none outline-none py-[10px] pl-[42px] pr-5 text-[15px] font-medium text-slate-800 placeholder:text-slate-500/80 w-64 focus:w-80 transition-all duration-500"
+                                        className="relative z-10 bg-transparent border-none outline-none py-[10px] pl-[42px] pr-5 text-[15px] font-medium text-slate-800 placeholder:text-slate-400/80 w-64 focus:w-80 transition-all duration-500"
                                     />
                                 </div>
                             </div>
+
 
                             <button className="p-2.5 rounded-full bg-white/50 hover:bg-white/80 border border-white/60 shadow-sm relative transition-all hover:scale-105 active:scale-95">
                                 <Bell className="w-5 h-5 text-slate-600" />
