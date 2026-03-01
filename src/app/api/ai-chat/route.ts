@@ -1,16 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
 
-export async function POST(req: NextRequest) {
-    const openai = new OpenAI({
-        apiKey: process.env.OPENAI_API_KEY,
-    });
-    try {
-        const { messages } = await req.json();
+export const dynamic = 'force-dynamic';
 
+export async function POST(req: NextRequest) {
+    try {
         if (!process.env.OPENAI_API_KEY) {
             return NextResponse.json({ error: "OPENAI_API_KEY not configured" }, { status: 500 });
         }
+
+        const openai = new OpenAI({
+            apiKey: process.env.OPENAI_API_KEY,
+        });
+
+        const { messages } = await req.json();
 
         const systemInstruction = `You are an expert IELTS tutor and AI assistant for the IELTS Wisdom platform.
 You help students with:

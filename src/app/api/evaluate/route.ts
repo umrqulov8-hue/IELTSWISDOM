@@ -1,19 +1,22 @@
 import { NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
 
+export const dynamic = 'force-dynamic';
+
 export async function POST(request: NextRequest) {
-    const openai = new OpenAI({
-        apiKey: process.env.OPENAI_API_KEY,
-    });
     try {
+        if (!process.env.OPENAI_API_KEY) {
+            return NextResponse.json({ error: "OPENAI_API_KEY not configured" }, { status: 500 });
+        }
+
+        const openai = new OpenAI({
+            apiKey: process.env.OPENAI_API_KEY,
+        });
+
         const { text } = await request.json();
 
         if (!text) {
             return NextResponse.json({ error: "No text provided" }, { status: 400 });
-        }
-
-        if (!process.env.OPENAI_API_KEY) {
-            return NextResponse.json({ error: "OPENAI_API_KEY not configured" }, { status: 500 });
         }
 
         const prompt = `You are a Senior IELTS Speaking Examiner. Evaluate the following student's transcript based on the official IELTS Speaking Band Descriptors.
