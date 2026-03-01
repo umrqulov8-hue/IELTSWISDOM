@@ -35,11 +35,6 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
         document.documentElement.setAttribute("data-dark-mode", newTheme === "dark" ? "true" : "false");
     };
 
-    // Avoid hydration mismatch by not rendering anything until mounted
-    if (!mounted) {
-        return <>{children}</>;
-    }
-
     return (
         <ThemeContext.Provider value={{ theme, toggleTheme }}>
             {children}

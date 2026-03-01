@@ -6,6 +6,16 @@ import styles from "./DarkModeToggle.module.css";
 
 export function DarkModeToggle() {
     const { theme, toggleTheme } = useTheme();
+    const [mounted, setMounted] = React.useState(false);
+
+    React.useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    if (!mounted) {
+        return <div className="w-[100px] h-[37.5px]" />; // Placeholder with same dimensions
+    }
+
     const isDark = theme === "dark";
 
     return (
