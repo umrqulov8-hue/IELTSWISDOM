@@ -6,6 +6,7 @@ import { AuthModal } from "@/components/AuthModal";
 import { LanguageProvider } from "@/context/LanguageContext";
 import { ClientLayout } from "@/components/ClientLayout";
 import { AuthProvider } from "@/context/AuthContext";
+import { ThemeProvider } from "@/context/ThemeContext";
 import { SubscriptionProvider } from "@/context/SubscriptionContext";
 import { Toaster } from 'sonner';
 import { Analytics } from "@vercel/analytics/react";
@@ -48,15 +49,17 @@ export default function RootLayout({
       >
         <AuthProvider>
           <LanguageProvider>
-            <SubscriptionProvider>
-              <ModalProvider>
-                <ClientLayout>
-                  {children}
-                </ClientLayout>
-                <AuthModal />
-                <Toaster position="top-center" richColors />
-              </ModalProvider>
-            </SubscriptionProvider>
+            <ThemeProvider>
+              <SubscriptionProvider>
+                <ModalProvider>
+                  <ClientLayout>
+                    {children}
+                  </ClientLayout>
+                  <AuthModal />
+                  <Toaster position="top-center" richColors />
+                </ModalProvider>
+              </SubscriptionProvider>
+            </ThemeProvider>
           </LanguageProvider>
         </AuthProvider>
         <Analytics />
