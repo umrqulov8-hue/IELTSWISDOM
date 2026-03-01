@@ -7,7 +7,6 @@ import { useModal } from "@/context/ModalContext";
 import { X, Mail, Lock, Loader2, User } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
-import { FaGoogle, FaFacebookF, FaGithub, FaLinkedinIn } from "react-icons/fa";
 import styles from "./AuthModal.module.css";
 import { cn } from "@/lib/utils";
 
@@ -155,15 +154,6 @@ export function AuthModal() {
                             >
                                 {loading && isLogin ? <Loader2 className="h-5 w-5 animate-spin mr-2" /> : "Login"}
                             </button>
-
-                            <p className="mt-8 text-sm text-slate-500">or login with social platforms</p>
-                            <div className="flex justify-center gap-4 mt-4">
-                                {[FaGoogle, FaFacebookF, FaGithub, FaLinkedinIn].map((Icon, i) => (
-                                    <button key={i} type="button" className="p-3 border-2 border-slate-200 rounded-xl text-slate-600 hover:border-secondary hover:text-secondary transition-colors">
-                                        <Icon className="w-5 h-5" />
-                                    </button>
-                                ))}
-                            </div>
                         </form>
                     </div>
 
@@ -215,15 +205,6 @@ export function AuthModal() {
                             >
                                 {loading && !isLogin ? <Loader2 className="h-5 w-5 animate-spin mr-2" /> : "Register"}
                             </button>
-
-                            <p className="mt-8 text-sm text-slate-500">or register with social platforms</p>
-                            <div className="flex justify-center gap-4 mt-4">
-                                {[FaGoogle, FaFacebookF, FaGithub, FaLinkedinIn].map((Icon, i) => (
-                                    <button key={i} type="button" className="p-3 border-2 border-slate-200 rounded-xl text-slate-600 hover:border-secondary hover:text-secondary transition-colors">
-                                        <Icon className="w-5 h-5" />
-                                    </button>
-                                ))}
-                            </div>
                         </form>
                     </div>
 
