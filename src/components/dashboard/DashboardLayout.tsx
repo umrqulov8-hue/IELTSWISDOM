@@ -113,16 +113,16 @@ export function DashboardLayout({
 
                         <div className="flex items-center gap-4">
                             <div className="relative hidden md:flex items-center group">
-                                {/* Glowing Blur Background Container */}
-                                <div className="absolute -inset-[2px] bg-gradient-to-r from-cyan-400 via-purple-500 to-cyan-400 rounded-full opacity-30 group-hover:opacity-60 group-focus-within:opacity-75 blur-md transition-all duration-500 animate-pulse pointer-events-none" />
+                                {/* Glowing Blur Background Container - Updated to Brand Orange/Blue */}
+                                <div className="absolute -inset-[2px] bg-gradient-to-r from-orange-400 via-blue-500 to-orange-400 rounded-full opacity-30 group-hover:opacity-60 group-focus-within:opacity-75 blur-md transition-all duration-500 animate-pulse pointer-events-none" />
 
                                 {/* Futuristic Glass Container */}
-                                <div className="relative flex items-center bg-white/40 backdrop-blur-2xl border-[1.5px] border-white/60 hover:border-white/80 focus-within:border-cyan-400/50 rounded-full shadow-[0_8px_30px_rgba(31,38,135,0.1),inset_0_1px_4px_rgba(255,255,255,0.6)] overflow-hidden transition-all duration-500 group-hover:shadow-[0_8px_30px_rgba(168,85,247,0.2),inset_0_1px_4px_rgba(255,255,255,0.8)] group-focus-within:shadow-[0_8px_32px_rgba(34,211,238,0.3),inset_0_1px_4px_rgba(255,255,255,0.9)]">
+                                <div className="relative flex items-center bg-white/40 backdrop-blur-2xl border-[1.5px] border-white/60 hover:border-white/80 focus-within:border-blue-400/50 rounded-full shadow-[0_8px_30px_rgba(31,38,135,0.1),inset_0_1px_4px_rgba(255,255,255,0.6)] overflow-hidden transition-all duration-500 group-hover:shadow-[0_8px_30px_rgba(255,133,27,0.2),inset_0_1px_4px_rgba(255,255,255,0.8)] group-focus-within:shadow-[0_8px_32px_rgba(0,116,217,0.3),inset_0_1px_4px_rgba(255,255,255,0.9)]">
 
-                                    {/* Neon Gradient Border overlay for inner edge */}
-                                    <div className="absolute inset-0 bg-gradient-to-r from-cyan-400/20 via-purple-500/20 to-cyan-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                                    {/* Neon Gradient Border overlay - Updated to Brand Orange/Blue */}
+                                    <div className="absolute inset-0 bg-gradient-to-r from-orange-400/20 via-blue-500/20 to-orange-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
-                                    <Search className="absolute left-4 w-[18px] h-[18px] text-slate-500 group-focus-within:text-purple-600 group-hover:text-cyan-600 transition-colors duration-500 drop-shadow-sm z-10" />
+                                    <Search className="absolute left-4 w-[18px] h-[18px] text-slate-500 group-focus-within:text-blue-600 group-hover:text-orange-600 transition-colors duration-500 drop-shadow-sm z-10" />
 
                                     <input
                                         type="text"
@@ -131,6 +131,7 @@ export function DashboardLayout({
                                     />
                                 </div>
                             </div>
+
                             <button className="p-2.5 rounded-full bg-white/50 hover:bg-white/80 border border-white/60 shadow-sm relative transition-all hover:scale-105 active:scale-95">
                                 <Bell className="w-5 h-5 text-slate-600" />
                                 <span className="absolute top-2 right-2.5 w-2 h-2 bg-red-500 rounded-full animate-pulse ring-2 ring-white" />
