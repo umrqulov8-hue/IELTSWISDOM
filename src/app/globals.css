@@ -31,6 +31,18 @@
   /* Slate 200 */
 }
 
+[data-dark-mode="true"] {
+  --color-background: #0F172A;
+  /* Slate 900 */
+  --color-foreground: #F8FAFC;
+  /* Slate 50 */
+  --color-primary: #ffffff;
+  --color-muted: #1E293B;
+  --card-background: #1E293B;
+  --card-border: #334155;
+  color-scheme: dark only;
+}
+
 /* Custom Utilities */
 @utility container {
   margin-inline: auto;
