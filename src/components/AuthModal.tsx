@@ -4,47 +4,38 @@ import { useState } from "react";
 import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
 import { useModal } from "@/context/ModalContext";
-import { Button } from "./Button";
-import { X, Mail, Lock, Loader2 } from "lucide-react";
+import { X, Mail, Lock, Loader2, User } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
+import { FaGoogle, FaFacebookF, FaGithub, FaLinkedinIn } from "react-icons/fa";
+import styles from "./AuthModal.module.css";
+import { cn } from "@/lib/utils";
 
 export function AuthModal() {
     const { isOpen, closeModal } = useModal();
     const [isLogin, setIsLogin] = useState(true);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [name, setName] = useState(""); // Added name for registration
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const router = useRouter();
     const supabase = createClient();
 
-    const handleAuth = async (e: React.FormEvent) => {
+    const handleAuth = async (e: React.FormEvent, type: 'login' | 'register') => {
         e.preventDefault();
         setLoading(true);
         setError(null);
-        console.log("Starting authentication process...", { isLogin, email });
 
-        // Force Session Refresh: Clear any old session remnants
         await supabase.auth.signOut();
 
         try {
-            if (isLogin) {
+            if (type === 'login') {
                 const { data, error } = await supabase.auth.signInWithPassword({
                     email,
                     password,
                 });
-                if (error) {
-                    // Smart Recovery: If login fails, try to sign up (if user doesn't exist)
-                    if (error.message.includes("Invalid login credentials")) {
-                        // Optional: could prompt user to sign up, but for now just error
-                        console.error("Login Check Failed:", error);
-                        toast.error(error.message);
-                        throw error;
-                    }
-                    throw error;
-                }
-                console.log("Login Successful:", data);
+                if (error) throw error;
                 toast.success("Welcome back!");
                 router.push("/dashboard");
                 closeModal();
@@ -54,65 +45,41 @@ export function AuthModal() {
                     password,
                     options: {
                         emailRedirectTo: `${location.origin}/auth/callback`,
-                        // Force metadata to help with profile creation triggers
                         data: {
-                            full_name: email.split('@')[0],
+                            full_name: name || email.split('@')[0],
                         }
                     },
                 });
 
                 if (error) {
-                    // Smart Recovery: If user already exists, try to log them in
                     if (error.message.includes("User already registered")) {
-                        console.log("User exists, shedding to login...", error);
                         toast.info("Account exists. Logging you in...");
-
-                        const { data: loginData, error: loginError } = await supabase.auth.signInWithPassword({
+                        const { error: loginError } = await supabase.auth.signInWithPassword({
                             email,
                             password,
                         });
-                        if (loginError) {
-                            toast.error("Could not log in automatically. Please check password.");
-                            throw loginError;
-                        }
+                        if (loginError) throw loginError;
                         router.push("/dashboard");
                         closeModal();
                         return;
                     }
-
-                    console.error("Sign Up Check Failed:", error);
-                    toast.error(error.message);
                     throw error;
                 }
 
-                // BYPASS LOGIC: Even if session is null (email confirm needed), we treat it as success if we can
-                // Note: Supabase might block login until confirmed, but we can't force bypass without admin api.
-                // However, we can improve the UX.
-
                 if (user) {
-                    console.log("User created:", user.id);
-
-                    // Optimistic redirection - assumes profile trigger handles creation
                     toast.success("Account created! Redirecting...");
-
-                    // If session exists, we are good. If not, we might be blocked by email confirm.
-                    // But user asked to "Bypass". We can't strictly bypass Supabase security on client.
-                    // Best effort: Redirect to welcome/dashboard. If middleware kicks them out, so be it, 
-                    // but often local session is established if "Enable Email Confirm" is off in Supabase.
-
                     if (session) {
                         router.push("/welcome");
                         closeModal();
                     } else {
-                        // If no session, they MUST confirm email. We can't hack this client side.
                         toast.info("Please check your email to verify your account.");
-                        // Ideally, we'd auto-login here, but we can't without the token.
                     }
                 }
             }
         } catch (err: any) {
             console.error("Auth Exception:", err);
             setError(err.message);
+            toast.error(err.message);
         } finally {
             setLoading(false);
         }
@@ -122,7 +89,7 @@ export function AuthModal() {
 
     return (
         <AnimatePresence>
-            <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
                 <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
@@ -135,87 +102,158 @@ export function AuthModal() {
                     initial={{ opacity: 0, scale: 0.95, y: 20 }}
                     animate={{ opacity: 1, scale: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                    className="relative w-full max-w-md overflow-hidden rounded-3xl border border-white/20 bg-white/10 p-8 shadow-2xl backdrop-blur-xl dark:bg-slate-900/40"
+                    className={cn(
+                        styles.container,
+                        !isLogin && styles.active,
+                        "relative z-10 w-full max-w-[850px] shadow-2xl"
+                    )}
                 >
                     <button
                         onClick={closeModal}
-                        className="absolute right-4 top-4 rounded-full p-1 text-white/70 hover:bg-white/10 hover:text-white transition-colors"
+                        className="absolute right-4 top-4 z-50 rounded-full p-2 text-slate-500 hover:bg-slate-100 hover:text-slate-800 transition-colors"
                     >
-                        <X className="h-5 w-5" />
+                        <X className="h-6 w-6" />
                     </button>
 
-                    <div className="mb-8 text-center">
-                        <h2 className="text-2xl font-bold text-white mb-2">
-                            {isLogin ? "Welcome Back" : "Start Your Journey"}
-                        </h2>
-                        <p className="text-slate-200 text-sm">
-                            {isLogin
-                                ? "Enter your details to access your dashboard."
-                                : "Create an account to start learning English today."}
-                        </p>
-                    </div>
+                    {/* Login Form */}
+                    <div className={cn(styles.form_box, styles.login)}>
+                        <form onSubmit={(e) => handleAuth(e, 'login')} className="w-full px-4 md:px-12">
+                            <h1 className="text-3xl font-bold text-slate-800 mb-6">Login</h1>
 
-                    <form onSubmit={handleAuth} className="space-y-4">
-                        <div className="space-y-2">
-                            <div className="relative">
-                                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-300" />
+                            <div className="relative mb-6">
                                 <input
                                     type="email"
-                                    placeholder="Email address"
+                                    placeholder="Email"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
-                                    className="w-full rounded-xl border border-white/10 bg-black/20 py-3 pl-10 text-white placeholder:text-slate-400 focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary"
+                                    className="w-full bg-slate-100 rounded-xl py-3 pl-12 pr-4 text-slate-800 focus:outline-none focus:ring-2 focus:ring-secondary/50 placeholder:text-slate-400"
                                     required
                                 />
+                                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400" />
                             </div>
-                        </div>
 
-                        <div className="space-y-2">
-                            <div className="relative">
-                                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-300" />
+                            <div className="relative mb-2">
                                 <input
                                     type="password"
                                     placeholder="Password"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    className="w-full rounded-xl border border-white/10 bg-black/20 py-3 pl-10 text-white placeholder:text-slate-400 focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary"
+                                    className="w-full bg-slate-100 rounded-xl py-3 pl-12 pr-4 text-slate-800 focus:outline-none focus:ring-2 focus:ring-secondary/50 placeholder:text-slate-400"
                                     required
                                 />
+                                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400" />
                             </div>
+
+                            <div className="text-right mb-6">
+                                <a href="#" className="text-sm text-slate-500 hover:text-secondary transition-colors">Forgot Password?</a>
+                            </div>
+
+                            <button
+                                type="submit"
+                                disabled={loading}
+                                className="w-full bg-[#3b82f6] hover:bg-[#2563eb] text-white font-bold py-3 rounded-xl shadow-lg shadow-blue-500/30 transition-all flex justify-center items-center"
+                            >
+                                {loading && isLogin ? <Loader2 className="h-5 w-5 animate-spin mr-2" /> : "Login"}
+                            </button>
+
+                            <p className="mt-8 text-sm text-slate-500">or login with social platforms</p>
+                            <div className="flex justify-center gap-4 mt-4">
+                                {[FaGoogle, FaFacebookF, FaGithub, FaLinkedinIn].map((Icon, i) => (
+                                    <button key={i} type="button" className="p-3 border-2 border-slate-200 rounded-xl text-slate-600 hover:border-secondary hover:text-secondary transition-colors">
+                                        <Icon className="w-5 h-5" />
+                                    </button>
+                                ))}
+                            </div>
+                        </form>
+                    </div>
+
+                    {/* Registration Form */}
+                    <div className={cn(styles.form_box, styles.register)}>
+                        <form onSubmit={(e) => handleAuth(e, 'register')} className="w-full px-4 md:px-12">
+                            <h1 className="text-3xl font-bold text-slate-800 mb-6">Registration</h1>
+
+                            <div className="relative mb-6">
+                                <input
+                                    type="text"
+                                    placeholder="Username"
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
+                                    className="w-full bg-slate-100 rounded-xl py-3 pl-12 pr-4 text-slate-800 focus:outline-none focus:ring-2 focus:ring-secondary/50 placeholder:text-slate-400"
+                                    required
+                                />
+                                <User className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400" />
+                            </div>
+
+                            <div className="relative mb-6">
+                                <input
+                                    type="email"
+                                    placeholder="Email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    className="w-full bg-slate-100 rounded-xl py-3 pl-12 pr-4 text-slate-800 focus:outline-none focus:ring-2 focus:ring-secondary/50 placeholder:text-slate-400"
+                                    required
+                                />
+                                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400" />
+                            </div>
+
+                            <div className="relative mb-6">
+                                <input
+                                    type="password"
+                                    placeholder="Password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    className="w-full bg-slate-100 rounded-xl py-3 pl-12 pr-4 text-slate-800 focus:outline-none focus:ring-2 focus:ring-secondary/50 placeholder:text-slate-400"
+                                    required
+                                />
+                                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400" />
+                            </div>
+
+                            <button
+                                type="submit"
+                                disabled={loading}
+                                className="w-full bg-[#3b82f6] hover:bg-[#2563eb] text-white font-bold py-3 rounded-xl shadow-lg shadow-blue-500/30 transition-all flex justify-center items-center"
+                            >
+                                {loading && !isLogin ? <Loader2 className="h-5 w-5 animate-spin mr-2" /> : "Register"}
+                            </button>
+
+                            <p className="mt-8 text-sm text-slate-500">or register with social platforms</p>
+                            <div className="flex justify-center gap-4 mt-4">
+                                {[FaGoogle, FaFacebookF, FaGithub, FaLinkedinIn].map((Icon, i) => (
+                                    <button key={i} type="button" className="p-3 border-2 border-slate-200 rounded-xl text-slate-600 hover:border-secondary hover:text-secondary transition-colors">
+                                        <Icon className="w-5 h-5" />
+                                    </button>
+                                ))}
+                            </div>
+                        </form>
+                    </div>
+
+                    {/* Sliding Toggle Overlay */}
+                    <div className={styles.toggle_box}>
+                        <div className={cn(styles.toggle_panel, styles.toggle_left)}>
+                            <h1 className="text-4xl font-bold mb-4">Hello, Welcome!</h1>
+                            <p className="mb-8">Don't have an account?</p>
+                            <button
+                                onClick={() => setIsLogin(false)}
+                                className={styles.btn_toggle}
+                            >
+                                Register
+                            </button>
                         </div>
 
-                        {error && (
-                            <div className="rounded-lg bg-red-500/20 p-3 text-sm text-red-200 border border-red-500/30 text-center">
-                                {error}
-                            </div>
-                        )}
-
-                        <Button
-                            type="submit"
-                            className="w-full bg-secondary hover:bg-secondary/90 text-white font-bold py-3 rounded-xl shadow-lg shadow-secondary/20"
-                            disabled={loading}
-                        >
-                            {loading ? (
-                                <Loader2 className="h-5 w-5 animate-spin mr-2" />
-                            ) : isLogin ? (
-                                "Sign In"
-                            ) : (
-                                "Create Account"
-                            )}
-                        </Button>
-                    </form>
-
-                    <div className="mt-6 text-center text-sm text-slate-300">
-                        {isLogin ? "Don't have an account? " : "Already have an account? "}
-                        <button
-                            onClick={() => setIsLogin(!isLogin)}
-                            className="font-bold text-secondary hover:underline"
-                        >
-                            {isLogin ? "Sign Up" : "Log In"}
-                        </button>
+                        <div className={cn(styles.toggle_panel, styles.toggle_right)}>
+                            <h1 className="text-4xl font-bold mb-4">Welcome Back!</h1>
+                            <p className="mb-8">Already have an account?</p>
+                            <button
+                                onClick={() => setIsLogin(true)}
+                                className={styles.btn_toggle}
+                            >
+                                Login
+                            </button>
+                        </div>
                     </div>
                 </motion.div>
             </div>
         </AnimatePresence>
     );
 }
+
