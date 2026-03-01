@@ -18,6 +18,7 @@
     --width: clamp(80px, 12vmin, 120px);
     -webkit-tap-highlight-color: transparent;
     width: var(--width);
+    flex-shrink: 0;
     z-index: 10;
     will-change: transform;
     isolation: isolate;
