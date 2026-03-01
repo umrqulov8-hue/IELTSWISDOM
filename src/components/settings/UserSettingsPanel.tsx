@@ -6,10 +6,11 @@ import { useLanguage } from "@/context/LanguageContext";
 import { useAuthContext } from "@/context/AuthContext";
 import { translations as T, tx } from "@/lib/translations";
 import { useRouter } from "next/navigation";
-import { User, Camera, Languages, Type, Check, X, LogOut, Crown, Zap, ChevronRight } from "lucide-react";
+import { User, Camera, Languages, Type, Check, X, LogOut, Crown, Zap, ChevronRight, Moon } from "lucide-react";
 import { createClient } from "@/utils/supabase/client";
 import { toast } from "sonner";
 import Image from "next/image";
+import { DarkModeToggle } from "@/components/ui/DarkModeToggle";
 
 interface UserSettingsPanelProps {
     isOpen: boolean;
@@ -211,6 +212,17 @@ export function UserSettingsPanel({ isOpen, onClose }: UserSettingsPanelProps) {
                                         <span>{size.label}</span>
                                     </button>
                                 ))}
+                            </div>
+                        </motion.div>
+
+                        {/* Theme Selection */}
+                        <motion.div variants={{ hidden: { opacity: 0, y: 15, scale: 0.95 }, visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.4, ease: [0.34, 1.56, 0.64, 1] } } }} className="p-3 bg-white/50 backdrop-blur-xl rounded-2xl shadow-sm border border-white/60">
+                            <div className="flex items-center gap-2 mb-2.5 text-[11px] font-black tracking-wider text-slate-700 uppercase">
+                                <Moon className="w-4 h-4 text-slate-500" />
+                                {lang === 'en' ? "Theme" : "Mavzu"}
+                            </div>
+                            <div className="flex justify-center items-center py-2 bg-white/50 backdrop-blur-sm border border-white/60 rounded-xl overflow-hidden shadow-inner">
+                                <DarkModeToggle />
                             </div>
                         </motion.div>
 
