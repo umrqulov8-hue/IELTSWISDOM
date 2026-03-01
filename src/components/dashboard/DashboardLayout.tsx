@@ -130,9 +130,14 @@ export function DashboardLayout({
                                 <motion.div
                                     initial={false}
                                     animate={{
-                                        width: isSearchExpanded ? "320px" : "48px",
+                                        width: isSearchExpanded ? "240px" : "46px",
                                     }}
-                                    transition={{ type: "spring", stiffness: 350, damping: 25 }}
+                                    transition={{
+                                        type: "spring",
+                                        stiffness: 260,
+                                        damping: 24,
+                                        mass: 0.8
+                                    }}
                                     className="relative flex items-center group overflow-hidden"
                                 >
                                     {/* Soft White/Silver Ambient Glow */}
@@ -142,11 +147,11 @@ export function DashboardLayout({
                                     <div
                                         onClick={() => !isSearchExpanded && setIsSearchExpanded(true)}
                                         className={cn(
-                                            "relative flex items-center bg-white/30 backdrop-blur-[24px] border-[1.5px] border-white/70 hover:border-white/90 rounded-full shadow-[0_8px_32px_rgba(255,255,255,0.15),inset_0_1px_8px_rgba(255,255,255,0.4)] transition-all duration-300 w-full h-[48px]",
+                                            "relative flex items-center bg-white/30 backdrop-blur-[24px] border-[1.5px] border-white/70 hover:border-white/90 rounded-full shadow-[0_8px_32px_rgba(255,255,255,0.15),inset_0_1px_8px_rgba(255,255,255,0.4)] transition-all duration-300 w-full h-[46px]",
                                             isSearchExpanded ? "cursor-text" : "cursor-pointer"
                                         )}
                                     >
-                                        <div className="absolute left-[15px] flex items-center justify-center">
+                                        <div className="absolute left-[14px] flex items-center justify-center">
                                             <Search className="w-[18px] h-[18px] text-slate-500 hover:text-slate-800 transition-colors duration-300" />
                                         </div>
 
@@ -154,12 +159,13 @@ export function DashboardLayout({
                                             {isSearchExpanded && (
                                                 <motion.input
                                                     autoFocus
-                                                    initial={{ opacity: 0, x: -10 }}
-                                                    animate={{ opacity: 1, x: 0 }}
-                                                    exit={{ opacity: 0, x: -10 }}
+                                                    initial={{ opacity: 0, scale: 0.95, filter: "blur(4px)" }}
+                                                    animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+                                                    exit={{ opacity: 0, scale: 0.95, filter: "blur(4px)" }}
+                                                    transition={{ duration: 0.2 }}
                                                     type="text"
                                                     placeholder="Search..."
-                                                    className="bg-transparent border-none outline-none py-[10px] pl-[46px] pr-10 text-[15px] font-medium text-slate-800 placeholder:text-slate-400/80 w-full"
+                                                    className="bg-transparent border-none outline-none py-[10px] pl-[44px] pr-10 text-[15px] font-medium text-slate-800 placeholder:text-slate-400/80 w-full"
                                                 />
                                             )}
                                         </AnimatePresence>
@@ -178,6 +184,7 @@ export function DashboardLayout({
                                     </div>
                                 </motion.div>
                             </div>
+
 
 
 
