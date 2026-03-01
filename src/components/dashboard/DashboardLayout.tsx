@@ -7,6 +7,7 @@ import { useAuthContext } from "@/context/AuthContext";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 import { usePathname } from "next/navigation";
+import { DarkModeToggle } from "@/components/ui/DarkModeToggle";
 
 interface DashboardLayoutProps extends PropsWithChildren {
     title?: string;
@@ -125,6 +126,7 @@ export function DashboardLayout({
                         </div>
 
                         <div className="flex items-center gap-4">
+                            <DarkModeToggle />
                             <div className="relative flex items-center" ref={searchRef}>
                                 {/* Expandable Search Container */}
                                 <motion.div
