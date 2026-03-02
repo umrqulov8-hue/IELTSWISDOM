@@ -10,6 +10,7 @@ import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-
 import { useParams } from "next/navigation";
 import { BouncyText } from "@/components/ui/BouncyText";
 import { createClient } from "@/utils/supabase/client";
+import { createPortal } from "react-dom";
 import { HighlighterMenu, HighlightColor } from "@/components/ui/HighlighterMenu";
 import { toast } from "sonner";
 
@@ -33,12 +34,13 @@ const StaticContent = memo(
 // Part Section
 // ─────────────────────────────────────────────
 const ListeningPartSection = memo(function ListeningPartSection({
-    part, answers, onAnswerChange, isSubmitted,
+    part, answers, onAnswerChange, isSubmitted, readingAreaRef
 }: {
     part: ListeningPart;
     answers: Record<string, string>;
     onAnswerChange: (id: string, value: string) => void;
     isSubmitted: boolean;
+    readingAreaRef: React.RefObject<HTMLDivElement | null>;
 }) {
     const contentRef = useRef<HTMLDivElement>(null);
 
@@ -97,7 +99,7 @@ const ListeningPartSection = memo(function ListeningPartSection({
             </div>
 
             {/* Glass content card */}
-            <div className="glass-card rounded-2xl p-6 md:p-8 mb-6 selection:bg-blue-100 selection:text-blue-900">
+            <div ref={readingAreaRef} className="glass-card rounded-2xl p-6 md:p-8 mb-6 selection:bg-blue-100 selection:text-blue-900">
                 <StaticContent ref={contentRef} content={part.content} />
 
                 {/* Multiple choice */}
@@ -185,15 +187,23 @@ export default function ListeningTestPage() {
     // Highlighter State
     const [isMenuVisible, setIsMenuVisible] = useState(false);
     const [selection, setSelection] = useState<{ x: number, y: number } | null>(null);
+    const readingAreaRef = useRef<HTMLDivElement>(null);
 
     const handleMouseUp = useCallback(() => {
         const sel = window.getSelection();
-        if (!sel || sel.isCollapsed || sel.rangeCount === 0) {
+        if (!sel || sel.isCollapsed || sel.rangeCount === 0 || !readingAreaRef.current) {
             setIsMenuVisible(false);
             return;
         }
 
         const range = sel.getRangeAt(0);
+
+        // Ensure selection is strictly within the reading area
+        if (!readingAreaRef.current.contains(range.commonAncestorContainer)) {
+            setIsMenuVisible(false);
+            return;
+        }
+
         const rect = range.getBoundingClientRect();
 
         // Check if selection is within a valid text area (not an input)
@@ -263,6 +273,20 @@ export default function ListeningTestPage() {
         sel.removeAllRanges();
         setIsMenuVisible(false);
     }, []);
+
+    // Setup window-level event listener for reliability
+    useEffect(() => {
+        window.addEventListener('mouseup', handleMouseUp);
+
+        // Hide on scroll to prevent floating menu
+        const handleScroll = () => setIsMenuVisible(false);
+        window.addEventListener('scroll', handleScroll, true);
+
+        return () => {
+            window.removeEventListener('mouseup', handleMouseUp);
+            window.removeEventListener('scroll', handleScroll, true);
+        };
+    }, [handleMouseUp]);
 
     useMotionValueEvent(scrollY, "change", (latest) => {
         const previous = scrollY.getPrevious() ?? 0;
@@ -420,18 +444,20 @@ export default function ListeningTestPage() {
     return (
         <div
             className="liquid-bg min-h-screen flex flex-col pb-28"
-            onMouseUp={handleMouseUp}
         >
 
             {/* Global styles */}
             <style>{liquidStyles}</style>
 
-            {/* Highlighter Menu */}
-            <HighlighterMenu
-                isVisible={isMenuVisible}
-                position={selection || { x: 0, y: 0 }}
-                onHighlight={handleHighlight}
-            />
+            {/* Highlighter Menu - Mounted via Portal for reliable visibility */}
+            {typeof document !== 'undefined' && createPortal(
+                <HighlighterMenu
+                    isVisible={isMenuVisible}
+                    position={selection || { x: 0, y: 0 }}
+                    onHighlight={handleHighlight}
+                />,
+                document.body
+            )}
 
             {/* Top bar */}
             <motion.div
@@ -592,6 +618,7 @@ export default function ListeningTestPage() {
                             answers={answers}
                             onAnswerChange={handleAnswerChange}
                             isSubmitted={isSubmitted}
+                            readingAreaRef={readingAreaRef}
                         />
                     </motion.div>
                 </AnimatePresence>
