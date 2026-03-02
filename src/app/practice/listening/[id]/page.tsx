@@ -10,6 +10,8 @@ import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-
 import { useParams } from "next/navigation";
 import { BouncyText } from "@/components/ui/BouncyText";
 import { createClient } from "@/utils/supabase/client";
+import { HighlighterMenu, HighlightColor } from "@/components/ui/HighlighterMenu";
+import { toast } from "sonner";
 
 // ─────────────────────────────────────────────
 // Static Content
@@ -180,6 +182,83 @@ export default function ListeningTestPage() {
     const [showTopbar, setShowTopbar] = useState(true);
     const { scrollY } = useScroll();
 
+    // Highlighter State
+    const [isMenuVisible, setIsMenuVisible] = useState(false);
+    const [selection, setSelection] = useState<{ x: number, y: number } | null>(null);
+
+    const handleMouseUp = () => {
+        const sel = window.getSelection();
+        if (sel && sel.toString().length > 0 && sel.rangeCount > 0) {
+            const range = sel.getRangeAt(0);
+            const rect = range.getBoundingClientRect();
+
+            // Check if selection is within a valid text area (not an input)
+            const container = range.commonAncestorContainer;
+            const element = container.nodeType === 3 ? container.parentNode : container;
+            if ((element as HTMLElement).closest('input')) {
+                setIsMenuVisible(false);
+                return;
+            }
+
+            setSelection({
+                x: rect.left + rect.width / 2,
+                y: rect.top
+            });
+            setIsMenuVisible(true);
+        } else {
+            setIsMenuVisible(false);
+        }
+    };
+
+    const handleHighlight = (color: HighlightColor) => {
+        const sel = window.getSelection();
+        if (!sel || sel.rangeCount === 0) {
+            setIsMenuVisible(false);
+            return;
+        }
+
+        if (color === 'copy') {
+            const text = sel.toString();
+            navigator.clipboard.writeText(text);
+            toast.success("Copied to clipboard!");
+            setIsMenuVisible(false);
+            return;
+        }
+
+        if (color === 'none') {
+            const range = sel.getRangeAt(0);
+            let container = range.commonAncestorContainer;
+            if (container.nodeType === 3) container = container.parentNode!;
+
+            const highlightSpan = (container as HTMLElement).closest('span[class^="hlt-"]');
+            if (highlightSpan) {
+                const parent = highlightSpan.parentNode!;
+                while (highlightSpan.firstChild) {
+                    parent.insertBefore(highlightSpan.firstChild, highlightSpan);
+                }
+                parent.removeChild(highlightSpan);
+            }
+            setIsMenuVisible(false);
+            sel.removeAllRanges();
+            return;
+        }
+
+        const range = sel.getRangeAt(0);
+        const span = document.createElement('span');
+        span.className = `hlt-${color}`;
+
+        try {
+            range.surroundContents(span);
+        } catch (e) {
+            const fragment = range.extractContents();
+            span.appendChild(fragment);
+            range.insertNode(span);
+        }
+
+        sel.removeAllRanges();
+        setIsMenuVisible(false);
+    };
+
     useMotionValueEvent(scrollY, "change", (latest) => {
         const previous = scrollY.getPrevious() ?? 0;
         if (latest > previous && latest > 150) {
@@ -334,10 +413,20 @@ export default function ListeningTestPage() {
 
     // ── TEST SCREEN ────────────────────────────────────────────────────
     return (
-        <div className="liquid-bg min-h-screen flex flex-col pb-28">
+        <div
+            className="liquid-bg min-h-screen flex flex-col pb-28"
+            onMouseUp={handleMouseUp}
+        >
 
             {/* Global styles */}
             <style>{liquidStyles}</style>
+
+            {/* Highlighter Menu */}
+            <HighlighterMenu
+                isVisible={isMenuVisible}
+                position={selection || { x: 0, y: 0 }}
+                onHighlight={handleHighlight}
+            />
 
             {/* Top bar */}
             <motion.div
