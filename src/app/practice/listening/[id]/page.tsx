@@ -33,13 +33,12 @@ const StaticContent = memo(
 // Part Section
 // ─────────────────────────────────────────────
 const ListeningPartSection = memo(function ListeningPartSection({
-    part, answers, onAnswerChange, isSubmitted, onMouseUp
+    part, answers, onAnswerChange, isSubmitted,
 }: {
     part: ListeningPart;
     answers: Record<string, string>;
     onAnswerChange: (id: string, value: string) => void;
     isSubmitted: boolean;
-    onMouseUp: () => void;
 }) {
     const contentRef = useRef<HTMLDivElement>(null);
 
@@ -98,7 +97,7 @@ const ListeningPartSection = memo(function ListeningPartSection({
             </div>
 
             {/* Glass content card */}
-            <div className="glass-card rounded-2xl p-6 md:p-8 mb-6 selection:bg-blue-100 selection:text-blue-900" onMouseUp={onMouseUp}>
+            <div className="glass-card rounded-2xl p-6 md:p-8 mb-6 selection:bg-blue-100 selection:text-blue-900">
                 <StaticContent ref={contentRef} content={part.content} />
 
                 {/* Multiple choice */}
@@ -187,7 +186,7 @@ export default function ListeningTestPage() {
     const [isMenuVisible, setIsMenuVisible] = useState(false);
     const [selection, setSelection] = useState<{ x: number, y: number } | null>(null);
 
-    const handleMouseUp = () => {
+    const handleMouseUp = useCallback(() => {
         const sel = window.getSelection();
         if (!sel || sel.isCollapsed || sel.rangeCount === 0) {
             setIsMenuVisible(false);
@@ -200,7 +199,7 @@ export default function ListeningTestPage() {
         // Check if selection is within a valid text area (not an input)
         const container = range.commonAncestorContainer;
         const element = container.nodeType === 3 ? container.parentNode : container;
-        if ((element as HTMLElement).closest('input') || (element as HTMLElement).closest('button')) {
+        if ((element as HTMLElement).closest('input')) {
             setIsMenuVisible(false);
             return;
         }
@@ -214,9 +213,9 @@ export default function ListeningTestPage() {
         } else {
             setIsMenuVisible(false);
         }
-    };
+    }, []);
 
-    const handleHighlight = (color: HighlightColor) => {
+    const handleHighlight = useCallback((color: HighlightColor) => {
         const sel = window.getSelection();
         if (!sel || sel.rangeCount === 0) {
             setIsMenuVisible(false);
@@ -263,7 +262,7 @@ export default function ListeningTestPage() {
 
         sel.removeAllRanges();
         setIsMenuVisible(false);
-    };
+    }, []);
 
     useMotionValueEvent(scrollY, "change", (latest) => {
         const previous = scrollY.getPrevious() ?? 0;
@@ -421,6 +420,7 @@ export default function ListeningTestPage() {
     return (
         <div
             className="liquid-bg min-h-screen flex flex-col pb-28"
+            onMouseUp={handleMouseUp}
         >
 
             {/* Global styles */}
@@ -592,7 +592,6 @@ export default function ListeningTestPage() {
                             answers={answers}
                             onAnswerChange={handleAnswerChange}
                             isSubmitted={isSubmitted}
-                            onMouseUp={handleMouseUp}
                         />
                     </motion.div>
                 </AnimatePresence>
