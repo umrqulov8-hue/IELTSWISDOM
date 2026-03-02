@@ -3,11 +3,12 @@
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Mic, Zap, ChevronDown, ChevronUp, Book, Star, Clock, Globe } from "lucide-react";
+import { Mic, Zap, ChevronDown, ChevronUp, Book, Star, Clock, Globe, Lock } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
+import { useSubscription } from "@/context/SubscriptionContext";
 import { BouncyText } from "@/components/ui/BouncyText";
 
 // --- Types ---
@@ -43,6 +44,7 @@ const SPEAKING_TESTS: SpeakingTest[] = [
 
 export default function SpeakingPage() {
     const { lang } = useLanguage();
+    const { isPro } = useSubscription();
     const S = {
         title: lang === 'en' ? "Speaking Practice" : "Gapirish Mashqi",
         desc: lang === 'en' ? "Master IELTS Speaking with our latest practice tests." : "Chet tilida erkin gapirishni eng so'nggi testlar bilan o'zlang.",
@@ -137,7 +139,11 @@ export default function SpeakingPage() {
                     >
                         <AnimatePresence>
                             {visibleTests.map((test) => (
-                                <Link href={`/practice/speaking/${test.id}`} key={test.id} className="block w-full h-full">
+                                <Link
+                                    href={isPro || test.id === "jan-1" ? `/practice/speaking/${test.id}` : "/upgrade"}
+                                    key={test.id}
+                                    className="block w-full h-full"
+                                >
                                     <motion.div
                                         layout
                                         variants={{
@@ -145,11 +151,15 @@ export default function SpeakingPage() {
                                             visible: { opacity: 1, y: 0, scale: 1, transition: { type: "spring", bounce: 0.45 } }
                                         }}
                                         exit={{ opacity: 0, scale: 0.9 }}
-                                        className="bg-white hover:bg-orange-50/50 border border-slate-200 hover:border-orange-200 rounded-xl p-5 text-left transition-all group shadow-sm hover:shadow-md flex flex-col justify-between h-28 cursor-pointer w-full"
+                                        className={cn(
+                                            "bg-white hover:bg-orange-50/50 border border-slate-200 hover:border-orange-200 rounded-xl p-5 text-left transition-all group shadow-sm hover:shadow-md flex flex-col justify-between h-28 cursor-pointer w-full relative overflow-hidden",
+                                            !(isPro || test.id === "jan-1") && "opacity-80"
+                                        )}
                                     >
                                         <div>
-                                            <h4 className="font-bold text-slate-700 group-hover:text-orange-600 transition-colors line-clamp-1">
+                                            <h4 className="font-bold text-slate-700 group-hover:text-orange-600 transition-colors line-clamp-1 flex items-center gap-2">
                                                 {lang === 'uz' ? MONTH_UZ[test.month] : test.month} {S.testWord} {test.testNumber}
+                                                {!(isPro || test.id === "jan-1") && <Lock className="w-3.5 h-3.5 text-slate-400" />}
                                             </h4>
                                         </div>
 
@@ -183,59 +193,61 @@ export default function SpeakingPage() {
 
                 {/* --- Right Column: Sidebar Promo --- */}
                 <aside className="w-full lg:w-80 flex-shrink-0 space-y-6">
-
                     {/* Upgrade Promo Card */}
-                    <motion.div
-                        initial={{ opacity: 0, x: 30, scale: 0.95 }}
-                        animate={{ opacity: 1, x: 0, scale: 1 }}
-                        transition={{ duration: 0.7, delay: 0.3, type: "spring", bounce: 0.3 }}
-                        className="bg-gradient-to-br from-orange-400 via-pink-500 to-purple-600 rounded-3xl p-8 text-white text-center relative overflow-hidden shadow-xl sticky top-24"
-                    >
-                        {/* Decorative Background Elements */}
-                        <div className="absolute top-0 right-0 w-32 h-32 bg-white/20 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2" />
-                        <div className="absolute bottom-0 left-0 w-40 h-40 bg-black/10 rounded-full blur-2xl translate-y-1/2 -translate-x-1/2" />
+                    {!isPro && (
+                        <motion.div
+                            initial={{ opacity: 0, x: 30, scale: 0.95 }}
+                            animate={{ opacity: 1, x: 0, scale: 1 }}
+                            transition={{ duration: 0.7, delay: 0.3, type: "spring", bounce: 0.3 }}
+                            className="bg-gradient-to-br from-orange-400 via-pink-500 to-purple-600 rounded-3xl p-8 text-white text-center relative overflow-hidden shadow-xl sticky top-24"
+                        >
+                            {/* Decorative Background Elements */}
+                            <div className="absolute top-0 right-0 w-32 h-32 bg-white/20 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2" />
+                            <div className="absolute bottom-0 left-0 w-40 h-40 bg-black/10 rounded-full blur-2xl translate-y-1/2 -translate-x-1/2" />
 
-                        <div className="relative z-10">
-                            <motion.div
-                                animate={{ y: [0, -6, 0] }}
-                                transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
-                                className="w-14 h-14 bg-white/20 backdrop-blur-md rounded-2xl mx-auto mb-6 flex items-center justify-center border border-white/30 shadow-inner"
-                            >
-                                <Globe className="w-8 h-8 text-white" />
-                            </motion.div>
+                            <div className="relative z-10">
+                                <motion.div
+                                    animate={{ y: [0, -6, 0] }}
+                                    transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
+                                    className="w-14 h-14 bg-white/20 backdrop-blur-md rounded-2xl mx-auto mb-6 flex items-center justify-center border border-white/30 shadow-inner"
+                                >
+                                    <Globe className="w-8 h-8 text-white" />
+                                </motion.div>
 
-                            <h3 className="text-xl font-bold mb-6">
-                                <BouncyText key={`promo-title-${lang}`} text={S.promoTitle} type="word" />
-                            </h3>
+                                <h3 className="text-xl font-bold mb-6">
+                                    <BouncyText key={`promo-title-${lang}`} text={S.promoTitle} type="word" />
+                                </h3>
 
-                            <ul className="text-left space-y-3 mb-8 text-orange-50 text-sm font-medium">
-                                <li className="flex items-start gap-2">
-                                    <div className="mt-1 min-w-[6px] min-h-[6px] rounded-full bg-white" />
-                                    <span>{S.p1}</span>
-                                </li>
-                                <li className="flex items-start gap-2">
-                                    <div className="mt-1 min-w-[6px] min-h-[6px] rounded-full bg-white" />
-                                    <span>{S.p2}</span>
-                                </li>
-                                <li className="flex items-start gap-2">
-                                    <div className="mt-1 min-w-[6px] min-h-[6px] rounded-full bg-white" />
-                                    <span>{S.p3}</span>
-                                </li>
-                                <li className="flex items-start gap-2">
-                                    <div className="mt-1 min-w-[6px] min-h-[6px] rounded-full bg-white" />
-                                    <span>{S.p4}</span>
-                                </li>
-                            </ul>
+                                <ul className="text-left space-y-3 mb-8 text-orange-50 text-sm font-medium">
+                                    <li className="flex items-start gap-2">
+                                        <div className="mt-1 min-w-[6px] min-h-[6px] rounded-full bg-white" />
+                                        <span>{S.p1}</span>
+                                    </li>
+                                    <li className="flex items-start gap-2">
+                                        <div className="mt-1 min-w-[6px] min-h-[6px] rounded-full bg-white" />
+                                        <span>{S.p2}</span>
+                                    </li>
+                                    <li className="flex items-start gap-2">
+                                        <div className="mt-1 min-w-[6px] min-h-[6px] rounded-full bg-white" />
+                                        <span>{S.p3}</span>
+                                    </li>
+                                    <li className="flex items-start gap-2">
+                                        <div className="mt-1 min-w-[6px] min-h-[6px] rounded-full bg-white" />
+                                        <span>{S.p4}</span>
+                                    </li>
+                                </ul>
 
-                            <button className="w-full bg-white text-orange-600 font-bold py-3 rounded-xl hover:bg-orange-50 transition-colors shadow-lg flex items-center justify-center gap-2 group">
-                                {S.btn}
-                                <span className="bg-orange-600 text-white rounded text-[10px] px-1 py-0.5 group-hover:scale-110 transition-transform">+</span>
-                            </button>
-                        </div>
-                    </motion.div>
+                                <Link href="/upgrade">
+                                    <button className="w-full bg-white text-orange-600 font-bold py-3 rounded-xl hover:bg-orange-50 transition-colors shadow-lg flex items-center justify-center gap-2 group">
+                                        {S.btn}
+                                        <span className="bg-orange-600 text-white rounded text-[10px] px-1 py-0.5 group-hover:scale-110 transition-transform">+</span>
+                                    </button>
+                                </Link>
+                            </div>
+                        </motion.div>
+                    )}
                 </aside>
-
-            </div>
-        </DashboardLayout>
+            </div >
+        </DashboardLayout >
     );
 }

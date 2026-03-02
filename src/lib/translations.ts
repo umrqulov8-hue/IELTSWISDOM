@@ -251,7 +251,7 @@ export const translations = {
     speaking: {
         title: { en: "Speaking Practice", uz: "Gapirish Mashqi" },
         desc: { en: "Record yourself and get AI feedback on your IELTS speaking.", uz: "O'zingizni yozib oling va IELTS gapirish bo'yicha AI fikr-mulohazasini oling." },
-        coming: { en: "AI Speaking evaluation coming soon!", uz: "AI ovozli baholash tez kunda!" },
+        coming: { en: "Master IELTS Speaking with AI", uz: "AI bilan IELTS Speaking-ni o'rganing" },
     },
 
     // ──── READING PRACTICE ────

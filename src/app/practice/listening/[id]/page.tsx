@@ -223,7 +223,20 @@ export default function ListeningTestPage() {
         } else {
             setIsMenuVisible(false);
         }
+    }, [readingAreaRef]);
+
+    const handleScroll = useCallback(() => {
+        setIsMenuVisible(false);
     }, []);
+
+    useEffect(() => {
+        window.addEventListener('mouseup', handleMouseUp);
+        window.addEventListener('scroll', handleScroll, true);
+        return () => {
+            window.removeEventListener('mouseup', handleMouseUp);
+            window.removeEventListener('scroll', handleScroll, true);
+        };
+    }, [handleMouseUp, handleScroll]);
 
     const handleHighlight = useCallback((color: HighlightColor) => {
         const sel = window.getSelection();

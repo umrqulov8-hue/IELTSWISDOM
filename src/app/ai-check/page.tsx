@@ -5,9 +5,14 @@ import { Send, Bot, User, Trash2, AlertCircle, Sparkles, BookOpen, Mic, PenLine,
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { useLanguage } from "@/context/LanguageContext";
+import { useSubscription } from "@/context/SubscriptionContext";
 import { translations as T, tx } from "@/lib/translations";
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { BouncyText } from "@/components/ui/BouncyText";
+import Link from "next/link";
+import { cn } from "@/lib/utils";
+import { toast } from "sonner";
+import { Lock } from "lucide-react";
 
 interface Message {
     role: "user" | "assistant";
@@ -17,6 +22,7 @@ interface Message {
 export default function AICheckPage() {
     const router = useRouter();
     const { lang } = useLanguage();
+    const { isPro } = useSubscription();
     const AIC = T.aiCheck;
 
     const WELCOME_MESSAGE = (): Message => ({
@@ -252,7 +258,24 @@ export default function AICheckPage() {
                 {/* --- Input Dock --- */}
                 <div className="w-full z-50 pt-4 pb-2 flex-shrink-0 bg-transparent">
                     <div className="max-w-4xl mx-auto relative group">
-                        <div className="relative backdrop-blur-xl bg-white/90 border border-slate-200 rounded-3xl p-3 flex items-end gap-3 shadow-lg transition-all duration-300 group-focus-within:border-orange-400/50 group-focus-within:shadow-[0_8px_30px_rgba(255,140,0,0.15)] group-focus-within:bg-white text-slate-800">
+                        {!isPro && (
+                            <div className="absolute inset-0 z-[60] backdrop-blur-md bg-white/20 rounded-3xl flex items-center justify-center border border-white/40 shadow-lg">
+                                <div className="text-center p-6 bg-white/90 rounded-2xl shadow-xl border border-slate-200">
+                                    <Lock className="w-8 h-8 text-orange-500 mx-auto mb-2" />
+                                    <h3 className="text-slate-800 font-bold mb-1">Premium Feature</h3>
+                                    <p className="text-slate-500 text-xs mb-4">Upgrade to Pro to chat with AI Assistant</p>
+                                    <Link href="/upgrade">
+                                        <button className="px-6 py-2 bg-gradient-to-r from-orange-400 to-amber-500 text-white rounded-xl text-sm font-bold shadow-md hover:scale-105 transition-transform">
+                                            Upgrade Now
+                                        </button>
+                                    </Link>
+                                </div>
+                            </div>
+                        )}
+                        <div className={cn(
+                            "relative backdrop-blur-xl bg-white/90 border border-slate-200 rounded-3xl p-3 flex items-end gap-3 shadow-lg transition-all duration-300 group-focus-within:border-orange-400/50 group-focus-within:shadow-[0_8px_30px_rgba(255,140,0,0.15)] group-focus-within:bg-white text-slate-800",
+                            !isPro && "opacity-50 pointer-events-none"
+                        )}>
                             <textarea
                                 ref={textareaRef}
                                 value={input}
@@ -261,11 +284,11 @@ export default function AICheckPage() {
                                 placeholder={tx(AIC.placeholder, lang)}
                                 rows={1}
                                 className="flex-1 resize-none bg-transparent text-slate-800 placeholder:text-slate-400 focus:outline-none py-3 px-4 min-h-[50px] max-h-[200px] overflow-y-auto leading-relaxed text-[15px] font-medium custom-scrollbar"
-                                disabled={loading}
+                                disabled={loading || !isPro}
                             />
                             <button
                                 onClick={() => sendMessage(input)}
-                                disabled={!input.trim() || loading}
+                                disabled={!input.trim() || loading || !isPro}
                                 className="w-12 h-12 rounded-2xl bg-gradient-to-br from-orange-400 to-[#FF8C00] flex items-center justify-center text-white flex-shrink-0 shadow-md disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 hover:scale-105 active:scale-95 mb-0.5 mr-0.5"
                             >
                                 <Send className="w-5 h-5" />

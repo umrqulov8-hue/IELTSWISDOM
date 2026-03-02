@@ -15,7 +15,8 @@ import {
     LogOut,
     User,
     ChevronRight,
-    Search
+    Search,
+    Lock
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useAuthContext } from '@/context/AuthContext';
@@ -255,6 +256,10 @@ export function Sidebar() {
                                         >
                                             NEW
                                         </span>
+                                    )}
+
+                                    {item.premium && !isPro && (
+                                        <Lock className="absolute right-3 w-3.5 h-3.5 text-slate-400 group-hover:text-amber-500 transition-colors opacity-0 group-hover:opacity-100" />
                                     )}
 
                                     {/* Subtle active border indicator when collapsed */}
