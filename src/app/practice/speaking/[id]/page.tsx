@@ -4,17 +4,20 @@ import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import { useLanguage } from "@/context/LanguageContext";
 import { SPEAKING_TESTS } from "@/data/speaking-tests";
-import { Menu, Clock, Mic, Upload, Send, Crown, Square, Trash2, Loader2, Play, CheckCircle } from "lucide-react";
+import { useSubscription } from "@/context/SubscriptionContext";
+import { Menu, Clock, Mic, Upload, Send, Crown, Square, Trash2, Loader2, Play, CheckCircle, Lock, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRef } from "react";
 import { cn } from "@/lib/utils";
+import { toast } from "sonner";
 
 export default function SpeakingTestInterface() {
     const params = useParams();
     const testId = params?.id as string;
     const testData = testId ? SPEAKING_TESTS[testId] : null;
     const { lang } = useLanguage();
+    const { isPro } = useSubscription();
 
     const [timeLeft, setTimeLeft] = useState(16);
     const [currentPartIndex, setCurrentPartIndex] = useState(0);
@@ -88,6 +91,10 @@ export default function SpeakingTestInterface() {
 
     const handleAnalysis = async () => {
         if (!audioBlob) return;
+        if (!isPro) {
+            toast.error(lang === "en" ? "AI Evaluation is a Pro feature" : "AI tahlili Pro imkoniyati hisoblanadi");
+            return;
+        }
 
         setIsAnalyzing(true);
         setError(null);
@@ -306,11 +313,26 @@ export default function SpeakingTestInterface() {
                                     </button>
                                     <button
                                         onClick={handleAnalysis}
-                                        className="flex-[2] bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-bold py-3.5 px-6 rounded-2xl shadow-lg shadow-blue-500/20 hover:shadow-blue-500/40 transition-all flex items-center justify-center gap-2 hover:-translate-y-1 active:scale-95 border border-white/20"
+                                        disabled={isAnalyzing}
+                                        className={cn(
+                                            "flex-[2] text-white font-bold py-3.5 px-6 rounded-2xl shadow-lg transition-all flex items-center justify-center gap-2 hover:-translate-y-1 active:scale-95 border border-white/20",
+                                            isPro
+                                                ? "bg-gradient-to-r from-blue-500 to-indigo-600 shadow-blue-500/20 hover:shadow-blue-500/40"
+                                                : "bg-slate-400 cursor-not-allowed"
+                                        )}
                                     >
-                                        Analyze Answer <Send className="w-5 h-5" />
+                                        {isPro ? (
+                                            <>Analyze Answer <Send className="w-5 h-5" /></>
+                                        ) : (
+                                            <>Premium Feature <Lock className="w-4 h-4 ml-1" /></>
+                                        )}
                                     </button>
                                 </div>
+                                {!isPro && (
+                                    <Link href="/upgrade" className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-amber-600 hover:text-amber-700 transition-colors">
+                                        Upgrade to Pro for AI Analysis <ChevronRight className="w-4 h-4" />
+                                    </Link>
+                                )}
                             </div>
                         </div>
                     )}

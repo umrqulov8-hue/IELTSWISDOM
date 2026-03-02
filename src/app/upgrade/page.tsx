@@ -12,7 +12,7 @@ import { ProBadge } from "@/components/ui/ProBadge";
 
 export default function UpgradePage() {
     const { lang } = useLanguage();
-    const { isPro, isTrialing, trialDaysLeft, subscribe, cancelSubscription } = useSubscription();
+    const { isPro, subscribe, cancelSubscription } = useSubscription();
     const [showCelebration, setShowCelebration] = useState(false);
 
     const handleSubscribe = () => {
@@ -25,19 +25,16 @@ export default function UpgradePage() {
     const T = {
         back: lang === "en" ? "Back to Dashboard" : "Boshqaruvga qaytish",
         title: lang === "en" ? "Choose Your Plan" : "Tarifingizni tanlang",
-        subtitle: lang === "en" ? "Start with a 5-day free trial. Cancel anytime." : "5 kunlik bepul sinov bilan boshlang. Istalgan vaqtda bekor qiling.",
+        subtitle: lang === "en" ? "Unlock the full power of IELTS preparation." : "IELTS tayyorgarligining to'liq quvvatini oching.",
         free: lang === "en" ? "Free" : "Bepul",
         freeDesc: lang === "en" ? "Get started with essential features" : "Asosiy imkoniyatlar bilan boshlang",
         pro: "Pro",
         proDesc: lang === "en" ? "Ultimate IELTS Power" : "To'liq IELTS quvvati",
         currentPlan: lang === "en" ? "Current Plan" : "Joriy tarif",
-        freeTrial: lang === "en" ? "5-DAY FREE TRIAL" : "5 KUN BEPUL SINOV",
-        startTrial: lang === "en" ? "Start Free Trial" : "Bepul sinov boshlash",
         goPro: lang === "en" ? "Go Pro" : "Pro ga o'tish",
         activePro: lang === "en" ? "You're Pro!" : "Siz Pro siz!",
-        trialActive: lang === "en" ? `Trial: ${trialDaysLeft} days left` : `Sinov: ${trialDaysLeft} kun qoldi`,
         cancelBtn: lang === "en" ? "Cancel Subscription" : "Obunani bekor qilish",
-        afterTrial: lang === "en" ? "Then $1.99/month · Auto-renews" : "Keyin $1.99/oy · Avtomatik yangilanadi",
+        afterTrial: lang === "en" ? "$1.99/month · Auto-renews" : "$1.99/oy · Avtomatik yangilanadi",
         secure: lang === "en" ? "Secure payments handled by Stripe. Cancel anytime." : "Xavfsiz to'lovlar Stripe orqali. Istalgan vaqtda bekor qiling.",
         month: lang === "en" ? "/month" : "/oy",
         forever: lang === "en" ? "forever" : "doim",
@@ -190,11 +187,6 @@ export default function UpgradePage() {
                                 </div>
                                 <div className="flex items-center gap-2">
                                     {isPro && <ProBadge size="sm" />}
-                                    {!isPro && (
-                                        <div className="px-4 py-1.5 bg-gradient-to-r from-amber-400 to-orange-500 rounded-full text-[10px] font-black uppercase tracking-widest text-white shadow-lg animate-pulse">
-                                            {T.freeTrial}
-                                        </div>
-                                    )}
                                 </div>
                             </div>
 
@@ -206,17 +198,10 @@ export default function UpgradePage() {
                                 <span className="text-5xl font-black tracking-tighter">$1.99</span>
                                 <span className="text-slate-400 font-bold">{T.month}</span>
                             </div>
-                            {!isPro && (
-                                <p className="text-xs text-amber-600 font-bold mb-8 flex items-center gap-1.5">
-                                    <Clock className="w-3 h-3" /> {T.afterTrial}
-                                </p>
-                            )}
-                            {isPro && isTrialing && (
-                                <p className="text-xs text-amber-600 font-bold mb-8 flex items-center gap-1.5">
-                                    <Clock className="w-3 h-3" /> {T.trialActive}
-                                </p>
-                            )}
-                            {isPro && !isTrialing && <div className="mb-8" />}
+                            <p className="text-xs text-amber-600 font-bold mb-8 flex items-center gap-1.5">
+                                <Clock className="w-3 h-3" /> {T.afterTrial}
+                            </p>
+                            {isPro && <div className="mb-8" />}
 
                             {/* Features */}
                             <div className="flex-1 space-y-4 mb-10">
@@ -291,7 +276,7 @@ export default function UpgradePage() {
                                             transition={{ duration: 0.6, ease: "easeInOut" }}
                                         />
                                         <span className="relative z-10">
-                                            {showCelebration ? (lang === "en" ? "🎉 Welcome to Pro!" : "🎉 Pro ga xush kelibsiz!") : T.startTrial}
+                                            {showCelebration ? (lang === "en" ? "🎉 Welcome to Pro!" : "🎉 Pro ga xush kelibsiz!") : T.goPro}
                                         </span>
                                     </motion.button>
                                 </div>
