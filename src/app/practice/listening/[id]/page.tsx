@@ -21,7 +21,7 @@ const StaticContent = memo(
         return (
             <div
                 ref={ref}
-                className="prose prose-slate max-w-none text-slate-700 prose-p:my-1 prose-li:my-1"
+                className="prose prose-slate max-w-none text-slate-700 prose-p:my-1 prose-li:my-1 selection:bg-blue-100 selection:text-blue-900"
                 dangerouslySetInnerHTML={{ __html: content }}
             />
         );
@@ -33,12 +33,13 @@ const StaticContent = memo(
 // Part Section
 // ─────────────────────────────────────────────
 const ListeningPartSection = memo(function ListeningPartSection({
-    part, answers, onAnswerChange, isSubmitted,
+    part, answers, onAnswerChange, isSubmitted, onMouseUp
 }: {
     part: ListeningPart;
     answers: Record<string, string>;
     onAnswerChange: (id: string, value: string) => void;
     isSubmitted: boolean;
+    onMouseUp: () => void;
 }) {
     const contentRef = useRef<HTMLDivElement>(null);
 
@@ -97,7 +98,7 @@ const ListeningPartSection = memo(function ListeningPartSection({
             </div>
 
             {/* Glass content card */}
-            <div className="glass-card rounded-2xl p-6 md:p-8 mb-6">
+            <div className="glass-card rounded-2xl p-6 md:p-8 mb-6 selection:bg-blue-100 selection:text-blue-900" onMouseUp={onMouseUp}>
                 <StaticContent ref={contentRef} content={part.content} />
 
                 {/* Multiple choice */}
@@ -188,18 +189,23 @@ export default function ListeningTestPage() {
 
     const handleMouseUp = () => {
         const sel = window.getSelection();
-        if (sel && sel.toString().length > 0 && sel.rangeCount > 0) {
-            const range = sel.getRangeAt(0);
-            const rect = range.getBoundingClientRect();
+        if (!sel || sel.isCollapsed || sel.rangeCount === 0) {
+            setIsMenuVisible(false);
+            return;
+        }
 
-            // Check if selection is within a valid text area (not an input)
-            const container = range.commonAncestorContainer;
-            const element = container.nodeType === 3 ? container.parentNode : container;
-            if ((element as HTMLElement).closest('input')) {
-                setIsMenuVisible(false);
-                return;
-            }
+        const range = sel.getRangeAt(0);
+        const rect = range.getBoundingClientRect();
 
+        // Check if selection is within a valid text area (not an input)
+        const container = range.commonAncestorContainer;
+        const element = container.nodeType === 3 ? container.parentNode : container;
+        if ((element as HTMLElement).closest('input') || (element as HTMLElement).closest('button')) {
+            setIsMenuVisible(false);
+            return;
+        }
+
+        if (sel.toString().trim().length > 0) {
             setSelection({
                 x: rect.left + rect.width / 2,
                 y: rect.top
@@ -415,7 +421,6 @@ export default function ListeningTestPage() {
     return (
         <div
             className="liquid-bg min-h-screen flex flex-col pb-28"
-            onMouseUp={handleMouseUp}
         >
 
             {/* Global styles */}
@@ -587,6 +592,7 @@ export default function ListeningTestPage() {
                             answers={answers}
                             onAnswerChange={handleAnswerChange}
                             isSubmitted={isSubmitted}
+                            onMouseUp={handleMouseUp}
                         />
                     </motion.div>
                 </AnimatePresence>
