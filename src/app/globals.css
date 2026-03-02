@@ -1,5 +1,28 @@
 @import "tailwindcss";
 
+/* Highlight Classes */
+.hlt-yellow {
+  background-color: rgba(254, 240, 138, 0.6) !important;
+  color: inherit !important;
+  border-radius: 2px;
+}
+
+.hlt-green {
+  background-color: rgba(187, 247, 208, 0.6) !important;
+  color: inherit !important;
+  border-radius: 2px;
+}
+
+.hlt-blue {
+  background-color: rgba(191, 219, 254, 0.6) !important;
+  color: inherit !important;
+  border-radius: 2px;
+}
+
+.hlt-none {
+  background-color: transparent !important;
+}
+
 @theme {
   --font-sans: var(--font-plus-jakarta), ui-sans-serif, system-ui, sans-serif;
   --font-body: var(--font-inter), ui-sans-serif, system-ui, sans-serif;

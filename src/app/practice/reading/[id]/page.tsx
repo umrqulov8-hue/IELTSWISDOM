@@ -8,6 +8,8 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { createClient } from "@/utils/supabase/client";
 import { READING_TESTS, ReadingTest } from "@/data/reading-tests";
+import { HighlighterMenu, HighlightColor } from "@/components/ui/HighlighterMenu";
+import { useRef } from "react";
 
 
 export default function ReadingTestPage({ params }: { params: Promise<{ id: string }> }) {
@@ -25,6 +27,62 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
     const [score, setScore] = useState(0);
     const [hasStarted, setHasStarted] = useState(false);
     const [isRunning, setIsRunning] = useState(true);
+
+    // Highlighter State
+    const [selection, setSelection] = useState<{ x: number; y: number; text: string } | null>(null);
+    const [isMenuVisible, setIsMenuVisible] = useState(false);
+    const readingAreaRef = useRef<HTMLDivElement>(null);
+
+    const handleMouseUp = () => {
+        const sel = window.getSelection();
+        if (!sel || sel.isCollapsed || !readingAreaRef.current) {
+            setIsMenuVisible(false);
+            return;
+        }
+
+        const range = sel.getRangeAt(0);
+        if (readingAreaRef.current.contains(range.commonAncestorContainer)) {
+            const rect = range.getBoundingClientRect();
+            setSelection({
+                x: rect.left + rect.width / 2,
+                y: rect.top,
+                text: sel.toString()
+            });
+            setIsMenuVisible(true);
+        } else {
+            setIsMenuVisible(false);
+        }
+    };
+
+    const handleHighlight = (color: HighlightColor) => {
+        const sel = window.getSelection();
+        if (!sel || sel.rangeCount === 0 || color === 'none') {
+            if (color === 'none') {
+                // To remove highlight, we'd need a more complex implementation or use document.execCommand
+                // For now, let's use the standard browser approach for highlighting
+                document.execCommand('backColor', false, 'transparent');
+            }
+            setIsMenuVisible(false);
+            return;
+        }
+
+        const range = sel.getRangeAt(0);
+        const span = document.createElement('span');
+        span.className = `hlt-${color}`;
+
+        try {
+            range.surroundContents(span);
+        } catch (e) {
+            // Fallback for complex selections (e.g. crossing block boundaries)
+            console.warn("Complex selection detected, using fallback highlighting");
+            const fragment = range.extractContents();
+            span.appendChild(fragment);
+            range.insertNode(span);
+        }
+
+        sel.removeAllRanges();
+        setIsMenuVisible(false);
+    };
 
 
 
@@ -240,10 +298,19 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                     <div className="flex-1 min-h-0 flex flex-col md:flex-row gap-8">
 
                         {/* LEFT: Reading Passage (Scrollable) */}
-                        <div className="w-full md:w-[60%] bg-white rounded-3xl p-8 shadow-sm border border-slate-100 overflow-y-auto custom-scrollbar relative group">
+                        <div
+                            ref={readingAreaRef}
+                            onMouseUp={handleMouseUp}
+                            className="w-full md:w-[60%] bg-white rounded-3xl p-8 shadow-sm border border-slate-100 overflow-y-auto custom-scrollbar relative group"
+                        >
                             <h3 className="text-3xl font-bold text-slate-800 mb-8 font-serif leading-tight">{testData.title}</h3>
 
                             {/* Text Selection Popover */}
+                            <HighlighterMenu
+                                isVisible={isMenuVisible}
+                                position={selection || { x: 0, y: 0 }}
+                                onHighlight={handleHighlight}
+                            />
 
                             <div
                                 id="reading-content"
