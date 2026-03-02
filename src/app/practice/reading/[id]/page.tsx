@@ -1,7 +1,7 @@
 "use client";
 
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
-import { useState, useEffect, use } from "react";
+import { useState, useEffect, use, useMemo, useRef } from "react";
 import { motion } from "framer-motion";
 import { Clock, CheckCircle2, BookOpen, Flag, AlertCircle, Pause, Play } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -9,7 +9,7 @@ import Link from "next/link";
 import { createClient } from "@/utils/supabase/client";
 import { READING_TESTS, ReadingTest } from "@/data/reading-tests";
 import { HighlighterMenu, HighlightColor } from "@/components/ui/HighlighterMenu";
-import { useRef } from "react";
+import { toast } from "sonner";
 
 
 export default function ReadingTestPage({ params }: { params: Promise<{ id: string }> }) {
@@ -56,13 +56,34 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
 
     const handleHighlight = (color: HighlightColor) => {
         const sel = window.getSelection();
-        if (!sel || sel.rangeCount === 0 || color === 'none') {
-            if (color === 'none') {
-                // To remove highlight, we'd need a more complex implementation or use document.execCommand
-                // For now, let's use the standard browser approach for highlighting
-                document.execCommand('backColor', false, 'transparent');
+        if (!sel || sel.rangeCount === 0) {
+            setIsMenuVisible(false);
+            return;
+        }
+
+        if (color === 'copy') {
+            const text = sel.toString();
+            navigator.clipboard.writeText(text);
+            toast.success("Copied to clipboard!");
+            setIsMenuVisible(false);
+            return;
+        }
+
+        if (color === 'none') {
+            const range = sel.getRangeAt(0);
+            let container = range.commonAncestorContainer;
+            if (container.nodeType === 3) container = container.parentNode!;
+
+            const highlightSpan = (container as HTMLElement).closest('span[class^="hlt-"]');
+            if (highlightSpan) {
+                const parent = highlightSpan.parentNode!;
+                while (highlightSpan.firstChild) {
+                    parent.insertBefore(highlightSpan.firstChild, highlightSpan);
+                }
+                parent.removeChild(highlightSpan);
             }
             setIsMenuVisible(false);
+            sel.removeAllRanges();
             return;
         }
 
@@ -83,6 +104,15 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
         sel.removeAllRanges();
         setIsMenuVisible(false);
     };
+
+    // Memoized Reading Content to prevent re-renders from wiping DOM changes (highlights)
+    const memoizedContent = useMemo(() => (
+        <div
+            id="reading-content"
+            className="prose prose-slate max-w-none text-slate-700 leading-loose text-lg selection:bg-blue-100 selection:text-blue-900"
+            dangerouslySetInnerHTML={{ __html: testData.content }}
+        />
+    ), [testData.content]);
 
 
 
@@ -312,11 +342,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                 onHighlight={handleHighlight}
                             />
 
-                            <div
-                                id="reading-content"
-                                className="prose prose-slate max-w-none text-slate-700 leading-loose text-lg selection:bg-blue-100 selection:text-blue-900"
-                                dangerouslySetInnerHTML={{ __html: testData.content }}
-                            />
+                            {memoizedContent}
                         </div>
 
                         {/* RIGHT: Questions (Scrollable) */}

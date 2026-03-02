@@ -1,11 +1,12 @@
 "use client";
 
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Highlighter, Eraser, Check } from 'lucide-react';
+import { Highlighter, Eraser, Check, Copy } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { toast } from 'sonner';
 
-export type HighlightColor = 'yellow' | 'green' | 'blue' | 'none';
+export type HighlightColor = 'yellow' | 'green' | 'blue' | 'none' | 'copy';
 
 interface HighlighterMenuProps {
     onHighlight: (color: HighlightColor) => void;
@@ -52,6 +53,15 @@ export const HighlighterMenu: React.FC<HighlighterMenuProps> = ({ onHighlight, i
                     />
                     <div className="w-px h-4 bg-slate-200 mx-0.5" />
                     <button
+                        onMouseDown={(e) => e.preventDefault()}
+                        onClick={() => onHighlight('copy')}
+                        className="p-1.5 rounded-full hover:bg-slate-100 text-slate-500 transition-colors"
+                        title="Copy to Clipboard"
+                    >
+                        <Copy className="w-4 h-4" />
+                    </button>
+                    <button
+                        onMouseDown={(e) => e.preventDefault()}
                         onClick={() => onHighlight('none')}
                         className="p-1.5 rounded-full hover:bg-slate-100 text-slate-500 transition-colors"
                         title="Remove Highlight"
@@ -73,7 +83,11 @@ interface HighlightButtonProps {
 const HighlightButton: React.FC<HighlightButtonProps> = ({ color, className, onClick }) => {
     return (
         <button
-            onClick={onClick}
+            onMouseDown={(e) => e.preventDefault()}
+            onClick={(e) => {
+                e.preventDefault();
+                onClick();
+            }}
             className={cn(
                 "w-8 h-8 rounded-full border-2 transition-all active:scale-90 hover:shadow-sm",
                 className
