@@ -67,14 +67,14 @@ export function Sidebar() {
     }, [user, supabase]);
 
     return (
-        <aside className="fixed left-0 top-0 h-screen w-[90px] hover:w-[280px] bg-white/40 backdrop-blur-3xl border-r border-white/40 z-[110] hidden lg:flex flex-col shadow-[4px_0_40px_rgba(0,0,0,0.03)] transition-all duration-[700ms] ease-[cubic-bezier(0.23,1,0.32,1)] group peer">
+        <aside className="fixed left-0 top-0 h-screen w-[90px] hover:w-[280px] bg-white/40 backdrop-blur-3xl border-r border-white/40 z-[110] hidden lg:flex flex-col shadow-[4px_0_40px_rgba(0,0,0,0.03)] transition-[width] duration-[450ms] ease-[cubic-bezier(0.25,1,0.5,1)] group peer" style={{ willChange: 'width' }}>
 
             {/* Logo Section */}
             <div className="px-6 py-8 flex items-center h-[100px] flex-shrink-0 whitespace-nowrap">
                 <Link href="/dashboard" className="flex items-center hover:opacity-80 transition-opacity relative w-full h-12">
 
                     {/* Collapsed Logo (Dark Green 'I') */}
-                    <div className="absolute left-0 top-1/2 -translate-y-1/2 w-11 h-11 flex items-center justify-center bg-[#1c3e2e] rounded-2xl text-white shadow-xl shadow-[#1c3e2e]/20 flex-shrink-0 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] opacity-100 scale-100 translate-x-0 group-hover:opacity-0 group-hover:scale-75 group-hover:-translate-x-4 origin-left pointer-events-auto group-hover:pointer-events-none">
+                    <div className="absolute left-0 top-1/2 -translate-y-1/2 w-11 h-11 flex items-center justify-center bg-[#1c3e2e] rounded-2xl text-white shadow-xl shadow-[#1c3e2e]/20 flex-shrink-0 transition-[opacity,transform,scale] duration-[400ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] opacity-100 scale-100 translate-x-0 group-hover:opacity-0 group-hover:scale-75 group-hover:-translate-x-4 origin-left pointer-events-auto group-hover:pointer-events-none">
                         <svg className="absolute top-1.5 w-3.5 h-3.5 text-white/90 fill-current" viewBox="0 0 24 24">
                             <path d="M4 15l-2-9 5.5 4.5L12 3l4.5 7.5L22 6l-2 9H4z" />
                             <circle cx="2" cy="5" r="1.5" />
@@ -85,7 +85,7 @@ export function Sidebar() {
                     </div>
 
                     {/* Expanded Logo (IELTS Wisdom with Crown) */}
-                    <div className="absolute left-0 top-1/2 -translate-y-1/2 flex items-center w-auto overflow-visible pr-4 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] opacity-0 scale-75 translate-x-4 group-hover:opacity-100 group-hover:scale-100 group-hover:translate-x-0 origin-left pointer-events-none group-hover:pointer-events-auto z-10">
+                    <div className="absolute left-0 top-1/2 -translate-y-1/2 flex items-center w-auto overflow-visible pr-4 transition-[opacity,transform,scale] duration-[450ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] opacity-0 scale-75 translate-x-4 group-hover:opacity-100 group-hover:scale-100 group-hover:translate-x-0 origin-left pointer-events-none group-hover:pointer-events-auto z-10">
                         <motion.div
                             className="relative flex items-center"
                             initial="hidden"
@@ -163,7 +163,7 @@ export function Sidebar() {
                         </div>
                     </div>
 
-                    <div className="opacity-0 group-hover:opacity-100 max-w-0 group-hover:max-w-[160px] transition-all duration-[700ms] ease-[cubic-bezier(0.23,1,0.32,1)] whitespace-nowrap overflow-hidden flex flex-col justify-center">
+                    <div className="opacity-0 group-hover:opacity-100 max-w-0 group-hover:max-w-[160px] transition-all duration-[450ms] ease-[cubic-bezier(0.25,1,0.5,1)] whitespace-nowrap overflow-hidden flex flex-col justify-center">
                         <h3 className="text-slate-800 font-bold text-lg truncate group-hover/profilebtn:text-blue-600 transition-colors">
                             {user?.email?.split('@')[0] || "Student"}
                         </h3>
@@ -284,7 +284,7 @@ export function Sidebar() {
                     <div className="relative flex-shrink-0 flex items-center justify-center w-[22px] h-[22px] overflow-hidden">
                         <LogOut className="w-[20px] h-[20px] transition-all duration-[400ms] ease-[cubic-bezier(0.23,1,0.32,1)] group-hover/logout:translate-x-1 group-hover/logout:scale-110" strokeWidth={2} />
                     </div>
-                    <span className="block overflow-hidden font-medium text-[14px] tracking-tight opacity-0 group-hover:opacity-100 max-w-0 group-hover:max-w-[150px] transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)]">
+                    <span className="block overflow-hidden font-medium text-[14px] tracking-tight opacity-0 group-hover:opacity-100 max-w-0 group-hover:max-w-[150px] transition-all duration-450 ease-[cubic-bezier(0.25,1,0.5,1)]">
                         {lang === 'en' ? 'Sign Out' : 'Chiqish'}
                     </span>
                 </motion.button>
