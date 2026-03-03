@@ -122,7 +122,7 @@ export default function WritingPage() {
         <DashboardLayout title={W.title} description={W.desc}>
             <div className="flex flex-col lg:flex-row gap-8 relative z-10">
                 {/* Background Blobs for Red Aesthetic */}
-                <div className="fixed top-0 left-0 w-full h-full overflow-hidden pointer-events-none -z-10">
+                <div className="absolute inset-0 pointer-events-none -z-10">
                     <motion.div
                         animate={{
                             x: [0, 100, -50, 0],

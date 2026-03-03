@@ -130,7 +130,7 @@ export function DashboardLayout({
                     "flex-1 p-4 md:p-8 relative z-10",
                     fullHeight
                         ? "overflow-hidden h-screen flex flex-col"
-                        : "overflow-y-auto h-[calc(100vh-4rem)]",
+                        : "overflow-y-auto overflow-x-hidden h-[calc(100vh-4rem)]",
                     !hideSidebar &&
                     "lg:ml-[90px] lg:peer-hover:ml-72 transition-[margin-left] duration-[450ms] ease-[cubic-bezier(0.25,1,0.5,1)]"
                 )}
