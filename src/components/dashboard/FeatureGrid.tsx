@@ -52,15 +52,22 @@ export function FeatureGrid() {
                             <div className="relative bg-white/50 backdrop-blur-xl border border-white/60 p-6 rounded-[2rem] transition-all duration-300 cursor-pointer overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 h-full flex flex-col items-center justify-center">
 
                                 {/* 
-                                    Ocean Wave & Droplets Fill Effect 
+                                    Foaming Ocean & Dense Bubbles Effect 
                                     - Translates up from bottom
-                                    - At the very top edge is an animated SVG sine wave
-                                    - Inside are CSS animated dropping bubbles
+                                    - Multiple overlapping SVG waves for a noisy, crashing effect
+                                    - Dense CSS animated dropping bubbles
                                 */}
                                 <div className="absolute left-0 right-0 h-full bottom-0 translate-y-[105%] group-hover:translate-y-0 transition-transform duration-[1000ms] ease-[cubic-bezier(0.2,0.8,0.2,1)] z-0">
-                                    {/* SVG Ocean Wave Layer */}
-                                    <div className={cn("absolute top-[-20px] left-0 w-[200%] h-[21px] animate-wave-roll", waveColor)}>
-                                        <svg viewBox="0 0 1000 100" preserveAspectRatio="none" className="w-full h-full fill-current opacity-90">
+                                    {/* Back Wave (Slower, slightly offset) */}
+                                    <div className={cn("absolute top-[-25px] left-0 w-[200%] h-[26px] animate-wave-roll-slow opacity-50", waveColor)}>
+                                        <svg viewBox="0 0 1000 100" preserveAspectRatio="none" className="w-full h-full fill-current">
+                                            <path d="M0,50 Q250,100 500,50 T1000,50 L1000,100 L0,100 Z" />
+                                        </svg>
+                                    </div>
+
+                                    {/* Front Wave (Faster, more turbulent) */}
+                                    <div className={cn("absolute top-[-18px] left-0 w-[200%] h-[20px] animate-wave-roll-fast opacity-90", waveColor)}>
+                                        <svg viewBox="0 0 1000 100" preserveAspectRatio="none" className="w-full h-full fill-current">
                                             <path d="M0,50 Q250,100 500,50 T1000,50 L1000,100 L0,100 Z" />
                                         </svg>
                                     </div>
@@ -68,13 +75,19 @@ export function FeatureGrid() {
                                     {/* Liquid Body */}
                                     <div className={cn("absolute inset-0 opacity-90 bg-gradient-to-t", gradientClass)} />
 
-                                    {/* Rising Water Droplets */}
+                                    {/* Dense Rising Water Droplets (Kopiklar) */}
                                     <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                                        <div className="absolute w-2 h-2 rounded-full bg-white/60 left-[15%] animate-drop-rise delay-100" />
-                                        <div className="absolute w-3 h-3 rounded-full bg-white/40 left-[35%] animate-drop-rise delay-300" />
-                                        <div className="absolute w-1.5 h-1.5 rounded-full bg-white/70 left-[55%] animate-drop-rise delay-700" />
-                                        <div className="absolute w-2.5 h-2.5 rounded-full bg-white/50 left-[75%] animate-drop-rise delay-1100" />
-                                        <div className="absolute w-2 h-2 rounded-full bg-white/30 left-[85%] animate-drop-rise delay-1500" />
+                                        <div className="absolute w-2 h-2 rounded-full bg-white/60 left-[10%] animate-drop-rise-turbulent delay-50" />
+                                        <div className="absolute w-3 h-3 rounded-full bg-white/40 left-[25%] animate-drop-rise-turbulent delay-200" />
+                                        <div className="absolute w-1.5 h-1.5 rounded-full bg-white/80 left-[35%] animate-drop-rise-turbulent delay-400" />
+                                        <div className="absolute w-2.5 h-2.5 rounded-full bg-white/50 left-[50%] animate-drop-rise-turbulent delay-600" />
+                                        <div className="absolute w-1 h-1 rounded-full bg-white/70 left-[60%] animate-drop-rise-turbulent delay-800" />
+                                        <div className="absolute w-3 h-3 rounded-full bg-white/30 left-[75%] animate-drop-rise-turbulent delay-900" />
+                                        <div className="absolute w-2 h-2 rounded-full bg-white/60 left-[85%] animate-drop-rise-turbulent delay-1100" />
+                                        <div className="absolute w-1.5 h-1.5 rounded-full bg-white/50 left-[90%] animate-drop-rise-turbulent delay-1300" />
+                                        <div className="absolute w-3 h-3 rounded-full bg-white/40 left-[15%] animate-drop-rise-turbulent delay-1500" />
+                                        <div className="absolute w-2 h-2 rounded-full bg-white/70 left-[45%] animate-drop-rise-turbulent delay-1800" />
+                                        <div className="absolute w-2.5 h-2.5 rounded-full bg-white/60 left-[80%] animate-drop-rise-turbulent delay-2100" />
                                     </div>
                                 </div>
 
