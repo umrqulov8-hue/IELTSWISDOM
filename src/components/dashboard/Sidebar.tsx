@@ -26,6 +26,7 @@ import { useSubscription } from '@/context/SubscriptionContext';
 import { translations as T, tx } from '@/lib/translations';
 import type { Lang } from '@/lib/translations';
 import { ProBadge } from '@/components/ui/ProBadge';
+import { AnimatedLogoutButton } from '@/components/ui/AnimatedLogoutButton';
 
 function getNavItems(lang: Lang) {
     return [
@@ -279,19 +280,10 @@ export function Sidebar() {
 
             {/* Footer */}
             <div className="p-4 border-t border-slate-100 overflow-hidden flex-shrink-0">
-                <motion.button
-                    onClick={() => signOut()}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="flex items-center gap-3.5 px-3.5 py-3 w-full text-slate-500 hover:text-red-500 hover:bg-red-50/60 rounded-[14px] transition-all duration-[400ms] mb-2 whitespace-nowrap group/logout"
-                >
-                    <div className="relative flex-shrink-0 flex items-center justify-center w-[22px] h-[22px] overflow-hidden">
-                        <LogOut className="w-[20px] h-[20px] transition-all duration-[400ms] ease-[cubic-bezier(0.23,1,0.32,1)] group-hover/logout:translate-x-1 group-hover/logout:scale-110" strokeWidth={2} />
-                    </div>
-                    <span className="block overflow-hidden font-medium text-[14px] tracking-tight opacity-0 group-hover:opacity-100 max-w-0 group-hover:max-w-[150px] transition-all duration-450 ease-[cubic-bezier(0.25,1,0.5,1)]">
-                        {lang === 'en' ? 'Sign Out' : 'Chiqish'}
-                    </span>
-                </motion.button>
+                <AnimatedLogoutButton
+                    onLogout={() => signOut()}
+                    label={lang === 'en' ? 'Sign Out' : 'Chiqish'}
+                />
 
                 <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-700 delay-200 pl-4 py-1">
                     <p className="text-[10px] text-slate-400/80 font-medium tracking-wide font-sans">
