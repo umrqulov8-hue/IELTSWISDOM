@@ -51,16 +51,24 @@ export function FeatureGrid() {
                             <div className="relative bg-white/50 backdrop-blur-xl border border-white/60 p-6 rounded-[2rem] transition-all duration-300 cursor-pointer overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 h-full flex flex-col items-center justify-center">
 
                                 {/* 
-                                    Water Fill Effect 
-                                    - Rises from bottom (translate-y-full) to top (translate-y-0)
-                                    - Eased smoothly for a liquid feel
+                                    Liquid Wave Fill Effect 
+                                    - Two oversized, softly rounded squares slowly spinning
+                                    - Moving them up smoothly simulates filling water with waves
                                 */}
-                                <div className={cn(
-                                    "absolute inset-0 -z-10 opacity-90",
-                                    "transition-transform duration-[700ms] ease-[cubic-bezier(0.25,1,0.2,1)] translate-y-full group-hover:translate-y-0",
-                                    "bg-gradient-to-t",
-                                    gradientClass
-                                )} />
+                                <div className="absolute left-1/2 -translate-x-1/2 top-[120%] group-hover:top-[-20px] transition-all duration-[1500ms] ease-[cubic-bezier(0.2,0.8,0.2,1)] z-0 w-[500px] h-[500px]">
+                                    {/* Wave 1 Background Layer */}
+                                    <div className={cn(
+                                        "absolute inset-0 rounded-[40%] animate-[spin_5s_linear_infinite] opacity-60",
+                                        "bg-gradient-to-tr",
+                                        gradientClass
+                                    )} />
+                                    {/* Wave 2 Foreground Layer (Spins at different rate) */}
+                                    <div className={cn(
+                                        "absolute inset-0 rounded-[45%] animate-[spin_8s_linear_infinite] opacity-90 scale-105",
+                                        "bg-gradient-to-t",
+                                        gradientClass
+                                    )} />
+                                </div>
 
                                 <div className="relative z-10 flex flex-col items-center text-center gap-4">
                                     {/* Icon container - stays white when water fills */}
