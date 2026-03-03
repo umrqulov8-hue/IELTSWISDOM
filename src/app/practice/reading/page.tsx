@@ -41,6 +41,7 @@ const TESTS: TestItem[] = [
     { id: "fp-1", categoryId: "free-passages", title: "Evolution of the Calculator", isNew: true, status: "free" },
     { id: "fp-2", categoryId: "free-passages", title: "Sleeping on the job", isNew: true, status: "free" },
     { id: "fp-9", categoryId: "free-passages", title: "Socially Responsible Businesses", isNew: true, status: "free" },
+    { id: "fp-13", categoryId: "free-passages", title: "The Dover Bronze-Age Boat", isNew: true, status: "free" },
     { id: "fp-10", categoryId: "cambridge-ielts", title: "Crop-growing skyscrapers", isNew: true, status: "free" },
     { id: "fp-11", categoryId: "cambridge-ielts", title: "The Falkirk Wheel", isNew: true, status: "free" },
     { id: "fp-12", categoryId: "cambridge-ielts", title: "Reducing the Effects of Climate Change", isNew: true, status: "free" },
