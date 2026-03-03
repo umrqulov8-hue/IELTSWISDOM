@@ -123,9 +123,43 @@ export default function WritingPage() {
             <div className="flex flex-col lg:flex-row gap-8 relative z-10">
                 {/* Background Blobs for Red Aesthetic */}
                 <div className="fixed top-0 left-0 w-full h-full overflow-hidden pointer-events-none -z-10">
-                    <div className="absolute top-[-10%] left-[-10%] w-[600px] h-[600px] bg-rose-300/20 rounded-full blur-[120px]" />
-                    <div className="absolute top-[40%] right-[-10%] w-[500px] h-[500px] bg-red-300/20 rounded-full blur-[100px]" />
-                    <div className="absolute bottom-[-10%] left-[20%] w-[400px] h-[400px] bg-orange-300/20 rounded-full blur-[80px]" />
+                    <motion.div
+                        animate={{
+                            x: [0, 100, -50, 0],
+                            y: [0, 50, 100, 0],
+                            rotate: [0, 90, 180, 0],
+                            scale: [1, 1.2, 0.9, 1],
+                        }}
+                        transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+                        className="absolute top-[-15%] left-[-10%] w-[800px] h-[800px] bg-rose-400/20 rounded-full blur-[140px]"
+                    />
+                    <motion.div
+                        animate={{
+                            x: [0, -120, 50, 0],
+                            y: [0, 100, -50, 0],
+                            rotate: [0, -45, 45, 0],
+                            scale: [1, 0.8, 1.1, 1],
+                        }}
+                        transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+                        className="absolute top-[20%] right-[-15%] w-[700px] h-[700px] bg-red-500/10 rounded-full blur-[120px]"
+                    />
+                    <motion.div
+                        animate={{
+                            x: [0, 80, -30, 0],
+                            y: [0, -80, 40, 0],
+                            scale: [1, 1.3, 0.8, 1],
+                        }}
+                        transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                        className="absolute bottom-[-10%] left-[10%] w-[600px] h-[600px] bg-pink-400/15 rounded-full blur-[100px]"
+                    />
+                    <motion.div
+                        animate={{
+                            x: [0, -50, 50, 0],
+                            y: [0, 50, -50, 0],
+                        }}
+                        transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+                        className="absolute top-[40%] left-[40%] w-[400px] h-[400px] bg-orange-400/10 rounded-full blur-[80px]"
+                    />
                 </div>
 
                 {/* --- Sidebar Filters --- */}
@@ -237,13 +271,26 @@ export default function WritingPage() {
                     <motion.div
                         initial={{ opacity: 0, y: 30, scale: 0.95 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
-                        transition={{ duration: 0.6, type: "spring", bounce: 0.4 }}
-                        className="relative rounded-[2rem] overflow-hidden bg-gradient-to-br from-rose-600 via-pink-600 to-orange-500 p-8 md:p-10 mb-10 shadow-[0_20px_50px_rgba(225,29,72,0.3)] group"
+                        transition={{ duration: 0.8, type: "spring", bounce: 0.3 }}
+                        className="relative rounded-[2.5rem] overflow-hidden bg-gradient-to-br from-rose-600 via-pink-600 to-orange-500 p-8 md:p-12 mb-10 shadow-[0_30px_60px_rgba(225,29,72,0.25)] border border-white/20 group"
                     >
-                        {/* Animated Mesh Gradient Overlay */}
-                        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjAwIDIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZmlsdGVyIGlkPSJub2lzZUZpbHRlciI+PGZlVHVyYnVsZW5jZSB0eXBlPSJmcmFjdGFsTm9pc2UiIGJhc2VGcmVxdWVuY3k9IjAuNjUiIG51bU9jdGF2ZXM9IjMiIHN0aXRjaFRpbGVzPSJzdGl0Y2giLz48L2ZpbHRlcj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWx0ZXI9InVybCgjbm9pc2VGaWx0ZXIpIiBvcGFjaXR5PSIxIi8+PC9zdmc+')] opacity-20 mix-blend-soft-light"></div>
-                        <div className="absolute top-0 right-0 p-8 opacity-20">
-                            <Pencil className="w-80 h-80 text-white transform translate-x-20 -translate-y-20 rotate-[-12deg] group-hover:rotate-[-5deg] group-hover:scale-105 transition-all duration-700 ease-in-out" />
+                        {/* Mesh Gradient Overlay */}
+                        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.15),transparent_50%),radial-gradient(circle_at_70%_80%,rgba(255,100,100,0.1),transparent_50%)]" />
+
+                        {/* Animated Mesh Noise Overlay */}
+                        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjAwIDIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZmlsdGVyIGlkPSJub2lzZUZpbHRlciI+PGZlVHVyYnVsZW5jZSB0eXBlPSJmcmFjdGFsTm9pc2UiIGJhc2VGcmVxdWVuY3k9IjAuNjUiIG51bU9jdGF2ZXM9IjMiIHN0aXRjaFRpbGVzPSJzdGl0Y2giLz48L2ZpbHRlcj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWx0ZXI9InVybCgjbm9pc2VGaWx0ZXIpIiBvcGFjaXR5PSIxIi8+PC9zdmc+')] opacity-10 mix-blend-overlay"></div>
+
+                        <div className="absolute top-0 right-0 p-8 opacity-10">
+                            <motion.div
+                                animate={{
+                                    rotate: [-12, -8, -12],
+                                    y: [0, -15, 0],
+                                    x: [20, 0, 20]
+                                }}
+                                transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+                            >
+                                <Pencil className="w-96 h-96 text-white transform rotate-[-12deg]" />
+                            </motion.div>
                         </div>
 
                         <div className="relative z-10 text-white max-w-2xl">
