@@ -163,17 +163,21 @@ export function Sidebar() {
                         </div>
                     </div>
 
-                    <div className="opacity-0 group-hover:opacity-100 max-w-0 group-hover:max-w-[160px] transition-all duration-[450ms] ease-[cubic-bezier(0.25,1,0.5,1)] whitespace-nowrap overflow-hidden flex flex-col justify-center">
-                        <h3 className="text-slate-800 font-bold text-lg truncate group-hover/profilebtn:text-blue-600 transition-colors">
-                            {user?.email?.split('@')[0] || "Student"}
-                        </h3>
-                        {isPro ? (
-                            <ProBadge size="sm" className="mt-1" />
-                        ) : (
-                            <p className="text-slate-500 text-[11px] font-semibold bg-white/60 px-2.5 py-0.5 rounded-full w-fit mt-1 border border-white/40">
-                                {lang === 'en' ? 'Free Member' : 'Bepul foydalanuvchi'}
-                            </p>
-                        )}
+                    <div className="opacity-0 group-hover:opacity-100 max-w-0 group-hover:max-w-[160px] transition-all duration-[450ms] ease-[cubic-bezier(0.25,1,0.5,1)] whitespace-nowrap flex flex-col justify-center overflow-visible">
+                        <div className="pl-1 py-2 overflow-visible">
+                            <h3 className="text-slate-800 font-bold text-lg truncate group-hover/profilebtn:text-blue-600 transition-colors">
+                                {user?.email?.split('@')[0] || "Student"}
+                            </h3>
+                            {isPro ? (
+                                <div className="mt-1.5 py-1 overflow-visible">
+                                    <ProBadge size="sm" />
+                                </div>
+                            ) : (
+                                <p className="text-slate-500 text-[11px] font-semibold bg-white/60 px-2.5 py-0.5 rounded-full w-fit mt-1 border border-white/40">
+                                    {lang === 'en' ? 'Free Member' : 'Bepul foydalanuvchi'}
+                                </p>
+                            )}
+                        </div>
                     </div>
                 </motion.button>
 
