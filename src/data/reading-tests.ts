@@ -400,11 +400,11 @@ export const READING_TESTS: Record<string, ReadingTest> = {
         `,
         questions: [
             // --- Chart Completion (1-5) ---
-            { id: 1, type: "fill-blank", text: "1992- the boat was discovered during the construction of a 1__________", correctAnswer: "road" },
-            { id: 2, type: "fill-blank", text: "2002-an international 2__________ was held to gather information", correctAnswer: "conference" },
-            { id: 3, type: "fill-blank", text: "2004- 3__________ for the reconstruction were produced", correctAnswer: "proposals" },
-            { id: 4, type: "fill-blank", text: "2007- the 4__________ Of BOAT 1550BC took place", correctAnswer: "launch" },
-            { id: 5, type: "fill-blank", text: "2012- the Bronze-Age 5__________ featured the boat and other objects", correctAnswer: "exhibition" },
+            { id: 1, type: "fill-blank", text: "1992- the boat was discovered during the construction of a 1 _____", correctAnswer: "road" },
+            { id: 2, type: "fill-blank", text: "2002-an international 2 _____ was held to gather information", correctAnswer: "conference" },
+            { id: 3, type: "fill-blank", text: "2004- 3 _____ for the reconstruction were produced", correctAnswer: "proposals" },
+            { id: 4, type: "fill-blank", text: "2007- the 4 _____ Of BOAT 1550BC took place", correctAnswer: "launch" },
+            { id: 5, type: "fill-blank", text: "2012- the Bronze-Age 5 _____ featured the boat and other objects", correctAnswer: "exhibition" },
 
             // --- Statement Agreement (6-9) ---
             { id: 6, type: "true-false", text: "Archaeologists realized that the boat had been damaged on purpose.", options: ["TRUE", "FALSE", "NOT GIVEN"], correctAnswer: 0 }, // TRUE
@@ -413,10 +413,10 @@ export const READING_TESTS: Record<string, ReadingTest> = {
             { id: 9, type: "true-false", text: "Evidence found in 2004 suggested that the Bronze-Age Boat had been used for trade.", options: ["TRUE", "FALSE", "NOT GIVEN"], correctAnswer: 2 }, // NOT GIVEN
 
             // --- Short Answer (10-13) ---
-            { id: 10, type: "fill-blank", text: "How far under the ground was the boat found?", correctAnswer: "six meters" },
-            { id: 11, type: "fill-blank", text: "What natural material had been secured to the boat to prevent water entering?", correctAnswer: "moss" },
-            { id: 12, type: "fill-blank", text: "What aspect of the boat was the focus of the 2012 reconstruction?", correctAnswer: "hull shape" },
-            { id: 13, type: "fill-blank", text: "Which two factors influenced the decision not to make a full-scale reconstruction of the boat?", correctAnswer: "cost and time" },
+            { id: 10, type: "fill-blank", text: "How far under the ground was the boat found? _____", correctAnswer: "six meters" },
+            { id: 11, type: "fill-blank", text: "What natural material had been secured to the boat to prevent water entering? _____", correctAnswer: "moss" },
+            { id: 12, type: "fill-blank", text: "What aspect of the boat was the focus of the 2012 reconstruction? _____", correctAnswer: "hull shape" },
+            { id: 13, type: "fill-blank", text: "Which two factors influenced the decision not to make a full-scale reconstruction of the boat? _____", correctAnswer: "cost and time" },
         ]
     }
 };
