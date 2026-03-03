@@ -114,11 +114,11 @@ export default function ArticlesPage() {
         >
             <div className="flex flex-col gap-6 w-full max-w-7xl mx-auto mb-20">
                 {/* Floating Header & Categories */}
-                <div className="flex flex-col gap-6 sticky top-[80px] z-20 py-6 -mx-6 px-6 sm:mx-0 sm:px-0">
-                    {/* Organic Glass Background for Header */}
-                    <div className="absolute inset-x-0 top-0 h-full bg-white/40 backdrop-blur-xl border-b border-white/40 -z-10 rounded-b-[40px] shadow-[0_8px_32px_rgba(0,0,0,0.02)]" />
+                <div className="flex flex-col gap-6 sticky top-[80px] z-20 py-6 -mx-4 px-4 sm:mx-0 sm:px-0">
+                    {/* Organic Oval Glass Background for Header */}
+                    <div className="absolute inset-x-2 top-2 h-[calc(100%-16px)] bg-white/60 backdrop-blur-2xl border border-white/80 -z-10 rounded-[48px] shadow-[0_12px_40px_rgba(0,0,0,0.04)]" />
 
-                    <div className="flex items-center justify-between relative">
+                    <div className="flex items-center justify-between relative px-6">
                         <motion.div
                             initial={{ opacity: 0, x: -20 }}
                             animate={{ opacity: 1, x: 0 }}
@@ -139,7 +139,7 @@ export default function ArticlesPage() {
                     </div>
 
                     {/* Category Filters */}
-                    <div className="flex gap-3 overflow-x-auto custom-scrollbar pb-2">
+                    <div className="flex gap-3 overflow-x-auto custom-scrollbar pb-2 px-6">
                         {categories.map((cat) => (
                             <button
                                 key={cat}
