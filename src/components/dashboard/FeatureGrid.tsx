@@ -61,14 +61,14 @@ export function FeatureGrid() {
                                     {/* Back Wave (Slower, slightly offset) */}
                                     <div className={cn("absolute top-[-25px] left-0 w-[200%] h-[26px] animate-wave-roll-slow opacity-50", waveColor)}>
                                         <svg viewBox="0 0 1000 100" preserveAspectRatio="none" className="w-full h-full fill-current">
-                                            <path d="M0,50 Q250,100 500,50 T1000,50 L1000,100 L0,100 Z" />
+                                            <path d="M0,50 Q125,100 250,50 T500,50 T750,50 T1000,50 L1000,100 L0,100 Z" />
                                         </svg>
                                     </div>
 
                                     {/* Front Wave (Faster, more turbulent) */}
                                     <div className={cn("absolute top-[-18px] left-0 w-[200%] h-[20px] animate-wave-roll-fast opacity-90", waveColor)}>
                                         <svg viewBox="0 0 1000 100" preserveAspectRatio="none" className="w-full h-full fill-current">
-                                            <path d="M0,50 Q250,100 500,50 T1000,50 L1000,100 L0,100 Z" />
+                                            <path d="M0,50 Q125,100 250,50 T500,50 T750,50 T1000,50 L1000,100 L0,100 Z" />
                                         </svg>
                                     </div>
 
