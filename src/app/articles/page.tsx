@@ -113,20 +113,27 @@ export default function ArticlesPage() {
             description={tx(AR.desc, lang)}
         >
             <div className="flex flex-col gap-6 w-full max-w-7xl mx-auto mb-20">
-                {/* Header & Categories */}
-                <div className="flex flex-col gap-6 sticky top-[80px] z-20 bg-[var(--color-background)]/80 backdrop-blur-xl py-4 -mx-4 px-4 sm:mx-0 sm:px-0">
-                    <div className="flex items-center justify-between">
-                        <div>
-                            <h1 className="text-3xl font-extrabold text-slate-800">Maqolalar</h1>
-                            <p className="text-slate-500 text-sm mt-1">Ekspertlar maslahatlari, strategiyalari va IELTS bo'yicha yo'riqnomalar.</p>
-                        </div>
+                {/* Floating Header & Categories */}
+                <div className="flex flex-col gap-6 sticky top-[80px] z-20 py-6 -mx-6 px-6 sm:mx-0 sm:px-0">
+                    {/* Organic Glass Background for Header */}
+                    <div className="absolute inset-x-0 top-0 h-full bg-white/40 backdrop-blur-xl border-b border-white/40 -z-10 rounded-b-[40px] shadow-[0_8px_32px_rgba(0,0,0,0.02)]" />
+
+                    <div className="flex items-center justify-between relative">
+                        <motion.div
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.6 }}
+                        >
+                            <h1 className="text-4xl font-[900] text-slate-800 tracking-tight">Maqolalar</h1>
+                            <p className="text-slate-500 text-sm mt-1 font-medium">Ekspertlar maslahatlari va IELTS bo'yicha yo'riqnomalar.</p>
+                        </motion.div>
                         <div className="flex items-center gap-3">
-                            <button className="w-10 h-10 rounded-full bg-white/50 border border-white/60 shadow-sm flex items-center justify-center hover:bg-white text-slate-500 transition-colors">
-                                <Search className="w-5 h-5" />
+                            <button className="w-12 h-12 rounded-2xl bg-white/60 backdrop-blur-md border border-white/80 shadow-[0_4px_12px_rgba(0,0,0,0.03)] flex items-center justify-center hover:bg-white text-slate-500 transition-all hover:scale-105 active:scale-95 group">
+                                <Search className="w-5 h-5 group-hover:text-slate-800 transition-colors" />
                             </button>
-                            <button className="w-10 h-10 rounded-full bg-white/50 border border-white/60 shadow-sm flex items-center justify-center hover:bg-white text-slate-500 transition-colors relative">
-                                <Bell className="w-5 h-5" />
-                                <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
+                            <button className="w-12 h-12 rounded-2xl bg-white/60 backdrop-blur-md border border-white/80 shadow-[0_4px_12px_rgba(0,0,0,0.03)] flex items-center justify-center hover:bg-white text-slate-500 transition-all hover:scale-105 active:scale-95 group relative">
+                                <Bell className="w-5 h-5 group-hover:text-slate-800 transition-colors" />
+                                <span className="absolute top-3 right-3 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white animate-pulse"></span>
                             </button>
                         </div>
                     </div>
@@ -138,8 +145,8 @@ export default function ArticlesPage() {
                                 key={cat}
                                 onClick={() => setActiveTab(cat)}
                                 className={`px-5 py-2.5 rounded-full whitespace-nowrap text-sm font-semibold transition-all duration-300 relative overflow-hidden ${activeTab === cat
-                                        ? "text-white shadow-md"
-                                        : "bg-white/50 backdrop-blur-md border border-white/60 text-slate-600 hover:bg-white hover:text-slate-800 shadow-sm"
+                                    ? "text-white shadow-md"
+                                    : "bg-white/50 backdrop-blur-md border border-white/60 text-slate-600 hover:bg-white hover:text-slate-800 shadow-sm"
                                     }`}
                             >
                                 {activeTab === cat && (
@@ -167,10 +174,12 @@ export default function ArticlesPage() {
                                 initial={{ opacity: 0, scale: 0.9, y: 20 }}
                                 animate={{ opacity: 1, scale: 1, y: 0 }}
                                 exit={{ opacity: 0, scale: 0.9, y: 20 }}
-                                transition={{ duration: 0.4, delay: index * 0.05 }}
+                                transition={{ duration: 0.5, delay: index * 0.05, ease: [0.23, 1, 0.32, 1] }}
                                 key={`article-${article.id}`}
-                                className="bg-white/60 backdrop-blur-xl border border-white/80 rounded-3xl p-4 flex flex-col gap-4 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer group"
+                                className="bg-white/40 backdrop-blur-2xl border border-white/60 rounded-[32px] p-5 flex flex-col gap-5 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.08)] hover:-translate-y-2 transition-all duration-500 cursor-pointer group relative overflow-hidden"
                             >
+                                {/* Decorative Gradient Overlay on Hover */}
+                                <div className="absolute inset-0 bg-gradient-to-br from-orange-400/0 to-blue-400/0 group-hover:from-orange-400/5 group-hover:to-blue-400/5 transition-colors duration-500 pointer-events-none" />
                                 {/* Image Container with Overlapping Icon */}
                                 <div className="relative h-40 rounded-2xl overflow-hidden bg-slate-100">
                                     <Image

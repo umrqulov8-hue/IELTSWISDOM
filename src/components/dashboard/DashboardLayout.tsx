@@ -75,12 +75,51 @@ export function DashboardLayout({
 
     return (
         <div className="min-h-[calc(100vh-4rem)] bg-[#F2F4F8] text-slate-900 flex overflow-hidden relative">
-            {/* Ambient Background Blobs */}
+            {/* Ambient Animated Background Blobs */}
             {!hideSidebar && (
-                <div className="fixed top-[-20%] left-[-10%] w-[800px] h-[800px] bg-orange-400/20 blur-[120px] rounded-full pointer-events-none" />
-            )}
-            {!hideSidebar && (
-                <div className="fixed bottom-[-20%] right-[-10%] w-[600px] h-[600px] bg-blue-400/20 blur-[100px] rounded-full pointer-events-none" />
+                <>
+                    <motion.div
+                        animate={{
+                            x: [0, 40, -20, 0],
+                            y: [0, -30, 40, 0],
+                            scale: [1, 1.1, 0.9, 1],
+                            rotate: [0, 90, 180, 0],
+                        }}
+                        transition={{
+                            duration: 20,
+                            repeat: Infinity,
+                            ease: "linear",
+                        }}
+                        className="fixed top-[-10%] left-[-10%] w-[800px] h-[800px] bg-orange-400/20 blur-[130px] rounded-full pointer-events-none z-[-1]"
+                    />
+                    <motion.div
+                        animate={{
+                            x: [0, -50, 30, 0],
+                            y: [0, 60, -20, 0],
+                            scale: [1, 0.9, 1.1, 1],
+                            rotate: [0, -120, -240, 0],
+                        }}
+                        transition={{
+                            duration: 25,
+                            repeat: Infinity,
+                            ease: "linear",
+                        }}
+                        className="fixed bottom-[-15%] right-[-10%] w-[700px] h-[700px] bg-blue-400/15 blur-[110px] rounded-full pointer-events-none z-[-1]"
+                    />
+                    <motion.div
+                        animate={{
+                            x: [0, 30, -40, 0],
+                            y: [0, 50, 40, 0],
+                            scale: [0.8, 1.2, 0.9, 0.8],
+                        }}
+                        transition={{
+                            duration: 22,
+                            repeat: Infinity,
+                            ease: "linear",
+                        }}
+                        className="fixed top-[20%] right-[10%] w-[500px] h-[500px] bg-indigo-500/10 blur-[120px] rounded-full pointer-events-none z-[-1]"
+                    />
+                </>
             )}
 
             {!hideSidebar && <Sidebar />}
