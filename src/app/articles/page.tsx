@@ -109,16 +109,15 @@ export default function ArticlesPage() {
 
     return (
         <DashboardLayout
-            title={tx(AR.title, lang)}
-            description={tx(AR.desc, lang)}
+            hideHeader={true}
         >
-            <div className="flex flex-col gap-6 w-full max-w-7xl mx-auto mb-20">
+            <div className="flex flex-col gap-6 w-full max-w-6xl mx-auto mb-20 px-4">
                 {/* Floating Header & Categories */}
-                <div className="flex flex-col gap-6 sticky top-[80px] z-20 py-6 -mx-4 px-4 sm:mx-0 sm:px-0">
+                <div className="flex flex-col gap-6 sticky top-0 z-20 py-6 w-full">
                     {/* Organic Oval Glass Background for Header */}
-                    <div className="absolute inset-x-2 top-2 h-[calc(100%-16px)] bg-white/60 backdrop-blur-2xl border border-white/80 -z-10 rounded-[48px] shadow-[0_12px_40px_rgba(0,0,0,0.04)]" />
+                    <div className="absolute inset-x-0 top-2 h-[calc(100%-12px)] bg-white/70 backdrop-blur-2xl border border-white/90 -z-10 rounded-[32px] shadow-[0_12px_40px_rgba(0,0,0,0.06)]" />
 
-                    <div className="flex items-center justify-between relative px-6">
+                    <div className="flex items-center justify-between relative px-8">
                         <motion.div
                             initial={{ opacity: 0, x: -20 }}
                             animate={{ opacity: 1, x: 0 }}
@@ -139,7 +138,7 @@ export default function ArticlesPage() {
                     </div>
 
                     {/* Category Filters */}
-                    <div className="flex gap-3 overflow-x-auto custom-scrollbar pb-2 px-6">
+                    <div className="flex gap-3 overflow-x-auto custom-scrollbar pb-2 px-8">
                         {categories.map((cat) => (
                             <button
                                 key={cat}
@@ -180,7 +179,7 @@ export default function ArticlesPage() {
                             >
                                 {/* Decorative Gradient Overlay on Hover */}
                                 <div className="absolute inset-0 bg-gradient-to-br from-orange-400/0 to-blue-400/0 group-hover:from-orange-400/5 group-hover:to-blue-400/5 transition-colors duration-500 pointer-events-none" />
-                                {/* Image Container with Overlapping Icon */}
+                                {/* Image Container */}
                                 <div className="relative h-40 rounded-2xl overflow-hidden bg-slate-100">
                                     <Image
                                         src={article.image}
@@ -189,10 +188,6 @@ export default function ArticlesPage() {
                                         className="object-cover transition-transform duration-700 group-hover:scale-105"
                                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                                     />
-                                    {/* Liquid Glass Book Icon */}
-                                    <div className="absolute -top-1 left-1/2 -translate-x-1/2 bg-white/80 backdrop-blur-md px-4 py-3 rounded-b-2xl shadow-sm border border-white border-t-0">
-                                        <BookOpen className="w-5 h-5 text-slate-500" />
-                                    </div>
                                 </div>
 
                                 {/* Content */}
