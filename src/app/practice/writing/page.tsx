@@ -121,46 +121,26 @@ export default function WritingPage() {
     return (
         <DashboardLayout title={W.title} description={W.desc}>
             <div className="flex flex-col lg:flex-row gap-8 relative z-10">
-                {/* Background Blobs for Red Aesthetic */}
-                <div className="absolute inset-0 pointer-events-none -z-10">
-                    <motion.div
-                        animate={{
-                            x: [0, 100, -50, 0],
-                            y: [0, 50, 100, 0],
-                            rotate: [0, 90, 180, 0],
-                            scale: [1, 1.2, 0.9, 1],
-                        }}
-                        transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-                        className="absolute top-[-15%] left-[-10%] w-[800px] h-[800px] bg-rose-400/20 rounded-full blur-[140px]"
-                    />
-                    <motion.div
-                        animate={{
-                            x: [0, -120, 50, 0],
-                            y: [0, 100, -50, 0],
-                            rotate: [0, -45, 45, 0],
-                            scale: [1, 0.8, 1.1, 1],
-                        }}
-                        transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-                        className="absolute top-[20%] right-[-15%] w-[700px] h-[700px] bg-red-500/10 rounded-full blur-[120px]"
-                    />
-                    <motion.div
-                        animate={{
-                            x: [0, 80, -30, 0],
-                            y: [0, -80, 40, 0],
-                            scale: [1, 1.3, 0.8, 1],
-                        }}
-                        transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                        className="absolute bottom-[-10%] left-[10%] w-[600px] h-[600px] bg-pink-400/15 rounded-full blur-[100px]"
-                    />
-                    <motion.div
-                        animate={{
-                            x: [0, -50, 50, 0],
-                            y: [0, 50, -50, 0],
-                        }}
-                        transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-                        className="absolute top-[40%] left-[40%] w-[400px] h-[400px] bg-orange-400/10 rounded-full blur-[80px]"
-                    />
+                {/* Liquid Glass Background */}
+                <div className="liquid-bg-container">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src="https://i.ibb.co/bMvc7Zr6/Vibrant-Summer-Meadow-Watercolor.png" alt="" />
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src="https://i.ibb.co/ZRH04pV3/Vibrant-Summer-Meadow-Watercolor-1.png" alt="" />
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src="https://i.ibb.co/bMvc7Zr6/Vibrant-Summer-Meadow-Watercolor.png" alt="" />
                 </div>
+                {/* Liquid Glass SVG Filter Definition */}
+                <svg style={{ position: 'absolute', width: 0, height: 0 }} aria-hidden="true" focusable="false">
+                    <filter id="frosted" primitiveUnits="objectBoundingBox" x="-10%" y="-10%" width="120%" height="120%">
+                        <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="3" result="noise" />
+                        <feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.5 0" in="noise" result="coloredNoise" />
+                        <feGaussianBlur in="SourceGraphic" stdDeviation="0.012" result="blur" />
+                        <feDisplacementMap in="blur" in2="coloredNoise" scale="0.025" xChannelSelector="R" yChannelSelector="G">
+                            <animate attributeName="scale" values="0.015;0.035;0.015" dur="10s" repeatCount="indefinite" />
+                        </feDisplacementMap>
+                    </filter>
+                </svg>
 
                 {/* --- Sidebar Filters --- */}
                 <aside className="w-full lg:w-72 flex-shrink-0 space-y-6">
@@ -188,7 +168,7 @@ export default function WritingPage() {
                         initial={{ opacity: 0, x: -30, scale: 0.95 }}
                         animate={{ opacity: 1, x: 0, scale: 1 }}
                         transition={{ duration: 0.6, delay: 0.1, type: "spring", bounce: 0.3 }}
-                        className="bg-white/60 backdrop-blur-xl rounded-3xl border border-white/50 p-4 space-y-2 lg:sticky lg:top-24 shadow-[0_8px_30px_rgb(0,0,0,0.04)]"
+                        className="liquid-glass-panel p-4 space-y-2 lg:sticky lg:top-24 mt-6"
                     >
                         <div className="flex items-center gap-2 px-3 pb-3 mb-2 border-b border-rose-100/50">
                             <Filter className="w-4 h-4 text-rose-600" />
@@ -245,7 +225,7 @@ export default function WritingPage() {
                         initial={{ opacity: 0, x: -30, scale: 0.95 }}
                         animate={{ opacity: 1, x: 0, scale: 1 }}
                         transition={{ duration: 0.6, delay: 0.2, type: "spring", bounce: 0.3 }}
-                        className="bg-white/60 backdrop-blur-xl rounded-2xl border border-white/50 p-4 space-y-3 lg:sticky lg:top-[22rem] shadow-[0_4px_20px_rgb(0,0,0,0.02)]"
+                        className="liquid-glass-panel p-4 space-y-3 lg:sticky lg:top-[22rem]"
                     >
                         <label className="text-xs font-bold text-rose-400 uppercase tracking-wider px-2">{W.taskType}</label>
                         <select
@@ -336,7 +316,7 @@ export default function WritingPage() {
                                             visible: { opacity: 1, y: 0, scale: 1, transition: { type: "spring", bounce: 0.45, duration: 0.6 } }
                                         }}
                                         exit={{ opacity: 0, scale: 0.9 }}
-                                        className="group bg-white/70 backdrop-blur-xl rounded-[1.5rem] p-1 border border-white/60 hover:border-rose-200/50 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgba(244,63,94,0.15)] transition-all duration-500 relative hover:-translate-y-1"
+                                        className="group liquid-glass-panel p-1 hover:shadow-[0_20px_40px_rgba(244,63,94,0.15)] transition-all duration-500 relative hover:-translate-y-1"
                                     >
                                         <div className="bg-white/50 rounded-[1.2rem] p-6 h-full flex flex-col relative overflow-hidden group-hover:bg-gradient-to-b group-hover:from-white group-hover:to-rose-50/30 transition-colors duration-500">
 

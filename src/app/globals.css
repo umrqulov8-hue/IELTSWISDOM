@@ -363,3 +363,33 @@
   background-color: rgba(254, 202, 202, 0.5);
   border-bottom-color: #f87171;
 }
+
+/* User Provided Liquid Glass Effects */
+.liquid-bg-container {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.liquid-bg-container img {
+  width: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.liquid-glass-panel {
+  /* Adapted from user's .glass but applied to a container rather than a fixed button */
+  border-radius: 1.5rem;
+  background: rgba(255, 255, 255, 0.08);
+  border: 2px solid transparent;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.6), 0 16px 32px rgba(0, 0, 0, 0.12);
+  backdrop-filter: url(#frosted);
+  -webkit-backdrop-filter: url(#frosted);
+  transition: all 0.3s ease;
+}
+
+/* Optional hover state to trigger the SVG animation if we want it on the whole panel */
+.liquid-glass-panel:hover {
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.8), 0 20px 40px rgba(0, 0, 0, 0.15);
+}
