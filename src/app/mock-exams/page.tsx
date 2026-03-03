@@ -20,10 +20,9 @@ export default function MockExamsPage() {
 
     return (
         <DashboardLayout title={tx(ME.title, lang)} description={tx(ME.desc, lang)}>
-            <div className="absolute inset-0 bg-[#fdf5eb] overflow-hidden -z-20"></div>
             <div className="max-w-[1150px] mx-auto px-4 md:px-8 space-y-10 relative z-10 pt-6 pb-20">
-                <div className="flex items-center gap-3 mb-10 pl-5 border-l-[4px] border-[#0f172a]">
-                    <h2 className="text-[28px] font-black text-[#0f172a] tracking-tight">{tx(ME.sectionTitle, lang)}</h2>
+                <div className="flex items-center gap-3 mb-10 pl-5 border-l-[4px] border-[#FF8C00]">
+                    <h2 className="text-[28px] font-black text-slate-800 tracking-tight">{tx(ME.sectionTitle, lang)}</h2>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-14">
