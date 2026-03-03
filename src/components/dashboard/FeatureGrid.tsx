@@ -48,19 +48,31 @@ export function FeatureGrid() {
                         className="float-left w-1/2 md:w-1/4 px-2 md:px-3 mb-4 md:mb-6 h-[170px]"
                     >
                         <Link href={feature.href} className="block h-full relative group">
-                            {/* Premium Glow Effect (placed behind the card) */}
-                            <div className={cn(
-                                "absolute -inset-1 rounded-[2.5rem] blur-2xl opacity-0 group-hover:opacity-40 transition-opacity duration-700 bg-gradient-to-r",
-                                gradientClass
-                            )} />
+                            <div className="relative bg-white/50 backdrop-blur-xl border border-white/60 p-6 rounded-[2rem] transition-all duration-300 cursor-pointer overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 h-full flex flex-col items-center justify-center">
 
-                            <div className="relative bg-white/40 backdrop-blur-xl border border-white/60 p-6 rounded-3xl hover:bg-white/70 transition-all duration-500 cursor-pointer shadow-sm hover:shadow-xl hover:-translate-y-2 h-full flex flex-col items-center justify-center">
-                                {/* Removed the harsh border/bottom-fill animation */}
+                                {/* 
+                                    Water Fill Effect 
+                                    - Rises from bottom (translate-y-full) to top (translate-y-0)
+                                    - Eased smoothly for a liquid feel
+                                */}
+                                <div className={cn(
+                                    "absolute inset-0 -z-10 opacity-90",
+                                    "transition-transform duration-[700ms] ease-[cubic-bezier(0.25,1,0.2,1)] translate-y-full group-hover:translate-y-0",
+                                    "bg-gradient-to-t",
+                                    gradientClass
+                                )} />
+
                                 <div className="relative z-10 flex flex-col items-center text-center gap-4">
-                                    <div className={`p-4 rounded-2xl bg-gradient-to-br ${gradientClass} shadow-lg text-white group-hover:scale-110 transition-transform duration-500 ease-out`}>
+                                    {/* Icon container - stays white when water fills */}
+                                    <div className={cn(
+                                        "p-4 rounded-2xl shadow-lg transition-transform duration-500 ease-out group-hover:scale-110",
+                                        "bg-gradient-to-br text-white",
+                                        gradientClass,
+                                        "group-hover:shadow-[0_0_20px_rgba(255,255,255,0.4)] group-hover:border group-hover:border-white/40"
+                                    )}>
                                         <Icon className="w-7 h-7" />
                                     </div>
-                                    <h3 className="text-sm font-bold text-slate-700 group-hover:text-slate-900 transition-colors line-clamp-2">
+                                    <h3 className="text-sm font-bold transition-colors duration-500 line-clamp-2 text-slate-700 group-hover:text-white delay-100">
                                         <BouncyText key={lang} text={tx(T.features[feature.key], lang)} type="word" />
                                     </h3>
                                 </div>
