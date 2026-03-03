@@ -74,32 +74,64 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
             let container = range.commonAncestorContainer;
             if (container.nodeType === 3) container = container.parentNode!;
 
-            const highlightSpan = (container as HTMLElement).closest('span[class^="hlt-"]');
-            if (highlightSpan) {
-                const parent = highlightSpan.parentNode!;
-                while (highlightSpan.firstChild) {
-                    parent.insertBefore(highlightSpan.firstChild, highlightSpan);
+            const highlightSpans = (container as HTMLElement).querySelectorAll('span[class^="hlt-"]');
+            highlightSpans.forEach(span => {
+                if (sel.containsNode(span, true)) {
+                    const parent = span.parentNode!;
+                    while (span.firstChild) {
+                        parent.insertBefore(span.firstChild, span);
+                    }
+                    parent.removeChild(span);
                 }
-                parent.removeChild(highlightSpan);
-            }
+            });
             setIsMenuVisible(false);
             sel.removeAllRanges();
             return;
         }
 
         const range = sel.getRangeAt(0);
-        const span = document.createElement('span');
-        span.className = `hlt-${color}`;
+        const colorClass = `hlt-${color}`;
 
-        try {
-            range.surroundContents(span);
-        } catch (e) {
-            // Fallback for complex selections (e.g. crossing block boundaries)
-            console.warn("Complex selection detected, using fallback highlighting");
-            const fragment = range.extractContents();
-            span.appendChild(fragment);
-            range.insertNode(span);
+        // Node-walking approach to wrap text nodes individually
+        const treeWalker = document.createTreeWalker(
+            range.commonAncestorContainer,
+            NodeFilter.SHOW_TEXT,
+            {
+                acceptNode: (node) => {
+                    const nodeRange = document.createRange();
+                    nodeRange.selectNodeContents(node);
+                    return range.compareBoundaryPoints(Range.END_TO_START, nodeRange) < 0 &&
+                        range.compareBoundaryPoints(Range.START_TO_END, nodeRange) > 0
+                        ? NodeFilter.FILTER_ACCEPT
+                        : NodeFilter.FILTER_REJECT;
+                }
+            }
+        );
+
+        const nodes: Text[] = [];
+        let curr = treeWalker.nextNode() as Text;
+        while (curr) {
+            nodes.push(curr);
+            curr = treeWalker.nextNode() as Text;
         }
+
+        nodes.forEach(node => {
+            const span = document.createElement('span');
+            span.className = colorClass;
+
+            let nodeToWrap = node;
+            if (nodeToWrap === range.endContainer) {
+                nodeToWrap.splitText(range.endOffset);
+            }
+            if (nodeToWrap === range.startContainer) {
+                nodeToWrap = nodeToWrap.splitText(range.startOffset);
+            }
+
+            if (nodeToWrap.parentNode) {
+                nodeToWrap.parentNode.replaceChild(span, nodeToWrap);
+                span.appendChild(nodeToWrap);
+            }
+        });
 
         sel.removeAllRanges();
         setIsMenuVisible(false);
