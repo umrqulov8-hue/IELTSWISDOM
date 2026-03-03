@@ -106,6 +106,7 @@ export default function ArticlesPage() {
     const { lang } = useLanguage();
     const AR = T.articles;
     const [activeTab, setActiveTab] = useState("Barchasi");
+    const [selectedId, setSelectedId] = useState<string | null>(null);
 
     return (
         <DashboardLayout
@@ -164,61 +165,135 @@ export default function ArticlesPage() {
                 {/* Articles Grid */}
                 <motion.div
                     layout
-                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 relative"
                 >
-                    <AnimatePresence mode="popLayout">
-                        {articles.map((article, index) => (
-                            <motion.div
-                                layout
-                                initial={{ opacity: 0, scale: 0.9, y: 20 }}
-                                animate={{ opacity: 1, scale: 1, y: 0 }}
-                                exit={{ opacity: 0, scale: 0.9, y: 20 }}
-                                transition={{ duration: 0.5, delay: index * 0.05, ease: [0.23, 1, 0.32, 1] }}
-                                key={`article-${article.id}`}
-                                className="bg-white/40 backdrop-blur-2xl border border-white/60 rounded-[32px] p-5 flex flex-col gap-5 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.08)] hover:-translate-y-2 transition-all duration-500 cursor-pointer group relative overflow-hidden"
-                            >
-                                {/* Decorative Gradient Overlay on Hover */}
-                                <div className="absolute inset-0 bg-gradient-to-br from-orange-400/0 to-blue-400/0 group-hover:from-orange-400/5 group-hover:to-blue-400/5 transition-colors duration-500 pointer-events-none" />
-                                {/* Image Container */}
-                                <div className="relative h-40 rounded-2xl overflow-hidden bg-slate-100">
-                                    <Image
-                                        src={article.image}
-                                        alt={article.title}
-                                        fill
-                                        className="object-cover transition-transform duration-700 group-hover:scale-105"
-                                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-                                    />
-                                </div>
+                    {articles.map((article, index) => (
+                        <motion.div
+                            layoutId={`article-container-${article.id}`}
+                            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                            exit={{ opacity: 0, scale: 0.9, y: 20 }}
+                            transition={{ duration: 0.5, delay: index * 0.05, ease: [0.23, 1, 0.32, 1] }}
+                            onClick={() => setSelectedId(article.id.toString())}
+                            key={`article-${article.id}`}
+                            className="bg-white/40 backdrop-blur-2xl border border-white/60 rounded-[32px] p-5 flex flex-col gap-5 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.08)] hover:-translate-y-2 transition-all duration-500 cursor-pointer group relative overflow-hidden"
+                        >
+                            {/* Decorative Gradient Overlay on Hover */}
+                            <div className="absolute inset-0 bg-gradient-to-br from-orange-400/0 to-blue-400/0 group-hover:from-orange-400/5 group-hover:to-blue-400/5 transition-colors duration-500 pointer-events-none" />
+                            {/* Image Container */}
+                            <motion.div layoutId={`article-image-${article.id}`} className="relative h-40 rounded-2xl overflow-hidden bg-slate-100">
+                                <Image
+                                    src={article.image}
+                                    alt={article.title}
+                                    fill
+                                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                                />
+                            </motion.div>
 
-                                {/* Content */}
-                                <div className="flex flex-col flex-1 px-1">
-                                    <h3 className="font-bold text-slate-800 text-lg leading-tight mb-2 line-clamp-2">
-                                        {article.title}
-                                    </h3>
-                                    <p className="text-slate-500 text-xs leading-relaxed line-clamp-2 mb-3">
-                                        {article.desc}
-                                    </p>
+                            {/* Content */}
+                            <motion.div layoutId={`article-content-${article.id}`} className="flex flex-col flex-1 px-1">
+                                <motion.h3 layoutId={`article-title-${article.id}`} className="font-bold text-slate-800 text-lg leading-tight mb-2 line-clamp-2">
+                                    {article.title}
+                                </motion.h3>
+                                <motion.p layoutId={`article-desc-${article.id}`} className="text-slate-500 text-xs leading-relaxed line-clamp-2 mb-3">
+                                    {article.desc}
+                                </motion.p>
 
-                                    <div className="mt-auto">
-                                        <span className="inline-block px-3 py-1 bg-slate-100 text-slate-600 rounded-lg text-[10px] font-semibold mb-4">
-                                            {article.tag}
-                                        </span>
+                                <div className="mt-auto">
+                                    <span className="inline-block px-3 py-1 bg-slate-100 text-slate-600 rounded-lg text-[10px] font-semibold mb-4">
+                                        {article.tag}
+                                    </span>
 
-                                        <div className="flex items-center gap-2 pt-3 border-t border-slate-200/60">
-                                            <div className="w-8 h-8 rounded-full overflow-hidden bg-slate-200 relative shrink-0 border border-white shadow-sm">
-                                                <Image src={article.avatar} alt={article.author} fill className="object-cover" />
-                                            </div>
-                                            <div className="flex flex-col">
-                                                <span className="text-[11px] font-bold text-slate-700">Muallif: {article.author}</span>
-                                                <span className="text-[10px] text-slate-500">{article.date} • {article.time}</span>
-                                            </div>
+                                    <div className="flex items-center gap-2 pt-3 border-t border-slate-200/60">
+                                        <div className="w-8 h-8 rounded-full overflow-hidden bg-slate-200 relative shrink-0 border border-white shadow-sm">
+                                            <Image src={article.avatar} alt={article.author} fill className="object-cover" />
+                                        </div>
+                                        <div className="flex flex-col">
+                                            <span className="text-[11px] font-bold text-slate-700">Muallif: {article.author}</span>
+                                            <span className="text-[10px] text-slate-500">{article.date} • {article.time}</span>
                                         </div>
                                     </div>
                                 </div>
                             </motion.div>
-                        ))}
-                    </AnimatePresence>
+                        </motion.div>
+                    ))}
                 </motion.div>
+
+                {/* Expanded Article Overlay */}
+                <AnimatePresence>
+                    {selectedId && (
+                        <>
+                            {/* Blurred Backdrop */}
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                onClick={() => setSelectedId(null)}
+                                className="fixed inset-0 bg-slate-900/20 backdrop-blur-sm z-40"
+                            />
+
+                            {/* Expanded Card */}
+                            <div className="fixed inset-0 z-50 flex items-center justify-center pointer-events-none p-4 md:p-10">
+                                {articles.filter(a => a.id.toString() === selectedId).map(article => (
+                                    <motion.div
+                                        layoutId={`article-container-${article.id}`}
+                                        key={`expanded-${article.id}`}
+                                        className="bg-white/90 backdrop-blur-3xl border border-white rounded-[40px] shadow-[0_20px_80px_rgba(0,0,0,0.15)] flex flex-col w-full max-w-4xl max-h-[90vh] overflow-hidden pointer-events-auto relative"
+                                    >
+                                        <button
+                                            onClick={() => setSelectedId(null)}
+                                            className="absolute top-6 right-6 z-10 w-12 h-12 rounded-full bg-white/50 backdrop-blur-md border border-white flex items-center justify-center text-slate-500 hover:text-slate-800 hover:bg-white transition-colors shadow-sm"
+                                        >
+                                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                        </button>
+
+                                        {/* Hero Image */}
+                                        <motion.div layoutId={`article-image-${article.id}`} className="relative w-full h-80 shrink-0">
+                                            <Image
+                                                src={article.image}
+                                                alt={article.title}
+                                                fill
+                                                className="object-cover"
+                                            />
+                                            <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                                        </motion.div>
+
+                                        {/* Scrollable Content */}
+                                        <motion.div layoutId={`article-content-${article.id}`} className="p-8 md:p-12 overflow-y-auto custom-scrollbar flex-1">
+                                            <span className="inline-block px-4 py-1.5 bg-orange-100 text-orange-600 rounded-xl text-sm font-bold mb-6">
+                                                {article.tag}
+                                            </span>
+
+                                            <motion.h3 layoutId={`article-title-${article.id}`} className="font-extrabold text-slate-800 text-3xl md:text-5xl leading-tight mb-6">
+                                                {article.title}
+                                            </motion.h3>
+
+                                            <div className="flex items-center gap-4 mb-10 pb-10 border-b border-slate-200">
+                                                <div className="w-12 h-12 rounded-full overflow-hidden relative border-2 border-white shadow-md">
+                                                    <Image src={article.avatar} alt={article.author} fill className="object-cover" />
+                                                </div>
+                                                <div className="flex flex-col">
+                                                    <span className="text-sm font-bold text-slate-800">{article.author}</span>
+                                                    <span className="text-xs text-slate-500 font-medium">{article.date} • {article.time}</span>
+                                                </div>
+                                            </div>
+
+                                            <motion.div layoutId={`article-desc-${article.id}`} className="prose prose-slate max-w-none prose-lg">
+                                                <p className="text-slate-600 leading-relaxed text-lg">
+                                                    {article.desc} Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                                                </p>
+                                                <p className="text-slate-600 leading-relaxed text-lg mt-6">
+                                                    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Curabitur pretium tincidunt lacus. Nulla gravida orci a odio. Nullam varius, turpis et commodo pharetra, est eros bibendum elit, nec luctus magna felis sollicitudin mauris. Integer in mauris eu nibh euismod gravida.
+                                                </p>
+                                            </motion.div>
+                                        </motion.div>
+                                    </motion.div>
+                                ))}
+                            </div>
+                        </>
+                    )}
+                </AnimatePresence>
             </div>
         </DashboardLayout>
     );
