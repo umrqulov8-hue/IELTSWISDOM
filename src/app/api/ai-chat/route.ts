@@ -1,19 +1,22 @@
 import { NextRequest, NextResponse } from "next/server";
-import OpenAI from "openai";
+import { verifyAuth, getOpenAIClient, errorResponse } from "@/lib/api-utils";
 
 export const dynamic = 'force-dynamic';
 
 export async function POST(req: NextRequest) {
     try {
-        if (!process.env.OPENAI_API_KEY) {
-            return NextResponse.json({ error: "OPENAI_API_KEY not configured" }, { status: 500 });
+        const user = await verifyAuth(req);
+        if (!user) {
+            return errorResponse("Unauthorized", 401);
         }
 
-        const openai = new OpenAI({
-            apiKey: process.env.OPENAI_API_KEY,
-        });
-
         const { messages } = await req.json();
+
+        if (!messages || !Array.isArray(messages)) {
+            return errorResponse("Invalid messages", 400);
+        }
+
+        const openai = getOpenAIClient();
 
         const systemInstruction = `You are an expert IELTS tutor and AI assistant for the IELTS Wisdom platform.
 You help students with:
@@ -25,7 +28,7 @@ You help students with:
 
 Always be encouraging, specific, and provide actionable feedback. When evaluating writing, mention the band score criteria: Task Achievement, Coherence & Cohesion, Lexical Resource, and Grammatical Range & Accuracy.`;
 
-        const formattedMessages = [
+        const formattedMessages: any[] = [
             { role: "system", content: systemInstruction },
             ...messages.map((msg: any) => ({
                 role: msg.role === "assistant" ? "assistant" : "user",
@@ -43,6 +46,6 @@ Always be encouraging, specific, and provide actionable feedback. When evaluatin
         return NextResponse.json({ reply });
     } catch (err) {
         console.error("AI chat error:", err);
-        return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+        return errorResponse("Internal server error", 500, err instanceof Error ? err.message : undefined);
     }
 }

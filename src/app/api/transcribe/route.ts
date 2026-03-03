@@ -1,23 +1,27 @@
 import { NextRequest, NextResponse } from "next/server";
-import OpenAI from "openai";
+import { verifyAuth, getOpenAIClient, errorResponse } from "@/lib/api-utils";
 
 export const dynamic = 'force-dynamic';
 
 export async function POST(request: NextRequest) {
     try {
-        if (!process.env.OPENAI_API_KEY) {
-            return NextResponse.json({ error: "OpenAI API key not configured" }, { status: 500 });
+        const user = await verifyAuth(request);
+        if (!user) {
+            return errorResponse("Unauthorized", 401);
         }
 
-        const openai = new OpenAI({
-            apiKey: process.env.OPENAI_API_KEY,
-        });
+        const openai = getOpenAIClient();
 
         const formData = await request.formData();
         const file = formData.get("file") as File;
 
         if (!file) {
-            return NextResponse.json({ error: "No file provided" }, { status: 400 });
+            return errorResponse("No file provided", 400);
+        }
+
+        // Optional: File size limit check (e.g., 10MB)
+        if (file.size > 10 * 1024 * 1024) {
+            return errorResponse("File too large (max 10MB)", 400);
         }
 
         const transcription = await openai.audio.transcriptions.create({
@@ -26,17 +30,12 @@ export async function POST(request: NextRequest) {
             response_format: "text",
         });
 
-        // The exact type returned depends on response_format, for "text" it returns a string directly
         const text = (typeof transcription === 'string' ? transcription : (transcription as any).text).trim();
 
         return NextResponse.json({ text });
 
     } catch (err) {
         console.error("OpenAI Transcribe Error:", err);
-        const errorMessage = err instanceof Error ? err.message : "Internal server error";
-        return NextResponse.json({
-            error: "Transcription failed",
-            details: errorMessage
-        }, { status: 500 });
+        return errorResponse("Transcription failed", 500, err instanceof Error ? err.message : undefined);
     }
 }

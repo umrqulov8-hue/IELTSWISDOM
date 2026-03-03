@@ -99,8 +99,14 @@ export default function AICheckPage() {
         setError(null);
     };
 
-    const renderContent = (text: string) =>
-        text.replace(/\*\*(.*?)\*\*/g, "<strong class='text-white font-bold'>$1</strong>").replace(/\n/g, "<br/>");
+    const renderContent = (text: string) => {
+        // Robust basic markdown-like replacement
+        let html = text
+            .replace(/\*\*(.*?)\*\*/g, "<strong class='font-bold'>$1</strong>")
+            .replace(/\*(.*?)\*/g, "<em class='italic'>$1</em>")
+            .replace(/\n/g, "<br/>");
+        return html;
+    };
 
     return (
         <DashboardLayout fullHeight hideHeader>

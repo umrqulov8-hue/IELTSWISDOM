@@ -54,7 +54,7 @@ export async function updateSession(request: NextRequest) {
         }
     )
 
-    await supabase.auth.getUser()
+    const { data: { user } } = await supabase.auth.getUser()
 
     const protectedPaths = [
         '/dashboard',
@@ -73,11 +73,8 @@ export async function updateSession(request: NextRequest) {
 
     const isProtected = protectedPaths.some(path => request.nextUrl.pathname.startsWith(path))
 
-    if (isProtected) {
-        const { data: { user } } = await supabase.auth.getUser()
-        if (!user) {
-            return NextResponse.redirect(new URL('/', request.url))
-        }
+    if (isProtected && !user) {
+        return NextResponse.redirect(new URL('/', request.url))
     }
 
     return response

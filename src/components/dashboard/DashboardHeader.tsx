@@ -9,7 +9,6 @@ import { useDashboard } from "@/hooks/useDashboard";
 import { useRouter } from "next/navigation";
 import { useLanguage } from "@/context/LanguageContext";
 import { BouncyText } from "@/components/ui/BouncyText";
-import { DarkModeToggle } from "@/components/ui/DarkModeToggle";
 
 // Fallback Mock Data (if DB is empty for demo)
 const FALLBACK_SEARCH_RESULTS = [
@@ -131,7 +130,6 @@ export function DashboardHeader({ title, description, showGreeting, displayName 
             </div>
 
             <div className="flex items-center gap-4">
-                <DarkModeToggle />
                 {/* --- Search Bar --- */}
                 <div ref={searchRef} className="relative hidden md:block group z-50">
                     <div className="absolute inset-x-0 -top-full h-[200%] pointer-events-none opacity-20 blur-3xl overflow-hidden rounded-full">

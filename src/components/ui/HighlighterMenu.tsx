@@ -21,7 +21,7 @@ export const HighlighterMenu: React.FC<HighlighterMenuProps> = ({ onHighlight, i
     const adjustedX = position.x;
     const adjustedY = position.y - 60;
 
-    const containerVariants = {
+    const containerVariants: any = {
         hidden: {
             opacity: 0,
             y: 20,
@@ -52,7 +52,7 @@ export const HighlighterMenu: React.FC<HighlighterMenuProps> = ({ onHighlight, i
         }
     };
 
-    const itemVariants = {
+    const itemVariants: any = {
         hidden: { opacity: 0, scale: 0.5 },
         visible: {
             opacity: 1,

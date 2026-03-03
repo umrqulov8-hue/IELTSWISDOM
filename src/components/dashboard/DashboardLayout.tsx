@@ -18,7 +18,7 @@ interface DashboardLayoutProps extends PropsWithChildren {
 }
 
 // Premium page transition variants
-const pageVariants = {
+const pageVariants: any = {
     initial: {
         opacity: 0,
         y: 18,
@@ -32,7 +32,7 @@ const pageVariants = {
         filter: "blur(0px)",
         transition: {
             duration: 0.38,
-            ease: [0.22, 1, 0.36, 1] as const, // custom easeOutExpo
+            ease: [0.22, 1, 0.36, 1],
         },
     },
     exit: {
@@ -42,7 +42,7 @@ const pageVariants = {
         filter: "blur(3px)",
         transition: {
             duration: 0.22,
-            ease: [0.4, 0, 1, 1] as const,
+            ease: [0.4, 0, 1, 1],
         },
     },
 };
