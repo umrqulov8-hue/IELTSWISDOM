@@ -28,12 +28,13 @@ export function FeatureGrid() {
             {featureDefs.map((feature, index) => {
                 const Icon = feature.icon;
                 let gradientClass = "from-blue-500 to-cyan-400";
-                if (feature.color.includes("orange")) gradientClass = "from-orange-400 to-red-400";
-                if (feature.color.includes("purple")) gradientClass = "from-purple-500 to-indigo-500";
-                if (feature.color.includes("emerald")) gradientClass = "from-emerald-400 to-teal-500";
-                if (feature.color.includes("yellow")) gradientClass = "from-yellow-400 to-orange-400";
-                if (feature.color.includes("pink")) gradientClass = "from-pink-500 to-rose-400";
-                if (feature.color.includes("red")) gradientClass = "from-red-500 to-rose-500";
+                let waveColor = "text-cyan-400";
+                if (feature.color.includes("orange")) { gradientClass = "from-orange-400 to-red-400"; waveColor = "text-red-400"; }
+                if (feature.color.includes("purple")) { gradientClass = "from-purple-500 to-indigo-500"; waveColor = "text-indigo-500"; }
+                if (feature.color.includes("emerald")) { gradientClass = "from-emerald-400 to-teal-500"; waveColor = "text-teal-500"; }
+                if (feature.color.includes("yellow")) { gradientClass = "from-yellow-400 to-orange-400"; waveColor = "text-orange-400"; }
+                if (feature.color.includes("pink")) { gradientClass = "from-pink-500 to-rose-400"; waveColor = "text-rose-400"; }
+                if (feature.color.includes("red")) { gradientClass = "from-red-500 to-rose-500"; waveColor = "text-rose-500"; }
 
                 return (
                     <motion.div
@@ -51,23 +52,30 @@ export function FeatureGrid() {
                             <div className="relative bg-white/50 backdrop-blur-xl border border-white/60 p-6 rounded-[2rem] transition-all duration-300 cursor-pointer overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 h-full flex flex-col items-center justify-center">
 
                                 {/* 
-                                    Liquid Wave Fill Effect 
-                                    - Two oversized, softly rounded squares slowly spinning
-                                    - Moving them up smoothly simulates filling water with waves
+                                    Ocean Wave & Droplets Fill Effect 
+                                    - Translates up from bottom
+                                    - At the very top edge is an animated SVG sine wave
+                                    - Inside are CSS animated dropping bubbles
                                 */}
-                                <div className="absolute left-1/2 -translate-x-1/2 top-[120%] group-hover:top-[-20px] transition-all duration-[1500ms] ease-[cubic-bezier(0.2,0.8,0.2,1)] z-0 w-[500px] h-[500px]">
-                                    {/* Wave 1 Background Layer */}
-                                    <div className={cn(
-                                        "absolute inset-0 rounded-[40%] animate-[spin_5s_linear_infinite] opacity-60",
-                                        "bg-gradient-to-tr",
-                                        gradientClass
-                                    )} />
-                                    {/* Wave 2 Foreground Layer (Spins at different rate) */}
-                                    <div className={cn(
-                                        "absolute inset-0 rounded-[45%] animate-[spin_8s_linear_infinite] opacity-90 scale-105",
-                                        "bg-gradient-to-t",
-                                        gradientClass
-                                    )} />
+                                <div className="absolute left-0 right-0 h-full bottom-0 translate-y-[105%] group-hover:translate-y-0 transition-transform duration-[1000ms] ease-[cubic-bezier(0.2,0.8,0.2,1)] z-0">
+                                    {/* SVG Ocean Wave Layer */}
+                                    <div className={cn("absolute top-[-20px] left-0 w-[200%] h-[21px] animate-wave-roll", waveColor)}>
+                                        <svg viewBox="0 0 1000 100" preserveAspectRatio="none" className="w-full h-full fill-current opacity-90">
+                                            <path d="M0,50 Q250,100 500,50 T1000,50 L1000,100 L0,100 Z" />
+                                        </svg>
+                                    </div>
+
+                                    {/* Liquid Body */}
+                                    <div className={cn("absolute inset-0 opacity-90 bg-gradient-to-t", gradientClass)} />
+
+                                    {/* Rising Water Droplets */}
+                                    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                                        <div className="absolute w-2 h-2 rounded-full bg-white/60 left-[15%] animate-drop-rise delay-100" />
+                                        <div className="absolute w-3 h-3 rounded-full bg-white/40 left-[35%] animate-drop-rise delay-300" />
+                                        <div className="absolute w-1.5 h-1.5 rounded-full bg-white/70 left-[55%] animate-drop-rise delay-700" />
+                                        <div className="absolute w-2.5 h-2.5 rounded-full bg-white/50 left-[75%] animate-drop-rise delay-1100" />
+                                        <div className="absolute w-2 h-2 rounded-full bg-white/30 left-[85%] animate-drop-rise delay-1500" />
+                                    </div>
                                 </div>
 
                                 <div className="relative z-10 flex flex-col items-center text-center gap-4">
