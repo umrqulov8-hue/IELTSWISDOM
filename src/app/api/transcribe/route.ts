@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { verifyAuth, getOpenAIClient, errorResponse } from "@/lib/api-utils";
+import { verifyAuth, getOpenAIClient, errorResponse, logApiError } from "@/lib/api-utils";
 
 export const dynamic = 'force-dynamic';
 

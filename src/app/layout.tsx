@@ -7,6 +7,7 @@ import { LanguageProvider } from "@/context/LanguageContext";
 import { ClientLayout } from "@/components/ClientLayout";
 import { AuthProvider } from "@/context/AuthContext";
 import { SubscriptionProvider } from "@/context/SubscriptionContext";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { Toaster } from 'sonner';
 import { Analytics } from "@vercel/analytics/react";
 
@@ -25,8 +26,33 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "IELTS Wisdom",
-  description: "Master English with a Proven System. Interactive lessons, native speaker support, and structured curriculum.",
+  title: {
+    default: "IELTS Wisdom | Master IELTS with Confidence",
+    template: "%s | IELTS Wisdom"
+  },
+  description: "Master English with a Proven System. Interactive lessons, native speaker support, and structured curriculum designed by experts.",
+  keywords: ["IELTS", "English Learning", "IELTS Preparation", "IELTS Practice", "English Course"],
+  authors: [{ name: "IELTS Wisdom Team" }],
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://ieltswisdom.com",
+    siteName: "IELTS Wisdom",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "IELTS Wisdom - Master English"
+      }
+    ]
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "IELTS Wisdom",
+    description: "Master English with a Proven System.",
+    images: ["/og-image.png"]
+  }
 };
 
 export default function RootLayout({
@@ -50,9 +76,11 @@ export default function RootLayout({
           <LanguageProvider>
             <SubscriptionProvider>
               <ModalProvider>
-                <ClientLayout>
-                  {children}
-                </ClientLayout>
+                <ErrorBoundary>
+                  <ClientLayout>
+                    {children}
+                  </ClientLayout>
+                </ErrorBoundary>
                 <AuthModal />
                 <Toaster position="top-center" richColors />
               </ModalProvider>

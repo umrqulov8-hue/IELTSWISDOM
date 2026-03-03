@@ -9,6 +9,7 @@ import { motion } from "framer-motion";
 import { useLanguage } from "@/context/LanguageContext";
 import { translations as T, tx } from "@/lib/translations";
 import { BouncyText } from "@/components/ui/BouncyText";
+import { Skeleton } from "@/components/ui/Skeleton";
 import { cn } from "@/lib/utils";
 
 export default function DashboardPage() {
@@ -84,8 +85,14 @@ export default function DashboardPage() {
 
                                 {/* Overall Score */}
                                 <div className="flex items-end gap-2 mb-1">
-                                    <span className="text-5xl font-black">{progress_percentage}</span>
-                                    <span className="text-xl text-orange-200 mb-1 font-bold">%</span>
+                                    {stats ? (
+                                        <>
+                                            <span className="text-5xl font-black">{progress_percentage}</span>
+                                            <span className="text-xl text-orange-200 mb-1 font-bold">%</span>
+                                        </>
+                                    ) : (
+                                        <Skeleton className="h-12 w-20 bg-white/20" />
+                                    )}
                                 </div>
                                 {/* Visual Progress Bar */}
                                 <div className="w-full h-2.5 bg-black/20 rounded-full overflow-hidden mb-5 relative">

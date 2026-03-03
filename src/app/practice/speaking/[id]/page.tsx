@@ -110,7 +110,7 @@ export default function SpeakingTestInterface() {
             });
 
             if (!transcribeRes.ok) {
-                const errData = await transcribeRes.json();
+                const errData = await transcribeRes.json().catch(() => ({}));
                 throw new Error(errData.details || errData.error || "Transcription failed");
             }
             const { text } = await transcribeRes.json();
@@ -123,15 +123,18 @@ export default function SpeakingTestInterface() {
             });
 
             if (!evaluateRes.ok) {
-                const errData = await evaluateRes.json();
+                const errData = await evaluateRes.json().catch(() => ({}));
                 throw new Error(errData.details || errData.error || "Evaluation failed");
             }
             const data = await evaluateRes.json();
 
             setResults(data);
+            toast.success("Evaluation complete!");
         } catch (err: any) {
             console.error("Analysis error:", err);
-            setError(err.message || "Failed to analyze your answer. Please try again.");
+            const msg = err.message || "Failed to analyze your answer. Please try again.";
+            setError(msg);
+            toast.error(msg);
         } finally {
             setIsAnalyzing(false);
         }

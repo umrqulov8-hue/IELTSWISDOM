@@ -7,12 +7,50 @@ const nextConfig = {
   // the error TS2353 suggests a type mismatch or older type definitions.
   // We'll fix it by using the recommended structure or casting if necessary.
   eslint: {
-    ignoreDuringBuilds: false, // Security: don't ignore lint errors in prod
+    ignoreDuringBuilds: false,
   },
   typescript: {
-    ignoreBuildErrors: false, // Security: don't ignore TS errors in prod
+    ignoreBuildErrors: false,
   },
-  // Target modern browsers
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'azrmwfzrgdvkbzezwyfo.supabase.co',
+        port: '',
+        pathname: '/storage/v1/object/public/**',
+      },
+    ],
+  },
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff',
+          },
+          {
+            key: 'X-Frame-Options',
+            value: 'DENY',
+          },
+          {
+            key: 'X-XSS-Protection',
+            value: '1; mode=block',
+          },
+          {
+            key: 'Referrer-Policy',
+            value: 'strict-origin-when-cross-origin',
+          },
+          {
+            key: 'Permissions-Policy',
+            value: 'camera=(), microphone=(), geolocation=()',
+          },
+        ],
+      },
+    ];
+  },
   experimental: {
     optimizeCss: true,
   },

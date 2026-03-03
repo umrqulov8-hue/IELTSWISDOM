@@ -1,7 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
-import { verifyAuth, getOpenAIClient, errorResponse } from "@/lib/api-utils";
+import { verifyAuth, getOpenAIClient, errorResponse, logApiError } from "@/lib/api-utils";
 
 export const dynamic = 'force-dynamic';
+
+import { z } from "zod";
+
+const chatSchema = z.object({
+    messages: z.array(z.object({
+        role: z.enum(["user", "assistant", "system"]),
+        content: z.string().min(1)
+    })).min(1),
+});
 
 export async function POST(req: NextRequest) {
     try {
@@ -10,11 +19,14 @@ export async function POST(req: NextRequest) {
             return errorResponse("Unauthorized", 401);
         }
 
-        const { messages } = await req.json();
+        const body = await req.json().catch(() => ({}));
+        const validation = chatSchema.safeParse(body);
 
-        if (!messages || !Array.isArray(messages)) {
-            return errorResponse("Invalid messages", 400);
+        if (!validation.success) {
+            return errorResponse("Invalid messages format", 400);
         }
+
+        const { messages } = validation.data;
 
         const openai = getOpenAIClient();
 

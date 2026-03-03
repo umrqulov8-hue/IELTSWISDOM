@@ -343,19 +343,23 @@ export default function ListeningTestPage() {
 
         // Save result to Supabase
         const supabase = createClient();
-        const { data: { user } } = await supabase.auth.getUser();
+        try {
+            const { data: { user } } = await supabase.auth.getUser();
 
-        if (user) {
-            try {
-                await supabase.from("test_results").insert({
+            if (user) {
+                const { error: insertError } = await supabase.from("test_results").insert({
                     user_id: user.id,
                     test_id: testId,
                     score: s,
                     total_questions: totalQ
                 });
-            } catch (err) {
-                console.error("Failed to save test result", err);
+
+                if (insertError) throw insertError;
+                toast.success("Test results saved successfully!");
             }
+        } catch (err: any) {
+            console.error("Failed to save test result", err);
+            toast.error("Failed to save results to your profile, but your score is shown above.");
         }
     };
 

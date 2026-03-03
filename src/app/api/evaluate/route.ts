@@ -1,7 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
-import { verifyAuth, getOpenAIClient, errorResponse } from "@/lib/api-utils";
+import { verifyAuth, getOpenAIClient, errorResponse, logApiError } from "@/lib/api-utils";
 
 export const dynamic = 'force-dynamic';
+
+import { z } from "zod";
+
+const evaluateSchema = z.object({
+    text: z.string().min(1, "Text is required").max(10000, "Text is too long"),
+});
 
 export async function POST(request: NextRequest) {
     try {
@@ -10,13 +16,15 @@ export async function POST(request: NextRequest) {
             return errorResponse("Unauthorized", 401);
         }
 
-        const openai = getOpenAIClient();
+        const body = await request.json().catch(() => ({}));
+        const validation = evaluateSchema.safeParse(body);
 
-        const { text } = await request.json();
-
-        if (!text || typeof text !== 'string') {
-            return errorResponse("No text provided or invalid text format", 400);
+        if (!validation.success) {
+            return errorResponse(validation.error.issues[0].message, 400);
         }
+
+        const { text } = validation.data;
+        const openai = getOpenAIClient();
 
         const prompt = `You are a Senior IELTS Speaking Examiner. Evaluate the following student's transcript based on the official IELTS Speaking Band Descriptors...`; // Truncated for brevity but remains the same in code
 
@@ -36,7 +44,7 @@ export async function POST(request: NextRequest) {
         return NextResponse.json(result);
 
     } catch (err) {
-        console.error("OpenAI Evaluate Error:", err);
+        logApiError("Evaluate", err);
         return errorResponse("Evaluation failed", 500, err instanceof Error ? err.message : undefined);
     }
 }

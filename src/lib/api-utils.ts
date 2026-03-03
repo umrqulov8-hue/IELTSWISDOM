@@ -29,12 +29,20 @@ export function getOpenAIClient() {
     return openaiInstance;
 }
 
-/**
- * Standard error response for API routes.
- */
 export function errorResponse(message: string, status: number = 500, details?: any) {
     return NextResponse.json(
         { error: message, ...(details && { details }) },
         { status }
     );
+}
+
+/**
+ * Standardized logging for API errors.
+ */
+export function logApiError(context: string, error: any) {
+    console.error(`[API ERROR] ${context}:`, {
+        message: error instanceof Error ? error.message : String(error),
+        stack: process.env.NODE_ENV === 'development' ? (error instanceof Error ? error.stack : undefined) : undefined,
+        timestamp: new Date().toISOString()
+    });
 }

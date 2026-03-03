@@ -73,10 +73,12 @@ export default function AICheckPage() {
                 body: JSON.stringify({ messages: newMessages.map((m) => ({ role: m.role, content: m.content })) }),
             });
             const data = await res.json();
-            if (!res.ok) throw new Error(data.error || "Server xatosi");
+            if (!res.ok) throw new Error(data.error || "Server error");
             setMessages([...newMessages, { role: "assistant", content: data.reply }]);
-        } catch (err: unknown) {
-            setError(err instanceof Error ? err.message : "Xatolik yuz berdi");
+        } catch (err: any) {
+            const msg = err.message || "Something went wrong";
+            setError(msg);
+            toast.error(msg);
         } finally {
             setLoading(false);
         }
