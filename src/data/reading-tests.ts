@@ -436,7 +436,7 @@ export const READING_TESTS: Record<string, ReadingTest> = {
         `,
         questions: [
             // --- Summary Completion (27-30) ---
-            { id: 27, type: "fill-blank", text: "<strong>List of words and phrases:</strong> A. facial expressions, B. purposes, C. printed words, D. effects, E. word meanings, F. gender differences, G. feelings, H. characteristics<br/><br/>Albert Mehrabian and his colleagues carried out an influential study comparing the 27_____ of verbal and non-verbal communication.", correctAnswer: "D" },
+            { id: 27, type: "fill-blank", text: "Albert Mehrabian and his colleagues carried out an influential study comparing the 27_____ of verbal and non-verbal communication.", correctAnswer: "D" },
             { id: 28, type: "fill-blank", text: "This involved two experiments. In both experiments, subjects had to identify the 28_____ being communicated by other people.", correctAnswer: "G" },
             { id: 29, type: "fill-blank", text: "The two main areas focused on in the first experiment were voice tones and 29_____,", correctAnswer: "A" },
             { id: 30, type: "fill-blank", text: "while the second focused mainly on voice tones and 30_____.", correctAnswer: "E" },
