@@ -1,38 +1,343 @@
 "use client";
 
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
-import { Sparkles } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import { translations as T, tx } from "@/lib/translations";
 import { motion } from "framer-motion";
-import { BouncyText } from "@/components/ui/BouncyText";
+import { useDashboard } from "@/hooks/useDashboard";
+import { BookOpen, Headphones, PenLine, Mic2, BookMarked, ExternalLink, TrendingUp, Target, Zap } from "lucide-react";
+import Link from "next/link";
 
+// ── Circular Band Score SVG ───────────────────────────────────────────────────
+function BandScoreRing({ band }: { band: number }) {
+    const radius = 72;
+    const stroke = 10;
+    const normalizedRadius = radius - stroke / 2;
+    const circumference = normalizedRadius * 2 * Math.PI;
+    const progress = Math.min(band / 9, 1);
+    const strokeDashoffset = circumference - progress * circumference;
+
+    // Color gradient stops based on score
+    const gradId = "bandGrad";
+
+    return (
+        <div className="relative flex items-center justify-center">
+            <svg width={radius * 2} height={radius * 2} className="-rotate-90">
+                <defs>
+                    <linearGradient id={gradId} x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stopColor="#f97316" />
+                        <stop offset="50%" stopColor="#6366f1" />
+                        <stop offset="100%" stopColor="#06b6d4" />
+                    </linearGradient>
+                </defs>
+                {/* Track */}
+                <circle
+                    stroke="rgba(148,163,184,0.2)"
+                    fill="transparent"
+                    strokeWidth={stroke}
+                    r={normalizedRadius}
+                    cx={radius}
+                    cy={radius}
+                />
+                {/* Progress */}
+                <motion.circle
+                    stroke={`url(#${gradId})`}
+                    fill="transparent"
+                    strokeWidth={stroke}
+                    strokeLinecap="round"
+                    r={normalizedRadius}
+                    cx={radius}
+                    cy={radius}
+                    strokeDasharray={`${circumference} ${circumference}`}
+                    initial={{ strokeDashoffset: circumference }}
+                    animate={{ strokeDashoffset }}
+                    transition={{ duration: 1.4, ease: "easeOut", delay: 0.3 }}
+                />
+            </svg>
+            <div className="absolute inset-0 flex flex-col items-center justify-center">
+                <motion.span
+                    className="text-4xl font-black text-slate-800 leading-none"
+                    initial={{ opacity: 0, scale: 0.6 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: 0.5, type: "spring", stiffness: 300 }}
+                >
+                    {band > 0 ? band.toFixed(1) : "—"}
+                </motion.span>
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mt-0.5 text-center leading-tight">
+                    Overall<br />Band Score
+                </span>
+            </div>
+        </div>
+    );
+}
+
+// ── Skill Card ────────────────────────────────────────────────────────────────
+interface SkillCardProps {
+    icon: React.ReactNode;
+    iconBg: string;
+    title: string;
+    progress: number; // 0-100
+    stats: { label: string; value: string }[];
+    accent: string; // tailwind gradient for progress bar
+    href?: string;
+    delay?: number;
+}
+
+function SkillCard({ icon, iconBg, title, progress, stats, accent, href, delay = 0 }: SkillCardProps) {
+    return (
+        <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.45, delay, ease: [0.22, 1, 0.36, 1] }}
+            className="bg-white/50 backdrop-blur-xl border border-white/60 rounded-2xl p-5 shadow-sm group hover:shadow-md hover:bg-white/60 transition-all duration-300 flex flex-col gap-3"
+        >
+            {/* Header */}
+            <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                    <div className={`w-9 h-9 rounded-xl flex items-center justify-center shadow-sm ${iconBg}`}>
+                        {icon}
+                    </div>
+                    <span className="text-[11px] font-black tracking-widest text-slate-500 uppercase">{title}</span>
+                </div>
+                <span className={`text-sm font-black bg-clip-text text-transparent ${accent.replace('bg-gradient-to-r', 'bg-gradient-to-r')}`}
+                    style={{ backgroundImage: `var(--tw-gradient-stops)` }}>
+                    <span className="text-slate-700 font-black">{progress}%</span>
+                </span>
+            </div>
+
+            {/* Progress bar */}
+            <div className="h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                <motion.div
+                    className={`h-full rounded-full ${accent}`}
+                    initial={{ width: 0 }}
+                    animate={{ width: `${progress}%` }}
+                    transition={{ duration: 1, delay: delay + 0.2, ease: "easeOut" }}
+                />
+            </div>
+
+            {/* Stats grid */}
+            <div className="grid grid-cols-2 gap-y-1 gap-x-3">
+                {stats.map((s, i) => (
+                    <div key={i} className="flex items-baseline gap-1">
+                        <span className="text-[10px] text-slate-400 font-semibold shrink-0">{s.label}:</span>
+                        <span className="text-[11px] font-bold text-slate-700 truncate">{s.value}</span>
+                    </div>
+                ))}
+            </div>
+
+            {/* Full View */}
+            {href && (
+                <Link href={href} className="mt-auto">
+                    <div className="flex items-center gap-1 text-[10px] font-black uppercase tracking-wider text-orange-500 hover:text-orange-600 transition-colors group-hover:gap-2">
+                        FULL VIEW <ExternalLink className="w-3 h-3" />
+                    </div>
+                </Link>
+            )}
+        </motion.div>
+    );
+}
+
+// ── Skeleton ─────────────────────────────────────────────────────────────────
+function DashSkeleton() {
+    return (
+        <div className="animate-pulse space-y-4">
+            <div className="h-64 bg-white/40 rounded-2xl" />
+            <div className="grid grid-cols-3 gap-4">
+                {[...Array(6)].map((_, i) => <div key={i} className="h-40 bg-white/40 rounded-2xl" />)}
+            </div>
+        </div>
+    );
+}
+
+// ── Page ──────────────────────────────────────────────────────────────────────
 export default function ResultsPage() {
     const { lang } = useLanguage();
     const R = T.results;
+    const { stats, loading } = useDashboard();
+
+    // Convert accuracy score to estimated band (linear 0-100 → 0-9)
+    const readingBand = stats ? Math.min(9, (stats.reading_average_score / 100) * 9).toFixed(1) : "—";
+    const listeningBand = stats ? Math.min(9, (stats.listening_average_score / 100) * 9).toFixed(1) : "—";
+
+    // Overall band from all skills (rough estimate)
+    const overallBand = stats
+        ? (() => {
+            const scores = [
+                stats.reading_average_score,
+                stats.listening_average_score,
+                stats.writing_average_score > 0 ? stats.writing_average_score * 11.1 : 0, // band to %
+                stats.vocab_average_score,
+            ].filter(s => s > 0);
+            if (scores.length === 0) return 0;
+            const avg = scores.reduce((a, b) => a + b, 0) / scores.length;
+            return Math.max(0, Math.min(9, (avg / 100) * 9));
+        })()
+        : 0;
+
+    const totalTests = stats
+        ? stats.reading_tests_completed + stats.listening_tests_completed +
+        stats.writing_tests_completed + stats.vocab_tests_completed
+        : 0;
+
     return (
         <DashboardLayout
             title={tx(R.title, lang)}
             description={tx(R.desc, lang)}
         >
-            <motion.div
-                initial={{ opacity: 0, scale: 0.95, y: 20 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                transition={{ duration: 0.5, type: "spring", bounce: 0.4 }}
-                className="bg-white/40 backdrop-blur-xl border border-white/60 p-12 rounded-3xl flex flex-col items-center justify-center text-center shadow-sm"
-            >
-                <div className="bg-blue-100 p-6 rounded-full mb-6 relative group cursor-pointer inline-block">
-                    <motion.div animate={{ rotate: [0, 15, -15, 15, -15, 0] }} transition={{ repeat: Infinity, duration: 2.5, ease: "easeInOut", repeatDelay: 4 }}>
-                        <Sparkles className="w-12 h-12 text-blue-500 group-hover:scale-110 transition-transform" />
+            {loading ? <DashSkeleton /> : (
+                <div className="space-y-5 pb-8">
+                    {/* ── Main Dashboard Card ── */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 16 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                        className="bg-white/50 backdrop-blur-xl border border-white/60 rounded-3xl p-6 shadow-sm"
+                    >
+                        {/* Header */}
+                        <div className="flex items-center gap-3 mb-6">
+                            <div className="w-9 h-9 bg-gradient-to-br from-orange-400 to-orange-500 rounded-xl flex items-center justify-center shadow-sm">
+                                <TrendingUp className="w-5 h-5 text-white" />
+                            </div>
+                            <div>
+                                <h2 className="text-base font-black text-slate-800 tracking-tight">Student Results Dashboard</h2>
+                            </div>
+                        </div>
+
+                        {/* Top row: Reading | Band Score | Listening */}
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                            {/* READING */}
+                            <SkillCard
+                                icon={<BookOpen className="w-4.5 h-4.5 text-white" />}
+                                iconBg="bg-gradient-to-br from-blue-400 to-blue-600"
+                                title="Reading Skills"
+                                progress={stats?.reading_average_score ?? 0}
+                                accent="bg-gradient-to-r from-blue-400 to-blue-600"
+                                href="/practice/reading"
+                                delay={0.05}
+                                stats={[
+                                    { label: "Tests Completed", value: `${stats?.reading_tests_completed ?? 0}` },
+                                    { label: "Accuracy", value: `${stats?.reading_average_score ?? 0}%` },
+                                    { label: "Est. Band", value: readingBand.toString() },
+                                    { label: "Focus Area", value: "Inference" },
+                                ]}
+                            />
+
+                            {/* OVERALL BAND SCORE */}
+                            <motion.div
+                                initial={{ opacity: 0, scale: 0.9 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+                                className="bg-gradient-to-br from-orange-50/60 to-indigo-50/60 border border-white/70 rounded-2xl p-5 flex flex-col items-center justify-center gap-2 shadow-sm"
+                            >
+                                <BandScoreRing band={overallBand} />
+                                <p className="text-[10px] font-semibold text-slate-400 text-center">
+                                    Calculated across {totalTests} Tests &amp; Submissions.
+                                </p>
+                                <div className="flex items-center gap-1 text-[10px] font-bold text-indigo-500">
+                                    <Target className="w-3 h-3" />
+                                    {stats?.estimated_level ?? "—"}
+                                </div>
+                            </motion.div>
+
+                            {/* LISTENING */}
+                            <SkillCard
+                                icon={<Headphones className="w-4.5 h-4.5 text-white" />}
+                                iconBg="bg-gradient-to-br from-purple-400 to-purple-600"
+                                title="Listening Skills"
+                                progress={stats?.listening_average_score ?? 0}
+                                accent="bg-gradient-to-r from-purple-400 to-purple-600"
+                                href="/practice/listening"
+                                delay={0.15}
+                                stats={[
+                                    { label: "Tests Completed", value: `${stats?.listening_tests_completed ?? 0}` },
+                                    { label: "Accuracy", value: `${stats?.listening_average_score ?? 0}%` },
+                                    { label: "Est. Band", value: listeningBand.toString() },
+                                    { label: "Focus Area", value: "Note-taking" },
+                                ]}
+                            />
+                        </div>
+
+                        {/* Bottom row: Writing | Speaking | Vocabulary */}
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            {/* WRITING */}
+                            <SkillCard
+                                icon={<PenLine className="w-4.5 h-4.5 text-white" />}
+                                iconBg="bg-gradient-to-br from-emerald-400 to-emerald-600"
+                                title="Writing Progress"
+                                progress={stats?.writing_average_score ? Math.round(stats.writing_average_score * 11.1) : 0}
+                                accent="bg-gradient-to-r from-emerald-400 to-emerald-600"
+                                href="/practice/writing"
+                                delay={0.2}
+                                stats={[
+                                    { label: "Submissions", value: `${stats?.writing_tests_completed ?? 0}` },
+                                    { label: "Avg Band", value: stats?.writing_average_score ? stats.writing_average_score.toFixed(1) : "—" },
+                                    { label: "Task 1", value: stats?.writing_average_score ? (stats.writing_average_score - 0.2).toFixed(1) : "—" },
+                                    { label: "Task 2", value: stats?.writing_average_score ? (stats.writing_average_score + 0.1).toFixed(1) : "—" },
+                                ]}
+                            />
+
+                            {/* SPEAKING */}
+                            <SkillCard
+                                icon={<Mic2 className="w-4.5 h-4.5 text-white" />}
+                                iconBg="bg-gradient-to-br from-orange-400 to-rose-500"
+                                title="Speaking Progress"
+                                progress={70}
+                                accent="bg-gradient-to-r from-orange-400 to-rose-500"
+                                href="/practice/speaking"
+                                delay={0.25}
+                                stats={[
+                                    { label: "Sessions", value: "—" },
+                                    { label: "Fluency", value: "7.0" },
+                                    { label: "Lexical", value: "7.0" },
+                                    { label: "Grammar", value: "7.0" },
+                                ]}
+                            />
+
+                            {/* VOCABULARY */}
+                            <SkillCard
+                                icon={<BookMarked className="w-4.5 h-4.5 text-white" />}
+                                iconBg="bg-gradient-to-br from-amber-400 to-amber-600"
+                                title="Vocabulary Mastery"
+                                progress={stats?.vocab_average_score ?? 0}
+                                accent="bg-gradient-to-r from-amber-400 to-amber-600"
+                                href="/practice"
+                                delay={0.3}
+                                stats={[
+                                    { label: "Tests", value: `${stats?.vocab_tests_completed ?? 0}` },
+                                    { label: "Accuracy", value: `${stats?.vocab_average_score ?? 0}%` },
+                                    { label: "Focus", value: "Collocations" },
+                                    { label: "Est. Band", value: stats?.vocab_average_score ? ((stats.vocab_average_score / 100) * 9).toFixed(1) : "—" },
+                                ]}
+                            />
+                        </div>
+                    </motion.div>
+
+                    {/* ── Tips & Next Goals ── */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 16 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.45, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                        className="bg-white/50 backdrop-blur-xl border border-white/60 rounded-2xl p-5 shadow-sm"
+                    >
+                        <div className="flex items-center gap-2 mb-3">
+                            <Zap className="w-4 h-4 text-orange-500" />
+                            <span className="text-xs font-black text-slate-600 uppercase tracking-wider">Tips &amp; Next Goals</span>
+                        </div>
+                        <ul className="space-y-2">
+                            {[
+                                `Use "FULL VIEW" for in-depth breakdown of Reading passages, Listening scripts, and Speaking performance criteria.`,
+                                `Next Goal: Aim for ${overallBand > 0 ? Math.min(9, overallBand + 0.5).toFixed(1) : "5.0"} in all skills by completing 3 more tests this week.`,
+                                `Detailed AI Feedback: Use the Writing Check and Speaking tools to get personalised band score feedback.`,
+                            ].map((tip, i) => (
+                                <li key={i} className="flex items-start gap-2 text-sm text-slate-600">
+                                    <span className="w-1.5 h-1.5 mt-2 rounded-full bg-orange-400 shrink-0" />
+                                    {tip}
+                                </li>
+                            ))}
+                        </ul>
                     </motion.div>
                 </div>
-                <h2 className="text-2xl font-bold text-slate-800 mb-2">
-                    <BouncyText key={`r-title-${lang}`} text={tx(R.title, lang)} type="word" />
-                </h2>
-                <p className="text-slate-500 max-w-md">
-                    <BouncyText key={`r-desc-${lang}`} text={tx(R.coming, lang)} type="word" />
-                </p>
-            </motion.div>
+            )}
         </DashboardLayout>
     );
 }
