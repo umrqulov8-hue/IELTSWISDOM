@@ -188,6 +188,7 @@ export default function ListeningTestPage() {
     const [isMenuVisible, setIsMenuVisible] = useState(false);
     const [selection, setSelection] = useState<{ x: number, y: number } | null>(null);
     const readingAreaRef = useRef<HTMLDivElement>(null);
+    const savedRangeRef = useRef<Range | null>(null); // Saved before menu click steals focus
 
     const handleMouseUp = useCallback(() => {
         const sel = window.getSelection();
@@ -198,7 +199,6 @@ export default function ListeningTestPage() {
 
         const range = sel.getRangeAt(0);
 
-        // Ensure selection is strictly within the reading area
         if (!readingAreaRef.current.contains(range.commonAncestorContainer)) {
             setIsMenuVisible(false);
             return;
@@ -206,7 +206,6 @@ export default function ListeningTestPage() {
 
         const rect = range.getBoundingClientRect();
 
-        // Check if selection is within a valid text area (not an input)
         const container = range.commonAncestorContainer;
         const element = container.nodeType === 3 ? container.parentNode : container;
         if ((element as HTMLElement).closest('input')) {
@@ -215,6 +214,7 @@ export default function ListeningTestPage() {
         }
 
         if (sel.toString().trim().length > 0) {
+            savedRangeRef.current = range.cloneRange(); // Save before menu steals focus
             setSelection({
                 x: rect.left + rect.width / 2,
                 y: rect.top
@@ -240,85 +240,103 @@ export default function ListeningTestPage() {
 
     const handleHighlight = useCallback((color: HighlightColor) => {
         const sel = window.getSelection();
-        if (!sel || sel.rangeCount === 0) {
-            setIsMenuVisible(false);
-            return;
+        if (!sel) return;
+
+        // Restore saved selection (menu button click may have cleared it)
+        if (savedRangeRef.current) {
+            sel.removeAllRanges();
+            sel.addRange(savedRangeRef.current);
         }
 
         if (color === 'copy') {
             const text = sel.toString();
-            navigator.clipboard.writeText(text);
-            toast.success("Copied to clipboard!");
+            navigator.clipboard.writeText(text).then(() => {
+                toast.success("Copied to clipboard!");
+            });
+            sel.removeAllRanges();
             setIsMenuVisible(false);
+            savedRangeRef.current = null;
             return;
         }
 
         if (color === 'none') {
-            const range = sel.getRangeAt(0);
-            let container = range.commonAncestorContainer;
-            if (container.nodeType === 3) container = container.parentNode!;
-
-            const highlightSpans = (container as HTMLElement).querySelectorAll('span[class^="hlt-"]');
-            highlightSpans.forEach(span => {
-                if (sel.containsNode(span, true)) {
-                    const parent = span.parentNode!;
-                    while (span.firstChild) {
-                        parent.insertBefore(span.firstChild, span);
+            if (savedRangeRef.current && readingAreaRef.current) {
+                const range = savedRangeRef.current;
+                const spans = readingAreaRef.current.querySelectorAll<HTMLElement>('mark[data-hlt]');
+                spans.forEach(span => {
+                    if (range.intersectsNode(span)) {
+                        const parent = span.parentNode!;
+                        while (span.firstChild) parent.insertBefore(span.firstChild, span);
+                        parent.removeChild(span);
                     }
-                    parent.removeChild(span);
-                }
-            });
-            setIsMenuVisible(false);
+                });
+                readingAreaRef.current.normalize();
+            }
             sel.removeAllRanges();
+            setIsMenuVisible(false);
+            savedRangeRef.current = null;
             return;
         }
 
-        const range = sel.getRangeAt(0);
-        const colorClass = `hlt-${color}`;
+        try {
+            if (!savedRangeRef.current) return;
+            const range = savedRangeRef.current;
 
-        const treeWalker = document.createTreeWalker(
-            range.commonAncestorContainer,
-            NodeFilter.SHOW_TEXT,
-            {
-                acceptNode: (node) => {
-                    const nodeRange = document.createRange();
-                    nodeRange.selectNodeContents(node);
-                    return range.compareBoundaryPoints(Range.END_TO_START, nodeRange) < 0 &&
-                        range.compareBoundaryPoints(Range.START_TO_END, nodeRange) > 0
-                        ? NodeFilter.FILTER_ACCEPT
-                        : NodeFilter.FILTER_REJECT;
-                }
+            const walker = document.createTreeWalker(
+                range.commonAncestorContainer.nodeType === Node.TEXT_NODE
+                    ? range.commonAncestorContainer.parentNode!
+                    : range.commonAncestorContainer,
+                NodeFilter.SHOW_TEXT,
+                null
+            );
+
+            const textNodes: Text[] = [];
+            let node: Node | null;
+            while ((node = walker.nextNode())) {
+                const textNode = node as Text;
+                if (range.intersectsNode(textNode)) textNodes.push(textNode);
             }
-        );
 
-        const nodes: Text[] = [];
-        let curr = treeWalker.nextNode() as Text;
-        while (curr) {
-            nodes.push(curr);
-            curr = treeWalker.nextNode() as Text;
+            const colorMap: Record<string, string> = {
+                yellow: '#fef08a',
+                green: '#bbf7d0',
+                blue: '#bfdbfe',
+            };
+            const bgColor = colorMap[color] ?? '#fef08a';
+
+            textNodes.forEach(textNode => {
+                const nodeStart = textNode === range.startContainer ? range.startOffset : 0;
+                const nodeEnd = textNode === range.endContainer ? range.endOffset : textNode.length;
+                if (nodeStart >= nodeEnd) return;
+
+                if (nodeStart > 0) textNode.splitText(nodeStart);
+                const splitNode = textNode === range.startContainer && nodeStart > 0
+                    ? textNode.nextSibling as Text
+                    : textNode;
+                if (!splitNode) return;
+
+                const actualEnd = textNode === range.startContainer && nodeStart > 0
+                    ? nodeEnd - nodeStart : nodeEnd;
+                if (actualEnd < splitNode.length) splitNode.splitText(actualEnd);
+
+                const mark = document.createElement('mark');
+                mark.setAttribute('data-hlt', color);
+                mark.style.backgroundColor = bgColor;
+                mark.style.borderRadius = '3px';
+                mark.style.padding = '0 1px';
+                mark.style.color = 'inherit';
+                splitNode.parentNode?.insertBefore(mark, splitNode);
+                mark.appendChild(splitNode);
+            });
+        } catch (err) {
+            console.error('Highlight error:', err);
+            toast.error("Could not apply highlight. Please try again.");
         }
-
-        nodes.forEach(node => {
-            const span = document.createElement('span');
-            span.className = colorClass;
-
-            let nodeToWrap = node;
-            if (nodeToWrap === range.endContainer) {
-                nodeToWrap.splitText(range.endOffset);
-            }
-            if (nodeToWrap === range.startContainer) {
-                nodeToWrap = nodeToWrap.splitText(range.startOffset);
-            }
-
-            if (nodeToWrap.parentNode) {
-                nodeToWrap.parentNode.replaceChild(span, nodeToWrap);
-                span.appendChild(nodeToWrap);
-            }
-        });
 
         sel.removeAllRanges();
         setIsMenuVisible(false);
-    }, []);
+        savedRangeRef.current = null;
+    }, [readingAreaRef]);
 
     // Setup window-level event listener for reliability
     useEffect(() => {

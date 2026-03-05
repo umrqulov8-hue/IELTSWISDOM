@@ -33,6 +33,15 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
     const [selection, setSelection] = useState<{ x: number; y: number; text: string } | null>(null);
     const [isMenuVisible, setIsMenuVisible] = useState(false);
     const readingAreaRef = useRef<HTMLDivElement>(null);
+    const contentRef = useRef<HTMLDivElement>(null);
+    const savedRangeRef = useRef<Range | null>(null); // Save range before menu click steals focus
+
+    // Apply font size via ref so it doesn't wipe DOM-based highlights
+    useEffect(() => {
+        if (contentRef.current) {
+            contentRef.current.style.fontSize = `${fontSize}px`;
+        }
+    }, [fontSize]);
 
     const handleMouseUp = () => {
         const sel = window.getSelection();
@@ -44,6 +53,8 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
         const range = sel.getRangeAt(0);
         if (readingAreaRef.current.contains(range.commonAncestorContainer)) {
             const rect = range.getBoundingClientRect();
+            // Save the range so menu button clicks don't lose the selection
+            savedRangeRef.current = range.cloneRange();
             setSelection({
                 x: rect.left + rect.width / 2,
                 y: rect.top,
@@ -55,98 +66,138 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
         }
     };
 
-    const handleHighlight = (color: HighlightColor) => {
+    const applyHighlight = (color: HighlightColor) => {
+        // Restore saved selection before we apply anything
         const sel = window.getSelection();
-        if (!sel || sel.rangeCount === 0) {
-            setIsMenuVisible(false);
-            return;
+        if (!sel) return;
+
+        if (savedRangeRef.current) {
+            sel.removeAllRanges();
+            sel.addRange(savedRangeRef.current);
         }
 
         if (color === 'copy') {
             const text = sel.toString();
-            navigator.clipboard.writeText(text);
-            toast.success("Copied to clipboard!");
+            navigator.clipboard.writeText(text).then(() => {
+                toast.success("Copied to clipboard!");
+            });
+            sel.removeAllRanges();
             setIsMenuVisible(false);
+            savedRangeRef.current = null;
             return;
         }
 
         if (color === 'none') {
-            const range = sel.getRangeAt(0);
-            let container = range.commonAncestorContainer;
-            if (container.nodeType === 3) container = container.parentNode!;
-
-            const highlightSpans = (container as HTMLElement).querySelectorAll('span[class^="hlt-"]');
-            highlightSpans.forEach(span => {
-                if (sel.containsNode(span, true)) {
-                    const parent = span.parentNode!;
-                    while (span.firstChild) {
-                        parent.insertBefore(span.firstChild, span);
+            // Remove all highlight spans in the selected range
+            if (savedRangeRef.current && contentRef.current) {
+                const range = savedRangeRef.current;
+                const spans = contentRef.current.querySelectorAll<HTMLElement>(
+                    'mark[data-hlt]'
+                );
+                spans.forEach(span => {
+                    if (range.intersectsNode(span)) {
+                        const parent = span.parentNode!;
+                        while (span.firstChild) parent.insertBefore(span.firstChild, span);
+                        parent.removeChild(span);
                     }
-                    parent.removeChild(span);
-                }
-            });
-            setIsMenuVisible(false);
+                });
+                // Normalize merged text nodes
+                contentRef.current.normalize();
+            }
             sel.removeAllRanges();
+            setIsMenuVisible(false);
+            savedRangeRef.current = null;
             return;
         }
 
-        const range = sel.getRangeAt(0);
-        const colorClass = `hlt-${color}`;
+        // Apply highlight using surroundContents on cloned range
+        try {
+            if (!savedRangeRef.current) return;
+            const range = savedRangeRef.current;
 
-        // Node-walking approach to wrap text nodes individually
-        const treeWalker = document.createTreeWalker(
-            range.commonAncestorContainer,
-            NodeFilter.SHOW_TEXT,
-            {
-                acceptNode: (node) => {
-                    const nodeRange = document.createRange();
-                    nodeRange.selectNodeContents(node);
-                    return range.compareBoundaryPoints(Range.END_TO_START, nodeRange) < 0 &&
-                        range.compareBoundaryPoints(Range.START_TO_END, nodeRange) > 0
-                        ? NodeFilter.FILTER_ACCEPT
-                        : NodeFilter.FILTER_REJECT;
+            // Walk text nodes in the selection to wrap each one individually
+            // (surroundContents fails on partial cross-element selections)
+            const walker = document.createTreeWalker(
+                range.commonAncestorContainer.nodeType === Node.TEXT_NODE
+                    ? range.commonAncestorContainer.parentNode!
+                    : range.commonAncestorContainer,
+                NodeFilter.SHOW_TEXT,
+                null
+            );
+
+            const textNodes: Text[] = [];
+            let node: Node | null;
+            while ((node = walker.nextNode())) {
+                const textNode = node as Text;
+                // Check if this text node overlaps with the selection
+                if (range.intersectsNode(textNode)) {
+                    textNodes.push(textNode);
                 }
             }
-        );
 
-        const nodes: Text[] = [];
-        let curr = treeWalker.nextNode() as Text;
-        while (curr) {
-            nodes.push(curr);
-            curr = treeWalker.nextNode() as Text;
+            const colorMap: Record<string, string> = {
+                yellow: '#fef08a',
+                green: '#bbf7d0',
+                blue: '#bfdbfe',
+            };
+            const bgColor = colorMap[color] ?? '#fef08a';
+
+            textNodes.forEach(textNode => {
+                // Determine what slice of this text node is selected
+                const nodeStart = textNode === range.startContainer ? range.startOffset : 0;
+                const nodeEnd = textNode === range.endContainer ? range.endOffset : textNode.length;
+
+                if (nodeStart >= nodeEnd) return; // Empty slice, skip
+
+                // Split off the un-highlighted prefix
+                if (nodeStart > 0) textNode.splitText(nodeStart);
+                const splitNode = textNode === range.startContainer && nodeStart > 0
+                    ? textNode.nextSibling as Text
+                    : textNode;
+
+                if (!splitNode) return;
+
+                // Split off the un-highlighted suffix
+                const actualEnd = textNode === range.startContainer && nodeStart > 0
+                    ? nodeEnd - nodeStart
+                    : nodeEnd;
+                if (actualEnd < splitNode.length) splitNode.splitText(actualEnd);
+
+                // Wrap in a <mark> element
+                const mark = document.createElement('mark');
+                mark.setAttribute('data-hlt', color);
+                mark.style.backgroundColor = bgColor;
+                mark.style.borderRadius = '3px';
+                mark.style.padding = '0 1px';
+                mark.style.color = 'inherit';
+                splitNode.parentNode?.insertBefore(mark, splitNode);
+                mark.appendChild(splitNode);
+            });
+
+        } catch (err) {
+            console.error('Highlight error:', err);
+            toast.error("Could not apply highlight. Please try again.");
         }
-
-        nodes.forEach(node => {
-            const span = document.createElement('span');
-            span.className = colorClass;
-
-            let nodeToWrap = node;
-            if (nodeToWrap === range.endContainer) {
-                nodeToWrap.splitText(range.endOffset);
-            }
-            if (nodeToWrap === range.startContainer) {
-                nodeToWrap = nodeToWrap.splitText(range.startOffset);
-            }
-
-            if (nodeToWrap.parentNode) {
-                nodeToWrap.parentNode.replaceChild(span, nodeToWrap);
-                span.appendChild(nodeToWrap);
-            }
-        });
 
         sel.removeAllRanges();
         setIsMenuVisible(false);
+        savedRangeRef.current = null;
     };
 
-    // Memoized Reading Content to prevent re-renders from wiping DOM changes (highlights)
+    const handleHighlight = applyHighlight;
+
+    // Memoize content with ONLY testData as dep — font size applied via ref
+    // so DOM highlight <mark> nodes are NEVER wiped by font size changes
     const memoizedContent = useMemo(() => (
         <div
+            ref={contentRef}
             id="reading-content"
-            className="prose prose-slate max-w-none text-slate-700 leading-loose selection:bg-blue-100 selection:text-blue-900"
+            className="prose prose-slate max-w-none text-slate-700 leading-loose selection:bg-blue-100/60 selection:text-blue-900"
             style={{ fontSize: `${fontSize}px` }}
             dangerouslySetInnerHTML={{ __html: testData.content }}
         />
-    ), [testData.content, fontSize]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    ), [testData.content]); // ← fontSize intentionally excluded: applied via ref effect above
 
 
 
