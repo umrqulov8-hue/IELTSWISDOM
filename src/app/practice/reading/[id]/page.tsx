@@ -2,7 +2,7 @@
 
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { useState, useEffect, use, useMemo, useRef } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Clock, CheckCircle2, BookOpen, Flag, AlertCircle, Pause, Play, Type, Minus, Plus, ChevronRight, GripVertical } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
@@ -31,6 +31,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
     const [currentPassageIndex, setCurrentPassageIndex] = useState(0);
     const [leftWidth, setLeftWidth] = useState(60); // 60% default
     const [isResizing, setIsResizing] = useState(false);
+    const [expandedPassageTab, setExpandedPassageTab] = useState<number | null>(0);
     const containerRef = useRef<HTMLDivElement>(null);
 
     // Highlighter State
@@ -1072,46 +1073,74 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                 {/* --- Question Navigator (Fixed Bottom Bar - Always Visible) --- */}
                 <div className="fixed bottom-0 left-0 right-0 z-[110]">
                     <div className="bg-white/95 backdrop-blur-xl border-t border-slate-200 px-3 py-1.5 shadow-[0_-10px_40px_rgba(0,0,0,0.08)]">
-                        <div className="max-w-[1920px] mx-auto flex items-center justify-center gap-1 overflow-x-auto custom-scrollbar-hide">
+                        <div className="max-w-[1920px] mx-auto flex items-center gap-1 overflow-x-auto custom-scrollbar-hide">
                             {testData.passages ? (
                                 <>
-                                    {/* Passage Tabs */}
+                                    {/* Passage Tabs with Toggle */}
                                     {testData.passages.map((passage, idx) => (
-                                        <div key={idx} className="flex items-center gap-0.5">
+                                        <div key={idx} className="flex items-center gap-0.5 shrink-0">
                                             <button
-                                                onClick={() => setCurrentPassageIndex(idx)}
+                                                onClick={() => {
+                                                    if (expandedPassageTab === idx) {
+                                                        setExpandedPassageTab(null);
+                                                    } else {
+                                                        setExpandedPassageTab(idx);
+                                                        setCurrentPassageIndex(idx);
+                                                    }
+                                                }}
                                                 className={cn(
-                                                    "flex-none px-2.5 py-1 rounded-md text-[11px] font-black transition-all border flex items-center justify-center mr-0.5",
-                                                    currentPassageIndex === idx
-                                                        ? "bg-slate-800 text-white border-slate-800"
-                                                        : "bg-slate-100 text-slate-500 border-slate-200 hover:bg-slate-200 hover:text-slate-700"
+                                                    "flex-none px-3 py-1.5 rounded-lg text-[11px] font-black transition-all duration-200 border flex items-center justify-center",
+                                                    expandedPassageTab === idx
+                                                        ? "bg-blue-600 text-white border-blue-600 shadow-md shadow-blue-500/20 scale-105"
+                                                        : currentPassageIndex === idx
+                                                            ? "bg-blue-100 text-blue-700 border-blue-200 hover:bg-blue-200"
+                                                            : "bg-slate-50 text-slate-500 border-slate-200 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200"
                                                 )}
                                             >
                                                 P{idx + 1}
                                             </button>
-                                            {currentPassageIndex === idx && testData.questions
-                                                .filter(q => q.id >= passage.questionRange.start && q.id <= passage.questionRange.end)
-                                                .map((q) => {
-                                                    const isAnswered = (answers[q.id] !== undefined && answers[q.id] !== "");
-                                                    return (
-                                                        <button
-                                                            key={q.id}
-                                                            onClick={() => {
-                                                                document.getElementById(`question-${q.id}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                                                            }}
-                                                            className={cn(
-                                                                "flex-none w-6 h-6 rounded text-[9px] font-black transition-all border flex items-center justify-center",
-                                                                isAnswered
-                                                                    ? "bg-blue-600 text-white border-blue-600"
-                                                                    : "bg-white text-slate-400 border-slate-100 hover:border-blue-400 hover:text-blue-600 hover:bg-blue-50"
-                                                            )}
-                                                        >
-                                                            {q.id}
-                                                        </button>
-                                                    );
-                                                })}
+                                            <AnimatePresence>
+                                                {expandedPassageTab === idx && (
+                                                    <motion.div
+                                                        initial={{ width: 0, opacity: 0 }}
+                                                        animate={{ width: 'auto', opacity: 1 }}
+                                                        exit={{ width: 0, opacity: 0 }}
+                                                        transition={{ type: 'spring', damping: 20, stiffness: 300 }}
+                                                        className="flex items-center gap-0.5 overflow-hidden"
+                                                    >
+                                                        {testData.questions
+                                                            .filter(q => q.id >= passage.questionRange.start && q.id <= passage.questionRange.end)
+                                                            .map((q, qIdx) => {
+                                                                const isAnswered = (answers[q.id] !== undefined && answers[q.id] !== "");
+                                                                return (
+                                                                    <motion.button
+                                                                        key={q.id}
+                                                                        initial={{ scale: 0, opacity: 0 }}
+                                                                        animate={{ scale: 1, opacity: 1 }}
+                                                                        exit={{ scale: 0, opacity: 0 }}
+                                                                        transition={{ delay: qIdx * 0.02, type: 'spring', damping: 15, stiffness: 300 }}
+                                                                        onClick={() => {
+                                                                            setCurrentPassageIndex(idx);
+                                                                            setTimeout(() => {
+                                                                                document.getElementById(`question-${q.id}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                                                                            }, 50);
+                                                                        }}
+                                                                        className={cn(
+                                                                            "flex-none w-6 h-6 rounded text-[9px] font-black transition-colors border flex items-center justify-center",
+                                                                            isAnswered
+                                                                                ? "bg-blue-600 text-white border-blue-600"
+                                                                                : "bg-white text-slate-400 border-slate-200 hover:border-blue-400 hover:text-blue-600 hover:bg-blue-50"
+                                                                        )}
+                                                                    >
+                                                                        {q.id}
+                                                                    </motion.button>
+                                                                );
+                                                            })}
+                                                    </motion.div>
+                                                )}
+                                            </AnimatePresence>
                                             {idx < testData.passages!.length - 1 && (
-                                                <div className="w-px h-5 bg-slate-200 mx-1" />
+                                                <div className="w-px h-5 bg-slate-200 mx-0.5" />
                                             )}
                                         </div>
                                     ))}
