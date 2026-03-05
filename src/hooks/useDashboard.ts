@@ -19,6 +19,10 @@ export interface StudentStats {
     vocab_tests_completed: number;
     vocab_average_score: number;
     estimated_level: string;
+    reading_breakdown?: {
+        free_passages: { count: number; correct: number; total: number };
+        cambridge: { count: number; correct: number; total: number };
+    };
 }
 
 export interface Notification {
@@ -72,6 +76,12 @@ export function useDashboard() {
                 let writing_tests_completed = 0, writing_score_sum = 0, writing_unique = new Set();
                 let vocab_tests_completed = 0, vocab_score_sum = 0, vocab_q_sum = 0, vocab_unique = new Set();
 
+                // Detailed breakdown
+                const reading_breakdown = {
+                    free_passages: { count: 0, correct: 0, total: 0, unique: new Set() },
+                    cambridge: { count: 0, correct: 0, total: 0, unique: new Set() }
+                };
+
                 let totalScorePercentage = 0;
                 let completedTestsCount = 0;
 
@@ -100,6 +110,16 @@ export function useDashboard() {
                             reading_unique.add(test.test_id);
                             reading_score_sum += test.score;
                             reading_q_sum += test.total_questions;
+
+                            if (id.startsWith('fp-')) {
+                                reading_breakdown.free_passages.unique.add(test.test_id);
+                                reading_breakdown.free_passages.correct += test.score;
+                                reading_breakdown.free_passages.total += test.total_questions;
+                            } else if (id.startsWith('c17-') || id.startsWith('c18-') || id.startsWith('c19-') || id.match(/^c\d+-/)) {
+                                reading_breakdown.cambridge.unique.add(test.test_id);
+                                reading_breakdown.cambridge.correct += test.score;
+                                reading_breakdown.cambridge.total += test.total_questions;
+                            }
                         }
 
                         // For overall
@@ -133,7 +153,19 @@ export function useDashboard() {
                     writing_average_score: writing_tests_completed > 0 ? Number((writing_score_sum / writing_tests_completed).toFixed(1)) : 0,
                     vocab_tests_completed,
                     vocab_average_score: vocab_q_sum > 0 ? Math.round((vocab_score_sum / vocab_q_sum) * 100) : 0,
-                    estimated_level
+                    estimated_level,
+                    reading_breakdown: {
+                        free_passages: {
+                            count: reading_breakdown.free_passages.unique.size,
+                            correct: reading_breakdown.free_passages.correct,
+                            total: reading_breakdown.free_passages.total
+                        },
+                        cambridge: {
+                            count: reading_breakdown.cambridge.unique.size,
+                            correct: reading_breakdown.cambridge.correct,
+                            total: reading_breakdown.cambridge.total
+                        }
+                    }
                 });
 
                 if (notifResult.data) {

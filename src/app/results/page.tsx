@@ -3,10 +3,11 @@
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { useLanguage } from "@/context/LanguageContext";
 import { translations as T, tx } from "@/lib/translations";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useDashboard } from "@/hooks/useDashboard";
-import { BookOpen, Headphones, PenLine, Mic2, BookMarked, ExternalLink, TrendingUp, Target, Zap } from "lucide-react";
+import { BookOpen, Headphones, PenLine, Mic2, BookMarked, ExternalLink, TrendingUp, Target, Zap, X } from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
 
 // ── Circular Band Score SVG ───────────────────────────────────────────────────
 function BandScoreRing({ band }: { band: number }) {
@@ -81,9 +82,10 @@ interface SkillCardProps {
     accent: string; // tailwind gradient for progress bar
     href?: string;
     delay?: number;
+    onClickFullView?: () => void;
 }
 
-function SkillCard({ icon, iconBg, title, progress, stats, accent, href, delay = 0 }: SkillCardProps) {
+function SkillCard({ icon, iconBg, title, progress, stats, accent, href, delay = 0, onClickFullView }: SkillCardProps) {
     return (
         <motion.div
             initial={{ opacity: 0, y: 24 }}
@@ -126,12 +128,23 @@ function SkillCard({ icon, iconBg, title, progress, stats, accent, href, delay =
             </div>
 
             {/* Full View */}
-            {href && (
-                <Link href={href} className="mt-auto">
-                    <div className="flex items-center gap-1 text-[10px] font-black uppercase tracking-wider text-orange-500 hover:text-orange-600 transition-colors group-hover:gap-2">
-                        FULL VIEW <ExternalLink className="w-3 h-3" />
-                    </div>
-                </Link>
+            {(href || onClickFullView) && (
+                <div className="mt-auto pt-2">
+                    {onClickFullView ? (
+                        <button
+                            onClick={onClickFullView}
+                            className="flex items-center gap-1 text-[10px] font-black uppercase tracking-wider text-orange-500 hover:text-orange-600 transition-colors group-hover:gap-2"
+                        >
+                            FULL VIEW <ExternalLink className="w-3 h-3" />
+                        </button>
+                    ) : href ? (
+                        <Link href={href}>
+                            <div className="flex items-center gap-1 text-[10px] font-black uppercase tracking-wider text-orange-500 hover:text-orange-600 transition-colors group-hover:gap-2">
+                                FULL VIEW <ExternalLink className="w-3 h-3" />
+                            </div>
+                        </Link>
+                    ) : null}
+                </div>
             )}
         </motion.div>
     );
@@ -154,6 +167,7 @@ export default function ResultsPage() {
     const { lang } = useLanguage();
     const R = T.results;
     const { stats, loading } = useDashboard();
+    const [activeModal, setActiveModal] = useState<'reading' | 'listening' | 'writing' | 'speaking' | 'vocab' | null>(null);
 
     // Convert accuracy score to estimated band (linear 0-100 → 0-9)
     const readingBand = stats ? Math.min(9, (stats.reading_average_score / 100) * 9).toFixed(1) : "—";
@@ -212,8 +226,8 @@ export default function ResultsPage() {
                                 title="Reading Skills"
                                 progress={stats?.reading_average_score ?? 0}
                                 accent="bg-gradient-to-r from-blue-400 to-blue-600"
-                                href="/practice/reading"
                                 delay={0.05}
+                                onClickFullView={() => setActiveModal('reading')}
                                 stats={[
                                     { label: "Tests Completed", value: `${stats?.reading_tests_completed ?? 0}` },
                                     { label: "Accuracy", value: `${stats?.reading_average_score ?? 0}%` },
@@ -338,6 +352,141 @@ export default function ResultsPage() {
                     </motion.div>
                 </div>
             )}
+
+            {/* ── Full View Modals ── */}
+            <AnimatePresence>
+                {activeModal === 'reading' && stats?.reading_breakdown && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm"
+                        onClick={() => setActiveModal(null)}
+                    >
+                        <motion.div
+                            initial={{ scale: 0.95, opacity: 0, y: 20 }}
+                            animate={{ scale: 1, opacity: 1, y: 0 }}
+                            exit={{ scale: 0.95, opacity: 0, y: 20 }}
+                            transition={{ type: "spring", damping: 25, stiffness: 300 }}
+                            onClick={(e) => e.stopPropagation()}
+                            className="bg-white/90 backdrop-blur-2xl border border-white/60 rounded-3xl p-6 sm:p-8 w-full max-w-2xl shadow-2xl relative overflow-hidden"
+                        >
+                            <button
+                                onClick={() => setActiveModal(null)}
+                                className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 transition-colors"
+                            >
+                                <X className="w-4 h-4" />
+                            </button>
+
+                            <div className="flex items-center gap-3 mb-6">
+                                <div className="w-12 h-12 bg-gradient-to-br from-blue-400 to-blue-600 rounded-2xl flex items-center justify-center shadow-md">
+                                    <BookOpen className="w-6 h-6 text-white" />
+                                </div>
+                                <div>
+                                    <h3 className="text-xl font-black text-slate-800 tracking-tight">Reading Skills Detail</h3>
+                                    <p className="text-sm font-semibold text-slate-400">Comprehensive breakdown of your performance</p>
+                                </div>
+                            </div>
+
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                {/* Free Passages Card */}
+                                <div className="bg-white border border-slate-100/60 rounded-2xl p-5 shadow-sm">
+                                    <h4 className="text-[11px] font-black text-slate-400 uppercase tracking-widest mb-4">Free Passages</h4>
+
+                                    <div className="space-y-4">
+                                        <div>
+                                            <div className="flex justify-between text-sm mb-1">
+                                                <span className="font-semibold text-slate-500">Tests Completed</span>
+                                                <span className="font-black text-slate-800">{stats.reading_breakdown.free_passages.count}</span>
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <div className="flex justify-between text-sm mb-1">
+                                                <span className="font-semibold text-slate-500">Accuracy</span>
+                                                <span className="font-black text-slate-800">
+                                                    {stats.reading_breakdown.free_passages.total > 0
+                                                        ? Math.round((stats.reading_breakdown.free_passages.correct / stats.reading_breakdown.free_passages.total) * 100)
+                                                        : 0}%
+                                                </span>
+                                            </div>
+                                            <div className="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
+                                                <div
+                                                    className="h-full bg-blue-500 rounded-full"
+                                                    style={{ width: `${stats.reading_breakdown.free_passages.total > 0 ? (stats.reading_breakdown.free_passages.correct / stats.reading_breakdown.free_passages.total) * 100 : 0}%` }}
+                                                />
+                                            </div>
+                                        </div>
+
+                                        <div className="pt-2 border-t border-slate-50 border-dashed">
+                                            <div className="flex justify-between text-[11px]">
+                                                <span className="font-semibold text-slate-400">Correct Answers</span>
+                                                <span className="font-bold text-blue-600">
+                                                    {stats.reading_breakdown.free_passages.correct} / {stats.reading_breakdown.free_passages.total}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Cambridge Tests Card */}
+                                <div className="bg-white border border-slate-100/60 rounded-2xl p-5 shadow-sm">
+                                    <h4 className="text-[11px] font-black text-slate-400 uppercase tracking-widest mb-4">Cambridge Tests</h4>
+
+                                    <div className="space-y-4">
+                                        <div>
+                                            <div className="flex justify-between text-sm mb-1">
+                                                <span className="font-semibold text-slate-500">Tests Completed</span>
+                                                <span className="font-black text-slate-800">{stats.reading_breakdown.cambridge.count}</span>
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <div className="flex justify-between text-sm mb-1">
+                                                <span className="font-semibold text-slate-500">Accuracy</span>
+                                                <span className="font-black text-slate-800">
+                                                    {stats.reading_breakdown.cambridge.total > 0
+                                                        ? Math.round((stats.reading_breakdown.cambridge.correct / stats.reading_breakdown.cambridge.total) * 100)
+                                                        : 0}%
+                                                </span>
+                                            </div>
+                                            <div className="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
+                                                <div
+                                                    className="h-full bg-indigo-500 rounded-full"
+                                                    style={{ width: `${stats.reading_breakdown.cambridge.total > 0 ? (stats.reading_breakdown.cambridge.correct / stats.reading_breakdown.cambridge.total) * 100 : 0}%` }}
+                                                />
+                                            </div>
+                                        </div>
+
+                                        <div className="pt-2 border-t border-slate-50 border-dashed">
+                                            <div className="flex justify-between text-[11px]">
+                                                <span className="font-semibold text-slate-400">Correct Answers</span>
+                                                <span className="font-bold text-indigo-600">
+                                                    {stats.reading_breakdown.cambridge.correct} / {stats.reading_breakdown.cambridge.total}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Overall Summary within Modal */}
+                            <div className="mt-4 bg-slate-50 rounded-xl p-4 flex items-center justify-between border border-slate-100">
+                                <div>
+                                    <span className="text-xs font-bold text-slate-500 block mb-0.5">Total Reading Questions Answered</span>
+                                    <span className="text-lg font-black text-slate-800">
+                                        {stats.reading_breakdown.free_passages.total + stats.reading_breakdown.cambridge.total}
+                                    </span>
+                                </div>
+                                <div className="text-right">
+                                    <span className="text-xs font-bold text-slate-500 block mb-0.5">Overall Accuracy</span>
+                                    <span className="text-lg font-black text-blue-600">{stats.reading_average_score}%</span>
+                                </div>
+                            </div>
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </DashboardLayout>
     );
 }
