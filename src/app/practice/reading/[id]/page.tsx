@@ -995,13 +995,16 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                     <div className="absolute bottom-0 left-0 right-0 h-8 bg-transparent z-10" />
 
                     <motion.div
-                        initial={{ y: 80, opacity: 0 }}
-                        animate={{ y: 80, opacity: 0 }}
+                        initial={{ y: 64, opacity: 0.8 }}
+                        animate={{ y: 64, opacity: 0.8 }}
                         whileHover={{ y: 0, opacity: 1 }}
                         transition={{ type: "spring", damping: 25, stiffness: 120 }}
-                        className="bg-white/95 backdrop-blur-xl border-t border-slate-200 p-2 shadow-[0_-10px_40px_rgba(0,0,0,0.1)] relative"
+                        className="mx-auto w-fit max-w-[95vw] bg-white/95 backdrop-blur-xl border-2 border-blue-500/20 p-2 shadow-[0_-10px_40px_rgba(0,0,0,0.15)] relative rounded-t-3xl border-b-0"
                     >
-                        <div className="max-w-[1920px] mx-auto flex items-center gap-1.5 overflow-x-auto custom-scrollbar-hide px-3 py-0.5">
+                        {/* Pull Tab Handle */}
+                        <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-12 h-1.5 bg-blue-400 rounded-full opacity-50 block sm:hidden" />
+
+                        <div className="max-w-[1920px] mx-auto flex items-center justify-center gap-1.5 overflow-x-auto custom-scrollbar-hide px-3 py-1">
                             {testData.questions.map((q) => {
                                 const isAnswered = (answers[q.id] !== undefined && answers[q.id] !== "") || (testId === "fp-12" && q.id >= 30 && q.id <= 36 && answers[q.id]);
 
