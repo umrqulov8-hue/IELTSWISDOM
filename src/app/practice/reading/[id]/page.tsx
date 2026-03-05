@@ -460,20 +460,37 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                             </div>
 
                             <div className={cn(
-                                "flex items-center gap-2 font-mono text-lg font-bold px-4 py-1.5 rounded-lg bg-slate-50 border border-slate-200",
+                                "flex items-center gap-1.5 font-mono text-sm font-bold px-3 py-1 rounded-lg bg-slate-50 border border-slate-200",
                                 timeLeft < 300 ? "text-red-500 bg-red-50 border-red-100 animate-pulse" : "text-slate-700"
                             )}>
-                                <Clock className="w-5 h-5" />
-                                <span className="min-w-[3.5rem] text-center">{formatTime(timeLeft)}</span>
-                                <div className="w-px h-5 bg-slate-300 mx-2" />
+                                <Clock className="w-4 h-4" />
+                                <span className="min-w-[3rem] text-center">{formatTime(timeLeft)}</span>
+                                <div className="w-px h-4 bg-slate-300 mx-1" />
                                 <button
                                     onClick={() => setIsRunning(!isRunning)}
-                                    className="p-1 rounded hover:bg-slate-200 text-slate-500 hover:text-slate-800 transition-colors active:scale-95"
+                                    className="p-0.5 rounded hover:bg-slate-200 text-slate-500 hover:text-slate-800 transition-colors active:scale-95"
                                     title={isRunning ? "Pause Timer" : "Resume Timer"}
                                 >
-                                    {isRunning ? <Pause className="w-4 h-4 fill-current" /> : <Play className="w-4 h-4 fill-current" />}
+                                    {isRunning ? <Pause className="w-3.5 h-3.5 fill-current" /> : <Play className="w-3.5 h-3.5 fill-current" />}
                                 </button>
                             </div>
+
+                            {/* Submit Button (Single-Part Tests Only) */}
+                            {!testData.passages && (
+                                <button
+                                    onClick={handleSubmit}
+                                    disabled={isSubmitted}
+                                    className={cn(
+                                        "flex items-center gap-1.5 px-4 py-1.5 rounded-lg font-bold text-sm transition-all shadow-sm active:scale-95 whitespace-nowrap",
+                                        isSubmitted
+                                            ? "bg-slate-200 text-slate-400 cursor-not-allowed shadow-none"
+                                            : "bg-green-600 text-white hover:bg-green-700 shadow-green-500/20"
+                                    )}
+                                >
+                                    <CheckCircle2 className="w-4 h-4" />
+                                    {isSubmitted ? "Submitted" : "Submit Test"}
+                                </button>
+                            )}
                         </div>
                     </div>
 
@@ -531,23 +548,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                         ? `Questions ${testData.passages[currentPassageIndex].questionRange.start}-${testData.passages[currentPassageIndex].questionRange.end}`
                                         : `Questions 1-${testData.questions.length}`}
                                 </h3>
-                                {!testData.passages ? (
-                                    <button
-                                        onClick={handleSubmit}
-                                        disabled={isSubmitted}
-                                        className={cn(
-                                            "flex items-center gap-1.5 px-4 py-1.5 rounded-lg font-bold text-sm transition-all shadow-sm active:scale-95 whitespace-nowrap",
-                                            isSubmitted
-                                                ? "bg-slate-200 text-slate-400 cursor-not-allowed shadow-none"
-                                                : "bg-green-600 text-white hover:bg-green-700 shadow-green-500/20"
-                                        )}
-                                    >
-                                        <CheckCircle2 className="w-4 h-4" />
-                                        {isSubmitted ? "Submitted" : "Submit Test"}
-                                    </button>
-                                ) : (
-                                    <span className="text-sm text-slate-400 font-medium whitespace-nowrap">Answer all questions</span>
-                                )}
+                                <span className="text-sm text-slate-400 font-medium whitespace-nowrap">Answer all questions</span>
                             </div>
 
                             <div className="space-y-8">
@@ -1068,19 +1069,11 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                     </div>
                 </div>
 
-                {/* --- Question Navigator (Fixed Bottom Bar - Improved Auto-hide) --- */}
-                <div className="fixed bottom-0 left-0 right-0 z-[110] group/master pointer-events-none">
-                    {/* Trigger Area (Increased to make hover easier) */}
-                    <div className="absolute bottom-0 left-0 right-0 h-12 bg-transparent z-10 pointer-events-auto cursor-pointer" />
-
-                    <motion.div
-                        initial={{ y: 100, opacity: 0 }}
-                        animate={{ y: 100, opacity: 0 }}
-                        whileHover={{ y: 0, opacity: 1 }}
-                        transition={{ type: "spring", damping: 25, stiffness: 120 }}
-                        className="bg-white/95 backdrop-blur-xl border-t border-slate-200 p-2 shadow-[0_-10px_40px_rgba(0,0,0,0.1)] relative pointer-events-auto"
+                {/* --- Question Navigator (Fixed Bottom Bar - Always Visible) --- */}
+                <div className="fixed bottom-0 left-0 right-0 z-[110]">
+                    <div
+                        className="bg-white/95 backdrop-blur-xl border-t border-slate-200 p-2 shadow-[0_-10px_40px_rgba(0,0,0,0.08)]"
                     >
-
                         <div className="max-w-[1920px] mx-auto flex items-center justify-center gap-1.5 overflow-x-auto custom-scrollbar-hide px-3 py-1">
                             {testData.questions.map((q) => {
                                 const isAnswered = (answers[q.id] !== undefined && answers[q.id] !== "") || (testId === "fp-12" && q.id >= 30 && q.id <= 36 && answers[q.id]);
@@ -1113,7 +1106,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                 );
                             })}
                         </div>
-                    </motion.div>
+                    </div>
                 </div>
 
             </div>
