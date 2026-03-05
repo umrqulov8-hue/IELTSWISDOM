@@ -69,12 +69,12 @@
 /* Custom Utilities */
 @utility hide-scrollbar {
   &::-webkit-scrollbar {
-    display: none;
+    display: none !important;
   }
 
-  -ms-overflow-style: none;
+  -ms-overflow-style: none !important;
   /* IE and Edge */
-  scrollbar-width: none;
+  scrollbar-width: none !important;
   /* Firefox */
 }
 

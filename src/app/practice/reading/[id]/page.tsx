@@ -381,7 +381,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                     </div>
                 )}
 
-                <div className="flex-1 flex flex-col h-full max-w-[1920px] mx-auto w-full p-6 pt-20">
+                <div className="flex-1 flex flex-col h-full w-full p-0 pt-16 overflow-hidden">
 
                     {/* --- Result Modal --- */}
                     {showResult && (
@@ -484,7 +484,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                         <div
                             ref={readingAreaRef}
                             onMouseUp={handleMouseUp}
-                            className="w-full h-full bg-white rounded-l-3xl md:rounded-r-none p-8 shadow-sm border border-slate-100 md:border-r-0 overflow-y-auto hide-scrollbar relative group transition-none"
+                            className="w-full h-full bg-white px-5 py-4 overflow-y-auto hide-scrollbar relative group transition-none"
                             style={{ width: typeof window !== 'undefined' && window.innerWidth >= 768 ? `${leftWidth}%` : '100%' }}
                         >
                             {/* Text Selection Popover */}
@@ -519,7 +519,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
 
                         {/* RIGHT: Questions (Scrollable) */}
                         <div
-                            className="w-full h-full bg-white rounded-r-3xl md:rounded-l-none p-8 shadow-sm border border-slate-100 md:border-l-0 overflow-y-auto hide-scrollbar"
+                            className="w-full h-full bg-white px-5 py-4 overflow-y-auto hide-scrollbar"
                             style={{
                                 fontSize: `${fontSize}px`,
                                 width: typeof window !== 'undefined' && window.innerWidth >= 768 ? `${100 - leftWidth}%` : '100%'
