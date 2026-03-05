@@ -21,6 +21,14 @@ export function UserSettingsPanel({ isOpen, onClose }: UserSettingsPanelProps) {
     const router = useRouter();
     const { user, signOut } = useAuthContext();
     const [fontSize, setFontSize] = useState<"small" | "medium" | "large">("medium");
+
+    // Restore saved font size from localStorage on mount
+    useEffect(() => {
+        const saved = localStorage.getItem("ielts-font-size") as "small" | "medium" | "large" | null;
+        if (saved && ["small", "medium", "large"].includes(saved)) {
+            setFontSize(saved);
+        }
+    }, []);
     const [uploading, setUploading] = useState(false);
     const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -42,12 +50,14 @@ export function UserSettingsPanel({ isOpen, onClose }: UserSettingsPanelProps) {
         };
     }, [isOpen, onClose]);
 
-    // Apply font size globally
+    // Apply font size globally AND persist to localStorage
     useEffect(() => {
         const root = document.documentElement;
         if (fontSize === "small") root.style.fontSize = "14px";
         else if (fontSize === "large") root.style.fontSize = "18px";
         else root.style.fontSize = "16px";
+        // Save preference so it survives page navigation
+        localStorage.setItem("ielts-font-size", fontSize);
     }, [fontSize]);
 
     // Fetch avatar URL if exists
