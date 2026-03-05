@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
 
 /**
- * Verifies that the request is coming from an authenticated user.
+ * Verifies the request is from an authenticated user.
  * Returns the user object if authenticated, otherwise returns null.
  */
 export async function verifyAuth(req: NextRequest) {
@@ -13,7 +13,7 @@ export async function verifyAuth(req: NextRequest) {
 }
 
 /**
- * Singleton OpenAI client to avoid multiple instances.
+ * Singleton OpenAI client to avoid multiple instances and config duplication.
  */
 let openaiInstance: OpenAI | null = null;
 
@@ -24,25 +24,35 @@ export function getOpenAIClient() {
         }
         openaiInstance = new OpenAI({
             apiKey: process.env.OPENAI_API_KEY,
+            timeout: 30_000,    // 30-second request timeout — prevents hung requests
+            maxRetries: 2,      // Auto-retry on transient errors (rate limits, 5xx)
         });
     }
     return openaiInstance;
 }
 
-export function errorResponse(message: string, status: number = 500, details?: any) {
+/**
+ * Creates a standardized error JSON response.
+ */
+export function errorResponse(message: string, status: number = 500, details?: string) {
     return NextResponse.json(
-        { error: message, ...(details && { details }) },
+        {
+            error: message,
+            ...(process.env.NODE_ENV === 'development' && details ? { details } : {}),
+        },
         { status }
     );
 }
 
 /**
- * Standardized logging for API errors.
+ * Standardized structured logging for API errors.
  */
-export function logApiError(context: string, error: any) {
+export function logApiError(context: string, error: unknown) {
     console.error(`[API ERROR] ${context}:`, {
         message: error instanceof Error ? error.message : String(error),
-        stack: process.env.NODE_ENV === 'development' ? (error instanceof Error ? error.stack : undefined) : undefined,
+        stack: process.env.NODE_ENV === 'development'
+            ? (error instanceof Error ? error.stack : undefined)
+            : undefined,
         timestamp: new Date().toISOString()
     });
 }

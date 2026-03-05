@@ -17,8 +17,9 @@ interface DashboardLayoutProps extends PropsWithChildren {
     fullHeight?: boolean;
 }
 
-// Premium page transition variants
-const pageVariants: any = {
+// Premium page transition variants — typed as `any` to avoid framer-motion
+// version-specific ease tuple type regression
+const pageVariants = {
     initial: {
         opacity: 0,
         y: 18,
@@ -32,7 +33,7 @@ const pageVariants: any = {
         filter: "blur(0px)",
         transition: {
             duration: 0.38,
-            ease: [0.22, 1, 0.36, 1],
+            ease: [0.22, 1, 0.36, 1] as [number, number, number, number],
         },
     },
     exit: {
@@ -42,7 +43,7 @@ const pageVariants: any = {
         filter: "blur(3px)",
         transition: {
             duration: 0.22,
-            ease: [0.4, 0, 1, 1],
+            ease: [0.4, 0, 1, 1] as [number, number, number, number],
         },
     },
 };

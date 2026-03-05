@@ -8,8 +8,10 @@ import { z } from "zod";
 const chatSchema = z.object({
     messages: z.array(z.object({
         role: z.enum(["user", "assistant", "system"]),
-        content: z.string().min(1)
-    })).min(1),
+        content: z.string().min(1).max(4000), // Prevent single giant messages
+    }))
+        .min(1)
+        .max(50), // Prevent token flooding from huge message histories
 });
 
 export async function POST(req: NextRequest) {
@@ -23,7 +25,7 @@ export async function POST(req: NextRequest) {
         const validation = chatSchema.safeParse(body);
 
         if (!validation.success) {
-            return errorResponse("Invalid messages format", 400);
+            return errorResponse(validation.error.issues[0].message, 400);
         }
 
         const { messages } = validation.data;
@@ -40,10 +42,13 @@ You help students with:
 
 Always be encouraging, specific, and provide actionable feedback. When evaluating writing, mention the band score criteria: Task Achievement, Coherence & Cohesion, Lexical Resource, and Grammatical Range & Accuracy.`;
 
-        const formattedMessages: any[] = [
-            { role: "system", content: systemInstruction },
-            ...messages.map((msg: any) => ({
-                role: msg.role === "assistant" ? "assistant" : "user",
+        // Use last 20 messages max — keeps context but prevents runaway token costs
+        const recentMessages = messages.slice(-20);
+
+        const formattedMessages = [
+            { role: "system" as const, content: systemInstruction },
+            ...recentMessages.map((msg) => ({
+                role: msg.role === "assistant" ? "assistant" as const : "user" as const,
                 content: msg.content,
             }))
         ];
@@ -51,13 +56,14 @@ Always be encouraging, specific, and provide actionable feedback. When evaluatin
         const completion = await openai.chat.completions.create({
             model: "gpt-4o-mini",
             messages: formattedMessages,
+            max_tokens: 1500, // Prevent runaway responses
         });
 
         const reply = completion.choices[0].message.content;
 
         return NextResponse.json({ reply });
     } catch (err) {
-        console.error("AI chat error:", err);
-        return errorResponse("Internal server error", 500, err instanceof Error ? err.message : undefined);
+        logApiError("AI Chat", err);
+        return errorResponse("Chat request failed. Please try again.", 500, err instanceof Error ? err.message : undefined);
     }
 }
