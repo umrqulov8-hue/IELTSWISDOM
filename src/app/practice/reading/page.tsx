@@ -29,11 +29,11 @@ interface TestItem {
 
 // --- Mock Data ---
 const CATEGORIES: TestCategory[] = [
-    { id: "all", title: "All Tests", count: 57 },
+    { id: "all", title: "All Tests", count: 61 },
     { id: "free-passages", title: "Free Passages", count: 22, icon: BookOpen },
     { id: "premium-passages", title: "Premium Passages", count: 19, icon: Sparkles },
-    { id: "full-tests", title: "Full Tests", count: 16, icon: Layers },
-    { id: "cambridge-ielts", title: "Cambridge IELTS Readings", count: 0, icon: GraduationCap },
+    { id: "full-tests", title: "Full Tests", count: 17, icon: Layers },
+    { id: "cambridge-ielts", title: "Cambridge IELTS Readings", count: 3, icon: GraduationCap },
 ];
 
 const TESTS: TestItem[] = [
@@ -58,6 +58,14 @@ const TESTS: TestItem[] = [
     { id: "fp-12", categoryId: "cambridge-ielts", title: "Reducing the Effects of Climate Change", isNew: true, status: "free" },
     { id: "fp-3", categoryId: "cambridge-ielts", title: "Raising the Mary Rose", isNew: true, status: "free" },
     { id: "fp-4", categoryId: "cambridge-ielts", title: "What destroyed the civilisation of Easter Island?", isNew: true, status: "free" },
+
+    // Mock Test 1 Passages
+    { id: "mock-1-p1", categoryId: "cambridge-ielts", title: "Tea and the Industrial Revolution", isNew: true, status: "free" },
+    { id: "mock-1-p2", categoryId: "cambridge-ielts", title: "Gifted children and learning", isNew: true, status: "free" },
+    { id: "mock-1-p3", categoryId: "cambridge-ielts", title: "Museums of fine art and their public", isNew: true, status: "free" },
+
+    // Full Tests
+    { id: "mock-1-full", categoryId: "full-tests", title: "IELTS Reading Mock Test 1 (Full)", isNew: true, status: "free" },
 ];
 
 

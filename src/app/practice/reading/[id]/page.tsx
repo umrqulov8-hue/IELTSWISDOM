@@ -21,7 +21,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
     const testData = READING_TESTS[testId];
 
     const [answers, setAnswers] = useState<Record<number, any>>({});
-    const [timeLeft, setTimeLeft] = useState(1200); // 20 minutes in seconds
+    const [timeLeft, setTimeLeft] = useState(testData.timeLimit || 1200);
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [showResult, setShowResult] = useState(false);
     const [score, setScore] = useState(0);
@@ -212,7 +212,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
         setIsSubmitted(false);
         setScore(0);
         setShowResult(false);
-        setTimeLeft(1200);
+        setTimeLeft(testData.timeLimit || 1200);
 
 
     }, [testId, testData?.content]); // Re-run if content changes (e.g. data load)

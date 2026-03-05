@@ -14,6 +14,7 @@ export interface ReadingTest {
     title: string;
     content: string;
     questions: Question[];
+    timeLimit?: number; // in seconds
 }
 
 export const READING_TESTS: Record<string, ReadingTest> = {
