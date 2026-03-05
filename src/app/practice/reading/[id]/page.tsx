@@ -501,17 +501,17 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                         <div
                             onMouseDown={() => setIsResizing(true)}
                             className={cn(
-                                "hidden md:flex group/handle w-1 hover:w-2 -mx-0.5 hover:-mx-1 z-50 transition-all cursor-col-resize items-center justify-center relative",
-                                isResizing && "w-2 -mx-1"
+                                "hidden md:flex group/handle w-3 -mx-1.5 z-50 transition-all cursor-col-resize items-center justify-center relative",
+                                isResizing && "w-4 -mx-2"
                             )}
                         >
                             <div className={cn(
-                                "w-[1px] h-full bg-slate-200 group-hover/handle:bg-slate-400 transition-colors",
-                                isResizing && "bg-slate-500 w-[2px]"
+                                "w-[1px] h-full bg-transparent group-hover/handle:bg-slate-300 transition-colors",
+                                isResizing && "bg-slate-400 w-[2px]"
                             )} />
                             <div className={cn(
-                                "absolute top-1/2 -translate-y-1/2 w-6 h-10 bg-white border border-slate-200 rounded-full shadow-lg flex items-center justify-center text-slate-400 group-hover/handle:text-slate-600 group-hover/handle:scale-110 transition-all",
-                                isResizing && "text-slate-700 scale-110 border-slate-300 shadow-slate-500/10"
+                                "absolute top-1/2 -translate-y-1/2 w-6 h-10 bg-white border border-slate-200 rounded-full shadow-lg flex items-center justify-center text-slate-400 opacity-0 group-hover/handle:opacity-100 group-hover/handle:scale-110 transition-all",
+                                isResizing && "opacity-100 text-slate-700 scale-110 border-slate-300 shadow-slate-500/10"
                             )}>
                                 <GripVertical className="w-4 h-4" />
                             </div>
