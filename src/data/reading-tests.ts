@@ -869,8 +869,50 @@ export const READING_TESTS: Record<string, ReadingTest> = {
             { id: 13, type: "fill-blank", text: "What did French Health Minister advise people to avoid to prevent the spread of coronavirus? 13 _____", correctAnswer: "social contacts" },
             { id: 14, type: "fill-blank", text: "What can be transferred from a handshake? 14 _____", correctAnswer: "germs" },
         ]
+    },
+    "fp-24": {
+        id: "fp-24",
+        title: "Economic Evolution",
+        content: `
+        <h2 class="text-xl font-bold mb-4">Economic Evolution</h2>
+        
+        <p class="mb-4"><strong>{A}</strong> Living along the Orinoco River that borders Brazil and Venezuela are the Yanomami people, hunter-gatherers whose average annual income has been estimated at the equivalent of $90 per person per year. Living along the Hudson River that borders New York State and New Jersey are the Manhattan people, consumer traders whose average annual income has been estimated at $36,000 per person per year. That dramatic difference of 400 times, however, pales in comparison to the differences in Stock Keeping Units (SKUs, a measure of the number of types of retail products available), which has been estimated at 300 for the Yanomami and 10 billion for the Manhattans, a difference of 33 million times.</p>
+
+        <p class="mb-4"><strong>{B}</strong> How did this happen? According to economist Eric D. Beinhocker, who published these calculations in his revelatory work The Origin of Wealth (Harvard Business School Press, 2006), the explanation is to be found in complexity theory. Evolution and economics are not just analogous to each other, but they are actually two forms of a larger phenomenon called complex adaptive systems, in which individual elements, parts or agents interact, then process information and adapt their behaviour to changing conditions. Immune systems, ecosystems, language, the law and the Internet are all examples of complex adaptive systems.</p>
+
+        <p class="mb-4"><strong>{C}</strong> In biological evolution, nature selects from the variation produced by random genetic mutations and the mixing of parental genes. Out of that process of cumulative selection emerges complexity and diversity. In economic evolution, our material economy proceeds through the production and selection of numerous permutations of countless products. Those 10 billion products in the Manhattan village represent only those variations that made it to market, after which there is a cumulative selection by consumers in the marketplace for those deemed most useful: VHS over Betamax, DVDs over VHS, CDs over vinyl records, flip phones over brick phones, computers over typewriters, Google over Altavista, SUVs over station wagons, paper books over e-books (still), and Internet news over network news (soon). Those that are purchased “survive” and “reproduce” into the future through repetitive use and remanufacturing.</p>
+
+        <p class="mb-4"><strong>{D}</strong> As with living organisms and ecosystems, the economy looks designed—so just as Humans naturally deduce the existence of a top-down intelligent designer, humans also (understandably) infer that a top-down government designer is needed in nearly every aspect of the economy. But just as living organisms are shaped from the bottom up by natural selection, the economy is moulded from the bottom up by the invisible hand. The correspondence between evolution and economics is not perfect, because some top-down institutional rules and laws are needed to provide a structure within which free and fair trade can occur. But too much top-down interference into the marketplace makes trade neither free nor fair. When such attempts have been made in the past, they have failed—because markets are far too complex, interactive and autocatalytic to be designed from the top down. In his 1922 book, Socialism, Ludwig Von Mises spelt out the reasons why most notably the problem of “economic calculation” in a planned socialist economy. In capitalism, prices are in constant and rapid flux and are determined from below by individuals freely exchanging in the marketplace. Money is a means of exchange, and prices are the information people use to guide their choices. Von Mises demonstrated that socialist economies depend on capitalist economies to determine what prices should be assigned to goods and services. And they do so cumbersomely and inefficiently. Relatively free markets are, ultimately, the only way to find out what buyers are willing to pay and what sellers are willing to accept.</p>
+
+        <p class="mb-4"><strong>{E}</strong> Economics helps to explain how Yanomami-like hunter-gatherers evolved into Manhattan-like consumer traders. In the Nineteenth century French economist Frédéric Bastiat well captured the principle: “Where goods do not cross frontiers, armies will.” In addition to being fierce warriors, the Yanomami are also sophisticated traders, and the more they trade the less they fight. The reason is that trade is a powerful social adhesive that creates political alliances. One village cannot go to another village and announce that they are worried about being conquered by a third, more powerful village—that would reveal weakness. Instead, they mask the real motives for alliance through trade and reciprocal feasting. And, as a result, not only gain military protection but also initiate a system of trade that—in the long run—leads to an increase in both wealth and SKUs.</p>
+
+        <p class="mb-4"><strong>{F}</strong> Free and fair trade occurs in societies where most individuals interact in ways that provide mutual benefit. The necessary rules weren’t generated by wise men in a sacred temple or lawmakers in congress, but rather evolved over generations and were widely accepted and practised before the law was ever written. Laws that fail this test are ignored. If enforcement becomes too onerous, there is rebellion. Yet the concept that human interaction must, and can be controlled by a higher force is universal. Interestingly, there is no widespread agreement on who the “higher force” is. Religious people ascribe good behaviour to God’s law. They cannot conceive of an orderly society of atheists. Secular people credit the government. They consider anarchy to be synonymous with barbarity. Everyone seems to agree on the concept that an orderly society requires an omnipotent force. Yet, everywhere there is evidence that this is not so. An important distinction between spontaneous social order and social anarchy is that the former is developed by work and investment, under the rule of law and with a set of evolved morals while the latter is chaos. The classical liberal tradition of von Mises and Hayek never makes the claim that the complete absence of top-down rules leads to the optimal social order. It simply says we should be sceptical about our ability to manage them in the name of social justice, equality, or progress.</p>
+        `,
+        questions: [
+            // --- True / False / Not Given (1-5) ---
+            { id: 1, type: "true-false", text: "SKUs is a more precise measurement to demonstrate the economic level of a community.", options: ["TRUE", "FALSE", "NOT GIVEN"], correctAnswer: 2 },
+            { id: 2, type: "true-false", text: "No concrete examples are presented when the author makes the statement concerning economic evolution.", options: ["TRUE", "FALSE", "NOT GIVEN"], correctAnswer: 1 },
+            { id: 3, type: "true-false", text: "Evolution and economics show a defective homolog.", options: ["TRUE", "FALSE", "NOT GIVEN"], correctAnswer: 0 },
+            { id: 4, type: "true-false", text: "Martial actions might be taken to cross the borders if trades do not work.", options: ["TRUE", "FALSE", "NOT GIVEN"], correctAnswer: 0 },
+            { id: 5, type: "true-false", text: "Profit is the invisible hand to guide the market.", options: ["TRUE", "FALSE", "NOT GIVEN"], correctAnswer: 2 },
+
+            // --- Multiple Choice (6) ---
+            { id: 6, type: "multiple-choice", text: "What ought to play a vital role in each field of the economy?", options: ["a strict rule", "a smart strategy", "a tightly managed authority", "a powerful legislation"], correctAnswer: 2 },
+
+            // --- Multiple Choice (7-8) - Select two ---
+            { id: 7, type: "multiple-choice", text: "Which two of the following tools are used to pretend to ask for union according to one explanation- 1", options: ["an official announcement", "a diplomatic event", "the exchange of goods", "certainly written correspondence", "some enjoyable treatment in a win-win situation"], correctAnswer: 2 },
+            { id: 8, type: "multiple-choice", text: "Which two of the following tools are used to pretend to ask for union according to one explanation- 2", options: ["an official announcement", "a diplomatic event", "the exchange of goods", "certainly written correspondence", "some enjoyable treatment in a win-win situation"], correctAnswer: 4 },
+
+            // --- Summary Completion (9-13) ---
+            { id: 9, type: "fill-blank", text: "One attributes 9 _____ to the interesting change claiming that it is not as simple as it seems to be in appearance", correctAnswer: "complexity" },
+            { id: 10, type: "fill-blank", text: "the relationship between 10 _____ which is a good example of", correctAnswer: "evolution and economics" },
+            { id: 11, type: "fill-blank", text: "which is a good example of 11 _____, which involved in the interaction of separate factors", correctAnswer: "complex adaptive systems" },
+            { id: 12, type: "fill-blank", text: "both 12 _____ and the blend of genres from the last generation brings about the difference.", correctAnswer: "random genetic mutations" },
+            { id: 13, type: "fill-blank", text: "The economic counterpart shows how generating and choosing the 13 _____ of innumerable goods moves forward the material-oriented economy.", correctAnswer: "permutations" },
+        ]
     }
 };
+
 
 
 
