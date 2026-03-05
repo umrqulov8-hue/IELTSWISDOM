@@ -484,7 +484,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                         <div
                             ref={readingAreaRef}
                             onMouseUp={handleMouseUp}
-                            className="w-full h-full bg-white rounded-3xl p-8 shadow-sm border border-slate-100 overflow-y-auto hide-scrollbar relative group transition-none"
+                            className="w-full h-full bg-white rounded-l-3xl md:rounded-r-none p-8 shadow-sm border border-slate-100 md:border-r-0 overflow-y-auto hide-scrollbar relative group transition-none"
                             style={{ width: typeof window !== 'undefined' && window.innerWidth >= 768 ? `${leftWidth}%` : '100%' }}
                         >
                             {/* Text Selection Popover */}
@@ -506,12 +506,12 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                             )}
                         >
                             <div className={cn(
-                                "w-[1px] h-full bg-slate-200 group-hover/handle:bg-blue-400 transition-colors",
-                                isResizing && "bg-blue-500 w-[2px]"
+                                "w-[1px] h-full bg-slate-200 group-hover/handle:bg-slate-400 transition-colors",
+                                isResizing && "bg-slate-500 w-[2px]"
                             )} />
                             <div className={cn(
-                                "absolute top-1/2 -translate-y-1/2 w-6 h-10 bg-white border border-slate-200 rounded-full shadow-lg flex items-center justify-center text-slate-400 group-hover/handle:text-blue-500 group-hover/handle:scale-110 transition-all",
-                                isResizing && "text-blue-600 scale-110 border-blue-200 shadow-blue-500/10"
+                                "absolute top-1/2 -translate-y-1/2 w-6 h-10 bg-white border border-slate-200 rounded-full shadow-lg flex items-center justify-center text-slate-400 group-hover/handle:text-slate-600 group-hover/handle:scale-110 transition-all",
+                                isResizing && "text-slate-700 scale-110 border-slate-300 shadow-slate-500/10"
                             )}>
                                 <GripVertical className="w-4 h-4" />
                             </div>
@@ -519,7 +519,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
 
                         {/* RIGHT: Questions (Scrollable) */}
                         <div
-                            className="w-full h-full bg-white rounded-3xl p-8 shadow-sm border border-slate-100 overflow-y-auto hide-scrollbar"
+                            className="w-full h-full bg-white rounded-r-3xl md:rounded-l-none p-8 shadow-sm border border-slate-100 md:border-l-0 overflow-y-auto hide-scrollbar"
                             style={{
                                 fontSize: `${fontSize}px`,
                                 width: typeof window !== 'undefined' && window.innerWidth >= 768 ? `${100 - leftWidth}%` : '100%'
