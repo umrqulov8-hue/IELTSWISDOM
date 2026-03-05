@@ -991,22 +991,17 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
 
                 {/* --- Question Navigator (Fixed Bottom Bar - Improved Auto-hide) --- */}
                 <div className="fixed bottom-0 left-0 right-0 z-[100] group/master">
-                    {/* Trigger Area */}
-                    <div className="absolute bottom-0 left-0 right-0 h-4 bg-transparent z-10" />
+                    {/* Trigger Area (Increased to make hover easier) */}
+                    <div className="absolute bottom-0 left-0 right-0 h-8 bg-transparent z-10" />
 
                     <motion.div
-                        initial={{ y: 100, opacity: 0 }}
-                        animate={{ y: 20, opacity: 1 }}
-                        whileHover={{ y: 0 }}
+                        initial={{ y: 80, opacity: 0 }}
+                        animate={{ y: 80, opacity: 0 }}
+                        whileHover={{ y: 0, opacity: 1 }}
                         transition={{ type: "spring", damping: 25, stiffness: 120 }}
-                        className="bg-white/95 backdrop-blur-xl border-t border-slate-200 p-3 shadow-[0_-10px_40px_rgba(0,0,0,0.1)] relative"
+                        className="bg-white/95 backdrop-blur-xl border-t border-slate-200 p-2 shadow-[0_-10px_40px_rgba(0,0,0,0.1)] relative"
                     >
-                        {/* Tab Indicator */}
-                        <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-white border border-slate-200 px-6 py-1 rounded-t-xl text-[10px] font-black text-blue-600 uppercase tracking-[0.2em] shadow-sm pointer-events-none group-hover/master:opacity-0 transition-opacity">
-                            Question Navigator
-                        </div>
-
-                        <div className="max-w-[1920px] mx-auto flex items-center gap-2 overflow-x-auto custom-scrollbar-hide px-4 py-1">
+                        <div className="max-w-[1920px] mx-auto flex items-center gap-1.5 overflow-x-auto custom-scrollbar-hide px-3 py-0.5">
                             {testData.questions.map((q) => {
                                 const isAnswered = (answers[q.id] !== undefined && answers[q.id] !== "") || (testId === "fp-12" && q.id >= 30 && q.id <= 36 && answers[q.id]);
 
@@ -1027,9 +1022,9 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                             document.getElementById(`question-${q.id}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
                                         }}
                                         className={cn(
-                                            "flex-none w-10 h-10 rounded-xl text-xs font-black transition-all shadow-sm border-2 flex items-center justify-center",
+                                            "flex-none w-8 h-8 rounded-lg text-[10px] font-black transition-all shadow-sm border flex items-center justify-center",
                                             isAnswered
-                                                ? "bg-blue-600 text-white border-blue-600 shadow-blue-500/20"
+                                                ? "bg-blue-600 text-white border-blue-600 shadow-blue-500/10"
                                                 : "bg-white text-slate-400 border-slate-100 hover:border-blue-400 hover:text-blue-600 hover:bg-blue-50"
                                         )}
                                     >
