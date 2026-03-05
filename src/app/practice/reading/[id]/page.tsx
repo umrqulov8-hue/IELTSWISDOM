@@ -723,31 +723,35 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                                             })}
                                                         </div>
                                                     ) : (
-                                                        testId === "fp-4" && q.id >= 14 && q.id <= 20 ? (
+                                                        (q.options && q.options.length > 5) ? (
                                                             <div className="ml-12 mt-2 relative">
                                                                 <select
                                                                     className={cn(
-                                                                        "w-full p-3 rounded-xl border appearance-none outline-none transition-all cursor-pointer font-medium bg-white shadow-sm",
-                                                                        answers[q.id] !== undefined ? "border-blue-400 bg-blue-50 text-blue-900 shadow-blue-500/10" : "border-slate-200 text-slate-700 hover:border-blue-300",
-                                                                        isSubmitted && answers[q.id] === q.correctAnswer && "border-green-400 bg-green-50 text-green-800",
-                                                                        isSubmitted && answers[q.id] !== undefined && answers[q.id] !== q.correctAnswer && "border-red-400 bg-red-50 text-red-800",
-                                                                        isSubmitted && "cursor-not-allowed opacity-90"
+                                                                        "w-full p-4 rounded-2xl border-2 appearance-none outline-none transition-all cursor-pointer font-bold bg-white shadow-sm",
+                                                                        answers[q.id] !== undefined ? "border-blue-400 bg-blue-50 text-blue-900 ring-4 ring-blue-500/10" : "border-slate-200 text-slate-700 hover:border-blue-300 hover:bg-slate-50",
+                                                                        isSubmitted && answers[q.id] === q.correctAnswer && "border-green-400 bg-green-50 text-green-800 ring-green-500/10",
+                                                                        isSubmitted && answers[q.id] !== undefined && answers[q.id] !== q.correctAnswer && "border-red-400 bg-red-50 text-red-800 ring-red-500/10",
+                                                                        isSubmitted && "cursor-not-allowed"
                                                                     )}
                                                                     value={answers[q.id] !== undefined ? answers[q.id] : ""}
-                                                                    onChange={(e) => handleAnswer(q.id, Number(e.target.value))}
+                                                                    onChange={(e) => handleAnswer(q.id, e.target.value)}
                                                                     disabled={isSubmitted}
                                                                 >
-                                                                    <option value="" disabled>Select the correct heading...</option>
+                                                                    <option value="" disabled>--- Choose Heading ---</option>
                                                                     {q.options?.map((option, index) => (
                                                                         <option key={index} value={index}>
                                                                             {option}
                                                                         </option>
                                                                     ))}
                                                                 </select>
-                                                                {/* Custom Dropdown Arrow */}
-                                                                <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400 bg-white/80 rounded-full p-0.5">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6" /></svg>
+                                                                <div className="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none text-blue-600 bg-blue-50/80 rounded-full p-1 border border-blue-100 shadow-sm">
+                                                                    <ChevronRight className="w-5 h-5 rotate-90" />
                                                                 </div>
+                                                                {isSubmitted && answers[q.id] !== q.correctAnswer && (
+                                                                    <div className="mt-3 p-3 bg-blue-50 border border-blue-100 rounded-xl text-xs font-bold text-blue-700 animate-in fade-in slide-in-from-top-1">
+                                                                        Correct: {q.options![Number(q.correctAnswer)]}
+                                                                    </div>
+                                                                )}
                                                             </div>
                                                         ) : (
                                                             <div className="space-y-3 ml-12">
@@ -798,6 +802,60 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                             );
                                         }
 
+                                        if (q.type === "matching") {
+                                            return (
+                                                <div id={`question-${q.id}`} key={q.id} className={cn(
+                                                    "p-5 rounded-2xl border-2 transition-all shadow-sm",
+                                                    isSubmitted && isCorrect ? "border-green-200 bg-green-50/50" :
+                                                        isSubmitted && !isCorrect ? "border-red-200 bg-red-50/50" :
+                                                            "border-slate-100 bg-white hover:border-blue-200"
+                                                )}>
+                                                    <div className="flex items-start gap-4 mb-4">
+                                                        <span className={cn(
+                                                            "flex-none w-8 h-8 rounded-lg flex items-center justify-center text-sm font-black",
+                                                            isSubmitted && isCorrect ? "bg-green-100 text-green-700" :
+                                                                isSubmitted && !isCorrect ? "bg-red-100 text-red-700" :
+                                                                    "bg-blue-50 text-blue-700"
+                                                        )}>
+                                                            {q.id}
+                                                        </span>
+                                                        <p className="font-bold text-slate-800 leading-relaxed pt-1">{q.text}</p>
+                                                    </div>
+
+                                                    <div className="ml-12 relative">
+                                                        <select
+                                                            className={cn(
+                                                                "w-full p-4 rounded-2xl border-2 appearance-none outline-none transition-all cursor-pointer font-bold bg-white shadow-sm",
+                                                                answers[q.id] !== undefined ? "border-blue-400 bg-blue-50 text-blue-900 ring-4 ring-blue-500/10" : "border-slate-200 text-slate-700 hover:border-blue-300 hover:bg-slate-50",
+                                                                isSubmitted && answers[q.id] === q.correctAnswer && "border-green-400 bg-green-50 text-green-800 ring-green-500/10",
+                                                                isSubmitted && answers[q.id] !== undefined && answers[q.id] !== q.correctAnswer && "border-red-400 bg-red-50 text-red-800 ring-red-500/10",
+                                                                isSubmitted && "cursor-not-allowed"
+                                                            )}
+                                                            value={answers[q.id] !== undefined ? answers[q.id] : ""}
+                                                            onChange={(e) => handleAnswer(q.id, e.target.value)}
+                                                            disabled={isSubmitted}
+                                                        >
+                                                            <option value="" disabled>--- Choose Answer ---</option>
+                                                            {q.options?.map((option, index) => (
+                                                                <option key={index} value={option}>
+                                                                    {option}
+                                                                </option>
+                                                            ))}
+                                                        </select>
+                                                        <div className="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none text-blue-600 bg-blue-50/80 rounded-full p-1 border border-blue-100 shadow-sm">
+                                                            <ChevronRight className="w-5 h-5 rotate-90" />
+                                                        </div>
+
+                                                        {isSubmitted && !isCorrect && (
+                                                            <div className="mt-3 p-3 bg-blue-50 border border-blue-100 rounded-xl text-xs font-bold text-blue-700 animate-in fade-in slide-in-from-top-1">
+                                                                Correct: {q.correctAnswer}
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            );
+                                        }
+
                                         return (
                                             <div id={`question-${q.id}`} key={q.id} className={cn(
                                                 "p-4 rounded-xl border transition-colors",
@@ -822,22 +880,24 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                                         )}
                                                         {q.type === "fill-blank" ? (
                                                             <p className="font-medium text-slate-700 leading-8">
-                                                                {q.text.split("_____").map((part, i, arr) => (
+                                                                {q.text.split("………………").map((part, i, arr) => (
                                                                     <span key={i}>
                                                                         {part}
                                                                         {i < arr.length - 1 && (
                                                                             <input
                                                                                 type="text"
                                                                                 className={cn(
-                                                                                    "mx-1.5 px-3 py-1 bg-slate-50 border-2 rounded-lg focus:outline-none transition-all w-40 text-center font-bold text-sm shadow-sm",
-                                                                                    isSubmitted && isCorrect ? "border-green-400 bg-green-50 text-green-700 shadow-green-200" :
-                                                                                        isSubmitted && isWrong ? "border-red-400 bg-red-50 text-red-700 shadow-red-200" :
-                                                                                            "border-slate-200 focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-500/10 text-slate-700"
+                                                                                    "mx-1.5 px-4 py-2 bg-white border-2 rounded-xl focus:outline-none transition-all w-48 text-center font-bold text-sm shadow-md",
+                                                                                    isSubmitted && isCorrect ? "border-green-500 bg-green-50 text-green-700 shadow-green-100" :
+                                                                                        isSubmitted && isWrong ? "border-red-500 bg-red-50 text-red-700 shadow-red-100" :
+                                                                                            "border-blue-100 focus:border-blue-500 focus:bg-white focus:ring-8 focus:ring-blue-500/10 text-slate-800"
                                                                                 )}
                                                                                 value={answers[q.id] || ""}
                                                                                 onChange={(e) => handleAnswer(q.id, e.target.value)}
                                                                                 disabled={isSubmitted}
                                                                                 placeholder="Type here..."
+                                                                                autoFocus={false}
+                                                                                autoComplete="off"
                                                                             />
                                                                         )}
                                                                     </span>
@@ -929,19 +989,24 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                     </div>
                 </div>
 
-                {/* --- Question Navigator (Fixed Bottom Bar - Auto-hide) --- */}
-                <motion.div
-                    initial={{ y: 80, opacity: 0 }}
-                    whileHover={{ y: 0, opacity: 1 }}
-                    animate={{ y: 70, opacity: 0.5 }}
-                    transition={{ type: "spring", damping: 20, stiffness: 100 }}
-                    className="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-slate-200 p-2 z-40 shadow-[0_-5px_20px_rgba(0,0,0,0.1)] group/nav"
-                >
-                    <div className="max-w-[1920px] mx-auto flex items-center gap-4">
-                        <div className="bg-slate-100/50 px-3 py-1 rounded-full text-[10px] font-bold text-slate-400 uppercase tracking-widest pointer-events-none group-hover/nav:opacity-0 transition-opacity absolute -top-8 left-1/2 -translate-x-1/2 bg-white border border-slate-100 shadow-sm whitespace-nowrap">
-                            Hover to Reveal Navigator
+                {/* --- Question Navigator (Fixed Bottom Bar - Improved Auto-hide) --- */}
+                <div className="fixed bottom-0 left-0 right-0 z-[100] group/master">
+                    {/* Trigger Area */}
+                    <div className="absolute bottom-0 left-0 right-0 h-4 bg-transparent z-10" />
+
+                    <motion.div
+                        initial={{ y: 100, opacity: 0 }}
+                        animate={{ y: 92, opacity: 0.2 }}
+                        whileHover={{ y: 0, opacity: 1 }}
+                        transition={{ type: "spring", damping: 25, stiffness: 120 }}
+                        className="bg-white/95 backdrop-blur-xl border-t border-slate-200 p-3 shadow-[0_-10px_40px_rgba(0,0,0,0.1)] relative"
+                    >
+                        {/* Tab Indicator */}
+                        <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-white border border-slate-200 px-6 py-1 rounded-t-xl text-[10px] font-black text-blue-600 uppercase tracking-[0.2em] shadow-sm pointer-events-none group-hover/master:opacity-0 transition-opacity">
+                            Question Navigator
                         </div>
-                        <div className="flex-1 overflow-x-auto custom-scrollbar flex items-center gap-2 pb-1 md:pb-0 px-4">
+
+                        <div className="max-w-[1920px] mx-auto flex items-center gap-2 overflow-x-auto custom-scrollbar-hide px-4 py-1">
                             {testData.questions.map((q) => {
                                 const isAnswered = (answers[q.id] !== undefined && answers[q.id] !== "") || (testId === "fp-12" && q.id >= 30 && q.id <= 36 && answers[q.id]);
 
@@ -962,10 +1027,10 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                             document.getElementById(`question-${q.id}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
                                         }}
                                         className={cn(
-                                            "flex-none w-8 h-8 rounded-full text-xs font-bold transition-all shadow-sm border",
+                                            "flex-none w-10 h-10 rounded-xl text-xs font-black transition-all shadow-sm border-2 flex items-center justify-center",
                                             isAnswered
-                                                ? "bg-blue-600 text-white border-blue-600 hover:bg-blue-700"
-                                                : "bg-white text-slate-500 border-slate-200 hover:border-blue-400 hover:text-blue-600"
+                                                ? "bg-blue-600 text-white border-blue-600 shadow-blue-500/20"
+                                                : "bg-white text-slate-400 border-slate-100 hover:border-blue-400 hover:text-blue-600 hover:bg-blue-50"
                                         )}
                                     >
                                         {q.id}
@@ -973,8 +1038,8 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                 );
                             })}
                         </div>
-                    </div>
-                </motion.div>
+                    </motion.div>
+                </div>
 
             </div>
         </>

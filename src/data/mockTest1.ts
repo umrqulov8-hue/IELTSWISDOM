@@ -21,7 +21,6 @@ const p1: ReadingTest = {
 
     <p class="mb-4"><strong>G</strong> But, if tea is a factor in the combination lock, why didn’t Japan forge ahead in a tea-soaked industrial revolution of its own? Macfarlane notes that even though 17th-century Japan had large cities, high literacy rates, even a futures market, it had turned its back on the essence of any work-based revolution by giving up labour-saving devices such as animals, afraid that they would put people out of work. So, the nation that we now think of as one of the most technologically advanced entered the 19th century having ‘abandoned the wheel’.</p>
 
-    <p class="text-sm mt-8 border-t pt-4"><em>* Joseph Lister was the first doctor to use antiseptic techniques during surgical operations to prevent infections.</em></p>
     `,
     questions: [
         { id: 1, type: "multiple-choice", text: "Paragraph A", options: ["i The search for the reasons for an increase in population", "ii Industrialisation and the fear of unemployment", "iii The development of cities in Japan", "iv The time and place of the Industrial Revolution", "v The cases of Holland, France and China", "vi Changes in drinking habits in Britain", "vii Two keys to Britain’s industrial revolution", "viii Conditions required for industrialisation", "ix Comparisons with Japan lead to the answer"], correctAnswer: 3 }, // iv
