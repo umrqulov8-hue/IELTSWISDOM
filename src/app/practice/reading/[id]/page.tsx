@@ -474,22 +474,8 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                 </button>
                             </div>
 
-                            {/* Submit Button (Single-Part Tests Only) */}
-                            {!testData.passages && (
-                                <button
-                                    onClick={handleSubmit}
-                                    disabled={isSubmitted}
-                                    className={cn(
-                                        "flex items-center gap-1.5 px-4 py-1.5 rounded-lg font-bold text-sm transition-all shadow-sm active:scale-95 whitespace-nowrap",
-                                        isSubmitted
-                                            ? "bg-slate-200 text-slate-400 cursor-not-allowed shadow-none"
-                                            : "bg-green-600 text-white hover:bg-green-700 shadow-green-500/20"
-                                    )}
-                                >
-                                    <CheckCircle2 className="w-4 h-4" />
-                                    {isSubmitted ? "Submitted" : "Submit Test"}
-                                </button>
-                            )}
+
+
                         </div>
                     </div>
 
@@ -1131,7 +1117,9 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                             className={cn(
                                                 "flex items-center gap-1 px-2.5 py-1 rounded-md font-bold transition-all text-[11px] active:scale-95",
                                                 currentPassageIndex === testData.passages!.length - 1
-                                                    ? "bg-green-600 text-white hover:bg-green-700"
+                                                    ? isSubmitted
+                                                        ? "bg-slate-400 text-white cursor-not-allowed"
+                                                        : "bg-blue-600 text-white hover:bg-blue-700"
                                                     : "bg-blue-600 text-white hover:bg-blue-700"
                                             )}
                                         >
@@ -1165,6 +1153,24 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                         </button>
                                     );
                                 })
+                            )}
+                            {/* Submit button (always right-aligned) */}
+                            {!testData.passages && (
+                                <div className="ml-auto shrink-0">
+                                    <button
+                                        onClick={handleSubmit}
+                                        disabled={isSubmitted}
+                                        className={cn(
+                                            "flex items-center gap-1 px-3 py-1 rounded-md font-bold transition-all text-[11px] active:scale-95",
+                                            isSubmitted
+                                                ? "bg-slate-400 text-white cursor-not-allowed"
+                                                : "bg-blue-600 text-white hover:bg-blue-700"
+                                        )}
+                                    >
+                                        <CheckCircle2 className="w-3 h-3" />
+                                        {isSubmitted ? "Submitted" : "Submit Test"}
+                                    </button>
+                                </div>
                             )}
                         </div>
                     </div>
