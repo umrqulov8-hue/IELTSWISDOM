@@ -25,7 +25,7 @@ export function Footer() {
                 >
                     <motion.div variants={{ hidden: { opacity: 0, y: 30, filter: "blur(4px)" }, visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { type: "spring", bounce: 0.5, duration: 0.8 } } }} className="space-y-4">
                         <Link href="/" className="font-bold text-xl tracking-tighter text-primary">
-                            Learn<span className="text-secondary">English</span>
+                            IELTS<span className="text-secondary">Wisdom</span>
                         </Link>
                         <p className="text-sm text-muted-foreground">
                             Master English naturally with our proven methodology. Join thousands of successful students today.

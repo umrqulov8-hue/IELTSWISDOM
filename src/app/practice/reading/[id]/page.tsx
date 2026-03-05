@@ -326,7 +326,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                     <div className="fixed top-0 left-0 right-0 h-16 bg-white border-b border-slate-200 flex items-center justify-between px-6 z-10 shadow-sm">
                         <div className="flex items-center gap-6">
                             <Link href="/practice/reading" className="font-bold text-2xl tracking-tighter text-slate-900 hover:opacity-80 transition-opacity">
-                                Learn<span className="text-blue-600">English</span>
+                                IELTS<span className="text-blue-600">Wisdom</span>
                             </Link>
                             <div className="h-6 w-px bg-slate-200" />
                             <h2 className="font-bold text-slate-700 text-lg line-clamp-1 max-w-xl">Part 1: {testData.title}</h2>
