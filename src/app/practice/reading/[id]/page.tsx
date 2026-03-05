@@ -484,7 +484,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                         <div
                             ref={readingAreaRef}
                             onMouseUp={handleMouseUp}
-                            className="w-full h-full bg-white rounded-3xl p-8 shadow-sm border border-slate-100 overflow-y-auto custom-scrollbar relative group transition-none"
+                            className="w-full h-full bg-white rounded-3xl p-8 shadow-sm border border-slate-100 overflow-y-auto hide-scrollbar relative group transition-none"
                             style={{ width: typeof window !== 'undefined' && window.innerWidth >= 768 ? `${leftWidth}%` : '100%' }}
                         >
                             {/* Text Selection Popover */}
@@ -501,13 +501,13 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                         <div
                             onMouseDown={() => setIsResizing(true)}
                             className={cn(
-                                "hidden md:flex group/handle w-2 hover:w-4 -mx-1 hover:-mx-2 z-50 transition-all cursor-col-resize items-center justify-center relative",
-                                isResizing && "w-4 -mx-2"
+                                "hidden md:flex group/handle w-1 hover:w-2 -mx-0.5 hover:-mx-1 z-50 transition-all cursor-col-resize items-center justify-center relative",
+                                isResizing && "w-2 -mx-1"
                             )}
                         >
                             <div className={cn(
-                                "w-0.5 h-full bg-slate-200 group-hover/handle:bg-blue-400 transition-colors",
-                                isResizing && "bg-blue-500 w-1"
+                                "w-[1px] h-full bg-slate-200 group-hover/handle:bg-blue-400 transition-colors",
+                                isResizing && "bg-blue-500 w-[2px]"
                             )} />
                             <div className={cn(
                                 "absolute top-1/2 -translate-y-1/2 w-6 h-10 bg-white border border-slate-200 rounded-full shadow-lg flex items-center justify-center text-slate-400 group-hover/handle:text-blue-500 group-hover/handle:scale-110 transition-all",
@@ -519,7 +519,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
 
                         {/* RIGHT: Questions (Scrollable) */}
                         <div
-                            className="w-full h-full bg-white rounded-3xl p-8 shadow-sm border border-slate-100 overflow-y-auto custom-scrollbar"
+                            className="w-full h-full bg-white rounded-3xl p-8 shadow-sm border border-slate-100 overflow-y-auto hide-scrollbar"
                             style={{
                                 fontSize: `${fontSize}px`,
                                 width: typeof window !== 'undefined' && window.innerWidth >= 768 ? `${100 - leftWidth}%` : '100%'
