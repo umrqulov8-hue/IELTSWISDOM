@@ -582,7 +582,7 @@ export const READING_TESTS: Record<string, ReadingTest> = {
             { id: 2, type: "true-false", text: "Margaret attended a famous art college in Paris.", options: ["TRUE", "FALSE", "NOT GIVEN"], correctAnswer: 2 }, // NOT GIVEN
             { id: 3, type: "true-false", text: "Margaret met her husband William while teaching a craft at a rehabilitation unit.", options: ["TRUE", "FALSE", "NOT GIVEN"], correctAnswer: 1 }, // FALSE
             { id: 4, type: "true-false", text: "Margaret Preston and Thea Proctor explored similar themes in their art.", options: ["TRUE", "FALSE", "NOT GIVEN"], correctAnswer: 2 }, // NOT GIVEN
-            { id: 5, type: "true-false", text: "Margaret's 1925 artworks of Sydney Harbour were simpler than her previous ones.", options: ["TRUE", "FALSE", "NOT GIVEN"], correctAnswer: 1 }, // FALSE
+            { id: 5, type: "true-false", text: "Margaret's 1925 artworks of Sydney Harbour were simpler than her previous ones.", options: ["TRUE", "FALSE", "NOT GIVEN"], correctAnswer: 2 }, // NOT GIVEN
             { id: 6, type: "true-false", text: "The colours in Margaret's Berowra prints were very bright.", options: ["TRUE", "FALSE", "NOT GIVEN"], correctAnswer: 1 }, // FALSE
             { id: 7, type: "true-false", text: "When living in Berowra, Margaret painted flowers in their natural location.", options: ["TRUE", "FALSE", "NOT GIVEN"], correctAnswer: 0 }, // TRUE
 
@@ -591,7 +591,7 @@ export const READING_TESTS: Record<string, ReadingTest> = {
             { id: 9, type: "fill-blank", text: "often referred to Aboriginal sources in the 9 _____ she gave her artworks", correctAnswer: "titles" },
             { id: 10, type: "fill-blank", text: "very old method of 10 _____ was used for some prints", correctAnswer: "stenciling" },
             { id: 11, type: "fill-blank", text: "was inspired by 11 _____ about Chinese art that she had started collecting in 1915", correctAnswer: "books" },
-            { id: 12, type: "fill-blank", text: "still interested in 12 _____ and art", correctAnswer: "travel" },
+            { id: 12, type: "fill-blank", text: "still interested in 12 _____ and art", correctAnswer: "painting" },
             { id: 13, type: "fill-blank", text: "worked for nearly six decades making more than 13 _____ artworks", correctAnswer: "400" },
         ]
     }
