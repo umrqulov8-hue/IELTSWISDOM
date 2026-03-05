@@ -3,7 +3,7 @@
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { useState, useEffect, use, useMemo, useRef } from "react";
 import { motion } from "framer-motion";
-import { Clock, CheckCircle2, BookOpen, Flag, AlertCircle, Pause, Play, Type, Minus, Plus, ChevronRight } from "lucide-react";
+import { Clock, CheckCircle2, BookOpen, Flag, AlertCircle, Pause, Play, Type, Minus, Plus, ChevronRight, GripVertical } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { createClient } from "@/utils/supabase/client";
@@ -29,6 +29,9 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
     const [isRunning, setIsRunning] = useState(true);
     const [fontSize, setFontSize] = useState(18); // Default font size in px
     const [currentPassageIndex, setCurrentPassageIndex] = useState(0);
+    const [leftWidth, setLeftWidth] = useState(60); // 60% default
+    const [isResizing, setIsResizing] = useState(false);
+    const containerRef = useRef<HTMLDivElement>(null);
 
     // Highlighter State
     const [selection, setSelection] = useState<{ x: number; y: number; text: string } | null>(null);
@@ -36,6 +39,37 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
     const readingAreaRef = useRef<HTMLDivElement>(null);
     const contentRef = useRef<HTMLDivElement>(null);
     const savedRangeRef = useRef<Range | null>(null); // Save range before menu click steals focus
+
+    // Split-screen Resizing Logic
+    useEffect(() => {
+        const handleMouseMove = (e: MouseEvent) => {
+            if (!isResizing || !containerRef.current) return;
+
+            const containerRect = containerRef.current.getBoundingClientRect();
+            const newLeftWidth = ((e.clientX - containerRect.left) / containerRect.width) * 100;
+
+            // Constrain between 20% and 80%
+            if (newLeftWidth >= 20 && newLeftWidth <= 80) {
+                setLeftWidth(newLeftWidth);
+            }
+        };
+
+        const handleMouseUp = () => {
+            setIsResizing(false);
+            document.body.style.cursor = 'default';
+        };
+
+        if (isResizing) {
+            window.addEventListener('mousemove', handleMouseMove);
+            window.addEventListener('mouseup', handleMouseUp);
+            document.body.style.cursor = 'col-resize';
+        }
+
+        return () => {
+            window.removeEventListener('mousemove', handleMouseMove);
+            window.removeEventListener('mouseup', handleMouseUp);
+        };
+    }, [isResizing]);
 
     // Apply font size via ref so it doesn't wipe DOM-based highlights
     useEffect(() => {
@@ -444,13 +478,14 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                     </div>
 
                     {/* --- Split Screen Content --- */}
-                    <div className="flex-1 min-h-0 flex flex-col md:flex-row gap-8">
+                    <div ref={containerRef} className="flex-1 min-h-0 flex flex-col md:flex-row gap-0 overflow-hidden relative">
 
                         {/* LEFT: Reading Passage (Scrollable) */}
                         <div
                             ref={readingAreaRef}
                             onMouseUp={handleMouseUp}
-                            className="w-full md:w-[60%] bg-white rounded-3xl p-8 shadow-sm border border-slate-100 overflow-y-auto custom-scrollbar relative group"
+                            className="w-full h-full bg-white rounded-3xl p-8 shadow-sm border border-slate-100 overflow-y-auto custom-scrollbar relative group transition-none"
+                            style={{ width: typeof window !== 'undefined' && window.innerWidth >= 768 ? `${leftWidth}%` : '100%' }}
                         >
                             {/* Text Selection Popover */}
                             <HighlighterMenu
@@ -462,8 +497,34 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                             {memoizedContent}
                         </div>
 
+                        {/* RESIZE HANDLE */}
+                        <div
+                            onMouseDown={() => setIsResizing(true)}
+                            className={cn(
+                                "hidden md:flex group/handle w-2 hover:w-4 -mx-1 hover:-mx-2 z-50 transition-all cursor-col-resize items-center justify-center relative",
+                                isResizing && "w-4 -mx-2"
+                            )}
+                        >
+                            <div className={cn(
+                                "w-0.5 h-full bg-slate-200 group-hover/handle:bg-blue-400 transition-colors",
+                                isResizing && "bg-blue-500 w-1"
+                            )} />
+                            <div className={cn(
+                                "absolute top-1/2 -translate-y-1/2 w-6 h-10 bg-white border border-slate-200 rounded-full shadow-lg flex items-center justify-center text-slate-400 group-hover/handle:text-blue-500 group-hover/handle:scale-110 transition-all",
+                                isResizing && "text-blue-600 scale-110 border-blue-200 shadow-blue-500/10"
+                            )}>
+                                <GripVertical className="w-4 h-4" />
+                            </div>
+                        </div>
+
                         {/* RIGHT: Questions (Scrollable) */}
-                        <div className="w-full md:w-[40%] bg-white rounded-3xl p-8 shadow-sm border border-slate-100 overflow-y-auto custom-scrollbar" style={{ fontSize: `${fontSize}px` }}>
+                        <div
+                            className="w-full h-full bg-white rounded-3xl p-8 shadow-sm border border-slate-100 overflow-y-auto custom-scrollbar"
+                            style={{
+                                fontSize: `${fontSize}px`,
+                                width: typeof window !== 'undefined' && window.innerWidth >= 768 ? `${100 - leftWidth}%` : '100%'
+                            }}
+                        >
                             <div className="flex items-center justify-between mb-6">
                                 <h3 className="text-lg font-bold text-slate-800">
                                     {testData.passages
