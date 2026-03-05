@@ -1,3 +1,5 @@
+import { mockReadingTest1 } from "./mockTest1";
+
 export interface Question {
     id: number;
     type: "multiple-choice" | "true-false" | "fill-blank" | "matching";
@@ -910,7 +912,8 @@ export const READING_TESTS: Record<string, ReadingTest> = {
             { id: 12, type: "fill-blank", text: "both 12 _____ and the blend of genres from the last generation brings about the difference.", correctAnswer: "random genetic mutations" },
             { id: 13, type: "fill-blank", text: "The economic counterpart shows how generating and choosing the 13 _____ of innumerable goods moves forward the material-oriented economy.", correctAnswer: "permutations" },
         ]
-    }
+    },
+    ...Object.fromEntries(mockReadingTest1.map(test => [test.id, test]))
 };
 
 
