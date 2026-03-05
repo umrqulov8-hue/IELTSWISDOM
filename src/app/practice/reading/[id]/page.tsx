@@ -437,36 +437,34 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                             </h2>
                         </div>
 
-                        <div className="flex items-center gap-4">
+                        <div className="flex items-center gap-2">
                             {/* Font Size Controls */}
-                            <div className="flex items-center gap-1 bg-slate-50 border border-slate-200 rounded-lg p-1">
-                                <div className="p-1 px-2 text-slate-400 group flex items-center gap-1">
-                                    <Type className="w-4 h-4" />
-                                </div>
+                            <div className="flex items-center gap-0.5 bg-slate-50 border border-slate-200 rounded-lg px-2 py-1.5">
+                                <Type className="w-3.5 h-3.5 text-slate-400" />
                                 <button
                                     onClick={() => setFontSize(prev => Math.max(14, prev - 2))}
-                                    className="p-1.5 rounded-md hover:bg-white hover:shadow-sm text-slate-500 hover:text-blue-600 transition-all active:scale-90"
+                                    className="p-1 rounded hover:bg-white hover:shadow-sm text-slate-500 hover:text-blue-600 transition-all active:scale-90"
                                     title="Decrease Font Size"
                                 >
-                                    <Minus className="w-4 h-4" />
+                                    <Minus className="w-3.5 h-3.5" />
                                 </button>
-                                <div className="w-px h-4 bg-slate-200 mx-0.5" />
+                                <div className="w-px h-4 bg-slate-200" />
                                 <button
                                     onClick={() => setFontSize(prev => Math.min(32, prev + 2))}
-                                    className="p-1.5 rounded-md hover:bg-white hover:shadow-sm text-slate-500 hover:text-blue-600 transition-all active:scale-90"
+                                    className="p-1 rounded hover:bg-white hover:shadow-sm text-slate-500 hover:text-blue-600 transition-all active:scale-90"
                                     title="Increase Font Size"
                                 >
-                                    <Plus className="w-4 h-4" />
+                                    <Plus className="w-3.5 h-3.5" />
                                 </button>
                             </div>
 
                             <div className={cn(
-                                "flex items-center gap-1.5 font-mono text-sm font-bold px-3 py-1 rounded-lg bg-slate-50 border border-slate-200",
+                                "flex items-center gap-1.5 font-mono text-sm font-bold px-2 py-1.5 rounded-lg bg-slate-50 border border-slate-200",
                                 timeLeft < 300 ? "text-red-500 bg-red-50 border-red-100 animate-pulse" : "text-slate-700"
                             )}>
-                                <Clock className="w-4 h-4" />
+                                <Clock className="w-3.5 h-3.5" />
                                 <span className="min-w-[3rem] text-center">{formatTime(timeLeft)}</span>
-                                <div className="w-px h-4 bg-slate-300 mx-1" />
+                                <div className="w-px h-4 bg-slate-300" />
                                 <button
                                     onClick={() => setIsRunning(!isRunning)}
                                     className="p-0.5 rounded hover:bg-slate-200 text-slate-500 hover:text-slate-800 transition-colors active:scale-95"
@@ -491,43 +489,6 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                     <CheckCircle2 className="w-4 h-4" />
                                     {isSubmitted ? "Submitted" : "Submit Test"}
                                 </button>
-                            )}
-
-                            {/* Passage Navigation (Multi-Part Tests) */}
-                            {testData.passages && testData.passages.length > 1 && (
-                                <div className="flex items-center gap-1.5">
-                                    <button
-                                        onClick={() => setCurrentPassageIndex(prev => Math.max(0, prev - 1))}
-                                        disabled={currentPassageIndex === 0}
-                                        className="flex items-center gap-1 px-3 py-1.5 rounded-lg border border-slate-200 text-slate-600 font-bold hover:bg-slate-50 disabled:opacity-30 disabled:cursor-not-allowed transition-all text-xs active:scale-95"
-                                    >
-                                        <ChevronRight className="w-3.5 h-3.5 rotate-180" />
-                                        Back
-                                    </button>
-                                    <button
-                                        onClick={() => {
-                                            if (currentPassageIndex === testData.passages!.length - 1) {
-                                                handleSubmit();
-                                            } else {
-                                                setCurrentPassageIndex(prev => Math.min(testData.passages!.length - 1, prev + 1));
-                                            }
-                                        }}
-                                        disabled={isSubmitted && currentPassageIndex === testData.passages.length - 1}
-                                        className={cn(
-                                            "flex items-center gap-1 px-3 py-1.5 rounded-lg font-bold transition-all text-xs active:scale-95",
-                                            currentPassageIndex === testData.passages.length - 1
-                                                ? "bg-green-600 text-white hover:bg-green-700 shadow-sm shadow-green-500/20"
-                                                : "bg-blue-600 text-white hover:bg-blue-700 shadow-sm shadow-blue-500/20"
-                                        )}
-                                    >
-                                        {currentPassageIndex === testData.passages.length - 1 ? (
-                                            isSubmitted ? "Submitted" : "Submit"
-                                        ) : (
-                                            "Next"
-                                        )}
-                                        <ChevronRight className="w-3.5 h-3.5" />
-                                    </button>
-                                </div>
                             )}
                         </div>
                     </div>
@@ -1147,6 +1108,41 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                             )}
                                         </div>
                                     ))}
+
+                                    {/* Back / Next buttons */}
+                                    <div className="ml-auto flex items-center gap-1 shrink-0">
+                                        <button
+                                            onClick={() => setCurrentPassageIndex(prev => Math.max(0, prev - 1))}
+                                            disabled={currentPassageIndex === 0}
+                                            className="flex items-center gap-1 px-2.5 py-1 rounded-md border border-slate-200 text-slate-600 font-bold hover:bg-slate-50 disabled:opacity-30 disabled:cursor-not-allowed transition-all text-[11px] active:scale-95"
+                                        >
+                                            <ChevronRight className="w-3 h-3 rotate-180" />
+                                            Back
+                                        </button>
+                                        <button
+                                            onClick={() => {
+                                                if (currentPassageIndex === testData.passages!.length - 1) {
+                                                    handleSubmit();
+                                                } else {
+                                                    setCurrentPassageIndex(prev => Math.min(testData.passages!.length - 1, prev + 1));
+                                                }
+                                            }}
+                                            disabled={isSubmitted && currentPassageIndex === testData.passages!.length - 1}
+                                            className={cn(
+                                                "flex items-center gap-1 px-2.5 py-1 rounded-md font-bold transition-all text-[11px] active:scale-95",
+                                                currentPassageIndex === testData.passages!.length - 1
+                                                    ? "bg-green-600 text-white hover:bg-green-700"
+                                                    : "bg-blue-600 text-white hover:bg-blue-700"
+                                            )}
+                                        >
+                                            {currentPassageIndex === testData.passages!.length - 1 ? (
+                                                isSubmitted ? "Submitted" : "Submit"
+                                            ) : (
+                                                "Next"
+                                            )}
+                                            <ChevronRight className="w-3 h-3" />
+                                        </button>
+                                    </div>
                                 </>
                             ) : (
                                 /* Single-Part: show all questions */
