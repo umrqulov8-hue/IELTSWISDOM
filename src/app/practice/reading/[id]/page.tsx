@@ -402,7 +402,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                         </div>
 
                         {/* RIGHT: Questions (Scrollable) */}
-                        <div className="w-full md:w-[40%] bg-white rounded-3xl p-8 shadow-sm border border-slate-100 overflow-y-auto custom-scrollbar">
+                        <div className="w-full md:w-[40%] bg-white rounded-3xl p-8 shadow-sm border border-slate-100 overflow-y-auto custom-scrollbar" style={{ fontSize: `${fontSize}px` }}>
                             <div className="flex items-center justify-between mb-6">
                                 <h3 className="text-lg font-bold text-slate-800">Questions 1-{testData.questions.length}</h3>
                                 <span className="text-sm text-slate-400 font-medium">Answer all questions</span>
