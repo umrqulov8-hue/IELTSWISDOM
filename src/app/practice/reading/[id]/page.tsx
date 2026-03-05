@@ -1045,6 +1045,25 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                     </button>
                                 </div>
                             )}
+
+                            {/* Submit Button for Single-Part Tests */}
+                            {!testData.passages && (
+                                <div className="mt-12 flex items-center justify-end border-t border-slate-100 pt-8">
+                                    <button
+                                        onClick={handleSubmit}
+                                        disabled={isSubmitted}
+                                        className={cn(
+                                            "flex items-center gap-2 px-8 py-3 rounded-xl font-bold text-lg transition-all shadow-lg active:scale-95",
+                                            isSubmitted
+                                                ? "bg-slate-300 text-slate-500 cursor-not-allowed shadow-none"
+                                                : "bg-green-600 text-white hover:bg-green-700 shadow-green-500/20"
+                                        )}
+                                    >
+                                        <CheckCircle2 className="w-5 h-5" />
+                                        {isSubmitted ? "Submitted" : "Submit Test"}
+                                    </button>
+                                </div>
+                            )}
                         </div>
 
                     </div>
