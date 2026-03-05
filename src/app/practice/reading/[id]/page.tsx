@@ -166,10 +166,15 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                 // Wrap in a <mark> element
                 const mark = document.createElement('mark');
                 mark.setAttribute('data-hlt', color);
+                mark.style.display = 'inline';
                 mark.style.backgroundColor = bgColor;
-                mark.style.borderRadius = '3px';
-                mark.style.padding = '0 1px';
+                mark.style.borderRadius = '2px';
+                mark.style.padding = '0';
+                mark.style.margin = '0';
                 mark.style.color = 'inherit';
+                mark.style.lineHeight = 'inherit';
+                (mark.style as any).WebkitBoxDecorationBreak = 'clone';
+                (mark.style as any).boxDecorationBreak = 'clone';
                 splitNode.parentNode?.insertBefore(mark, splitNode);
                 mark.appendChild(splitNode);
             });
