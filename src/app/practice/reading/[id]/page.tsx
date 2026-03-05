@@ -808,48 +808,50 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                                         isSubmitted && !isCorrect ? "border-red-200 bg-red-50/50" :
                                                             "border-slate-100 bg-white hover:border-blue-200"
                                                 )}>
-                                                    <div className="flex items-start gap-4 mb-4">
-                                                        <span className={cn(
-                                                            "flex-none w-8 h-8 rounded-lg flex items-center justify-center text-sm font-black",
-                                                            isSubmitted && isCorrect ? "bg-green-100 text-green-700" :
-                                                                isSubmitted && !isCorrect ? "bg-red-100 text-red-700" :
-                                                                    "bg-blue-50 text-blue-700"
-                                                        )}>
-                                                            {q.id}
-                                                        </span>
-                                                        <p className="font-bold text-slate-800 leading-relaxed pt-1">{q.text}</p>
-                                                    </div>
-
-                                                    <div className="ml-12 relative">
-                                                        <select
-                                                            className={cn(
-                                                                "w-full p-4 rounded-2xl border-2 appearance-none outline-none transition-all cursor-pointer font-bold bg-white shadow-sm",
-                                                                answers[q.id] !== undefined ? "border-blue-400 bg-blue-50 text-blue-900 ring-4 ring-blue-500/10" : "border-slate-200 text-slate-700 hover:border-blue-300 hover:bg-slate-50",
-                                                                isSubmitted && answers[q.id] === q.correctAnswer && "border-green-400 bg-green-50 text-green-800 ring-green-500/10",
-                                                                isSubmitted && answers[q.id] !== undefined && answers[q.id] !== q.correctAnswer && "border-red-400 bg-red-50 text-red-800 ring-red-500/10",
-                                                                isSubmitted && "cursor-not-allowed"
-                                                            )}
-                                                            value={answers[q.id] !== undefined ? answers[q.id] : ""}
-                                                            onChange={(e) => handleAnswer(q.id, e.target.value)}
-                                                            disabled={isSubmitted}
-                                                        >
-                                                            <option value="" disabled>Choose Answer</option>
-                                                            {q.options?.map((option, index) => (
-                                                                <option key={index} value={option}>
-                                                                    {option}
-                                                                </option>
-                                                            ))}
-                                                        </select>
-                                                        <div className="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none text-blue-600 bg-blue-50/80 rounded-full p-1 border border-blue-100 shadow-sm">
-                                                            <ChevronRight className="w-5 h-5 rotate-90" />
+                                                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                                                        <div className="flex items-start gap-4">
+                                                            <span className={cn(
+                                                                "flex-none w-8 h-8 rounded-lg flex items-center justify-center text-sm font-black",
+                                                                isSubmitted && isCorrect ? "bg-green-100 text-green-700" :
+                                                                    isSubmitted && !isCorrect ? "bg-red-100 text-red-700" :
+                                                                        "bg-blue-50 text-blue-700"
+                                                            )}>
+                                                                {q.id}
+                                                            </span>
+                                                            <p className="font-bold text-slate-800 leading-relaxed pt-1">{q.text}</p>
                                                         </div>
 
-                                                        {isSubmitted && !isCorrect && (
-                                                            <div className="mt-3 p-3 bg-blue-50 border border-blue-100 rounded-xl text-xs font-bold text-blue-700 animate-in fade-in slide-in-from-top-1">
-                                                                Correct: {q.correctAnswer}
+                                                        <div className="relative flex-1 max-w-[240px]">
+                                                            <select
+                                                                className={cn(
+                                                                    "w-full p-3 pl-4 pr-10 rounded-xl border-2 appearance-none outline-none transition-all cursor-pointer font-bold bg-white shadow-sm text-sm",
+                                                                    answers[q.id] !== undefined ? "border-blue-400 bg-blue-50 text-blue-900 ring-4 ring-blue-500/10" : "border-slate-200 text-slate-700 hover:border-blue-300 hover:bg-slate-50",
+                                                                    isSubmitted && answers[q.id] === q.correctAnswer && "border-green-400 bg-green-50 text-green-800 ring-green-500/10",
+                                                                    isSubmitted && answers[q.id] !== undefined && answers[q.id] !== q.correctAnswer && "border-red-400 bg-red-50 text-red-800 ring-red-500/10",
+                                                                    isSubmitted && "cursor-not-allowed"
+                                                                )}
+                                                                value={answers[q.id] !== undefined ? answers[q.id] : ""}
+                                                                onChange={(e) => handleAnswer(q.id, e.target.value)}
+                                                                disabled={isSubmitted}
+                                                            >
+                                                                <option value="" disabled>Choose Answer</option>
+                                                                {q.options?.map((option, index) => (
+                                                                    <option key={index} value={option}>
+                                                                        {option}
+                                                                    </option>
+                                                                ))}
+                                                            </select>
+                                                            <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-blue-600">
+                                                                <ChevronRight className="w-4 h-4 rotate-90" />
                                                             </div>
-                                                        )}
+                                                        </div>
                                                     </div>
+
+                                                    {isSubmitted && !isCorrect && (
+                                                        <div className="mt-3 ml-12 p-3 bg-blue-50 border border-blue-100 rounded-xl text-xs font-bold text-blue-700 animate-in fade-in slide-in-from-top-1">
+                                                            Correct: {q.correctAnswer}
+                                                        </div>
+                                                    )}
                                                 </div>
                                             );
                                         }
@@ -994,7 +996,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
 
                     <motion.div
                         initial={{ y: 100, opacity: 0 }}
-                        animate={{ y: 68, opacity: 1 }}
+                        animate={{ y: 20, opacity: 1 }}
                         whileHover={{ y: 0 }}
                         transition={{ type: "spring", damping: 25, stiffness: 120 }}
                         className="bg-white/95 backdrop-blur-xl border-t border-slate-200 p-3 shadow-[0_-10px_40px_rgba(0,0,0,0.1)] relative"
