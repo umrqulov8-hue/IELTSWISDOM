@@ -820,8 +820,58 @@ export const READING_TESTS: Record<string, ReadingTest> = {
             { id: 12, type: "fill-blank", text: "The ants in the experiment relied on the use of individuals called 12 _____ new nest and efficiently direct the others to go there.", correctAnswer: "scouts" },
             { id: 13, type: "fill-blank", text: "The study emphasized the necessity, for people well as insects, of having active 13 _____ in order to execute decisions successfully.", correctAnswer: "leaders" },
         ]
+    },
+    "fp-23": {
+        id: "fp-23",
+        title: "Why Do We Touch Strangers So Much? A History Of The Handshake Offers Clues",
+        content: `
+        <h2 class="text-xl font-bold mb-4">Why Do We Touch Strangers So Much? A History Of The Handshake Offers Clues</h2>
+        <p class="mb-4"><em>For thousands of years, the handshake has been used for different purposes.</em></p>
+        
+        <p class="mb-4">There is a lot that can be conveyed in a handshake, a kiss, or a hug. Throughout history, such a greeting was used to signal friendship, finalize a business transaction, or indicate religious devotion. Touching strangers, however, can also transmit other, less beneficial shared outcomes—like disease outbreaks.</p>
+
+        <p class="mb-4">As fears about COVID-19, or coronavirus, mount, France has warned its citizens to pause their famous cheek kisses, and across the world, business deals are being sealed with an elbow bump. But with histories tracing back thousands of years, both greetings are likely too entrenched to be so easily halted.</p>
+
+        <p class="mb-4">A popular theory on the handshake’s origin is that it began as a gesture of peace. Grasping hands proved one was not holding a weapon—and shaking them was a way to ensure a partner had nothing hiding up their sleeve. So far, there has not been any reliable evidence to prove this assumption. Throughout the ancient world, the handshake appears on vases, gravestones, and stone slabs in scenes of weddings, gods making deals, young warriors departing for war, and the newly dead’s arrival to the afterlife. In the literary canon, it stretches to the Iliad and the Odyssey.</p>
+
+        <p class="mb-4">The handshake’s catch-all utility, used in friendship, romance, and business alike, makes interpretation difficult. “The handshake continues to be a popular image today because we too see it as a complex and ambiguous motif,” writes art historian Glenys Davies in an analysis of its use in classical art.</p>
+
+        <p class="mb-4">In America, it is likely that the handshake’s popularity was propelled by 18th century Quakers. In their efforts to eschew the hierarchy and social rank, they found the handshake a more democratic form of greeting to the then-common bow, curtsy, or hat doffing. “In their place, Quakers put the practice of the handshake, extended to everyone regardless of station, as we still do,” writes historian Michael Zuckerman.</p>
+
+        <p class="mb-4">There may be a scientific explanation for its lasting power. In a 2015 study, researchers in Israel filmed handshakes between hundreds of strangers and found nearly a quarter of participants sniffed their hands afterwards. They theorized that a handshake might be unconsciously used to detect chemical signals, and possibly as a means of communication—just as other animals do by smelling each other.</p>
+
+        <p class="mb-4">The kiss-as-greeting has a similarly rich history. It was incorporated into early Christianity and used in religious ceremonies. “In his Epistle to the Romans, St. Paul instructed followers to ‘salute one another with a holy kiss,’” writes Andy Scott in the book One Kiss or Two: In Search of the Perfect Greeting. In the Middle Ages, a kiss was used as a sign of fidelity and to seal agreements like property transfers.</p>
+
+        <p class="mb-4">Today, a swift kiss on the cheek known in French as “la bise,” is a standard greeting in much of the world. The word may have originated with the Romans, who had a different term for each type of kiss and called the polite version “basium.” In Paris, two kisses are common. In Provence expect three, and four is the norm in the Loire Valley. The cheek kiss is also common in countries like Egypt, where three kisses is customary, Latin America, and the Philippines. It is thought that during the plague in the 14th century, la bise may have stopped and was not revived again until 400 years later, after the French Revolution. In 2009, la bise was temporarily paused as swine flu became a concern. At the end of February, the French Health Minister advised against it as the coronavirus cases increased. “The reduction in social contacts of a physical nature is advised,” he said. “That includes the practice of the bise.”</p>
+
+        <p class="mb-4">In her book Don’t Look, Don’t Touch, behavioural scientist Val Curtis of the London School of Hygiene and Tropical Medicine, says that one possible reason for the kiss and handshake as a greeting is to signify that the other person is trusted enough to share germs with. Because of this, the practice can go in and out of style depending on public health concerns.</p>
+
+        <p class="mb-4">In a 1929 study, a nurse named Leila Given wrote an article in the American Journal of Nursing lamenting the loss of the last generation’s “finger-tipping and the high handshake” customs in favour of a handshake. She warned that hands “are agents of bacterial transfer” and cited early studies showing that a handshake could easily spread germs. In conclusion, she recommended that Americans adopt the Chinese custom at the time of shaking one’s own hands together when greeting a friend. “At least our bacteria would then stay at home,” she wrote.</p>
+        `,
+        questions: [
+            // --- True / False / Not Given (1-7) ---
+            { id: 1, type: "true-false", text: "Shaking hands is an indicator of hospitality.", options: ["TRUE", "FALSE", "NOT GIVEN"], correctAnswer: 0 },
+            { id: 2, type: "true-false", text: "Evidence showed that the handshake started as a sign of peace.", options: ["TRUE", "FALSE", "NOT GIVEN"], correctAnswer: 1 },
+            { id: 3, type: "true-false", text: "When shaking hands, people often rolled up their sleeves.", options: ["TRUE", "FALSE", "NOT GIVEN"], correctAnswer: 2 },
+            { id: 4, type: "true-false", text: "The use of a handshake in different situations can be unpredictable.", options: ["TRUE", "FALSE", "NOT GIVEN"], correctAnswer: 0 },
+            { id: 5, type: "true-false", text: "In America, handshakes became prevalent because they represented equality and freedom.", options: ["TRUE", "FALSE", "NOT GIVEN"], correctAnswer: 0 },
+            { id: 6, type: "true-false", text: "A research conducted in 2015 showed that exactly 25% of participants smelled their hands after a handshake.", options: ["TRUE", "FALSE", "NOT GIVEN"], correctAnswer: 1 },
+            { id: 7, type: "true-false", text: "People often smell their hands to spot poisonous chemicals.", options: ["TRUE", "FALSE", "NOT GIVEN"], correctAnswer: 2 },
+
+            // --- Summary Completion (8-12) ---
+            { id: 8, type: "fill-blank", text: "In the past, Christian used cheek kisses in 8 _____.", correctAnswer: "religious ceremonies" },
+            { id: 9, type: "fill-blank", text: "In the Middle Age, the kiss-as-greeting was used to show 9 _____.", correctAnswer: "fidelity" },
+            { id: 10, type: "fill-blank", text: "It is common for people in Paris to exchange 10 _____.", correctAnswer: "two kisses" },
+            { id: 11, type: "fill-blank", text: "the cheek kiss might have been paused and it remained so for 11 _____.", correctAnswer: "400 years" },
+            { id: 12, type: "fill-blank", text: "In 2009, due to 12 _____, cheek kisses were also stopped for a while.", correctAnswer: "swine flu" },
+
+            // --- Short Answer (13-14) ---
+            { id: 13, type: "fill-blank", text: "What did French Health Minister advise people to avoid to prevent the spread of coronavirus? 13 _____", correctAnswer: "social contacts" },
+            { id: 14, type: "fill-blank", text: "What can be transferred from a handshake? 14 _____", correctAnswer: "germs" },
+        ]
     }
 };
+
 
 
 
