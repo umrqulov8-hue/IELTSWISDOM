@@ -219,9 +219,13 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
         setScore(0);
         setShowResult(false);
         setTimeLeft(testData.timeLimit || 1200);
+        setCurrentPassageIndex(0);
+    }, [testId]);
 
-
-    }, [testId, testData?.content]); // Re-run if content changes (e.g. data load)
+    // Auto-scroll to top when passage changes
+    useEffect(() => {
+        if (readingAreaRef.current) readingAreaRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+    }, [currentPassageIndex]);
 
     // Timer Logic
     useEffect(() => {
@@ -503,416 +507,448 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                         {/* RIGHT: Questions (Scrollable) */}
                         <div className="w-full md:w-[40%] bg-white rounded-3xl p-8 shadow-sm border border-slate-100 overflow-y-auto custom-scrollbar" style={{ fontSize: `${fontSize}px` }}>
                             <div className="flex items-center justify-between mb-6">
-                                <h3 className="text-lg font-bold text-slate-800">Questions 1-{testData.questions.length}</h3>
-                                <span className="text-sm text-slate-400 font-medium">Answer all questions</span>
+                                <h3 className="text-lg font-bold text-slate-800">
+                                    {testData.passages
+                                        ? `Questions ${testData.passages[currentPassageIndex].questionRange.start}-${testData.passages[currentPassageIndex].questionRange.end}`
+                                        : `Questions 1-${testData.questions.length}`}
+                                </h3>
+                                <span className="text-sm text-slate-400 font-medium whitespace-nowrap">Answer all questions</span>
                             </div>
 
                             <div className="space-y-8">
-                                {testData.questions.map((q) => {
-                                    const isCorrect = isSubmitted && (
-                                        q.type === "fill-blank"
-                                            ? (typeof answers[q.id] === 'string' && answers[q.id].trim().toLowerCase() === (q.correctAnswer as string).toLowerCase())
-                                            : answers[q.id] === q.correctAnswer
-                                    );
-                                    const isWrong = isSubmitted && !isCorrect;
+                                {testData.questions
+                                    .filter(q => {
+                                        if (!testData.passages) return true;
+                                        const range = testData.passages[currentPassageIndex].questionRange;
+                                        return q.id >= range.start && q.id <= range.end;
+                                    })
+                                    .map((q) => {
+                                        const isCorrect = isSubmitted && (
+                                            q.type === "fill-blank"
+                                                ? (typeof answers[q.id] === 'string' && answers[q.id].trim().toLowerCase() === (q.correctAnswer as string).toLowerCase())
+                                                : answers[q.id] === q.correctAnswer
+                                        );
+                                        const isWrong = isSubmitted && !isCorrect;
 
-                                    const isShortOptions = q.type === "multiple-choice" && q.options
-                                        ? q.options.every(opt => opt.length <= 2)
-                                        : false;
+                                        const isShortOptions = q.type === "multiple-choice" && q.options
+                                            ? q.options.every(opt => opt.length <= 2)
+                                            : false;
 
-                                    // Special Handling for "Raising the Mary Rose" Diagram List (Q9-13)
-                                    if (testId === "fp-3" && q.id >= 9 && q.id <= 13) {
-                                        if (q.id === 9) {
-                                            const renderInput = (id: number) => {
-                                                const checkCorrect = (qid: number) => {
-                                                    const question = testData.questions.find(x => x.id === qid);
-                                                    if (!question) return false;
-                                                    const userAnswer = answers[qid];
-                                                    if (typeof userAnswer === 'string') {
-                                                        const acceptable = (question.correctAnswer as string).split(',').map(s => s.trim().toLowerCase());
-                                                        return acceptable.includes(userAnswer.trim().toLowerCase());
-                                                    }
-                                                    return false;
-                                                };
-                                                const isCorrect = checkCorrect(id);
-                                                return (
-                                                    <span id={`question-${id}`} className="inline-flex items-center gap-2 relative ml-1 mr-1">
-                                                        <span className="flex-none w-6 h-6 rounded-full border border-slate-300 text-slate-400 flex items-center justify-center text-[11px] font-semibold bg-white shadow-sm">{id}</span>
-                                                        <input type="text"
-                                                            className={cn("w-36 px-3 py-1.5 bg-white border border-slate-200 rounded-lg focus:outline-none transition-all text-sm shadow-sm",
-                                                                isSubmitted ? (isCorrect ? "border-green-400 bg-green-50 text-green-700 shadow-green-200" : "border-red-400 bg-red-50 text-red-700 shadow-red-200") : "hover:border-blue-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 text-slate-700"
-                                                            )}
-                                                            value={answers[id] || ""}
-                                                            onChange={(e) => handleAnswer(id, e.target.value)}
-                                                            disabled={isSubmitted}
-                                                        />
-                                                        {isSubmitted && !isCorrect && <span className="absolute top-full left-8 mt-1 bg-white border border-red-200 text-red-600 text-[11px] font-bold px-2 py-0.5 rounded shadow whitespace-nowrap z-50">Answer: {String(testData.questions.find(x => x.id === id)?.correctAnswer)}</span>}
-                                                    </span>
-                                                );
-                                            };
-
-                                            return (
-                                                <div key="mary-rose-list" className="mb-12">
-                                                    <div className="mb-10">
-                                                        <img src="https://azrmwfzrgdvkbzezwyfo.supabase.co/storage/v1/object/public/IELTS%20TASK%20PICTURES/Screenshot%202026-02-21%20223902.png" alt="Raising the Mary Rose Diagram" className="w-full max-w-2xl mx-auto object-contain" />
-                                                    </div>
-
-                                                    <div className="border border-slate-800 bg-white p-6 sm:p-10 max-w-2xl mx-auto text-slate-800 text-[17px]">
-                                                        <div className="space-y-6">
-                                                            <div className="flex items-center gap-4">
-                                                                <span className="text-xl leading-none">&bull;</span>
-                                                                <div className="flex items-center flex-wrap leading-loose">
-                                                                    {renderInput(9)}
-                                                                    <span>attached to hull by wires</span>
-                                                                </div>
-                                                            </div>
-                                                            <div className="flex items-center gap-4">
-                                                                <span className="text-xl leading-none">&bull;</span>
-                                                                <div className="flex items-center flex-wrap leading-loose">
-                                                                    {renderInput(10)}
-                                                                    <span>to prevent hull being sucked into mud</span>
-                                                                </div>
-                                                            </div>
-                                                            <div className="flex items-center gap-4">
-                                                                <span className="text-xl leading-none">&bull;</span>
-                                                                <div className="flex items-center flex-wrap leading-loose">
-                                                                    <span>legs are placed into</span>
-                                                                    {renderInput(11)}
-                                                                </div>
-                                                            </div>
-                                                            <div className="flex items-center gap-4">
-                                                                <span className="text-xl leading-none">&bull;</span>
-                                                                <div className="flex items-center flex-wrap leading-loose">
-                                                                    <span>hull is lowered into</span>
-                                                                    {renderInput(12)}
-                                                                </div>
-                                                            </div>
-                                                            <div className="flex items-center gap-4">
-                                                                <span className="text-xl leading-none">&bull;</span>
-                                                                <div className="flex items-center flex-wrap leading-loose">
-                                                                    {renderInput(13)}
-                                                                    <span>used as extra protection for the hull</span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            );
-                                        } else {
-                                            return null; // Skip rendering 10-13 as they are inside the list
-                                        }
-                                    }
-
-                                    // Special Handling for "Reducing the Effects of Climate Change" Table (Q30-36)
-                                    if (testId === "fp-12" && q.id >= 30 && q.id <= 36) {
-                                        if (q.id === 30) {
-                                            return (
-                                                <div key="glass-table-container" className="mb-12 rounded-3xl overflow-hidden shadow-xl border border-slate-200 relative">
-                                                    <div className="absolute top-0 left-0 right-0 h-10 bg-gradient-to-b from-white/50 to-transparent pointer-events-none z-10" />
-                                                    <table className="w-full text-left border-collapse">
-                                                        <thead>
-                                                            <tr className="bg-slate-50/80 border-b border-slate-200 backdrop-blur-sm">
-                                                                <th className="p-4 font-bold text-slate-700 w-1/2 text-sm uppercase tracking-wider">Method</th>
-                                                                <th className="p-4 font-bold text-slate-700 w-1/2 text-sm uppercase tracking-wider">Purpose</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            {/* Row 1 */}
-                                                            <tr id="question-30" className="border-b border-slate-200 hover:bg-slate-50 transition-colors">
-                                                                <td className="p-4 align-top">put a large number of tiny spacecraft into orbit far above Earth</td>
-                                                                <td className="p-4 align-top">
-                                                                    to create a <span className="font-bold">30</span>
-                                                                    <input type="text"
-                                                                        className="mx-2 bg-transparent border-b border-black text-black font-semibold focus:outline-none focus:border-blue-500 w-24 text-center transition-all placeholder:text-slate-400"
-                                                                        value={answers[30] || ""} onChange={(e) => handleAnswer(30, e.target.value)} disabled={isSubmitted}
-                                                                    />
-                                                                    that would reduce the amount of light reaching Earth
-                                                                </td>
-                                                            </tr>
-                                                            {/* Row 2 */}
-                                                            <tr id="question-31" className="border-b border-slate-200 hover:bg-slate-50 transition-colors">
-                                                                <td className="p-4 align-top">
-                                                                    place <span className="font-bold">31</span>
-                                                                    <input type="text"
-                                                                        className="mx-2 bg-transparent border-b border-black text-black font-semibold focus:outline-none focus:border-blue-500 w-24 text-center transition-all placeholder:text-slate-400"
-                                                                        value={answers[31] || ""} onChange={(e) => handleAnswer(31, e.target.value)} disabled={isSubmitted}
-                                                                    />
-                                                                    in the sea
-                                                                </td>
-                                                                <td className="p-4 align-top">
-                                                                    to encourage <span className="font-bold">32</span>
-                                                                    <input id="question-32" type="text"
-                                                                        className="mx-2 bg-transparent border-b border-black text-black font-semibold focus:outline-none focus:border-blue-500 w-24 text-center transition-all placeholder:text-slate-400"
-                                                                        value={answers[32] || ""} onChange={(e) => handleAnswer(32, e.target.value)} disabled={isSubmitted}
-                                                                    />
-                                                                    to form
-                                                                </td>
-                                                            </tr>
-                                                            {/* Row 3 */}
-                                                            <tr id="question-33" className="border-b border-slate-200 hover:bg-slate-50 transition-colors">
-                                                                <td className="p-4 align-top">release aerosol sprays into the stratosphere</td>
-                                                                <td className="p-4 align-top">
-                                                                    to create <span className="font-bold">33</span>
-                                                                    <input type="text"
-                                                                        className="mx-2 bg-transparent border-b border-black text-black font-semibold focus:outline-none focus:border-blue-500 w-24 text-center transition-all placeholder:text-slate-400"
-                                                                        value={answers[33] || ""} onChange={(e) => handleAnswer(33, e.target.value)} disabled={isSubmitted}
-                                                                    />
-                                                                    that would reduce the amount of light reaching Earth
-                                                                </td>
-                                                            </tr>
-                                                            {/* Row 4 */}
-                                                            <tr id="question-34" className="border-b border-slate-200 hover:bg-slate-50 transition-colors">
-                                                                <td className="p-4 align-top">
-                                                                    fix strong <span className="font-bold">34</span>
-                                                                    <input type="text"
-                                                                        className="mx-2 bg-transparent border-b border-black text-black font-semibold focus:outline-none focus:border-blue-500 w-24 text-center transition-all placeholder:text-slate-400"
-                                                                        value={answers[34] || ""} onChange={(e) => handleAnswer(34, e.target.value)} disabled={isSubmitted}
-                                                                    />
-                                                                    to Greenland ice sheets
-                                                                </td>
-                                                                <td className="p-4 align-top">to prevent icebergs moving into the sea</td>
-                                                            </tr>
-                                                            {/* Row 5 */}
-                                                            <tr id="question-35" className="border-b border-slate-200 hover:bg-slate-50 transition-colors">
-                                                                <td className="p-4 align-top">plant trees in Russian Arctic that would lose their leaves in winter</td>
-                                                                <td className="p-4 align-top">
-                                                                    to allow the <span className="font-bold">35</span>
-                                                                    <input type="text"
-                                                                        className="mx-2 bg-transparent border-b border-black text-black font-semibold focus:outline-none focus:border-blue-500 w-24 text-center transition-all placeholder:text-slate-400"
-                                                                        value={answers[35] || ""} onChange={(e) => handleAnswer(35, e.target.value)} disabled={isSubmitted}
-                                                                    />
-                                                                    to reflect radiation
-                                                                </td>
-                                                            </tr>
-                                                            {/* Row 6 */}
-                                                            <tr id="question-36" className="hover:bg-slate-50 transition-colors">
-                                                                <td className="p-4 align-top">
-                                                                    change the direction of <span className="font-bold">36</span>
-                                                                    <input type="text"
-                                                                        className="mx-2 bg-transparent border-b border-black text-black font-semibold focus:outline-none focus:border-blue-500 w-24 text-center transition-all placeholder:text-slate-400"
-                                                                        value={answers[36] || ""} onChange={(e) => handleAnswer(36, e.target.value)} disabled={isSubmitted}
-                                                                    />
-                                                                </td>
-                                                                <td className="p-4 align-top">to bring more cold water into ice-forming areas</td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            );
-                                        } else {
-                                            return null; // Skip rendering for 31-36 as they are in the table
-                                        }
-                                    }
-                                    if (q.type === "multiple-choice") {
-                                        // ...
-                                        return (
-                                            <div id={`question-${q.id}`} key={q.id} className={cn(
-                                                // ...
-                                                "p-4 rounded-xl border transition-colors",
-                                                isSubmitted && isCorrect ? "border-green-200 bg-green-50/50" :
-                                                    isSubmitted && !isCorrect ? "border-red-200 bg-red-50/50" :
-                                                        "border-slate-200 hover:border-blue-300"
-                                            )}>
-                                                <div className="flex items-start gap-4 mb-3">
-                                                    <span className={cn(
-                                                        "flex-none w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold",
-                                                        isSubmitted && isCorrect ? "bg-green-100 text-green-700" :
-                                                            isSubmitted && !isCorrect ? "bg-red-100 text-red-700" :
-                                                                "bg-blue-50 text-blue-700"
-                                                    )}>
-                                                        {q.id}
-                                                    </span>
-                                                    <p className="font-medium text-slate-700 leading-relaxed pt-1">{q.text}</p>
-                                                </div>
-
-                                                {isShortOptions ? (
-                                                    <div className="flex flex-wrap gap-2 ml-12">
-                                                        {q.options?.map((option, index) => {
-                                                            const isSelected = answers[q.id] === String(index);
-                                                            return (
-                                                                <button
-                                                                    key={index}
-                                                                    onClick={() => !isSubmitted && handleAnswer(q.id, String(index))}
-                                                                    disabled={isSubmitted}
-                                                                    className={cn(
-                                                                        "w-10 h-10 rounded-lg text-sm font-bold border transition-all flex items-center justify-center",
-                                                                        isSelected
-                                                                            ? "bg-blue-600 border-blue-600 text-white shadow-md scale-105"
-                                                                            : "bg-white border-slate-200 text-slate-600 hover:border-blue-300 hover:bg-blue-50",
-                                                                        isSubmitted && index === Number(q.correctAnswer) && "bg-green-500 border-green-500 text-white", // Show correct answer
-                                                                        isSubmitted && isSelected && index !== Number(q.correctAnswer) && "bg-red-500 border-red-500 text-white", // Show wrong user selection
-                                                                    )}
-                                                                >
-                                                                    {option}
-                                                                </button>
-                                                            );
-                                                        })}
-                                                    </div>
-                                                ) : (
-                                                    testId === "fp-4" && q.id >= 14 && q.id <= 20 ? (
-                                                        <div className="ml-12 mt-2 relative">
-                                                            <select
-                                                                className={cn(
-                                                                    "w-full p-3 rounded-xl border appearance-none outline-none transition-all cursor-pointer font-medium bg-white shadow-sm",
-                                                                    answers[q.id] !== undefined ? "border-blue-400 bg-blue-50 text-blue-900 shadow-blue-500/10" : "border-slate-200 text-slate-700 hover:border-blue-300",
-                                                                    isSubmitted && answers[q.id] === q.correctAnswer && "border-green-400 bg-green-50 text-green-800",
-                                                                    isSubmitted && answers[q.id] !== undefined && answers[q.id] !== q.correctAnswer && "border-red-400 bg-red-50 text-red-800",
-                                                                    isSubmitted && "cursor-not-allowed opacity-90"
+                                        // Special Handling for "Raising the Mary Rose" Diagram List (Q9-13)
+                                        if (testId === "fp-3" && q.id >= 9 && q.id <= 13) {
+                                            if (q.id === 9) {
+                                                const renderInput = (id: number) => {
+                                                    const checkCorrect = (qid: number) => {
+                                                        const question = testData.questions.find(x => x.id === qid);
+                                                        if (!question) return false;
+                                                        const userAnswer = answers[qid];
+                                                        if (typeof userAnswer === 'string') {
+                                                            const acceptable = (question.correctAnswer as string).split(',').map(s => s.trim().toLowerCase());
+                                                            return acceptable.includes(userAnswer.trim().toLowerCase());
+                                                        }
+                                                        return false;
+                                                    };
+                                                    const isCorrect = checkCorrect(id);
+                                                    return (
+                                                        <span id={`question-${id}`} className="inline-flex items-center gap-2 relative ml-1 mr-1">
+                                                            <span className="flex-none w-6 h-6 rounded-full border border-slate-300 text-slate-400 flex items-center justify-center text-[11px] font-semibold bg-white shadow-sm">{id}</span>
+                                                            <input type="text"
+                                                                className={cn("w-36 px-3 py-1.5 bg-white border border-slate-200 rounded-lg focus:outline-none transition-all text-sm shadow-sm",
+                                                                    isSubmitted ? (isCorrect ? "border-green-400 bg-green-50 text-green-700 shadow-green-200" : "border-red-400 bg-red-50 text-red-700 shadow-red-200") : "hover:border-blue-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 text-slate-700"
                                                                 )}
-                                                                value={answers[q.id] !== undefined ? answers[q.id] : ""}
-                                                                onChange={(e) => handleAnswer(q.id, Number(e.target.value))}
+                                                                value={answers[id] || ""}
+                                                                onChange={(e) => handleAnswer(id, e.target.value)}
                                                                 disabled={isSubmitted}
-                                                            >
-                                                                <option value="" disabled>Select the correct heading...</option>
-                                                                {q.options?.map((option, index) => (
-                                                                    <option key={index} value={index}>
-                                                                        {option}
-                                                                    </option>
-                                                                ))}
-                                                            </select>
-                                                            {/* Custom Dropdown Arrow */}
-                                                            <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400 bg-white/80 rounded-full p-0.5">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6" /></svg>
+                                                            />
+                                                            {isSubmitted && !isCorrect && <span className="absolute top-full left-8 mt-1 bg-white border border-red-200 text-red-600 text-[11px] font-bold px-2 py-0.5 rounded shadow whitespace-nowrap z-50">Answer: {String(testData.questions.find(x => x.id === id)?.correctAnswer)}</span>}
+                                                        </span>
+                                                    );
+                                                };
+
+                                                return (
+                                                    <div key="mary-rose-list" className="mb-12">
+                                                        <div className="mb-10">
+                                                            <img src="https://azrmwfzrgdvkbzezwyfo.supabase.co/storage/v1/object/public/IELTS%20TASK%20PICTURES/Screenshot%202026-02-21%20223902.png" alt="Raising the Mary Rose Diagram" className="w-full max-w-2xl mx-auto object-contain" />
+                                                        </div>
+
+                                                        <div className="border border-slate-800 bg-white p-6 sm:p-10 max-w-2xl mx-auto text-slate-800 text-[17px]">
+                                                            <div className="space-y-6">
+                                                                <div className="flex items-center gap-4">
+                                                                    <span className="text-xl leading-none">&bull;</span>
+                                                                    <div className="flex items-center flex-wrap leading-loose">
+                                                                        {renderInput(9)}
+                                                                        <span>attached to hull by wires</span>
+                                                                    </div>
+                                                                </div>
+                                                                <div className="flex items-center gap-4">
+                                                                    <span className="text-xl leading-none">&bull;</span>
+                                                                    <div className="flex items-center flex-wrap leading-loose">
+                                                                        {renderInput(10)}
+                                                                        <span>to prevent hull being sucked into mud</span>
+                                                                    </div>
+                                                                </div>
+                                                                <div className="flex items-center gap-4">
+                                                                    <span className="text-xl leading-none">&bull;</span>
+                                                                    <div className="flex items-center flex-wrap leading-loose">
+                                                                        <span>legs are placed into</span>
+                                                                        {renderInput(11)}
+                                                                    </div>
+                                                                </div>
+                                                                <div className="flex items-center gap-4">
+                                                                    <span className="text-xl leading-none">&bull;</span>
+                                                                    <div className="flex items-center flex-wrap leading-loose">
+                                                                        <span>hull is lowered into</span>
+                                                                        {renderInput(12)}
+                                                                    </div>
+                                                                </div>
+                                                                <div className="flex items-center gap-4">
+                                                                    <span className="text-xl leading-none">&bull;</span>
+                                                                    <div className="flex items-center flex-wrap leading-loose">
+                                                                        {renderInput(13)}
+                                                                        <span>used as extra protection for the hull</span>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    ) : (
-                                                        <div className="space-y-3 ml-12">
-                                                            {q.options?.map((option, index) => {
-                                                                const isSelected = answers[q.id] === String(index) || answers[q.id] === index;
-                                                                return (
-                                                                    <label key={index} className={cn(
-                                                                        "flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-all group",
-                                                                        isSelected ? "bg-blue-50 border-blue-200" : "bg-white border-slate-100 hover:border-slate-200 hover:bg-slate-50",
-                                                                        isSubmitted && index === Number(q.correctAnswer) && "bg-green-50 border-green-200",
-                                                                        isSubmitted && isSelected && index !== Number(q.correctAnswer) && "bg-red-50 border-red-200"
-                                                                    )}>
-                                                                        <div className={cn(
-                                                                            "w-5 h-5 rounded-full border flex items-center justify-center transition-colors",
-                                                                            isSelected ? "border-blue-500 bg-blue-500" : "border-slate-300 group-hover:border-blue-400"
-                                                                        )}>
-                                                                            {isSelected && <div className="w-2 h-2 rounded-full bg-white" />}
-                                                                        </div>
-                                                                        <input
-                                                                            type="radio"
-                                                                            name={`question-${q.id}`}
-                                                                            value={index}
-                                                                            checked={isSelected}
-                                                                            onChange={() => handleAnswer(q.id, String(index))}
-                                                                            disabled={isSubmitted}
-                                                                            className="hidden"
+                                                    </div>
+                                                );
+                                            } else {
+                                                return null; // Skip rendering 10-13 as they are inside the list
+                                            }
+                                        }
+
+                                        // Special Handling for "Reducing the Effects of Climate Change" Table (Q30-36)
+                                        if (testId === "fp-12" && q.id >= 30 && q.id <= 36) {
+                                            if (q.id === 30) {
+                                                return (
+                                                    <div key="glass-table-container" className="mb-12 rounded-3xl overflow-hidden shadow-xl border border-slate-200 relative">
+                                                        <div className="absolute top-0 left-0 right-0 h-10 bg-gradient-to-b from-white/50 to-transparent pointer-events-none z-10" />
+                                                        <table className="w-full text-left border-collapse">
+                                                            <thead>
+                                                                <tr className="bg-slate-50/80 border-b border-slate-200 backdrop-blur-sm">
+                                                                    <th className="p-4 font-bold text-slate-700 w-1/2 text-sm uppercase tracking-wider">Method</th>
+                                                                    <th className="p-4 font-bold text-slate-700 w-1/2 text-sm uppercase tracking-wider">Purpose</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                {/* Row 1 */}
+                                                                <tr id="question-30" className="border-b border-slate-200 hover:bg-slate-50 transition-colors">
+                                                                    <td className="p-4 align-top">put a large number of tiny spacecraft into orbit far above Earth</td>
+                                                                    <td className="p-4 align-top">
+                                                                        to create a <span className="font-bold">30</span>
+                                                                        <input type="text"
+                                                                            className="mx-2 bg-transparent border-b border-black text-black font-semibold focus:outline-none focus:border-blue-500 w-24 text-center transition-all placeholder:text-slate-400"
+                                                                            value={answers[30] || ""} onChange={(e) => handleAnswer(30, e.target.value)} disabled={isSubmitted}
                                                                         />
-                                                                        <span className={cn(
-                                                                            "text-sm",
-                                                                            isSelected ? "text-slate-900 font-medium" : "text-slate-600"
-                                                                        )}>{option}</span>
-                                                                    </label>
+                                                                        that would reduce the amount of light reaching Earth
+                                                                    </td>
+                                                                </tr>
+                                                                {/* Row 2 */}
+                                                                <tr id="question-31" className="border-b border-slate-200 hover:bg-slate-50 transition-colors">
+                                                                    <td className="p-4 align-top">
+                                                                        place <span className="font-bold">31</span>
+                                                                        <input type="text"
+                                                                            className="mx-2 bg-transparent border-b border-black text-black font-semibold focus:outline-none focus:border-blue-500 w-24 text-center transition-all placeholder:text-slate-400"
+                                                                            value={answers[31] || ""} onChange={(e) => handleAnswer(31, e.target.value)} disabled={isSubmitted}
+                                                                        />
+                                                                        in the sea
+                                                                    </td>
+                                                                    <td className="p-4 align-top">
+                                                                        to encourage <span className="font-bold">32</span>
+                                                                        <input id="question-32" type="text"
+                                                                            className="mx-2 bg-transparent border-b border-black text-black font-semibold focus:outline-none focus:border-blue-500 w-24 text-center transition-all placeholder:text-slate-400"
+                                                                            value={answers[32] || ""} onChange={(e) => handleAnswer(32, e.target.value)} disabled={isSubmitted}
+                                                                        />
+                                                                        to form
+                                                                    </td>
+                                                                </tr>
+                                                                {/* Row 3 */}
+                                                                <tr id="question-33" className="border-b border-slate-200 hover:bg-slate-50 transition-colors">
+                                                                    <td className="p-4 align-top">release aerosol sprays into the stratosphere</td>
+                                                                    <td className="p-4 align-top">
+                                                                        to create <span className="font-bold">33</span>
+                                                                        <input type="text"
+                                                                            className="mx-2 bg-transparent border-b border-black text-black font-semibold focus:outline-none focus:border-blue-500 w-24 text-center transition-all placeholder:text-slate-400"
+                                                                            value={answers[33] || ""} onChange={(e) => handleAnswer(33, e.target.value)} disabled={isSubmitted}
+                                                                        />
+                                                                        that would reduce the amount of light reaching Earth
+                                                                    </td>
+                                                                </tr>
+                                                                {/* Row 4 */}
+                                                                <tr id="question-34" className="border-b border-slate-200 hover:bg-slate-50 transition-colors">
+                                                                    <td className="p-4 align-top">
+                                                                        fix strong <span className="font-bold">34</span>
+                                                                        <input type="text"
+                                                                            className="mx-2 bg-transparent border-b border-black text-black font-semibold focus:outline-none focus:border-blue-500 w-24 text-center transition-all placeholder:text-slate-400"
+                                                                            value={answers[34] || ""} onChange={(e) => handleAnswer(34, e.target.value)} disabled={isSubmitted}
+                                                                        />
+                                                                        to Greenland ice sheets
+                                                                    </td>
+                                                                    <td className="p-4 align-top">to prevent icebergs moving into the sea</td>
+                                                                </tr>
+                                                                {/* Row 5 */}
+                                                                <tr id="question-35" className="border-b border-slate-200 hover:bg-slate-50 transition-colors">
+                                                                    <td className="p-4 align-top">plant trees in Russian Arctic that would lose their leaves in winter</td>
+                                                                    <td className="p-4 align-top">
+                                                                        to allow the <span className="font-bold">35</span>
+                                                                        <input type="text"
+                                                                            className="mx-2 bg-transparent border-b border-black text-black font-semibold focus:outline-none focus:border-blue-500 w-24 text-center transition-all placeholder:text-slate-400"
+                                                                            value={answers[35] || ""} onChange={(e) => handleAnswer(35, e.target.value)} disabled={isSubmitted}
+                                                                        />
+                                                                        to reflect radiation
+                                                                    </td>
+                                                                </tr>
+                                                                {/* Row 6 */}
+                                                                <tr id="question-36" className="hover:bg-slate-50 transition-colors">
+                                                                    <td className="p-4 align-top">
+                                                                        change the direction of <span className="font-bold">36</span>
+                                                                        <input type="text"
+                                                                            className="mx-2 bg-transparent border-b border-black text-black font-semibold focus:outline-none focus:border-blue-500 w-24 text-center transition-all placeholder:text-slate-400"
+                                                                            value={answers[36] || ""} onChange={(e) => handleAnswer(36, e.target.value)} disabled={isSubmitted}
+                                                                        />
+                                                                    </td>
+                                                                    <td className="p-4 align-top">to bring more cold water into ice-forming areas</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                );
+                                            } else {
+                                                return null; // Skip rendering for 31-36 as they are in the table
+                                            }
+                                        }
+                                        if (q.type === "multiple-choice") {
+                                            // ...
+                                            return (
+                                                <div id={`question-${q.id}`} key={q.id} className={cn(
+                                                    // ...
+                                                    "p-4 rounded-xl border transition-colors",
+                                                    isSubmitted && isCorrect ? "border-green-200 bg-green-50/50" :
+                                                        isSubmitted && !isCorrect ? "border-red-200 bg-red-50/50" :
+                                                            "border-slate-200 hover:border-blue-300"
+                                                )}>
+                                                    <div className="flex items-start gap-4 mb-3">
+                                                        <span className={cn(
+                                                            "flex-none w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold",
+                                                            isSubmitted && isCorrect ? "bg-green-100 text-green-700" :
+                                                                isSubmitted && !isCorrect ? "bg-red-100 text-red-700" :
+                                                                    "bg-blue-50 text-blue-700"
+                                                        )}>
+                                                            {q.id}
+                                                        </span>
+                                                        <p className="font-medium text-slate-700 leading-relaxed pt-1">{q.text}</p>
+                                                    </div>
+
+                                                    {isShortOptions ? (
+                                                        <div className="flex flex-wrap gap-2 ml-12">
+                                                            {q.options?.map((option, index) => {
+                                                                const isSelected = answers[q.id] === String(index);
+                                                                return (
+                                                                    <button
+                                                                        key={index}
+                                                                        onClick={() => !isSubmitted && handleAnswer(q.id, String(index))}
+                                                                        disabled={isSubmitted}
+                                                                        className={cn(
+                                                                            "w-10 h-10 rounded-lg text-sm font-bold border transition-all flex items-center justify-center",
+                                                                            isSelected
+                                                                                ? "bg-blue-600 border-blue-600 text-white shadow-md scale-105"
+                                                                                : "bg-white border-slate-200 text-slate-600 hover:border-blue-300 hover:bg-blue-50",
+                                                                            isSubmitted && index === Number(q.correctAnswer) && "bg-green-500 border-green-500 text-white", // Show correct answer
+                                                                            isSubmitted && isSelected && index !== Number(q.correctAnswer) && "bg-red-500 border-red-500 text-white", // Show wrong user selection
+                                                                        )}
+                                                                    >
+                                                                        {option}
+                                                                    </button>
                                                                 );
                                                             })}
                                                         </div>
-                                                    )
-                                                )}
+                                                    ) : (
+                                                        testId === "fp-4" && q.id >= 14 && q.id <= 20 ? (
+                                                            <div className="ml-12 mt-2 relative">
+                                                                <select
+                                                                    className={cn(
+                                                                        "w-full p-3 rounded-xl border appearance-none outline-none transition-all cursor-pointer font-medium bg-white shadow-sm",
+                                                                        answers[q.id] !== undefined ? "border-blue-400 bg-blue-50 text-blue-900 shadow-blue-500/10" : "border-slate-200 text-slate-700 hover:border-blue-300",
+                                                                        isSubmitted && answers[q.id] === q.correctAnswer && "border-green-400 bg-green-50 text-green-800",
+                                                                        isSubmitted && answers[q.id] !== undefined && answers[q.id] !== q.correctAnswer && "border-red-400 bg-red-50 text-red-800",
+                                                                        isSubmitted && "cursor-not-allowed opacity-90"
+                                                                    )}
+                                                                    value={answers[q.id] !== undefined ? answers[q.id] : ""}
+                                                                    onChange={(e) => handleAnswer(q.id, Number(e.target.value))}
+                                                                    disabled={isSubmitted}
+                                                                >
+                                                                    <option value="" disabled>Select the correct heading...</option>
+                                                                    {q.options?.map((option, index) => (
+                                                                        <option key={index} value={index}>
+                                                                            {option}
+                                                                        </option>
+                                                                    ))}
+                                                                </select>
+                                                                {/* Custom Dropdown Arrow */}
+                                                                <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400 bg-white/80 rounded-full p-0.5">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6" /></svg>
+                                                                </div>
+                                                            </div>
+                                                        ) : (
+                                                            <div className="space-y-3 ml-12">
+                                                                {q.options?.map((option, index) => {
+                                                                    const isSelected = answers[q.id] === String(index) || answers[q.id] === index;
+                                                                    return (
+                                                                        <label key={index} className={cn(
+                                                                            "flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-all group",
+                                                                            isSelected ? "bg-blue-50 border-blue-200" : "bg-white border-slate-100 hover:border-slate-200 hover:bg-slate-50",
+                                                                            isSubmitted && index === Number(q.correctAnswer) && "bg-green-50 border-green-200",
+                                                                            isSubmitted && isSelected && index !== Number(q.correctAnswer) && "bg-red-50 border-red-200"
+                                                                        )}>
+                                                                            <div className={cn(
+                                                                                "w-5 h-5 rounded-full border flex items-center justify-center transition-colors",
+                                                                                isSelected ? "border-blue-500 bg-blue-500" : "border-slate-300 group-hover:border-blue-400"
+                                                                            )}>
+                                                                                {isSelected && <div className="w-2 h-2 rounded-full bg-white" />}
+                                                                            </div>
+                                                                            <input
+                                                                                type="radio"
+                                                                                name={`question-${q.id}`}
+                                                                                value={index}
+                                                                                checked={isSelected}
+                                                                                onChange={() => handleAnswer(q.id, String(index))}
+                                                                                disabled={isSubmitted}
+                                                                                className="hidden"
+                                                                            />
+                                                                            <span className={cn(
+                                                                                "text-sm",
+                                                                                isSelected ? "text-slate-900 font-medium" : "text-slate-600"
+                                                                            )}>{option}</span>
+                                                                        </label>
+                                                                    );
+                                                                })}
+                                                            </div>
+                                                        )
+                                                    )}
 
-                                                {isSubmitted && !isCorrect && (
-                                                    <div className="mt-4 ml-12 p-3 bg-blue-50 border border-blue-100 rounded-lg text-sm text-blue-800">
-                                                        <span className="font-bold">Correct Answer: </span>
-                                                        {typeof q.correctAnswer === 'number' && q.options
-                                                            ? q.options[q.correctAnswer as number]
-                                                            : q.correctAnswer}
-                                                    </div>
-                                                )}
-                                            </div>
-                                        );
-                                    }
-
-                                    return (
-                                        <div id={`question-${q.id}`} key={q.id} className={cn(
-                                            "p-4 rounded-xl border transition-colors",
-                                            isSubmitted && isCorrect ? "border-green-200 bg-green-50/50" :
-                                                isSubmitted && isWrong ? "border-red-200 bg-red-50/50" :
-                                                    "border-slate-100 bg-slate-50/50"
-                                        )}>
-                                            <div className="flex gap-3 mb-3">
-                                                <span className={cn(
-                                                    "flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold mt-0.5",
-                                                    isSubmitted && isCorrect ? "bg-green-100 text-green-600" :
-                                                        isSubmitted && isWrong ? "bg-red-100 text-red-600" :
-                                                            "bg-blue-100 text-blue-600"
-                                                )}>
-                                                    {q.id}
-                                                </span>
-                                                <div className="w-full">
-                                                    {q.image && (
-                                                        <div className="mb-4 rounded-lg overflow-hidden border border-slate-200">
-                                                            <img src={q.image} alt="Question Diagram" className="w-full h-auto" />
+                                                    {isSubmitted && !isCorrect && (
+                                                        <div className="mt-4 ml-12 p-3 bg-blue-50 border border-blue-100 rounded-lg text-sm text-blue-800">
+                                                            <span className="font-bold">Correct Answer: </span>
+                                                            {typeof q.correctAnswer === 'number' && q.options
+                                                                ? q.options[q.correctAnswer as number]
+                                                                : q.correctAnswer}
                                                         </div>
                                                     )}
-                                                    {q.type === "fill-blank" ? (
-                                                        <p className="font-medium text-slate-700 leading-8">
-                                                            {q.text.split("_____").map((part, i, arr) => (
-                                                                <span key={i}>
-                                                                    {part}
-                                                                    {i < arr.length - 1 && (
-                                                                        <input
-                                                                            type="text"
-                                                                            className={cn(
-                                                                                "mx-1.5 px-3 py-1 bg-slate-50 border-2 rounded-lg focus:outline-none transition-all w-40 text-center font-bold text-sm shadow-sm",
-                                                                                isSubmitted && isCorrect ? "border-green-400 bg-green-50 text-green-700 shadow-green-200" :
-                                                                                    isSubmitted && isWrong ? "border-red-400 bg-red-50 text-red-700 shadow-red-200" :
-                                                                                        "border-slate-200 focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-500/10 text-slate-700"
-                                                                            )}
-                                                                            value={answers[q.id] || ""}
-                                                                            onChange={(e) => handleAnswer(q.id, e.target.value)}
-                                                                            disabled={isSubmitted}
-                                                                            placeholder="Type here..."
-                                                                        />
-                                                                    )}
-                                                                </span>
-                                                            ))}
-                                                        </p>
-                                                    ) : (
-                                                        <p className="font-medium text-slate-700">{q.text}</p>
-                                                    )}
+                                                </div>
+                                            );
+                                        }
 
-                                                    {isSubmitted && isWrong && (
-                                                        <p className="text-xs text-red-500 mt-1 font-semibold">
-                                                            Correct Answer: {q.type === "true-false" ? q.options![q.correctAnswer as number] : q.correctAnswer}
-                                                        </p>
-                                                    )}
+                                        return (
+                                            <div id={`question-${q.id}`} key={q.id} className={cn(
+                                                "p-4 rounded-xl border transition-colors",
+                                                isSubmitted && isCorrect ? "border-green-200 bg-green-50/50" :
+                                                    isSubmitted && isWrong ? "border-red-200 bg-red-50/50" :
+                                                        "border-slate-100 bg-slate-50/50"
+                                            )}>
+                                                <div className="flex gap-3 mb-3">
+                                                    <span className={cn(
+                                                        "flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold mt-0.5",
+                                                        isSubmitted && isCorrect ? "bg-green-100 text-green-600" :
+                                                            isSubmitted && isWrong ? "bg-red-100 text-red-600" :
+                                                                "bg-blue-100 text-blue-600"
+                                                    )}>
+                                                        {q.id}
+                                                    </span>
+                                                    <div className="w-full">
+                                                        {q.image && (
+                                                            <div className="mb-4 rounded-lg overflow-hidden border border-slate-200">
+                                                                <img src={q.image} alt="Question Diagram" className="w-full h-auto" />
+                                                            </div>
+                                                        )}
+                                                        {q.type === "fill-blank" ? (
+                                                            <p className="font-medium text-slate-700 leading-8">
+                                                                {q.text.split("_____").map((part, i, arr) => (
+                                                                    <span key={i}>
+                                                                        {part}
+                                                                        {i < arr.length - 1 && (
+                                                                            <input
+                                                                                type="text"
+                                                                                className={cn(
+                                                                                    "mx-1.5 px-3 py-1 bg-slate-50 border-2 rounded-lg focus:outline-none transition-all w-40 text-center font-bold text-sm shadow-sm",
+                                                                                    isSubmitted && isCorrect ? "border-green-400 bg-green-50 text-green-700 shadow-green-200" :
+                                                                                        isSubmitted && isWrong ? "border-red-400 bg-red-50 text-red-700 shadow-red-200" :
+                                                                                            "border-slate-200 focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-500/10 text-slate-700"
+                                                                                )}
+                                                                                value={answers[q.id] || ""}
+                                                                                onChange={(e) => handleAnswer(q.id, e.target.value)}
+                                                                                disabled={isSubmitted}
+                                                                                placeholder="Type here..."
+                                                                            />
+                                                                        )}
+                                                                    </span>
+                                                                ))}
+                                                            </p>
+                                                        ) : (
+                                                            <p className="font-medium text-slate-700">{q.text}</p>
+                                                        )}
+
+                                                        {isSubmitted && isWrong && (
+                                                            <p className="text-xs text-red-500 mt-1 font-semibold">
+                                                                Correct Answer: {q.type === "true-false" ? q.options![q.correctAnswer as number] : q.correctAnswer}
+                                                            </p>
+                                                        )}
+                                                    </div>
+                                                </div>
+
+                                                {/* Question Inputs (Hidden for fill-blank now) */}
+                                                <div className="pl-9 space-y-2">
+                                                    {q.type === "true-false" ? (
+                                                        q.options?.map((option, optIndex) => (
+                                                            <label
+                                                                key={optIndex}
+                                                                className={cn(
+                                                                    "flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-all",
+                                                                    answers[q.id] === optIndex
+                                                                        ? "bg-blue-50 border-blue-200 ring-1 ring-blue-200"
+                                                                        : "bg-white border-slate-200 hover:border-slate-300",
+                                                                )}
+                                                            >
+                                                                <input
+                                                                    type="radio"
+                                                                    name={`question-${q.id}`}
+                                                                    className="w-4 h-4 text-blue-600 border-slate-300 focus:ring-blue-500"
+                                                                    checked={answers[q.id] === optIndex}
+                                                                    onChange={() => handleAnswer(q.id, optIndex)}
+                                                                    disabled={isSubmitted}
+                                                                />
+                                                                <span className={cn("text-sm", answers[q.id] === optIndex ? "text-blue-700 font-medium" : "text-slate-600")}>
+                                                                    {option}
+                                                                </span>
+                                                            </label>
+                                                        ))
+                                                    ) : null}
                                                 </div>
                                             </div>
-
-                                            {/* Question Inputs (Hidden for fill-blank now) */}
-                                            <div className="pl-9 space-y-2">
-                                                {q.type === "true-false" ? (
-                                                    q.options?.map((option, optIndex) => (
-                                                        <label
-                                                            key={optIndex}
-                                                            className={cn(
-                                                                "flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-all",
-                                                                answers[q.id] === optIndex
-                                                                    ? "bg-blue-50 border-blue-200 ring-1 ring-blue-200"
-                                                                    : "bg-white border-slate-200 hover:border-slate-300",
-                                                            )}
-                                                        >
-                                                            <input
-                                                                type="radio"
-                                                                name={`question-${q.id}`}
-                                                                className="w-4 h-4 text-blue-600 border-slate-300 focus:ring-blue-500"
-                                                                checked={answers[q.id] === optIndex}
-                                                                onChange={() => handleAnswer(q.id, optIndex)}
-                                                                disabled={isSubmitted}
-                                                            />
-                                                            <span className={cn("text-sm", answers[q.id] === optIndex ? "text-blue-700 font-medium" : "text-slate-600")}>
-                                                                {option}
-                                                            </span>
-                                                        </label>
-                                                    ))
-                                                ) : null}
-                                            </div>
-                                        </div>
-                                    );
-                                })}
+                                        );
+                                    })}
                             </div>
+
+                            {/* Question Sidebar Navigation Buttons */}
+                            {testData.passages && testData.passages.length > 1 && (
+                                <div className="mt-12 flex items-center justify-between border-t border-slate-100 pt-8">
+                                    <button
+                                        onClick={() => setCurrentPassageIndex(prev => Math.max(0, prev - 1))}
+                                        disabled={currentPassageIndex === 0}
+                                        className="flex items-center gap-2 px-4 py-2 rounded-lg border border-slate-200 text-slate-600 font-bold hover:bg-slate-50 disabled:opacity-30 disabled:cursor-not-allowed transition-all text-sm"
+                                    >
+                                        <ChevronRight className="w-4 h-4 rotate-180" />
+                                        Prev Passage
+                                    </button>
+                                    <button
+                                        onClick={() => setCurrentPassageIndex(prev => Math.min(testData.passages!.length - 1, prev + 1))}
+                                        disabled={currentPassageIndex === testData.passages.length - 1}
+                                        className="flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-600 text-white font-bold hover:bg-blue-700 disabled:opacity-30 disabled:cursor-not-allowed transition-all text-sm"
+                                    >
+                                        Next Passage
+                                        <ChevronRight className="w-4 h-4" />
+                                    </button>
+                                </div>
+                            )}
                         </div>
 
                     </div>
@@ -930,6 +966,17 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                     <button
                                         key={q.id}
                                         onClick={() => {
+                                            if (testData.passages) {
+                                                const passageIdx = testData.passages.findIndex(p => q.id >= p.questionRange.start && q.id <= p.questionRange.end);
+                                                if (passageIdx !== -1 && passageIdx !== currentPassageIndex) {
+                                                    setCurrentPassageIndex(passageIdx);
+                                                    // Slight delay to allow DOM to update with filtered questions
+                                                    setTimeout(() => {
+                                                        document.getElementById(`question-${q.id}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                                                    }, 100);
+                                                    return;
+                                                }
+                                            }
                                             document.getElementById(`question-${q.id}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
                                         }}
                                         className={cn(
