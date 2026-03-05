@@ -3,7 +3,7 @@
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { useState, useEffect, use, useMemo, useRef } from "react";
 import { motion } from "framer-motion";
-import { Clock, CheckCircle2, BookOpen, Flag, AlertCircle, Pause, Play } from "lucide-react";
+import { Clock, CheckCircle2, BookOpen, Flag, AlertCircle, Pause, Play, Type, Minus, Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { createClient } from "@/utils/supabase/client";
@@ -27,6 +27,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
     const [score, setScore] = useState(0);
     const [hasStarted, setHasStarted] = useState(false);
     const [isRunning, setIsRunning] = useState(true);
+    const [fontSize, setFontSize] = useState(18); // Default font size in px
 
     // Highlighter State
     const [selection, setSelection] = useState<{ x: number; y: number; text: string } | null>(null);
@@ -141,10 +142,11 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
     const memoizedContent = useMemo(() => (
         <div
             id="reading-content"
-            className="prose prose-slate max-w-none text-slate-700 leading-loose text-lg selection:bg-blue-100 selection:text-blue-900"
+            className="prose prose-slate max-w-none text-slate-700 leading-loose selection:bg-blue-100 selection:text-blue-900"
+            style={{ fontSize: `${fontSize}px` }}
             dangerouslySetInnerHTML={{ __html: testData.content }}
         />
-    ), [testData.content]);
+    ), [testData.content, fontSize]);
 
 
 
@@ -331,6 +333,28 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                         </div>
 
                         <div className="flex items-center gap-4">
+                            {/* Font Size Controls */}
+                            <div className="flex items-center gap-1 bg-slate-50 border border-slate-200 rounded-lg p-1">
+                                <div className="p-1 px-2 text-slate-400 group flex items-center gap-1">
+                                    <Type className="w-4 h-4" />
+                                </div>
+                                <button
+                                    onClick={() => setFontSize(prev => Math.max(14, prev - 2))}
+                                    className="p-1.5 rounded-md hover:bg-white hover:shadow-sm text-slate-500 hover:text-blue-600 transition-all active:scale-90"
+                                    title="Decrease Font Size"
+                                >
+                                    <Minus className="w-4 h-4" />
+                                </button>
+                                <div className="w-px h-4 bg-slate-200 mx-0.5" />
+                                <button
+                                    onClick={() => setFontSize(prev => Math.min(32, prev + 2))}
+                                    className="p-1.5 rounded-md hover:bg-white hover:shadow-sm text-slate-500 hover:text-blue-600 transition-all active:scale-90"
+                                    title="Increase Font Size"
+                                >
+                                    <Plus className="w-4 h-4" />
+                                </button>
+                            </div>
+
                             <div className={cn(
                                 "flex items-center gap-2 font-mono text-lg font-bold px-4 py-1.5 rounded-lg bg-slate-50 border border-slate-200",
                                 timeLeft < 300 ? "text-red-500 bg-red-50 border-red-100 animate-pulse" : "text-slate-700"
