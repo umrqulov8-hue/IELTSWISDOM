@@ -123,24 +123,26 @@ const full: ReadingTest = {
     id: "mock-1-full",
     title: "IELTS Reading Mock Test 1 (Full)",
     timeLimit: 3600,
-    content: `
-        <div class="space-y-12">
-            <section>
-                <h2 class="text-2xl font-bold mb-4 bg-slate-100 p-4 rounded-2xl border border-slate-200">Passage 1: Tea and the Industrial Revolution</h2>
-                ${p1.content}
-            </section>
-            <hr class="border-slate-200 my-10" />
-            <section>
-                <h2 class="text-2xl font-bold mb-4 bg-slate-100 p-4 rounded-2xl border border-slate-200">Passage 2: Gifted children and learning</h2>
-                ${p2.content}
-            </section>
-            <hr class="border-slate-200 my-10" />
-            <section>
-                <h2 class="text-2xl font-bold mb-4 bg-slate-100 p-4 rounded-2xl border border-slate-200">Passage 3: Museums of fine art and their public</h2>
-                ${p3.content}
-            </section>
-        </div>
-    `,
+    passages: [
+        {
+            id: "p1",
+            title: "Passage 1: Tea and the Industrial Revolution",
+            content: p1.content!,
+            questionRange: { start: 1, end: 13 }
+        },
+        {
+            id: "p2",
+            title: "Passage 2: Gifted children and learning",
+            content: p2.content!,
+            questionRange: { start: 14, end: 26 }
+        },
+        {
+            id: "p3",
+            title: "Passage 3: Museums of fine art and their public",
+            content: p3.content!,
+            questionRange: { start: 27, end: 40 }
+        }
+    ],
     questions: [
         ...p1.questions,
         ...p2.questions,

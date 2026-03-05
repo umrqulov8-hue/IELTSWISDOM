@@ -9,10 +9,18 @@ export interface Question {
     image?: string;
 }
 
-export interface ReadingTest {
+export interface Passage {
     id: string;
     title: string;
     content: string;
+    questionRange: { start: number; end: number };
+}
+
+export interface ReadingTest {
+    id: string;
+    title: string;
+    content?: string;
+    passages?: Passage[];
     questions: Question[];
     timeLimit?: number; // in seconds
 }

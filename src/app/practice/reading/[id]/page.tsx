@@ -3,7 +3,7 @@
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { useState, useEffect, use, useMemo, useRef } from "react";
 import { motion } from "framer-motion";
-import { Clock, CheckCircle2, BookOpen, Flag, AlertCircle, Pause, Play, Type, Minus, Plus } from "lucide-react";
+import { Clock, CheckCircle2, BookOpen, Flag, AlertCircle, Pause, Play, Type, Minus, Plus, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { createClient } from "@/utils/supabase/client";
@@ -28,6 +28,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
     const [hasStarted, setHasStarted] = useState(false);
     const [isRunning, setIsRunning] = useState(true);
     const [fontSize, setFontSize] = useState(18); // Default font size in px
+    const [currentPassageIndex, setCurrentPassageIndex] = useState(0);
 
     // Highlighter State
     const [selection, setSelection] = useState<{ x: number; y: number; text: string } | null>(null);
@@ -191,18 +192,23 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
 
     const handleHighlight = applyHighlight;
 
-    // Memoize content with ONLY testData as dep — font size applied via ref
-    // so DOM highlight <mark> nodes are NEVER wiped by font size changes
-    const memoizedContent = useMemo(() => (
-        <div
-            ref={contentRef}
-            id="reading-content"
-            className="prose prose-slate max-w-none text-slate-700 leading-loose selection:bg-blue-100/60 selection:text-blue-900"
-            style={{ fontSize: `${fontSize}px` }}
-            dangerouslySetInnerHTML={{ __html: testData.content }}
-        />
+    // Memoize content with testData and currentPassageIndex as dep
+    const memoizedContent = useMemo(() => {
+        const content = testData.passages
+            ? testData.passages[currentPassageIndex].content
+            : (testData.content || "");
+
+        return (
+            <div
+                ref={contentRef}
+                id="reading-content"
+                className="prose prose-slate max-w-none text-slate-700 leading-loose selection:bg-blue-100/60 selection:text-blue-900"
+                style={{ fontSize: `${fontSize}px` }}
+                dangerouslySetInnerHTML={{ __html: content }}
+            />
+        );
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    ), [testData.content]); // ← fontSize intentionally excluded: applied via ref effect above
+    }, [testData.content, testData.passages, currentPassageIndex]);
 
 
 
@@ -385,7 +391,11 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                 IELTS<span className="text-blue-600">Wisdom</span>
                             </Link>
                             <div className="h-6 w-px bg-slate-200" />
-                            <h2 className="font-bold text-slate-700 text-lg line-clamp-1 max-w-xl">Part 1: {testData.title}</h2>
+                            <h2 className="font-bold text-slate-700 text-lg line-clamp-1 max-w-xl">
+                                {testData.passages
+                                    ? testData.passages[currentPassageIndex].title
+                                    : `Part 1: ${testData.title}`}
+                            </h2>
                         </div>
 
                         <div className="flex items-center gap-4">
@@ -455,6 +465,39 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                             />
 
                             {memoizedContent}
+
+                            {/* Passage Navigation Buttons */}
+                            {testData.passages && testData.passages.length > 1 && (
+                                <div className="mt-12 flex items-center justify-between border-t border-slate-100 pt-8">
+                                    <button
+                                        onClick={() => setCurrentPassageIndex(prev => Math.max(0, prev - 1))}
+                                        disabled={currentPassageIndex === 0}
+                                        className="flex items-center gap-2 px-6 py-3 rounded-xl border border-slate-200 text-slate-600 font-bold hover:bg-slate-50 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                                    >
+                                        <ChevronRight className="w-4 h-4 rotate-180" />
+                                        Previous Passage
+                                    </button>
+                                    <div className="flex gap-2">
+                                        {testData.passages.map((_, idx) => (
+                                            <div
+                                                key={idx}
+                                                className={cn(
+                                                    "w-2 h-2 rounded-full transition-all",
+                                                    currentPassageIndex === idx ? "bg-blue-600 w-6" : "bg-slate-200"
+                                                )}
+                                            />
+                                        ))}
+                                    </div>
+                                    <button
+                                        onClick={() => setCurrentPassageIndex(prev => Math.min(testData.passages!.length - 1, prev + 1))}
+                                        disabled={currentPassageIndex === testData.passages.length - 1}
+                                        className="flex items-center gap-2 px-6 py-3 rounded-xl bg-slate-900 text-white font-bold hover:bg-blue-600 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                                    >
+                                        Next Passage
+                                        <ChevronRight className="w-4 h-4" />
+                                    </button>
+                                </div>
+                            )}
                         </div>
 
                         {/* RIGHT: Questions (Scrollable) */}
