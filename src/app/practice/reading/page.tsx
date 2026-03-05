@@ -50,6 +50,7 @@ const TESTS: TestItem[] = [
     { id: "fp-19", categoryId: "free-passages", title: "Fear of the Unknown", isNew: true, status: "free" },
     { id: "fp-20", categoryId: "free-passages", title: "Britain needs strong TV industry", isNew: true, status: "free" },
     { id: "fp-21", categoryId: "free-passages", title: "How to find your way out of a food desert", isNew: true, status: "free" },
+    { id: "fp-22", categoryId: "free-passages", title: "Insect decision-making", isNew: true, status: "free" },
     { id: "fp-10", categoryId: "cambridge-ielts", title: "Crop-growing skyscrapers", isNew: true, status: "free" },
     { id: "fp-11", categoryId: "cambridge-ielts", title: "The Falkirk Wheel", isNew: true, status: "free" },
     { id: "fp-12", categoryId: "cambridge-ielts", title: "Reducing the Effects of Climate Change", isNew: true, status: "free" },
