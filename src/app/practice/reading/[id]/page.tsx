@@ -452,8 +452,6 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                             onMouseUp={handleMouseUp}
                             className="w-full md:w-[60%] bg-white rounded-3xl p-8 shadow-sm border border-slate-100 overflow-y-auto custom-scrollbar relative group"
                         >
-                            <h3 className="text-3xl font-bold text-slate-800 mb-8 font-serif leading-tight">{testData.title}</h3>
-
                             {/* Text Selection Popover */}
                             <HighlighterMenu
                                 isVisible={isMenuVisible}
@@ -737,7 +735,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                                                     onChange={(e) => handleAnswer(q.id, e.target.value)}
                                                                     disabled={isSubmitted}
                                                                 >
-                                                                    <option value="" disabled>--- Choose Heading ---</option>
+                                                                    <option value="" disabled>Choose Heading</option>
                                                                     {q.options?.map((option, index) => (
                                                                         <option key={index} value={index}>
                                                                             {option}
@@ -835,7 +833,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                                             onChange={(e) => handleAnswer(q.id, e.target.value)}
                                                             disabled={isSubmitted}
                                                         >
-                                                            <option value="" disabled>--- Choose Answer ---</option>
+                                                            <option value="" disabled>Choose Answer</option>
                                                             {q.options?.map((option, index) => (
                                                                 <option key={index} value={option}>
                                                                     {option}
@@ -996,8 +994,8 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
 
                     <motion.div
                         initial={{ y: 100, opacity: 0 }}
-                        animate={{ y: 92, opacity: 0.2 }}
-                        whileHover={{ y: 0, opacity: 1 }}
+                        animate={{ y: 68, opacity: 1 }}
+                        whileHover={{ y: 0 }}
                         transition={{ type: "spring", damping: 25, stiffness: 120 }}
                         className="bg-white/95 backdrop-blur-xl border-t border-slate-200 p-3 shadow-[0_-10px_40px_rgba(0,0,0,0.1)] relative"
                     >
