@@ -492,6 +492,43 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                     {isSubmitted ? "Submitted" : "Submit Test"}
                                 </button>
                             )}
+
+                            {/* Passage Navigation (Multi-Part Tests) */}
+                            {testData.passages && testData.passages.length > 1 && (
+                                <div className="flex items-center gap-1.5">
+                                    <button
+                                        onClick={() => setCurrentPassageIndex(prev => Math.max(0, prev - 1))}
+                                        disabled={currentPassageIndex === 0}
+                                        className="flex items-center gap-1 px-3 py-1.5 rounded-lg border border-slate-200 text-slate-600 font-bold hover:bg-slate-50 disabled:opacity-30 disabled:cursor-not-allowed transition-all text-xs active:scale-95"
+                                    >
+                                        <ChevronRight className="w-3.5 h-3.5 rotate-180" />
+                                        Back
+                                    </button>
+                                    <button
+                                        onClick={() => {
+                                            if (currentPassageIndex === testData.passages!.length - 1) {
+                                                handleSubmit();
+                                            } else {
+                                                setCurrentPassageIndex(prev => Math.min(testData.passages!.length - 1, prev + 1));
+                                            }
+                                        }}
+                                        disabled={isSubmitted && currentPassageIndex === testData.passages.length - 1}
+                                        className={cn(
+                                            "flex items-center gap-1 px-3 py-1.5 rounded-lg font-bold transition-all text-xs active:scale-95",
+                                            currentPassageIndex === testData.passages.length - 1
+                                                ? "bg-green-600 text-white hover:bg-green-700 shadow-sm shadow-green-500/20"
+                                                : "bg-blue-600 text-white hover:bg-blue-700 shadow-sm shadow-blue-500/20"
+                                        )}
+                                    >
+                                        {currentPassageIndex === testData.passages.length - 1 ? (
+                                            isSubmitted ? "Submitted" : "Submit"
+                                        ) : (
+                                            "Next"
+                                        )}
+                                        <ChevronRight className="w-3.5 h-3.5" />
+                                    </button>
+                                </div>
+                            )}
                         </div>
                     </div>
 
@@ -1027,42 +1064,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                     })}
                             </div>
 
-                            {/* Question Sidebar Navigation Buttons */}
-                            {testData.passages && testData.passages.length > 1 && (
-                                <div className="mt-12 flex items-center justify-between border-t border-slate-100 pt-8">
-                                    <button
-                                        onClick={() => setCurrentPassageIndex(prev => Math.max(0, prev - 1))}
-                                        disabled={currentPassageIndex === 0}
-                                        className="flex items-center gap-2 px-4 py-2 rounded-lg border border-slate-200 text-slate-600 font-bold hover:bg-slate-50 disabled:opacity-30 disabled:cursor-not-allowed transition-all text-sm"
-                                    >
-                                        <ChevronRight className="w-4 h-4 rotate-180" />
-                                        Prev Passage
-                                    </button>
-                                    <button
-                                        onClick={() => {
-                                            if (currentPassageIndex === testData.passages!.length - 1) {
-                                                handleSubmit();
-                                            } else {
-                                                setCurrentPassageIndex(prev => Math.min(testData.passages!.length - 1, prev + 1));
-                                            }
-                                        }}
-                                        disabled={isSubmitted && currentPassageIndex !== testData.passages.length - 1}
-                                        className={cn(
-                                            "flex items-center gap-2 px-6 py-2.5 rounded-lg font-bold transition-all shadow-lg active:scale-95",
-                                            currentPassageIndex === testData.passages.length - 1
-                                                ? "bg-green-600 text-white hover:bg-green-700 shadow-green-500/20"
-                                                : "bg-blue-600 text-white hover:bg-blue-700 shadow-blue-500/20"
-                                        )}
-                                    >
-                                        {currentPassageIndex === testData.passages.length - 1 ? (
-                                            isSubmitted ? "Submitted" : "Submit Test"
-                                        ) : (
-                                            "Next Passage"
-                                        )}
-                                        <ChevronRight className="w-4 h-4" />
-                                    </button>
-                                </div>
-                            )}
+
 
 
                         </div>
@@ -1099,13 +1101,14 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                             >
                                                 P{idx + 1}
                                             </button>
-                                            <AnimatePresence>
+                                            <AnimatePresence mode="popLayout">
                                                 {expandedPassageTab === idx && (
                                                     <motion.div
+                                                        key={`passage-questions-${idx}`}
                                                         initial={{ width: 0, opacity: 0 }}
                                                         animate={{ width: 'auto', opacity: 1 }}
                                                         exit={{ width: 0, opacity: 0 }}
-                                                        transition={{ type: 'spring', damping: 20, stiffness: 300 }}
+                                                        transition={{ duration: 0.2, ease: 'easeInOut' }}
                                                         className="flex items-center gap-0.5 overflow-hidden"
                                                     >
                                                         {testData.questions
