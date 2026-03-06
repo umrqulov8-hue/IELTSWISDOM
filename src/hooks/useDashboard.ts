@@ -23,6 +23,19 @@ export interface StudentStats {
         free_passages: { count: number; correct: number; total: number };
         cambridge: { count: number; correct: number; total: number };
     };
+    listening_breakdown?: {
+        practice: { count: number; correct: number; total: number };
+        cambridge: { count: number; correct: number; total: number };
+    };
+    writing_breakdown?: {
+        task1: { count: number; average_score: number };
+        task2: { count: number; average_score: number };
+    };
+    vocab_breakdown?: {
+        count: number;
+        correct: number;
+        total: number;
+    };
 }
 
 export interface Notification {
@@ -81,6 +94,17 @@ export function useDashboard() {
                     free_passages: { count: 0, correct: 0, total: 0, unique: new Set() },
                     cambridge: { count: 0, correct: 0, total: 0, unique: new Set() }
                 };
+                const listening_breakdown = {
+                    practice: { count: 0, correct: 0, total: 0, unique: new Set() },
+                    cambridge: { count: 0, correct: 0, total: 0, unique: new Set() }
+                };
+                const writing_breakdown = {
+                    task1: { count: 0, sum_score: 0, unique: new Set() },
+                    task2: { count: 0, sum_score: 0, unique: new Set() }
+                };
+                const vocab_breakdown = {
+                    count: 0, correct: 0, total: 0, unique: new Set()
+                };
 
                 let totalScorePercentage = 0;
                 let completedTestsCount = 0;
@@ -95,15 +119,34 @@ export function useDashboard() {
                             vocab_unique.add(test.test_id);
                             vocab_score_sum += test.score;
                             vocab_q_sum += test.total_questions;
+                            vocab_breakdown.unique.add(test.test_id);
+                            vocab_breakdown.correct += test.score;
+                            vocab_breakdown.total += test.total_questions;
                         }
                         else if (id.startsWith('w-') || id.startsWith('feb')) {
                             writing_unique.add(test.test_id);
                             writing_score_sum += test.score; // Band score
+                            if (id.startsWith('t1-') || id.includes('task1')) {
+                                writing_breakdown.task1.unique.add(test.test_id);
+                                writing_breakdown.task1.sum_score += test.score;
+                            } else {
+                                writing_breakdown.task2.unique.add(test.test_id);
+                                writing_breakdown.task2.sum_score += test.score;
+                            }
                         }
                         else if (id.startsWith('t1-') || id.startsWith('t2-') || id.startsWith('tp3-') || id.startsWith('cambridge-') || id.startsWith('auth-')) {
                             listening_unique.add(test.test_id);
                             listening_score_sum += test.score;
                             listening_q_sum += test.total_questions;
+                            if (id.startsWith('cambridge-')) {
+                                listening_breakdown.cambridge.unique.add(test.test_id);
+                                listening_breakdown.cambridge.correct += test.score;
+                                listening_breakdown.cambridge.total += test.total_questions;
+                            } else {
+                                listening_breakdown.practice.unique.add(test.test_id);
+                                listening_breakdown.practice.correct += test.score;
+                                listening_breakdown.practice.total += test.total_questions;
+                            }
                         }
                         else {
                             // Default to Reading (covers fp-, c17-, c18-, etc.)
@@ -165,6 +208,37 @@ export function useDashboard() {
                             correct: reading_breakdown.cambridge.correct,
                             total: reading_breakdown.cambridge.total
                         }
+                    },
+                    listening_breakdown: {
+                        practice: {
+                            count: listening_breakdown.practice.unique.size,
+                            correct: listening_breakdown.practice.correct,
+                            total: listening_breakdown.practice.total
+                        },
+                        cambridge: {
+                            count: listening_breakdown.cambridge.unique.size,
+                            correct: listening_breakdown.cambridge.correct,
+                            total: listening_breakdown.cambridge.total
+                        }
+                    },
+                    writing_breakdown: {
+                        task1: {
+                            count: writing_breakdown.task1.unique.size,
+                            average_score: writing_breakdown.task1.unique.size > 0
+                                ? Number((writing_breakdown.task1.sum_score / writing_breakdown.task1.unique.size).toFixed(1))
+                                : 0
+                        },
+                        task2: {
+                            count: writing_breakdown.task2.unique.size,
+                            average_score: writing_breakdown.task2.unique.size > 0
+                                ? Number((writing_breakdown.task2.sum_score / writing_breakdown.task2.unique.size).toFixed(1))
+                                : 0
+                        }
+                    },
+                    vocab_breakdown: {
+                        count: vocab_breakdown.unique.size,
+                        correct: vocab_breakdown.correct,
+                        total: vocab_breakdown.total
                     }
                 });
 

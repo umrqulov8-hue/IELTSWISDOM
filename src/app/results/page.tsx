@@ -261,7 +261,7 @@ export default function ResultsPage() {
                                 title="Listening Skills"
                                 progress={stats?.listening_average_score ?? 0}
                                 accent="bg-gradient-to-r from-purple-400 to-purple-600"
-                                href="/practice/listening"
+                                onClickFullView={() => setActiveModal('listening')}
                                 delay={0.15}
                                 stats={[
                                     { label: "Tests Completed", value: `${stats?.listening_tests_completed ?? 0}` },
@@ -281,7 +281,7 @@ export default function ResultsPage() {
                                 title="Writing Progress"
                                 progress={stats?.writing_average_score ? Math.round(stats.writing_average_score * 11.1) : 0}
                                 accent="bg-gradient-to-r from-emerald-400 to-emerald-600"
-                                href="/practice/writing"
+                                onClickFullView={() => setActiveModal('writing')}
                                 delay={0.2}
                                 stats={[
                                     { label: "Submissions", value: `${stats?.writing_tests_completed ?? 0}` },
@@ -298,7 +298,7 @@ export default function ResultsPage() {
                                 title="Speaking Progress"
                                 progress={70}
                                 accent="bg-gradient-to-r from-orange-400 to-rose-500"
-                                href="/practice/speaking"
+                                onClickFullView={() => setActiveModal('speaking')}
                                 delay={0.25}
                                 stats={[
                                     { label: "Sessions", value: "—" },
@@ -315,7 +315,7 @@ export default function ResultsPage() {
                                 title="Vocabulary Mastery"
                                 progress={stats?.vocab_average_score ?? 0}
                                 accent="bg-gradient-to-r from-amber-400 to-amber-600"
-                                href="/practice"
+                                onClickFullView={() => setActiveModal('vocab')}
                                 delay={0.3}
                                 stats={[
                                     { label: "Tests", value: `${stats?.vocab_tests_completed ?? 0}` },
@@ -361,7 +361,7 @@ export default function ResultsPage() {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm"
+                        className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/40"
                         onClick={() => setActiveModal(null)}
                     >
                         <motion.div
@@ -370,7 +370,7 @@ export default function ResultsPage() {
                             exit={{ scale: 0.95, opacity: 0, y: 20 }}
                             transition={{ type: "spring", damping: 25, stiffness: 300 }}
                             onClick={(e) => e.stopPropagation()}
-                            className="bg-white/90 backdrop-blur-2xl border border-white/60 rounded-3xl p-6 sm:p-8 w-full max-w-2xl shadow-2xl relative overflow-hidden"
+                            className="bg-white/95 backdrop-blur-2xl border border-white/60 rounded-3xl p-6 sm:p-8 w-full max-w-2xl shadow-2xl relative overflow-hidden"
                         >
                             <button
                                 onClick={() => setActiveModal(null)}
@@ -484,6 +484,361 @@ export default function ResultsPage() {
                                     <span className="text-lg font-black text-blue-600">{stats.reading_average_score}%</span>
                                 </div>
                             </div>
+                        </motion.div>
+                    </motion.div>
+                )}
+
+                {/* --- Listening Modal --- */}
+                {activeModal === 'listening' && stats?.listening_breakdown && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/40"
+                        onClick={() => setActiveModal(null)}
+                    >
+                        <motion.div
+                            initial={{ scale: 0.95, opacity: 0, y: 20 }}
+                            animate={{ scale: 1, opacity: 1, y: 0 }}
+                            exit={{ scale: 0.95, opacity: 0, y: 20 }}
+                            transition={{ type: "spring", damping: 25, stiffness: 300 }}
+                            onClick={(e) => e.stopPropagation()}
+                            className="bg-white/95 backdrop-blur-2xl border border-white/60 rounded-3xl p-6 sm:p-8 w-full max-w-2xl shadow-2xl relative overflow-hidden"
+                        >
+                            <button
+                                onClick={() => setActiveModal(null)}
+                                className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 transition-colors"
+                            >
+                                <X className="w-4 h-4" />
+                            </button>
+
+                            <div className="flex items-center gap-3 mb-6">
+                                <div className="w-12 h-12 bg-gradient-to-br from-purple-400 to-purple-600 rounded-2xl flex items-center justify-center shadow-md">
+                                    <Headphones className="w-6 h-6 text-white" />
+                                </div>
+                                <div>
+                                    <h3 className="text-xl font-black text-slate-800 tracking-tight">Listening Skills Detail</h3>
+                                    <p className="text-sm font-semibold text-slate-400">Comprehensive breakdown of your performance</p>
+                                </div>
+                            </div>
+
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                {/* Practice Tests Card */}
+                                <div className="bg-white border border-slate-100/60 rounded-2xl p-5 shadow-sm">
+                                    <h4 className="text-[11px] font-black text-slate-400 uppercase tracking-widest mb-4">Practice Tests</h4>
+
+                                    <div className="space-y-4">
+                                        <div>
+                                            <div className="flex justify-between text-sm mb-1">
+                                                <span className="font-semibold text-slate-500">Tests Completed</span>
+                                                <span className="font-black text-slate-800">{stats.listening_breakdown.practice.count}</span>
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <div className="flex justify-between text-sm mb-1">
+                                                <span className="font-semibold text-slate-500">Accuracy</span>
+                                                <span className="font-black text-slate-800">
+                                                    {stats.listening_breakdown.practice.total > 0
+                                                        ? Math.round((stats.listening_breakdown.practice.correct / stats.listening_breakdown.practice.total) * 100)
+                                                        : 0}%
+                                                </span>
+                                            </div>
+                                            <div className="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
+                                                <div
+                                                    className="h-full bg-purple-500 rounded-full"
+                                                    style={{ width: `${stats.listening_breakdown.practice.total > 0 ? (stats.listening_breakdown.practice.correct / stats.listening_breakdown.practice.total) * 100 : 0}%` }}
+                                                />
+                                            </div>
+                                        </div>
+
+                                        <div className="pt-2 border-t border-slate-50 border-dashed">
+                                            <div className="flex justify-between text-[11px]">
+                                                <span className="font-semibold text-slate-400">Correct Answers</span>
+                                                <span className="font-bold text-purple-600">
+                                                    {stats.listening_breakdown.practice.correct} / {stats.listening_breakdown.practice.total}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Cambridge Tests Card */}
+                                <div className="bg-white border border-slate-100/60 rounded-2xl p-5 shadow-sm">
+                                    <h4 className="text-[11px] font-black text-slate-400 uppercase tracking-widest mb-4">Cambridge Tests</h4>
+
+                                    <div className="space-y-4">
+                                        <div>
+                                            <div className="flex justify-between text-sm mb-1">
+                                                <span className="font-semibold text-slate-500">Tests Completed</span>
+                                                <span className="font-black text-slate-800">{stats.listening_breakdown.cambridge.count}</span>
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <div className="flex justify-between text-sm mb-1">
+                                                <span className="font-semibold text-slate-500">Accuracy</span>
+                                                <span className="font-black text-slate-800">
+                                                    {stats.listening_breakdown.cambridge.total > 0
+                                                        ? Math.round((stats.listening_breakdown.cambridge.correct / stats.listening_breakdown.cambridge.total) * 100)
+                                                        : 0}%
+                                                </span>
+                                            </div>
+                                            <div className="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
+                                                <div
+                                                    className="h-full bg-fuchsia-500 rounded-full"
+                                                    style={{ width: `${stats.listening_breakdown.cambridge.total > 0 ? (stats.listening_breakdown.cambridge.correct / stats.listening_breakdown.cambridge.total) * 100 : 0}%` }}
+                                                />
+                                            </div>
+                                        </div>
+
+                                        <div className="pt-2 border-t border-slate-50 border-dashed">
+                                            <div className="flex justify-between text-[11px]">
+                                                <span className="font-semibold text-slate-400">Correct Answers</span>
+                                                <span className="font-bold text-fuchsia-600">
+                                                    {stats.listening_breakdown.cambridge.correct} / {stats.listening_breakdown.cambridge.total}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Overall Summary within Modal */}
+                            <div className="mt-4 bg-slate-50 rounded-xl p-4 flex items-center justify-between border border-slate-100">
+                                <div>
+                                    <span className="text-xs font-bold text-slate-500 block mb-0.5">Total Listening Questions Answered</span>
+                                    <span className="text-lg font-black text-slate-800">
+                                        {stats.listening_breakdown.practice.total + stats.listening_breakdown.cambridge.total}
+                                    </span>
+                                </div>
+                                <div className="text-right">
+                                    <span className="text-xs font-bold text-slate-500 block mb-0.5">Overall Accuracy</span>
+                                    <span className="text-lg font-black text-purple-600">{stats.listening_average_score}%</span>
+                                </div>
+                            </div>
+                        </motion.div>
+                    </motion.div>
+                )}
+
+                {/* --- Writing Modal --- */}
+                {activeModal === 'writing' && stats?.writing_breakdown && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/40"
+                        onClick={() => setActiveModal(null)}
+                    >
+                        <motion.div
+                            initial={{ scale: 0.95, opacity: 0, y: 20 }}
+                            animate={{ scale: 1, opacity: 1, y: 0 }}
+                            exit={{ scale: 0.95, opacity: 0, y: 20 }}
+                            transition={{ type: "spring", damping: 25, stiffness: 300 }}
+                            onClick={(e) => e.stopPropagation()}
+                            className="bg-white/95 backdrop-blur-2xl border border-white/60 rounded-3xl p-6 sm:p-8 w-full max-w-2xl shadow-2xl relative overflow-hidden"
+                        >
+                            <button
+                                onClick={() => setActiveModal(null)}
+                                className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 transition-colors"
+                            >
+                                <X className="w-4 h-4" />
+                            </button>
+
+                            <div className="flex items-center gap-3 mb-6">
+                                <div className="w-12 h-12 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-2xl flex items-center justify-center shadow-md">
+                                    <PenLine className="w-6 h-6 text-white" />
+                                </div>
+                                <div>
+                                    <h3 className="text-xl font-black text-slate-800 tracking-tight">Writing Progress Detail</h3>
+                                    <p className="text-sm font-semibold text-slate-400">Task breakdown of your essay submissions</p>
+                                </div>
+                            </div>
+
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                {/* Task 1 Card */}
+                                <div className="bg-white border border-slate-100/60 rounded-2xl p-5 shadow-sm">
+                                    <h4 className="text-[11px] font-black text-slate-400 uppercase tracking-widest mb-4">Task 1 (Reports/Letters)</h4>
+
+                                    <div className="space-y-4">
+                                        <div>
+                                            <div className="flex justify-between text-sm mb-1">
+                                                <span className="font-semibold text-slate-500">Submissions</span>
+                                                <span className="font-black text-slate-800">{stats.writing_breakdown.task1.count}</span>
+                                            </div>
+                                        </div>
+
+                                        <div className="pt-2 border-t border-slate-50 border-dashed">
+                                            <div className="flex justify-between items-center text-[11px]">
+                                                <span className="font-semibold text-slate-400">Average Band</span>
+                                                <div className="flex items-center gap-2">
+                                                    <span className="font-black text-lg text-emerald-600">
+                                                        {stats.writing_breakdown.task1.average_score > 0 ? stats.writing_breakdown.task1.average_score.toFixed(1) : "—"}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Task 2 Card */}
+                                <div className="bg-white border border-slate-100/60 rounded-2xl p-5 shadow-sm">
+                                    <h4 className="text-[11px] font-black text-slate-400 uppercase tracking-widest mb-4">Task 2 (Essays)</h4>
+
+                                    <div className="space-y-4">
+                                        <div>
+                                            <div className="flex justify-between text-sm mb-1">
+                                                <span className="font-semibold text-slate-500">Submissions</span>
+                                                <span className="font-black text-slate-800">{stats.writing_breakdown.task2.count}</span>
+                                            </div>
+                                        </div>
+
+                                        <div className="pt-2 border-t border-slate-50 border-dashed">
+                                            <div className="flex justify-between items-center text-[11px]">
+                                                <span className="font-semibold text-slate-400">Average Band</span>
+                                                <div className="flex items-center gap-2">
+                                                    <span className="font-black text-lg text-teal-600">
+                                                        {stats.writing_breakdown.task2.average_score > 0 ? stats.writing_breakdown.task2.average_score.toFixed(1) : "—"}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="mt-4 bg-slate-50 rounded-xl p-4 flex items-center justify-between border border-slate-100">
+                                <div>
+                                    <span className="text-xs font-bold text-slate-500 block mb-0.5">Total Essays Evaluated</span>
+                                    <span className="text-lg font-black text-slate-800">
+                                        {stats.writing_tests_completed}
+                                    </span>
+                                </div>
+                                <div className="text-right">
+                                    <span className="text-xs font-bold text-slate-500 block mb-0.5">Overall Writing Band</span>
+                                    <span className="text-lg font-black text-emerald-600">{stats.writing_average_score > 0 ? stats.writing_average_score.toFixed(1) : "—"}</span>
+                                </div>
+                            </div>
+                        </motion.div>
+                    </motion.div>
+                )}
+
+                {/* --- Speaking Modal --- */}
+                {activeModal === 'speaking' && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/40"
+                        onClick={() => setActiveModal(null)}
+                    >
+                        <motion.div
+                            initial={{ scale: 0.95, opacity: 0, y: 20 }}
+                            animate={{ scale: 1, opacity: 1, y: 0 }}
+                            exit={{ scale: 0.95, opacity: 0, y: 20 }}
+                            transition={{ type: "spring", damping: 25, stiffness: 300 }}
+                            onClick={(e) => e.stopPropagation()}
+                            className="bg-white/95 backdrop-blur-2xl border border-white/60 rounded-3xl p-6 sm:p-8 w-full max-w-sm md:max-w-md shadow-2xl relative overflow-hidden text-center"
+                        >
+                            <button
+                                onClick={() => setActiveModal(null)}
+                                className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 transition-colors"
+                            >
+                                <X className="w-4 h-4" />
+                            </button>
+
+                            <div className="w-16 h-16 bg-gradient-to-br from-orange-400 to-rose-500 rounded-3xl flex items-center justify-center shadow-lg shadow-orange-500/20 mx-auto mb-6">
+                                <Mic2 className="w-8 h-8 text-white" />
+                            </div>
+
+                            <h3 className="text-2xl font-black text-slate-800 tracking-tight mb-2">Speaking Sessions</h3>
+                            <p className="text-slate-500 mb-6">Detailed speaking analytics and histories will be available here soon as you complete more mock interviews.</p>
+
+                            <div className="bg-slate-50 rounded-2xl p-4 border border-slate-100">
+                                <div className="flex justify-between items-center py-2 border-b border-slate-200/60 last:border-0 pointer-events-none opacity-50 grayscale">
+                                    <span className="text-sm font-bold text-slate-600">Fluency & Coherence</span>
+                                    <span className="text-sm font-black text-rose-500">7.0</span>
+                                </div>
+                                <div className="flex justify-between items-center py-2 border-b border-slate-200/60 last:border-0 pointer-events-none opacity-50 grayscale">
+                                    <span className="text-sm font-bold text-slate-600">Lexical Resource</span>
+                                    <span className="text-sm font-black text-rose-500">7.0</span>
+                                </div>
+                                <div className="flex justify-between items-center py-2 pointer-events-none opacity-50 grayscale">
+                                    <span className="text-sm font-bold text-slate-600">Grammatical Range</span>
+                                    <span className="text-sm font-black text-rose-500">7.0</span>
+                                </div>
+                            </div>
+                        </motion.div>
+                    </motion.div>
+                )}
+
+                {/* --- Vocabulary Modal --- */}
+                {activeModal === 'vocab' && stats?.vocab_breakdown && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/40"
+                        onClick={() => setActiveModal(null)}
+                    >
+                        <motion.div
+                            initial={{ scale: 0.95, opacity: 0, y: 20 }}
+                            animate={{ scale: 1, opacity: 1, y: 0 }}
+                            exit={{ scale: 0.95, opacity: 0, y: 20 }}
+                            transition={{ type: "spring", damping: 25, stiffness: 300 }}
+                            onClick={(e) => e.stopPropagation()}
+                            className="bg-white/95 backdrop-blur-2xl border border-white/60 rounded-3xl p-6 sm:p-8 w-full max-w-sm md:max-w-md shadow-2xl relative overflow-hidden"
+                        >
+                            <button
+                                onClick={() => setActiveModal(null)}
+                                className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 transition-colors"
+                            >
+                                <X className="w-4 h-4" />
+                            </button>
+
+                            <div className="flex items-center gap-3 mb-6">
+                                <div className="w-12 h-12 bg-gradient-to-br from-amber-400 to-amber-600 rounded-2xl flex items-center justify-center shadow-md">
+                                    <BookMarked className="w-6 h-6 text-white" />
+                                </div>
+                                <div>
+                                    <h3 className="text-xl font-black text-slate-800 tracking-tight">Vocabulary Mastery</h3>
+                                    <p className="text-sm font-semibold text-slate-400">Your word bank progress</p>
+                                </div>
+                            </div>
+
+                            <div className="bg-white border border-slate-100/60 rounded-2xl p-6 shadow-sm mb-4">
+                                <div className="space-y-6">
+                                    <div>
+                                        <div className="flex justify-between text-sm mb-2">
+                                            <span className="font-semibold text-slate-500">Quizzes Completed</span>
+                                            <span className="font-black text-slate-800 text-lg">{stats.vocab_breakdown.count}</span>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <div className="flex justify-between text-sm mb-2">
+                                            <span className="font-semibold text-slate-500">Overall Accuracy</span>
+                                            <span className="font-black text-amber-500 text-lg">
+                                                {stats.vocab_breakdown.total > 0
+                                                    ? Math.round((stats.vocab_breakdown.correct / stats.vocab_breakdown.total) * 100)
+                                                    : 0}%
+                                            </span>
+                                        </div>
+                                        <div className="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
+                                            <div
+                                                className="h-full bg-amber-500 rounded-full transition-all duration-1000"
+                                                style={{ width: `${stats.vocab_breakdown.total > 0 ? (stats.vocab_breakdown.correct / stats.vocab_breakdown.total) * 100 : 0}%` }}
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="text-center py-4 rounded-xl bg-amber-50 border border-amber-100/50">
+                                <p className="text-xs font-bold text-amber-700/70 uppercase tracking-widest mb-1">Words Mastered</p>
+                                <p className="text-3xl font-black text-amber-600">{stats.vocab_breakdown.correct}</p>
+                            </div>
+
                         </motion.div>
                     </motion.div>
                 )}
