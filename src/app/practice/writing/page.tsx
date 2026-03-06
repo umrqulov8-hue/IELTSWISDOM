@@ -120,27 +120,7 @@ export default function WritingPage() {
 
     return (
         <DashboardLayout title={W.title} description={W.desc}>
-            <div className="flex flex-col lg:flex-row gap-8 relative z-10">
-                {/* Liquid Glass Background */}
-                <div className="liquid-bg-container">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src="https://i.ibb.co/bMvc7Zr6/Vibrant-Summer-Meadow-Watercolor.png" alt="" />
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src="https://i.ibb.co/ZRH04pV3/Vibrant-Summer-Meadow-Watercolor-1.png" alt="" />
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src="https://i.ibb.co/bMvc7Zr6/Vibrant-Summer-Meadow-Watercolor.png" alt="" />
-                </div>
-                {/* Liquid Glass SVG Filter Definition */}
-                <svg style={{ position: 'absolute', width: 0, height: 0 }} aria-hidden="true" focusable="false">
-                    <filter id="frosted" primitiveUnits="objectBoundingBox" x="-10%" y="-10%" width="120%" height="120%">
-                        <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="3" result="noise" />
-                        <feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.5 0" in="noise" result="coloredNoise" />
-                        <feGaussianBlur in="SourceGraphic" stdDeviation="0.012" result="blur" />
-                        <feDisplacementMap in="blur" in2="coloredNoise" scale="0.025" xChannelSelector="R" yChannelSelector="G">
-                            <animate attributeName="scale" values="0.015;0.035;0.015" dur="10s" repeatCount="indefinite" />
-                        </feDisplacementMap>
-                    </filter>
-                </svg>
+            <div className="flex flex-col lg:flex-row gap-8">
 
                 {/* --- Sidebar Filters --- */}
                 <aside className="w-full lg:w-72 flex-shrink-0 space-y-6">
