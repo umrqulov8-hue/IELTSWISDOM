@@ -312,15 +312,15 @@ export const trainer1Test3: ListeningTest = {
       </div>
       `,
             questions: [
-                { id: 31, type: "fill-blank", correctAnswer: "photos" },
+                { id: 31, type: "fill-blank", correctAnswer: ["photos", "photographs", "pictures"] },
                 { id: 32, type: "fill-blank", correctAnswer: "vegan" },
-                { id: 33, type: "fill-blank", correctAnswer: "chefs" },
-                { id: 34, type: "fill-blank", correctAnswer: "journalists" },
+                { id: 33, type: "fill-blank", correctAnswer: ["chefs", "cooks"] },
+                { id: 34, type: "fill-blank", correctAnswer: ["journalists", "reporters"] },
                 { id: 35, type: "fill-blank", correctAnswer: "health" },
                 { id: 36, type: "fill-blank", correctAnswer: "coffee" },
                 { id: 37, type: "fill-blank", correctAnswer: "environment" },
                 { id: 38, type: "fill-blank", correctAnswer: "reputation" },
-                { id: 39, type: "fill-blank", correctAnswer: "price" },
+                { id: 39, type: "fill-blank", correctAnswer: ["price", "cost"] },
                 { id: 40, type: "fill-blank", correctAnswer: "soil" },
             ]
         }

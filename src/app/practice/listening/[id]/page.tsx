@@ -75,14 +75,22 @@ const ListeningPartSection = memo(function ListeningPartSection({
             input.setAttribute("autocomplete", "off");
 
             if (isSubmitted) {
-                const ok = input.value.trim().toLowerCase() === q.correctAnswer.toString().toLowerCase();
+                const userAns = input.value.trim().toLowerCase();
+                const correctOptions = Array.isArray(q.correctAnswer)
+                    ? q.correctAnswer.map(a => a.toString().toLowerCase())
+                    : [q.correctAnswer.toString().toLowerCase()];
+
+                const ok = correctOptions.includes(userAns);
+
                 input.style.borderBottom = ok ? "3px solid #22c55e" : "3px solid #ef4444";
                 input.style.color = ok ? "#15803d" : "#b91c1c";
                 input.style.backgroundColor = ok ? "rgba(34, 197, 94, 0.05)" : "rgba(239, 68, 68, 0.05)";
+
                 if (!ok && !input.nextElementSibling?.classList.contains("corr")) {
                     const sp = document.createElement("span");
                     sp.className = "corr text-[11px] text-red-500 font-bold ml-1 bg-white px-1.5 py-0.5 rounded border border-red-200 shadow-sm";
-                    sp.textContent = `✓ ${q.correctAnswer}`;
+                    const displayCorrect = Array.isArray(q.correctAnswer) ? q.correctAnswer.join(" / ") : q.correctAnswer;
+                    sp.textContent = `✓ ${displayCorrect}`;
                     input.parentNode?.insertBefore(sp, input.nextSibling);
                 }
             }
@@ -389,7 +397,13 @@ export default function ListeningTestPage() {
             part.questions.forEach(q => {
                 const ua = answers[q.id.toString()];
                 if (!ua) return;
-                if (q.type === "fill-blank" && ua.trim().toLowerCase() === q.correctAnswer.toString().toLowerCase()) s++;
+                if (q.type === "fill-blank") {
+                    const userAns = ua.trim().toLowerCase();
+                    const correctOptions = Array.isArray(q.correctAnswer)
+                        ? q.correctAnswer.map(a => a.toString().toLowerCase())
+                        : [q.correctAnswer.toString().toLowerCase()];
+                    if (correctOptions.includes(userAns)) s++;
+                }
                 if (q.type === "multiple-choice" && ua === q.correctAnswer.toString()) s++;
             })
         );
