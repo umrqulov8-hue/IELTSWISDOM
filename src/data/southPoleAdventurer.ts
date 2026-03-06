@@ -43,7 +43,7 @@ export const southPoleAdventurerData: ReadingTest = {
             type: "true-false",
             text: "Since Shirase arrived in Antarctica, smaller ships have also made the journey.",
             options: ["TRUE", "FALSE", "NOT GIVEN"],
-            correctAnswer: 1 // FALSE
+            correctAnswer: 2 // NOT GIVEN
         },
         {
             id: 3,
@@ -57,21 +57,21 @@ export const southPoleAdventurerData: ReadingTest = {
             type: "true-false",
             text: "Some Japanese officials thought Shirase's intention to travel to the South Pole was pointless.",
             options: ["TRUE", "FALSE", "NOT GIVEN"],
-            correctAnswer: 2 // NOT GIVEN
+            correctAnswer: 0 // TRUE
         },
         {
             id: 5,
             type: "true-false",
             text: "The British team announced their decision to carry out scientific research in Antarctica before Shirase.",
             options: ["TRUE", "FALSE", "NOT GIVEN"],
-            correctAnswer: 1 // FALSE
+            correctAnswer: 2 // NOT GIVEN
         },
         {
             id: 6,
             type: "true-false",
             text: "Shirase found it easy to raise the money he needed for his trip to the South Pole.",
             options: ["TRUE", "FALSE", "NOT GIVEN"],
-            correctAnswer: 2 // NOT GIVEN
+            correctAnswer: 1 // FALSE
         },
         {
             id: 7,
@@ -85,7 +85,7 @@ export const southPoleAdventurerData: ReadingTest = {
             type: "true-false",
             text: "The weather that slowed down Shirase's progress to New Zealand was unusually bad for the season.",
             options: ["TRUE", "FALSE", "NOT GIVEN"],
-            correctAnswer: 2 // NOT GIVEN (Assuming Not Given as it was missing from user list)
+            correctAnswer: 2 // NOT GIVEN
         },
 
         // --- Multiple Choice (9-13) ---
@@ -123,7 +123,7 @@ export const southPoleAdventurerData: ReadingTest = {
                 "C. He gave up on the expedition and returned home.",
                 "D. He attempted to endure the challenges of polar exploration."
             ],
-            correctAnswer: 2 // C
+            correctAnswer: 3 // D (As seen in the text)
         },
         {
             id: 12,
@@ -135,7 +135,7 @@ export const southPoleAdventurerData: ReadingTest = {
                 "C. emphasizing the importance of Shirase's scientific results.",
                 "D. comparing Shirase's leadership style with that of Scott."
             ],
-            correctAnswer: 2 // C
+            correctAnswer: 1 // B
         },
         {
             id: 13,
@@ -147,7 +147,7 @@ export const southPoleAdventurerData: ReadingTest = {
                 "C. It was a failure because he did not reach the Pole.",
                 "D. It contributed little to scientific knowledge."
             ],
-            correctAnswer: 0 // A
+            correctAnswer: 1 // B
         }
     ]
 };
