@@ -8,7 +8,7 @@ export const trainer1Test2: ListeningTest = {
             id: "part-1",
             title: "Advice on Family Visit",
             instructions: "Questions 1-10",
-            audioUrl: "/audio/trainer1-test2-part1.mp3",
+            audioUrl: "/audio/cambridge-ielts-20-academic-listening-4-audio-part-1 (1).mp3",
             content: `
       <div class="mb-6">
         <p class="font-bold mb-4">Complete the notes below.</p>
@@ -73,7 +73,7 @@ export const trainer1Test2: ListeningTest = {
             id: "part-2",
             title: "Visiting the Football Stadium",
             instructions: "Questions 11-20",
-            audioUrl: "/audio/trainer1-test2-part2.mp3",
+            audioUrl: "/audio/cambridge-ielts-20-academic-listening-4-audio-part-2.mp3",
             content: `
       <div class="mb-10">
         <p class="font-bold mb-2">Questions 11-12</p>
@@ -183,7 +183,7 @@ export const trainer1Test2: ListeningTest = {
             id: "part-3",
             title: "Benefits for children of learning to write",
             instructions: "Questions 21-30",
-            audioUrl: "/audio/trainer1-test2-part3.mp3",
+            audioUrl: "/audio/cambridge-ielts-20-academic-listening-4-audio-part-3.mp3",
             content: `
       <div class="mb-10">
         <p class="font-bold mb-2">Questions 21-22</p>
@@ -285,7 +285,7 @@ export const trainer1Test2: ListeningTest = {
             id: "part-4",
             title: "Research in the Area Around the Chem be Bird Sanctuary",
             instructions: "Questions 31-40",
-            audioUrl: "/audio/trainer1-test2-part4.mp3",
+            audioUrl: "/audio/cambridge-ielts-20-academic-listening-4-audio-part-4.mp3",
             content: `
       <div class="mb-10">
         <p class="font-bold mb-4">Complete the notes below.</p>
