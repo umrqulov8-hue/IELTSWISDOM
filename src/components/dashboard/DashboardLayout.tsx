@@ -15,6 +15,7 @@ interface DashboardLayoutProps extends PropsWithChildren {
     hideSidebar?: boolean;
     hideHeader?: boolean;
     fullHeight?: boolean;
+    maxWidth?: string;
 }
 
 // Premium page transition variants — typed as `any` to avoid framer-motion
@@ -56,6 +57,7 @@ export function DashboardLayout({
     hideSidebar = false,
     hideHeader = false,
     fullHeight = false,
+    maxWidth = "max-w-6xl",
 }: DashboardLayoutProps) {
     const { user } = useAuthContext();
     const displayName = user?.email?.split("@")[0] || "Student";
@@ -248,7 +250,7 @@ export function DashboardLayout({
                         className={cn(
                             fullHeight
                                 ? "flex-1 overflow-hidden h-full"
-                                : "max-w-6xl mx-auto space-y-10 pb-10"
+                                : `${maxWidth} mx-auto space-y-10 pb-10`
                         )}
                     >
                         {children}

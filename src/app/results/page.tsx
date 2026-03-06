@@ -197,6 +197,7 @@ export default function ResultsPage() {
         <DashboardLayout
             title={tx(R.title, lang)}
             description={tx(R.desc, lang)}
+            maxWidth="max-w-[1400px]"
         >
             {loading ? <DashSkeleton /> : (
                 <div className="space-y-5 pb-8">
