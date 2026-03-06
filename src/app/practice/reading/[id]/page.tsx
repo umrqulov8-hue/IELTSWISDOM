@@ -958,7 +958,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                                                                 value={answers[q.id] || ""}
                                                                                 onChange={(e) => handleAnswer(q.id, e.target.value)}
                                                                                 disabled={isSubmitted}
-                                                                                placeholder="............"
+                                                                                placeholder=""
                                                                                 autoFocus={false}
                                                                                 autoComplete="off"
                                                                             />
