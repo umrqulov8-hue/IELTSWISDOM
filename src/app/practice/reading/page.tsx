@@ -64,8 +64,14 @@ const TESTS: TestItem[] = [
     { id: "mock-1-p2", categoryId: "cambridge-ielts", title: "Gifted children and learning", isNew: true, status: "free" },
     { id: "mock-1-p3", categoryId: "cambridge-ielts", title: "Museums of fine art and their public", isNew: true, status: "free" },
 
+    // Mock Test 2 Passages
+    { id: "mock-2-p1", categoryId: "cambridge-ielts", title: "Our Vanishing Night", isNew: true, status: "free" },
+    { id: "mock-2-p2", categoryId: "cambridge-ielts", title: "Endless Harvest", isNew: true, status: "free" },
+    { id: "mock-2-p3", categoryId: "cambridge-ielts", title: "Film Noir", isNew: true, status: "free" },
+
     // Full Tests
     { id: "mock-1-full", categoryId: "full-tests", title: "IELTS Reading Mock Test 1 (Full)", isNew: true, status: "free" },
+    { id: "mock-2-full", categoryId: "full-tests", title: "IELTS Reading Mock Test 2 (Full)", isNew: true, status: "free" },
 ];
 
 
