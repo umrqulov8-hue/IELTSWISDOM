@@ -1,5 +1,6 @@
 import { mockReadingTest1 } from "./mockTest1";
 import { mockReadingTest2 } from "./mockTest2";
+import { southPoleAdventurerData } from "./southPoleAdventurer";
 
 export interface Question {
     id: number;

@@ -39,6 +39,7 @@ const CATEGORIES: TestCategory[] = [
 const TESTS: TestItem[] = [
     // Free Passages
     { id: "fp-9", categoryId: "free-passages", title: "Socially Responsible Businesses", isNew: true, status: "free" },
+    { id: "south-pole-adventurer", categoryId: "free-passages", title: "South Pole Adventurer", isNew: true, status: "free" },
     { id: "fp-13", categoryId: "free-passages", title: "The Dover Bronze-Age Boat", isNew: true, status: "free" },
     { id: "fp-14", categoryId: "free-passages", title: "A Closer Examination of a Study on Verbal and Non-Verbal Message", isNew: true, status: "free" },
     { id: "fp-15", categoryId: "free-passages", title: "Katherine Mansfield", isNew: true, status: "free" },
