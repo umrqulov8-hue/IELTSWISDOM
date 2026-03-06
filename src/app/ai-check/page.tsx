@@ -264,25 +264,11 @@ export default function AICheckPage() {
                 </div>
 
                 {/* --- Input Dock --- */}
-                <div className="w-full z-50 pt-4 pb-2 flex-shrink-0 bg-transparent">
+                <div className="w-full z-10 pt-4 pb-2 flex-shrink-0 bg-transparent relative">
                     <div className="max-w-4xl mx-auto relative group">
-                        {!isPro && (
-                            <div className="absolute inset-0 z-[60] backdrop-blur-md bg-white/20 rounded-3xl flex items-center justify-center border border-white/40 shadow-lg">
-                                <div className="text-center p-6 bg-white/90 rounded-2xl shadow-xl border border-slate-200">
-                                    <Lock className="w-8 h-8 text-orange-500 mx-auto mb-2" />
-                                    <h3 className="text-slate-800 font-bold mb-1">Premium Feature</h3>
-                                    <p className="text-slate-500 text-xs mb-4">Upgrade to Pro to chat with AI Assistant</p>
-                                    <Link href="/upgrade">
-                                        <button className="px-6 py-2 bg-gradient-to-r from-orange-400 to-amber-500 text-white rounded-xl text-sm font-bold shadow-md hover:scale-105 transition-transform">
-                                            Upgrade Now
-                                        </button>
-                                    </Link>
-                                </div>
-                            </div>
-                        )}
                         <div className={cn(
                             "relative backdrop-blur-xl bg-white/90 border border-slate-200 rounded-3xl p-3 flex items-end gap-3 shadow-lg transition-all duration-300 group-focus-within:border-orange-400/50 group-focus-within:shadow-[0_8px_30px_rgba(255,140,0,0.15)] group-focus-within:bg-white text-slate-800",
-                            !isPro && "opacity-50 pointer-events-none"
+                            !isPro && "opacity-50 pointer-events-none grayscale-[0.5]"
                         )}>
                             <textarea
                                 ref={textareaRef}
@@ -309,6 +295,55 @@ export default function AICheckPage() {
                     </div>
                 </div>
 
+                {/* --- Full Screen Premium Overlay --- */}
+                <AnimatePresence>
+                    {!isPro && (
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            className="fixed inset-0 z-[100] backdrop-blur-[12px] bg-slate-900/40 flex items-center justify-center p-4"
+                        >
+                            <motion.div
+                                initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                                animate={{ opacity: 1, scale: 1, y: 0 }}
+                                transition={{ type: "spring", damping: 25, stiffness: 300 }}
+                                className="max-w-sm w-full bg-white/95 backdrop-blur-2xl rounded-[2.5rem] shadow-2xl border border-white/20 overflow-hidden relative"
+                            >
+                                {/* Decorative elements */}
+                                <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-orange-400 via-amber-500 to-orange-600" />
+                                <div className="absolute -top-12 -right-12 w-32 h-32 bg-orange-400/20 rounded-full blur-3xl" />
+                                <div className="absolute -bottom-12 -left-12 w-32 h-32 bg-amber-400/20 rounded-full blur-3xl" />
+
+                                <div className="p-8 md:p-10 text-center relative z-10">
+                                    <div className="w-20 h-20 bg-gradient-to-br from-orange-100 to-amber-50 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-sm border border-orange-100 animate-bounce-slow">
+                                        <Lock className="w-10 h-10 text-orange-500" strokeWidth={2.5} />
+                                    </div>
+
+                                    <h2 className="text-2xl md:text-3xl font-black text-slate-800 mb-3 tracking-tight">
+                                        Premium Feature
+                                    </h2>
+
+                                    <p className="text-slate-600 font-medium leading-relaxed mb-8">
+                                        Unlock the full power of our <span className="text-orange-600 font-bold">IELTS AI Assistant</span>. Get instant feedback and band scores.
+                                    </p>
+
+                                    <Link href="/upgrade" className="block">
+                                        <button className="w-full py-4 bg-gradient-to-r from-[#FF8C00] to-amber-500 text-white rounded-2xl font-black text-lg shadow-[0_10px_25px_rgba(255,140,0,0.3)] hover:shadow-[0_15px_35px_rgba(255,140,0,0.4)] hover:scale-[1.03] transition-all duration-300 active:scale-95 flex items-center justify-center gap-3 group">
+                                            Upgrade to Pro
+                                            <Sparkles className="w-5 h-5 group-hover:rotate-12 transition-transform" />
+                                        </button>
+                                    </Link>
+
+                                    <p className="mt-6 text-[11px] text-slate-400 font-bold uppercase tracking-[0.15em]">
+                                        Unlock 20+ Practice Tests
+                                    </p>
+                                </div>
+                            </motion.div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+
                 <style dangerouslySetInnerHTML={{
                     __html: `
                     .custom-scrollbar::-webkit-scrollbar {
@@ -323,6 +358,13 @@ export default function AICheckPage() {
                     }
                     .custom-scrollbar:hover::-webkit-scrollbar-thumb {
                         background-color: rgba(0, 0, 0, 0.2);
+                    }
+                    .animate-bounce-slow {
+                        animation: bounce-slow 3s infinite;
+                    }
+                    @keyframes bounce-slow {
+                        0%, 100% { transform: translateY(-5%); animation-timing-function: cubic-bezier(0.8, 0, 1, 1); }
+                        50% { transform: translateY(0); animation-timing-function: cubic-bezier(0, 0, 0.2, 1); }
                     }
                 `}} />
             </div>
