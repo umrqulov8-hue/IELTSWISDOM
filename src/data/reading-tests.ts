@@ -843,6 +843,7 @@ export const READING_TESTS: Record<string, ReadingTest> = {
             { id: 13, type: "fill-blank", text: "The economic counterpart shows how generating and choosing the 13 _____ of innumerable goods moves forward the material-oriented economy.", correctAnswer: "permutations" },
         ]
     },
+    "south-pole-adventurer": southPoleAdventurerData,
     ...Object.fromEntries(mockReadingTest1.map(test => [test.id, test])),
     ...Object.fromEntries(mockReadingTest2.map(test => [test.id, test]))
 };
