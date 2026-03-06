@@ -943,22 +943,22 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                                         )}
                                                         {q.type === "fill-blank" ? (
                                                             <p className="font-medium text-slate-700 leading-8">
-                                                                {q.text.split("………………").map((part, i, arr) => (
+                                                                {q.text.split(/(?:………………|(?:\d*)_{3,})/).map((part, i, arr) => (
                                                                     <span key={i}>
-                                                                        {part}
+                                                                        <span dangerouslySetInnerHTML={{ __html: part }} />
                                                                         {i < arr.length - 1 && (
                                                                             <input
                                                                                 type="text"
                                                                                 className={cn(
-                                                                                    "mx-1.5 px-4 py-2 bg-white border-2 rounded-xl focus:outline-none transition-all w-48 text-center font-bold text-sm shadow-md",
-                                                                                    isSubmitted && isCorrect ? "border-green-500 bg-green-50 text-green-700 shadow-green-100" :
-                                                                                        isSubmitted && isWrong ? "border-red-500 bg-red-50 text-red-700 shadow-red-100" :
-                                                                                            "border-blue-100 focus:border-blue-500 focus:bg-white focus:ring-8 focus:ring-blue-500/10 text-slate-800"
+                                                                                    "inline-block mx-1 px-3 py-1 bg-white border-b-2 focus:outline-none transition-all w-36 text-center font-bold text-sm",
+                                                                                    isSubmitted && isCorrect ? "border-green-500 bg-green-50 text-green-700" :
+                                                                                        isSubmitted && isWrong ? "border-red-500 bg-red-50 text-red-700" :
+                                                                                            "border-slate-300 focus:border-blue-500 hover:border-blue-300 text-slate-800"
                                                                                 )}
                                                                                 value={answers[q.id] || ""}
                                                                                 onChange={(e) => handleAnswer(q.id, e.target.value)}
                                                                                 disabled={isSubmitted}
-                                                                                placeholder="Type here..."
+                                                                                placeholder="............"
                                                                                 autoFocus={false}
                                                                                 autoComplete="off"
                                                                             />
