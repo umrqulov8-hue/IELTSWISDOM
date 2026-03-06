@@ -1,4 +1,5 @@
 import { mockReadingTest1 } from "./mockTest1";
+import { mockReadingTest2 } from "./mockTest2";
 
 export interface Question {
     id: number;
@@ -922,7 +923,8 @@ export const READING_TESTS: Record<string, ReadingTest> = {
             { id: 13, type: "fill-blank", text: "The economic counterpart shows how generating and choosing the 13 _____ of innumerable goods moves forward the material-oriented economy.", correctAnswer: "permutations" },
         ]
     },
-    ...Object.fromEntries(mockReadingTest1.map(test => [test.id, test]))
+    ...Object.fromEntries(mockReadingTest1.map(test => [test.id, test])),
+    ...Object.fromEntries(mockReadingTest2.map(test => [test.id, test]))
 };
 
 
