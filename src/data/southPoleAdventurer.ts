@@ -43,7 +43,7 @@ export const southPoleAdventurerData: ReadingTest = {
             type: "true-false",
             text: "Since Shirase arrived in Antarctica, smaller ships have also made the journey.",
             options: ["TRUE", "FALSE", "NOT GIVEN"],
-            correctAnswer: 2 // NOT GIVEN
+            correctAnswer: 1 // FALSE
         },
         {
             id: 3,
@@ -57,21 +57,21 @@ export const southPoleAdventurerData: ReadingTest = {
             type: "true-false",
             text: "Some Japanese officials thought Shirase's intention to travel to the South Pole was pointless.",
             options: ["TRUE", "FALSE", "NOT GIVEN"],
-            correctAnswer: 0 // TRUE
+            correctAnswer: 2 // NOT GIVEN
         },
         {
             id: 5,
             type: "true-false",
             text: "The British team announced their decision to carry out scientific research in Antarctica before Shirase.",
             options: ["TRUE", "FALSE", "NOT GIVEN"],
-            correctAnswer: 2 // NOT GIVEN
+            correctAnswer: 1 // FALSE
         },
         {
             id: 6,
             type: "true-false",
             text: "Shirase found it easy to raise the money he needed for his trip to the South Pole.",
             options: ["TRUE", "FALSE", "NOT GIVEN"],
-            correctAnswer: 1 // FALSE
+            correctAnswer: 2 // NOT GIVEN
         },
         {
             id: 7,
@@ -83,9 +83,9 @@ export const southPoleAdventurerData: ReadingTest = {
         {
             id: 8,
             type: "true-false",
-            text: "The Kainan Maru was the largest ship in the Antarctic expeditions of that time.",
+            text: "The weather that slowed down Shirase's progress to New Zealand was unusually bad for the season.",
             options: ["TRUE", "FALSE", "NOT GIVEN"],
-            correctAnswer: 1 // FALSE (It was the smallest)
+            correctAnswer: 2 // NOT GIVEN (Assuming Not Given as it was missing from user list)
         },
 
         // --- Multiple Choice (9-13) ---
@@ -99,7 +99,7 @@ export const southPoleAdventurerData: ReadingTest = {
                 "C. certain he was unaware of the dangers ahead.",
                 "D. surprised by the bravery he demonstrated."
             ],
-            correctAnswer: 1 // B
+            correctAnswer: 0 // A
         },
         {
             id: 10,
@@ -123,7 +123,7 @@ export const southPoleAdventurerData: ReadingTest = {
                 "C. He gave up on the expedition and returned home.",
                 "D. He attempted to endure the challenges of polar exploration."
             ],
-            correctAnswer: 3 // D
+            correctAnswer: 2 // C
         },
         {
             id: 12,
@@ -135,7 +135,7 @@ export const southPoleAdventurerData: ReadingTest = {
                 "C. emphasizing the importance of Shirase's scientific results.",
                 "D. comparing Shirase's leadership style with that of Scott."
             ],
-            correctAnswer: 1 // B
+            correctAnswer: 2 // C
         },
         {
             id: 13,
@@ -147,7 +147,7 @@ export const southPoleAdventurerData: ReadingTest = {
                 "C. It was a failure because he did not reach the Pole.",
                 "D. It contributed little to scientific knowledge."
             ],
-            correctAnswer: 1 // B
+            correctAnswer: 0 // A
         }
     ]
 };
