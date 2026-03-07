@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import { useLanguage } from "@/context/LanguageContext";
 import { translations as T, tx } from "@/lib/translations";
+import { useRouter } from "next/navigation";
 
 const MOCK_THEMES = [
     { cardBg: "from-[#6beae5] via-[#a2f0c7] to-[#ffe68d]", titleColor: "text-[#0f172a]", textColor: "text-[#1e293b]" },
@@ -15,6 +16,7 @@ const MOCK_THEMES = [
 
 export default function MockExamsPage() {
     const { lang } = useLanguage();
+    const router = useRouter();
     const ME = T.mockExams;
     const tests = ME.tests;
 
@@ -64,6 +66,7 @@ export default function MockExamsPage() {
                                 <motion.button
                                     whileHover={{ scale: 1.03 }}
                                     whileTap={{ scale: 0.97 }}
+                                    onClick={() => router.push(`/mock-exams/${index}/intro`)}
                                     className="w-full text-white font-black py-[16px] rounded-full flex items-center justify-center gap-3 transition-all text-[15px] bg-[#0f172a] shadow-[0_8px_20px_rgba(15,23,42,0.2)] hover:shadow-[0_12px_25px_rgba(15,23,42,0.3)]"
                                 >
                                     <Play className="w-[18px] h-[18px] fill-white" strokeWidth={3} />

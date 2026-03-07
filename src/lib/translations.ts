@@ -156,6 +156,23 @@ export const translations = {
         ],
     },
 
+    // ──── MOCK EXAMS INTRO ────
+    mockExamsIntro: {
+        title: { en: "Examination Rules", uz: "Imtihon qoidalari" },
+        subtitle: { en: "Please read the rules before starting", uz: "Boshlashdan oldin qoidalarni o'qing" },
+        strictTiming: { en: "Strict Timing", uz: "Qat'iy vaqt" },
+        strictTimingDesc: { en: "Tests will auto-submit exactly when the timer reaches zero.", uz: "Taymer nolga yetganda testlar avtomatik ravishda topshiriladi." },
+        noAids: { en: "No External Aids", uz: "Tashqi yordam taqiqlanadi" },
+        noAidsDesc: { en: "No phones, dictionaries, or AI tools are permitted during the session.", uz: "Mashg'ulot davomida telefonlar, lug'atlar yoki AI vositalariga ruxsat berilmaydi." },
+        reviewPeriod: { en: "Review Period", uz: "Tekshirish vaqti" },
+        reviewPeriodDesc: { en: "Listening has 2 mins check time. Reading/Writing have NO extra time.", uz: "Tinglashda tekshirish uchun 2 daqiqa bor. O'qish/Yozishda qo'shimcha vaqt YO'Q." },
+        finalSubmission: { en: "Final Submission", uz: "Yakuniy topshirish" },
+        finalSubmissionDesc: { en: "Answers cannot be changed once the final 'Submit' button is clicked.", uz: "Yakuniy 'Topshirish' tugmasi bosilgandan so'ng javoblarni o'zgartirib bo'lmaydi." },
+        agreeText: { en: "I am ready to follow all examination rules.", uz: "Men barcha imtihon qoidalariga rioya qilishga tayyorman." },
+        startBtn: { en: "Enter Fullscreen & Start Mock", uz: "To'liq ekranga o'tish va testni boshlash" },
+        backBtn: { en: "Back to Mock Exams", uz: "Mock testlarga qaytish" },
+    },
+
     // ──── WRITING PRACTICE ────
     writing: {
         title: { en: "Writing Practice", uz: "Yozish Mashqi" },
