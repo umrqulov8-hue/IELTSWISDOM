@@ -44,10 +44,21 @@ export function FullscreenLock({ children }: { children: React.ReactNode }) {
         if (isF11 || isEscape || isAltF4 || isWinD) {
             e.preventDefault();
             setIsLocked(true);
+            if (!document.fullscreenElement) {
+                requestFullscreen();
+            }
         }
     }, []);
 
     useEffect(() => {
+        const enforceLock = () => {
+            setIsLocked(true);
+            // Try to force fullscreen back on if it was lost
+            if (!document.fullscreenElement) {
+                requestFullscreen();
+            }
+        };
+
         const lockKeyboard = async () => {
             if (document.fullscreenElement && 'keyboard' in navigator) {
                 try {
@@ -62,7 +73,13 @@ export function FullscreenLock({ children }: { children: React.ReactNode }) {
             if (document.fullscreenElement) {
                 lockKeyboard();
             } else {
-                setIsLocked(true);
+                enforceLock();
+            }
+        };
+
+        const onVisibilityChange = () => {
+            if (document.hidden) {
+                enforceLock();
             }
         };
 
@@ -70,8 +87,10 @@ export function FullscreenLock({ children }: { children: React.ReactNode }) {
         document.addEventListener("webkitfullscreenchange", onFsChange);
         document.addEventListener("mozfullscreenchange", onFsChange);
         document.addEventListener("MSFullscreenChange", onFsChange);
+        document.addEventListener("visibilitychange", onVisibilityChange);
 
         window.addEventListener("keydown", handleKeyDown, { capture: true });
+        window.addEventListener("blur", enforceLock);
 
         // Try to lock immediately in case we mounted while already in fullscreen
         lockKeyboard();
@@ -81,7 +100,9 @@ export function FullscreenLock({ children }: { children: React.ReactNode }) {
             document.removeEventListener("webkitfullscreenchange", onFsChange);
             document.removeEventListener("mozfullscreenchange", onFsChange);
             document.removeEventListener("MSFullscreenChange", onFsChange);
+            document.removeEventListener("visibilitychange", onVisibilityChange);
             window.removeEventListener("keydown", handleKeyDown, { capture: true });
+            window.removeEventListener("blur", enforceLock);
         };
     }, [handleKeyDown]);
 
