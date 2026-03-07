@@ -20,7 +20,7 @@ interface DashboardLayoutProps extends PropsWithChildren {
 
 // Premium page transition variants — typed as `any` to avoid framer-motion
 // version-specific ease tuple type regression
-const pageVariants = {
+const pageVariants: any = {
     initial: {
         opacity: 0,
         y: 18,

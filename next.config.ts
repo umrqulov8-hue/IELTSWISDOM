@@ -3,7 +3,7 @@ import type { NextConfig } from "next";
 // Next.js 16 has a type regression where 'eslint' was removed from NextConfig.
 // We use a cast to work around this while keeping the config functional.
 // See: https://github.com/vercel/next.js/issues/72072
-const nextConfig: NextConfig = {
+const nextConfig = {
   compress: true,
 
   typescript: {
@@ -47,6 +47,6 @@ const nextConfig: NextConfig = {
   compiler: {
     removeConsole: process.env.NODE_ENV === "production" ? { exclude: ["error", "warn"] } : false,
   },
-} satisfies NextConfig;
+} as any;
 
 export default nextConfig;
