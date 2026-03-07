@@ -106,6 +106,24 @@ export function FullscreenLock({ children }: { children: React.ReactNode }) {
         };
     }, [handleKeyDown]);
 
+    useEffect(() => {
+        if (!isLocked) return;
+
+        const handleUserGesture = () => {
+            if (!document.fullscreenElement) {
+                requestFullscreen();
+            }
+        };
+
+        window.addEventListener('click', handleUserGesture, { capture: true });
+        window.addEventListener('keydown', handleUserGesture, { capture: true });
+
+        return () => {
+            window.removeEventListener('click', handleUserGesture, { capture: true });
+            window.removeEventListener('keydown', handleUserGesture, { capture: true });
+        };
+    }, [isLocked]);
+
     const handleUnlock = () => {
         if (exitCode === EXIT_PASSWORD) {
             router.push('/mock-exams');
