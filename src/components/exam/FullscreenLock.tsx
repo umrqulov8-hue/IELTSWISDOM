@@ -11,7 +11,12 @@ export function FullscreenLock({ children }: { children: React.ReactNode }) {
     const [error, setError] = useState(false);
     const router = useRouter();
 
+    // ESC Hold State
+    const [isHoldingEsc, setIsHoldingEsc] = useState(false);
+    const [escProgress, setEscProgress] = useState(0);
+
     const EXIT_PASSWORD = "101112";
+    const ESC_HOLD_TIME_MS = 20000; // 20 seconds
 
     const requestFullscreen = async () => {
         try {
@@ -37,11 +42,10 @@ export function FullscreenLock({ children }: { children: React.ReactNode }) {
     // Intercept keyboard events to prevent Alt+F4, Win+D, F11, Esc default actions
     const handleKeyDown = useCallback((e: KeyboardEvent) => {
         const isF11 = e.key === "F11";
-        const isEscape = e.key === "Escape";
         const isAltF4 = e.altKey && e.key === "F4";
         const isWinD = e.metaKey && e.key === "d";
 
-        if (isF11 || isEscape || isAltF4 || isWinD) {
+        if (isF11 || isAltF4 || isWinD) {
             e.preventDefault();
             setIsLocked(true);
             if (!document.fullscreenElement) {
@@ -53,7 +57,6 @@ export function FullscreenLock({ children }: { children: React.ReactNode }) {
     useEffect(() => {
         const enforceLock = () => {
             setIsLocked(true);
-            // Try to force fullscreen back on if it was lost
             if (!document.fullscreenElement) {
                 requestFullscreen();
             }
@@ -73,6 +76,7 @@ export function FullscreenLock({ children }: { children: React.ReactNode }) {
             if (document.fullscreenElement) {
                 lockKeyboard();
             } else {
+                // If they escaped full screen but are not locked by Windows key, just lock them anyway
                 enforceLock();
             }
         };
@@ -83,28 +87,71 @@ export function FullscreenLock({ children }: { children: React.ReactNode }) {
             }
         };
 
+        let escInterval: NodeJS.Timeout | null = null;
+        let holdTime = 0;
+
+        const handleGlobalKeyDown = (e: KeyboardEvent) => {
+            if (e.key === "Escape") {
+                e.preventDefault();
+                if (!escInterval && !isLocked) {
+                    setIsHoldingEsc(true);
+                    holdTime = 0;
+                    setEscProgress(0);
+
+                    escInterval = setInterval(() => {
+                        holdTime += 100;
+                        const progress = (holdTime / ESC_HOLD_TIME_MS) * 100;
+
+                        if (progress >= 100) {
+                            clearInterval(escInterval!);
+                            escInterval = null;
+                            router.push('/mock-exams');
+                        } else {
+                            setEscProgress(progress);
+                        }
+                    }, 100);
+                }
+            } else {
+                handleKeyDown(e);
+            }
+        };
+
+        const handleGlobalKeyUp = (e: KeyboardEvent) => {
+            if (e.key === "Escape") {
+                if (escInterval) {
+                    clearInterval(escInterval);
+                    escInterval = null;
+                }
+                setIsHoldingEsc(false);
+                setEscProgress(0);
+                holdTime = 0;
+            }
+        };
+
         document.addEventListener("fullscreenchange", onFsChange);
         document.addEventListener("webkitfullscreenchange", onFsChange);
         document.addEventListener("mozfullscreenchange", onFsChange);
         document.addEventListener("MSFullscreenChange", onFsChange);
         document.addEventListener("visibilitychange", onVisibilityChange);
 
-        window.addEventListener("keydown", handleKeyDown, { capture: true });
+        window.addEventListener("keydown", handleGlobalKeyDown, { capture: true });
+        window.addEventListener("keyup", handleGlobalKeyUp, { capture: true });
         window.addEventListener("blur", enforceLock);
 
-        // Try to lock immediately in case we mounted while already in fullscreen
         lockKeyboard();
 
         return () => {
+            if (escInterval) clearInterval(escInterval);
             document.removeEventListener("fullscreenchange", onFsChange);
             document.removeEventListener("webkitfullscreenchange", onFsChange);
             document.removeEventListener("mozfullscreenchange", onFsChange);
             document.removeEventListener("MSFullscreenChange", onFsChange);
             document.removeEventListener("visibilitychange", onVisibilityChange);
-            window.removeEventListener("keydown", handleKeyDown, { capture: true });
+            window.removeEventListener("keydown", handleGlobalKeyDown, { capture: true });
+            window.removeEventListener("keyup", handleGlobalKeyUp, { capture: true });
             window.removeEventListener("blur", enforceLock);
         };
-    }, [handleKeyDown]);
+    }, [handleKeyDown, isLocked, router]);
 
     useEffect(() => {
         if (!isLocked) return;
@@ -136,6 +183,27 @@ export function FullscreenLock({ children }: { children: React.ReactNode }) {
     return (
         <>
             {children}
+
+            <AnimatePresence>
+                {isHoldingEsc && !isLocked && (
+                    <motion.div
+                        initial={{ opacity: 0, y: -50 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -50 }}
+                        className="fixed top-8 left-1/2 -translate-x-1/2 z-[9999] bg-slate-900/90 backdrop-blur-md text-white px-8 py-4 rounded-full shadow-2xl border border-slate-700/50 flex flex-col items-center gap-2 min-w-[300px]"
+                    >
+                        <span className="font-bold text-sm tracking-widest uppercase">
+                            Hold ESC to abort test
+                        </span>
+                        <div className="w-full h-1.5 bg-slate-700 rounded-full overflow-hidden">
+                            <div
+                                className="h-full bg-rose-500 rounded-full transition-all duration-100 ease-linear"
+                                style={{ width: `${escProgress}%` }}
+                            />
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
 
             <AnimatePresence>
                 {isLocked && (
