@@ -3,11 +3,13 @@
 import { useEffect, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Lock, AlertTriangle } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export function FullscreenLock({ children }: { children: React.ReactNode }) {
     const [isLocked, setIsLocked] = useState(false);
     const [exitCode, setExitCode] = useState("");
     const [error, setError] = useState(false);
+    const router = useRouter();
 
     const EXIT_PASSWORD = "101112";
 
@@ -49,7 +51,7 @@ export function FullscreenLock({ children }: { children: React.ReactNode }) {
         const lockKeyboard = async () => {
             if (document.fullscreenElement && 'keyboard' in navigator) {
                 try {
-                    await (navigator as any).keyboard.lock(['Escape']);
+                    await (navigator as any).keyboard.lock(['Escape', 'MetaLeft', 'MetaRight', 'OSLeft', 'OSRight']);
                 } catch (e) {
                     console.error("Keyboard lock failed", e);
                 }
@@ -85,10 +87,7 @@ export function FullscreenLock({ children }: { children: React.ReactNode }) {
 
     const handleUnlock = () => {
         if (exitCode === EXIT_PASSWORD) {
-            setIsLocked(false);
-            setExitCode("");
-            setError(false);
-            requestFullscreen();
+            router.push('/mock-exams');
         } else {
             setError(true);
             setTimeout(() => setError(false), 2000);
@@ -105,12 +104,12 @@ export function FullscreenLock({ children }: { children: React.ReactNode }) {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-[9999] bg-[#0f172a]/95 backdrop-blur-xl flex items-center justify-center p-6"
+                        className="fixed inset-0 z-[9999] bg-white/95 backdrop-blur-xl flex items-center justify-center p-6"
                     >
                         <motion.div
                             initial={{ scale: 0.9, y: 20 }}
                             animate={{ scale: 1, y: 0 }}
-                            className="bg-white rounded-3xl p-10 max-w-md w-full shadow-2xl text-center relative overflow-hidden"
+                            className="bg-white rounded-3xl p-10 max-w-md w-full shadow-2xl shadow-slate-200 border border-slate-100 text-center relative overflow-hidden"
                         >
                             <div className="absolute top-0 left-0 w-full h-2 bg-rose-500" />
 
@@ -148,9 +147,9 @@ export function FullscreenLock({ children }: { children: React.ReactNode }) {
 
                                 <button
                                     onClick={handleUnlock}
-                                    className="w-full bg-[#2D3E50] text-white py-4 rounded-xl font-bold hover:bg-slate-800 transition-colors shadow-lg mt-4"
+                                    className="w-full bg-rose-500 text-white py-4 rounded-xl font-bold hover:bg-rose-600 transition-colors shadow-lg shadow-rose-500/20 mt-4"
                                 >
-                                    Unlock Exam
+                                    End Test & Exit
                                 </button>
                             </div>
                         </motion.div>
