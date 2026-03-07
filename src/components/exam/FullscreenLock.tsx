@@ -9,7 +9,7 @@ export function FullscreenLock({ children }: { children: React.ReactNode }) {
     const [exitCode, setExitCode] = useState("");
     const [error, setError] = useState(false);
 
-    const EXIT_PASSWORD = "1234567887654321";
+    const EXIT_PASSWORD = "101112";
 
     const requestFullscreen = async () => {
         try {
@@ -46,21 +46,42 @@ export function FullscreenLock({ children }: { children: React.ReactNode }) {
     }, []);
 
     useEffect(() => {
-        document.addEventListener("fullscreenchange", handleFullscreenChange);
-        document.addEventListener("webkitfullscreenchange", handleFullscreenChange);
-        document.addEventListener("mozfullscreenchange", handleFullscreenChange);
-        document.addEventListener("MSFullscreenChange", handleFullscreenChange);
+        const lockKeyboard = async () => {
+            if (document.fullscreenElement && 'keyboard' in navigator) {
+                try {
+                    await (navigator as any).keyboard.lock(['Escape']);
+                } catch (e) {
+                    console.error("Keyboard lock failed", e);
+                }
+            }
+        };
+
+        const onFsChange = () => {
+            if (document.fullscreenElement) {
+                lockKeyboard();
+            } else {
+                setIsLocked(true);
+            }
+        };
+
+        document.addEventListener("fullscreenchange", onFsChange);
+        document.addEventListener("webkitfullscreenchange", onFsChange);
+        document.addEventListener("mozfullscreenchange", onFsChange);
+        document.addEventListener("MSFullscreenChange", onFsChange);
 
         window.addEventListener("keydown", handleKeyDown, { capture: true });
 
+        // Try to lock immediately in case we mounted while already in fullscreen
+        lockKeyboard();
+
         return () => {
-            document.removeEventListener("fullscreenchange", handleFullscreenChange);
-            document.removeEventListener("webkitfullscreenchange", handleFullscreenChange);
-            document.removeEventListener("mozfullscreenchange", handleFullscreenChange);
-            document.removeEventListener("MSFullscreenChange", handleFullscreenChange);
+            document.removeEventListener("fullscreenchange", onFsChange);
+            document.removeEventListener("webkitfullscreenchange", onFsChange);
+            document.removeEventListener("mozfullscreenchange", onFsChange);
+            document.removeEventListener("MSFullscreenChange", onFsChange);
             window.removeEventListener("keydown", handleKeyDown, { capture: true });
         };
-    }, [handleFullscreenChange, handleKeyDown]);
+    }, [handleKeyDown]);
 
     const handleUnlock = () => {
         if (exitCode === EXIT_PASSWORD) {

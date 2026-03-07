@@ -292,13 +292,15 @@ export default function SimulationPage() {
 
 function QuestionsList({ questions, answers, onAnswerChange }: any) {
     return (
-        <div className="space-y-8">
+        <div className="space-y-4">
             {questions.map((q: any) => (
-                <div key={q.id} className="p-6">
-                    <p className="font-bold text-slate-700 mb-4">
-                        <span className="text-blue-600 mr-2 font-mono">{q.id}.</span>
-                        {q.text}
-                    </p>
+                <div key={q.id} className="p-2 sm:p-4">
+                    {q.text && (
+                        <p className="font-bold text-slate-700 mb-4">
+                            <span className="text-blue-600 mr-2 font-mono">{q.id}.</span>
+                            {q.text}
+                        </p>
+                    )}
 
                     {q.type === "multiple-choice" && (
                         <div className="space-y-2">
@@ -321,13 +323,18 @@ function QuestionsList({ questions, answers, onAnswerChange }: any) {
                     )}
 
                     {q.type === "fill-blank" && (
-                        <input
-                            type="text"
-                            value={answers[q.id.toString()] || ""}
-                            onChange={(e) => onAnswerChange(q.id.toString(), e.target.value)}
-                            className="w-full bg-slate-50 border-none rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 outline-none transition-all font-medium text-slate-800"
-                            placeholder="Type your answer here..."
-                        />
+                        <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+                            {!q.text && (
+                                <span className="text-blue-600 font-mono font-bold whitespace-nowrap">{q.id}.</span>
+                            )}
+                            <input
+                                type="text"
+                                value={answers[q.id.toString()] || ""}
+                                onChange={(e) => onAnswerChange(q.id.toString(), e.target.value)}
+                                className="w-full bg-slate-50 border-none rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 outline-none transition-all font-medium text-slate-800"
+                                placeholder="Type your answer here..."
+                            />
+                        </div>
                     )}
 
                     {q.type === "true-false" && (
