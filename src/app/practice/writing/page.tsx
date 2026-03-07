@@ -33,12 +33,15 @@ interface TestItem {
 
 // --- Mock Data ---
 const CATEGORIES = [
-    { id: "all", title: "All Tests", count: 42 },
-    { id: "academic", title: "Academic", count: 28, icon: GraduationCap },
+    { id: "all", title: "All Tests", count: 43 },
+    { id: "academic", title: "Academic", count: 29, icon: GraduationCap },
     { id: "general", title: "General Training", count: 14, icon: Briefcase },
 ];
 
 const TESTS: TestItem[] = [
+    // Feb 25 Tests - FULL TEST (NEW)
+    { id: "feb25-full", mode: "academic", taskType: "full-test", title: "February 25 Test", subtitle: "Full Academic Writing Test", duration: "60 min", status: "free", isNew: true },
+
     // Feb 11 Tests - FULL TEST (NEW)
     { id: "feb11-full", mode: "academic", taskType: "full-test", title: "February 11 Test", subtitle: "Full Academic Writing Test", duration: "60 min", status: "free", isNew: true },
 
@@ -100,8 +103,8 @@ export default function WritingPage() {
         noTestsDesc: lang === "en" ? "Try searching for something else or clear filters." : "Boshqa narsani qidiring yoki filtrlarni tozalang.",
     };
     const CATEGORIES = [
-        { id: "all", title: W.allTests, count: 42 },
-        { id: "academic", title: W.academic, count: 28, icon: GraduationCap },
+        { id: "all", title: W.allTests, count: 43 },
+        { id: "academic", title: W.academic, count: 29, icon: GraduationCap },
         { id: "general", title: W.general, count: 14, icon: Briefcase },
     ];
     const [selectedMode, setSelectedMode] = useState<WritingMode>("all");

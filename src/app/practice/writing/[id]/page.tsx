@@ -42,6 +42,43 @@ interface BandResult {
 
 // --- Mock Prompts Data ---
 const PROMPTS: Record<string, TestData> = {
+    "feb25-full": {
+        title: "February 25 - Full Academic Writing Test",
+        type: "full-test",
+        tasks: [
+            {
+                title: "Task 1: Interests in Sports in Europe",
+                type: "task-1",
+                minWords: 150,
+                prompt: `
+                    <h3 class="text-lg font-bold mb-2">WRITING TASK 1</h3>
+                    <p class="mb-4">You should spend about 20 minutes on this task.</p>
+                    <p class="mb-4">The table illustrates the total proportion of interests in sports by collecting data in European country, which occurred in 1999, 2004 and 2009.</p>
+                    <div class="mb-6 flex flex-col items-center gap-4">
+                       <img src="/image for writing test/photo_2026-03-07_17-21-04.jpg" alt="Table showing proportion of interests in sports in Europe" class="w-full h-auto rounded-lg shadow-sm border border-slate-100"/>
+                    </div>
+                    <p class="mb-4">Summarise the information by selecting and reporting the main features, and make comparisons where relevant.</p>
+                    <p>Write at least 150 words.</p>
+                `
+            },
+            {
+                title: "Task 2: Homeschooling",
+                type: "task-2",
+                minWords: 250,
+                prompt: `
+                    <h3 class="text-lg font-bold mb-2">WRITING TASK 2</h3>
+                    <p class="mb-4">You should spend about 40 minutes on this task.</p>
+                    <p class="mb-4">Write about the following topic:</p>
+                    <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 mb-6 italic text-slate-700 leading-relaxed shadow-sm">
+                        There has been an increase in the number of parents who are choosing to educate their children at home instead of sending them to school.<br/><br/>
+                        <strong>Do the advantages of this outweigh the disadvantages?</strong>
+                    </div>
+                    <p class="mb-4">Give reasons for your answer and include any relevant examples from your own knowledge or experience.</p>
+                    <p>Write at least 250 words.</p>
+                `
+            }
+        ]
+    },
     "feb11-full": {
         title: "February 11 - Full Academic Writing Test",
         type: "full-test",
