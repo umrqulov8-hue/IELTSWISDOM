@@ -1,0 +1,141 @@
+"use client";
+
+import { useEffect, useState, useCallback } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Lock, AlertTriangle } from "lucide-react";
+
+export function FullscreenLock({ children }: { children: React.ReactNode }) {
+    const [isLocked, setIsLocked] = useState(false);
+    const [exitCode, setExitCode] = useState("");
+    const [error, setError] = useState(false);
+
+    const EXIT_PASSWORD = "1234567887654321";
+
+    const requestFullscreen = async () => {
+        try {
+            if (document.documentElement.requestFullscreen) {
+                await document.documentElement.requestFullscreen();
+            } else if ((document.documentElement as any).webkitRequestFullscreen) {
+                await (document.documentElement as any).webkitRequestFullscreen();
+            } else if ((document.documentElement as any).msRequestFullscreen) {
+                await (document.documentElement as any).msRequestFullscreen();
+            }
+        } catch (err) {
+            console.error("Error attempting to re-enable fullscreen:", err);
+        }
+    };
+
+    const handleFullscreenChange = useCallback(() => {
+        if (!document.fullscreenElement) {
+            // User exited fullscreen (e.g., pressed Esc)
+            setIsLocked(true);
+        }
+    }, []);
+
+    // Intercept keyboard events to prevent Alt+F4, Win+D, F11, Esc default actions
+    const handleKeyDown = useCallback((e: KeyboardEvent) => {
+        const isF11 = e.key === "F11";
+        const isEscape = e.key === "Escape";
+        const isAltF4 = e.altKey && e.key === "F4";
+        const isWinD = e.metaKey && e.key === "d";
+
+        if (isF11 || isEscape || isAltF4 || isWinD) {
+            e.preventDefault();
+            setIsLocked(true);
+        }
+    }, []);
+
+    useEffect(() => {
+        document.addEventListener("fullscreenchange", handleFullscreenChange);
+        document.addEventListener("webkitfullscreenchange", handleFullscreenChange);
+        document.addEventListener("mozfullscreenchange", handleFullscreenChange);
+        document.addEventListener("MSFullscreenChange", handleFullscreenChange);
+
+        window.addEventListener("keydown", handleKeyDown, { capture: true });
+
+        return () => {
+            document.removeEventListener("fullscreenchange", handleFullscreenChange);
+            document.removeEventListener("webkitfullscreenchange", handleFullscreenChange);
+            document.removeEventListener("mozfullscreenchange", handleFullscreenChange);
+            document.removeEventListener("MSFullscreenChange", handleFullscreenChange);
+            window.removeEventListener("keydown", handleKeyDown, { capture: true });
+        };
+    }, [handleFullscreenChange, handleKeyDown]);
+
+    const handleUnlock = () => {
+        if (exitCode === EXIT_PASSWORD) {
+            setIsLocked(false);
+            setExitCode("");
+            setError(false);
+            requestFullscreen();
+        } else {
+            setError(true);
+            setTimeout(() => setError(false), 2000);
+        }
+    };
+
+    return (
+        <>
+            {children}
+
+            <AnimatePresence>
+                {isLocked && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 z-[9999] bg-[#0f172a]/95 backdrop-blur-xl flex items-center justify-center p-6"
+                    >
+                        <motion.div
+                            initial={{ scale: 0.9, y: 20 }}
+                            animate={{ scale: 1, y: 0 }}
+                            className="bg-white rounded-3xl p-10 max-w-md w-full shadow-2xl text-center relative overflow-hidden"
+                        >
+                            <div className="absolute top-0 left-0 w-full h-2 bg-rose-500" />
+
+                            <div className="w-20 h-20 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                                <Lock className="w-10 h-10 text-rose-500" />
+                            </div>
+
+                            <h2 className="text-3xl font-black text-slate-800 mb-2">Exam Locked</h2>
+                            <p className="text-slate-500 mb-8 font-medium">
+                                You attempted to leave the fullscreen environment. Please enter the invigilator code to unlock or exit.
+                            </p>
+
+                            <div className="space-y-4">
+                                <input
+                                    type="password"
+                                    value={exitCode}
+                                    onChange={(e) => setExitCode(e.target.value)}
+                                    placeholder="Enter exit code..."
+                                    className="w-full text-center text-2xl tracking-[0.5em] font-mono bg-slate-50 border-2 border-slate-200 rounded-2xl px-4 py-4 focus:border-blue-500 outline-none transition-all placeholder:tracking-normal placeholder:text-base placeholder:-translate-y-1"
+                                    onKeyDown={(e) => {
+                                        if (e.key === "Enter") handleUnlock();
+                                    }}
+                                    autoFocus
+                                />
+
+                                {error && (
+                                    <motion.p
+                                        initial={{ opacity: 0, y: -10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        className="text-rose-500 text-sm font-bold flex items-center justify-center gap-2"
+                                    >
+                                        <AlertTriangle className="w-4 h-4" /> Incorrect code
+                                    </motion.p>
+                                )}
+
+                                <button
+                                    onClick={handleUnlock}
+                                    className="w-full bg-[#2D3E50] text-white py-4 rounded-xl font-bold hover:bg-slate-800 transition-colors shadow-lg mt-4"
+                                >
+                                    Unlock Exam
+                                </button>
+                            </div>
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+        </>
+    );
+}

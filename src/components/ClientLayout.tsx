@@ -21,6 +21,7 @@ const DASHBOARD_ROUTES = [
     "/practice",
     "/welcome",
     "/avatar",
+    "/exam-center",
 ];
 
 export function ClientLayout({ children }: { children: React.ReactNode }) {
