@@ -42,6 +42,17 @@ interface BandResult {
 
 // --- Mock Prompts Data ---
 const PROMPTS: Record<string, TestData> = {
+    "feb22-full": {
+        task1: {
+            title: "Task 1: Employment Patterns in New Zealand",
+            prompt: "The table below shows employment patterns for males and females in New Zealand in 1993 and 2003. Summarize the information by selecting and reporting the main features, and make comparisons where relevant.",
+            image: "/image for writing test/photo_2026-03-07_18-06-02.jpg"
+        },
+        task2: {
+            title: "Task 2: Solving Traffic Congestion",
+            prompt: "Some people believe that to solve a problem of traffic congestions the government needs to provide free and 24/7 public transport. To what extent you agree or disagree?"
+        }
+    },
     "feb25-full": {
         title: "February 25 - Full Academic Writing Test",
         type: "full-test",

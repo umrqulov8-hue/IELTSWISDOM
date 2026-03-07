@@ -33,12 +33,15 @@ interface TestItem {
 
 // --- Mock Data ---
 const CATEGORIES = [
-    { id: "all", title: "All Tests", count: 43 },
-    { id: "academic", title: "Academic", count: 29, icon: GraduationCap },
+    { id: "all", title: "All Tests", count: 44 },
+    { id: "academic", title: "Academic", count: 30, icon: GraduationCap },
     { id: "general", title: "General Training", count: 14, icon: Briefcase },
 ];
 
 const TESTS: TestItem[] = [
+    // Feb 22 Tests - FULL TEST (NEW)
+    { id: "feb22-full", mode: "academic", taskType: "full-test", title: "February 22 Test", subtitle: "Full Academic Writing Test", duration: "60 min", status: "free", isNew: true },
+
     // Feb 25 Tests - FULL TEST (NEW)
     { id: "feb25-full", mode: "academic", taskType: "full-test", title: "February 25 Test", subtitle: "Full Academic Writing Test", duration: "60 min", status: "free", isNew: true },
 
