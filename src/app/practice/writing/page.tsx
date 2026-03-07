@@ -52,7 +52,7 @@ const TESTS: TestItem[] = [
     { id: "feb15-full", mode: "academic", taskType: "full-test", title: "February 15 Test", subtitle: "Full Academic Writing Test", duration: "60 min", status: "free", isNew: true },
 
     // Feb 16 Tests - FULL TEST
-    { id: "feb16-full", mode: "academic", taskType: "full-test", title: "February 16 VERIFIED", subtitle: "Full Academic Writing Test", duration: "60 min", status: "free", isNew: true },
+    { id: "feb16-full", mode: "academic", taskType: "full-test", title: "February 16 Test", subtitle: "Full Academic Writing Test", duration: "60 min", status: "free", isNew: true },
 
 
     // Cambridge 20 Academic
@@ -70,7 +70,7 @@ const TESTS: TestItem[] = [
     // // Cambridge 20 General
     // { id: "c20-gt-t1-t2", mode: "general", taskType: "task-2", title: "Cambridge IELTS 20", subtitle: "General Writing Test 1 (Task 2)", duration: "40 min", status: "free" },
     // { id: "c20-gt-t1-t1", mode: "general", taskType: "task-1", title: "Cambridge IELTS 20", subtitle: "General Writing Test 1 (Task 1)", duration: "20 min", status: "free" },
-    // Last updated: 2026-03-07 17:27
+    // Last updated: 2026-03-07 17:41
 
     // // Older Tests
     // { id: "c19-ac-t1-full", mode: "academic", taskType: "full-test", title: "Cambridge IELTS 19", subtitle: "Academic Writing Test 1", duration: "60 min", status: "free" },
