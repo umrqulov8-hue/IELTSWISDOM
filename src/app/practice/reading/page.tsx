@@ -29,14 +29,17 @@ interface TestItem {
 
 // --- Mock Data ---
 const CATEGORIES: TestCategory[] = [
-    { id: "all", title: "All Tests", count: 61 },
-    { id: "free-passages", title: "Free Passages", count: 22, icon: BookOpen },
-    { id: "premium-passages", title: "Premium Passages", count: 19, icon: Sparkles },
-    { id: "full-tests", title: "Full Tests", count: 17, icon: Layers },
-    { id: "cambridge-ielts", title: "Cambridge IELTS Readings", count: 3, icon: GraduationCap },
+    { id: "all", title: "All Tests", count: 28 },
+    { id: "free-passages", title: "Free Passages", count: 14, icon: BookOpen },
+    { id: "premium-passages", title: "Premium Passages", count: 1, icon: Sparkles },
+    { id: "full-tests", title: "Full Tests", count: 2, icon: Layers },
+    { id: "cambridge-ielts", title: "Cambridge IELTS Readings", count: 11, icon: GraduationCap },
 ];
 
 const TESTS: TestItem[] = [
+    // Premium Passages
+    { id: "homers-literary-legacy", categoryId: "premium-passages", title: "Homer's Literary Legacy", isNew: true, status: "premium" },
+
     // Free Passages
     { id: "fp-9", categoryId: "free-passages", title: "Socially Responsible Businesses", isNew: true, status: "free" },
     { id: "south-pole-adventurer", categoryId: "free-passages", title: "South Pole Adventurer", isNew: true, status: "free" },
