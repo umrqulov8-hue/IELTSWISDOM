@@ -1,5 +1,6 @@
 import { mockReadingTest1 } from "./mockTest1";
 import { mockReadingTest2 } from "./mockTest2";
+import { mockReadingTest3 } from "./mockTest3";
 import { southPoleAdventurerData } from "./southPoleAdventurer";
 import { homersLiteraryLegacyData } from "./homersLiteraryLegacy";
 
@@ -847,7 +848,8 @@ export const READING_TESTS: Record<string, ReadingTest> = {
     },
     "south-pole-adventurer": southPoleAdventurerData,
     ...Object.fromEntries(mockReadingTest1.map(test => [test.id, test])),
-    ...Object.fromEntries(mockReadingTest2.map(test => [test.id, test]))
+    ...Object.fromEntries(mockReadingTest2.map(test => [test.id, test])),
+    ...Object.fromEntries(mockReadingTest3.map(test => [test.id, test]))
 };
 
 

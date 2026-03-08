@@ -75,6 +75,7 @@ const TESTS: TestItem[] = [
     // Full Tests
     { id: "mock-1-full", categoryId: "full-tests", title: "IELTS Reading Mock Test 1 (Full)", isNew: true, status: "free" },
     { id: "mock-2-full", categoryId: "full-tests", title: "IELTS Reading Mock Test 2 (Full)", isNew: true, status: "free" },
+    { id: "mock-test-3", categoryId: "full-tests", title: "IELTS Reading Mock Test 3 (Full)", isNew: true, status: "free" },
 ];
 
 

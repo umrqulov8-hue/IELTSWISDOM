@@ -1,0 +1,105 @@
+import { ReadingTest } from "./reading-tests";
+
+export const mockReadingTest3: ReadingTest[] = [
+    {
+        id: "mock-test-3",
+        title: "Mock Test 3",
+        passages: [
+            {
+                id: "passage-1",
+                title: "Development of Adolescence",
+                content: `
+                    <h2 class="text-xl font-bold mb-4">Development of Adolescence</h2>
+                    <p class="mb-4"><strong>A</strong> The ways in which adolescents develop are most strongly related to the nature of their social environments. In Western societies, adolescence is often considered to be an extended period of transition from childhood to adulthood. There are some individuals who pass through adolescence very easily and those who find it a difficult time. However, there are aspects of this transition that affect most adolescents, though these changes vary from person to person.</p>
+                    <p class="mb-4"><strong>B</strong> During early adolescence, teenagers normally begin to distance themselves from their parents and usually form a peer group. For many parents, this is a difficult time as they feel that their child is rejecting them. However, researchers suggest that this is actually a necessary part of the process of becoming an independent adult. Adolescents often turn to their peers for advice and support. In addition, the peer group is where adolescents learn how to relate to others of the same age and develop relationship skills. It is also the group through which they learn to experiment with various social roles.</p>
+                    <p class="mb-4"><strong>C</strong> As well as the changes in social relationships, the adolescent period is characterised by cognitive development. Jean Piaget, a Swiss developmental psychologist, believed that adolescents develop the ability to think abstractly and logically. They are able to think about hypothetical situations and understand concepts such as justice and fairness. However, it takes time for adolescents to learn how to apply these new cognitive skills in their daily lives. For example, they may understand the consequences of their actions in a hypothetical situation but still engage in risky behaviour in real life.</p>
+                    <p class="mb-4"><strong>D</strong> Adolescence is also a period of emotional change. Teenagers often experience intense emotions, and they may have mood swings. These emotional changes are thought to be caused by hormonal fluctuations, as well as the stress of navigating the transition to adulthood. Adolescents may also experience a sense of identity confusion as they try to figure out who they are and what they want to do with their lives. Erik Erikson, a developmental psychologist, argued that the primary task of adolescence is to develop a strong sense of identity. If an adolescent fails to do this, they may experience role confusion and may struggle to form close relationships in the future.</p>
+                    <p class="mb-4"><strong>E</strong> Physical development is another major aspect of adolescence. Both boys and girls experience a growth spurt, and they develop secondary sexual characteristics. These physical changes can have a profound impact on an adolescent's self-esteem and body image. In addition, adolescents may also experience changes in their sleep patterns, and they may need more sleep than they did during childhood.</p>
+                    <p class="mb-4"><strong>F</strong> In conclusion, adolescence is a complex and challenging period of development. Teenagers experience significant changes in their social, cognitive, emotional, and physical lives. While this period can be difficult for both adolescents and their parents, it is also a time of great opportunity for personal growth and development.</p>
+                `,
+                questionRange: { start: 1, end: 13 }
+            },
+            {
+                id: "passage-2",
+                title: "Intelligence and Giftedness",
+                content: `
+                    <h2 class="text-xl font-bold mb-4">Intelligence and Giftedness</h2>
+                    <p class="mb-4"><strong>A</strong> In 1904, the French psychologist Alfred Binet was asked by the French government to develop a test to identify students who would need special education. Binet and his colleague, Theodore Simon, developed the Binet-Simon Intelligence Scale, which was the first practical intelligence test. The scale consisted of a series of tasks that were designed to measure a child's ability to reason, solve problems, and understand concepts. The tasks were arranged in order of difficulty, and a child's score on the test was used to calculate their "mental age."</p>
+                    <p class="mb-4"><strong>B</strong> Binet's test was later adapted for use in the United States by Lewis Terman, a psychologist at Stanford University. Terman revised the test and published the Stanford-Binet Intelligence Scale in 1916. He also introduced the concept of the Intelligence Quotient (IQ), which was calculated by dividing a child's mental age by their chronological age and multiplying by 100. Terman believed that intelligence was largely inherited and that the IQ test was a measure of a person's innate intellectual ability.</p>
+                    <p class="mb-4"><strong>C</strong> The Stanford-Binet Intelligence Scale became widely used in the United States, and it was used to identify gifted children for special educational programs. However, the use of IQ tests has been controversial. Critics argue that IQ tests are culturally biased and that they do not measure all aspects of intelligence. For example, the test may favour students who have been exposed to certain types of knowledge and experiences, while disadvantage those who have not.</p>
+                    <p class="mb-4"><strong>D</strong> In recent years, researchers have proposed new theories of intelligence that go beyond the traditional concept of IQ. Howard Gardner, a psychologist at Harvard University, proposed the theory of multiple intelligences. He argued that there are several different types of intelligence, including linguistic, logical-mathematical, spatial, musical, bodily-kinesthetic, interpersonal, and intrapersonal intelligence. According to Gardner, a person may be strong in one or more types of intelligence but weak in others.</p>
+                    <p class="mb-4"><strong>E</strong> Another alternative to the traditional concept of IQ is the theory of emotional intelligence, proposed by Peter Salovey and John Mayer in 1990 and popularised by Daniel Goleman in his 1995 book, Emotional Intelligence. Emotional intelligence is defined as the ability to perceive, understand, manage, and use emotions. Research suggests that emotional intelligence is an important predictor of success in life, perhaps even more important than IQ.</p>
+                    <p class="mb-4"><strong>F</strong> The study of giftedness has also evolved over time. In the early 20th century, giftedness was defined almost exclusively in terms of high IQ. However, modern researchers recognise that giftedness can manifest in many different ways, including exceptional creativity, leadership ability, and artistic talent. Gifted children may also have unique social and emotional needs, and they may require specialised support and services to reach their full potential.</p>
+                `,
+                questionRange: { start: 14, end: 26 }
+            },
+            {
+                id: "passage-3",
+                title: "Communicating Styles and Conflict",
+                content: `
+                    <h2 class="text-xl font-bold mb-4">Communicating Styles and Conflict</h2>
+                    <p class="mb-4"><strong>A</strong> Conflict is inevitable in any relationship, whether it is between partners, friends, or colleagues. How we handle conflict is often determined by our communication style. There are four main communication styles: passive, aggressive, passive-aggressive, and assertive. Understanding these styles can help us communicate more effectively and resolve conflicts more productively.</p>
+                    <p class="mb-4"><strong>B</strong> Passive communicators tend to avoid conflict and may have difficulty expressing their needs and feelings. They often go along with what others want, even if it is not what they want themselves. As a result, passive communicators may experience feelings of resentment and frustration. They may also be perceived by others as being weak or easily manipulated.</p>
+                    <p class="mb-4"><strong>C</strong> Aggressive communicators, on the other hand, express their needs and feelings in a way that violates the rights of others. They may be verbally or physically abusive, and they often try to dominate or control others. Aggressive communication can lead to a breakdown in relationships and can escalate conflict.</p>
+                    <p class="mb-4"><strong>D</strong> Passive-aggressive communicators express their anger or frustration indirectly, rather than addressing it directly. They may use sarcasm, give the silent treatment, or agree to do something and then not do it. This type of communication can be confusing and frustrating for others, and it often exacerbates conflict.</p>
+                    <p class="mb-4"><strong>E</strong> Assertive communicators express their needs and feelings clearly and respectfully, without violating the rights of others. They are able to communicate their boundaries and stand up for themselves, while also being open to compromise. Assertive communication is generally considered to be the most effective communication style, as it promotes mutual respect and understanding.</p>
+                    <p class="mb-4"><strong>F</strong> In addition to communication styles, researchers have also identified different conflict resolution styles, including competing, accommodating, avoiding, compromising, and collaborating. Competing involves trying to win the conflict at the expense of the other person. Accommodating involves giving in to the other person's demands. Avoiding involves ignoring or withdrawing from the conflict. Compromising involves finding a middle ground where both parties give up something. Collaborating involves working together to find a solution that meets the needs of both parties.</p>
+                    <p class="mb-4"><strong>G</strong> To communicate effectively during a conflict, it is important to practice active listening. This involves paying attention to the other person, acknowledging their feelings, and restating what they have said to ensure that you have understood them correctly. It is also important to use "I" statements, rather than "you" statements, to express your feelings without blaming the other person. For example, instead of saying, "You never listen to me," you could say, "I feel frustrated when I don't feel heard."</p>
+                    <p class="mb-4"><strong>H</strong> Ultimately, effective communication and conflict resolution require empathy, respect, and a willingness to understand the other person's perspective. By developing these skills, we can build stronger, more resilient relationships.</p>
+                `,
+                questionRange: { start: 27, end: 40 }
+            }
+        ],
+        questions: [
+            // Passage 1: Development of Adolescence
+            { id: 1, type: "multiple-choice", text: "Some individuals find it a difficult time to ?", options: ["A: pass through adolescence", "B: be interested in opposite sex", "C: pass through transition", "D: develop cognitive skills"], correctAnswer: 1 },
+            { id: 2, type: "multiple-choice", text: "Teenagers normally?", options: ["A: feel rejected by parents", "B: begin to distance themselves from their parents", "C: develop relationship skills", "D: think about hypothetical situations"], correctAnswer: 1 },
+            { id: 3, type: "multiple-choice", text: "Adolescents?", options: ["A: form a peer group", "B: learn to be fair", "C: engage in risky behaviour", "D: have mood swings"], correctAnswer: 0 },
+            { id: 4, type: "multiple-choice", text: "Adolescents?", options: ["A: understand concepts such as justice", "B: learn to experiment with various social roles", "C: experience significant changes in their sleep patterns", "D: develop an independent adult"], correctAnswer: 1 },
+            { id: 5, type: "multiple-choice", text: "Adolescents?", options: ["A: experience a sense of identity confusion", "B: take time to apply cognitive skills", "C: need less peer approval", "D: may struggle to form close relationships"], correctAnswer: 2 },
+            { id: 6, type: "multiple-choice", text: "Adolescents?", options: ["A: understand the consequences of their actions", "B: experience an intellectual booming", "C: develop abstractly and logically", "D: experience profound impact on an adolescent's self-esteem"], correctAnswer: 1 },
+            { id: 7, type: "multiple-choice", text: "Jean Piaget?", options: ["A: believed adolescence is a complex and challenging period", "B: was a Swiss developmental psychologist", "C: argued that the primary task of adolescence is to develop strong relationships", "D: argued about cognitive development"], correctAnswer: 4 }, // Map to E based on correctAnswers mapping "E" in original
+            { id: 8, type: "multiple-choice", text: "High School Courses?", options: ["A: help to develop relationship skills", "B: develop an independent adult", "C: are more challenging than some can accept", "D: give advice and support"], correctAnswer: 2 },
+            { id: 9, type: "multiple-choice", text: "Adolescence is a time?", options: ["A: to form personal identity with morals", "B: for personal growth and development", "C: of great opportunity", "D: of emotional change"], correctAnswer: 0 },
+            { id: 10, type: "multiple-choice", text: "The developmental speed of thinking?", options: ["A: takes time for adolescents", "B: is characterised by cognitive development", "C: is caused by hormonal fluctuations", "D: varies from people to people"], correctAnswer: 3 },
+
+            { id: 11, type: "true-false", text: "adolescent develops abstract thinking", options: ["TRUE", "FALSE", "NOT GIVEN"], correctAnswer: 1 }, // FALSE
+            { id: 12, type: "true-false", text: "language deficit", options: ["TRUE", "FALSE", "NOT GIVEN"], correctAnswer: 0 }, // TRUE
+            { id: 13, type: "true-false", text: "transition to independence", options: ["TRUE", "FALSE", "NOT GIVEN"], correctAnswer: 0 }, // TRUE
+
+            // Passage 2: Intelligence and Giftedness
+            { id: 14, type: "multiple-choice", text: "IQ one factor", options: ["A", "B", "C", "D", "E", "F", "G"], correctAnswer: 6 }, // G
+            { id: 15, type: "multiple-choice", text: "Stern's methodology", options: ["A", "B", "C", "D", "E", "F", "G"], correctAnswer: 2 }, // C
+            { id: 16, type: "multiple-choice", text: "Inadequacy / misunderstanding", options: ["A", "B", "C", "D", "E", "F", "G"], correctAnswer: 1 }, // B
+            { id: 17, type: "multiple-choice", text: "Definition coined by Terman", options: ["A", "B", "C", "D", "E", "F", "G"], correctAnswer: 3 }, // D
+            { id: 18, type: "multiple-choice", text: "Binet", options: ["A", "B", "C", "D", "E", "F", "G"], correctAnswer: 0 }, // A
+            { id: 19, type: "multiple-choice", text: "designed according to age", options: ["A", "B", "C", "D", "E", "F", "G"], correctAnswer: 1 }, // B
+            { id: 20, type: "multiple-choice", text: "US Army selected officers", options: ["A", "B", "C", "D", "E", "F", "G"], correctAnswer: 0 }, // A
+            { id: 21, type: "multiple-choice", text: "purpose", options: ["A", "B", "C", "D", "E", "F", "G"], correctAnswer: 2 }, // C
+
+            { id: 22, type: "true-false", text: "Binet's intention misunderstood", options: ["YES", "NO", "NOT GIVEN"], correctAnswer: 0 }, // YES
+            { id: 23, type: "true-false", text: "Stern still used age (mental age/physical age)", options: ["YES", "NO", "NOT GIVEN"], correctAnswer: 1 }, // NO
+            { id: 24, type: "true-false", text: "Einstein counter-example not stated", options: ["YES", "NO", "NOT GIVEN"], correctAnswer: 2 }, // NOT GIVEN
+            { id: 25, type: "true-false", text: "IQ → racial discrimination", options: ["YES", "NO", "NOT GIVEN"], correctAnswer: 0 }, // YES
+            { id: 26, type: "true-false", text: "author's view on meaningfulness not explicit", options: ["YES", "NO", "NOT GIVEN"], correctAnswer: 2 }, // NOT GIVEN
+
+            // Passage 3: Communicating Styles and Conflict
+            { id: 27, type: "multiple-choice", text: "Para A", options: ["i", "ii", "iii", "iv", "v", "vi", "vii", "viii"], correctAnswer: 2 }, // iii
+            { id: 28, type: "multiple-choice", text: "Para B", options: ["i", "ii", "iii", "iv", "v", "vi", "vii", "viii"], correctAnswer: 5 }, // vi
+            { id: 29, type: "multiple-choice", text: "Para C", options: ["i", "ii", "iii", "iv", "v", "vi", "vii", "viii"], correctAnswer: 0 }, // i
+            { id: 30, type: "multiple-choice", text: "Para D", options: ["i", "ii", "iii", "iv", "v", "vi", "vii", "viii"], correctAnswer: 3 }, // iv
+            { id: 31, type: "multiple-choice", text: "Para E", options: ["i", "ii", "iii", "iv", "v", "vi", "vii", "viii"], correctAnswer: 7 }, // viii
+            { id: 32, type: "multiple-choice", text: "Para F", options: ["i", "ii", "iii", "iv", "v", "vi", "vii", "viii"], correctAnswer: 6 }, // vii
+            { id: 33, type: "multiple-choice", text: "Para G", options: ["i", "ii", "iii", "iv", "v", "vi", "vii", "viii"], correctAnswer: 4 }, // v
+            { id: 34, type: "multiple-choice", text: "Para H", options: ["i", "ii", "iii", "iv", "v", "vi", "vii", "viii"], correctAnswer: 1 }, // ii
+
+            { id: 35, type: "true-false", text: "sanguine love variety/change", options: ["TRUE", "FALSE", "NOT GIVEN"], correctAnswer: 1 }, // FALSE
+            { id: 36, type: "true-false", text: "both dislike conflict, need time for change", options: ["TRUE", "FALSE", "NOT GIVEN"], correctAnswer: 0 }, // TRUE
+            { id: 37, type: "true-false", text: "no such claim", options: ["TRUE", "FALSE", "NOT GIVEN"], correctAnswer: 2 }, // NOT GIVEN
+            { id: 38, type: "true-false", text: "can develop flexibility", options: ["TRUE", "FALSE", "NOT GIVEN"], correctAnswer: 0 }, // TRUE
+            { id: 39, type: "true-false", text: "work environment affects style", options: ["TRUE", "FALSE", "NOT GIVEN"], correctAnswer: 0 }, // TRUE
+
+            { id: 40, type: "multiple-choice", text: "self-assessment helps understand colleagues", options: ["A", "B", "C", "D"], correctAnswer: 1 } // B
+        ]
+    }
+];
