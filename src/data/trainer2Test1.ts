@@ -8,7 +8,7 @@ export const trainer2Test1: ListeningTest = {
             id: "part-1",
             title: "Part 1",
             instructions: "Questions 1-10",
-            audioUrl: "/audio/Listening (2).m4a",
+            audioUrl: "/audio/trainer2-test1.m4a",
             content: `
             <div class="mb-6">
                 <p class="font-bold mb-4">Complete the table below.</p>
@@ -126,7 +126,7 @@ export const trainer2Test1: ListeningTest = {
             id: "part-2",
             title: "Part 2",
             instructions: "Questions 11-20",
-            audioUrl: "/audio/Listening (2).m4a",
+            audioUrl: "/audio/trainer2-test1.m4a",
             content: `
             <div class="mb-10">
                 <p class="font-bold mb-4">Complete the notes below.</p>
@@ -215,7 +215,7 @@ export const trainer2Test1: ListeningTest = {
             id: "part-3",
             title: "Part 3",
             instructions: "Questions 21-30",
-            audioUrl: "/audio/Listening (2).m4a",
+            audioUrl: "/audio/trainer2-test1.m4a",
             content: `
             <div class="mb-10">
                 <p class="font-bold mb-4">Questions 21-22</p>
@@ -335,7 +335,7 @@ export const trainer2Test1: ListeningTest = {
             id: "part-4",
             title: "Part 4",
             instructions: "Questions 31-40",
-            audioUrl: "/audio/Listening (2).m4a",
+            audioUrl: "/audio/trainer2-test1.m4a",
             content: `
             <div class="mb-10">
                 <p class="font-bold mb-4">Complete the notes below.</p>
