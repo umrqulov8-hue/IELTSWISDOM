@@ -255,6 +255,43 @@ const PROMPTS: Record<string, TestData> = {
             }
         ]
     },
+    "working-hours": {
+        title: "Writing Practice - Working Hours & Fuel Production",
+        type: "full-test",
+        tasks: [
+            {
+                title: "Task 1: Fuel Production in the UK",
+                type: "task-1",
+                minWords: 150,
+                prompt: `
+                    <h3 class="text-lg font-bold mb-2">WRITING TASK 1</h3>
+                    <p class="mb-4">You should spend about 20 minutes on this task.</p>
+                    <p class="mb-4">The graph below shows the production levels of the main kinds of fuel in the UK between 1981 and 2000.</p>
+                    <div class="mb-6 flex flex-col items-center gap-4">
+                       <img src="https://engnovatewebsitestorage.blob.core.windows.net/ielts-writing-task-1-images/a6aad123f8d98350" alt="Chart showing production levels of main kinds of fuel in the UK" class="w-full h-auto rounded-lg shadow-sm border border-slate-100"/>
+                    </div>
+                    <p class="mb-4">Summarise the information by selecting and reporting the main features, and make comparisons where relevant.</p>
+                    <p>Write at least 150 words.</p>
+                `
+            },
+            {
+                title: "Task 2: Working Hours Laws",
+                type: "task-2",
+                minWords: 250,
+                prompt: `
+                    <h3 class="text-lg font-bold mb-2">WRITING TASK 2</h3>
+                    <p class="mb-4">You should spend about 40 minutes on this task.</p>
+                    <p class="mb-4">Write about the following topic:</p>
+                    <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 mb-6 italic text-slate-700 leading-relaxed shadow-sm">
+                        Some countries have introduced laws to limit the working hours that an employer can ask from an employee.<br/><br/>
+                        <strong>Why are these laws introduced?<br/>Is this a positive or negative trend?</strong>
+                    </div>
+                    <p class="mb-4">Give reasons for your answer and include any relevant examples from your own knowledge or experience.</p>
+                    <p>Write at least 250 words.</p>
+                `
+            }
+        ]
+    },
     "c20-ac-t4-t2": {
         title: "Cambridge IELTS 20 - Academic Writing Test 4 (Task 2)",
         type: "task-2",
