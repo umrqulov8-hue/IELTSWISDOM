@@ -20,7 +20,7 @@ export const trainer1Test4: ListeningTest = {
             
             <table class="w-full border-collapse border border-slate-400 min-w-[500px]">
                 <thead>
-                    <tr class="bg-blue-600 text-white">
+                    <tr class="bg-slate-700 text-white">
                         <th class="border border-slate-400 p-3 text-left w-1/3"></th>
                         <th class="border border-slate-400 p-3 text-left w-2/3">Details</th>
                     </tr>
@@ -141,7 +141,7 @@ export const trainer1Test4: ListeningTest = {
             
             <table class="w-full border-collapse border border-slate-400 min-w-[600px]">
                 <thead>
-                    <tr class="bg-blue-600 text-white">
+                    <tr class="bg-slate-700 text-white">
                         <th class="border border-slate-400 p-3 text-center w-1/5">TIME</th>
                         <th class="border border-slate-400 p-3 text-center w-1/2">CONTENT</th>
                         <th class="border border-slate-400 p-3 text-center w-3/10">LOCATION</th>
@@ -424,7 +424,7 @@ export const trainer1Test4: ListeningTest = {
         <div class="overflow-x-auto border-2 border-slate-800 rounded-sm">
             <table class="w-full border-collapse min-w-[500px]">
                 <thead>
-                    <tr class="bg-blue-600 text-white border-b-2 border-slate-800">
+                    <tr class="bg-slate-700 text-white border-b-2 border-slate-800">
                         <th class="border-r border-slate-400 p-4 text-left w-1/2 font-bold tracking-wider uppercase">MATERIAL</th>
                         <th class="p-4 text-left w-1/2 font-bold tracking-wider uppercase">REFLECTANCE RATE</th>
                     </tr>
