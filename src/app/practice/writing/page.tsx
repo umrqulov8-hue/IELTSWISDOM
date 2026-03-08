@@ -57,6 +57,8 @@ const TESTS: TestItem[] = [
     // Feb 16 Tests - FULL TEST
     { id: "feb16-full", mode: "academic", taskType: "full-test", title: "February 16 Test", subtitle: "Full Academic Writing Test", duration: "60 min", status: "free", isNew: true },
 
+    // Working Hours - FULL TEST (NEW)
+    { id: "working-hours", mode: "academic", taskType: "full-test", title: "Working Hours", subtitle: "Working Hours & Fuel Production", duration: "60 min", status: "free", isNew: true },
 
     // Cambridge 20 Academic
     // { id: "c20-ac-t4-t2", mode: "academic", taskType: "task-2", title: "Cambridge IELTS 20", subtitle: "Academic Writing Test 4 (Task 2)", duration: "40 min", status: "free", isNew: true },
