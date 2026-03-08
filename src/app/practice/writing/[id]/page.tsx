@@ -48,11 +48,19 @@ const PROMPTS: Record<string, TestData> = {
         tasks: [
             {
                 title: "Task 1: Employment Patterns in New Zealand",
-                prompt: "The table below shows employment patterns for males and females in New Zealand in 1993 and 2003. Summarize the information by selecting and reporting the main features, and make comparisons where relevant.",
                 type: "task-1",
                 minWords: 150,
-                image: "/image for writing test/photo_2026-03-07_18-06-02.jpg"
-            } as any,
+                prompt: `
+                    <h3 class="text-lg font-bold mb-2">WRITING TASK 1</h3>
+                    <p class="mb-4">You should spend about 20 minutes on this task.</p>
+                    <p class="mb-4">The table below shows employment patterns for males and females in New Zealand in 1993 and 2003.</p>
+                    <div class="mb-6 flex flex-col items-center gap-4">
+                       <img src="/image for writing test/photo_2026-03-07_18-06-02.jpg" alt="Table showing employment patterns in New Zealand" class="w-full h-auto rounded-lg shadow-sm border border-slate-100"/>
+                    </div>
+                    <p class="mb-4">Summarize the information by selecting and reporting the main features, and make comparisons where relevant.</p>
+                    <p>Write at least 150 words.</p>
+                `
+            },
             {
                 title: "Task 2: Solving Traffic Congestion",
                 prompt: "Some people believe that to solve a problem of traffic congestions the government needs to provide free and 24/7 public transport. To what extent you agree or disagree?",
