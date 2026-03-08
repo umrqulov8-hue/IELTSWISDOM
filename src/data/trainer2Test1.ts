@@ -174,24 +174,24 @@ export const trainer2Test1: ListeningTest = {
                         
                         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                             <div class="flex items-center gap-3">
-                                <span class="bg-black text-white w-8 h-8 flex items-center justify-center font-bold rounded-sm">16</span>
-                                <input id="q-16" type="text" class="border-b-2 border-slate-400 focus:border-blue-500 focus:outline-none pb-1 w-full font-semibold" />
+                                <span class="bg-black text-white w-6 h-6 flex items-center justify-center font-bold text-xs rounded-sm">16</span>
+                                <input id="q-16" type="text" class="border-b border-black w-32 focus:outline-none focus:border-blue-500 bg-transparent font-semibold" />
                             </div>
                             <div class="flex items-center gap-3">
-                                <span class="bg-black text-white w-8 h-8 flex items-center justify-center font-bold rounded-sm">17</span>
-                                <input id="q-17" type="text" class="border-b-2 border-slate-400 focus:border-blue-500 focus:outline-none pb-1 w-full font-semibold" />
+                                <span class="bg-black text-white w-6 h-6 flex items-center justify-center font-bold text-xs rounded-sm">17</span>
+                                <input id="q-17" type="text" class="border-b border-black w-32 focus:outline-none focus:border-blue-500 bg-transparent font-semibold" />
                             </div>
                             <div class="flex items-center gap-3">
-                                <span class="bg-black text-white w-8 h-8 flex items-center justify-center font-bold rounded-sm">18</span>
-                                <input id="q-18" type="text" class="border-b-2 border-slate-400 focus:border-blue-500 focus:outline-none pb-1 w-full font-semibold" />
+                                <span class="bg-black text-white w-6 h-6 flex items-center justify-center font-bold text-xs rounded-sm">18</span>
+                                <input id="q-18" type="text" class="border-b border-black w-32 focus:outline-none focus:border-blue-500 bg-transparent font-semibold" />
                             </div>
                             <div class="flex items-center gap-3">
-                                <span class="bg-black text-white w-8 h-8 flex items-center justify-center font-bold rounded-sm">19</span>
-                                <input id="q-19" type="text" class="border-b-2 border-slate-400 focus:border-blue-500 focus:outline-none pb-1 w-full font-semibold" />
+                                <span class="bg-black text-white w-6 h-6 flex items-center justify-center font-bold text-xs rounded-sm">19</span>
+                                <input id="q-19" type="text" class="border-b border-black w-32 focus:outline-none focus:border-blue-500 bg-transparent font-semibold" />
                             </div>
                             <div class="flex items-center gap-3">
-                                <span class="bg-black text-white w-8 h-8 flex items-center justify-center font-bold rounded-sm">20</span>
-                                <input id="q-20" type="text" class="border-b-2 border-slate-400 focus:border-blue-500 focus:outline-none pb-1 w-full font-semibold" />
+                                <span class="bg-black text-white w-6 h-6 flex items-center justify-center font-bold text-xs rounded-sm">20</span>
+                                <input id="q-20" type="text" class="border-b border-black w-32 focus:outline-none focus:border-blue-500 bg-transparent font-semibold" />
                             </div>
                         </div>
                     </div>
