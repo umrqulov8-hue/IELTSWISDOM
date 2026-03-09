@@ -360,7 +360,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                             <div className="bg-slate-50 rounded-xl p-6 mb-10 text-left space-y-3 border border-slate-100">
                                 <p className="flex items-center gap-3 text-slate-700">
                                     <Clock className="w-5 h-5 text-orange-500" />
-                                    <span className="font-semibold">Time Limit:</span> 20 Minutes
+                                    <span className="font-semibold">Time Limit:</span> {testData.timeLimit ? testData.timeLimit / 60 : 20} Minutes
                                 </p>
                                 <p className="flex items-center gap-3 text-slate-700">
                                     <CheckCircle2 className="w-5 h-5 text-green-500" />
