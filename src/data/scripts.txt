@@ -1,0 +1,211 @@
+<script type="application/ld+json" class="rank-math-schema">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://engnovate.com/#organization","name":"Engnovate","url":"https://engnovate.com","sameAs":["https://www.facebook.com/engnovate","https://twitter.com/engnovate","https://www.linkedin.com/in/engnovate/"],"email":"helloengnovate@gmail.com","logo":{"@type":"ImageObject","@id":"https://engnovate.com/#logo","url":"https://engnovate.com/wp-content/uploads/2023/03/engnovate-text-logo.png","contentUrl":"https://engnovate.com/wp-content/uploads/2023/03/engnovate-text-logo.png","caption":"Engnovate","inLanguage":"en-US","width":"500","height":"500"}},{"@type":"WebSite","@id":"https://engnovate.com/#website","url":"https://engnovate.com","name":"Engnovate","alternateName":"Engnovate","publisher":{"@id":"https://engnovate.com/#organization"},"inLanguage":"en-US"},{"@type":"ImageObject","@id":"https://i0.wp.com/engnovate.com/wp-content/uploads/2023/06/ielts-reading-testscambridge-ielts-15-academic-reading-test-2.jpg?fit=1280%2C720&amp;ssl=1","url":"https://i0.wp.com/engnovate.com/wp-content/uploads/2023/06/ielts-reading-testscambridge-ielts-15-academic-reading-test-2.jpg?fit=1280%2C720&amp;ssl=1","width":"1280","height":"720","caption":"Cambridge IELTS 15 Academic Reading Test 2","inLanguage":"en-US"},{"@type":"BreadcrumbList","@id":"https://engnovate.com/ielts-reading-tests/cambridge-ielts-15-academic-reading-test-2/#breadcrumb","itemListElement":[{"@type":"ListItem","position":"1","item":{"@id":"https://engnovate.com","name":"Home"}},{"@type":"ListItem","position":"2","item":{"@id":"https://engnovate.com/ielts-reading-tests/","name":"IELTS Reading Tests"}},{"@type":"ListItem","position":"3","item":{"@id":"https://engnovate.com/ielts-reading-tests/cambridge-ielts-15-academic-reading-test-2/","name":"Cambridge IELTS 15 Academic Reading Test 2"}}]},{"@type":"WebPage","@id":"https://engnovate.com/ielts-reading-tests/cambridge-ielts-15-academic-reading-test-2/#webpage","url":"https://engnovate.com/ielts-reading-tests/cambridge-ielts-15-academic-reading-test-2/","name":"Cambridge IELTS 15 Academic Reading Test 2 (Free Online Test &amp; Answers)","datePublished":"2023-06-17T16:50:49+07:00","dateModified":"2023-11-15T16:21:13+07:00","isPartOf":{"@id":"https://engnovate.com/#website"},"primaryImageOfPage":{"@id":"https://i0.wp.com/engnovate.com/wp-content/uploads/2023/06/ielts-reading-testscambridge-ielts-15-academic-reading-test-2.jpg?fit=1280%2C720&amp;ssl=1"},"inLanguage":"en-US","breadcrumb":{"@id":"https://engnovate.com/ielts-reading-tests/cambridge-ielts-15-academic-reading-test-2/#breadcrumb"}},{"@type":"Person","@id":"https://engnovate.com/ielts-reading-tests/cambridge-ielts-15-academic-reading-test-2/#author","name":"Huyen Thuong","image":{"@type":"ImageObject","@id":"https://secure.gravatar.com/avatar/06b575ab5cd259089718e656a50172aa14b54ff19c1636cb3132900c9e515bc8?s=96&amp;d=identicon&amp;r=g","url":"https://secure.gravatar.com/avatar/06b575ab5cd259089718e656a50172aa14b54ff19c1636cb3132900c9e515bc8?s=96&amp;d=identicon&amp;r=g","caption":"Huyen Thuong","inLanguage":"en-US"},"worksFor":{"@id":"https://engnovate.com/#organization"}},{"@type":"Article","headline":"Cambridge IELTS 15 Academic Reading Test 2 (Free Online Test &amp; Answers) (Free Online Test &amp; Answers)","datePublished":"2023-06-17T16:50:49+07:00","dateModified":"2023-11-15T16:21:13+07:00","author":{"@id":"https://engnovate.com/ielts-reading-tests/cambridge-ielts-15-academic-reading-test-2/#author","name":"Huyen Thuong"},"publisher":{"@id":"https://engnovate.com/#organization"},"description":"Free Online IELTS Reading Practice Test &amp; Solution: Cambridge IELTS 15 Academic Reading Test 2","name":"Cambridge IELTS 15 Academic Reading Test 2 (Free Online Test &amp; Answers) (Free Online Test &amp; Answers)","@id":"https://engnovate.com/ielts-reading-tests/cambridge-ielts-15-academic-reading-test-2/#richSnippet","isPartOf":{"@id":"https://engnovate.com/ielts-reading-tests/cambridge-ielts-15-academic-reading-test-2/#webpage"},"image":{"@id":"https://i0.wp.com/engnovate.com/wp-content/uploads/2023/06/ielts-reading-testscambridge-ielts-15-academic-reading-test-2.jpg?fit=1280%2C720&amp;ssl=1"},"inLanguage":"en-US","mainEntityOfPage":{"@id":"https://engnovate.com/ielts-reading-tests/cambridge-ielts-15-academic-reading-test-2/#webpage"}}]}</script>
+
+---SCRIPT---
+
+<script id="jetpack-mu-wpcom-settings-js-before">
+var JETPACK_MU_WPCOM_SETTINGS = {"assetsUrl":"https://engnovate.com/wp-content/mu-plugins/wpcomsh/jetpack_vendor/automattic/jetpack-mu-wpcom/src/build/"};
+//# sourceURL=jetpack-mu-wpcom-settings-js-before
+</script>
+
+---SCRIPT---
+
+<script src="https://c0.wp.com/c/6.9.1/wp-includes/js/jquery/jquery.min.js" id="jquery-core-js"></script>
+
+---SCRIPT---
+
+<script src="https://c0.wp.com/c/6.9.1/wp-includes/js/jquery/jquery-migrate.min.js" id="jquery-migrate-js"></script>
+
+---SCRIPT---
+
+<script async src='https://www.googletagmanager.com/gtag/js?id=G-6ET5P62S5Y'></script>
+
+---SCRIPT---
+
+<script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag() { dataLayer.push( arguments ); }
+			gtag( 'js', new Date() );
+			gtag( 'config', "G-6ET5P62S5Y" );
+					</script>
+
+---SCRIPT---
+
+<script>document.getElementById( "ak_js_1" ).setAttribute( "value", ( new Date() ).getTime() );</script>
+
+---SCRIPT---
+
+<script type="speculationrules">
+{"prefetch":[{"source":"document","where":{"and":[{"href_matches":"/*"},{"not":{"href_matches":["/wp-*.php","/wp-admin/*","/wp-content/uploads/*","/wp-content/*","/wp-content/plugins/*","/wp-content/themes/astra-child/*","/wp-content/themes/astra/*","/*\\?(.+)"]}},{"not":{"selector_matches":"a[rel~=\"nofollow\"]"}},{"not":{"selector_matches":".no-prefetch, .no-prefetch a"}}]},"eagerness":"conservative"}]}
+</script>
+
+---SCRIPT---
+
+<script defer src="https://s0.wp.com/wp-content/js/bilmur.min.js?m=202610"></script>
+
+---SCRIPT---
+
+<script>
+			/(trident|msie)/i.test(navigator.userAgent)&&document.getElementById&&window.addEventListener&&window.addEventListener("hashchange",function(){var t,e=location.hash.substring(1);/^[A-z0-9_-]+$/.test(e)&&(t=document.getElementById(e))&&(/^(?:a|select|input|button|textarea)$/i.test(t.tagName)||(t.tabIndex=-1),t.focus())},!1);
+			</script>
+
+---SCRIPT---
+
+<script src="https://c0.wp.com/c/6.9.1/wp-includes/js/comment-reply.min.js" id="comment-reply-js" async data-wp-strategy="async" fetchpriority="low"></script>
+
+---SCRIPT---
+
+<script id="astra-theme-js-js-extra">
+var astra = {"break_point":"921","isRtl":"","is_scroll_to_id":"1","is_scroll_to_top":"","is_header_footer_builder_active":"1","responsive_cart_click":"flyout"};
+//# sourceURL=astra-theme-js-js-extra
+</script>
+
+---SCRIPT---
+
+<script src="https://engnovate.com/wp-content/themes/astra/assets/js/minified/frontend.min.js?ver=4.8.11" id="astra-theme-js-js"></script>
+
+---SCRIPT---
+
+<script id="front-end-error-logger-js-js-extra">
+var front_end_error_logger_ajax = {"ajaxurl":"https://engnovate.com/wp-admin/admin-ajax.php"};
+//# sourceURL=front-end-error-logger-js-js-extra
+</script>
+
+---SCRIPT---
+
+<script src="https://engnovate.com/wp-content/plugins/engnovate_tools/_extensions/front_end_error_logger/front_end_error_logger.js?ver=1772266143" id="front-end-error-logger-js-js"></script>
+
+---SCRIPT---
+
+<script id="firebase-app-js-extra">
+var firebase_info = {"config":{"apiKey":"AIzaSyBH5IaS8aMKJVYCU5NCjFH2ZIErFyjWjsU","authDomain":"engnovate.firebaseapp.com","projectId":"engnovate","storageBucket":"engnovate.appspot.com","messagingSenderId":"886118358038","appId":"1:886118358038:web:b83b31254ca27d4427a937"}};
+//# sourceURL=firebase-app-js-extra
+</script>
+
+---SCRIPT---
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js" id="firebase-app-js"></script>
+
+---SCRIPT---
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js" id="firebase-auth-js"></script>
+
+---SCRIPT---
+
+<script id="learner-fast-verification-popup-js-js-extra">
+var learner_fast_verification_ajax = {"ajaxurl":"https://engnovate.com/wp-admin/admin-ajax.php"};
+//# sourceURL=learner-fast-verification-popup-js-js-extra
+</script>
+
+---SCRIPT---
+
+<script src="https://engnovate.com/wp-content/plugins/engnovate_tools/_extensions/learner_manager/learner_fast_verification_popup.js?ver=1772266143" id="learner-fast-verification-popup-js-js"></script>
+
+---SCRIPT---
+
+<script src="https://engnovate.com/wp-content/plugins/engnovate_tools/_extensions/payment_manager/payment_prices.js?ver=1772266143" id="payment-prices-js-js"></script>
+
+---SCRIPT---
+
+<script id="payment-method-for-vietnamese-js-js-extra">
+var payment_method_for_vietnamese_ajax = {"ajaxurl":"https://engnovate.com/wp-admin/admin-ajax.php"};
+//# sourceURL=payment-method-for-vietnamese-js-js-extra
+</script>
+
+---SCRIPT---
+
+<script src="https://engnovate.com/wp-content/plugins/engnovate_tools/_extensions/payment_manager/payment_method_for_vietnamese.js?ver=1772266143" id="payment-method-for-vietnamese-js-js"></script>
+
+---SCRIPT---
+
+<script src="https://engnovate.com/wp-content/plugins/engnovate_tools/_extensions/payment_manager/payment_plans.js?ver=1772266143" id="payment-plans-js-js"></script>
+
+---SCRIPT---
+
+<script src="https://engnovate.com/wp-content/plugins/engnovate_tools/_extensions/payment_manager/payment_popup.js?ver=1772266143" id="payment-popup-js-js"></script>
+
+---SCRIPT---
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js?ver=8.11.1" id="markjs-js"></script>
+
+---SCRIPT---
+
+<script id="markjs-js-after">
+(function() {
+                function loadAlternativeMark() {
+                    if (typeof Mark === "undefined") {
+                        console.log("Mark not loaded from primary source. Loading alternative.");
+                        var alternativeScript = document.createElement("script");
+                        alternativeScript.src = "https://cdn.jsdelivr.net/npm/mark.js@8.11.1/dist/jquery.mark.min.js";
+                        alternativeScript.onload = function() {
+                            console.log("Alternative Mark loaded successfully");
+                        };
+                        alternativeScript.onerror = function() {
+                            console.error("Failed to load alternative Mark");
+                        };
+                        document.head.appendChild(alternativeScript);
+                    } else {
+                        console.log("Mark is already available");
+                    }
+                }
+
+                // Check and potentially load alternative after a short delay
+                setTimeout(loadAlternativeMark, 100);
+            })();
+        
+//# sourceURL=markjs-js-after
+</script>
+
+---SCRIPT---
+
+<script id="single-ielts-reading-test-js-js-extra">
+var single_ielts_reading_test_ajax = {"ajaxurl":"https://engnovate.com/wp-admin/admin-ajax.php"};
+//# sourceURL=single-ielts-reading-test-js-js-extra
+</script>
+
+---SCRIPT---
+
+<script src="https://engnovate.com/wp-content/plugins/engnovate_tools/ielts_reading_test_builder/single_ielts_reading_test.js?ver=1772266143" id="single-ielts-reading-test-js-js"></script>
+
+---SCRIPT---
+
+<script src="https://engnovate.com/wp-content/plugins/engnovate_tools/flashcards/flashcard_popup.js?ver=1772266143" id="flashcard-popup-js-js"></script>
+
+---SCRIPT---
+
+<script id="custom-comments-js-js-extra">
+var custom_comments_template_ajax = {"ajaxurl":"https://engnovate.com/wp-admin/admin-ajax.php","nonce":"8cbc86c1b7"};
+//# sourceURL=custom-comments-js-js-extra
+</script>
+
+---SCRIPT---
+
+<script src="https://engnovate.com/wp-content/plugins/engnovate_tools/_custom_wordpress/custom_comments/custom_comments_template.js?ver=1772266143" id="custom-comments-js-js"></script>
+
+---SCRIPT---
+
+<script id="jetpack-stats-js-before">
+_stq = window._stq || [];
+_stq.push([ "view", {"v":"ext","blog":"217262001","post":"9233","tz":"7","srv":"engnovate.com","hp":"atomic","ac":"2","amp":"0","j":"1:15.6"} ]);
+_stq.push([ "clickTrackerInit", "217262001", "9233" ]);
+//# sourceURL=jetpack-stats-js-before
+</script>
+
+---SCRIPT---
+
+<script src="https://stats.wp.com/e-202610.js" id="jetpack-stats-js" defer data-wp-strategy="defer"></script>
+
+---SCRIPT---
+
+<script id="learner-header-icon-script-js-extra">
+var learner_header_icon_ajax = {"ajaxurl":"https://engnovate.com/wp-admin/admin-ajax.php"};
+var learner_header_icon_ajax = {"ajaxurl":"https://engnovate.com/wp-admin/admin-ajax.php"};
+//# sourceURL=learner-header-icon-script-js-extra
+</script>
+
+---SCRIPT---
+
+<script src="https://engnovate.com/wp-content/plugins/engnovate_tools/_extensions/learner_manager/learner_header_icon.js?ver=1772266143" id="learner-header-icon-script-js"></script>
+
+---SCRIPT---
+
+<script defer src="https://engnovate.com/wp-content/plugins/akismet/_inc/akismet-frontend.js?ver=1704837122" id="akismet-frontend-js"></script>
