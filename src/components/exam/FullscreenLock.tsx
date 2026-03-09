@@ -1,22 +1,29 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Lock, AlertTriangle } from "lucide-react";
+import { Lock, AlertTriangle, ShieldAlert } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-export function FullscreenLock({ children }: { children: React.ReactNode }) {
+export function FullscreenLock({ children, onForceSubmit }: { children: React.ReactNode, onForceSubmit?: () => void }) {
     const [isLocked, setIsLocked] = useState(false);
     const [exitCode, setExitCode] = useState("");
     const [error, setError] = useState(false);
+
+    // Secure Exam Mode State
+    const [violations, setViolations] = useState(0);
+    const [currentCode, setCurrentCode] = useState("");
+    const [isDisqualified, setIsDisqualified] = useState(false);
+
     const router = useRouter();
 
-    // ESC Hold State
-    const [isHoldingEsc, setIsHoldingEsc] = useState(false);
-    const [escProgress, setEscProgress] = useState(0);
+    // Constant parameters
+    const MAX_VIOLATIONS = 3;
 
-    const EXIT_PASSWORD = "101112";
-    const ESC_HOLD_TIME_MS = 20000; // 20 seconds
+    // Generate a random 6 digit code
+    const generateCode = () => {
+        return Math.floor(100000 + Math.random() * 900000).toString();
+    };
 
     const requestFullscreen = async () => {
         try {
@@ -32,36 +39,51 @@ export function FullscreenLock({ children }: { children: React.ReactNode }) {
         }
     };
 
-    const handleFullscreenChange = useCallback(() => {
-        if (!document.fullscreenElement) {
-            // User exited fullscreen (e.g., pressed Esc)
-            setIsLocked(true);
-        }
-    }, []);
+    const triggerViolation = useCallback((reason: string) => {
+        if (isDisqualified || isLocked) return; // Prevent multiple triggers if already locked/disqualified
 
-    // Intercept keyboard events to prevent Alt+F4, Win+D, F11, Esc default actions
+        setViolations(prev => {
+            const newCount = prev + 1;
+            if (newCount >= MAX_VIOLATIONS) {
+                setIsDisqualified(true);
+                // Call onForceSubmit after a short delay so user sees "Disqualified"
+                setTimeout(() => {
+                    if (onForceSubmit) onForceSubmit();
+                    else router.push('/mock-exams');
+                }, 3000);
+            } else {
+                setCurrentCode(generateCode());
+                setIsLocked(true);
+            }
+            return newCount;
+        });
+    }, [isDisqualified, isLocked, onForceSubmit, router]);
+
+
+    // Intercept keyboard events to prevent shortcuts
     const handleKeyDown = useCallback((e: KeyboardEvent) => {
+        // Prevent defaults and trigger violation for:
+        // F12, Ctrl+Shift+I, Alt+F4, F11, Win+D, Ctrl+C, Ctrl+V, F5, Ctrl+R
+
+        const isF12 = e.key === "F12";
+        const isDevTools = e.ctrlKey && e.shiftKey && (e.key === "I" || e.key === "i" || e.key === "J" || e.key === "j" || e.key === "c" || e.key === "C");
         const isF11 = e.key === "F11";
         const isAltF4 = e.altKey && e.key === "F4";
-        const isWinD = e.metaKey && e.key === "d";
+        const isWinD = e.metaKey && (e.key === "d" || e.key === "D");
+        const isCopyPaste = (e.ctrlKey || e.metaKey) && (e.key === "c" || e.key === "C" || e.key === "v" || e.key === "V");
+        const isRefresh = e.key === "F5" || ((e.ctrlKey || e.metaKey) && (e.key === "r" || e.key === "R"));
+        const isEsc = e.key === "Escape";
 
-        if (isF11 || isAltF4 || isWinD) {
+        if (isF12 || isDevTools || isF11 || isAltF4 || isWinD || isCopyPaste || isRefresh || isEsc) {
             e.preventDefault();
-            setIsLocked(true);
+            triggerViolation(`Keyboard shortcut attempt: ${e.key}`);
             if (!document.fullscreenElement) {
                 requestFullscreen();
             }
         }
-    }, []);
+    }, [triggerViolation]);
 
     useEffect(() => {
-        const enforceLock = () => {
-            setIsLocked(true);
-            if (!document.fullscreenElement) {
-                requestFullscreen();
-            }
-        };
-
         const lockKeyboard = async () => {
             if (document.fullscreenElement && 'keyboard' in navigator) {
                 try {
@@ -76,104 +98,98 @@ export function FullscreenLock({ children }: { children: React.ReactNode }) {
             if (document.fullscreenElement) {
                 lockKeyboard();
             } else {
-                // If they escaped full screen but are not locked by Windows key, just lock them anyway
-                enforceLock();
+                // Exited fullscreen
+                triggerViolation("Exited fullscreen");
             }
         };
 
         const onVisibilityChange = () => {
             if (document.hidden) {
-                enforceLock();
+                triggerViolation("Tab switched or window lost focus");
             }
         };
 
-        let escInterval: NodeJS.Timeout | null = null;
-        let holdTime = 0;
-
-        const handleGlobalKeyDown = (e: KeyboardEvent) => {
-            if (e.key === "Escape") {
-                e.preventDefault();
-                if (!escInterval && !isLocked) {
-                    setIsHoldingEsc(true);
-                    holdTime = 0;
-                    setEscProgress(0);
-
-                    escInterval = setInterval(() => {
-                        holdTime += 100;
-                        const progress = (holdTime / ESC_HOLD_TIME_MS) * 100;
-
-                        if (progress >= 100) {
-                            clearInterval(escInterval!);
-                            escInterval = null;
-                            router.push('/mock-exams');
-                        } else {
-                            setEscProgress(progress);
-                        }
-                    }, 100);
-                }
-            } else {
-                handleKeyDown(e);
-            }
+        const onBlur = () => {
+            triggerViolation("Window lost focus");
         };
 
-        const handleGlobalKeyUp = (e: KeyboardEvent) => {
-            if (e.key === "Escape") {
-                if (escInterval) {
-                    clearInterval(escInterval);
-                    escInterval = null;
-                }
-                setIsHoldingEsc(false);
-                setEscProgress(0);
-                holdTime = 0;
-            }
+        const preventContextMenu = (e: MouseEvent) => {
+            e.preventDefault();
+            // Optional: trigger violation on right-click, or just silently block.
+            // triggerViolation("Right-click blocked"); 
         };
+
+        const preventCopyPaste = (e: ClipboardEvent) => {
+            e.preventDefault();
+        };
+
+        const preventUnload = (e: BeforeUnloadEvent) => {
+            // Browsers don't allow custom messages anymore, but this triggers the prompt
+            e.preventDefault();
+            e.returnValue = '';
+        };
+
+        // Enforce full screen immediately on mount if not disqualified or locked
+        if (!document.fullscreenElement && !isLocked && !isDisqualified) {
+            requestFullscreen();
+        }
 
         document.addEventListener("fullscreenchange", onFsChange);
         document.addEventListener("webkitfullscreenchange", onFsChange);
         document.addEventListener("mozfullscreenchange", onFsChange);
         document.addEventListener("MSFullscreenChange", onFsChange);
-        document.addEventListener("visibilitychange", onVisibilityChange);
 
-        window.addEventListener("keydown", handleGlobalKeyDown, { capture: true });
-        window.addEventListener("keyup", handleGlobalKeyUp, { capture: true });
-        window.addEventListener("blur", enforceLock);
+        document.addEventListener("visibilitychange", onVisibilityChange);
+        window.addEventListener("blur", onBlur);
+
+        // Anti-cheat listeners
+        window.addEventListener("keydown", handleKeyDown, { capture: true });
+        document.addEventListener("contextmenu", preventContextMenu, { capture: true });
+        document.addEventListener("copy", preventCopyPaste, { capture: true });
+        document.addEventListener("paste", preventCopyPaste, { capture: true });
+        document.addEventListener("cut", preventCopyPaste, { capture: true });
+        window.addEventListener("beforeunload", preventUnload);
 
         lockKeyboard();
 
         return () => {
-            if (escInterval) clearInterval(escInterval);
             document.removeEventListener("fullscreenchange", onFsChange);
             document.removeEventListener("webkitfullscreenchange", onFsChange);
             document.removeEventListener("mozfullscreenchange", onFsChange);
             document.removeEventListener("MSFullscreenChange", onFsChange);
             document.removeEventListener("visibilitychange", onVisibilityChange);
-            window.removeEventListener("keydown", handleGlobalKeyDown, { capture: true });
-            window.removeEventListener("keyup", handleGlobalKeyUp, { capture: true });
-            window.removeEventListener("blur", enforceLock);
-        };
-    }, [handleKeyDown, isLocked, router]);
+            window.removeEventListener("blur", onBlur);
 
+            window.removeEventListener("keydown", handleKeyDown, { capture: true });
+            document.removeEventListener("contextmenu", preventContextMenu, { capture: true });
+            document.removeEventListener("copy", preventCopyPaste, { capture: true });
+            document.removeEventListener("paste", preventCopyPaste, { capture: true });
+            document.removeEventListener("cut", preventCopyPaste, { capture: true });
+            window.removeEventListener("beforeunload", preventUnload);
+        };
+    }, [handleKeyDown, isLocked, isDisqualified, triggerViolation]);
+
+    // Re-enforce fullscreen if clicking while locked
     useEffect(() => {
         if (!isLocked) return;
-
         const handleUserGesture = () => {
             if (!document.fullscreenElement) {
                 requestFullscreen();
             }
         };
-
         window.addEventListener('click', handleUserGesture, { capture: true });
-        window.addEventListener('keydown', handleUserGesture, { capture: true });
-
+        // Clean up keyboard events for unlock input
+        // window.addEventListener('keydown', handleUserGesture, { capture: true }); // Removed to allow typing
         return () => {
             window.removeEventListener('click', handleUserGesture, { capture: true });
-            window.removeEventListener('keydown', handleUserGesture, { capture: true });
         };
     }, [isLocked]);
 
     const handleUnlock = () => {
-        if (exitCode === EXIT_PASSWORD) {
-            router.push('/mock-exams');
+        if (exitCode === currentCode) {
+            setIsLocked(false);
+            setExitCode("");
+            requestFullscreen();
         } else {
             setError(true);
             setTimeout(() => setError(false), 2000);
@@ -181,65 +197,99 @@ export function FullscreenLock({ children }: { children: React.ReactNode }) {
     };
 
     return (
-        <>
+        <div className="w-full h-full select-none" style={{ userSelect: 'none', WebkitUserSelect: 'none' }}>
             {children}
 
             <AnimatePresence>
-                {isHoldingEsc && !isLocked && (
+                {isDisqualified && (
                     <motion.div
-                        initial={{ opacity: 0, y: -50 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -50 }}
-                        className="fixed top-8 left-1/2 -translate-x-1/2 z-[9999] bg-slate-900/90 backdrop-blur-md text-white px-8 py-4 rounded-full shadow-2xl border border-slate-700/50 flex flex-col items-center gap-2 min-w-[300px]"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        className="fixed inset-0 z-[99999] bg-rose-900/95 backdrop-blur-3xl flex items-center justify-center p-6"
                     >
-                        <span className="font-bold text-sm tracking-widest uppercase">
-                            Hold ESC to abort test
-                        </span>
-                        <div className="w-full h-1.5 bg-slate-700 rounded-full overflow-hidden">
-                            <div
-                                className="h-full bg-rose-500 rounded-full transition-all duration-100 ease-linear"
-                                style={{ width: `${escProgress}%` }}
-                            />
-                        </div>
+                        <motion.div
+                            initial={{ scale: 0.9, y: 20 }}
+                            animate={{ scale: 1, y: 0 }}
+                            className="bg-white rounded-3xl p-12 max-w-lg w-full shadow-2xl text-center"
+                        >
+                            <div className="w-24 h-24 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                                <ShieldAlert className="w-12 h-12 text-rose-600" />
+                            </div>
+                            <h2 className="text-4xl font-black text-rose-600 mb-4">Exam Disqualified</h2>
+                            <p className="text-slate-600 text-lg mb-8 font-medium">
+                                You have exceeded the maximum number of security violations ({MAX_VIOLATIONS}). Your exam session has been terminated and your current progress has been submitted.
+                            </p>
+                            <div className="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden mb-6">
+                                <motion.div
+                                    className="h-full bg-rose-500 rounded-full"
+                                    initial={{ width: 0 }}
+                                    animate={{ width: "100%" }}
+                                    transition={{ duration: 3, ease: "linear" }}
+                                />
+                            </div>
+                            <p className="text-sm font-bold text-slate-400 uppercase tracking-widest">
+                                Processing Submission...
+                            </p>
+                        </motion.div>
                     </motion.div>
                 )}
             </AnimatePresence>
 
             <AnimatePresence>
-                {isLocked && (
+                {isLocked && !isDisqualified && (
                     <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-[9999] bg-white/95 backdrop-blur-xl flex items-center justify-center p-6"
+                        className="fixed inset-0 z-[9999] bg-slate-900/95 backdrop-blur-2xl flex items-center justify-center p-6"
                     >
                         <motion.div
                             initial={{ scale: 0.9, y: 20 }}
                             animate={{ scale: 1, y: 0 }}
-                            className="bg-white rounded-3xl p-10 max-w-md w-full shadow-2xl shadow-slate-200 border border-slate-100 text-center relative overflow-hidden"
+                            className="bg-white rounded-3xl p-10 max-w-md w-full shadow-[0_0_50px_rgba(225,29,72,0.15)] border border-rose-100 text-center relative overflow-hidden flex flex-col items-center"
                         >
                             <div className="absolute top-0 left-0 w-full h-2 bg-rose-500" />
 
-                            <div className="w-20 h-20 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <div className="flex gap-2 mb-8">
+                                {[...Array(MAX_VIOLATIONS)].map((_, i) => (
+                                    <div
+                                        key={i}
+                                        className={`w-12 h-2 rounded-full ${i < violations ? 'bg-rose-500 shadow-[0_0_10px_rgba(225,29,72,0.5)]' : 'bg-slate-100'}`}
+                                    />
+                                ))}
+                            </div>
+
+                            <div className="w-20 h-20 bg-rose-50 rounded-full flex items-center justify-center mx-auto mb-6">
                                 <Lock className="w-10 h-10 text-rose-500" />
                             </div>
 
-                            <h2 className="text-3xl font-black text-slate-800 mb-2">Exam Locked</h2>
-                            <p className="text-slate-500 mb-8 font-medium">
-                                You attempted to leave the fullscreen environment. Please enter the invigilator code to unlock or exit.
+                            <h2 className="text-3xl font-black text-slate-800 mb-2">Security Lock</h2>
+
+                            <p className="text-rose-600 font-bold mb-4 bg-rose-50 px-4 py-2 rounded-lg">
+                                Violation {violations} of {MAX_VIOLATIONS}
                             </p>
 
-                            <div className="space-y-4">
+                            <p className="text-slate-500 mb-6 font-medium text-sm leading-relaxed">
+                                Suspicious behavior detected (e.g. exiting fullscreen, switching tabs, or using restricted shortcuts). To resume, please type the verification code below:
+                            </p>
+
+                            <div className="bg-slate-100 rounded-2xl px-8 py-4 mb-8 w-full border border-slate-200">
+                                <span className="text-sm font-bold text-slate-400 uppercase tracking-widest block mb-1">Verification Code</span>
+                                <span className="text-4xl font-mono font-black text-slate-800 tracking-[0.25em]">{currentCode}</span>
+                            </div>
+
+                            <div className="space-y-4 w-full">
                                 <input
-                                    type="password"
+                                    type="text"
                                     value={exitCode}
-                                    onChange={(e) => setExitCode(e.target.value)}
-                                    placeholder="Enter exit code..."
-                                    className="w-full text-center text-2xl tracking-[0.5em] font-mono bg-slate-50 border-2 border-slate-200 rounded-2xl px-4 py-4 focus:border-blue-500 outline-none transition-all placeholder:tracking-normal placeholder:text-base placeholder:-translate-y-1"
+                                    onChange={(e) => setExitCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                                    placeholder="Enter the 6-digit code"
+                                    className="w-full text-center text-2xl tracking-[0.2em] font-mono bg-white border-2 border-slate-200 rounded-2xl px-4 py-4 focus:border-[#2D3E50] focus:ring-4 focus:ring-[#2D3E50]/10 outline-none transition-all placeholder:tracking-normal placeholder:text-base placeholder:font-sans"
                                     onKeyDown={(e) => {
                                         if (e.key === "Enter") handleUnlock();
                                     }}
                                     autoFocus
+                                    maxLength={6}
                                 />
 
                                 {error && (
@@ -248,21 +298,29 @@ export function FullscreenLock({ children }: { children: React.ReactNode }) {
                                         animate={{ opacity: 1, y: 0 }}
                                         className="text-rose-500 text-sm font-bold flex items-center justify-center gap-2"
                                     >
-                                        <AlertTriangle className="w-4 h-4" /> Incorrect code
+                                        <AlertTriangle className="w-4 h-4" /> Incorrect code entered
                                     </motion.p>
                                 )}
 
                                 <button
                                     onClick={handleUnlock}
-                                    className="w-full bg-rose-500 text-white py-4 rounded-xl font-bold hover:bg-rose-600 transition-colors shadow-lg shadow-rose-500/20 mt-4"
+                                    disabled={exitCode.length !== 6}
+                                    className="w-full bg-[#2D3E50] text-white py-4 rounded-xl font-bold hover:bg-[#1E293B] transition-colors shadow-lg disabled:opacity-50 disabled:cursor-not-allowed mt-4"
                                 >
-                                    End Test & Exit
+                                    Verify & Resume Exam
+                                </button>
+
+                                <button
+                                    onClick={() => { if (onForceSubmit) onForceSubmit(); else router.push('/mock-exams') }}
+                                    className="w-full bg-transparent text-slate-500 py-3 rounded-xl font-bold hover:text-slate-700 hover:bg-slate-50 transition-colors text-sm"
+                                >
+                                    End Test & Exit Now
                                 </button>
                             </div>
                         </motion.div>
                     </motion.div>
                 )}
             </AnimatePresence>
-        </>
+        </div>
     );
 }

@@ -42,7 +42,7 @@ export function CDILayout({
             "min-h-screen bg-[#F0F2F5] flex flex-col font-sans selection:bg-blue-200 selection:text-blue-900",
             fontSize === "large" ? "text-lg" : fontSize === "extra-large" ? "text-xl" : "text-base"
         )}>
-            <FullscreenLock>
+            <FullscreenLock onForceSubmit={onFinish}>
                 {/* --- CDI Header --- */}
                 <header className="h-[60px] bg-[#2D3E50] text-white flex items-center justify-between px-6 shrink-0 shadow-md z-50">
                     <div className="flex items-center gap-6">
