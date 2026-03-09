@@ -32,14 +32,15 @@ export default function MockExamIntroPage({ params }: { params: Promise<{ id: st
     const testIndex = parseInt(id, 10);
     const mockTest = T.mockExams.tests[testIndex] || T.mockExams.tests[0]; // fallback
 
-    const handleStartMock = async () => {
+    const handleStartMock = () => {
         try {
-            if (document.documentElement.requestFullscreen) {
-                await document.documentElement.requestFullscreen();
-            } else if ((document.documentElement as any).webkitRequestFullscreen) {
-                await (document.documentElement as any).webkitRequestFullscreen();
-            } else if ((document.documentElement as any).msRequestFullscreen) {
-                await (document.documentElement as any).msRequestFullscreen();
+            const el = document.documentElement as any;
+            if (el.requestFullscreen) {
+                el.requestFullscreen().catch(console.error);
+            } else if (el.webkitRequestFullscreen) {
+                el.webkitRequestFullscreen();
+            } else if (el.msRequestFullscreen) {
+                el.msRequestFullscreen();
             }
         } catch (err) {
             console.error("Error attempting to enable fullscreen:", err);
