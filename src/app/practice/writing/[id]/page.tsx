@@ -42,6 +42,43 @@ interface BandResult {
 
 // --- Mock Prompts Data ---
 const PROMPTS: Record<string, TestData> = {
+    "writing-test-8": {
+        title: "Writing Practice 8 - Full Academic Writing Test",
+        type: "full-test",
+        tasks: [
+            {
+                title: "Task 1: Fuel Spending in US & UK",
+                type: "task-1",
+                minWords: 150,
+                prompt: `
+                    <h3 class="text-lg font-bold mb-2">WRITING TASK 1</h3>
+                    <p class="mb-4">You should spend about 20 minutes on this task.</p>
+                    <p class="mb-4">The graph below gives information about how much people in the United States and the United Kingdom spend on fuel.</p>
+                    <div class="mb-6 flex flex-col items-center gap-4">
+                       <img src="/images/writing/test8-task1.png" alt="Graph showing fuel spending in US and UK by income level" class="w-full h-auto rounded-lg shadow-sm border border-slate-100"/>
+                    </div>
+                    <p class="mb-4">Summarise the information by selecting and reporting the main features, and make comparisons where relevant.</p>
+                    <p>Write at least 150 words.</p>
+                `
+            },
+            {
+                title: "Task 2: Internet Information Quality",
+                type: "task-2",
+                minWords: 250,
+                prompt: `
+                    <h3 class="text-lg font-bold mb-2">WRITING TASK 2</h3>
+                    <p class="mb-4">You should spend about 40 minutes on this task.</p>
+                    <p class="mb-4">Write about the following topic:</p>
+                    <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 mb-6 italic text-slate-700 leading-relaxed shadow-sm">
+                        It is generally believed that the internet is an excellent means of communication, but some people suggest that it may not be the best place to find information.<br/><br/>
+                        <strong>Discuss both views and give your own opinion.</strong>
+                    </div>
+                    <p class="mb-4">Give reasons for your answer and include any relevant examples from your own knowledge or experience.</p>
+                    <p>Write at least 250 words.</p>
+                `
+            }
+        ]
+    },
     "feb22-full": {
         title: "February 22 - Full Academic Writing Test",
         type: "full-test",

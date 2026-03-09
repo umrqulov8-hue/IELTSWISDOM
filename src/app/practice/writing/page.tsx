@@ -33,6 +33,9 @@ interface TestItem {
 
 // --- Mock Data ---
 const TESTS: TestItem[] = [
+    // Writing Practice 8 - FULL TEST (NEW)
+    { id: "writing-test-8", mode: "academic", taskType: "full-test", title: "Writing Practice 8", subtitle: "Full Academic Writing Test", duration: "60 min", status: "free", isNew: true },
+
     // Feb 22 Tests - FULL TEST (NEW)
     { id: "feb22-full", mode: "academic", taskType: "full-test", title: "February 22 Test", subtitle: "Full Academic Writing Test", duration: "60 min", status: "free", isNew: true },
 
