@@ -53,7 +53,7 @@ export function Footer() {
                     <motion.div variants={{ hidden: { opacity: 0, y: 30, filter: "blur(4px)" }, visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { type: "spring", bounce: 0.5, duration: 0.8 } } }}>
                         <h3 className="font-semibold text-primary mb-4">Legal</h3>
                         <ul className="space-y-2 text-sm text-muted-foreground">
-                            <li><Link href="#" className="hover:text-secondary">Privacy Policy</Link></li>
+                            <li><Link href="/privacy-policy" className="hover:text-secondary">Privacy Policy</Link></li>
                             <li><Link href="#" className="hover:text-secondary">Terms of Service</Link></li>
                         </ul>
                     </motion.div>
