@@ -30,11 +30,11 @@ interface TestItem {
 
 // --- Mock Data ---
 const CATEGORIES: TestCategory[] = [
-    { id: "all", title: "All Tests", count: 35 },
+    { id: "all", title: "All Tests", count: 40 },
     { id: "free-passages", title: "Free Passages", count: 14, icon: BookOpen },
     { id: "premium-passages", title: "Premium Passages", count: 1, icon: Sparkles },
-    { id: "full-tests", title: "Full Tests", count: 4, icon: Layers },
-    { id: "cambridge-ielts", title: "Cambridge IELTS Readings", count: 17, icon: GraduationCap },
+    { id: "full-tests", title: "Full Tests", count: 5, icon: Layers },
+    { id: "cambridge-ielts", title: "Cambridge IELTS Readings", count: 20, icon: GraduationCap },
 ];
 
 const TESTS: TestItem[] = [
@@ -80,12 +80,17 @@ const TESTS: TestItem[] = [
     { id: "mock-4-p1", categoryId: "cambridge-ielts", title: "Can animals count?", isNew: true, status: "free" },
     { id: "mock-4-p2", categoryId: "cambridge-ielts", title: "Is It Time To Halt the Rising Tide of Plastic Packaging?", isNew: true, status: "free" },
     { id: "mock-4-p3", categoryId: "cambridge-ielts", title: "The Growth of Intelligence", isNew: true, status: "free" },
+    // Mock Test 5 Passages
+    { id: "mock-5-p1", categoryId: "cambridge-ielts", title: "Nutmeg – a valuable spice", isNew: true, status: "free" },
+    { id: "mock-5-p2", categoryId: "cambridge-ielts", title: "Driverless cars", isNew: true, status: "free" },
+    { id: "mock-5-p3", categoryId: "cambridge-ielts", title: "What is exploration?", isNew: true, status: "free" },
 
     // Full Tests
     { id: "mock-1-full", categoryId: "full-tests", title: "IELTS Reading Mock Test 1 (Full)", isNew: true, status: "free" },
     { id: "mock-2-full", categoryId: "full-tests", title: "IELTS Reading Mock Test 2 (Full)", isNew: true, status: "free" },
     { id: "mock-3-full", categoryId: "full-tests", title: "IELTS Reading Mock Test 3 (Full)", isNew: true, status: "free" },
-    { id: "mock-test-4", categoryId: "full-tests", title: "IELTS Reading Mock Test 4 (Full)", isNew: true, status: "free" },
+    { id: "mock-4-full", categoryId: "full-tests", title: "IELTS Reading Mock Test 4 (Full)", isNew: true, status: "free" },
+    { id: "mock-5-full", categoryId: "full-tests", title: "IELTS Reading Mock Test 5 (Full)", isNew: true, status: "free" },
 ];
 
 import { createClient } from "@/utils/supabase/client";
