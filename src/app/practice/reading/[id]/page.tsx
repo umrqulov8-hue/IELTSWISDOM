@@ -543,7 +543,8 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                         const range = testData.passages[currentPassageIndex].questionRange;
                                         return q.id >= range.start && q.id <= range.end;
                                     })
-                                    .map((q) => {
+                                    .map((q, index, arr) => {
+                                        const passageQuestions = arr;
                                         const isCorrect = isSubmitted && (
                                             q.type === "fill-blank"
                                                 ? (typeof answers[q.id] === 'string' && answers[q.id].trim().toLowerCase() === (q.correctAnswer as string).toLowerCase())
@@ -569,19 +570,19 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                                         }
                                                         return false;
                                                     };
-                                                    const isCorrect = checkCorrect(id);
+                                                    const isCorrect_mary = checkCorrect(id);
                                                     return (
                                                         <span id={`question-${id}`} className="inline-flex items-center gap-2 relative ml-1 mr-1">
                                                             <span className="flex-none w-6 h-6 rounded-full border border-slate-300 text-slate-400 flex items-center justify-center text-[11px] font-semibold bg-white shadow-sm">{id}</span>
                                                             <input type="text"
                                                                 className={cn("w-36 px-3 py-1.5 bg-white border border-slate-200 rounded-lg focus:outline-none transition-all text-sm shadow-sm",
-                                                                    isSubmitted ? (isCorrect ? "border-green-400 bg-green-50 text-green-700 shadow-green-200" : "border-red-400 bg-red-50 text-red-700 shadow-red-200") : "hover:border-blue-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 text-slate-700"
+                                                                    isSubmitted ? (isCorrect_mary ? "border-green-400 bg-green-50 text-green-700 shadow-green-200" : "border-red-400 bg-red-50 text-red-700 shadow-red-200") : "hover:border-blue-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 text-slate-700"
                                                                 )}
                                                                 value={answers[id] || ""}
                                                                 onChange={(e) => handleAnswer(id, e.target.value)}
                                                                 disabled={isSubmitted}
                                                             />
-                                                            {isSubmitted && !isCorrect && <span className="absolute top-full left-8 mt-1 bg-white border border-red-200 text-red-600 text-[11px] font-bold px-2 py-0.5 rounded shadow whitespace-nowrap z-50">Answer: {String(testData.questions.find(x => x.id === id)?.correctAnswer)}</span>}
+                                                            {isSubmitted && !isCorrect_mary && <span className="absolute top-full left-8 mt-1 bg-white border border-red-200 text-red-600 text-[11px] font-bold px-2 py-0.5 rounded shadow whitespace-nowrap z-50">Answer: {String(testData.questions.find(x => x.id === id)?.correctAnswer)}</span>}
                                                         </span>
                                                     );
                                                 };
@@ -919,21 +920,53 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                             );
                                         }
 
+                                        // Determine if this question should be skipped (if it was already rendered inside another question's text)
+                                        const isAlreadyRendered = passageQuestions.some(prevQ => {
+                                            if (prevQ.id >= q.id) return false;
+                                            if (prevQ.type !== 'fill-blank') return false;
+                                            const regex = new RegExp(`(?:^|\\D)${q.id}\\s*(?:[…\\._]{2,})`);
+                                            return regex.test(prevQ.text);
+                                        });
+
+                                        if (isAlreadyRendered) return null;
+
+                                        // Find all question IDs covered by this box
+                                        const coveredIds = [q.id];
+                                        if (q.type === 'fill-blank') {
+                                            passageQuestions.forEach(nextQ => {
+                                                if (nextQ.id <= q.id) return;
+                                                const regex = new RegExp(`(?:^|\\D)${nextQ.id}\\s*(?:[…\\._]{2,})`);
+                                                if (regex.test(q.text)) {
+                                                    coveredIds.push(nextQ.id);
+                                                }
+                                            });
+                                        }
+
+                                        const allCorrect = coveredIds.every(id => {
+                                            const question = passageQuestions.find((pq: any) => pq.id === id);
+                                            return answers[id]?.toLowerCase().trim() === String(question?.correctAnswer).toLowerCase().trim();
+                                        });
+                                        const anyWrong = coveredIds.some(id => {
+                                            if (!answers[id]) return false;
+                                            const question = passageQuestions.find((pq: any) => pq.id === id);
+                                            return answers[id]?.toLowerCase().trim() !== String(question?.correctAnswer).toLowerCase().trim();
+                                        });
+
                                         return (
                                             <div id={`question-${q.id}`} key={q.id} className={cn(
                                                 "p-4 rounded-xl border transition-colors",
-                                                isSubmitted && isCorrect ? "border-green-200 bg-green-50/50" :
-                                                    isSubmitted && isWrong ? "border-red-200 bg-red-50/50" :
+                                                isSubmitted && allCorrect ? "border-green-200 bg-green-50/50" :
+                                                    isSubmitted && anyWrong ? "border-red-200 bg-red-50/50" :
                                                         "border-slate-100 bg-slate-50/50"
                                             )}>
                                                 <div className="flex gap-3 mb-3">
                                                     <span className={cn(
-                                                        "flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold mt-0.5",
-                                                        isSubmitted && isCorrect ? "bg-green-100 text-green-600" :
-                                                            isSubmitted && isWrong ? "bg-red-100 text-red-600" :
+                                                        "flex-shrink-0 px-2 h-6 rounded-full flex items-center justify-center text-xs font-bold mt-0.5 min-w-[1.5rem]",
+                                                        isSubmitted && allCorrect ? "bg-green-100 text-green-600" :
+                                                            isSubmitted && anyWrong ? "bg-red-100 text-red-600" :
                                                                 "bg-blue-100 text-blue-600"
                                                     )}>
-                                                        {q.id}
+                                                        {coveredIds.length > 1 ? `${coveredIds[0]} - ${coveredIds[coveredIds.length - 1]}` : q.id}
                                                     </span>
                                                     <div className="w-full">
                                                         {q.image && (
@@ -943,16 +976,46 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                                         )}
                                                         {q.type === "fill-blank" ? (
                                                             <div className="font-medium text-slate-700 leading-relaxed">
-                                                                {q.text.split(/(?:[\.…_]{2,})/).map((part, i, arr) => (
-                                                                    <span key={i}>
-                                                                        <span dangerouslySetInnerHTML={{ __html: part }} />
-                                                                        {i < arr.length - 1 && (
+                                                                {q.text.split(/([0-9]+\s*(?:[…\._]{2,}))|(?:[…\._]{2,})/).filter(Boolean).map((part, i, arr) => {
+                                                                    // Check if this part contains a numbered blank (e.g. "5 ____")
+                                                                    const match = part.match(/([0-9]+)\s*(?:[…\._]{2,})/);
+                                                                    if (match) {
+                                                                        const targetId = parseInt(match[1]);
+                                                                        const targetQuestion = passageQuestions.find(pq => pq.id === targetId) || q;
+                                                                        const isCorrect_target = isSubmitted && answers[targetId]?.toLowerCase().trim() === String(targetQuestion.correctAnswer).toLowerCase().trim();
+                                                                        const isWrong_target = isSubmitted && answers[targetId] && !isCorrect_target;
+
+                                                                        return (
+                                                                            <span key={i}>
+                                                                                <span className="font-bold text-blue-600 mr-1">{targetId}</span>
+                                                                                <input
+                                                                                    type="text"
+                                                                                    className={cn(
+                                                                                        "inline-block mx-1 px-3 py-1 bg-white border-b-2 focus:outline-none transition-all w-32 text-center font-bold text-sm",
+                                                                                        isSubmitted && isCorrect_target ? "border-green-500 bg-green-50 text-green-700" :
+                                                                                            isSubmitted && isWrong_target ? "border-red-500 bg-red-50 text-red-700" :
+                                                                                                "border-blue-400 focus:border-blue-600 hover:border-blue-500 text-slate-800"
+                                                                                    )}
+                                                                                    value={answers[targetId] || ""}
+                                                                                    onChange={(e) => handleAnswer(targetId, e.target.value)}
+                                                                                    disabled={isSubmitted}
+                                                                                    placeholder=""
+                                                                                    autoComplete="off"
+                                                                                />
+                                                                            </span>
+                                                                        );
+                                                                    }
+
+                                                                    // Check if it's a plain blank (un-numbered)
+                                                                    if (part.match(/^[…\._]{2,}$/)) {
+                                                                        return (
                                                                             <input
+                                                                                key={i}
                                                                                 type="text"
                                                                                 className={cn(
                                                                                     "inline-block mx-2 px-3 py-1 bg-white border-b-2 focus:outline-none transition-all w-40 text-center font-bold text-sm",
-                                                                                    isSubmitted && isCorrect ? "border-green-500 bg-green-50 text-green-700" :
-                                                                                        isSubmitted && isWrong ? "border-red-500 bg-red-50 text-red-700" :
+                                                                                    isSubmitted && allCorrect ? "border-green-500 bg-green-50 text-green-700" :
+                                                                                        isSubmitted && anyWrong ? "border-red-500 bg-red-50 text-red-700" :
                                                                                             "border-blue-400 focus:border-blue-600 hover:border-blue-500 text-slate-800"
                                                                                 )}
                                                                                 value={answers[q.id] || ""}
@@ -961,19 +1024,30 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                                                                 placeholder=""
                                                                                 autoComplete="off"
                                                                             />
-                                                                        )}
-                                                                    </span>
-                                                                ))}
-                                                                {isSubmitted && isWrong && (
-                                                                    <div className="mt-3 p-3 bg-red-50 border border-red-100 rounded-xl text-xs font-bold text-red-700 animate-in fade-in slide-in-from-top-1">
-                                                                        Correct Answer: {q.correctAnswer}
+                                                                        );
+                                                                    }
+
+                                                                    return <span key={i} dangerouslySetInnerHTML={{ __html: part }} />;
+                                                                })}
+                                                                {isSubmitted && anyWrong && (
+                                                                    <div className="mt-3 space-y-2">
+                                                                        {coveredIds.map(id => {
+                                                                            const question = passageQuestions.find((pq: any) => pq.id === id);
+                                                                            const isWrong_id = answers[id]?.toLowerCase().trim() !== String(question?.correctAnswer).toLowerCase().trim();
+                                                                            if (!isWrong_id) return null;
+                                                                            return (
+                                                                                <div key={id} className="p-3 bg-red-50 border border-red-100 rounded-xl text-xs font-bold text-red-700 animate-in fade-in slide-in-from-top-1">
+                                                                                    Question {id}: Correct Answer: {question?.correctAnswer}
+                                                                                </div>
+                                                                            );
+                                                                        })}
                                                                     </div>
                                                                 )}
                                                             </div>
                                                         ) : (
                                                             <div className="font-medium text-slate-700">
                                                                 <p dangerouslySetInnerHTML={{ __html: q.text }} />
-                                                                {isSubmitted && isWrong && (
+                                                                {isSubmitted && !allCorrect && (
                                                                     <div className="mt-3 p-3 bg-red-50 border border-red-100 rounded-xl text-xs font-bold text-red-700 animate-in fade-in slide-in-from-top-1">
                                                                         Correct Answer: {q.type === "true-false" ? (q.options ? q.options[q.correctAnswer as number] : q.correctAnswer) : q.correctAnswer}
                                                                     </div>
