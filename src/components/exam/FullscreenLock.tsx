@@ -25,14 +25,15 @@ export function FullscreenLock({ children, onForceSubmit }: { children: React.Re
         return Math.floor(100000 + Math.random() * 900000).toString();
     };
 
-    const requestFullscreen = async () => {
+    const requestFullscreen = () => {
         try {
-            if (document.documentElement.requestFullscreen) {
-                await document.documentElement.requestFullscreen();
-            } else if ((document.documentElement as any).webkitRequestFullscreen) {
-                await (document.documentElement as any).webkitRequestFullscreen();
-            } else if ((document.documentElement as any).msRequestFullscreen) {
-                await (document.documentElement as any).msRequestFullscreen();
+            const el = document.documentElement as any;
+            if (el.requestFullscreen) {
+                el.requestFullscreen().catch((e: any) => console.error("Fullscreen err:", e));
+            } else if (el.webkitRequestFullscreen) {
+                el.webkitRequestFullscreen();
+            } else if (el.msRequestFullscreen) {
+                el.msRequestFullscreen();
             }
         } catch (err) {
             console.error("Error attempting to re-enable fullscreen:", err);
@@ -109,10 +110,6 @@ export function FullscreenLock({ children, onForceSubmit }: { children: React.Re
             }
         };
 
-        const onBlur = () => {
-            triggerViolation("Window lost focus");
-        };
-
         const preventContextMenu = (e: MouseEvent) => {
             e.preventDefault();
             // Optional: trigger violation on right-click, or just silently block.
@@ -140,7 +137,6 @@ export function FullscreenLock({ children, onForceSubmit }: { children: React.Re
         document.addEventListener("MSFullscreenChange", onFsChange);
 
         document.addEventListener("visibilitychange", onVisibilityChange);
-        window.addEventListener("blur", onBlur);
 
         // Anti-cheat listeners
         window.addEventListener("keydown", handleKeyDown, { capture: true });
@@ -158,7 +154,6 @@ export function FullscreenLock({ children, onForceSubmit }: { children: React.Re
             document.removeEventListener("mozfullscreenchange", onFsChange);
             document.removeEventListener("MSFullscreenChange", onFsChange);
             document.removeEventListener("visibilitychange", onVisibilityChange);
-            window.removeEventListener("blur", onBlur);
 
             window.removeEventListener("keydown", handleKeyDown, { capture: true });
             document.removeEventListener("contextmenu", preventContextMenu, { capture: true });
@@ -187,9 +182,9 @@ export function FullscreenLock({ children, onForceSubmit }: { children: React.Re
 
     const handleUnlock = () => {
         if (exitCode === currentCode) {
+            requestFullscreen();
             setIsLocked(false);
             setExitCode("");
-            requestFullscreen();
         } else {
             setError(true);
             setTimeout(() => setError(false), 2000);
