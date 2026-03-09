@@ -30,11 +30,11 @@ interface TestItem {
 
 // --- Mock Data ---
 const CATEGORIES: TestCategory[] = [
-    { id: "all", title: "All Tests", count: 40 },
+    { id: "all", title: "All Tests", count: 44 },
     { id: "free-passages", title: "Free Passages", count: 14, icon: BookOpen },
     { id: "premium-passages", title: "Premium Passages", count: 1, icon: Sparkles },
-    { id: "full-tests", title: "Full Tests", count: 5, icon: Layers },
-    { id: "mock-passages", title: "Mock Test Passages", count: 15, icon: Bookmark },
+    { id: "full-tests", title: "Full Tests", count: 6, icon: Layers },
+    { id: "mock-passages", title: "Mock Test Passages", count: 18, icon: Bookmark },
     { id: "cambridge-ielts", title: "Cambridge IELTS Readings", count: 5, icon: GraduationCap },
 ];
 
@@ -86,12 +86,18 @@ const TESTS: TestItem[] = [
     { id: "mock-5-p2", categoryId: "mock-passages", title: "Driverless cars", isNew: true, status: "free" },
     { id: "mock-5-p3", categoryId: "mock-passages", title: "What is exploration?", isNew: true, status: "free" },
 
+    // Mock Test 6 Passages
+    { id: "mock-6-p1", categoryId: "mock-passages", title: "Could urban engineers learn from dance?", isNew: true, status: "free" },
+    { id: "mock-6-p2", categoryId: "mock-passages", title: "Should we try to bring extinct species back to life?", isNew: true, status: "free" },
+    { id: "mock-6-p3", categoryId: "mock-passages", title: "Having a laugh", isNew: true, status: "free" },
+
     // Full Tests
     { id: "mock-1-full", categoryId: "full-tests", title: "IELTS Reading Mock Test 1 (Full)", isNew: true, status: "free" },
     { id: "mock-2-full", categoryId: "full-tests", title: "IELTS Reading Mock Test 2 (Full)", isNew: true, status: "free" },
     { id: "mock-3-full", categoryId: "full-tests", title: "IELTS Reading Mock Test 3 (Full)", isNew: true, status: "free" },
     { id: "mock-4-full", categoryId: "full-tests", title: "IELTS Reading Mock Test 4 (Full)", isNew: true, status: "free" },
     { id: "mock-5-full", categoryId: "full-tests", title: "IELTS Reading Mock Test 5 (Full)", isNew: true, status: "free" },
+    { id: "mock-6-full", categoryId: "full-tests", title: "IELTS Reading Mock Test 6 (Full)", isNew: true, status: "free" },
 ];
 
 import { createClient } from "@/utils/supabase/client";
