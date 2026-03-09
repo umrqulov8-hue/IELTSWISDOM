@@ -942,69 +942,75 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                                             </div>
                                                         )}
                                                         {q.type === "fill-blank" ? (
-                                                            <p className="font-medium text-slate-700 leading-8">
-                                                                {q.text.split(/(?:………………|(?:\d*)_{3,})/).map((part, i, arr) => (
+                                                            <div className="font-medium text-slate-700 leading-relaxed">
+                                                                {q.text.split(/(?:[\.…_]{2,})/).map((part, i, arr) => (
                                                                     <span key={i}>
                                                                         <span dangerouslySetInnerHTML={{ __html: part }} />
                                                                         {i < arr.length - 1 && (
                                                                             <input
                                                                                 type="text"
                                                                                 className={cn(
-                                                                                    "inline-block mx-1 px-3 py-1 bg-white border-b-2 focus:outline-none transition-all w-36 text-center font-bold text-sm",
+                                                                                    "inline-block mx-2 px-3 py-1 bg-white border-b-2 focus:outline-none transition-all w-40 text-center font-bold text-sm",
                                                                                     isSubmitted && isCorrect ? "border-green-500 bg-green-50 text-green-700" :
                                                                                         isSubmitted && isWrong ? "border-red-500 bg-red-50 text-red-700" :
-                                                                                            "border-slate-300 focus:border-blue-500 hover:border-blue-300 text-slate-800"
+                                                                                            "border-blue-400 focus:border-blue-600 hover:border-blue-500 text-slate-800"
                                                                                 )}
                                                                                 value={answers[q.id] || ""}
                                                                                 onChange={(e) => handleAnswer(q.id, e.target.value)}
                                                                                 disabled={isSubmitted}
                                                                                 placeholder=""
-                                                                                autoFocus={false}
                                                                                 autoComplete="off"
                                                                             />
                                                                         )}
                                                                     </span>
                                                                 ))}
-                                                            </p>
+                                                                {isSubmitted && isWrong && (
+                                                                    <div className="mt-3 p-3 bg-red-50 border border-red-100 rounded-xl text-xs font-bold text-red-700 animate-in fade-in slide-in-from-top-1">
+                                                                        Correct Answer: {q.correctAnswer}
+                                                                    </div>
+                                                                )}
+                                                            </div>
                                                         ) : (
-                                                            <p className="font-medium text-slate-700">{q.text}</p>
-                                                        )}
-
-                                                        {isSubmitted && isWrong && (
-                                                            <p className="text-xs text-red-500 mt-1 font-semibold">
-                                                                Correct Answer: {q.type === "true-false" ? q.options![q.correctAnswer as number] : q.correctAnswer}
-                                                            </p>
+                                                            <div className="font-medium text-slate-700">
+                                                                <p dangerouslySetInnerHTML={{ __html: q.text }} />
+                                                                {isSubmitted && isWrong && (
+                                                                    <div className="mt-3 p-3 bg-red-50 border border-red-100 rounded-xl text-xs font-bold text-red-700 animate-in fade-in slide-in-from-top-1">
+                                                                        Correct Answer: {q.type === "true-false" ? (q.options ? q.options[q.correctAnswer as number] : q.correctAnswer) : q.correctAnswer}
+                                                                    </div>
+                                                                )}
+                                                            </div>
                                                         )}
                                                     </div>
                                                 </div>
 
-                                                {/* Question Inputs (Hidden for fill-blank now) */}
                                                 <div className="pl-9 space-y-2">
-                                                    {q.type === "true-false" ? (
-                                                        q.options?.map((option, optIndex) => (
-                                                            <label
-                                                                key={optIndex}
-                                                                className={cn(
-                                                                    "flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-all",
-                                                                    answers[q.id] === optIndex
-                                                                        ? "bg-blue-50 border-blue-200 ring-1 ring-blue-200"
-                                                                        : "bg-white border-slate-200 hover:border-slate-300",
-                                                                )}
-                                                            >
-                                                                <input
-                                                                    type="radio"
-                                                                    name={`question-${q.id}`}
-                                                                    className="w-4 h-4 text-blue-600 border-slate-300 focus:ring-blue-500"
-                                                                    checked={answers[q.id] === optIndex}
-                                                                    onChange={() => handleAnswer(q.id, optIndex)}
-                                                                    disabled={isSubmitted}
-                                                                />
-                                                                <span className={cn("text-sm", answers[q.id] === optIndex ? "text-blue-700 font-medium" : "text-slate-600")}>
-                                                                    {option}
-                                                                </span>
-                                                            </label>
-                                                        ))
-                                                    ) : null}
+                                                    {q.type === "true-false" && (
+                                                        <div className="space-y-2">
+                                                            {q.options?.map((option, optIndex) => (
+                                                                <label
+                                                                    key={optIndex}
+                                                                    className={cn(
+                                                                        "flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-all",
+                                                                        answers[q.id] === optIndex
+                                                                            ? "bg-blue-50 border-blue-200 ring-1 ring-blue-200"
+                                                                            : "bg-white border-slate-200 hover:border-slate-300",
+                                                                    )}
+                                                                >
+                                                                    <input
+                                                                        type="radio"
+                                                                        name={`question-${q.id}`}
+                                                                        className="w-4 h-4 text-blue-600 border-slate-300 focus:ring-blue-500"
+                                                                        checked={answers[q.id] === optIndex}
+                                                                        onChange={() => handleAnswer(q.id, optIndex)}
+                                                                        disabled={isSubmitted}
+                                                                    />
+                                                                    <span className={cn("text-sm", answers[q.id] === optIndex ? "text-blue-700 font-medium" : "text-slate-600")}>
+                                                                        {option}
+                                                                    </span>
+                                                                </label>
+                                                            ))}
+                                                        </div>
+                                                    )}
                                                 </div>
                                             </div>
                                         );
@@ -1176,7 +1182,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                     </div>
                 </div>
 
-            </div>
+            </div >
         </>
     );
 }
