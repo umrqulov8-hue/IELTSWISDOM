@@ -34,7 +34,8 @@ const CATEGORIES: TestCategory[] = [
     { id: "free-passages", title: "Free Passages", count: 14, icon: BookOpen },
     { id: "premium-passages", title: "Premium Passages", count: 1, icon: Sparkles },
     { id: "full-tests", title: "Full Tests", count: 5, icon: Layers },
-    { id: "cambridge-ielts", title: "Cambridge IELTS Readings", count: 20, icon: GraduationCap },
+    { id: "mock-passages", title: "Mock Test Passages", count: 15, icon: Bookmark },
+    { id: "cambridge-ielts", title: "Cambridge IELTS Readings", count: 5, icon: GraduationCap },
 ];
 
 const TESTS: TestItem[] = [
@@ -63,27 +64,27 @@ const TESTS: TestItem[] = [
     { id: "fp-4", categoryId: "cambridge-ielts", title: "What destroyed the civilisation of Easter Island?", isNew: true, status: "free" },
 
     // Mock Test 1 Passages
-    { id: "mock-1-p1", categoryId: "cambridge-ielts", title: "Tea and the Industrial Revolution", isNew: true, status: "free" },
-    { id: "mock-1-p2", categoryId: "cambridge-ielts", title: "Gifted children and learning", isNew: true, status: "free" },
-    { id: "mock-1-p3", categoryId: "cambridge-ielts", title: "Museums of fine art and their public", isNew: true, status: "free" },
+    { id: "mock-1-p1", categoryId: "mock-passages", title: "Tea and the Industrial Revolution", isNew: true, status: "free" },
+    { id: "mock-1-p2", categoryId: "mock-passages", title: "Gifted children and learning", isNew: true, status: "free" },
+    { id: "mock-1-p3", categoryId: "mock-passages", title: "Museums of fine art and their public", isNew: true, status: "free" },
 
     // Mock Test 2 Passages
-    { id: "mock-2-p1", categoryId: "cambridge-ielts", title: "Our Vanishing Night", isNew: true, status: "free" },
-    { id: "mock-2-p2", categoryId: "cambridge-ielts", title: "Endless Harvest", isNew: true, status: "free" },
-    { id: "mock-2-p3", categoryId: "cambridge-ielts", title: "Film Noir", isNew: true, status: "free" },
+    { id: "mock-2-p1", categoryId: "mock-passages", title: "Our Vanishing Night", isNew: true, status: "free" },
+    { id: "mock-2-p2", categoryId: "mock-passages", title: "Endless Harvest", isNew: true, status: "free" },
+    { id: "mock-2-p3", categoryId: "mock-passages", title: "Film Noir", isNew: true, status: "free" },
     // Mock Test 3 Passages
-    { id: "mock-3-p1", categoryId: "cambridge-ielts", title: "Development of Adolescence", isNew: true, status: "free" },
-    { id: "mock-3-p2", categoryId: "cambridge-ielts", title: "Intelligence and Giftedness", isNew: true, status: "free" },
-    { id: "mock-3-p3", categoryId: "cambridge-ielts", title: "Communicating Styles and Conflict", isNew: true, status: "free" },
+    { id: "mock-3-p1", categoryId: "mock-passages", title: "Development of Adolescence", isNew: true, status: "free" },
+    { id: "mock-3-p2", categoryId: "mock-passages", title: "Intelligence and Giftedness", isNew: true, status: "free" },
+    { id: "mock-3-p3", categoryId: "mock-passages", title: "Communicating Styles and Conflict", isNew: true, status: "free" },
 
     // Mock Test 4 Passages
-    { id: "mock-4-p1", categoryId: "cambridge-ielts", title: "Can animals count?", isNew: true, status: "free" },
-    { id: "mock-4-p2", categoryId: "cambridge-ielts", title: "Is It Time To Halt the Rising Tide of Plastic Packaging?", isNew: true, status: "free" },
-    { id: "mock-4-p3", categoryId: "cambridge-ielts", title: "The Growth of Intelligence", isNew: true, status: "free" },
+    { id: "mock-4-p1", categoryId: "mock-passages", title: "Can animals count?", isNew: true, status: "free" },
+    { id: "mock-4-p2", categoryId: "mock-passages", title: "Is It Time To Halt the Rising Tide of Plastic Packaging?", isNew: true, status: "free" },
+    { id: "mock-4-p3", categoryId: "mock-passages", title: "The Growth of Intelligence", isNew: true, status: "free" },
     // Mock Test 5 Passages
-    { id: "mock-5-p1", categoryId: "cambridge-ielts", title: "Nutmeg – a valuable spice", isNew: true, status: "free" },
-    { id: "mock-5-p2", categoryId: "cambridge-ielts", title: "Driverless cars", isNew: true, status: "free" },
-    { id: "mock-5-p3", categoryId: "cambridge-ielts", title: "What is exploration?", isNew: true, status: "free" },
+    { id: "mock-5-p1", categoryId: "mock-passages", title: "Nutmeg – a valuable spice", isNew: true, status: "free" },
+    { id: "mock-5-p2", categoryId: "mock-passages", title: "Driverless cars", isNew: true, status: "free" },
+    { id: "mock-5-p3", categoryId: "mock-passages", title: "What is exploration?", isNew: true, status: "free" },
 
     // Full Tests
     { id: "mock-1-full", categoryId: "full-tests", title: "IELTS Reading Mock Test 1 (Full)", isNew: true, status: "free" },
@@ -219,7 +220,8 @@ export default function ReadingPage() {
                                                     category.id === "free-passages" ? "Bepul Matnlar" :
                                                         category.id === "premium-passages" ? "Premium Matnlar" :
                                                             category.id === "full-tests" ? "To'liq Testlar" :
-                                                                category.id === "cambridge-ielts" ? "Cambridge IELTS O'qish" : category.title
+                                                                category.id === "mock-passages" ? "Mock Test Matnlari" :
+                                                                    category.id === "cambridge-ielts" ? "Cambridge IELTS O'qish" : category.title
                                             ) : category.title}
                                         </span>
                                     </div>
