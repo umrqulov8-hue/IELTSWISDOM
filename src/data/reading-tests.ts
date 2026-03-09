@@ -3,6 +3,7 @@ import { mockReadingTest2 } from "./mockTest2";
 import { mockReadingTest3 } from "./mockTest3";
 import { southPoleAdventurerData } from "./southPoleAdventurer";
 import { homersLiteraryLegacyData } from "./homersLiteraryLegacy";
+import { mockReadingTest4 } from "./mockTest4";
 
 export interface Question {
     id: number;
@@ -849,7 +850,8 @@ export const READING_TESTS: Record<string, ReadingTest> = {
     "south-pole-adventurer": southPoleAdventurerData,
     ...Object.fromEntries(mockReadingTest1.map(test => [test.id, test])),
     ...Object.fromEntries(mockReadingTest2.map(test => [test.id, test])),
-    ...Object.fromEntries(mockReadingTest3.map(test => [test.id, test]))
+    ...Object.fromEntries(mockReadingTest3.map(test => [test.id, test])),
+    ...Object.fromEntries(mockReadingTest4.map(test => [test.id, test]))
 };
 
 
