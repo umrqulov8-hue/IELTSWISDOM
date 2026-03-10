@@ -458,23 +458,42 @@ export default function ListeningTestPage() {
         <div className="relative min-h-screen">
             {/* Start Screen Overlay */}
             {!started && (
-                <div className="absolute inset-0 z-[100] flex items-center justify-center bg-[#F2F4F8]/80 backdrop-blur-xl">
+                <div className="fixed inset-0 z-[100] flex items-center justify-center bg-[#F2F4F8]/90 backdrop-blur-xl p-4">
                     <motion.div
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        className="bg-white/80 backdrop-blur-2xl rounded-[2rem] p-10 max-w-lg w-full text-center shadow-[0_20px_50px_rgba(0,0,0,0.1)] border border-white/50 relative overflow-hidden"
+                        initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                        transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
+                        className="bg-white/90 backdrop-blur-2xl rounded-[2rem] p-10 max-w-lg w-full text-center shadow-[0_20px_60px_rgba(0,0,0,0.15)] border border-white/60 relative overflow-hidden"
                     >
                         {/* Decorative background elements inside card */}
-                        <div className="absolute -top-10 -left-10 w-40 h-40 bg-blue-100/50 rounded-full blur-3xl opacity-50"></div>
-                        <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-indigo-100/50 rounded-full blur-3xl opacity-50"></div>
+                        <motion.div 
+                            initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.2, duration: 1 }}
+                            className="absolute -top-10 -left-10 w-40 h-40 bg-blue-100/60 rounded-full blur-3xl opacity-60"
+                        ></motion.div>
+                        <motion.div 
+                            initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.3, duration: 1 }}
+                            className="absolute -bottom-10 -right-10 w-40 h-40 bg-indigo-100/60 rounded-full blur-3xl opacity-60"
+                        ></motion.div>
                         
                         <div className="relative z-10">
-                            <div className="w-20 h-20 bg-blue-50/80 rounded-full flex items-center justify-center mx-auto mb-6 shadow-[inset_0_2px_10px_rgba(255,255,255,0.8)] border border-white/50">
+                            <motion.div 
+                                initial={{ scale: 0.5, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ delay: 0.1, type: "spring", stiffness: 200, damping: 15 }}
+                                className="w-20 h-20 bg-blue-50/80 rounded-full flex items-center justify-center mx-auto mb-6 shadow-[inset_0_2px_10px_rgba(255,255,255,0.8)] border border-white/50"
+                            >
                                 <Headphones className="w-10 h-10 text-blue-600" />
-                            </div>
-                            <h2 className="text-3xl font-black text-slate-800 mb-4 tracking-tight">{testData.title}</h2>
+                            </motion.div>
                             
-                            <div className="flex justify-center gap-6 mb-8 text-slate-600">
+                            <motion.h2 
+                                initial={{ y: 10, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.2 }}
+                                className="text-3xl font-black text-slate-800 mb-4 tracking-tight"
+                            >
+                                {testData.title}
+                            </motion.h2>
+                            
+                            <motion.div 
+                                initial={{ y: 10, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.3 }}
+                                className="flex justify-center gap-6 mb-8 text-slate-600"
+                            >
                                 <div className="flex items-center gap-2 bg-white/50 px-4 py-2 rounded-full border border-white/60 shadow-sm">
                                     <Clock className="w-4 h-4 text-blue-500" />
                                     <span className="font-semibold text-sm">~30 Minutes</span>
@@ -483,13 +502,19 @@ export default function ListeningTestPage() {
                                     <CheckCircle2 className="w-4 h-4 text-emerald-500" />
                                     <span className="font-semibold text-sm">{totalQ} Questions</span>
                                 </div>
-                            </div>
+                            </motion.div>
                             
-                            <p className="text-slate-500 mb-8 leading-relaxed text-sm">
+                            <motion.p 
+                                initial={{ y: 10, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.4 }}
+                                className="text-slate-500 mb-8 leading-relaxed text-sm"
+                            >
                                 Before starting, please ensure your volume is turned up and you are in a quiet environment. The audio will play only once. Click the button below when you are ready to begin.
-                            </p>
+                            </motion.p>
                             
-                            <div className="flex gap-4 justify-center">
+                            <motion.div 
+                                initial={{ y: 10, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.5 }}
+                                className="flex gap-4 justify-center"
+                            >
                                 <Link href="/practice/listening">
                                     <button className="px-6 py-4 rounded-xl border-2 border-slate-200/60 bg-white/50 text-slate-600 font-bold hover:bg-white hover:border-slate-300 transition-all shadow-sm">
                                         Cancel
@@ -497,11 +522,11 @@ export default function ListeningTestPage() {
                                 </Link>
                                 <button
                                     onClick={() => setStarted(true)}
-                                    className="px-10 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-bold shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 transition-all hover:-translate-y-0.5"
+                                    className="px-10 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-bold shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 transition-all hover:-translate-y-0.5 active:scale-95"
                                 >
                                     Start Test
                                 </button>
-                            </div>
+                            </motion.div>
                         </div>
                     </motion.div>
                 </div>
