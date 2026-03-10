@@ -64,6 +64,28 @@ export default function SimulationPage() {
         setAnswers(prev => ({ ...prev, [id]: value }));
     }, []);
 
+    const handlePassageInput = useCallback((e: React.FormEvent<HTMLDivElement>) => {
+        const target = e.target as HTMLInputElement;
+        if (target.tagName === 'INPUT' && target.id.startsWith('q-')) {
+            const qId = target.id.replace('q-', '');
+            handleAnswerChange(qId, target.value);
+        }
+    }, [handleAnswerChange]);
+
+    // Restore input values from answers when part changes or answers update
+    useEffect(() => {
+        const container = document.getElementById("passage-content-container");
+        if (!container) return;
+        
+        const inputs = container.querySelectorAll<HTMLInputElement>('input[id^="q-"]');
+        inputs.forEach(input => {
+            const qId = input.id.replace('q-', '');
+            if (input.value !== (answers[qId] || "")) {
+                input.value = answers[qId] || "";
+            }
+        });
+    }, [currentPartIndex, answers]);
+
     const handleSubmit = async () => {
         if (isSubmitted) return;
         setIsSubmitted(true);
@@ -127,7 +149,11 @@ export default function SimulationPage() {
                         {/* Reading Split-Screen: Passage left, Questions right */}
                         <div className="w-1/2 bg-white rounded-2xl p-8 overflow-y-auto shadow-sm border border-slate-200 prose prose-slate">
                             <h2 className="text-2xl font-black mb-6">{currentPart.title}</h2>
-                            <div dangerouslySetInnerHTML={{ __html: currentPart.content }} />
+                            <div 
+                                id="passage-content-container"
+                                dangerouslySetInnerHTML={{ __html: currentPart.content }} 
+                                onInput={handlePassageInput}
+                            />
                         </div>
                         <div className="w-1/2 bg-white rounded-2xl p-8 overflow-y-auto shadow-sm border border-slate-200">
                             <QuestionsList
@@ -139,6 +165,7 @@ export default function SimulationPage() {
                                 })}
                                 answers={answers}
                                 onAnswerChange={handleAnswerChange}
+                                htmlContent={currentPart.content}
                             />
                         </div>
                     </div>
@@ -184,11 +211,17 @@ export default function SimulationPage() {
                                         />
                                     )}
                                 </div>
-                                <div dangerouslySetInnerHTML={{ __html: currentPart.content }} className="prose prose-slate max-w-none mb-10" />
+                                <div 
+                                    id="passage-content-container"
+                                    dangerouslySetInnerHTML={{ __html: currentPart.content }} 
+                                    className="prose prose-slate max-w-none mb-10" 
+                                    onInput={handlePassageInput}
+                                />
                                 <QuestionsList
                                     questions={currentPart.questions}
                                     answers={answers}
                                     onAnswerChange={handleAnswerChange}
+                                    htmlContent={currentPart.content}
                                 />
                             </div>
                         )}
@@ -290,7 +323,7 @@ export default function SimulationPage() {
     );
 }
 
-function QuestionsList({ questions, answers, onAnswerChange }: any) {
+function QuestionsList({ questions, answers, onAnswerChange, htmlContent }: any) {
     return (
         <div className="space-y-4">
             {questions.map((q: any) => (
@@ -323,18 +356,20 @@ function QuestionsList({ questions, answers, onAnswerChange }: any) {
                     )}
 
                     {q.type === "fill-blank" && (
-                        <div className="flex flex-col sm:flex-row sm:items-center gap-4">
-                            {!q.text && (
-                                <span className="text-blue-600 font-mono font-bold whitespace-nowrap">{q.id}.</span>
-                            )}
-                            <input
-                                type="text"
-                                value={answers[q.id.toString()] || ""}
-                                onChange={(e) => onAnswerChange(q.id.toString(), e.target.value)}
-                                className="w-full bg-slate-50 border-none rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 outline-none transition-all font-medium text-slate-800"
-                                placeholder="Type your answer here..."
-                            />
-                        </div>
+                        (htmlContent && (htmlContent.includes(`id="q-${q.id}"`) || htmlContent.includes(`id='q-${q.id}'`))) ? null : (
+                            <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+                                {!q.text && (
+                                    <span className="text-blue-600 font-mono font-bold whitespace-nowrap">{q.id}.</span>
+                                )}
+                                <input
+                                    type="text"
+                                    value={answers[q.id.toString()] || ""}
+                                    onChange={(e) => onAnswerChange(q.id.toString(), e.target.value)}
+                                    className="w-full bg-slate-50 border-none rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 outline-none transition-all font-medium text-slate-800"
+                                    placeholder="Type your answer here..."
+                                />
+                            </div>
+                        )
                     )}
 
                     {q.type === "true-false" && (
