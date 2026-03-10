@@ -22,7 +22,9 @@ export default function SimulationPage() {
     const [currentPartIndex, setCurrentPartIndex] = useState(0);
     const [answers, setAnswers] = useState<Record<string, string>>({});
     const [isSubmitted, setIsSubmitted] = useState(false);
-    const [isCheckingAnswers, setIsCheckingAnswers] = useState(false); // For listening 2-min check
+    const [isBreak, setIsBreak] = useState(false);
+    const [breakTimer, setBreakTimer] = useState(60);
+    const [isCheckingAnswers, setIsCheckingAnswers] = useState(false);
 
     // Timer State
     const [duration, setDuration] = useState(0);
@@ -80,11 +82,39 @@ export default function SimulationPage() {
         const inputs = container.querySelectorAll<HTMLInputElement>('input[id^="q-"]');
         inputs.forEach(input => {
             const qId = input.id.replace('q-', '');
-            if (input.value !== (answers[qId] || "")) {
-                input.value = answers[qId] || "";
-            }
+            input.value = answers[qId] || "";
         });
     }, [currentPartIndex, answers]);
+
+    // Break Timer Effect
+    useEffect(() => {
+        let interval: NodeJS.Timeout;
+        if (isBreak && breakTimer > 0) {
+            interval = setInterval(() => {
+                setBreakTimer(prev => prev - 1);
+            }, 1000);
+        } else if (isBreak && breakTimer === 0) {
+            const nextSectionMap: Record<string, string> = {
+                listening: "reading",
+                reading: "writing",
+                writing: "speaking",
+                speaking: "dashboard"
+            };
+            const nextSection = nextSectionMap[section];
+
+            if (nextSection === "dashboard") {
+                router.push("/dashboard");
+            } else {
+                router.push(`/exam-center/simulate/${nextSection}/${testId}`);
+                setIsBreak(false);
+                setBreakTimer(60);
+                setIsSubmitted(false);
+                setCurrentPartIndex(0);
+                setAnswers({});
+            }
+        }
+        return () => clearInterval(interval);
+    }, [isBreak, breakTimer, section, testId, router]);
 
     const handleSubmit = async () => {
         if (isSubmitted) return;
@@ -121,7 +151,11 @@ export default function SimulationPage() {
         }
 
         // Show results or redirect
-        router.push("/dashboard");
+        if (testId.startsWith("mt-")) {
+            setIsBreak(true);
+        } else {
+            router.push("/dashboard");
+        }
     };
 
     if (!testData) return <div className="p-20 text-center font-bold">Loading Test Data...</div>;
@@ -134,16 +168,51 @@ export default function SimulationPage() {
 
     return (
         <CDILayout
-            title={testData.title}
+            title={testData.title || "IELTS Mock Test"}
             section={section.charAt(0).toUpperCase() + section.slice(1) as any}
-            duration={duration}
+            duration={isBreak ? breakTimer : duration}
             onFinish={handleSubmit}
             currentPart={currentPartIndex}
             totalParts={totalParts}
             onPartChange={setCurrentPartIndex}
             questionsHandled={{ current: currentQCount, total: totalQ }}
         >
-            <div className="h-full">
+            <div className="h-full relative">
+                {/* Break Overlay */}
+                <AnimatePresence>
+                    {isBreak && (
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            className="absolute inset-0 z-[100] bg-slate-900/90 backdrop-blur-xl flex flex-col items-center justify-center text-white p-8 text-center"
+                        >
+                            <motion.div
+                                initial={{ scale: 0.9, opacity: 0 }}
+                                animate={{ scale: 1, opacity: 1 }}
+                                className="max-w-md w-full"
+                            >
+                                <div className="w-24 h-24 bg-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-8 relative">
+                                    <div className="absolute inset-0 bg-blue-500/20 rounded-full animate-ping" />
+                                    <Clock className="w-12 h-12 text-blue-400" />
+                                </div>
+                                <h2 className="text-4xl font-black mb-4">Section Completed</h2>
+                                <p className="text-slate-300 text-lg mb-12">
+                                    Take a short breather. The next section will start automatically in:
+                                </p>
+                                <div className="text-7xl font-black font-mono text-blue-400 mb-12">
+                                    00:{breakTimer.toString().padStart(2, '0')}
+                                </div>
+                                <button
+                                    onClick={() => setBreakTimer(0)}
+                                    className="bg-white text-slate-900 px-10 py-4 rounded-2xl font-bold hover:bg-slate-200 transition-all shadow-xl"
+                                >
+                                    Skip Break
+                                </button>
+                            </motion.div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
                 {section === "reading" && (
                     <div className="flex h-full gap-6">
                         {/* Reading Split-Screen: Passage left, Questions right */}
@@ -229,7 +298,7 @@ export default function SimulationPage() {
                 )}
 
                 {section === "writing" && (
-                    <div className="max-w-7xl mx-auto h-full flex flex-col gap-6">
+                    <div className="max-w-none mx-auto h-full flex flex-col gap-6">
                         <div className="flex bg-slate-200/50 p-1.5 rounded-2xl w-fit mx-auto border border-slate-300">
                             {testData.tasks.map((task: any, index: number) => (
                                 <button
@@ -274,7 +343,7 @@ export default function SimulationPage() {
                 )}
 
                 {section === "speaking" && (
-                    <div className="max-w-4xl mx-auto h-full flex flex-col items-center justify-center space-y-12">
+                    <div className="max-w-none mx-auto h-full flex flex-col items-center justify-center space-y-12">
                         <div className="text-center space-y-4">
                             <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-700 px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest border border-blue-200">
                                 <Mic className="w-3.5 h-3.5" />

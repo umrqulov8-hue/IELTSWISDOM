@@ -182,7 +182,7 @@ export default function ListeningTestPage() {
     const testId = params?.id as string;
     const testData = testId ? LISTENING_TESTS[testId] : null;
 
-    const [started, setStarted] = useState(false);
+    const [started, setStarted] = useState(true);
     const [currentPartIndex, setCurrentPartIndex] = useState(0);
     const [answers, setAnswers] = useState<Record<string, string>>({});
     const [isSubmitted, setIsSubmitted] = useState(false);
@@ -452,85 +452,12 @@ export default function ListeningTestPage() {
     const answeredCount = Object.values(answers).filter(v => v !== "").length;
 
     // ── PRE-START ──────────────────────────────────────────────────────
-    if (!started) {
-        return (
-            <div className="liquid-bg min-h-screen flex flex-col">
-                <div className="glass-topbar sticky top-0 z-30 px-5 py-3 flex items-center gap-3">
-                    <Link href="/practice/listening">
-                        <button className="flex items-center gap-1.5 text-slate-500 hover:text-slate-800 text-sm font-medium transition-colors">
-                            <ChevronLeft className="w-4 h-4" /> Back
-                        </button>
-                    </Link>
-                    <span className="text-slate-300">|</span>
-                    <span className="font-bold text-slate-700 text-sm">{testData.title}</span>
-                </div>
 
-                <div className="flex-1 flex items-center justify-center p-6">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20, scale: 0.96 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        transition={{ duration: 0.5 }}
-                        className="w-full max-w-md"
-                    >
-                        <div className="glass-card rounded-3xl overflow-hidden shadow-2xl">
-                            <div className="p-8 text-center border-b border-white/30">
-                                <motion.div
-                                    animate={{ y: [0, -8, 0] }}
-                                    transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
-                                    className="w-16 h-16 glass-pill rounded-2xl flex items-center justify-center mx-auto mb-4"
-                                >
-                                    <span className="text-3xl">🎧</span>
-                                </motion.div>
-                                <h1 className="text-xl font-extrabold text-slate-800 mb-1">
-                                    <BouncyText key={`ps-title`} text={testData.title} type="word" />
-                                </h1>
-                                <p className="text-slate-500 text-sm">IELTS Academic · Listening</p>
-                            </div>
-
-                            <div className="grid grid-cols-3 divide-x divide-white/30 border-b border-white/30">
-                                {[["~30 min", "Duration"], ["40", "Questions"], [`${testData.parts.length}`, "Sections"]].map(([v, l]) => (
-                                    <div key={l} className="py-4 text-center">
-                                        <div className="text-2xl font-black text-slate-800">{v}</div>
-                                        <div className="text-[11px] text-slate-400 font-medium">{l}</div>
-                                    </div>
-                                ))}
-                            </div>
-
-                            <div className="p-6 space-y-2.5">
-                                {["Listen once — pay attention to every detail",
-                                    "Complete 4 sections with 10 questions each",
-                                    "ONE WORD AND/OR A NUMBER unless stated"].map((tip, i) => (
-                                        <div key={i} className="flex items-start gap-2.5">
-                                            <span className="w-5 h-5 glass-pill rounded-full flex items-center justify-center text-[10px] font-bold text-slate-600 flex-shrink-0 mt-0.5">{i + 1}</span>
-                                            <p className="text-sm text-slate-600">{tip}</p>
-                                        </div>
-                                    ))}
-                            </div>
-
-                            <div className="px-6 pb-6">
-                                <button
-                                    onClick={() => setStarted(true)}
-                                    className="w-full py-4 glass-pill-dark rounded-2xl font-bold text-base text-white transition-all flex items-center justify-center gap-3 group shadow-lg"
-                                >
-                                    <Play className="w-5 h-5 fill-white group-hover:scale-110 transition-transform" />
-                                    Start Test
-                                    <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                                </button>
-                                <p className="text-center text-xs text-slate-400 mt-2.5">Audio player appears after you start</p>
-                            </div>
-                        </div>
-                    </motion.div>
-                </div>
-
-                <style>{liquidStyles}</style>
-            </div>
-        );
-    }
 
     // ── TEST SCREEN ────────────────────────────────────────────────────
     return (
         <div
-            className="liquid-bg min-h-screen flex flex-col pb-4"
+            className="liquid-bg min-h-screen flex flex-col"
         >
 
             {/* Global styles */}
@@ -565,7 +492,7 @@ export default function ListeningTestPage() {
                 <span className="text-xs text-slate-400 font-medium bg-white/50 px-2.5 py-1 rounded-full">{answeredCount}/{totalQ}</span>
             </motion.div>
 
-            <main className="flex-1 max-w-[1400px] w-full mx-auto px-6 md:px-10 py-6 space-y-5 mt-16 pb-24">
+            <main className="flex-1 max-w-none w-full mx-auto px-6 md:px-12 py-6 space-y-5 mt-16 pb-10">
 
                 {/* Score */}
                 <AnimatePresence>

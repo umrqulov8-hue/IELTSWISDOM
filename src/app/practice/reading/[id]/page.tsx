@@ -25,7 +25,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [showResult, setShowResult] = useState(false);
     const [score, setScore] = useState(0);
-    const [hasStarted, setHasStarted] = useState(false);
+    const [hasStarted, setHasStarted] = useState(true);
     const [isRunning, setIsRunning] = useState(true);
     const [fontSize, setFontSize] = useState(18); // Default font size in px
     const [currentPassageIndex, setCurrentPassageIndex] = useState(0);
@@ -348,39 +348,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
             <div className="fixed inset-0 z-[9999] bg-[#F2F4F8] flex flex-col h-full">
 
                 {/* --- Start Screen Overlay --- */}
-                {!hasStarted && (
-                    <div className="absolute inset-0 z-[10001] bg-white/95 backdrop-blur-sm flex flex-col items-center justify-center p-8 text-center">
-                        <div className="max-w-2xl w-full bg-white rounded-3xl shadow-2xl border border-slate-100 p-12 animate-in fade-in zoom-in duration-300">
-                            <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-8">
-                                <BookOpen className="w-10 h-10 text-blue-600" />
-                            </div>
-                            <h1 className="text-4xl font-bold text-slate-800 mb-4 tracking-tight">IELTS Reading Practice</h1>
-                            <h2 className="text-2xl font-serif text-slate-600 mb-8 italic">"{testData.title}"</h2>
 
-                            <div className="bg-slate-50 rounded-xl p-6 mb-10 text-left space-y-3 border border-slate-100">
-                                <p className="flex items-center gap-3 text-slate-700">
-                                    <Clock className="w-5 h-5 text-orange-500" />
-                                    <span className="font-semibold">Time Limit:</span> {testData.timeLimit ? testData.timeLimit / 60 : 20} Minutes
-                                </p>
-                                <p className="flex items-center gap-3 text-slate-700">
-                                    <CheckCircle2 className="w-5 h-5 text-green-500" />
-                                    <span className="font-semibold">Questions:</span> {testData.questions.length} Items
-                                </p>
-                                <p className="flex items-center gap-3 text-slate-700">
-                                    <Flag className="w-5 h-5 text-blue-500" />
-                                    <span className="font-semibold">Task Type:</span> Mixed Questions
-                                </p>
-                            </div>
-
-                            <button
-                                onClick={() => setHasStarted(true)}
-                                className="w-full py-4 rounded-xl bg-blue-600 text-white font-bold text-lg hover:bg-blue-700 transition-all shadow-xl shadow-blue-500/20 active:scale-[0.98]"
-                            >
-                                Start Test Now
-                            </button>
-                        </div>
-                    </div>
-                )}
 
                 <div className="flex-1 flex flex-col h-full w-full p-0 pt-16 overflow-hidden">
 
