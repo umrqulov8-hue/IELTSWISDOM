@@ -25,7 +25,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [showResult, setShowResult] = useState(false);
     const [score, setScore] = useState(0);
-    const [hasStarted, setHasStarted] = useState(true);
+    const [hasStarted, setHasStarted] = useState(false);
     const [isRunning, setIsRunning] = useState(true);
     const [fontSize, setFontSize] = useState(18); // Default font size in px
     const [currentPassageIndex, setCurrentPassageIndex] = useState(0);
@@ -348,7 +348,49 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
             <div className="fixed inset-0 z-[9999] bg-[#F2F4F8] flex flex-col h-full">
 
                 {/* --- Start Screen Overlay --- */}
-
+                {!hasStarted && (
+                    <div className="absolute inset-0 z-50 flex items-center justify-center p-6 bg-white/80 backdrop-blur-md">
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            className="bg-white rounded-[2rem] p-10 max-w-lg w-full text-center shadow-2xl border border-slate-100"
+                        >
+                            <div className="w-20 h-20 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-6">
+                                <BookOpen className="w-10 h-10 text-blue-600" />
+                            </div>
+                            <h2 className="text-3xl font-black text-slate-800 mb-4">{testData.title}</h2>
+                            
+                            <div className="flex justify-center gap-6 mb-8 text-slate-600">
+                                <div className="flex items-center gap-2">
+                                    <Clock className="w-5 h-5 text-slate-400" />
+                                    <span className="font-medium">{Math.floor((testData.timeLimit || 1200) / 60)} Minutes</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <CheckCircle2 className="w-5 h-5 text-slate-400" />
+                                    <span className="font-medium">{testData.questions.length} Questions</span>
+                                </div>
+                            </div>
+                            
+                            <p className="text-slate-500 mb-8 leading-relaxed">
+                                You will have {Math.floor((testData.timeLimit || 1200) / 60)} minutes to complete {testData.questions.length} questions. The timer will start as soon as you click the button below. Good luck!
+                            </p>
+                            
+                            <div className="flex gap-4 justify-center">
+                                <Link href="/practice/reading">
+                                    <button className="px-6 py-4 rounded-xl border-2 border-slate-200 text-slate-600 font-bold hover:bg-slate-50 transition-colors">
+                                        Cancel
+                                    </button>
+                                </Link>
+                                <button
+                                    onClick={() => setHasStarted(true)}
+                                    className="px-10 py-4 bg-blue-600 text-white rounded-xl font-bold shadow-lg shadow-blue-500/30 hover:bg-blue-700 hover:shadow-blue-500/50 transition-all hover:-translate-y-0.5"
+                                >
+                                    Start Test
+                                </button>
+                            </div>
+                        </motion.div>
+                    </div>
+                )}
 
                 <div className="flex-1 flex flex-col h-full w-full p-0 pt-16 overflow-hidden">
 
