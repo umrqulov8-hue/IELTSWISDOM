@@ -539,8 +539,6 @@ export default function SpeakingTestInterface() {
                     )}
                 </div>
 
-                {/* Mobile Extra padding */}
-                <div className="h-16"></div>
             </main>
         </div>
     );

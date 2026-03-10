@@ -530,7 +530,7 @@ export default function ListeningTestPage() {
     // ── TEST SCREEN ────────────────────────────────────────────────────
     return (
         <div
-            className="liquid-bg min-h-screen flex flex-col pb-28"
+            className="liquid-bg min-h-screen flex flex-col pb-4"
         >
 
             {/* Global styles */}
@@ -565,7 +565,7 @@ export default function ListeningTestPage() {
                 <span className="text-xs text-slate-400 font-medium bg-white/50 px-2.5 py-1 rounded-full">{answeredCount}/{totalQ}</span>
             </motion.div>
 
-            <main className="flex-1 max-w-[1400px] w-full mx-auto px-6 md:px-10 py-6 space-y-5 mt-16 pb-32">
+            <main className="flex-1 max-w-[1400px] w-full mx-auto px-6 md:px-10 py-6 space-y-5 mt-16 pb-24">
 
                 {/* Score */}
                 <AnimatePresence>
