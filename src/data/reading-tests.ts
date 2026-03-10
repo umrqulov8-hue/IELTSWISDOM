@@ -6,6 +6,7 @@ import { homersLiteraryLegacyData } from "./homersLiteraryLegacy";
 import { mockReadingTest4 } from "./mockTest4";
 import { mockReadingTest5 } from "./mockTest5";
 import { mockReadingTest6 } from "./mockTest6";
+import { theRiseOfAgribotsData } from "./theRiseOfAgribots";
 
 export interface Question {
     id: number;
@@ -34,6 +35,7 @@ export interface ReadingTest {
 
 export const READING_TESTS: Record<string, ReadingTest> = {
     "homers-literary-legacy": homersLiteraryLegacyData,
+    "the-rise-of-agribots": theRiseOfAgribotsData,
     "fp-9": {
         id: "fp-9",
         title: "Socially Responsible Businesses",

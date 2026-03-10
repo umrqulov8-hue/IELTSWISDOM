@@ -30,9 +30,9 @@ interface TestItem {
 
 // --- Mock Data ---
 const CATEGORIES: TestCategory[] = [
-    { id: "all", title: "All Tests", count: 44 },
+    { id: "all", title: "All Tests", count: 45 },
     { id: "free-passages", title: "Free Passages", count: 14, icon: BookOpen },
-    { id: "premium-passages", title: "Premium Passages", count: 1, icon: Sparkles },
+    { id: "premium-passages", title: "Premium Passages", count: 2, icon: Sparkles },
     { id: "full-tests", title: "Full Tests", count: 6, icon: Layers },
     { id: "mock-passages", title: "Mock Test Passages", count: 18, icon: Bookmark },
     { id: "cambridge-ielts", title: "Cambridge IELTS Readings", count: 5, icon: GraduationCap },
@@ -41,6 +41,7 @@ const CATEGORIES: TestCategory[] = [
 const TESTS: TestItem[] = [
     // Premium Passages
     { id: "homers-literary-legacy", categoryId: "premium-passages", title: "Homer's Literary Legacy", isNew: true, status: "premium" },
+    { id: "the-rise-of-agribots", categoryId: "premium-passages", title: "The Rise of Agribots", isNew: true, status: "premium" },
 
     // Free Passages
     { id: "fp-9", categoryId: "free-passages", title: "Socially Responsible Businesses", isNew: true, status: "free" },
