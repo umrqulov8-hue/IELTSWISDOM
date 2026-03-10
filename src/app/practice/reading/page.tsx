@@ -30,10 +30,10 @@ interface TestItem {
 
 // --- Mock Data ---
 const CATEGORIES: TestCategory[] = [
-    { id: "all", title: "All Tests", count: 45 },
+    { id: "all", title: "All Tests", count: 46 },
     { id: "free-passages", title: "Free Passages", count: 14, icon: BookOpen },
     { id: "premium-passages", title: "Premium Passages", count: 2, icon: Sparkles },
-    { id: "full-tests", title: "Full Tests", count: 6, icon: Layers },
+    { id: "full-tests", title: "Full Tests", count: 7, icon: Layers },
     { id: "mock-passages", title: "Mock Test Passages", count: 18, icon: Bookmark },
     { id: "cambridge-ielts", title: "Cambridge IELTS Readings", count: 5, icon: GraduationCap },
 ];
@@ -99,6 +99,7 @@ const TESTS: TestItem[] = [
     { id: "mock-4-full", categoryId: "full-tests", title: "IELTS Reading Mock Test 4 (Full)", isNew: true, status: "free" },
     { id: "mock-5-full", categoryId: "full-tests", title: "IELTS Reading Mock Test 5 (Full)", isNew: true, status: "free" },
     { id: "mock-6-full", categoryId: "full-tests", title: "IELTS Reading Mock Test 6 (Full)", isNew: true, status: "free" },
+    { id: "mock-7-full", categoryId: "full-tests", title: "IELTS Reading Mock Test 7 (Full)", isNew: true, status: "free" },
 ];
 
 import { createClient } from "@/utils/supabase/client";
