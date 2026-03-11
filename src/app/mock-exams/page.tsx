@@ -27,7 +27,7 @@ export default function MockExamsPage() {
                     <h2 className="text-[28px] font-black text-slate-800 tracking-tight">{tx(ME.sectionTitle, lang)}</h2>
                 </div>
 
-                {tests.length === 0 ? (
+                {(tests as unknown as any[]).length === 0 ? (
                     <div className="flex flex-col items-center justify-center p-16 bg-white/50 backdrop-blur-xl rounded-[40px] border border-white/60 text-center shadow-lg">
                         <div className="w-20 h-20 bg-orange-100 rounded-full flex items-center justify-center mb-6">
                             <Play className="w-10 h-10 text-orange-500" />
