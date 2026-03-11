@@ -76,8 +76,8 @@ export function CDILayout({
                 </header>
 
                 {/* --- Main Area --- */}
-                <main className="flex-1 overflow-hidden relative flex flex-col">
-                    <div id="scroll-container" className="flex-1 overflow-y-auto px-4 md:px-8 py-6 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+                <main className="flex-1 overflow-hidden relative flex flex-col min-h-0">
+                    <div id="scroll-container" className="flex-1 overflow-hidden relative">
                         {children}
                     </div>
                 </main>

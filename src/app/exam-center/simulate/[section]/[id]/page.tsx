@@ -29,6 +29,34 @@ export default function SimulationPage() {
     // Timer State
     const [duration, setDuration] = useState(0);
 
+    // Reading Resizer state
+    const [leftWidth, setLeftWidth] = useState(50);
+    const [isResizing, setIsResizing] = useState(false);
+
+    useEffect(() => {
+        const handleMouseMove = (e: MouseEvent) => {
+            if (!isResizing) return;
+            const newWidth = (e.clientX / window.innerWidth) * 100;
+            if (newWidth > 20 && newWidth < 80) {
+                setLeftWidth(newWidth);
+            }
+        };
+
+        const handleMouseUp = () => {
+            setIsResizing(false);
+        };
+
+        if (isResizing) {
+            window.addEventListener('mousemove', handleMouseMove);
+            window.addEventListener('mouseup', handleMouseUp);
+        }
+
+        return () => {
+            window.removeEventListener('mousemove', handleMouseMove);
+            window.removeEventListener('mouseup', handleMouseUp);
+        };
+    }, [isResizing]);
+
     // Initialize test data
     useEffect(() => {
         if (!section || !testId) return;
@@ -261,18 +289,38 @@ export default function SimulationPage() {
         >
             <div className="h-full relative">
                 {section === "reading" && (
-                    <div className="flex h-full gap-0 bg-white">
+                    <div className={cn(
+                        "flex h-full gap-0 bg-white overflow-hidden",
+                        isResizing && "cursor-col-resize select-none"
+                    )}>
                         {/* Reading Split-Screen: Passage left, Questions right */}
-                        <div className="w-1/2 h-full overflow-y-auto p-12 lg:p-16 border-r border-slate-200 prose prose-slate max-w-none prose-h2:text-3xl prose-h2:mb-8 prose-p:text-lg prose-p:leading-relaxed">
+                        <div 
+                            className="h-full overflow-y-auto p-12 lg:p-16 border-r border-slate-100 prose prose-slate max-w-none prose-h2:text-3xl prose-h2:mb-8 prose-p:text-lg prose-p:leading-relaxed"
+                            style={{ width: `${leftWidth}%` }}
+                        >
                             <h2 className="text-3xl font-black mb-8">{currentPart.title}</h2>
                             <div 
                                 id="passage-content-container"
                                 dangerouslySetInnerHTML={{ __html: currentPart.content }} 
-                                onInput={handlePassageInput}
                             />
                         </div>
-                        <div className="w-1/2 h-full overflow-y-auto p-12 lg:p-16 bg-slate-50/30">
-                            <div className="max-w-2xl mx-auto">
+
+                        {/* Draggable Resizer Handle */}
+                        <div 
+                            className={cn(
+                                "w-1.5 h-full hover:bg-blue-500/30 cursor-col-resize transition-colors relative z-[60] flex items-center justify-center",
+                                isResizing ? "bg-blue-600 shadow-[0_0_15px_rgba(37,99,235,0.4)]" : "bg-slate-100"
+                            )}
+                            onMouseDown={() => setIsResizing(true)}
+                        >
+                            <div className="w-1 h-8 rounded-full bg-slate-300" />
+                        </div>
+
+                        <div 
+                            className="h-full overflow-y-auto p-12 lg:p-16 bg-slate-50/30"
+                            style={{ width: `${100 - leftWidth}%` }}
+                        >
+                            <div className="max-w-3xl mx-auto">
                                 <QuestionsList
                                     questions={testData.questions.filter((q: any) => {
                                         if (testData.passages) {
@@ -283,6 +331,7 @@ export default function SimulationPage() {
                                     answers={answers}
                                     onAnswerChange={handleAnswerChange}
                                     htmlContent={currentPart.content}
+                                    isSubmitted={isSubmitted}
                                 />
                             </div>
                         </div>
@@ -477,7 +526,7 @@ export default function SimulationPage() {
     );
 }
 
-function QuestionsList({ questions, answers, onAnswerChange, htmlContent }: any) {
+function QuestionsList({ questions, answers, onAnswerChange, htmlContent, isSubmitted }: any) {
     return (
         <div className="space-y-4">
             {questions.map((q: any) => {
@@ -516,18 +565,67 @@ function QuestionsList({ questions, answers, onAnswerChange, htmlContent }: any)
                             </div>
                         )}
 
-                        {q.type === "fill-blank" && !isEmbeddedFillBlank && (
-                            <div className="flex flex-col sm:flex-row sm:items-center gap-4">
-                                {!q.text && (
-                                    <span className="text-blue-600 font-mono font-bold whitespace-nowrap">{q.id}.</span>
+                        {q.type === "fill-blank" && (
+                            <div className="font-medium text-slate-700 leading-relaxed">
+                                {q.text && q.text.includes("_____") ? (
+                                    <>
+                                        {q.text.split(/(_____)/).map((part: string, i: number) => {
+                                            if (part === "_____") {
+                                                const isCorrect = isSubmitted && answers[q.id.toString()]?.trim().toLowerCase() === q.correctAnswer?.toString().toLowerCase();
+                                                const isWrong = isSubmitted && answers[q.id.toString()] && !isCorrect;
+                                                
+                                                return (
+                                                    <input
+                                                        key={i}
+                                                        type="text"
+                                                        value={answers[q.id.toString()] || ""}
+                                                        onChange={(e) => onAnswerChange(q.id.toString(), e.target.value)}
+                                                        disabled={isSubmitted}
+                                                        className={cn(
+                                                            "mx-1 px-3 py-1 bg-white border-b-2 outline-none transition-all w-32 md:w-40 text-center font-bold text-sm",
+                                                            isSubmitted ? (
+                                                                isCorrect ? "border-green-500 bg-green-50 text-green-700" : "border-red-500 bg-red-50 text-red-700"
+                                                            ) : "border-blue-400 focus:border-blue-600 focus:ring-4 focus:ring-blue-500/5 hover:border-blue-500 text-slate-800"
+                                                        )}
+                                                        autoComplete="off"
+                                                    />
+                                                );
+                                            }
+                                            return <span key={i}>{part}</span>;
+                                        })}
+                                        {isSubmitted && answers[q.id.toString()]?.trim().toLowerCase() !== q.correctAnswer?.toString().toLowerCase() && (
+                                            <div className="mt-3 p-3 bg-blue-50 border border-blue-100 rounded-xl text-xs font-bold text-blue-700">
+                                                Correct Answer: {q.correctAnswer}
+                                            </div>
+                                        )}
+                                    </>
+                                ) : (
+                                    <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+                                        {!q.text && (
+                                            <span className="text-blue-600 font-mono font-bold whitespace-nowrap">{q.id}.</span>
+                                        )}
+                                        <input
+                                            type="text"
+                                            value={answers[q.id.toString()] || ""}
+                                            onChange={(e) => onAnswerChange(q.id.toString(), e.target.value)}
+                                            className={cn(
+                                                "w-full px-4 py-3 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition-all font-medium",
+                                                isSubmitted ? (
+                                                    answers[q.id.toString()]?.trim().toLowerCase() === q.correctAnswer?.toString().toLowerCase() 
+                                                        ? "bg-green-50 text-green-700 ring-2 ring-green-200" 
+                                                        : "bg-red-50 text-red-700 ring-2 ring-red-200"
+                                                ) : "bg-slate-50 text-slate-800"
+                                            )}
+                                            disabled={isSubmitted}
+                                            placeholder="Type your answer here..."
+                                        />
+                                        {isSubmitted && answers[q.id.toString()]?.trim().toLowerCase() !== q.correctAnswer?.toString().toLowerCase() && (
+                                            <div className="mt-2 p-2 bg-blue-50 text-blue-700 rounded-lg text-xs font-bold">
+                                                Correct: {q.correctAnswer}
+                                            </div>
+                                        )}
+                                    </div>
                                 )}
-                                <input
-                                    type="text"
-                                    value={answers[q.id.toString()] || ""}
-                                    onChange={(e) => onAnswerChange(q.id.toString(), e.target.value)}
-                                    className="w-full bg-slate-50 border-none rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 outline-none transition-all font-medium text-slate-800"
-                                    placeholder="Type your answer here..."
-                                />
                             </div>
                         )}
 
