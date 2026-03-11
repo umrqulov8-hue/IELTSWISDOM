@@ -92,8 +92,14 @@ export default function SimulationPage() {
         }
     };
 
-    const applyHighlight = () => {
+    const applyHighlight = (color: 'yellow' | 'green' | 'blue') => {
         if (!savedRange) return;
+
+        const colors = {
+            yellow: '#FFF59D',
+            green: '#C8E6C9',
+            blue: '#BBDEFB'
+        };
 
         try {
             // Restore the selection
@@ -105,8 +111,8 @@ export default function SimulationPage() {
 
             // Wrap selected content in a highlight span
             const span = document.createElement('span');
-            span.setAttribute('data-highlight', 'yellow');
-            span.style.backgroundColor = '#FFF59D';
+            span.setAttribute('data-highlight', color);
+            span.style.backgroundColor = colors[color];
             span.style.borderRadius = '2px';
             span.style.padding = '0 1px';
             span.style.cursor = 'pointer';
@@ -119,8 +125,8 @@ export default function SimulationPage() {
             try {
                 const frag = savedRange.extractContents();
                 const span = document.createElement('span');
-                span.setAttribute('data-highlight', 'yellow');
-                span.style.backgroundColor = '#FFF59D';
+                span.setAttribute('data-highlight', color);
+                span.style.backgroundColor = colors[color];
                 span.style.borderRadius = '2px';
                 span.style.padding = '0 1px';
                 span.style.cursor = 'pointer';
@@ -479,13 +485,23 @@ export default function SimulationPage() {
                                     onMouseDown={(e) => e.stopPropagation()}
                                     className="flex items-center gap-0.5 bg-[#1E293B] text-white px-1 py-1 rounded-xl shadow-2xl border border-white/10"
                                 >
-                                    <button
-                                        onClick={applyHighlight}
-                                        className="flex items-center gap-1.5 px-3 py-1.5 hover:bg-white/10 rounded-lg transition-colors"
-                                    >
-                                        <div className="w-3.5 h-3.5 rounded bg-yellow-300 border border-yellow-500" />
-                                        <span className="text-xs font-semibold">Highlight</span>
-                                    </button>
+                                    <div className="flex items-center gap-1.5 px-2 py-1.5">
+                                        <button
+                                            onClick={() => applyHighlight('yellow')}
+                                            className="w-6 h-6 rounded-full bg-[#FFF59D] border border-white/20 transition-transform hover:scale-110 shadow-sm"
+                                            title="Highlight Yellow"
+                                        />
+                                        <button
+                                            onClick={() => applyHighlight('green')}
+                                            className="w-6 h-6 rounded-full bg-[#C8E6C9] border border-white/20 transition-transform hover:scale-110 shadow-sm"
+                                            title="Highlight Green"
+                                        />
+                                        <button
+                                            onClick={() => applyHighlight('blue')}
+                                            className="w-6 h-6 rounded-full bg-[#BBDEFB] border border-white/20 transition-transform hover:scale-110 shadow-sm"
+                                            title="Highlight Blue"
+                                        />
+                                    </div>
                                     <div className="w-px h-4 bg-white/20" />
                                     <button
                                         onClick={copySelection}
@@ -592,7 +608,7 @@ export default function SimulationPage() {
                 )}
 
                 {section === "listening" && (
-                    <div className="h-full overflow-y-auto bg-white" style={{ overscrollBehavior: 'contain' }}>
+                    <div ref={containerRef} onMouseUp={handleTextSelection} onContextMenu={handleContextMenu} className="h-full overflow-y-auto bg-white relative" style={{ overscrollBehavior: 'contain' }}>
                         <div className="max-w-6xl mx-auto w-full space-y-6 px-8 py-4">
                         {isCheckingAnswers ? (
                             <motion.div

@@ -176,11 +176,11 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
             }
 
             const colorMap: Record<string, string> = {
-                yellow: '#fef08a',
-                green: '#bbf7d0',
-                blue: '#bfdbfe',
+                yellow: '#FFF59D',
+                green: '#C8E6C9',
+                blue: '#BBDEFB',
             };
-            const bgColor = colorMap[color] ?? '#fef08a';
+            const bgColor = colorMap[color] ?? '#FFF59D';
 
             textNodes.forEach(textNode => {
                 // Determine what slice of this text node is selected
