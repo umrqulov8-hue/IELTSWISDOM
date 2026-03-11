@@ -148,7 +148,11 @@ export default function SimulationPage() {
             const nextSection = nextSectionMap[section];
 
             if (nextSection === "dashboard") {
-                router.push("/dashboard");
+                if (testId.startsWith("mt-")) {
+                    router.push(`/mock-exams/${testId}/intro`);
+                } else {
+                    router.push("/dashboard");
+                }
             } else {
                 router.push(`/exam-center/simulate/${nextSection}/${testId}`);
                 setIsBreak(false);
@@ -199,7 +203,7 @@ export default function SimulationPage() {
         if (testId.startsWith("mt-")) {
             setIsBreak(true);
         } else {
-            router.push("/dashboard");
+            router.push(`/mock-exams/${testId}/intro`);
         }
     };
 
@@ -314,6 +318,7 @@ export default function SimulationPage() {
                                     <h2 className="text-2xl font-black text-slate-800">{currentPart.title}</h2>
                                     {currentPart.audioUrl && (
                                         <audio
+                                            autoPlay
                                             controls
                                             src={currentPart.audioUrl}
                                             className="h-10"

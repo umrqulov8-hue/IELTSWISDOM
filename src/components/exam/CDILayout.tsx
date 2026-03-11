@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
-import { ChevronLeft, ChevronRight, Type, HelpCircle, Save } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { ChevronLeft, ChevronRight, Type } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { CDITimer } from "./CDITimer";
 import { FullscreenLock } from "./FullscreenLock";
@@ -37,6 +37,13 @@ export function CDILayout({
         else setFontSize("standard");
     };
 
+    useEffect(() => {
+        const container = document.getElementById("scroll-container");
+        if (container) {
+            container.scrollTo(0, 0);
+        }
+    }, [currentPart]);
+
     return (
         <div className={cn(
             "min-h-screen bg-[#F0F2F5] flex flex-col font-sans selection:bg-blue-200 selection:text-blue-900",
@@ -65,24 +72,12 @@ export function CDILayout({
                             <Type className="w-4 h-4" />
                             <span className="text-[10px] uppercase font-bold">T-Size</span>
                         </button>
-                        <button className="flex flex-col items-center gap-0.5 hover:bg-white/10 px-3 py-1 rounded-lg transition-colors">
-                            <HelpCircle className="w-4 h-4" />
-                            <span className="text-[10px] uppercase font-bold">Help</span>
-                        </button>
-                        <div className="w-px h-8 bg-white/20 mx-2" />
-                        <button
-                            onClick={onFinish}
-                            className="bg-blue-500 hover:bg-blue-600 px-5 py-1.5 rounded-md text-sm font-bold shadow-lg shadow-blue-900/20 transition-all flex items-center gap-2"
-                        >
-                            <Save className="w-4 h-4" />
-                            Finish Test
-                        </button>
                     </div>
                 </header>
 
                 {/* --- Main Area --- */}
                 <main className="flex-1 overflow-hidden relative flex flex-col">
-                    <div className="flex-1 overflow-y-auto px-4 md:px-8 py-6 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+                    <div id="scroll-container" className="flex-1 overflow-y-auto px-4 md:px-8 py-6 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
                         {children}
                     </div>
                 </main>

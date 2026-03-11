@@ -44,15 +44,21 @@ export function CDITimer({ duration, onTimeUp, isRunning = true }: CDITimerProps
         return "text-slate-700 bg-slate-50 border-slate-200";
     };
 
+    const [isHidden, setIsHidden] = useState(false);
+
     return (
-        <div className={cn(
-            "flex items-center gap-3 px-6 py-2.5 rounded-xl border font-mono font-bold text-xl shadow-inner transition-all duration-500",
-            getTimerColor()
-        )}>
-            <Clock className={cn("w-5 h-5", timeLeft <= 60 ? "animate-spin-slow" : "")} />
-            <span className="min-w-[4rem] text-center">
+        <button 
+            type="button"
+            onClick={() => setIsHidden(!isHidden)}
+            title="Click to hide or show timer"
+            className={cn(
+                "flex items-center gap-3 px-6 py-2.5 rounded-xl border font-mono font-bold text-xl shadow-inner transition-all duration-300 hover:opacity-90 active:scale-95 cursor-pointer",
+                isHidden ? "text-slate-400 bg-slate-800 border-slate-700 shadow-none" : getTimerColor()
+            )}>
+            <Clock className={cn("w-5 h-5 transition-all duration-300", !isHidden && timeLeft <= 60 ? "animate-spin-slow" : "")} />
+            <span className={cn("min-w-[4rem] text-center transition-all duration-300", isHidden ? "blur-[6px] select-none opacity-50" : "blur-0")}>
                 {formatTime(timeLeft)}
             </span>
-        </div>
+        </button>
     );
 }
