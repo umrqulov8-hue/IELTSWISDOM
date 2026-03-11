@@ -793,6 +793,15 @@ function QuestionsList({ questions, answers, onAnswerChange, htmlContent, isSubm
 
                 if (isAlreadyRendered) return null;
 
+                // Check if this specific question is manually rendered in the HTML content
+                // We look for 'id="q-X"' or 'id=\'q-X\''
+                const isEmbeddedInHtml = htmlContent && (
+                    htmlContent.includes(`id="q-${q.id}"`) || 
+                    htmlContent.includes(`id='q-${q.id}'`)
+                );
+
+                if (isEmbeddedInHtml) return null;
+
                 // Find all question IDs covered by this box (for grouped fill-blanks)
                 const coveredIds = [q.id];
                 if (q.type === 'fill-blank') {
