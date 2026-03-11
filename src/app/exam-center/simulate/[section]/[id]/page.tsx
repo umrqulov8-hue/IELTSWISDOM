@@ -37,104 +37,177 @@ export default function SimulationPage() {
     const passageRef = useRef<HTMLDivElement>(null);
     const questionsRef = useRef<HTMLDivElement>(null);
 
+    // Wheel-event based dual scroll isolation
+    useEffect(() => {
+        const passageEl = passageRef.current;
+        const questionsEl = questionsRef.current;
+        if (!passageEl || !questionsEl) return;
+
+        const handlePassageWheel = (e: WheelEvent) => {
+            // Only intercept if over the passage pane
+            e.stopPropagation();
+            e.preventDefault();
+            passageEl.scrollTop += e.deltaY;
+        };
+
+        const handleQuestionsWheel = (e: WheelEvent) => {
+            e.stopPropagation();
+            e.preventDefault();
+            questionsEl.scrollTop += e.deltaY;
+        };
+
+        passageEl.addEventListener('wheel', handlePassageWheel, { passive: false, capture: true });
+        questionsEl.addEventListener('wheel', handleQuestionsWheel, { passive: false, capture: true });
+
+        return () => {
+            passageEl.removeEventListener('wheel', handlePassageWheel, { capture: true } as any);
+            questionsEl.removeEventListener('wheel', handleQuestionsWheel, { capture: true } as any);
+        };
+    }, [section]);
+
     // Highlighting Logic
     const [showHighlightToolbar, setShowHighlightToolbar] = useState(false);
     const [showContextMenu, setShowContextMenu] = useState(false);
     const [toolbarPosition, setToolbarPosition] = useState({ x: 0, y: 0 });
     const [contextMenuPosition, setContextMenuPosition] = useState({ x: 0, y: 0 });
-    const [selectedRange, setSelectedRange] = useState<Range | null>(null);
+    const [savedRange, setSavedRange] = useState<Range | null>(null);
+    const [contextTarget, setContextTarget] = useState<HTMLElement | null>(null);
 
     const handleTextSelection = (e: React.MouseEvent) => {
-        const selection = window.getSelection();
-        if (selection && selection.toString().length > 0) {
-            const range = selection.getRangeAt(0);
-            const rect = range.getBoundingClientRect();
-            
-            // Only show toolbar if selecting within the passage
-            if (passageRef.current?.contains(range.commonAncestorContainer)) {
-                setSelectedRange(range);
+        // Give selection time to finalize
+        setTimeout(() => {
+            const selection = window.getSelection();
+            if (selection && selection.toString().trim().length > 0 && selection.rangeCount > 0) {
+                const range = selection.getRangeAt(0);
+
+                // Only show if inside the passage pane
+                if (!passageRef.current?.contains(range.commonAncestorContainer)) {
+                    setShowHighlightToolbar(false);
+                    return;
+                }
+
+                const rect = range.getBoundingClientRect();
+                setSavedRange(range.cloneRange());
                 setToolbarPosition({
                     x: rect.left + rect.width / 2,
-                    y: rect.top - 50
+                    y: rect.top - 56
                 });
                 setShowHighlightToolbar(true);
+            } else {
+                setShowHighlightToolbar(false);
+                setSavedRange(null);
             }
-        } else {
-            setShowHighlightToolbar(false);
-            setSelectedRange(null);
-        }
+        }, 10);
     };
 
     const handleContextMenu = (e: React.MouseEvent) => {
-        e.preventDefault();
         const target = e.target as HTMLElement;
-        
-        // Check if we right-clicked on or inside a highlight
-        if (target.closest('mark')) {
+        const highlightSpan = target.closest('[data-highlight]') as HTMLElement | null;
+
+        if (highlightSpan) {
+            e.preventDefault();
+            setContextTarget(highlightSpan);
             setContextMenuPosition({ x: e.clientX, y: e.clientY });
             setShowContextMenu(true);
+        } else if (passageRef.current?.contains(target)) {
+            // Allow normal right-click on non-highlighted text
+            setShowContextMenu(false);
         }
     };
 
-    const applyHighlight = (color: string | any = "#FFF59D") => {
-        const highlightColor = typeof color === 'string' ? color : "#FFF59D";
-        if (!selectedRange) return;
+    const applyHighlight = () => {
+        if (!savedRange) return;
 
-        const selection = window.getSelection();
-        if (selection) {
-            selection.removeAllRanges();
-            selection.addRange(selectedRange);
-            
-            const passageContent = passageRef.current;
-            if (passageContent) {
-                const originalEditable = passageContent.contentEditable;
-                passageContent.contentEditable = "true";
-                document.execCommand("hiliteColor", false, color);
-                passageContent.contentEditable = originalEditable;
-                
+        try {
+            // Restore the selection
+            const selection = window.getSelection();
+            if (selection) {
                 selection.removeAllRanges();
-                setShowHighlightToolbar(false);
-                setSelectedRange(null);
+                selection.addRange(savedRange);
             }
+
+            // Wrap selected content in a highlight span
+            const span = document.createElement('span');
+            span.setAttribute('data-highlight', 'yellow');
+            span.style.backgroundColor = '#FFF59D';
+            span.style.borderRadius = '2px';
+            span.style.padding = '0 1px';
+            span.style.cursor = 'pointer';
+
+            savedRange.surroundContents(span);
+
+            selection?.removeAllRanges();
+        } catch (err) {
+            // Fallback for cross-element selections using extractContents
+            try {
+                const frag = savedRange.extractContents();
+                const span = document.createElement('span');
+                span.setAttribute('data-highlight', 'yellow');
+                span.style.backgroundColor = '#FFF59D';
+                span.style.borderRadius = '2px';
+                span.style.padding = '0 1px';
+                span.style.cursor = 'pointer';
+                span.appendChild(frag);
+                savedRange.insertNode(span);
+            } catch (e2) { /* ignore */ }
         }
+
+        setShowHighlightToolbar(false);
+        setSavedRange(null);
     };
 
     const removeHighlight = () => {
-        const selection = window.getSelection();
-        if (!selection) return;
+        if (!contextTarget) return;
 
-        const passageContent = passageRef.current;
-        if (passageContent) {
-            const originalEditable = passageContent.contentEditable;
-            passageContent.contentEditable = "true";
-            document.execCommand("removeFormat", false, undefined);
-            passageContent.contentEditable = originalEditable;
-            setShowContextMenu(false);
+        const parent = contextTarget.parentNode;
+        if (parent) {
+            // Unwrap: replace the span with its children
+            while (contextTarget.firstChild) {
+                parent.insertBefore(contextTarget.firstChild, contextTarget);
+            }
+            parent.removeChild(contextTarget);
+            parent.normalize();
         }
+        setShowContextMenu(false);
+        setContextTarget(null);
+    };
+
+    const copyFromContextMenu = () => {
+        if (contextTarget) {
+            navigator.clipboard.writeText(contextTarget.textContent || '');
+            toast.success('Copied to clipboard');
+        }
+        setShowContextMenu(false);
     };
 
     const copySelection = () => {
-        if (selectedRange) {
-            navigator.clipboard.writeText(selectedRange.toString());
-            toast.success("Text copied to clipboard");
-            setShowHighlightToolbar(false);
-            setSelectedRange(null);
+        if (savedRange) {
+            navigator.clipboard.writeText(savedRange.toString());
+            toast.success('Text copied to clipboard');
         }
+        setShowHighlightToolbar(false);
+        setSavedRange(null);
     };
 
-    const copyQuestionPath = (qId: string) => {
-        const path = `Reading Test -> Passage ${currentPartIndex + 1} -> Question ${qId}`;
+    const copyQuestionPath = (qId: string | number) => {
+        const passageName = currentPart?.title || `Passage ${currentPartIndex + 1}`;
+        const path = `Reading Test → ${passageName} → Question ${qId}`;
         navigator.clipboard.writeText(path);
-        toast.success(`Path for Question ${qId} copied`);
+        toast.success(`Path copied: Q${qId}`);
     };
 
-    // Close menus on click outside
+    // Close menus on outside click
     useEffect(() => {
-        const handleClickOutside = () => {
+        const handle = (e: MouseEvent) => {
             setShowContextMenu(false);
+            // Only close toolbar if not clicking inside it
+            const toolbar = document.getElementById('ielts-highlight-toolbar');
+            if (toolbar && !toolbar.contains(e.target as Node)) {
+                // Don't hide on mouseup that triggered the selection
+            }
         };
-        window.addEventListener('click', handleClickOutside);
-        return () => window.removeEventListener('click', handleClickOutside);
+        window.addEventListener('mousedown', handle);
+        return () => window.removeEventListener('mousedown', handle);
     }, []);
 
     useEffect(() => {
@@ -397,13 +470,13 @@ export default function SimulationPage() {
                         "flex h-full gap-0 bg-white overflow-hidden relative",
                         isResizing && "cursor-col-resize select-none"
                     )}>
-                        {/* LEFT: Reading Passage (Scrollable) */}
+                         {/* LEFT: Reading Passage (Scrollable) - DUAL SCROLL ISOLATED */}
                         <div 
                             ref={passageRef}
                             onMouseUp={handleTextSelection}
                             onContextMenu={handleContextMenu}
-                            className="h-full overflow-y-auto p-12 lg:p-16 border-r border-slate-100 prose prose-slate max-w-none prose-h2:text-3xl prose-h2:mb-8 prose-p:text-lg prose-p:leading-relaxed selection:bg-blue-100"
-                            style={{ width: `${leftWidth}%` }}
+                            className="h-full overflow-y-auto p-10 lg:p-14 border-r border-slate-100 prose prose-slate max-w-none prose-h2:text-2xl prose-h2:mb-6 prose-p:leading-[1.85] prose-p:text-[15px] selection:bg-yellow-100"
+                            style={{ width: `${leftWidth}%`, scrollBehavior: 'smooth' }}
                         >
                             <h2 className="text-3xl font-black mb-8">{currentPart.title}</h2>
                             <div 
@@ -412,13 +485,15 @@ export default function SimulationPage() {
                             />
                         </div>
 
-                        {/* HIGHLIGHT TOOLBAR */}
+                        {/* FLOATING HIGHLIGHT TOOLBAR */}
                         <AnimatePresence>
                             {showHighlightToolbar && (
                                 <motion.div
-                                    initial={{ opacity: 0, scale: 0.9, y: 10 }}
+                                    id="ielts-highlight-toolbar"
+                                    initial={{ opacity: 0, scale: 0.85, y: 6 }}
                                     animate={{ opacity: 1, scale: 1, y: 0 }}
-                                    exit={{ opacity: 0, scale: 0.9, y: 10 }}
+                                    exit={{ opacity: 0, scale: 0.85, y: 6 }}
+                                    transition={{ duration: 0.15 }}
                                     style={{ 
                                         position: 'fixed',
                                         left: toolbarPosition.x,
@@ -426,48 +501,61 @@ export default function SimulationPage() {
                                         transform: 'translateX(-50%)',
                                         zIndex: 1000
                                     }}
-                                    className="flex items-center gap-1 bg-slate-900 text-white p-1 rounded-full shadow-2xl border border-slate-800"
+                                    onMouseDown={(e) => e.stopPropagation()}
+                                    className="flex items-center gap-0.5 bg-[#1E293B] text-white px-1 py-1 rounded-xl shadow-2xl border border-white/10"
                                 >
                                     <button
                                         onClick={applyHighlight}
-                                        className="flex items-center gap-2 px-3 py-1.5 hover:bg-slate-700 rounded-lg transition-colors group"
+                                        className="flex items-center gap-1.5 px-3 py-1.5 hover:bg-white/10 rounded-lg transition-colors"
                                     >
-                                        <Highlighter className="w-4 h-4 text-yellow-400" />
-                                        <span className="text-xs font-bold">Highlight</span>
+                                        <div className="w-3.5 h-3.5 rounded bg-yellow-300 border border-yellow-500" />
+                                        <span className="text-xs font-semibold">Highlight</span>
                                     </button>
-                                    <div className="w-[1px] h-4 bg-slate-700 mx-1" />
+                                    <div className="w-px h-4 bg-white/20" />
                                     <button
                                         onClick={copySelection}
-                                        className="flex items-center gap-2 px-3 py-1.5 hover:bg-slate-700 rounded-lg transition-colors"
+                                        className="flex items-center gap-1.5 px-3 py-1.5 hover:bg-white/10 rounded-lg transition-colors"
                                     >
-                                        <Copy className="w-4 h-4 text-white" />
-                                        <span className="text-xs font-bold">Copy</span>
+                                        <Copy className="w-3 h-3 text-white/70" />
+                                        <span className="text-xs font-semibold">Copy</span>
                                     </button>
+                                    {/* Small caret */}
+                                    <div className="absolute left-1/2 -translate-x-1/2 -bottom-1.5 w-3 h-1.5 bg-[#1E293B] clip-path-caret" />
                                 </motion.div>
                             )}
                         </AnimatePresence>
 
-                        {/* CONTEXT MENU */}
+                        {/* RIGHT-CLICK CONTEXT MENU */}
                         <AnimatePresence>
                             {showContextMenu && (
                                 <motion.div
-                                    initial={{ opacity: 0, scale: 0.9 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    exit={{ opacity: 0, scale: 0.9 }}
+                                    initial={{ opacity: 0, scale: 0.92, y: -4 }}
+                                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                                    exit={{ opacity: 0, scale: 0.92, y: -4 }}
+                                    transition={{ duration: 0.1 }}
                                     style={{ 
                                         position: 'fixed',
                                         left: contextMenuPosition.x,
                                         top: contextMenuPosition.y,
                                         zIndex: 1001
                                     }}
-                                    className="bg-slate-900 text-white py-1 rounded-lg shadow-2xl border border-slate-800 min-w-[150px]"
+                                    onMouseDown={(e) => e.stopPropagation()}
+                                    className="bg-white border border-slate-200 rounded-xl shadow-2xl shadow-slate-900/15 min-w-[175px] py-1 overflow-hidden"
                                 >
                                     <button
-                                        onClick={removeHighlight}
-                                        className="w-full flex items-center gap-3 px-4 py-2 hover:bg-slate-700 transition-colors text-left"
+                                        onClick={copyFromContextMenu}
+                                        className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-slate-50 transition-colors text-left"
                                     >
-                                        <MousePointer2 className="w-3.5 h-3.5 text-slate-400" />
-                                        <span className="text-xs font-bold">Clear Highlight</span>
+                                        <Copy className="w-3.5 h-3.5 text-slate-400" />
+                                        <span className="text-xs font-bold text-slate-700">Copy Text</span>
+                                    </button>
+                                    <div className="h-px bg-slate-100 mx-2" />
+                                    <button
+                                        onClick={removeHighlight}
+                                        className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-red-50 transition-colors text-left group"
+                                    >
+                                        <MousePointer2 className="w-3.5 h-3.5 text-slate-400 group-hover:text-red-400" />
+                                        <span className="text-xs font-bold text-slate-700 group-hover:text-red-600">Remove Highlight</span>
                                     </button>
                                 </motion.div>
                             )}
@@ -497,11 +585,11 @@ export default function SimulationPage() {
                             </div>
                         </div>
 
-                        {/* RIGHT: Questions (Scrollable) */}
+                        {/* RIGHT: Questions (Scrollable) - DUAL SCROLL ISOLATED */}
                         <div 
                             ref={questionsRef}
-                            className="h-full overflow-y-auto p-12 lg:p-16 bg-slate-50/20"
-                            style={{ width: `${100 - leftWidth}%` }}
+                            className="h-full overflow-y-auto p-10 lg:p-14 bg-[#F8F9FB]"
+                            style={{ width: `${100 - leftWidth}%`, scrollBehavior: 'smooth' }}
                         >
                             <div className="max-w-3xl mx-auto">
                                 <div className="flex items-center justify-between mb-8 border-b border-slate-100 pb-4">
@@ -764,32 +852,32 @@ function QuestionsList({ questions, answers, onAnswerChange, htmlContent, isSubm
 
                 return (
                     <div id={`question-${q.id}`} key={q.id} className={cn(
-                        "p-6 rounded-2xl border-2 transition-all shadow-sm",
+                        "p-5 rounded-2xl border-2 transition-all",
                         isSubmitted && allCorrect ? "border-green-200 bg-green-50/50" :
                             isSubmitted && anyWrong ? "border-red-200 bg-red-50/50" :
-                                "border-slate-100 bg-white hover:border-blue-200"
+                                "border-slate-100 bg-white hover:border-blue-100"
                     )}>
-                        <div className="flex gap-4">
-                                <div className="flex items-start justify-between gap-4">
-                                    <span className={cn(
-                                        "flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center text-sm font-black transition-all",
-                                        isSubmitted && allCorrect ? "bg-green-100 text-green-700" :
-                                            isSubmitted && anyWrong ? "bg-red-100 text-red-700" :
-                                                "bg-[#2D3E50] text-white shadow-md shadow-slate-400/20"
-                                    )}>
-                                        {coveredIds.length > 1 ? `${coveredIds[0]}-${coveredIds[coveredIds.length - 1]}` : q.id}
-                                    </span>
-                                    <button
-                                        onClick={() => onCopyPath(q.id)}
-                                        className="p-1.5 text-slate-300 hover:text-slate-600 hover:bg-slate-100 rounded-md transition-all flex items-center gap-1.5"
-                                        title="Copy Path"
-                                    >
-                                        <Copy className="w-3.5 h-3.5" />
-                                        <span className="text-[10px] uppercase font-bold text-slate-400">Path</span>
-                                    </button>
-                                </div>
-                            
-                            <div className="w-full">
+                        {/* Header: number badge + copy path */}
+                        <div className="flex items-center justify-between mb-3">
+                            <span className={cn(
+                                "flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center text-sm font-black transition-all",
+                                isSubmitted && allCorrect ? "bg-green-100 text-green-700" :
+                                    isSubmitted && anyWrong ? "bg-red-100 text-red-700" :
+                                        "bg-[#2D3E50] text-white shadow-md shadow-slate-400/20"
+                            )}>
+                                {coveredIds.length > 1 ? `${coveredIds[0]}-${coveredIds[coveredIds.length - 1]}` : q.id}
+                            </span>
+                            <button
+                                onClick={() => onCopyPath(q.id)}
+                                className="flex items-center gap-1 px-2 py-1 text-slate-300 hover:text-slate-600 hover:bg-slate-100 rounded-lg transition-all text-[10px] uppercase font-bold tracking-wide"
+                                title={`Copy path for Question ${q.id}`}
+                            >
+                                <Copy className="w-3 h-3" />
+                                Path
+                            </button>
+                        </div>
+                        {/* Question Content */}
+                        <div className="w-full">
                                 {q.type === "multiple-choice" && (
                                     <div className="space-y-4">
                                         <p className="font-bold text-slate-800 leading-relaxed pt-1">{stripLeadingNumber(q.text)}</p>
@@ -960,7 +1048,6 @@ function QuestionsList({ questions, answers, onAnswerChange, htmlContent, isSubm
                                     </div>
                                 )}
                             </div>
-                        </div>
                     </div>
                 );
             })}
