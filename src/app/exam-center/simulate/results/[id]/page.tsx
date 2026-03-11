@@ -102,7 +102,7 @@ export default function SimulationResultsPage() {
     }
     
     return (
-        <div className="min-h-screen bg-[#F0F2F5] p-4 md:p-12 font-sans transition-all selection:bg-blue-100 relative overflow-x-hidden">
+        <div className="min-h-screen bg-[#F0F2F5] p-4 md:p-12 font-sans transition-all selection:bg-blue-100 relative overflow-x-hidden print:min-h-0 print:p-0 print:bg-white print:overflow-hidden">
             {/* Custom Print Styles */}
             <style jsx global>{`
                 @media print {
@@ -114,8 +114,14 @@ export default function SimulationResultsPage() {
                         background: white !important; 
                         -webkit-print-color-adjust: exact !important;
                         print-color-adjust: exact !important;
-                        margin: 0;
-                        padding: 0;
+                        margin: 0 !important;
+                        padding: 0 !important;
+                        height: 100% !important;
+                        overflow: hidden !important;
+                    }
+                    html {
+                        height: 100% !important;
+                        overflow: hidden !important;
                     }
                     .no-print { display: none !important; }
                     .print-only { display: block !important; }
@@ -125,33 +131,32 @@ export default function SimulationResultsPage() {
                         width: 210mm !important;
                         height: 297mm !important;
                         max-height: 297mm !important;
-                        padding: 12mm !important;
+                        padding: 10mm !important; /* Slightly reduced padding to ensure fit */
                         position: relative !important;
                         background: white !important;
                         overflow: hidden !important;
                         display: flex !important;
                         flex-direction: column !important;
                         box-sizing: border-box !important;
-                        page-break-after: avoid !important;
-                        page-break-before: avoid !important;
-                        break-inside: avoid !important;
+                        margin: 0 !important;
+                        border: none !important;
                     }
                     .certificate-border {
                         position: absolute !important;
-                        top: 4mm !important;
-                        left: 4mm !important;
-                        right: 4mm !important;
-                        bottom: 4mm !important;
+                        top: 2mm !important;
+                        left: 2mm !important;
+                        right: 2mm !important;
+                        bottom: 2mm !important;
                         border: 3px solid #1A2E44 !important;
                         pointer-events: none !important;
                         z-index: 50 !important;
                     }
                     .certificate-inner-border {
                         position: absolute !important;
-                        top: 6mm !important;
-                        left: 6mm !important;
-                        right: 6mm !important;
-                        bottom: 6mm !important;
+                        top: 4mm !important;
+                        left: 4mm !important;
+                        right: 4mm !important;
+                        bottom: 4mm !important;
                         border: 1px solid #C5A059 !important;
                         pointer-events: none !important;
                         z-index: 50 !important;
