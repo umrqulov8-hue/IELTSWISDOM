@@ -15,6 +15,55 @@ interface TestResult {
     created_at: string;
 }
 
+const AnimatedNumber = ({ value }: { value: number }) => {
+    const [displayValue, setDisplayValue] = useState(0);
+
+    useEffect(() => {
+        let start = 0;
+        const end = value;
+        const duration = 1500;
+        const increment = end / (duration / 16);
+        
+        const timer = setInterval(() => {
+            start += increment;
+            if (start >= end) {
+                setDisplayValue(end);
+                clearInterval(timer);
+            } else {
+                setDisplayValue(start);
+            }
+        }, 16);
+
+        return () => clearInterval(timer);
+    }, [value]);
+
+    return <span>{displayValue.toFixed(1)}</span>;
+};
+
+const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: {
+            staggerChildren: 0.15,
+            delayChildren: 0.3
+        }
+    }
+};
+
+const itemVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: { 
+        opacity: 1, 
+        y: 0,
+        transition: {
+            type: "spring" as const,
+            stiffness: 100,
+            damping: 20
+        }
+    }
+};
+
 export default function SimulationResultsPage() {
     const params = useParams();
     const id = typeof params.id === 'string' ? params.id : params.id?.[0] || 'MT-1';
@@ -382,7 +431,10 @@ export default function SimulationResultsPage() {
                 </div>
 
                 {/* Web Header */}
-                <div className="mb-12 flex items-center justify-between no-print">
+                <motion.div 
+                    variants={itemVariants}
+                    className="mb-12 flex items-center justify-between no-print"
+                >
                     <div>
                         <button 
                             onClick={() => router.push('/dashboard')}
@@ -405,65 +457,81 @@ export default function SimulationResultsPage() {
                             </div>
                         </div>
                     </div>
-                </div>
+                </motion.div>
 
                 {/* Score Summary Grid */}
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-6 relative z-10 no-print">
+                <motion.div 
+                    variants={containerVariants}
+                    initial="hidden"
+                    animate="visible"
+                    className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-6 relative z-10 no-print"
+                >
                     {/* Overall Band Card */}
                     <motion.div 
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="bg-[#1A2E44] rounded-[3rem] p-12 shadow-2xl shadow-blue-900/20 border border-blue-800 flex flex-col items-center justify-center text-center relative overflow-hidden group print-card print-overall"
+                        variants={itemVariants}
+                        whileHover={{ y: -10, scale: 1.02 }}
+                        className="bg-[#1A2E44] rounded-[3rem] p-12 shadow-2xl shadow-blue-900/30 border border-blue-800 flex flex-col items-center justify-center text-center relative overflow-hidden group print-card print-overall"
                     >
+                        {/* Background Decorative Elements */}
                         <div className="absolute top-0 right-0 p-8">
-                            <div className="w-32 h-32 bg-blue-400/10 rounded-full blur-3xl group-hover:bg-blue-400/20 transition-colors" />
+                            <motion.div 
+                                animate={{ 
+                                    scale: [1, 1.2, 1],
+                                    opacity: [0.1, 0.2, 0.1]
+                                }}
+                                transition={{ duration: 4, repeat: Infinity }}
+                                className="w-64 h-64 bg-blue-400/20 rounded-full blur-3xl" 
+                            />
                         </div>
                         
                         <div className="relative z-10">
                             <div className="text-[14px] uppercase font-black text-[#C5A059] tracking-[0.3em] mb-6 print-mb-xsmall print-text-small">Overall Band Score</div>
                             <div className="text-[10rem] font-black text-white tracking-tighter mb-4 leading-none band-value">
-                                {overallBand.toFixed(1)}
+                                <AnimatedNumber value={overallBand} />
                             </div>
-                            <div className="inline-flex items-center gap-2 bg-white/10 text-white px-6 py-2 rounded-full text-xs font-black uppercase tracking-widest border border-white/20 backdrop-blur-md print-p-small print-text-xsmall">
+                            <motion.div 
+                                animate={{ scale: [1, 1.05, 1] }}
+                                transition={{ duration: 2, repeat: Infinity }}
+                                className="inline-flex items-center gap-2 bg-white/10 text-white px-6 py-2 rounded-full text-xs font-black uppercase tracking-widest border border-white/20 backdrop-blur-md print-p-small print-text-xsmall"
+                            >
                                 <CheckCircle2 className="w-4 h-4 text-[#C5A059] print-only:w-3 print-only:h-3" />
                                 Certified Result
-                            </div>
+                            </motion.div>
                         </div>
                     </motion.div>
 
                     {/* Section Breakdown */}
                     <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4 print-grid">
                         {[
-                            { name: "Listening", key: "listening", icon: <Clock />, color: "bg-blue-600", light: "bg-blue-50", text: "text-blue-600" },
-                            { name: "Reading", key: "reading", icon: <Layout />, color: "bg-indigo-600", light: "bg-indigo-50", text: "text-indigo-600" },
-                            { name: "Writing", key: "writing", icon: <BarChart3 />, color: "bg-amber-600", light: "bg-amber-50", text: "text-amber-600" },
-                            { name: "Speaking", key: "speaking", icon: <Send />, color: "bg-emerald-600", light: "bg-emerald-50", text: "text-emerald-600" }
+                            { name: "Listening", key: "listening", icon: <Clock className="w-6 h-6" />, color: "bg-blue-600", light: "bg-blue-50", text: "text-blue-600" },
+                            { name: "Reading", key: "reading", icon: <Layout className="w-6 h-6" />, color: "bg-indigo-600", light: "bg-indigo-50", text: "text-indigo-600" },
+                            { name: "Writing", key: "writing", icon: <BarChart3 className="w-6 h-6" />, color: "bg-amber-600", light: "bg-amber-50", text: "text-amber-600" },
+                            { name: "Speaking", key: "speaking", icon: <Send className="w-6 h-6" />, color: "bg-emerald-600", light: "bg-emerald-50", text: "text-emerald-600" }
                         ].map((section, idx) => {
-                            const result = results[section.key];
                             const band = sectionBands[section.key as keyof typeof sectionBands];
+                            const result = results[section.key];
                             
                             return (
                                 <motion.div 
                                     key={section.key}
-                                    initial={{ opacity: 0, x: 20 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    transition={{ delay: idx * 0.1 }}
-                                    className="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group cursor-default print-card print-p-small"
+                                    variants={itemVariants}
+                                    whileHover={{ y: -8, scale: 1.01, boxShadow: "0 20px 40px rgba(0,0,0,0.05)" }}
+                                    className="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm transition-all group cursor-default print-card print-p-small"
                                 >
                                     <div className="flex items-center justify-between mb-6 print-mb-xsmall">
-                                        <div className={cn("w-12 h-12 rounded-2xl flex items-center justify-center text-white shadow-lg print-only:w-8 print-only:h-8", section.color)}>
+                                        <div className={cn("w-12 h-12 rounded-2xl flex items-center justify-center text-white shadow-lg print-only:w-8 print-only:h-8 transition-transform group-hover:scale-110", section.color)}>
                                             {section.icon}
                                         </div>
                                         <div className="flex flex-col items-end">
                                             <div className="text-3xl font-black text-slate-900 leading-none print-text-small">
-                                                {band > 0 ? band.toFixed(1) : "N/A"}
+                                                {band > 0 ? <AnimatedNumber value={band} /> : "N/A"}
                                             </div>
                                             <p className="text-[10px] uppercase font-black text-slate-400 tracking-widest mt-1 print-text-xsmall">Band</p>
                                         </div>
                                     </div>
                                     <div className="flex items-end justify-between">
                                         <div>
-                                            <h3 className="text-lg font-black text-slate-900 print-text-small">{section.name}</h3>
+                                            <h3 className="text-lg font-black text-slate-900 print-text-small group-hover:text-blue-600 transition-colors">{section.name}</h3>
                                             <p className="text-xs text-slate-400 font-bold uppercase tracking-tighter print-text-xsmall">
                                                 {result ? `${result.score}/${result.total} Correct` : "Manual Assessment"}
                                             </p>
@@ -472,6 +540,7 @@ export default function SimulationResultsPage() {
                                             <motion.div 
                                                 initial={{ width: 0 }}
                                                 animate={{ width: `${(band / 9) * 100}%` }}
+                                                transition={{ duration: 2, ease: "easeOut", delay: 0.5 + idx * 0.1 }}
                                                 className={cn("h-full rounded-full", section.color)}
                                             />
                                         </div>
@@ -480,11 +549,20 @@ export default function SimulationResultsPage() {
                             );
                         })}
                     </div>
-                </div>
+                </motion.div>
 
                 {/* AI Analysis / Actions */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10 no-print">
-                    <div className="bg-white rounded-[2.5rem] p-8 border border-slate-100 shadow-sm print-card print-p-small">
+                <motion.div 
+                    variants={containerVariants}
+                    initial="hidden"
+                    animate="visible"
+                    className="grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10 no-print"
+                >
+                    <motion.div 
+                        variants={itemVariants}
+                        whileHover={{ y: -8, scale: 1.01 }}
+                        className="bg-white rounded-[2.5rem] p-8 border border-slate-100 shadow-sm print-card print-p-small"
+                    >
                         <h3 className="text-xl font-black text-slate-900 mb-6 flex items-center gap-3 print-mb-xsmall print-text-small">
                             <BarChart3 className="w-6 h-6 text-[#C5A059] print-only:w-4 print-only:h-4" />
                             Performance Insights
@@ -505,10 +583,15 @@ export default function SimulationResultsPage() {
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </motion.div>
 
-                    <div className="flex flex-col gap-4 no-print">
-                        <button 
+                    <motion.div 
+                        variants={itemVariants}
+                        className="flex flex-col gap-4 no-print"
+                    >
+                        <motion.button 
+                            whileHover={{ y: -5, scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
                             onClick={handleDownload}
                             className="bg-slate-900 p-8 rounded-[2rem] text-white flex items-center justify-between hover:bg-black transition-all group shadow-2xl shadow-slate-200 border-t border-white/10"
                         >
@@ -522,9 +605,11 @@ export default function SimulationResultsPage() {
                                 </div>
                             </div>
                             <ChevronRight className="w-6 h-6 text-[#C5A059] group-hover:translate-x-2 transition-all" />
-                        </button>
+                        </motion.button>
 
-                        <button 
+                        <motion.button 
+                            whileHover={{ y: -5, scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
                             onClick={() => router.push('/exam-center')}
                             className="bg-white p-8 rounded-[2rem] border border-slate-200 flex items-center justify-between hover:border-[#1A2E44] transition-all group shadow-sm"
                         >
@@ -538,9 +623,9 @@ export default function SimulationResultsPage() {
                                 </div>
                             </div>
                             <ChevronRight className="w-6 h-6 text-slate-300 group-hover:text-[#1A2E44] group-hover:translate-x-2 transition-all" />
-                        </button>
-                    </div>
-                </div>
+                        </motion.button>
+                    </motion.div>
+                </motion.div>
 
                 {/* Print Footer */}
                 <div className="print-only print-footer-absolute text-center" style={{ pageBreakInside: 'avoid', breakInside: 'avoid' }}>
