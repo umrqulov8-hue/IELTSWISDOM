@@ -145,11 +145,11 @@ export default function SimulationResultsPage() {
                     }
                     .certificate-inner-border {
                         position: absolute;
-                        top: 7.5mm;
-                        left: 7.5mm;
-                        right: 7.5mm;
-                        bottom: 7.5mm;
-                        border: 1.5px solid #C5A059;
+                        top: 7mm;
+                        left: 7mm;
+                        right: 7mm;
+                        bottom: 7mm;
+                        border: 1px solid #C5A059;
                         pointer-events: none;
                         z-index: 50;
                     }
@@ -178,12 +178,12 @@ export default function SimulationResultsPage() {
                     .print-overall { 
                         background: #1A2E44 !important;
                         color: white !important;
-                        padding: 1rem !important;
+                        padding: 1.25rem !important;
                         flex-shrink: 0;
-                        margin-bottom: 0.5rem !important;
+                        margin-bottom: 0.25rem !important;
                     }
                     .print-overall * { color: white !important; }
-                    .print-overall .band-value { color: #C5A059 !important; font-size: 5rem !important; margin-top: -0.5rem; margin-bottom: -0.5rem; }
+                    .print-overall .band-value { color: #C5A059 !important; font-size: 4.5rem !important; margin-top: -0.25rem; margin-bottom: -0.25rem; }
 
                     .print-grid {
                         display: grid !important;
@@ -191,16 +191,15 @@ export default function SimulationResultsPage() {
                         gap: 8px !important;
                     }
                     
-                    /* Adjust vertical spacing for print to fit one page */
-                    .print-mb-small { margin-bottom: 0.75rem !important; }
-                    .print-mb-xsmall { margin-bottom: 0.5rem !important; }
-                    .print-mb-none { margin-bottom: 0 !important; }
-                    .print-mt-small { margin-top: 0.5rem !important; }
-                    .print-p-small { padding: 0.75rem !important; }
-                    .print-text-small { font-size: 9pt !important; }
-                    .print-text-xsmall { font-size: 7.5pt !important; }
-                    .print-header-text { font-size: 28pt !important; }
-                    .print-sub-text { font-size: 7pt !important; letter-spacing: 0.2em !important; }
+                    /* Absolute footer for print */
+                    .print-footer-absolute {
+                        position: absolute !important;
+                        bottom: 12mm !important;
+                        left: 15mm !important;
+                        right: 15mm !important;
+                        z-index: 60;
+                        background: transparent !important;
+                    }
                 }
                 .print-only { display: none; }
             `}</style>
@@ -391,8 +390,8 @@ export default function SimulationResultsPage() {
                 </div>
 
                 {/* Print Footer */}
-                <div className="print-only mt-auto text-center relative z-10 pb-0 shrink-0" style={{ pageBreakInside: 'avoid', breakInside: 'avoid' }}>
-                    <div className="flex justify-between items-end px-10 mb-2">
+                <div className="print-only print-footer-absolute text-center" style={{ pageBreakInside: 'avoid', breakInside: 'avoid' }}>
+                    <div className="flex justify-between items-end mb-2">
                         <div className="text-left">
                             <div className="w-32 h-px bg-slate-900 mb-2" />
                             <p className="text-[8px] font-black uppercase tracking-[0.2em] text-slate-900 leading-none">Academic Director</p>
@@ -403,7 +402,7 @@ export default function SimulationResultsPage() {
                              <p className="text-[4px] font-black text-center text-[#1A2E44] uppercase leading-tight">Verified<br/>Candidate</p>
                         </div>
                     </div>
-                    <div className="border-t border-slate-100 pt-2 px-10">
+                    <div className="border-t border-slate-100 pt-2">
                         <p className="text-slate-400 text-[6.5px] uppercase font-black tracking-[0.3em]">WWW.IELTSWISDOM.COM • GLOBAL EDUCATION PLATFORM</p>
                     </div>
                 </div>
