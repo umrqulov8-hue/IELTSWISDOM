@@ -1,6 +1,6 @@
 "use client";
 
-import { use, useState, useEffect, useCallback, useRef } from "react";
+import React, { use, useState, useEffect, useCallback, useRef, memo } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { READING_TESTS } from "@/data/reading-tests";
 import { LISTENING_TESTS } from "@/data/listening-tests";
@@ -11,6 +11,20 @@ import { motion, AnimatePresence } from "framer-motion";
 import { createClient } from "@/utils/supabase/client";
 import { Clock, LayoutList, PenTool, Mic, GripVertical, ChevronRight, Highlighter, MousePointer2, Copy, Search } from "lucide-react";
 import { cn } from "@/lib/utils";
+
+// Memoized Passage Renderer to prevent highlight wiping on re-renders
+const PassageRenderer = memo(({ title, content }: { title: string; content: string }) => {
+    return (
+        <>
+            <h2 className="text-3xl font-black mb-8">{title}</h2>
+            <div 
+                id="passage-content-container"
+                dangerouslySetInnerHTML={{ __html: content }} 
+            />
+        </>
+    );
+});
+PassageRenderer.displayName = "PassageRenderer";
 
 export default function SimulationPage() {
     const params = useParams();
@@ -113,49 +127,53 @@ export default function SimulationPage() {
                 selection.addRange(range);
             }
 
-            // Simple surroundContents if possible (single element)
-            // If cross-element, we use the robust node walker
-            const span = document.createElement('span');
-            span.className = `hlt-${color}`;
-            span.setAttribute('data-highlight', color);
-            span.style.backgroundColor = colors[color];
-            span.style.borderRadius = '2px';
-            span.style.cursor = 'pointer';
+            const bgColor = colors[color];
 
-            try {
-                range.surroundContents(span);
-            } catch (e) {
-                // Robust Fallback: TreeWalker for multi-element selections
-                const root = range.commonAncestorContainer.nodeType === Node.TEXT_NODE 
-                    ? range.commonAncestorContainer.parentNode! 
-                    : range.commonAncestorContainer;
-                const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null);
-                
-                const nodes: Text[] = [];
-                let node;
-                while ((node = walker.nextNode())) {
-                    if (range.intersectsNode(node)) nodes.push(node as Text);
-                }
+            // Robust Fallback: TreeWalker for multi-element selections
+            const root = range.commonAncestorContainer.nodeType === Node.TEXT_NODE 
+                ? range.commonAncestorContainer.parentNode! 
+                : range.commonAncestorContainer;
+            const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null);
+            
+            const nodes: Text[] = [];
+            let node;
+            while ((node = walker.nextNode())) {
+                if (range.intersectsNode(node)) nodes.push(node as Text);
+            }
 
-                nodes.forEach(textNode => {
+            // If no nodes found but it's a text node, add it
+            if (nodes.length === 0 && range.commonAncestorContainer.nodeType === Node.TEXT_NODE) {
+                nodes.push(range.commonAncestorContainer as Text);
+            }
+
+            // Process nodes in REVERSE document order to prevent index shifting
+            nodes.sort((a, b) => (a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING) ? 1 : -1)
+                .forEach(textNode => {
                     const start = textNode === range.startContainer ? range.startOffset : 0;
                     const end = textNode === range.endContainer ? range.endOffset : textNode.length;
+                    
                     if (start >= end) return;
 
-                    if (end < textNode.length) textNode.splitText(end);
-                    const middle = start > 0 ? textNode.splitText(start) : textNode;
-
-                    const m = document.createElement('span');
-                    m.className = `hlt-${color}`;
-                    m.setAttribute('data-highlight', color);
-                    m.style.backgroundColor = colors[color];
-                    m.style.borderRadius = '2px';
-                    m.style.cursor = 'pointer';
+                    // 1. Split at the end first
+                    if (end < textNode.length) {
+                        textNode.splitText(end);
+                    }
                     
-                    middle.parentNode?.insertBefore(m, middle);
-                    m.appendChild(middle);
+                    // 2. Split at the start (returns the node we want to highlight)
+                    const highlightNode = start > 0 ? textNode.splitText(start) : textNode;
+
+                    const span = document.createElement('span');
+                    span.className = `hlt-${color}`;
+                    span.setAttribute('data-highlight', color);
+                    span.style.backgroundColor = colors[color];
+                    span.style.borderRadius = '2px';
+                    span.style.padding = '0';
+                    span.style.cursor = 'pointer';
+                    span.style.display = 'inline';
+                    
+                    highlightNode.parentNode?.insertBefore(span, highlightNode);
+                    span.appendChild(highlightNode);
                 });
-            }
 
             selection?.removeAllRanges();
             toast.success('Highlighted');
@@ -488,11 +506,7 @@ export default function SimulationPage() {
                              className="h-full overflow-y-auto p-10 lg:p-14 border-r border-slate-100 prose prose-slate max-w-none prose-h2:text-2xl prose-h2:mb-6 prose-p:leading-[1.85] prose-p:text-[15px] selection:bg-yellow-100"
                             style={{ width: `${leftWidth}%`, scrollBehavior: 'smooth', overscrollBehavior: 'contain' }}
                         >
-                            <h2 className="text-3xl font-black mb-8">{currentPart.title}</h2>
-                            <div 
-                                id="passage-content-container"
-                                dangerouslySetInnerHTML={{ __html: currentPart.content }} 
-                            />
+                            <PassageRenderer title={currentPart.title} content={currentPart.content} />
                         </div>
 
                         {/* FLOATING HIGHLIGHT TOOLBAR */}
