@@ -47,34 +47,37 @@ export default function SimulationPage() {
     const [showContextMenu, setShowContextMenu] = useState(false);
     const [toolbarPosition, setToolbarPosition] = useState({ x: 0, y: 0 });
     const [contextMenuPosition, setContextMenuPosition] = useState({ x: 0, y: 0 });
-    const [savedRange, setSavedRange] = useState<Range | null>(null);
+    const savedRangeRef = useRef<Range | null>(null);
     const [contextTarget, setContextTarget] = useState<HTMLElement | null>(null);
 
     const handleTextSelection = (e: React.MouseEvent) => {
-        // Give selection time to finalize
-        setTimeout(() => {
+        // Use requestAnimationFrame for smoother capture
+        requestAnimationFrame(() => {
             const selection = window.getSelection();
-            if (selection && selection.toString().trim().length > 0 && selection.rangeCount > 0) {
+            if (selection && !selection.isCollapsed && selection.rangeCount > 0) {
                 const range = selection.getRangeAt(0);
 
-                // Only show if inside the container pane
+                // Check if selection is inside the reading container
                 if (!containerRef.current?.contains(range.commonAncestorContainer)) {
                     setShowHighlightToolbar(false);
                     return;
                 }
 
                 const rect = range.getBoundingClientRect();
-                setSavedRange(range.cloneRange());
+                savedRangeRef.current = range.cloneRange();
                 setToolbarPosition({
                     x: rect.left + rect.width / 2,
-                    y: rect.top - 56
+                    y: rect.top - 52
                 });
                 setShowHighlightToolbar(true);
             } else {
-                setShowHighlightToolbar(false);
-                setSavedRange(null);
+                // Clicking outside or empty selection
+                if (!showContextMenu) {
+                    setShowHighlightToolbar(false);
+                    savedRangeRef.current = null;
+                }
             }
-        }, 10);
+        });
     };
 
     const handleContextMenu = (e: React.MouseEvent) => {
@@ -93,7 +96,8 @@ export default function SimulationPage() {
     };
 
     const applyHighlight = (color: 'yellow' | 'green' | 'blue') => {
-        if (!savedRange) return;
+        const range = savedRangeRef.current;
+        if (!range) return;
 
         const colors = {
             yellow: '#FFF59D',
@@ -102,73 +106,66 @@ export default function SimulationPage() {
         };
 
         try {
-            const range = savedRange;
-            
-            // Re-sync selection for the browser (some browsers need this for the walker to work right)
+            // Restore selection visually for feedback
             const selection = window.getSelection();
             if (selection) {
                 selection.removeAllRanges();
                 selection.addRange(range);
             }
 
-            // Robust TreeWalker logic
-            const container = range.commonAncestorContainer;
-            const root = container.nodeType === Node.TEXT_NODE ? container.parentNode! : container;
-            const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null);
+            // Simple surroundContents if possible (single element)
+            // If cross-element, we use the robust node walker
+            const span = document.createElement('span');
+            span.className = `hlt-${color}`;
+            span.setAttribute('data-highlight', color);
+            span.style.backgroundColor = colors[color];
+            span.style.borderRadius = '2px';
+            span.style.cursor = 'pointer';
 
-            const textNodes: Text[] = [];
-            let node: Node | null;
-            while ((node = walker.nextNode())) {
-                const textNode = node as Text;
-                if (range.intersectsNode(textNode)) {
-                    textNodes.push(textNode);
-                }
-            }
-
-            if (textNodes.length === 0 && container.nodeType === Node.TEXT_NODE) {
-                textNodes.push(container as Text);
-            }
-
-            const bgColor = colors[color];
-
-            textNodes.forEach(textNode => {
-                const nodeStart = textNode === range.startContainer ? range.startOffset : 0;
-                const nodeEnd = textNode === range.endContainer ? range.endOffset : textNode.length;
-
-                if (nodeStart >= nodeEnd) return;
-
-                // Split at the end first to not invalidate the start offset
-                if (nodeEnd < textNode.length) {
-                    textNode.splitText(nodeEnd);
-                }
+            try {
+                range.surroundContents(span);
+            } catch (e) {
+                // Robust Fallback: TreeWalker for multi-element selections
+                const root = range.commonAncestorContainer.nodeType === Node.TEXT_NODE 
+                    ? range.commonAncestorContainer.parentNode! 
+                    : range.commonAncestorContainer;
+                const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null);
                 
-                // Split at the start
-                let activeNode = textNode;
-                if (nodeStart > 0) {
-                    activeNode = textNode.splitText(nodeStart);
+                const nodes: Text[] = [];
+                let node;
+                while ((node = walker.nextNode())) {
+                    if (range.intersectsNode(node)) nodes.push(node as Text);
                 }
 
-                // Wrap in span
-                const span = document.createElement('span');
-                span.className = `hlt-${color}`;
-                span.setAttribute('data-highlight', color);
-                span.style.backgroundColor = bgColor;
-                span.style.borderRadius = '2px';
-                span.style.padding = '0';
-                span.style.cursor = 'pointer';
-                span.style.display = 'inline';
-                
-                activeNode.parentNode?.insertBefore(span, activeNode);
-                span.appendChild(activeNode);
-            });
+                nodes.forEach(textNode => {
+                    const start = textNode === range.startContainer ? range.startOffset : 0;
+                    const end = textNode === range.endContainer ? range.endOffset : textNode.length;
+                    if (start >= end) return;
+
+                    if (end < textNode.length) textNode.splitText(end);
+                    const middle = start > 0 ? textNode.splitText(start) : textNode;
+
+                    const m = document.createElement('span');
+                    m.className = `hlt-${color}`;
+                    m.setAttribute('data-highlight', color);
+                    m.style.backgroundColor = colors[color];
+                    m.style.borderRadius = '2px';
+                    m.style.cursor = 'pointer';
+                    
+                    middle.parentNode?.insertBefore(m, middle);
+                    m.appendChild(middle);
+                });
+            }
 
             selection?.removeAllRanges();
+            toast.success('Highlighted');
         } catch (err) {
             console.error('Highlight error:', err);
+            toast.error('Could not apply highlight');
         }
 
         setShowHighlightToolbar(false);
-        setSavedRange(null);
+        savedRangeRef.current = null;
     };
 
     const removeHighlight = () => {
@@ -196,12 +193,12 @@ export default function SimulationPage() {
     };
 
     const copySelection = () => {
-        if (savedRange) {
-            navigator.clipboard.writeText(savedRange.toString());
+        if (savedRangeRef.current) {
+            navigator.clipboard.writeText(savedRangeRef.current.toString());
             toast.success('Text copied to clipboard');
         }
         setShowHighlightToolbar(false);
-        setSavedRange(null);
+        savedRangeRef.current = null;
     };
 
     const copyQuestionPath = (qId: string | number) => {
@@ -514,7 +511,7 @@ export default function SimulationPage() {
                                         transform: 'translateX(-50%)',
                                         zIndex: 1000
                                     }}
-                                    onMouseDown={(e) => e.stopPropagation()}
+                                    onMouseDown={(e) => e.preventDefault()}
                                     onMouseUp={(e) => e.stopPropagation()}
                                     className="flex items-center gap-0.5 bg-[#2D3E50] text-white px-1 py-1 rounded-xl shadow-2xl border border-white/10"
                                 >
