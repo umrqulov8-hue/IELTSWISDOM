@@ -5,7 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
 import { calculateBandScore, calculateOverallBand } from "@/utils/ielts-calculator";
 import { motion } from "framer-motion";
-import { Trophy, ArrowLeft, Send, CheckCircle2, ChevronRight, BarChart3, Clock, Layout } from "lucide-react";
+import { Trophy, ArrowLeft, Send, CheckCircle2, ChevronRight, BarChart3, Clock, Layout, Download, FileText } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface TestResult {
@@ -21,6 +21,10 @@ export default function SimulationResultsPage() {
     const [results, setResults] = useState<Record<string, TestResult>>({});
     const [loading, setLoading] = useState(true);
     const [user, setUser] = useState<any>(null);
+
+    const handleDownload = () => {
+        window.print();
+    };
 
     useEffect(() => {
         async function fetchResults() {
@@ -97,10 +101,40 @@ export default function SimulationResultsPage() {
     }
 
     return (
-        <div className="min-h-screen bg-[#F8FAFC] p-4 md:p-8 font-sans transition-all selection:bg-blue-100">
-            <div className="max-w-5xl mx-auto">
+        <div className="min-h-screen bg-[#F8FAFC] p-4 md:p-8 font-sans transition-all selection:bg-blue-100 relative">
+            {/* Custom Print Styles */}
+            <style jsx global>{`
+                @media print {
+                    @page { margin: 20mm; }
+                    body { background: white !important; }
+                    .no-print { display: none !important; }
+                    .print-only { display: block !important; }
+                    .print-shadow { box-shadow: none !important; border: 1px solid #e2e8f0 !important; }
+                    .print-container { width: 100% !important; max-width: none !important; margin: 0 !important; padding: 0 !important; }
+                    .print-grid { display: block !important; }
+                    .print-card { margin-bottom: 20px !important; page-break-inside: avoid !important; }
+                    .print-overall { border: 2px solid #2D3E50 !important; padding: 40px !important; }
+                }
+                .print-only { display: none; }
+            `}</style>
+
+            <div className="max-w-5xl mx-auto print-container">
+                {/* Print Header */}
+                <div className="print-only mb-10 border-b-2 border-slate-900 pb-6">
+                    <div className="flex justify-between items-center">
+                        <div>
+                            <h2 className="text-3xl font-black text-slate-900">IELTS KING</h2>
+                            <p className="text-sm font-bold text-slate-500 uppercase tracking-widest">Official Mock Test Report</p>
+                        </div>
+                        <div className="text-right">
+                            <p className="text-sm font-black text-slate-900">Verification ID: {id}</p>
+                            <p className="text-xs text-slate-500">{new Date().toLocaleDateString()} {new Date().toLocaleTimeString()}</p>
+                        </div>
+                    </div>
+                </div>
+
                 {/* Header */}
-                <div className="mb-12 flex items-center justify-between">
+                <div className="mb-12 flex items-center justify-between no-print">
                     <div>
                         <button 
                             onClick={() => router.push('/dashboard')}
@@ -131,7 +165,7 @@ export default function SimulationResultsPage() {
                     <motion.div 
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="bg-white rounded-[2.5rem] p-10 shadow-xl shadow-slate-200/50 border border-slate-100 flex flex-col items-center justify-center text-center relative overflow-hidden group"
+                        className="bg-white rounded-[2.5rem] p-10 shadow-xl shadow-slate-200/50 border border-slate-100 flex flex-col items-center justify-center text-center relative overflow-hidden group print-card print-overall"
                     >
                         <div className="absolute top-0 right-0 p-8">
                             <div className="w-24 h-24 bg-blue-50/50 rounded-full blur-3xl group-hover:bg-blue-100/50 transition-colors" />
@@ -166,7 +200,7 @@ export default function SimulationResultsPage() {
                                     initial={{ opacity: 0, x: 20 }}
                                     animate={{ opacity: 1, x: 0 }}
                                     transition={{ delay: idx * 0.1 }}
-                                    className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm hover:shadow-md transition-all group cursor-default"
+                                    className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm hover:shadow-md transition-all group cursor-default print-card"
                                 >
                                     <div className="flex items-center justify-between mb-4">
                                         <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center text-white", section.color)}>
@@ -205,11 +239,11 @@ export default function SimulationResultsPage() {
                             AI Recommended Focus
                         </h3>
                         <div className="space-y-4">
-                            <div className="bg-white/10 p-4 rounded-2xl border border-white/5 backdrop-blur-sm">
+                            <div className="bg-white/10 p-4 rounded-2xl border border-white/5 backdrop-blur-sm print-card">
                                 <p className="text-sm font-bold mb-1">Vocabulary Precision</p>
                                 <p className="text-xs text-slate-300">Your Task 2 essay shows good structure but could benefit from less common academic collocations.</p>
                             </div>
-                            <div className="bg-white/10 p-4 rounded-2xl border border-white/5 backdrop-blur-sm">
+                            <div className="bg-white/10 p-4 rounded-2xl border border-white/5 backdrop-blur-sm print-card">
                                 <p className="text-sm font-bold mb-1">Listening S4 - Distractors</p>
                                 <p className="text-xs text-slate-300">You missed 3 questions in Section 4 due to audio distractors. Practice identifying synonyms in lectures.</p>
                             </div>
@@ -234,20 +268,27 @@ export default function SimulationResultsPage() {
                         </button>
 
                         <button 
-                            className="bg-blue-600 p-6 rounded-2xl text-white flex items-center justify-between hover:bg-blue-700 transition-all group shadow-lg shadow-blue-200"
+                            onClick={handleDownload}
+                            className="bg-blue-600 p-6 rounded-2xl text-white flex items-center justify-between hover:bg-blue-700 transition-all group shadow-lg shadow-blue-200 no-print"
                         >
                             <div className="flex items-center gap-4">
                                 <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center">
-                                    <Send className="w-5 h-5" />
+                                    <Download className="w-5 h-5" />
                                 </div>
                                 <div className="text-left">
-                                    <p className="font-bold">Share Your Success</p>
-                                    <p className="text-xs text-blue-100">Download report or share to social</p>
+                                    <p className="font-bold">Download Official Report</p>
+                                    <p className="text-xs text-blue-100">Save as PDF for your records</p>
                                 </div>
                             </div>
                             <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-all" />
                         </button>
                     </div>
+                </div>
+
+                {/* Print Footer */}
+                <div className="print-only mt-20 text-center border-t border-slate-200 pt-8">
+                    <p className="text-slate-400 text-[10px] uppercase font-bold tracking-widest mb-2">Authenticated by IELTS KING Academic System</p>
+                    <p className="text-slate-300 text-[8px]">This is an automated report and does not require a physical signature.</p>
                 </div>
             </div>
         </div>
