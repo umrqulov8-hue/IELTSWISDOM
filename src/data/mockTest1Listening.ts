@@ -14,7 +14,7 @@ export const mockTest1Listening: ListeningTest = {
                 <p class="font-bold mb-4">Complete the notes below.</p>
                 <p class="text-sm mb-6">Write <span class="font-bold uppercase">NO MORE THAN TWO WORDS AND/OR A NUMBER</span> for each answer.</p>
                 
-                <div class="border-2 border-slate-800 p-6 sm:p-8 rounded-sm bg-white mb-8 mx-auto max-w-3xl text-[15px]">
+                <div class="border-2 border-slate-800 p-6 sm:p-8 rounded-sm bg-white mb-8 w-full text-[15px]">
                     <h3 class="font-bold text-center text-lg mb-6 tracking-wide underline">Customer complaint form: product return</h3>
                     
                     <div class="space-y-6">
@@ -96,7 +96,7 @@ export const mockTest1Listening: ListeningTest = {
                     <p class="mb-6">Label the map below. Write the correct letter, <span class="font-bold">A-K</span>, next to questions 15-20.</p>
                     
                     <div class="flex flex-col items-center">
-                        <div class="w-full max-w-2xl bg-white p-6 border-2 border-slate-800 rounded-sm">
+                        <div class="w-full bg-white p-6 border-2 border-slate-800 rounded-sm">
                             <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-DnXu8TgLt2hQCVELkz7qkWZINcU2p5.png" alt="Linwood Apartment Complex Map" class="w-full h-auto mb-8 border border-slate-200" />
                             
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -234,7 +234,7 @@ export const mockTest1Listening: ListeningTest = {
                     <p class="font-bold mb-4">Questions 25-30</p>
                     <p class="mb-6">What decision do the students take for each of the following sections of their presentation? Choose <span class="font-bold uppercase">SIX</span> answers from the box and write the correct letter, <span class="font-bold">A-H</span>, next to questions 25-30.</p>
 
-                    <div class="border-2 border-slate-800 p-6 rounded-sm bg-white mb-6 max-w-2xl">
+                    <div class="border-2 border-slate-800 p-6 rounded-sm bg-white mb-6 w-full">
                         <h4 class="font-bold text-center underline mb-4 uppercase">Decisions</h4>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <p><span class="font-bold mr-2">A</span> Get the audience to try out the equipment</p>
@@ -248,7 +248,7 @@ export const mockTest1Listening: ListeningTest = {
                         </div>
                     </div>
 
-                    <div class="space-y-4 max-w-xl text-[15px]">
+                    <div class="space-y-4 w-full text-[15px]">
                         <div class="flex items-center gap-4">
                             <span class="font-bold bg-black text-white w-6 h-6 flex items-center justify-center rounded-sm">25</span>
                             <span class="w-48 font-medium">Historical background</span>
@@ -306,7 +306,7 @@ export const mockTest1Listening: ListeningTest = {
                 <p class="font-bold mb-4">Complete the notes below.</p>
                 <p class="text-sm mb-6">Write <span class="font-bold uppercase">ONE WORD ONLY</span> for each answer.</p>
 
-                <div class="border-2 border-slate-800 p-6 sm:p-10 rounded-sm bg-white mb-8 mx-auto max-w-4xl text-[15px]">
+                <div class="border-2 border-slate-800 p-6 sm:p-10 rounded-sm bg-white mb-8 w-full text-[15px]">
                     <h3 class="font-bold text-center text-xl mb-8 tracking-wide">Human babies and numerical ability</h3>
                     
                     <div class="space-y-8">
