@@ -39,7 +39,6 @@ export default function SimulationPage() {
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [isBreak, setIsBreak] = useState(false);
     const [breakTimer, setBreakTimer] = useState(60);
-    const [isCheckingAnswers, setIsCheckingAnswers] = useState(false);
 
     // Timer State
     const [duration, setDuration] = useState(0);
@@ -673,27 +672,6 @@ export default function SimulationPage() {
                 {section === "listening" && (
                     <div ref={containerRef} onMouseUp={handleTextSelection} onContextMenu={handleContextMenu} className="h-full overflow-y-auto bg-white relative" style={{ overscrollBehavior: 'contain' }}>
                         <div className="max-w-6xl mx-auto w-full space-y-6 px-8 py-4">
-                        {isCheckingAnswers ? (
-                            <motion.div
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                className="bg-blue-900/90 backdrop-blur-xl text-white rounded-[3rem] p-12 text-center shadow-2xl"
-                            >
-                                <div className="w-20 h-20 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                                    <Clock className="w-10 h-10 text-blue-300 animate-pulse" />
-                                </div>
-                                <h2 className="text-3xl font-black mb-4">Time to check your answers</h2>
-                                <p className="text-[#2D3E50]/10 text-lg mb-8 max-w-md mx-auto">
-                                    You have 2 minutes to review your answers. Audio has stopped.
-                                </p>
-                                <button
-                                    onClick={handleSubmit}
-                                    className="bg-white text-blue-900 px-8 py-4 rounded-2xl font-bold hover:bg-[#2D3E50]/5 transition-all"
-                                >
-                                    Submit Now
-                                </button>
-                            </motion.div>
-                        ) : (
                             <div className="w-full">
                                 <div className="flex items-center justify-between mb-8">
                                     <h2 className="text-2xl font-black text-slate-800">{currentPart.title}</h2>
@@ -703,12 +681,6 @@ export default function SimulationPage() {
                                             controls
                                             src={currentPart.audioUrl}
                                             className="h-10"
-                                            onEnded={() => {
-                                                if (currentPartIndex === totalParts - 1) {
-                                                    setIsCheckingAnswers(true);
-                                                    setDuration(120); // 2 minutes
-                                                }
-                                            }}
                                         />
                                     )}
                                 </div>
@@ -750,7 +722,6 @@ export default function SimulationPage() {
                                     </>
                                 )}
                             </div>
-                        )}
                         </div>
                     </div>
                 )}
