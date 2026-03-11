@@ -36,15 +36,49 @@ export default function SimulationPage() {
         let data: any = null;
         let time = 3600; // default 1 hour
 
+        const isMockTest = testId.startsWith("mt-");
+
         if (section === "reading") {
-            data = READING_TESTS[testId] || READING_TESTS["fp-9"];
+            data = READING_TESTS[testId] || (isMockTest ? {
+                id: testId,
+                title: "Reading Test (Coming Soon)",
+                passages: [
+                    {
+                        id: "p1",
+                        title: "Content Publishing Soon",
+                        content: "<div class='p-10 text-slate-400 text-center font-medium'>The reading passage for this test will be added soon.</div>",
+                        questionRange: { start: 1, end: 13 },
+                        questions: []
+                    }
+                ],
+                questions: []
+            } : READING_TESTS["fp-9"]);
             time = 3600;
         } else if (section === "listening") {
-            data = LISTENING_TESTS[testId] || LISTENING_TESTS["t1-1"];
+            data = LISTENING_TESTS[testId] || (isMockTest ? {
+                id: testId,
+                title: "Listening Test (Coming Soon)",
+                parts: [
+                    {
+                        id: "p1",
+                        title: "Audio Publishing Soon",
+                        audioUrl: "",
+                        content: "<div class='p-10 text-slate-400 text-center font-medium'>The listening audio and questions for this test will be added soon.</div>",
+                        questions: []
+                    }
+                ]
+            } : LISTENING_TESTS["t1-1"]);
             time = 1800; // 30 mins approx
         } else if (section === "writing") {
             // Placeholder: structure similar to practice/writing/[id]
-            data = {
+            data = isMockTest ? {
+                title: "Writing Test (Coming Soon)",
+                type: "full-test",
+                tasks: [
+                    { title: "Task 1", type: "task-1", minWords: 150, prompt: "<div class='p-10 text-slate-400 text-center font-medium'>Writing Task 1 will be added soon.</div>" },
+                    { title: "Task 2", type: "task-2", minWords: 250, prompt: "<div class='p-10 text-slate-400 text-center font-medium'>Writing Task 2 will be added soon.</div>" }
+                ]
+            } : {
                 title: "Writing Academic Test",
                 type: "full-test",
                 tasks: [
@@ -54,7 +88,18 @@ export default function SimulationPage() {
             };
             time = 3600;
         } else if (section === "speaking") {
-            data = SPEAKING_TESTS[testId] || SPEAKING_TESTS["jan-1"];
+            data = SPEAKING_TESTS[testId] || (isMockTest ? {
+                id: testId,
+                title: "Speaking Test (Coming Soon)",
+                parts: [
+                    {
+                        id: "p1",
+                        title: "Questions Publishing Soon",
+                        instructions: "The speaking questions for this test will be added soon.",
+                        questions: []
+                    }
+                ]
+            } : SPEAKING_TESTS["jan-1"]);
             time = 840; // 14 mins max
         }
 

@@ -108,7 +108,19 @@ export const translations = {
         startTest: { en: "Start Test", uz: "Testni boshlash" },
         fullTest: { en: "FULL TEST", uz: "TO'LIQ TEST" },
         hours: { en: "3 HOURS", uz: "3 SOAT" },
-        tests: [],
+        tests: [
+            {
+                title: { en: "Mock Test 1", uz: "Mock Test 1" },
+                desc: { en: "Complete mock test covering all four skills.", uz: "To'rtta ko'nikmani qamrab oluvchi to'liq mock test." },
+                listTitle: { en: "TEST COMPONENTS:", uz: "TEST TARKIBI:" },
+                listItems: [
+                    { en: "Listening: 40 questions (30 min)", uz: "Tinglash: 40 savol (30 daq)" },
+                    { en: "Reading: 40 questions (60 min)", uz: "O'qish: 40 savol (60 daq)" },
+                    { en: "Writing: 2 tasks (60 min)", uz: "Yozish: 2 topshiriq (60 daq)" },
+                    { en: "Speaking: 3 parts (11-14 min)", uz: "Gapirish: 3 qism (11-14 daq)" },
+                ],
+            }
+        ],
     },
 
     // ──── MOCK EXAMS INTRO ────
