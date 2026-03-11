@@ -4,6 +4,7 @@ import React, { use, useState, useEffect, useCallback, useRef, memo } from "reac
 import { useParams, useRouter } from "next/navigation";
 import { READING_TESTS } from "@/data/reading-tests";
 import { LISTENING_TESTS } from "@/data/listening-tests";
+import { WRITING_TESTS } from "@/data/writing-tests";
 import { SPEAKING_TESTS } from "@/data/speaking-tests";
 import { CDILayout } from "@/components/exam/CDILayout";
 import { toast } from "sonner";
@@ -306,15 +307,7 @@ export default function SimulationPage() {
             } : LISTENING_TESTS["t1-1"]);
             time = 1800; // 30 mins approx
         } else if (section === "writing") {
-            // Placeholder: structure similar to practice/writing/[id]
-            data = isMockTest ? {
-                title: "Writing Test (Coming Soon)",
-                type: "full-test",
-                tasks: [
-                    { title: "Task 1", type: "task-1", minWords: 150, prompt: "<div class='p-10 text-slate-400 text-center font-medium'>Writing Task 1 will be added soon.</div>" },
-                    { title: "Task 2", type: "task-2", minWords: 250, prompt: "<div class='p-10 text-slate-400 text-center font-medium'>Writing Task 2 will be added soon.</div>" }
-                ]
-            } : {
+            data = WRITING_TESTS[testId] || {
                 title: "Writing Academic Test",
                 type: "full-test",
                 tasks: [
