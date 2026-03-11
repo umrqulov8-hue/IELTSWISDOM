@@ -53,7 +53,8 @@ export default function MockExamIntroPage({ params }: { params: Promise<{ id: st
         }
 
         // This directs to the exam center to start a simulated mock (e.g., listening first).
-        router.push(`/exam-center/simulate/listening/mt-${id}`);
+        const mtId = `mt-${testIndex + 1}`;
+        router.push(`/exam-center/simulate/listening/${mtId}`);
     };
 
     return (
