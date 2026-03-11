@@ -447,10 +447,23 @@ export default function SimulationPage() {
 
     if (!testData) return <div className="p-20 text-center font-bold">Loading Test Data...</div>;
 
-    const totalParts = section === "reading" ? (testData.passages?.length || 1) : (testData.parts?.length || 1);
-    const currentPart = section === "reading" ? (testData.passages ? testData.passages[currentPartIndex] : testData) : testData.parts[currentPartIndex];
+    const totalParts = section === "reading" 
+        ? (testData.passages?.length || 1) 
+        : section === "writing" 
+            ? (testData.tasks?.length || 1) 
+            : (testData.parts?.length || 1);
 
-    const totalQ = section === "reading" ? testData.questions.length : testData.parts.reduce((acc: number, p: any) => acc + p.questions.length, 0);
+    const currentPart = section === "reading" 
+        ? (testData.passages ? testData.passages[currentPartIndex] : testData) 
+        : section === "writing"
+            ? testData.tasks[currentPartIndex]
+            : testData.parts[currentPartIndex];
+
+    const totalQ = section === "reading" 
+        ? (testData.questions?.length || 0) 
+        : section === "writing"
+            ? (testData.tasks?.length || 0)
+            : (testData.parts?.reduce((acc: number, p: any) => acc + (p.questions?.length || 0), 0) || 0);
     const currentQCount = Object.keys(answers).length;
 
     if (isBreak) {
