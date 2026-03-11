@@ -286,7 +286,7 @@ export default function SimulationPage() {
                 )}
 
                 {section === "listening" && (
-                    <div className="max-w-4xl mx-auto space-y-8">
+                    <div className="w-full space-y-8">
                         {isCheckingAnswers ? (
                             <motion.div
                                 initial={{ opacity: 0, y: 20 }}
