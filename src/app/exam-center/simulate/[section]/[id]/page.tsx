@@ -116,7 +116,7 @@ export default function SimulationPage() {
         const colors = {
             yellow: '#FFF59D',
             green: '#C8E6C9',
-            blue: '#BBDEFB'
+            blue: '#2D3E50'
         };
 
         try {
@@ -166,6 +166,7 @@ export default function SimulationPage() {
                     span.className = `hlt-${color}`;
                     span.setAttribute('data-highlight', color);
                     span.style.backgroundColor = colors[color];
+                    span.style.color = color === 'blue' ? 'white' : 'inherit';
                     span.style.borderRadius = '2px';
                     span.style.padding = '0';
                     span.style.cursor = 'pointer';
@@ -435,11 +436,7 @@ export default function SimulationPage() {
         }
 
         // Show results or redirect
-        if (testId.startsWith("mt-")) {
-            setIsBreak(true);
-        } else {
-            router.push(`/mock-exams/${testId}/intro`);
-        }
+        setIsBreak(true);
     };
 
     if (!testData) return <div className="p-20 text-center font-bold">Loading Test Data...</div>;
@@ -452,7 +449,7 @@ export default function SimulationPage() {
 
     if (isBreak) {
         return (
-            <div className="min-h-screen bg-[#F0F2F5] flex flex-col items-center justify-center text-slate-900 p-8 text-center selection:bg-blue-200 selection:text-blue-900 font-sans">
+            <div className="min-h-screen bg-[#F0F2F5] flex flex-col items-center justify-center text-slate-900 p-8 text-center selection:bg-[#2D3E50]/20 selection:text-blue-900 font-sans">
                 <AnimatePresence>
                     <motion.div
                         initial={{ opacity: 0, scale: 0.95 }}
@@ -460,15 +457,15 @@ export default function SimulationPage() {
                         exit={{ opacity: 0, scale: 0.95 }}
                         className="max-w-md w-full"
                     >
-                        <div className="w-24 h-24 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-8 relative">
-                            <div className="absolute inset-0 bg-blue-100 rounded-full animate-ping" />
-                            <Clock className="w-12 h-12 text-blue-600" />
+                        <div className="w-24 h-24 bg-[#2D3E50]/10 rounded-full flex items-center justify-center mx-auto mb-8 relative">
+                            <div className="absolute inset-0 bg-[#2D3E50]/10 rounded-full animate-ping" />
+                            <Clock className="w-12 h-12 text-[#2D3E50]" />
                         </div>
                         <h2 className="text-4xl font-black mb-4 text-[#2D3E50]">Section Completed</h2>
                         <p className="text-slate-600 text-lg mb-12">
                             Take a short breather. The next section will start automatically in:
                         </p>
-                        <div className="text-7xl font-black font-mono text-blue-600 mb-12">
+                        <div className="text-7xl font-black font-mono text-[#2D3E50] mb-12">
                             00:{breakTimer.toString().padStart(2, '0')}
                         </div>
                         <button
@@ -542,12 +539,12 @@ export default function SimulationPage() {
                                             className="w-6 h-6 rounded-full bg-[#C8E6C9] border border-white/20 transition-transform hover:scale-110 shadow-sm"
                                             title="Highlight Green"
                                         />
-                                        <button
-                                            onMouseDown={(e) => e.preventDefault()}
-                                            onClick={() => applyHighlight('blue')}
-                                            className="w-6 h-6 rounded-full bg-[#BBDEFB] border border-white/20 transition-transform hover:scale-110 shadow-sm"
-                                            title="Highlight Blue"
-                                        />
+                                            <button
+                                                onMouseDown={(e) => e.preventDefault()}
+                                                onClick={() => applyHighlight('blue')}
+                                                className="w-6 h-6 rounded-full bg-[#2D3E50] border border-white/20 transition-transform hover:scale-110 shadow-sm"
+                                                title="Highlight Blue"
+                                            />
                                     </div>
                                     <div className="w-px h-4 bg-white/20" />
                                     <button
@@ -612,7 +609,7 @@ export default function SimulationPage() {
                             )} />
                             <div className={cn(
                                 "absolute top-1/2 -translate-y-1/2 w-8 h-12 bg-white border border-slate-200 rounded-2xl shadow-xl flex items-center justify-center text-slate-400 opacity-0 group-hover/handle:opacity-100 group-hover/handle:scale-110 transition-all",
-                                isResizing && "opacity-100 text-slate-700 scale-110 border-slate-300 shadow-blue-500/10"
+                                isResizing && "opacity-100 text-slate-700 scale-110 border-slate-300 shadow-[#2D3E50]/15"
                             )}>
                                 <div className="flex flex-col gap-0.5 items-center justify-center">
                                     <div className="w-1 h-1 rounded-full bg-slate-300" />
@@ -666,12 +663,12 @@ export default function SimulationPage() {
                                     <Clock className="w-10 h-10 text-blue-300 animate-pulse" />
                                 </div>
                                 <h2 className="text-3xl font-black mb-4">Time to check your answers</h2>
-                                <p className="text-blue-100 text-lg mb-8 max-w-md mx-auto">
+                                <p className="text-[#2D3E50]/10 text-lg mb-8 max-w-md mx-auto">
                                     You have 2 minutes to review your answers. Audio has stopped.
                                 </p>
                                 <button
                                     onClick={handleSubmit}
-                                    className="bg-white text-blue-900 px-8 py-4 rounded-2xl font-bold hover:bg-blue-50 transition-all"
+                                    className="bg-white text-blue-900 px-8 py-4 rounded-2xl font-bold hover:bg-[#2D3E50]/5 transition-all"
                                 >
                                     Submit Now
                                 </button>
@@ -772,7 +769,7 @@ export default function SimulationPage() {
                                 <div className="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between">
                                     <div className="flex items-center gap-4 text-sm font-bold">
                                         <span className="text-slate-400">Word Count:</span>
-                                        <span className="text-blue-600">{(answers[`task-${currentPartIndex}`] || "").trim().split(/\s+/).filter(Boolean).length}</span>
+                                        <span className="text-[#2D3E50]">{(answers[`task-${currentPartIndex}`] || "").trim().split(/\s+/).filter(Boolean).length}</span>
                                     </div>
                                     <div className="text-[10px] uppercase font-black text-slate-300 tracking-widest">
                                         Auto-saving enabled
@@ -786,7 +783,7 @@ export default function SimulationPage() {
                 {section === "speaking" && (
                     <div className="max-w-none mx-auto h-full flex flex-col items-center justify-center space-y-12">
                         <div className="text-center space-y-4">
-                            <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-700 px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest border border-blue-200">
+                            <div className="inline-flex items-center gap-2 bg-[#2D3E50]/10 text-blue-700 px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest border border-[#2D3E50]/20">
                                 <Mic className="w-3.5 h-3.5" />
                                 {currentPart.title}
                             </div>
@@ -804,7 +801,7 @@ export default function SimulationPage() {
                                     transition={{ delay: idx * 0.1 }}
                                     className="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-xl shadow-slate-200/50 flex items-start gap-6 group"
                                 >
-                                    <div className="w-12 h-12 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center shrink-0 font-mono font-bold text-slate-400 group-hover:bg-blue-600 group-hover:text-white transition-all">
+                                    <div className="w-12 h-12 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center shrink-0 font-mono font-bold text-slate-400 group-hover:bg-[#2D3E50] group-hover:text-white transition-all">
                                         {q.id}
                                     </div>
                                     <div className="flex-1 text-xl font-bold text-slate-700 leading-relaxed">
@@ -893,7 +890,7 @@ function QuestionsList({ questions, answers, onAnswerChange, htmlContent, isSubm
                         "p-5 rounded-2xl border-2 transition-all",
                         isSubmitted && allCorrect ? "border-green-200 bg-green-50/50" :
                             isSubmitted && anyWrong ? "border-red-200 bg-red-50/50" :
-                                "border-slate-100 bg-white hover:border-blue-100"
+                                "border-slate-100 bg-white hover:border-[#2D3E50]/10"
                     )}>
 
                         <div className="w-full">
@@ -909,7 +906,7 @@ function QuestionsList({ questions, answers, onAnswerChange, htmlContent, isSubm
                                                 return (
                                                     <label key={i} className={cn(
                                                         "flex items-center gap-3 p-3 rounded-xl border-2 cursor-pointer transition-all group",
-                                                        isSelected ? "border-blue-500 bg-blue-50" : "border-slate-100 bg-slate-50/30 hover:border-slate-200 hover:bg-slate-50",
+                                                        isSelected ? "border-[#2D3E50] bg-[#2D3E50]/5" : "border-slate-100 bg-slate-50/30 hover:border-slate-200 hover:bg-slate-50",
                                                         isCorrectOpt && "border-green-500 bg-green-50",
                                                         isWrongOpt && "border-red-500 bg-red-50"
                                                     )}>
@@ -922,11 +919,11 @@ function QuestionsList({ questions, answers, onAnswerChange, htmlContent, isSubm
                                                         />
                                                         <div className={cn(
                                                             "w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all",
-                                                            isSelected ? "border-blue-600 bg-blue-600" : "border-slate-300 group-hover:border-blue-400"
+                                                            isSelected ? "border-[#2D3E50] bg-[#2D3E50]" : "border-slate-300 group-hover:border-[#2D3E50]/50"
                                                         )}>
                                                             {isSelected && <div className="w-2.5 h-2.5 rounded-full bg-white shadow-sm" />}
                                                         </div>
-                                                        <span className={cn("text-base font-medium", isSelected ? "text-blue-900" : "text-slate-700")}>
+                                                        <span className={cn("text-base font-medium", isSelected ? "text-[#2D3E50]" : "text-slate-700")}>
                                                             <span className="font-bold mr-2">{String.fromCharCode(65 + i)}.</span>
                                                             {option}
                                                         </span>
@@ -944,7 +941,7 @@ function QuestionsList({ questions, answers, onAnswerChange, htmlContent, isSubm
                                             <select
                                                 className={cn(
                                                     "w-full p-3 pr-10 rounded-xl border-2 appearance-none outline-none transition-all font-bold bg-white text-sm",
-                                                    answers[q.id.toString()] ? "border-blue-400 bg-blue-50 text-blue-900" : "border-slate-200 text-slate-700 hover:border-blue-300",
+                                                    answers[q.id.toString()] ? "border-[#2D3E50]/60 bg-[#2D3E50]/5 text-[#2D3E50]" : "border-slate-200 text-slate-700 hover:border-[#2D3E50]/40",
                                                     isSubmitted && answers[q.id.toString()] === q.correctAnswer?.toString() && "border-green-400 bg-green-50 text-green-800",
                                                     isSubmitted && answers[q.id.toString()] && answers[q.id.toString()] !== q.correctAnswer?.toString() && "border-red-400 bg-red-50 text-red-800"
                                                 )}
@@ -976,14 +973,14 @@ function QuestionsList({ questions, answers, onAnswerChange, htmlContent, isSubm
 
                                                 return (
                                                     <span key={i} className="inline-flex items-center">
-                                                        <span className="font-black text-blue-600 mx-1">{targetId}</span>
+                                                        <span className="font-black text-[#FF851B] mx-1">{targetId}</span>
                                                         <input
                                                             type="text"
                                                             className={cn(
                                                                 "mx-1 px-3 py-1 bg-white border-b-2 outline-none transition-all w-32 md:w-36 text-center font-black text-sm",
                                                                 isSubmitted ? (
                                                                     isCorrect_target ? "border-green-500 bg-green-50 text-green-700" : "border-red-500 bg-red-50 text-red-700"
-                                                                ) : "border-blue-400 focus:border-blue-600 focus:ring-4 focus:ring-blue-500/5 hover:border-blue-500 text-slate-900"
+                                                                ) : "border-[#2D3E50]/40 focus:border-[#FF851B] focus:ring-4 focus:ring-[#FF851B]/5 hover:border-[#FF851B]/60 text-slate-900"
                                                             )}
                                                             value={answers[targetId.toString()] || ""}
                                                             onChange={(e) => onAnswerChange(targetId.toString(), e.target.value)}
@@ -1006,7 +1003,7 @@ function QuestionsList({ questions, answers, onAnswerChange, htmlContent, isSubm
                                                             "mx-1 px-3 py-1 bg-white border-b-2 outline-none transition-all w-36 md:w-40 text-center font-black text-sm",
                                                             isSubmitted ? (
                                                                 isCorrect_q ? "border-green-500 bg-green-50 text-green-700" : "border-red-500 bg-red-50 text-red-700"
-                                                            ) : "border-blue-400 focus:border-blue-600 focus:ring-4 focus:ring-blue-500/5 hover:border-blue-500 text-slate-900"
+                                                            ) : "border-blue-400 focus:border-[#2D3E50] focus:ring-4 focus:ring-[#2D3E50]/10 hover:border-[#2D3E50]/50 text-slate-900"
                                                         )}
                                                         value={answers[q.id.toString()] || ""}
                                                         onChange={(e) => onAnswerChange(q.id.toString(), e.target.value)}
@@ -1058,7 +1055,7 @@ function QuestionsList({ questions, answers, onAnswerChange, htmlContent, isSubm
                                             const isWrong_id = val.toLowerCase().trim() !== question?.correctAnswer?.toString().toLowerCase().trim();
                                             if (!isWrong_id) return null;
                                             return (
-                                                <div key={id} className="p-3 bg-blue-50 border border-blue-100 rounded-xl text-xs font-bold text-blue-700 flex items-center gap-2 animate-in fade-in slide-in-from-top-1">
+                                                <div key={id} className="p-3 bg-[#2D3E50]/5 border border-[#2D3E50]/10 rounded-xl text-xs font-bold text-blue-700 flex items-center gap-2 animate-in fade-in slide-in-from-top-1">
                                                     <div className="w-1.5 h-1.5 rounded-full bg-blue-400" />
                                                     Question {id}: Correct Answer is "{question?.correctAnswer}"
                                                 </div>

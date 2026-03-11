@@ -241,7 +241,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
             <div
                 ref={contentRef}
                 id="reading-content"
-                className="prose prose-slate max-w-none text-slate-700 leading-loose selection:bg-blue-100/60 selection:text-blue-900"
+                className="prose prose-slate max-w-none text-slate-700 leading-loose selection:bg-[#2D3E50]/15 selection:text-blue-900"
                 style={{ fontSize: `${fontSize}px` }}
                 dangerouslySetInnerHTML={{ __html: content }}
             />
@@ -338,7 +338,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                         We couldn't find the reading test you're looking for. It might have been removed or the URL is incorrect.
                     </p>
                     <Link href="/practice/reading">
-                        <button className="px-6 py-3 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition-colors">
+                        <button className="px-6 py-3 bg-[#2D3E50] text-white rounded-xl font-bold hover:bg-blue-700 transition-colors">
                             Return to Library
                         </button>
                     </Link>
@@ -362,7 +362,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                         >
                             <motion.div 
                                 initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.2, duration: 1 }}
-                                className="absolute -top-10 -left-10 w-40 h-40 bg-blue-100/60 rounded-full blur-3xl opacity-60"
+                                className="absolute -top-10 -left-10 w-40 h-40 bg-[#2D3E50]/10/60 rounded-full blur-3xl opacity-60"
                             ></motion.div>
                             <motion.div 
                                 initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.3, duration: 1 }}
@@ -372,9 +372,9 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                             <div className="relative z-10">
                                 <motion.div 
                                     initial={{ scale: 0.5, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ delay: 0.1, type: "spring", stiffness: 200, damping: 15 }}
-                                    className="w-20 h-20 bg-blue-50/80 rounded-full flex items-center justify-center mx-auto mb-6 shadow-[inset_0_2px_10px_rgba(255,255,255,0.8)] border border-white/50"
+                                    className="w-20 h-20 bg-[#2D3E50]/5/80 rounded-full flex items-center justify-center mx-auto mb-6 shadow-[inset_0_2px_10px_rgba(255,255,255,0.8)] border border-white/50"
                                 >
-                                    <BookOpen className="w-10 h-10 text-blue-600" />
+                                    <BookOpen className="w-10 h-10 text-[#2D3E50]" />
                                 </motion.div>
                                 
                                 <motion.h2 
@@ -389,7 +389,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                     className="flex justify-center gap-6 mb-8 text-slate-600"
                                 >
                                     <div className="flex items-center gap-2 bg-white/50 px-4 py-2 rounded-full border border-white/60 shadow-sm">
-                                        <Clock className="w-4 h-4 text-blue-500" />
+                                        <Clock className="w-4 h-4 text-[#2D3E50]/50" />
                                         <span className="font-semibold text-sm">{Math.floor((testData.timeLimit || 1200) / 60)} Minutes</span>
                                     </div>
                                     <div className="flex items-center gap-2 bg-white/50 px-4 py-2 rounded-full border border-white/60 shadow-sm">
@@ -416,7 +416,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                     </Link>
                                     <button
                                         onClick={() => setHasStarted(true)}
-                                        className="px-10 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-bold shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 transition-all hover:-translate-y-0.5 active:scale-95"
+                                        className="px-10 py-4 bg-gradient-to-r from-[#2D3E50] to-indigo-600 text-white rounded-xl font-bold shadow-lg shadow-[#2D3E50]/30 hover:shadow-[#2D3E50]/50 transition-all hover:-translate-y-0.5 active:scale-95"
                                     >
                                         Start Test
                                     </button>
@@ -442,7 +442,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                 <h3 className="text-2xl font-bold text-slate-800 mb-2">Test Completed!</h3>
                                 <p className="text-slate-500 mb-6">You scored</p>
 
-                                <div className="text-5xl font-extrabold text-blue-600 mb-2">
+                                <div className="text-5xl font-extrabold text-[#2D3E50] mb-2">
                                     {score} <span className="text-2xl text-slate-400 font-medium">/ {testData.questions.length}</span>
                                 </div>
 
@@ -458,7 +458,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                         Review Answers
                                     </button>
                                     <Link href="/practice/reading" className="flex-1">
-                                        <button className="w-full py-3 rounded-xl bg-blue-600 text-white font-bold hover:bg-blue-700 transition-colors shadow-lg shadow-blue-500/20">
+                                        <button className="w-full py-3 rounded-xl bg-[#2D3E50] text-white font-bold hover:bg-blue-700 transition-colors shadow-lg shadow-[#2D3E50]/20">
                                             Back to List
                                         </button>
                                     </Link>
@@ -471,7 +471,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                     <div className="fixed top-0 left-0 right-0 h-16 bg-white border-b border-slate-200 flex items-center justify-between px-6 z-10 shadow-sm">
                         <div className="flex items-center gap-6">
                             <Link href="/practice/reading" className="font-bold text-2xl tracking-tighter text-slate-900 hover:opacity-80 transition-opacity">
-                                IELTS<span className="text-blue-600">Wisdom</span>
+                                IELTS<span className="text-[#2D3E50]">Wisdom</span>
                             </Link>
                             <div className="h-6 w-px bg-slate-200" />
                             <h2 className="font-bold text-slate-700 text-lg line-clamp-1 max-w-xl">
@@ -487,7 +487,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                 <Type className="w-3.5 h-3.5 text-slate-400" />
                                 <button
                                     onClick={() => setFontSize(prev => Math.max(14, prev - 2))}
-                                    className="p-1 rounded hover:bg-white hover:shadow-sm text-slate-500 hover:text-blue-600 transition-all active:scale-90"
+                                    className="p-1 rounded hover:bg-white hover:shadow-sm text-slate-500 hover:text-[#2D3E50] transition-all active:scale-90"
                                     title="Decrease Font Size"
                                 >
                                     <Minus className="w-3.5 h-3.5" />
@@ -495,7 +495,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                 <div className="w-px h-4 bg-slate-200" />
                                 <button
                                     onClick={() => setFontSize(prev => Math.min(32, prev + 2))}
-                                    className="p-1 rounded hover:bg-white hover:shadow-sm text-slate-500 hover:text-blue-600 transition-all active:scale-90"
+                                    className="p-1 rounded hover:bg-white hover:shadow-sm text-slate-500 hover:text-[#2D3E50] transition-all active:scale-90"
                                     title="Increase Font Size"
                                 >
                                     <Plus className="w-3.5 h-3.5" />
@@ -619,7 +619,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                                             <span className="flex-none w-6 h-6 rounded-full border border-slate-300 text-slate-400 flex items-center justify-center text-[11px] font-semibold bg-white shadow-sm">{id}</span>
                                                             <input type="text"
                                                                 className={cn("w-36 px-3 py-1.5 bg-white border border-slate-200 rounded-lg focus:outline-none transition-all text-sm shadow-sm",
-                                                                    isSubmitted ? (isCorrect_mary ? "border-green-400 bg-green-50 text-green-700 shadow-green-200" : "border-red-400 bg-red-50 text-red-700 shadow-red-200") : "hover:border-blue-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 text-slate-700"
+                                                                    isSubmitted ? (isCorrect_mary ? "border-green-400 bg-green-50 text-green-700 shadow-green-200" : "border-red-400 bg-red-50 text-red-700 shadow-red-200") : "hover:border-[#2D3E50]/30 focus:border-[#FF851B] focus:ring-4 focus:ring-[#FF851B]/10 text-slate-700"
                                                                 )}
                                                                 value={answers[id] || ""}
                                                                 onChange={(e) => handleAnswer(id, e.target.value)}
@@ -702,7 +702,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                                                     <td className="p-4 align-top">
                                                                         to create a <span className="font-bold">30</span>
                                                                         <input type="text"
-                                                                            className="mx-2 bg-transparent border-b border-black text-black font-semibold focus:outline-none focus:border-blue-500 w-24 text-center transition-all placeholder:text-slate-400"
+                                                                            className="mx-2 bg-transparent border-b border-black text-black font-semibold focus:outline-none focus:border-[#FF851B] w-24 text-center transition-all placeholder:text-slate-400"
                                                                             value={answers[30] || ""} onChange={(e) => handleAnswer(30, e.target.value)} disabled={isSubmitted}
                                                                         />
                                                                         that would reduce the amount of light reaching Earth
@@ -713,7 +713,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                                                     <td className="p-4 align-top">
                                                                         place <span className="font-bold">31</span>
                                                                         <input type="text"
-                                                                            className="mx-2 bg-transparent border-b border-black text-black font-semibold focus:outline-none focus:border-blue-500 w-24 text-center transition-all placeholder:text-slate-400"
+                                                                            className="mx-2 bg-transparent border-b border-black text-black font-semibold focus:outline-none focus:border-[#FF851B] w-24 text-center transition-all placeholder:text-slate-400"
                                                                             value={answers[31] || ""} onChange={(e) => handleAnswer(31, e.target.value)} disabled={isSubmitted}
                                                                         />
                                                                         in the sea
@@ -721,7 +721,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                                                     <td className="p-4 align-top">
                                                                         to encourage <span className="font-bold">32</span>
                                                                         <input id="question-32" type="text"
-                                                                            className="mx-2 bg-transparent border-b border-black text-black font-semibold focus:outline-none focus:border-blue-500 w-24 text-center transition-all placeholder:text-slate-400"
+                                                                            className="mx-2 bg-transparent border-b border-black text-black font-semibold focus:outline-none focus:border-[#FF851B] w-24 text-center transition-all placeholder:text-slate-400"
                                                                             value={answers[32] || ""} onChange={(e) => handleAnswer(32, e.target.value)} disabled={isSubmitted}
                                                                         />
                                                                         to form
@@ -733,7 +733,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                                                     <td className="p-4 align-top">
                                                                         to create <span className="font-bold">33</span>
                                                                         <input type="text"
-                                                                            className="mx-2 bg-transparent border-b border-black text-black font-semibold focus:outline-none focus:border-blue-500 w-24 text-center transition-all placeholder:text-slate-400"
+                                                                            className="mx-2 bg-transparent border-b border-black text-black font-semibold focus:outline-none focus:border-[#FF851B] w-24 text-center transition-all placeholder:text-slate-400"
                                                                             value={answers[33] || ""} onChange={(e) => handleAnswer(33, e.target.value)} disabled={isSubmitted}
                                                                         />
                                                                         that would reduce the amount of light reaching Earth
@@ -744,7 +744,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                                                     <td className="p-4 align-top">
                                                                         fix strong <span className="font-bold">34</span>
                                                                         <input type="text"
-                                                                            className="mx-2 bg-transparent border-b border-black text-black font-semibold focus:outline-none focus:border-blue-500 w-24 text-center transition-all placeholder:text-slate-400"
+                                                                            className="mx-2 bg-transparent border-b border-black text-black font-semibold focus:outline-none focus:border-[#FF851B] w-24 text-center transition-all placeholder:text-slate-400"
                                                                             value={answers[34] || ""} onChange={(e) => handleAnswer(34, e.target.value)} disabled={isSubmitted}
                                                                         />
                                                                         to Greenland ice sheets
@@ -757,7 +757,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                                                     <td className="p-4 align-top">
                                                                         to allow the <span className="font-bold">35</span>
                                                                         <input type="text"
-                                                                            className="mx-2 bg-transparent border-b border-black text-black font-semibold focus:outline-none focus:border-blue-500 w-24 text-center transition-all placeholder:text-slate-400"
+                                                                            className="mx-2 bg-transparent border-b border-black text-black font-semibold focus:outline-none focus:border-[#FF851B] w-24 text-center transition-all placeholder:text-slate-400"
                                                                             value={answers[35] || ""} onChange={(e) => handleAnswer(35, e.target.value)} disabled={isSubmitted}
                                                                         />
                                                                         to reflect radiation
@@ -768,7 +768,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                                                     <td className="p-4 align-top">
                                                                         change the direction of <span className="font-bold">36</span>
                                                                         <input type="text"
-                                                                            className="mx-2 bg-transparent border-b border-black text-black font-semibold focus:outline-none focus:border-blue-500 w-24 text-center transition-all placeholder:text-slate-400"
+                                                                            className="mx-2 bg-transparent border-b border-black text-black font-semibold focus:outline-none focus:border-[#FF851B] w-24 text-center transition-all placeholder:text-slate-400"
                                                                             value={answers[36] || ""} onChange={(e) => handleAnswer(36, e.target.value)} disabled={isSubmitted}
                                                                         />
                                                                     </td>
@@ -807,8 +807,8 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                                                         className={cn(
                                                                             "w-10 h-10 rounded-lg text-sm font-bold border transition-all flex items-center justify-center",
                                                                             isSelected
-                                                                                ? "bg-blue-600 border-blue-600 text-white shadow-md scale-105"
-                                                                                : "bg-white border-slate-200 text-slate-600 hover:border-blue-300 hover:bg-blue-50",
+                                                                                ? "bg-[#2D3E50] border-[#2D3E50] text-white shadow-md scale-105"
+                                                                                : "bg-white border-slate-200 text-slate-600 hover:border-[#2D3E50]/40 hover:bg-[#2D3E50]/5",
                                                                             isSubmitted && index === Number(q.correctAnswer) && "bg-green-500 border-green-500 text-white", // Show correct answer
                                                                             isSubmitted && isSelected && index !== Number(q.correctAnswer) && "bg-red-500 border-red-500 text-white", // Show wrong user selection
                                                                         )}
@@ -824,7 +824,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                                                 <select
                                                                     className={cn(
                                                                         "w-full p-4 rounded-2xl border-2 appearance-none outline-none transition-all cursor-pointer font-bold bg-white shadow-sm",
-                                                                        answers[q.id] !== undefined ? "border-blue-400 bg-blue-50 text-blue-900 ring-4 ring-blue-500/10" : "border-slate-200 text-slate-700 hover:border-blue-300 hover:bg-slate-50",
+                                                                        answers[q.id] !== undefined ? "border-[#2D3E50]/60 bg-[#2D3E50]/5 text-[#2D3E50] ring-4 ring-[#2D3E50]/5" : "border-slate-200 text-slate-700 hover:border-[#2D3E50]/40 hover:bg-slate-50",
                                                                         isSubmitted && answers[q.id] === q.correctAnswer && "border-green-400 bg-green-50 text-green-800 ring-green-500/10",
                                                                         isSubmitted && answers[q.id] !== undefined && answers[q.id] !== q.correctAnswer && "border-red-400 bg-red-50 text-red-800 ring-red-500/10",
                                                                         isSubmitted && "cursor-not-allowed"
@@ -840,11 +840,11 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                                                         </option>
                                                                     ))}
                                                                 </select>
-                                                                <div className="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none text-blue-600 bg-blue-50/80 rounded-full p-1 border border-blue-100 shadow-sm">
+                                                                <div className="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none text-[#2D3E50] bg-[#2D3E50]/5/80 rounded-full p-1 border border-[#2D3E50]/10 shadow-sm">
                                                                     <ChevronRight className="w-5 h-5 rotate-90" />
                                                                 </div>
                                                                 {isSubmitted && answers[q.id] !== q.correctAnswer && (
-                                                                    <div className="mt-3 p-3 bg-blue-50 border border-blue-100 rounded-xl text-xs font-bold text-blue-700 animate-in fade-in slide-in-from-top-1">
+                                                                    <div className="mt-3 p-3 bg-[#2D3E50]/5 border border-[#2D3E50]/10 rounded-xl text-xs font-bold text-blue-700 animate-in fade-in slide-in-from-top-1">
                                                                         Correct: {q.options![Number(q.correctAnswer)]}
                                                                     </div>
                                                                 )}
@@ -856,13 +856,13 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                                                     return (
                                                                         <label key={index} className={cn(
                                                                             "flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-all group",
-                                                                            isSelected ? "bg-blue-50 border-blue-200" : "bg-white border-slate-100 hover:border-slate-200 hover:bg-slate-50",
+                                                                            isSelected ? "bg-[#2D3E50]/5 border-[#2D3E50]/20" : "bg-white border-slate-100 hover:border-slate-200 hover:bg-slate-50",
                                                                             isSubmitted && index === Number(q.correctAnswer) && "bg-green-50 border-green-200",
                                                                             isSubmitted && isSelected && index !== Number(q.correctAnswer) && "bg-red-50 border-red-200"
                                                                         )}>
                                                                             <div className={cn(
                                                                                 "w-5 h-5 rounded-full border flex items-center justify-center transition-colors",
-                                                                                isSelected ? "border-blue-500 bg-blue-500" : "border-slate-300 group-hover:border-blue-400"
+                                                                                isSelected ? "border-[#2D3E50] bg-[#2D3E50]" : "border-slate-300 group-hover:border-blue-400"
                                                                             )}>
                                                                                 {isSelected && <div className="w-2 h-2 rounded-full bg-white" />}
                                                                             </div>
@@ -887,7 +887,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                                     )}
 
                                                     {isSubmitted && !isCorrect && (
-                                                        <div className="mt-4 ml-12 p-3 bg-blue-50 border border-blue-100 rounded-lg text-sm text-blue-800">
+                                                        <div className="mt-4 ml-12 p-3 bg-[#2D3E50]/5 border border-[#2D3E50]/10 rounded-lg text-sm text-blue-800">
                                                             <span className="font-bold">Correct Answer: </span>
                                                             {typeof q.correctAnswer === 'number' && q.options
                                                                 ? q.options[q.correctAnswer as number]
@@ -904,7 +904,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                                     "p-5 rounded-2xl border-2 transition-all shadow-sm",
                                                     isSubmitted && isCorrect ? "border-green-200 bg-green-50/50" :
                                                         isSubmitted && !isCorrect ? "border-red-200 bg-red-50/50" :
-                                                            "border-slate-100 bg-white hover:border-blue-200"
+                                                            "border-slate-100 bg-white hover:border-[#2D3E50]/20"
                                                 )}>
                                                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                                                         <div className="flex items-start gap-4">
@@ -915,7 +915,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                                             <select
                                                                 className={cn(
                                                                     "w-full p-3 pl-4 pr-10 rounded-xl border-2 appearance-none outline-none transition-all cursor-pointer font-bold bg-white shadow-sm text-sm",
-                                                                    answers[q.id] !== undefined ? "border-blue-400 bg-blue-50 text-blue-900 ring-4 ring-blue-500/10" : "border-slate-200 text-slate-700 hover:border-blue-300 hover:bg-slate-50",
+                                                                    answers[q.id] !== undefined ? "border-blue-400 bg-[#2D3E50]/5 text-blue-900 ring-4 ring-[#2D3E50]/20" : "border-slate-200 text-slate-700 hover:border-blue-300 hover:bg-slate-50",
                                                                     isSubmitted && answers[q.id] === q.correctAnswer && "border-green-400 bg-green-50 text-green-800 ring-green-500/10",
                                                                     isSubmitted && answers[q.id] !== undefined && answers[q.id] !== q.correctAnswer && "border-red-400 bg-red-50 text-red-800 ring-red-500/10",
                                                                     isSubmitted && "cursor-not-allowed"
@@ -931,14 +931,14 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                                                     </option>
                                                                 ))}
                                                             </select>
-                                                            <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-blue-600">
+                                                            <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-[#2D3E50]">
                                                                 <ChevronRight className="w-4 h-4 rotate-90" />
                                                             </div>
                                                         </div>
                                                     </div>
 
                                                     {isSubmitted && !isCorrect && (
-                                                        <div className="mt-3 ml-12 p-3 bg-blue-50 border border-blue-100 rounded-xl text-xs font-bold text-blue-700 animate-in fade-in slide-in-from-top-1">
+                                                        <div className="mt-3 ml-12 p-3 bg-[#2D3E50]/5 border border-[#2D3E50]/10 rounded-xl text-xs font-bold text-blue-700 animate-in fade-in slide-in-from-top-1">
                                                             Correct: {q.correctAnswer}
                                                         </div>
                                                     )}
@@ -1005,14 +1005,14 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
 
                                                                         return (
                                                                             <span key={i}>
-                                                                                <span className="font-bold text-blue-600 mr-1">{targetId}</span>
+                                                                                <span className="font-bold text-[#2D3E50] mr-1">{targetId}</span>
                                                                                 <input
                                                                                     type="text"
                                                                                     className={cn(
                                                                                         "inline-block mx-1 px-3 py-1 bg-white border-b-2 focus:outline-none transition-all w-32 text-center font-bold text-sm",
                                                                                         isSubmitted && isCorrect_target ? "border-green-500 bg-green-50 text-green-700" :
                                                                                             isSubmitted && isWrong_target ? "border-red-500 bg-red-50 text-red-700" :
-                                                                                                "border-blue-400 focus:border-blue-600 hover:border-blue-500 text-slate-800"
+                                                                                                "border-blue-400 focus:border-[#2D3E50] hover:border-[#2D3E50]/50 text-slate-800"
                                                                                     )}
                                                                                     value={answers[targetId] || ""}
                                                                                     onChange={(e) => handleAnswer(targetId, e.target.value)}
@@ -1034,7 +1034,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                                                                     "inline-block mx-2 px-3 py-1 bg-white border-b-2 focus:outline-none transition-all w-40 text-center font-bold text-sm",
                                                                                     isSubmitted && allCorrect ? "border-green-500 bg-green-50 text-green-700" :
                                                                                         isSubmitted && anyWrong ? "border-red-500 bg-red-50 text-red-700" :
-                                                                                            "border-blue-400 focus:border-blue-600 hover:border-blue-500 text-slate-800"
+                                                                                            "border-blue-400 focus:border-[#2D3E50] hover:border-[#2D3E50]/50 text-slate-800"
                                                                                 )}
                                                                                 value={answers[q.id] || ""}
                                                                                 onChange={(e) => handleAnswer(q.id, e.target.value)}
@@ -1084,14 +1084,14 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                                                     className={cn(
                                                                         "flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-all",
                                                                         answers[q.id] === optIndex
-                                                                            ? "bg-blue-50 border-blue-200 ring-1 ring-blue-200"
+                                                                            ? "bg-[#2D3E50]/5 border-[#2D3E50]/20 ring-1 ring-[#2D3E50]/20"
                                                                             : "bg-white border-slate-200 hover:border-slate-300",
                                                                     )}
                                                                 >
                                                                     <input
                                                                         type="radio"
                                                                         name={`question-${q.id}`}
-                                                                        className="w-4 h-4 text-blue-600 border-slate-300 focus:ring-blue-500"
+                                                                        className="w-4 h-4 text-[#2D3E50] border-slate-300 focus:ring-[#2D3E50]/50"
                                                                         checked={answers[q.id] === optIndex}
                                                                         onChange={() => handleAnswer(q.id, optIndex)}
                                                                         disabled={isSubmitted}
@@ -1138,10 +1138,10 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                                 className={cn(
                                                     "flex-none px-3 py-1.5 rounded-lg text-[11px] font-black transition-all duration-200 border flex items-center justify-center",
                                                     expandedPassageTab === idx
-                                                        ? "bg-blue-600 text-white border-blue-600 shadow-md shadow-blue-500/20 scale-105"
+                                                        ? "bg-[#2D3E50] text-white border-[#2D3E50] shadow-md shadow-[#2D3E50]/20 scale-105"
                                                         : currentPassageIndex === idx
-                                                            ? "bg-blue-100 text-blue-700 border-blue-200 hover:bg-blue-200"
-                                                            : "bg-slate-50 text-slate-500 border-slate-200 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200"
+                                                            ? "bg-[#2D3E50]/10 text-blue-700 border-[#2D3E50]/20 hover:bg-[#2D3E50]/20"
+                                                            : "bg-slate-50 text-slate-500 border-slate-200 hover:bg-[#2D3E50]/5 hover:text-[#2D3E50] hover:border-[#2D3E50]/20"
                                                 )}
                                             >
                                                 P{idx + 1}
@@ -1176,8 +1176,8 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                                                         className={cn(
                                                                             "flex-none w-6 h-6 rounded text-[9px] font-black transition-colors border flex items-center justify-center",
                                                                             isAnswered
-                                                                                ? "bg-blue-600 text-white border-blue-600"
-                                                                                : "bg-white text-slate-400 border-slate-200 hover:border-blue-400 hover:text-blue-600 hover:bg-blue-50"
+                                                                                ? "bg-[#2D3E50] text-white border-[#2D3E50]"
+                                                                                : "bg-white text-slate-400 border-slate-200 hover:border-blue-400 hover:text-[#2D3E50] hover:bg-[#2D3E50]/5"
                                                                         )}
                                                                     >
                                                                         {q.id}
@@ -1217,8 +1217,8 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                                 currentPassageIndex === testData.passages!.length - 1
                                                     ? isSubmitted
                                                         ? "bg-slate-400 text-white cursor-not-allowed"
-                                                        : "bg-blue-600 text-white hover:bg-blue-700"
-                                                    : "bg-blue-600 text-white hover:bg-blue-700"
+                                                        : "bg-[#2D3E50] text-white hover:bg-blue-700"
+                                                    : "bg-[#2D3E50] text-white hover:bg-blue-700"
                                             )}
                                         >
                                             {currentPassageIndex === testData.passages!.length - 1 ? (
@@ -1243,8 +1243,8 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                             className={cn(
                                                 "flex-none w-7 h-7 rounded text-[9px] font-black transition-all border flex items-center justify-center",
                                                 isAnswered
-                                                    ? "bg-blue-600 text-white border-blue-600"
-                                                    : "bg-white text-slate-400 border-slate-100 hover:border-blue-400 hover:text-blue-600 hover:bg-blue-50"
+                                                    ? "bg-[#2D3E50] text-white border-[#2D3E50]"
+                                                    : "bg-white text-slate-400 border-slate-100 hover:border-blue-400 hover:text-[#2D3E50] hover:bg-[#2D3E50]/5"
                                             )}
                                         >
                                             {q.id}
@@ -1262,7 +1262,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                             "flex items-center gap-1 px-3 py-1 rounded-md font-bold transition-all text-[11px] active:scale-95",
                                             isSubmitted
                                                 ? "bg-slate-400 text-white cursor-not-allowed"
-                                                : "bg-blue-600 text-white hover:bg-blue-700"
+                                                : "bg-[#2D3E50] text-white hover:bg-blue-700"
                                         )}
                                     >
                                         <CheckCircle2 className="w-3 h-3" />

@@ -139,13 +139,13 @@ const ListeningPartSection = memo(function ListeningPartSection({
                                             return (
                                                 <label key={idx} className={cn(
                                                     "flex items-center gap-3 p-2.5 rounded-xl border cursor-pointer transition-all text-sm",
-                                                    sel && !isSubmitted ? "bg-white/60 border-slate-300 shadow-sm" : "bg-white/20 border-white/30 hover:bg-white/40",
+                                                    sel && !isSubmitted ? "bg-[#2D3E50]/5 border-[#2D3E50]/20 shadow-sm" : "bg-white/20 border-white/30 hover:bg-white/40",
                                                     isSubmitted && correctOpt ? "bg-green-100/50 border-green-300" : "",
                                                     isSubmitted && sel && !correctOpt ? "bg-red-100/50 border-red-300" : "",
                                                 )}>
                                                     <div className={cn(
                                                         "w-4 h-4 rounded-full border-2 flex items-center justify-center flex-shrink-0",
-                                                        sel ? "border-slate-600 bg-slate-600" : "border-slate-300",
+                                                        sel ? "border-[#2D3E50] bg-[#2D3E50]" : "border-slate-300",
                                                         isSubmitted && correctOpt ? "border-green-500 bg-green-500" : "",
                                                         isSubmitted && sel && !correctOpt ? "border-red-500 bg-red-500" : "",
                                                     )}>
@@ -467,19 +467,19 @@ export default function ListeningTestPage() {
                         {/* Decorative background elements inside card */}
                         <motion.div 
                             initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.2, duration: 1 }}
-                            className="absolute -top-10 -left-10 w-40 h-40 bg-blue-100/60 rounded-full blur-3xl opacity-60"
+                            className="absolute -top-10 -left-10 w-40 h-40 bg-[#2D3E50]/10 rounded-full blur-3xl opacity-60"
                         ></motion.div>
                         <motion.div 
                             initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.3, duration: 1 }}
-                            className="absolute -bottom-10 -right-10 w-40 h-40 bg-indigo-100/60 rounded-full blur-3xl opacity-60"
+                            className="absolute -bottom-10 -right-10 w-40 h-40 bg-[#FF851B]/10 rounded-full blur-3xl opacity-60"
                         ></motion.div>
                         
                         <div className="relative z-10">
                             <motion.div 
                                 initial={{ scale: 0.5, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ delay: 0.1, type: "spring", stiffness: 200, damping: 15 }}
-                                className="w-20 h-20 bg-blue-50/80 rounded-full flex items-center justify-center mx-auto mb-6 shadow-[inset_0_2px_10px_rgba(255,255,255,0.8)] border border-white/50"
+                                className="w-20 h-20 bg-[#2D3E50]/5 rounded-full flex items-center justify-center mx-auto mb-6 shadow-[inset_0_2px_10px_rgba(255,255,255,0.8)] border border-white/50"
                             >
-                                <Headphones className="w-10 h-10 text-blue-600" />
+                                <Headphones className="w-10 h-10 text-[#2D3E50]" />
                             </motion.div>
                             
                             <motion.h2 
@@ -494,7 +494,7 @@ export default function ListeningTestPage() {
                                 className="flex justify-center gap-6 mb-8 text-slate-600"
                             >
                                 <div className="flex items-center gap-2 bg-white/50 px-4 py-2 rounded-full border border-white/60 shadow-sm">
-                                    <Clock className="w-4 h-4 text-blue-500" />
+                                    <Clock className="w-4 h-4 text-[#FF851B]" />
                                     <span className="font-semibold text-sm">~30 Minutes</span>
                                 </div>
                                 <div className="flex items-center gap-2 bg-white/50 px-4 py-2 rounded-full border border-white/60 shadow-sm">
@@ -521,7 +521,7 @@ export default function ListeningTestPage() {
                                 </Link>
                                 <button
                                     onClick={() => setStarted(true)}
-                                    className="px-10 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-bold shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 transition-all hover:-translate-y-0.5 active:scale-95"
+                                    className="px-10 py-4 bg-[#2D3E50] text-white rounded-xl font-bold shadow-lg shadow-[#2D3E50]/20 hover:shadow-[#2D3E50]/40 transition-all hover:-translate-y-0.5 active:scale-95"
                                 >
                                     Start Test
                                 </button>
