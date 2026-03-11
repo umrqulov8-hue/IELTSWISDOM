@@ -122,8 +122,8 @@ export default function SimulationResultsPage() {
                     /* Certificate Design */
                     .certificate-container {
                         width: 210mm !important;
-                        height: 297mm !important;
-                        padding: 10mm !important;
+                        height: 296mm !important; /* Slightly less than 297 to avoid 2nd page */
+                        padding: 15mm !important;
                         position: relative;
                         background: white !important;
                         overflow: hidden;
@@ -135,21 +135,21 @@ export default function SimulationResultsPage() {
                     }
                     .certificate-border {
                         position: absolute;
-                        top: 3mm;
-                        left: 3mm;
-                        right: 3mm;
-                        bottom: 3mm;
-                        border: 2.5px solid #1A2E44;
+                        top: 5mm;
+                        left: 5mm;
+                        right: 5mm;
+                        bottom: 5mm;
+                        border: 3px solid #1A2E44;
                         pointer-events: none;
                         z-index: 50;
                     }
                     .certificate-inner-border {
                         position: absolute;
-                        top: 4.5mm;
-                        left: 4.5mm;
-                        right: 4.5mm;
-                        bottom: 4.5mm;
-                        border: 1px solid #C5A059;
+                        top: 7.5mm;
+                        left: 7.5mm;
+                        right: 7.5mm;
+                        bottom: 7.5mm;
+                        border: 1.5px solid #C5A059;
                         pointer-events: none;
                         z-index: 50;
                     }
@@ -180,9 +180,10 @@ export default function SimulationResultsPage() {
                         color: white !important;
                         padding: 1rem !important;
                         flex-shrink: 0;
+                        margin-bottom: 0.5rem !important;
                     }
                     .print-overall * { color: white !important; }
-                    .print-overall .band-value { color: #C5A059 !important; font-size: 5.5rem !important; margin-top: -0.5rem; margin-bottom: -0.5rem; }
+                    .print-overall .band-value { color: #C5A059 !important; font-size: 5rem !important; margin-top: -0.5rem; margin-bottom: -0.5rem; }
 
                     .print-grid {
                         display: grid !important;
@@ -211,10 +212,10 @@ export default function SimulationResultsPage() {
                 <div className="print-only watermark">IELTS WISDOM</div>
 
                 {/* Print Header */}
-                <div className="print-only mb-2 text-center relative z-10 pt-4">
+                <div className="print-only mb-2 text-center relative z-10 pt-2">
                     <div className="inline-block border-b-2 border-[#C5A059] pb-1 mb-2">
-                        <h2 className="text-4xl font-black text-[#1A2E44] tracking-tighter print-header-text">IELTS WISDOM</h2>
-                        <p className="text-[10px] font-bold text-[#C5A059] uppercase tracking-[0.3em] mt-1 print-sub-text">Personal Achievement Report</p>
+                        <h2 className="text-3xl font-black text-[#1A2E44] tracking-tighter print-header-text">IELTS WISDOM</h2>
+                        <p className="text-[9px] font-bold text-[#C5A059] uppercase tracking-[0.3em] mt-1 print-sub-text">Personal Achievement Report</p>
                     </div>
                     <div className="flex justify-between items-center px-10 text-left">
                         <div>
@@ -390,20 +391,20 @@ export default function SimulationResultsPage() {
                 </div>
 
                 {/* Print Footer */}
-                <div className="print-only mt-auto text-center relative z-10 pb-2">
-                    <div className="flex justify-between items-end px-16 mb-4">
+                <div className="print-only mt-auto text-center relative z-10 pb-0 shrink-0" style={{ pageBreakInside: 'avoid', breakInside: 'avoid' }}>
+                    <div className="flex justify-between items-end px-10 mb-2">
                         <div className="text-left">
-                            <div className="w-40 h-px bg-slate-900 mb-2" />
-                            <p className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-900 leading-none">Academic Director</p>
-                            <p className="text-[7px] text-slate-500 italic mt-0.5 font-serif leading-none">IELTS WISDOM Verification System</p>
+                            <div className="w-32 h-px bg-slate-900 mb-2" />
+                            <p className="text-[8px] font-black uppercase tracking-[0.2em] text-slate-900 leading-none">Academic Director</p>
+                            <p className="text-[6px] text-slate-500 italic mt-0.5 font-serif leading-none">IELTS WISDOM Verification System</p>
                         </div>
-                        <div className="w-16 h-16 border-2 border-[#C5A059] rounded-full flex flex-col items-center justify-center p-1">
-                             <CheckCircle2 className="w-5 h-5 text-[#C5A059] mb-0.5" />
-                             <p className="text-[5px] font-black text-center text-[#1A2E44] uppercase leading-tight">Verified<br/>Candidate</p>
+                        <div className="w-14 h-14 border-2 border-[#C5A059] rounded-full flex flex-col items-center justify-center p-1">
+                             <CheckCircle2 className="w-4 h-4 text-[#C5A059] mb-0.5" />
+                             <p className="text-[4px] font-black text-center text-[#1A2E44] uppercase leading-tight">Verified<br/>Candidate</p>
                         </div>
                     </div>
-                    <div className="border-t border-slate-100 pt-3">
-                        <p className="text-slate-400 text-[7px] uppercase font-black tracking-[0.4em]">WWW.IELTSWISDOM.COM • GLOBAL EDUCATION PLATFORM</p>
+                    <div className="border-t border-slate-100 pt-2 px-10">
+                        <p className="text-slate-400 text-[6.5px] uppercase font-black tracking-[0.3em]">WWW.IELTSWISDOM.COM • GLOBAL EDUCATION PLATFORM</p>
                     </div>
                 </div>
             </div>
