@@ -200,7 +200,7 @@ export function FullscreenLock({ children, onForceSubmit }: { children: React.Re
                     <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
-                        className="fixed inset-0 z-[99999] bg-rose-900/95 backdrop-blur-3xl flex items-center justify-center p-6"
+                        className="fixed inset-0 z-[99999] bg-[#F0F2F5]/95 backdrop-blur-3xl flex items-center justify-center p-6"
                     >
                         <motion.div
                             initial={{ scale: 0.9, y: 20 }}
@@ -236,12 +236,12 @@ export function FullscreenLock({ children, onForceSubmit }: { children: React.Re
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-[9999] bg-slate-900/95 backdrop-blur-2xl flex items-center justify-center p-6"
+                        className="fixed inset-0 z-[9999] bg-[#F0F2F5]/95 backdrop-blur-2xl flex items-center justify-center p-6"
                     >
                         <motion.div
                             initial={{ scale: 0.9, y: 20 }}
                             animate={{ scale: 1, y: 0 }}
-                            className="bg-white rounded-3xl p-10 max-w-md w-full shadow-[0_0_50px_rgba(225,29,72,0.15)] border border-rose-100 text-center relative overflow-hidden flex flex-col items-center"
+                            className="bg-white rounded-3xl p-10 max-w-md w-full shadow-xl border border-rose-100 text-center relative overflow-hidden flex flex-col items-center"
                         >
                             <div className="absolute top-0 left-0 w-full h-2 bg-rose-500" />
 
