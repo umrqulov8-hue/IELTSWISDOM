@@ -37,33 +37,9 @@ export default function SimulationPage() {
     const passageRef = useRef<HTMLDivElement>(null);
     const questionsRef = useRef<HTMLDivElement>(null);
 
-    // Wheel-event based dual scroll isolation
-    useEffect(() => {
-        const passageEl = passageRef.current;
-        const questionsEl = questionsRef.current;
-        if (!passageEl || !questionsEl) return;
-
-        const handlePassageWheel = (e: WheelEvent) => {
-            // Only intercept if over the passage pane
-            e.stopPropagation();
-            e.preventDefault();
-            passageEl.scrollTop += e.deltaY;
-        };
-
-        const handleQuestionsWheel = (e: WheelEvent) => {
-            e.stopPropagation();
-            e.preventDefault();
-            questionsEl.scrollTop += e.deltaY;
-        };
-
-        passageEl.addEventListener('wheel', handlePassageWheel, { passive: false, capture: true });
-        questionsEl.addEventListener('wheel', handleQuestionsWheel, { passive: false, capture: true });
-
-        return () => {
-            passageEl.removeEventListener('wheel', handlePassageWheel, { capture: true } as any);
-            questionsEl.removeEventListener('wheel', handleQuestionsWheel, { capture: true } as any);
-        };
-    }, [section]);
+    // Scroll isolation is handled entirely by CSS:
+    // Each panel uses overflow-y-auto + overscroll-behavior: contain
+    // This prevents scroll chaining between panels natively in the browser.
 
     // Highlighting Logic
     const [showHighlightToolbar, setShowHighlightToolbar] = useState(false);
@@ -464,7 +440,7 @@ export default function SimulationPage() {
             onPartChange={setCurrentPartIndex}
             questionsHandled={{ current: currentQCount, total: totalQ }}
         >
-            <div className="h-full relative">
+            <div className="flex-1 min-h-0 relative">
                 {section === "reading" && (
                     <div className={cn(
                         "flex h-full gap-0 bg-white overflow-hidden relative",
@@ -475,8 +451,8 @@ export default function SimulationPage() {
                             ref={passageRef}
                             onMouseUp={handleTextSelection}
                             onContextMenu={handleContextMenu}
-                            className="h-full overflow-y-auto p-10 lg:p-14 border-r border-slate-100 prose prose-slate max-w-none prose-h2:text-2xl prose-h2:mb-6 prose-p:leading-[1.85] prose-p:text-[15px] selection:bg-yellow-100"
-                            style={{ width: `${leftWidth}%`, scrollBehavior: 'smooth' }}
+                             className="h-full overflow-y-auto p-10 lg:p-14 border-r border-slate-100 prose prose-slate max-w-none prose-h2:text-2xl prose-h2:mb-6 prose-p:leading-[1.85] prose-p:text-[15px] selection:bg-yellow-100"
+                            style={{ width: `${leftWidth}%`, scrollBehavior: 'smooth', overscrollBehavior: 'contain' }}
                         >
                             <h2 className="text-3xl font-black mb-8">{currentPart.title}</h2>
                             <div 
@@ -589,7 +565,7 @@ export default function SimulationPage() {
                         <div 
                             ref={questionsRef}
                             className="h-full overflow-y-auto p-10 lg:p-14 bg-[#F8F9FB]"
-                            style={{ width: `${100 - leftWidth}%`, scrollBehavior: 'smooth' }}
+                            style={{ width: `${100 - leftWidth}%`, overscrollBehavior: 'contain' }}
                         >
                             <div className="max-w-3xl mx-auto">
                                 <div className="flex items-center justify-between mb-8 border-b border-slate-100 pb-4">
