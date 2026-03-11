@@ -40,6 +40,10 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
     const readingAreaRef = useRef<HTMLDivElement>(null);
     const contentRef = useRef<HTMLDivElement>(null);
     const savedRangeRef = useRef<Range | null>(null); // Save range before menu click steals focus
+    const stripLeadingNumber = (text: string) => {
+        if (!text) return "";
+        return text.replace(/^[0-9]+[\.\)\s]+\s*/, "");
+    };
 
     // Split-screen Resizing Logic
     useEffect(() => {
@@ -81,13 +85,13 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
 
     const handleMouseUp = () => {
         const sel = window.getSelection();
-        if (!sel || sel.isCollapsed || !readingAreaRef.current) {
+        if (!sel || sel.isCollapsed || !containerRef.current) {
             setIsMenuVisible(false);
             return;
         }
 
         const range = sel.getRangeAt(0);
-        if (readingAreaRef.current.contains(range.commonAncestorContainer)) {
+        if (containerRef.current.contains(range.commonAncestorContainer)) {
             const rect = range.getBoundingClientRect();
             // Save the range so menu button clicks don't lose the selection
             savedRangeRef.current = range.cloneRange();
@@ -125,9 +129,9 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
 
         if (color === 'none') {
             // Remove all highlight spans in the selected range
-            if (savedRangeRef.current && contentRef.current) {
+            if (savedRangeRef.current && containerRef.current) {
                 const range = savedRangeRef.current;
-                const spans = contentRef.current.querySelectorAll<HTMLElement>(
+                const spans = containerRef.current.querySelectorAll<HTMLElement>(
                     'mark[data-hlt]'
                 );
                 spans.forEach(span => {
@@ -138,7 +142,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                     }
                 });
                 // Normalize merged text nodes
-                contentRef.current.normalize();
+                containerRef.current.normalize();
             }
             sel.removeAllRanges();
             setIsMenuVisible(false);
@@ -520,12 +524,11 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                     </div>
 
                     {/* --- Split Screen Content --- */}
-                    <div ref={containerRef} className="flex-1 min-h-0 flex flex-col md:flex-row gap-0 overflow-hidden relative">
+                    <div ref={containerRef} onMouseUp={handleMouseUp} className="flex-1 min-h-0 flex flex-col md:flex-row gap-0 overflow-hidden relative">
 
                         {/* LEFT: Reading Passage (Scrollable) */}
                         <div
                             ref={readingAreaRef}
-                            onMouseUp={handleMouseUp}
                             className="w-full h-full bg-white px-5 py-4 overflow-y-auto hide-scrollbar relative group transition-none"
                             style={{ width: typeof window !== 'undefined' && window.innerWidth >= 768 ? `${leftWidth}%` : '100%' }}
                         >
@@ -780,25 +783,16 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                             }
                                         }
                                         if (q.type === "multiple-choice") {
-                                            // ...
+                                            const isCorrect = isSubmitted && answers[q.id] === q.correctAnswer;
                                             return (
                                                 <div id={`question-${q.id}`} key={q.id} className={cn(
-                                                    // ...
                                                     "p-4 rounded-xl border transition-colors",
                                                     isSubmitted && isCorrect ? "border-green-200 bg-green-50/50" :
                                                         isSubmitted && !isCorrect ? "border-red-200 bg-red-50/50" :
                                                             "border-slate-200 hover:border-blue-300"
                                                 )}>
                                                     <div className="flex items-start gap-4 mb-3">
-                                                        <span className={cn(
-                                                            "flex-none w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold",
-                                                            isSubmitted && isCorrect ? "bg-green-100 text-green-700" :
-                                                                isSubmitted && !isCorrect ? "bg-red-100 text-red-700" :
-                                                                    "bg-blue-50 text-blue-700"
-                                                        )}>
-                                                            {q.id}
-                                                        </span>
-                                                        <p className="font-medium text-slate-700 leading-relaxed pt-1">{q.text}</p>
+                                                        <p className="font-medium text-slate-700 leading-relaxed pt-1">{stripLeadingNumber(q.text)}</p>
                                                     </div>
 
                                                     {isShortOptions ? (
@@ -914,15 +908,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                                 )}>
                                                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                                                         <div className="flex items-start gap-4">
-                                                            <span className={cn(
-                                                                "flex-none w-8 h-8 rounded-lg flex items-center justify-center text-sm font-black",
-                                                                isSubmitted && isCorrect ? "bg-green-100 text-green-700" :
-                                                                    isSubmitted && !isCorrect ? "bg-red-100 text-red-700" :
-                                                                        "bg-blue-50 text-blue-700"
-                                                            )}>
-                                                                {q.id}
-                                                            </span>
-                                                            <p className="font-bold text-slate-800 leading-relaxed pt-1">{q.text}</p>
+                                                            <p className="font-bold text-slate-800 leading-relaxed pt-1">{stripLeadingNumber(q.text)}</p>
                                                         </div>
 
                                                         <div className="relative flex-1 max-w-[240px]">
@@ -1000,14 +986,6 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                                         "border-slate-100 bg-slate-50/50"
                                             )}>
                                                 <div className="flex gap-3 mb-3">
-                                                    <span className={cn(
-                                                        "flex-shrink-0 px-2 h-6 rounded-full flex items-center justify-center text-xs font-bold mt-0.5 min-w-[1.5rem]",
-                                                        isSubmitted && allCorrect ? "bg-green-100 text-green-600" :
-                                                            isSubmitted && anyWrong ? "bg-red-100 text-red-600" :
-                                                                "bg-blue-100 text-blue-600"
-                                                    )}>
-                                                        {coveredIds.length > 1 ? `${coveredIds[0]} - ${coveredIds[coveredIds.length - 1]}` : q.id}
-                                                    </span>
                                                     <div className="w-full">
                                                         {q.image && (
                                                             <div className="mb-4 rounded-lg overflow-hidden border border-slate-200">

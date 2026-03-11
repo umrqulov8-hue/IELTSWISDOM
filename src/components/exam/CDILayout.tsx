@@ -60,9 +60,7 @@ export function CDILayout({
                     </div>
 
                     <div className="absolute left-1/2 -translate-x-1/2">
-                        <div className="bg-white px-6 py-1.5 rounded-xl shadow-sm">
-                            <CDITimer duration={duration} onTimeUp={onFinish} />
-                        </div>
+                        <CDITimer duration={duration} onTimeUp={onFinish} />
                     </div>
 
                     <div className="flex items-center gap-4">

@@ -34,6 +34,7 @@ export default function SimulationPage() {
     const [isResizing, setIsResizing] = useState(false);
 
     // Scrolling and Highlighting State
+    const containerRef = useRef<HTMLDivElement>(null);
     const passageRef = useRef<HTMLDivElement>(null);
     const questionsRef = useRef<HTMLDivElement>(null);
 
@@ -56,8 +57,8 @@ export default function SimulationPage() {
             if (selection && selection.toString().trim().length > 0 && selection.rangeCount > 0) {
                 const range = selection.getRangeAt(0);
 
-                // Only show if inside the passage pane
-                if (!passageRef.current?.contains(range.commonAncestorContainer)) {
+                // Only show if inside the container pane
+                if (!containerRef.current?.contains(range.commonAncestorContainer)) {
                     setShowHighlightToolbar(false);
                     return;
                 }
@@ -85,7 +86,7 @@ export default function SimulationPage() {
             setContextTarget(highlightSpan);
             setContextMenuPosition({ x: e.clientX, y: e.clientY });
             setShowContextMenu(true);
-        } else if (passageRef.current?.contains(target)) {
+        } else if (containerRef.current?.contains(target)) {
             // Allow normal right-click on non-highlighted text
             setShowContextMenu(false);
         }
@@ -442,15 +443,13 @@ export default function SimulationPage() {
         >
             <div className="flex-1 min-h-0 relative">
                 {section === "reading" && (
-                    <div className={cn(
+                    <div ref={containerRef} onMouseUp={handleTextSelection} onContextMenu={handleContextMenu} className={cn(
                         "flex h-full gap-0 bg-white overflow-hidden relative",
                         isResizing && "cursor-col-resize select-none"
                     )}>
                          {/* LEFT: Reading Passage (Scrollable) - DUAL SCROLL ISOLATED */}
                         <div 
                             ref={passageRef}
-                            onMouseUp={handleTextSelection}
-                            onContextMenu={handleContextMenu}
                              className="h-full overflow-y-auto p-10 lg:p-14 border-r border-slate-100 prose prose-slate max-w-none prose-h2:text-2xl prose-h2:mb-6 prose-p:leading-[1.85] prose-p:text-[15px] selection:bg-yellow-100"
                             style={{ width: `${leftWidth}%`, scrollBehavior: 'smooth', overscrollBehavior: 'contain' }}
                         >
@@ -833,26 +832,7 @@ function QuestionsList({ questions, answers, onAnswerChange, htmlContent, isSubm
                             isSubmitted && anyWrong ? "border-red-200 bg-red-50/50" :
                                 "border-slate-100 bg-white hover:border-blue-100"
                     )}>
-                        {/* Header: number badge + copy path */}
-                        <div className="flex items-center justify-between mb-3">
-                            <span className={cn(
-                                "flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center text-sm font-black transition-all",
-                                isSubmitted && allCorrect ? "bg-green-100 text-green-700" :
-                                    isSubmitted && anyWrong ? "bg-red-100 text-red-700" :
-                                        "bg-[#2D3E50] text-white shadow-md shadow-slate-400/20"
-                            )}>
-                                {coveredIds.length > 1 ? `${coveredIds[0]}-${coveredIds[coveredIds.length - 1]}` : q.id}
-                            </span>
-                            <button
-                                onClick={() => onCopyPath(q.id)}
-                                className="flex items-center gap-1 px-2 py-1 text-slate-300 hover:text-slate-600 hover:bg-slate-100 rounded-lg transition-all text-[10px] uppercase font-bold tracking-wide"
-                                title={`Copy path for Question ${q.id}`}
-                            >
-                                <Copy className="w-3 h-3" />
-                                Path
-                            </button>
-                        </div>
-                        {/* Question Content */}
+
                         <div className="w-full">
                                 {q.type === "multiple-choice" && (
                                     <div className="space-y-4">

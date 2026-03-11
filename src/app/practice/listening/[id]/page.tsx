@@ -130,7 +130,6 @@ const ListeningPartSection = memo(function ListeningPartSection({
                                                 "border-white/40 bg-white/20 hover:bg-white/30 hover:shadow-sm"
                                     )}>
                                     <p className="font-bold text-slate-700 mb-3 flex gap-2">
-                                        <span className="text-slate-400 font-mono text-sm mt-0.5">{q.id}.</span>
                                         {q.text}
                                     </p>
                                     <div className="space-y-2 pl-5">
