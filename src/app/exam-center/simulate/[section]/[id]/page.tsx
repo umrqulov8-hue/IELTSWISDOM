@@ -405,38 +405,51 @@ export default function SimulationPage() {
         if (isSubmitted) return;
         setIsSubmitted(true);
 
-        // Calculate score for Reading/Listening
-        let score = 0;
-        let total = 0;
+        try {
+            // Calculate score for Reading/Listening
+            let score = 0;
+            let total = 0;
 
-        if (section === "reading" || section === "listening") {
-            const parts = section === "reading" ? (testData.passages || [testData]) : testData.parts;
-            parts.forEach((p: any) => {
-                p.questions.forEach((q: any) => {
+            if (section === "reading") {
+                // For Reading: Questions are at the root
+                (testData.questions || []).forEach((q: any) => {
                     total++;
                     const userAns = (answers[q.id.toString()] || "").trim().toLowerCase();
-                    const correctAns = q.correctAnswer.toString().toLowerCase();
-                    if (userAns === correctAns) score++;
+                    const correctAns = (q.correctAnswer || "").toString().toLowerCase();
+                    if (userAns && userAns === correctAns) score++;
                 });
-            });
+            } else if (section === "listening") {
+                // For Listening: Questions are nested in parts
+                (testData.parts || []).forEach((p: any) => {
+                    (p.questions || []).forEach((q: any) => {
+                        total++;
+                        const userAns = (answers[q.id.toString()] || "").trim().toLowerCase();
+                        const correctAns = (q.correctAnswer || "").toString().toLowerCase();
+                        if (userAns && userAns === correctAns) score++;
+                    });
+                });
+            }
+
+            toast.success("Test submitted successfully!");
+
+            // Save to Supabase logic...
+            const supabase = createClient();
+            const { data: { user } } = await supabase.auth.getUser();
+            if (user) {
+                await supabase.from("test_results").insert({
+                    user_id: user.id,
+                    test_id: `sim-${section}-${testId}`,
+                    score,
+                    total_questions: total || 40
+                });
+            }
+        } catch (error) {
+            console.error("Submission error:", error);
+            toast.error("An error occurred during submission, but your progress is being preserved.");
+        } finally {
+            // Show results or redirect
+            setIsBreak(true);
         }
-
-        toast.success("Test submitted successfully!");
-
-        // Save to Supabase logic...
-        const supabase = createClient();
-        const { data: { user } } = await supabase.auth.getUser();
-        if (user) {
-            await supabase.from("test_results").insert({
-                user_id: user.id,
-                test_id: `sim-${section}-${testId}`,
-                score,
-                total_questions: total || 40
-            });
-        }
-
-        // Show results or redirect
-        setIsBreak(true);
     };
 
     if (!testData) return <div className="p-20 text-center font-bold">Loading Test Data...</div>;
