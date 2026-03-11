@@ -178,21 +178,24 @@ export default function SimulationResultsPage() {
                     .print-overall { 
                         background: #1A2E44 !important;
                         color: white !important;
-                        padding: 2.5rem !important;
+                        padding: 1.5rem !important;
                     }
                     .print-overall * { color: white !important; }
-                    .print-overall .band-value { color: #C5A059 !important; font-size: 8rem !important; }
+                    .print-overall .band-value { color: #C5A059 !important; font-size: 6rem !important; }
 
                     .print-grid {
                         display: grid !important;
                         grid-template-columns: 1fr 1fr !important;
-                        gap: 12px !important;
+                        gap: 10px !important;
                     }
                     
                     /* Adjust vertical spacing for print to fit one page */
-                    .print-mb-small { margin-bottom: 2rem !important; }
-                    .print-mb-xsmall { margin-bottom: 1.5rem !important; }
-                    .print-mt-large { margin-top: 3rem !important; }
+                    .print-mb-small { margin-bottom: 1rem !important; }
+                    .print-mb-xsmall { margin-bottom: 0.75rem !important; }
+                    .print-mt-large { margin-top: 1rem !important; }
+                    .print-p-small { padding: 1rem !important; }
+                    .print-text-small { font-size: 10pt !important; }
+                    .print-text-xsmall { font-size: 8pt !important; }
                 }
                 .print-only { display: none; }
             `}</style>
@@ -204,9 +207,9 @@ export default function SimulationResultsPage() {
                 <div className="print-only watermark">IELTS WISDOM</div>
 
                 {/* Print Header */}
-                <div className="print-only mb-6 text-center relative z-10 pt-10">
-                    <div className="inline-block border-b-4 border-[#C5A059] pb-3 mb-4">
-                        <h2 className="text-5xl font-black text-[#1A2E44] tracking-tighter">IELTS WISDOM</h2>
+                <div className="print-only mb-4 text-center relative z-10 pt-6">
+                    <div className="inline-block border-b-4 border-[#C5A059] pb-2 mb-3">
+                        <h2 className="text-4xl font-black text-[#1A2E44] tracking-tighter">IELTS WISDOM</h2>
                         <p className="text-sm font-bold text-[#C5A059] uppercase tracking-[0.3em] mt-2">Personal Achievement Report</p>
                     </div>
                     <div className="flex justify-between items-center px-10 text-left">
@@ -288,27 +291,27 @@ export default function SimulationResultsPage() {
                                     initial={{ opacity: 0, x: 20 }}
                                     animate={{ opacity: 1, x: 0 }}
                                     transition={{ delay: idx * 0.1 }}
-                                    className="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group cursor-default print-card"
+                                    className="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group cursor-default print-card print-p-small"
                                 >
-                                    <div className="flex items-center justify-between mb-6">
-                                        <div className={cn("w-12 h-12 rounded-2xl flex items-center justify-center text-white shadow-lg", section.color)}>
+                                    <div className="flex items-center justify-between mb-6 print-mb-xsmall">
+                                        <div className={cn("w-12 h-12 rounded-2xl flex items-center justify-center text-white shadow-lg print-only:w-8 print-only:h-8", section.color)}>
                                             {section.icon}
                                         </div>
                                         <div className="flex flex-col items-end">
-                                            <div className="text-3xl font-black text-slate-900 leading-none">
+                                            <div className="text-3xl font-black text-slate-900 leading-none print-text-small">
                                                 {band > 0 ? band.toFixed(1) : "N/A"}
                                             </div>
-                                            <p className="text-[10px] uppercase font-black text-slate-400 tracking-widest mt-1">Band Score</p>
+                                            <p className="text-[10px] uppercase font-black text-slate-400 tracking-widest mt-1 print-text-xsmall">Band</p>
                                         </div>
                                     </div>
                                     <div className="flex items-end justify-between">
                                         <div>
-                                            <h3 className="text-lg font-black text-slate-900">{section.name}</h3>
-                                            <p className="text-xs text-slate-400 font-bold uppercase tracking-tighter">
-                                                {result ? `${result.score}/${result.total} Correct Answers` : "Manual Assessment Required"}
+                                            <h3 className="text-lg font-black text-slate-900 print-text-small">{section.name}</h3>
+                                            <p className="text-xs text-slate-400 font-bold uppercase tracking-tighter print-text-xsmall">
+                                                {result ? `${result.score}/${result.total} Correct` : "Manual Assessment"}
                                             </p>
                                         </div>
-                                        <div className="w-20 h-2 bg-slate-100 rounded-full overflow-hidden">
+                                        <div className="w-20 h-2 bg-slate-100 rounded-full overflow-hidden print-only:hidden">
                                             <motion.div 
                                                 initial={{ width: 0 }}
                                                 animate={{ width: `${(band / 9) * 100}%` }}
@@ -323,25 +326,25 @@ export default function SimulationResultsPage() {
                 </div>
 
                 {/* AI Analysis / Actions */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10">
-                    <div className="bg-white rounded-[2.5rem] p-8 border border-slate-100 shadow-sm print-card">
-                        <h3 className="text-xl font-black text-slate-900 mb-6 flex items-center gap-3">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10 print-mb-small">
+                    <div className="bg-white rounded-[2.5rem] p-8 border border-slate-100 shadow-sm print-card print-p-small">
+                        <h3 className="text-xl font-black text-slate-900 mb-6 flex items-center gap-3 print-mb-xsmall print-text-small">
                             <BarChart3 className="w-6 h-6 text-[#C5A059]" />
                             Performance Insights
                         </h3>
-                        <div className="space-y-6">
+                        <div className="space-y-6 print-space-y-small">
                             <div className="flex gap-4">
                                 <div className="w-1.5 h-auto bg-[#C5A059] rounded-full shrink-0" />
                                 <div>
-                                    <p className="font-black text-slate-800 text-sm mb-1 uppercase tracking-wide">Lexical Resource</p>
-                                    <p className="text-xs text-slate-500 leading-relaxed">Your Writing Task 1 response uses accurate technical vocabulary. To hit band 7.5+, focus on varied sentence structures when describing trends.</p>
+                                    <p className="font-black text-slate-800 text-sm mb-1 uppercase tracking-wide print-text-xsmall">Lexical Resource</p>
+                                    <p className="text-xs text-slate-500 leading-relaxed print-text-xsmall">Uses accurate technical vocabulary. Focus on varied structures for Higher Band.</p>
                                 </div>
                             </div>
                             <div className="flex gap-4">
                                 <div className="w-1.5 h-auto bg-blue-500 rounded-full shrink-0" />
                                 <div>
-                                    <p className="font-black text-slate-800 text-sm mb-1 uppercase tracking-wide">Listening Retention</p>
-                                    <p className="text-xs text-slate-500 leading-relaxed">High accuracy in Section 1 & 2. Most errors occurred during fast-paced dialogue in Section 3. Recommended: Practice note-taking with academic podcasts.</p>
+                                    <p className="font-black text-slate-800 text-sm mb-1 uppercase tracking-wide print-text-xsmall">Listening Retention</p>
+                                    <p className="text-xs text-slate-500 leading-relaxed print-text-xsmall">High accuracy in Section 1 & 2. S3 dialogue practice recommended.</p>
                                 </div>
                             </div>
                         </div>
