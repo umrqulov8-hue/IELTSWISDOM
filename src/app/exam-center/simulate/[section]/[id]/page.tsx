@@ -566,8 +566,8 @@ export default function SimulationPage() {
                             className="h-full overflow-y-auto p-10 lg:p-14 bg-[#F8F9FB]"
                             style={{ width: `${100 - leftWidth}%`, overscrollBehavior: 'contain' }}
                         >
-                            <div className="max-w-3xl mx-auto">
-                                <div className="flex items-center justify-between mb-8 border-b border-slate-100 pb-4">
+                            <div className="max-w-5xl mx-auto">
+                                <div className="flex items-center justify-between mb-4 border-b border-slate-100 pb-2">
                                     <h3 className="text-xl font-black text-slate-800">
                                         Questions {currentPart.questionRange.start}-{currentPart.questionRange.end}
                                     </h3>
@@ -593,11 +593,7 @@ export default function SimulationPage() {
 
                 {section === "listening" && (
                     <div className="h-full overflow-y-auto bg-white" style={{ overscrollBehavior: 'contain' }}>
-                        <div className="max-w-4xl mx-auto w-full space-y-8 px-8 py-10">
-                            <div className="border-b border-slate-100 pb-8 mb-8">
-                                <h1 className="text-4xl font-black text-[#2D3E50] mb-2">{testData.title}</h1>
-                                <p className="text-slate-500 font-bold uppercase tracking-widest text-xs">Section: {section}</p>
-                            </div>
+                        <div className="max-w-6xl mx-auto w-full space-y-6 px-8 py-4">
                         {isCheckingAnswers ? (
                             <motion.div
                                 initial={{ opacity: 0, y: 20 }}
@@ -681,11 +677,7 @@ export default function SimulationPage() {
                 )}
 
                 {section === "writing" && (
-                    <div className="max-w-none mx-auto h-full flex flex-col gap-6">
-                        <div className="text-center mb-2">
-                            <h1 className="text-3xl font-black text-[#2D3E50] mb-1">{testData.title}</h1>
-                            <p className="text-slate-400 font-bold uppercase tracking-widest text-[10px]">Academic Writing Section</p>
-                        </div>
+                    <div className="max-w-none mx-auto h-full flex flex-col gap-4">
                         <div className="flex bg-slate-200/50 p-1.5 rounded-2xl w-fit mx-auto border border-slate-300">
                             {testData.tasks.map((task: any, index: number) => (
                                 <button
