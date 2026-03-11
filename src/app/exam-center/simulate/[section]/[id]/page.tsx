@@ -102,21 +102,19 @@ export default function SimulationPage() {
         };
 
         try {
+            const range = savedRange;
+            
+            // Re-sync selection for the browser (some browsers need this for the walker to work right)
             const selection = window.getSelection();
             if (selection) {
                 selection.removeAllRanges();
-                selection.addRange(savedRange);
+                selection.addRange(range);
             }
 
-            // Robust TreeWalker logic for cross-element selections
-            const range = savedRange;
-            const walker = document.createTreeWalker(
-                range.commonAncestorContainer.nodeType === Node.TEXT_NODE
-                    ? range.commonAncestorContainer.parentNode!
-                    : range.commonAncestorContainer,
-                NodeFilter.SHOW_TEXT,
-                null
-            );
+            // Robust TreeWalker logic
+            const container = range.commonAncestorContainer;
+            const root = container.nodeType === Node.TEXT_NODE ? container.parentNode! : container;
+            const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null);
 
             const textNodes: Text[] = [];
             let node: Node | null;
@@ -127,6 +125,10 @@ export default function SimulationPage() {
                 }
             }
 
+            if (textNodes.length === 0 && container.nodeType === Node.TEXT_NODE) {
+                textNodes.push(container as Text);
+            }
+
             const bgColor = colors[color];
 
             textNodes.forEach(textNode => {
@@ -135,19 +137,20 @@ export default function SimulationPage() {
 
                 if (nodeStart >= nodeEnd) return;
 
-                if (nodeStart > 0) textNode.splitText(nodeStart);
-                const splitNode = textNode === range.startContainer && nodeStart > 0
-                    ? textNode.nextSibling as Text
-                    : textNode;
+                // Split at the end first to not invalidate the start offset
+                if (nodeEnd < textNode.length) {
+                    textNode.splitText(nodeEnd);
+                }
+                
+                // Split at the start
+                let activeNode = textNode;
+                if (nodeStart > 0) {
+                    activeNode = textNode.splitText(nodeStart);
+                }
 
-                if (!splitNode) return;
-
-                const actualEnd = textNode === range.startContainer && nodeStart > 0
-                    ? nodeEnd - nodeStart
-                    : nodeEnd;
-                if (actualEnd < splitNode.length) splitNode.splitText(actualEnd);
-
+                // Wrap in span
                 const span = document.createElement('span');
+                span.className = `hlt-${color}`;
                 span.setAttribute('data-highlight', color);
                 span.style.backgroundColor = bgColor;
                 span.style.borderRadius = '2px';
@@ -155,8 +158,8 @@ export default function SimulationPage() {
                 span.style.cursor = 'pointer';
                 span.style.display = 'inline';
                 
-                splitNode.parentNode?.insertBefore(span, splitNode);
-                span.appendChild(splitNode);
+                activeNode.parentNode?.insertBefore(span, activeNode);
+                span.appendChild(activeNode);
             });
 
             selection?.removeAllRanges();
@@ -544,8 +547,6 @@ export default function SimulationPage() {
                                         <Copy className="w-3 h-3 text-white/70" />
                                         <span className="text-xs font-semibold">Copy</span>
                                     </button>
-                                    {/* Small caret */}
-                                    <div className="absolute left-1/2 -translate-x-1/2 -bottom-1.5 w-3 h-1.5 bg-[#2D3E50] clip-path-caret" />
                                 </motion.div>
                             )}
                         </AnimatePresence>
