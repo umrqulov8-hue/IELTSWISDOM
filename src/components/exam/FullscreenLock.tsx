@@ -192,7 +192,7 @@ export function FullscreenLock({ children, onForceSubmit }: { children: React.Re
     };
 
     return (
-        <div className="w-full h-full flex flex-col" style={{ userSelect: 'none', WebkitUserSelect: 'none' }}>
+        <div className="w-full h-full flex flex-col">
             {children}
 
             <AnimatePresence>
