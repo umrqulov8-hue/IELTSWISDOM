@@ -286,7 +286,8 @@ export default function SimulationPage() {
                 )}
 
                 {section === "listening" && (
-                    <div className="w-full space-y-8">
+                    <div className="bg-white -mx-4 md:-mx-8 -my-6 px-4 md:px-8 py-8 md:py-12 min-h-[calc(100vh-130px)] flex flex-col">
+                        <div className="w-full space-y-8">
                         {isCheckingAnswers ? (
                             <motion.div
                                 initial={{ opacity: 0, y: 20 }}
@@ -308,7 +309,7 @@ export default function SimulationPage() {
                                 </button>
                             </motion.div>
                         ) : (
-                            <div className="bg-white rounded-3xl p-8 shadow-sm border border-slate-200">
+                            <div className="w-full">
                                 <div className="flex items-center justify-between mb-8">
                                     <h2 className="text-2xl font-black text-slate-800">{currentPart.title}</h2>
                                     {currentPart.audioUrl && (
@@ -325,20 +326,46 @@ export default function SimulationPage() {
                                         />
                                     )}
                                 </div>
-                                <div 
-                                    id="passage-content-container"
-                                    dangerouslySetInnerHTML={{ __html: currentPart.content }} 
-                                    className="prose prose-slate max-w-none mb-10" 
-                                    onInput={handlePassageInput}
-                                />
-                                <QuestionsList
-                                    questions={currentPart.questions}
-                                    answers={answers}
-                                    onAnswerChange={handleAnswerChange}
-                                    htmlContent={currentPart.content}
-                                />
+                                {currentPart.content.includes("<!-- QUESTIONS_PLACEHOLDER -->") ? (
+                                    <>
+                                        <div 
+                                            id="passage-content-container-1"
+                                            dangerouslySetInnerHTML={{ __html: currentPart.content.split("<!-- QUESTIONS_PLACEHOLDER -->")[0] }} 
+                                            className="prose prose-slate max-w-none mb-8" 
+                                            onInput={handlePassageInput}
+                                        />
+                                        <QuestionsList
+                                            questions={currentPart.questions}
+                                            answers={answers}
+                                            onAnswerChange={handleAnswerChange}
+                                            htmlContent={currentPart.content}
+                                        />
+                                        <div 
+                                            id="passage-content-container-2"
+                                            dangerouslySetInnerHTML={{ __html: currentPart.content.split("<!-- QUESTIONS_PLACEHOLDER -->")[1] }} 
+                                            className="prose prose-slate max-w-none mt-8" 
+                                            onInput={handlePassageInput}
+                                        />
+                                    </>
+                                ) : (
+                                    <>
+                                        <div 
+                                            id="passage-content-container"
+                                            dangerouslySetInnerHTML={{ __html: currentPart.content }} 
+                                            className="prose prose-slate max-w-none mb-10" 
+                                            onInput={handlePassageInput}
+                                        />
+                                        <QuestionsList
+                                            questions={currentPart.questions}
+                                            answers={answers}
+                                            onAnswerChange={handleAnswerChange}
+                                            htmlContent={currentPart.content}
+                                        />
+                                    </>
+                                )}
                             </div>
                         )}
+                        </div>
                     </div>
                 )}
 
