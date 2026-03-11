@@ -93,7 +93,7 @@ const TESTS: TestItem[] = [
     { id: "mock-6-p3", categoryId: "mock-passages", title: "Having a laugh", isNew: true, status: "free" },
 
     // Full Tests
-    { id: "mock-1-full", categoryId: "full-tests", title: "IELTS Reading Mock Test 1 (Full)", isNew: true, status: "free" },
+    { id: "mt-1", categoryId: "full-tests", title: "IELTS Reading Mock Test 1 (Full)", isNew: true, status: "free" },
     { id: "mock-2-full", categoryId: "full-tests", title: "IELTS Reading Mock Test 2 (Full)", isNew: true, status: "free" },
     { id: "mock-3-full", categoryId: "full-tests", title: "IELTS Reading Mock Test 3 (Full)", isNew: true, status: "free" },
     { id: "mock-4-full", categoryId: "full-tests", title: "IELTS Reading Mock Test 4 (Full)", isNew: true, status: "free" },

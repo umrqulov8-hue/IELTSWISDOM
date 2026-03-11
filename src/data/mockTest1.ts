@@ -130,7 +130,7 @@ const p3: ReadingTest = {
 };
 
 const full: ReadingTest = {
-    id: "mock-1-full",
+    id: "mt-1",
     title: "IELTS Reading Mock Test 1",
     timeLimit: 3600,
     passages: [
