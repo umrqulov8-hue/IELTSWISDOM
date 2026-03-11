@@ -437,8 +437,12 @@ export default function SimulationPage() {
             console.error("Submission error:", error);
             toast.error("An error occurred during submission, but your progress is being preserved.");
         } finally {
-            // Show results or redirect
-            setIsBreak(true);
+            // Show break screen for transitions, but for the final section (speaking), go to results
+            if (section === "speaking") {
+                router.push(`/exam-center/simulate/results/${testId}`);
+            } else {
+                setIsBreak(true);
+            }
         }
     };
 
