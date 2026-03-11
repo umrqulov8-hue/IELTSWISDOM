@@ -37,7 +37,6 @@ export default function SimulationResultsPage() {
                 for (const section of sections) {
                     const { data, error } = await supabase
                         .from("test_results")
-                        .from("test_results")
                         .select("*")
                         .eq("user_id", user.id)
                         .eq("test_id", `sim-${section}-${id}`)
