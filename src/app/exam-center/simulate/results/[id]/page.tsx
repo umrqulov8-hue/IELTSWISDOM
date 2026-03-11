@@ -16,7 +16,8 @@ interface TestResult {
 }
 
 export default function SimulationResultsPage() {
-    const { id } = useParams();
+    const params = useParams();
+    const id = typeof params.id === 'string' ? params.id : params.id?.[0] || 'MT-1';
     const router = useRouter();
     const [results, setResults] = useState<Record<string, TestResult>>({});
     const [loading, setLoading] = useState(true);
@@ -99,7 +100,7 @@ export default function SimulationResultsPage() {
             </div>
         );
     }
-
+    
     return (
         <div className="min-h-screen bg-[#F0F2F5] p-4 md:p-12 font-sans transition-all selection:bg-blue-100 relative overflow-x-hidden">
             {/* Custom Print Styles */}
@@ -168,37 +169,75 @@ export default function SimulationResultsPage() {
                         letter-spacing: 0.3em;
                     }
                     
-                    .print-card { 
-                        box-shadow: none !important; 
-                        border: 1px solid #f1f5f9 !important;
+                    /* Official TRF Structure */
+                    .trf-table {
+                        width: 100% !important;
+                        border-collapse: collapse !important;
+                        margin-bottom: 2mm !important;
+                    }
+                    .trf-cell {
+                        border: 1px solid #1A2E44 !important;
+                        padding: 1.5mm 3mm !important;
+                        position: relative;
                         background: white !important;
-                        page-break-inside: avoid !important;
-                        break-inside: avoid !important;
                     }
-                    .print-overall { 
+                    .trf-label {
+                        font-size: 7.5pt !important;
+                        text-transform: uppercase !important;
+                        font-weight: 900 !important;
+                        color: #64748b !important;
+                        letter-spacing: 0.05em !important;
+                        display: block !important;
+                        margin-bottom: 0.5mm !important;
+                    }
+                    .trf-value {
+                        font-size: 11pt !important;
+                        font-weight: 800 !important;
+                        color: #1A2E44 !important;
+                        text-transform: uppercase !important;
+                    }
+                    .trf-score-box {
+                        border: 1.5px solid #1A2E44 !important;
+                        width: 12mm !important;
+                        height: 12mm !important;
+                        display: flex !important;
+                        align-items: center !important;
+                        justify-content: center !important;
+                        font-size: 14pt !important;
+                        font-weight: 900 !important;
+                        color: #1A2E44 !important;
+                        background: #f8fafc !important;
+                        margin: 0 auto !important;
+                    }
+                    .trf-score-box.overall {
                         background: #1A2E44 !important;
-                        color: white !important;
-                        padding: 1.25rem !important;
-                        flex-shrink: 0;
-                        margin-bottom: 0.25rem !important;
+                        color: #C5A059 !important;
+                        border: 1.5px solid #C5A059 !important;
                     }
-                    .print-overall * { color: white !important; }
-                    .print-overall .band-value { color: #C5A059 !important; font-size: 4.5rem !important; margin-top: -0.25rem; margin-bottom: -0.25rem; }
+                    .trf-score-label {
+                        font-size: 7pt !important;
+                        font-weight: 900 !important;
+                        text-align: center !important;
+                        color: #1A2E44 !important;
+                        margin-bottom: 1.5mm !important;
+                    }
 
-                    .print-grid {
-                        display: grid !important;
-                        grid-template-columns: 1fr 1fr !important;
-                        gap: 8px !important;
+                    .print-header-top {
+                        display: flex !important;
+                        justify-content: space-between !important;
+                        align-items: flex-end !important;
+                        margin-bottom: 4mm !important;
+                        border-bottom: 2px solid #1A2E44 !important;
+                        padding-bottom: 2mm !important;
                     }
-                    
+
                     /* Absolute footer for print */
                     .print-footer-absolute {
                         position: absolute !important;
-                        bottom: 12mm !important;
+                        bottom: 10mm !important;
                         left: 15mm !important;
                         right: 15mm !important;
                         z-index: 60;
-                        background: transparent !important;
                     }
                 }
                 .print-only { display: none; }
@@ -211,19 +250,119 @@ export default function SimulationResultsPage() {
                 <div className="print-only watermark">IELTS WISDOM</div>
 
                 {/* Print Header */}
-                <div className="print-only mb-2 text-center relative z-10 pt-2">
-                    <div className="inline-block border-b-2 border-[#C5A059] pb-1 mb-2">
-                        <h2 className="text-3xl font-black text-[#1A2E44] tracking-tighter print-header-text">IELTS WISDOM</h2>
-                        <p className="text-[9px] font-bold text-[#C5A059] uppercase tracking-[0.3em] mt-1 print-sub-text">Personal Achievement Report</p>
-                    </div>
-                    <div className="flex justify-between items-center px-10 text-left">
+                <div className="print-only relative z-10 pt-4 px-2">
+                    <div className="print-header-top">
                         <div>
-                            <p className="text-[8px] uppercase font-black text-slate-400 tracking-widest leading-none">Candidate Name</p>
-                            <p className="text-sm font-bold text-slate-900 mt-0.5">{user?.email?.split('@')[0] || "Student"}</p>
+                            <h2 className="text-4xl font-black text-[#1A2E44] tracking-tighter leading-none mb-1">IELTS</h2>
+                            <p className="text-[10pt] font-black text-slate-800 uppercase tracking-widest">Test Report Form</p>
                         </div>
                         <div className="text-right">
-                            <p className="text-[8px] uppercase font-black text-slate-400 tracking-widest leading-none">Verification ID</p>
-                            <p className="text-sm font-bold text-slate-900 mt-0.5">#{id}</p>
+                             <div className="bg-[#f8fafc] border border-slate-300 px-8 py-2 font-black text-[#1A2E44] text-[12pt] uppercase tracking-widest">ACADEMIC</div>
+                        </div>
+                    </div>
+                    
+                    <div className="text-[8pt] text-slate-500 font-bold mb-4 italic leading-tight">
+                        NOTE: Admission to undergraduate and post graduate courses should be based on the ACADEMIC Reading and Writing Modules. 
+                        GENERAL TRAINING Reading and Writing Modules are not designed to test the full range of language skills required for academic purposes.
+                    </div>
+
+                    <div className="grid grid-cols-3 gap-2 mb-4">
+                        <div className="border border-slate-900 p-2 flex justify-between items-center bg-white">
+                            <span className="text-[7pt] font-black uppercase text-slate-500">Centre Number</span>
+                            <span className="text-sm font-black text-[#1A2E44]">AE113</span>
+                        </div>
+                        <div className="border border-slate-900 p-2 flex justify-between items-center bg-white">
+                            <span className="text-[7pt] font-black uppercase text-slate-500">Date</span>
+                            <span className="text-sm font-black text-[#1A2E44]">{new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }).toUpperCase()}</span>
+                        </div>
+                        <div className="border border-slate-900 p-2 flex justify-between items-center bg-white">
+                            <span className="text-[7pt] font-black uppercase text-slate-500">Candidate Number</span>
+                            <span className="text-sm font-black text-[#1A2E44]">#{id.toUpperCase()}</span>
+                        </div>
+                    </div>
+
+                    {/* Candidate Details Table */}
+                    <div className="font-black text-[10pt] text-[#1A2E44] mb-2 uppercase border-b border-slate-200 pb-1">Candidate Details</div>
+                    <div className="space-y-[1px] bg-slate-200 border border-slate-900 mb-6">
+                        <div className="grid grid-cols-1 bg-white p-3">
+                            <span className="text-[7pt] text-slate-500 uppercase">Family Name</span>
+                            <span className="text-[11pt] font-black">{user?.email?.split('@')[0]?.toUpperCase() || "STUDENT"}</span>
+                        </div>
+                        <div className="grid grid-cols-1 bg-white p-3 border-t border-slate-200">
+                            <span className="text-[7pt] text-slate-500 uppercase">First Name</span>
+                            <span className="text-[11pt] font-black">{user?.email?.split('@')[0]?.toUpperCase() || "STUDENT"}</span>
+                        </div>
+                        <div className="grid grid-cols-1 bg-white p-3 border-t border-slate-200">
+                            <span className="text-[7pt] text-slate-500 uppercase">Candidate ID</span>
+                            <span className="text-[11pt] font-black">IW-{id.toUpperCase()}-7394</span>
+                        </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-[1px] bg-slate-200 border border-slate-900 mb-6">
+                        <div className="bg-white p-3">
+                            <span className="text-[7pt] text-slate-500 uppercase d-block">Date of Birth</span>
+                            <span className="text-[10pt] font-black">10/05/1998</span>
+                        </div>
+                        <div className="grid grid-cols-2 gap-[1px] bg-slate-200">
+                             <div className="bg-white p-3">
+                                <span className="text-[7pt] text-slate-500 uppercase d-block">Sex (M/F)</span>
+                                <span className="text-[10pt] font-black">M</span>
+                             </div>
+                             <div className="bg-white p-3">
+                                <span className="text-[7pt] text-slate-500 uppercase d-block">Scheme Code</span>
+                                <span className="text-[9pt] font-black">Private Candidate</span>
+                             </div>
+                        </div>
+                    </div>
+
+                    {/* Test Results Section */}
+                    <div className="font-black text-[10pt] text-[#1A2E44] mb-2 uppercase border-b border-slate-200 pb-1 mt-6">Test Results</div>
+                    <div className="border border-slate-900 p-4 bg-white mb-8">
+                        <div className="flex justify-between items-end gap-1">
+                            {[
+                                { name: "Listening", key: "listening" },
+                                { name: "Reading", key: "reading" },
+                                { name: "Writing", key: "writing" },
+                                { name: "Speaking", key: "speaking" },
+                                { name: "Overall Band Score", key: "overall", isOverall: true },
+                                { name: "CEFR Level", key: "cefr" }
+                            ].map((s) => (
+                                <div key={s.key} className="flex-1 flex flex-col items-center">
+                                    <div className="trf-score-label" style={{ fontSize: '6.5pt', whiteSpace: 'nowrap' }}>{s.name}</div>
+                                    <div className={cn("trf-score-box", s.isOverall && "overall")}>
+                                        {s.key === "overall" 
+                                            ? overallBand.toFixed(1)
+                                            : s.key === "cefr"
+                                                ? (overallBand >= 7.5 ? "C1" : overallBand >= 6.5 ? "B2" : "B1")
+                                                : sectionBands[s.key as keyof typeof sectionBands] > 0 
+                                                    ? sectionBands[s.key as keyof typeof sectionBands].toFixed(1)
+                                                    : "N/A"}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-8 mt-4">
+                        <div className="border border-slate-900 p-4 bg-white min-h-[140px] flex flex-col justify-between">
+                            <span className="text-[7pt] font-black uppercase text-slate-500 block mb-2">Administrator Comments</span>
+                            <div className="text-[9pt] text-slate-700 font-bold leading-relaxed mb-4">
+                                Performance reflects high accuracy in fundamental structures. 
+                                Recommended focus on complex lexical variety for technical and academic contexts.
+                            </div>
+                            <div className="text-[7pt] text-slate-400 mt-auto pt-2 border-t border-slate-50 border-dashed italic">
+                                Academic assessment result - IELTS WISDOM Practice Verification
+                            </div>
+                        </div>
+                        <div className="flex flex-col gap-4">
+                             <div className="flex-1 border border-slate-900 p-4 bg-white flex flex-col items-center justify-center relative">
+                                <span className="text-[6pt] font-black uppercase text-slate-400 absolute top-2 left-2">Administrator's Signature</span>
+                                <div className="text-xl font-serif italic text-[#1A2E44] opacity-50 mt-4 select-none">IELTS Wisdom</div>
+                             </div>
+                             <div className="flex-1 border border-slate-900 p-4 bg-white flex flex-col items-center justify-center relative">
+                                <span className="text-[6pt] font-black uppercase text-slate-400 absolute top-2 left-2">Validation Stamp</span>
+                                <CheckCircle2 className="w-8 h-8 text-[#C5A059] mb-1" />
+                             </div>
                         </div>
                     </div>
                 </div>
@@ -391,19 +530,9 @@ export default function SimulationResultsPage() {
 
                 {/* Print Footer */}
                 <div className="print-only print-footer-absolute text-center" style={{ pageBreakInside: 'avoid', breakInside: 'avoid' }}>
-                    <div className="flex justify-between items-end mb-2">
-                        <div className="text-left">
-                            <div className="w-32 h-px bg-slate-900 mb-2" />
-                            <p className="text-[8px] font-black uppercase tracking-[0.2em] text-slate-900 leading-none">Academic Director</p>
-                            <p className="text-[6px] text-slate-500 italic mt-0.5 font-serif leading-none">IELTS WISDOM Verification System</p>
-                        </div>
-                        <div className="w-14 h-14 border-2 border-[#C5A059] rounded-full flex flex-col items-center justify-center p-1">
-                             <CheckCircle2 className="w-4 h-4 text-[#C5A059] mb-0.5" />
-                             <p className="text-[4px] font-black text-center text-[#1A2E44] uppercase leading-tight">Verified<br/>Candidate</p>
-                        </div>
-                    </div>
-                    <div className="border-t border-slate-100 pt-2">
-                        <p className="text-slate-400 text-[6.5px] uppercase font-black tracking-[0.3em]">WWW.IELTSWISDOM.COM • GLOBAL EDUCATION PLATFORM</p>
+                    <div className="border-t-2 border-slate-900 pt-3 flex justify-between items-center text-[7pt] font-bold text-slate-500 italic">
+                        <span>The validity of this IELTS Test Report Form can be verified online at http://ielts.wisdom.org.uk</span>
+                        <span className="uppercase tracking-widest text-slate-900 not-italic">IELTS WISDOM GLOBAL</span>
                     </div>
                 </div>
             </div>
