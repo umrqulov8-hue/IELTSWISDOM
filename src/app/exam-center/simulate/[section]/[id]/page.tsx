@@ -467,18 +467,6 @@ export default function SimulationPage() {
                                     <h3 className="text-xl font-black text-slate-800">
                                         Questions {currentPart.questionRange.start}-{currentPart.questionRange.end}
                                     </h3>
-                                    <button
-                                        onClick={() => setIsScrollSynced(!isScrollSynced)}
-                                        className={cn(
-                                            "flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold transition-all border",
-                                            isScrollSynced 
-                                                ? "bg-blue-600 text-white border-blue-600 shadow-md"
-                                                : "bg-white text-slate-500 border-slate-200 hover:border-slate-300 hover:bg-slate-50"
-                                        )}
-                                    >
-                                        <LayoutList className="w-3.5 h-3.5" />
-                                        {isScrollSynced ? "Sync Scrolled" : "Sync Scroll"}
-                                    </button>
                                 </div>
 
                                 <QuestionsList
@@ -687,6 +675,12 @@ export default function SimulationPage() {
 }
 
 function QuestionsList({ questions, answers, onAnswerChange, htmlContent, isSubmitted }: any) {
+    const stripLeadingNumber = (text: string) => {
+        if (!text) return "";
+        // Remove patterns like "1. ", "1) ", or start with "1 " 
+        return text.replace(/^[0-9]+[\.\)\s]+\s*/, "");
+    };
+
     return (
         <div className="space-y-6">
             {questions.map((q: any, index: number, arr: any[]) => {
@@ -746,7 +740,7 @@ function QuestionsList({ questions, answers, onAnswerChange, htmlContent, isSubm
                             <div className="w-full">
                                 {q.type === "multiple-choice" && (
                                     <div className="space-y-4">
-                                        <p className="font-bold text-slate-800 leading-relaxed pt-1">{q.text}</p>
+                                        <p className="font-bold text-slate-800 leading-relaxed pt-1">{stripLeadingNumber(q.text)}</p>
                                         <div className="space-y-3">
                                             {q.options?.map((option: string, i: number) => {
                                                 const isSelected = answers[q.id.toString()] === i.toString();
@@ -786,7 +780,7 @@ function QuestionsList({ questions, answers, onAnswerChange, htmlContent, isSubm
 
                                 {q.type === "matching" && (
                                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                                        <p className="font-bold text-slate-800 leading-relaxed pt-1">{q.text}</p>
+                                        <p className="font-bold text-slate-800 leading-relaxed pt-1">{stripLeadingNumber(q.text)}</p>
                                         <div className="relative w-full sm:w-64">
                                             <select
                                                 className={cn(
@@ -813,7 +807,7 @@ function QuestionsList({ questions, answers, onAnswerChange, htmlContent, isSubm
 
                                 {q.type === "fill-blank" && (
                                     <div className="font-medium text-slate-700 leading-relaxed pt-1">
-                                        {q.text.split(/([0-9]+\s*(?:[…\._]{2,}))|(?:[…\._]{2,})/).filter(Boolean).map((part: string, i: number) => {
+                                        {stripLeadingNumber(q.text).split(/([0-9]+\s*(?:[…\._]{2,}))|(?:[…\._]{2,})/).filter(Boolean).map((part: string, i: number) => {
                                             const match = part.match(/([0-9]+)\s*(?:[…\._]{2,})/);
                                             if (match) {
                                                 const targetId = parseInt(match[1]);
@@ -870,7 +864,7 @@ function QuestionsList({ questions, answers, onAnswerChange, htmlContent, isSubm
 
                                 {q.type === "true-false" && (
                                     <div className="space-y-4">
-                                        <p className="font-bold text-slate-800 leading-relaxed pt-1">{q.text}</p>
+                                        <p className="font-bold text-slate-800 leading-relaxed pt-1">{stripLeadingNumber(q.text)}</p>
                                         <div className="flex flex-wrap gap-2">
                                             {["TRUE", "FALSE", "NOT GIVEN"].map((val) => {
                                                 const isSelected = answers[q.id.toString()] === val;
