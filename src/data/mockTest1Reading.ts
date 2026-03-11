@@ -130,7 +130,7 @@ const p3: ReadingTest = {
 };
 
 const full: ReadingTest = {
-    id: "mock-1-full",
+    id: "mock-test-1-reading",
     title: "IELTS Reading Mock Test 1",
     timeLimit: 3600,
     passages: [
@@ -160,4 +160,4 @@ const full: ReadingTest = {
     ]
 };
 
-export const mockReadingTest1: ReadingTest[] = [p1, p2, p3, full];
+export const mockTest1Reading: ReadingTest[] = [p1, p2, p3, full];

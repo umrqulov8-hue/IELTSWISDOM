@@ -97,7 +97,7 @@ export const mockTest1Listening: ListeningTest = {
                     
                     <div class="flex flex-col items-center">
                         <div class="w-full bg-white p-6 border-2 border-slate-800 rounded-sm">
-                            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-DnXu8TgLt2hQCVELkz7qkWZINcU2p5.png" alt="Linwood Apartment Complex Map" class="max-w-full h-auto mx-auto mb-8 border border-slate-200" />
+                            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-DnXu8TgLt2hQCVELkz7qkWZINcU2p5.png" alt="Linwood Apartment Complex Map" class="h-auto mx-auto mb-8 border border-slate-200" />
                             
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                 <div class="flex items-center gap-3">

@@ -261,35 +261,41 @@ export default function SimulationPage() {
         >
             <div className="h-full relative">
                 {section === "reading" && (
-                    <div className="flex h-full gap-6">
+                    <div className="flex h-full gap-0 bg-white">
                         {/* Reading Split-Screen: Passage left, Questions right */}
-                        <div className="w-1/2 bg-white rounded-2xl p-8 overflow-y-auto shadow-sm border border-slate-200 prose prose-slate">
-                            <h2 className="text-2xl font-black mb-6">{currentPart.title}</h2>
+                        <div className="w-1/2 h-full overflow-y-auto p-12 lg:p-16 border-r border-slate-200 prose prose-slate max-w-none prose-h2:text-3xl prose-h2:mb-8 prose-p:text-lg prose-p:leading-relaxed">
+                            <h2 className="text-3xl font-black mb-8">{currentPart.title}</h2>
                             <div 
                                 id="passage-content-container"
                                 dangerouslySetInnerHTML={{ __html: currentPart.content }} 
                                 onInput={handlePassageInput}
                             />
                         </div>
-                        <div className="w-1/2 bg-white rounded-2xl p-8 overflow-y-auto shadow-sm border border-slate-200">
-                            <QuestionsList
-                                questions={testData.questions.filter((q: any) => {
-                                    if (testData.passages) {
-                                        return q.id >= currentPart.questionRange.start && q.id <= currentPart.questionRange.end;
-                                    }
-                                    return true;
-                                })}
-                                answers={answers}
-                                onAnswerChange={handleAnswerChange}
-                                htmlContent={currentPart.content}
-                            />
+                        <div className="w-1/2 h-full overflow-y-auto p-12 lg:p-16 bg-slate-50/30">
+                            <div className="max-w-2xl mx-auto">
+                                <QuestionsList
+                                    questions={testData.questions.filter((q: any) => {
+                                        if (testData.passages) {
+                                            return q.id >= currentPart.questionRange.start && q.id <= currentPart.questionRange.end;
+                                        }
+                                        return true;
+                                    })}
+                                    answers={answers}
+                                    onAnswerChange={handleAnswerChange}
+                                    htmlContent={currentPart.content}
+                                />
+                            </div>
                         </div>
                     </div>
                 )}
 
                 {section === "listening" && (
                     <div className="bg-white -mx-4 md:-mx-8 -my-6 px-4 md:px-8 py-8 md:py-12 min-h-[calc(100vh-130px)] flex flex-col">
-                        <div className="w-full space-y-8">
+                        <div className="max-w-4xl mx-auto w-full space-y-8">
+                            <div className="border-b border-slate-100 pb-8 mb-8">
+                                <h1 className="text-4xl font-black text-[#2D3E50] mb-2">{testData.title}</h1>
+                                <p className="text-slate-500 font-bold uppercase tracking-widest text-xs">Section: {section}</p>
+                            </div>
                         {isCheckingAnswers ? (
                             <motion.div
                                 initial={{ opacity: 0, y: 20 }}
@@ -374,6 +380,10 @@ export default function SimulationPage() {
 
                 {section === "writing" && (
                     <div className="max-w-none mx-auto h-full flex flex-col gap-6">
+                        <div className="text-center mb-2">
+                            <h1 className="text-3xl font-black text-[#2D3E50] mb-1">{testData.title}</h1>
+                            <p className="text-slate-400 font-bold uppercase tracking-widest text-[10px]">Academic Writing Section</p>
+                        </div>
                         <div className="flex bg-slate-200/50 p-1.5 rounded-2xl w-fit mx-auto border border-slate-300">
                             {testData.tasks.map((task: any, index: number) => (
                                 <button
