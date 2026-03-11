@@ -123,54 +123,54 @@ export default function SimulationResultsPage() {
                     .certificate-container {
                         width: 210mm !important;
                         height: 297mm !important;
-                        padding: 12mm !important;
+                        padding: 10mm !important;
                         position: relative;
                         background: white !important;
                         overflow: hidden;
-                        display: flex;
-                        flex-direction: column;
+                        display: flex !important;
+                        flex-direction: column !important;
                         box-sizing: border-box;
                         page-break-after: avoid;
                         page-break-before: avoid;
                     }
                     .certificate-border {
                         position: absolute;
-                        top: 4mm;
-                        left: 4mm;
-                        right: 4mm;
-                        bottom: 4mm;
-                        border: 3px solid #1A2E44;
+                        top: 3mm;
+                        left: 3mm;
+                        right: 3mm;
+                        bottom: 3mm;
+                        border: 2.5px solid #1A2E44;
                         pointer-events: none;
                         z-index: 50;
                     }
                     .certificate-inner-border {
                         position: absolute;
-                        top: 6mm;
-                        left: 6mm;
-                        right: 6mm;
-                        bottom: 6mm;
-                        border: 1.5px solid #C5A059;
+                        top: 4.5mm;
+                        left: 4.5mm;
+                        right: 4.5mm;
+                        bottom: 4.5mm;
+                        border: 1px solid #C5A059;
                         pointer-events: none;
                         z-index: 50;
                     }
                     .watermark {
                         position: absolute;
-                        top: 55%;
+                        top: 50%;
                         left: 50%;
                         transform: translate(-50%, -50%) rotate(-45deg);
-                        font-size: 80pt;
+                        font-size: 70pt;
                         font-weight: 900;
-                        color: rgba(26, 46, 68, 0.03);
+                        color: rgba(26, 46, 68, 0.02);
                         white-space: nowrap;
                         pointer-events: none;
                         z-index: 0;
                         text-transform: uppercase;
-                        letter-spacing: 0.5em;
+                        letter-spacing: 0.3em;
                     }
                     
                     .print-card { 
                         box-shadow: none !important; 
-                        border: 1px solid #e1e8f0 !important;
+                        border: 1px solid #f1f5f9 !important;
                         background: white !important;
                         page-break-inside: avoid !important;
                         break-inside: avoid !important;
@@ -178,24 +178,28 @@ export default function SimulationResultsPage() {
                     .print-overall { 
                         background: #1A2E44 !important;
                         color: white !important;
-                        padding: 1.5rem !important;
+                        padding: 1rem !important;
+                        flex-shrink: 0;
                     }
                     .print-overall * { color: white !important; }
-                    .print-overall .band-value { color: #C5A059 !important; font-size: 6rem !important; }
+                    .print-overall .band-value { color: #C5A059 !important; font-size: 5.5rem !important; margin-top: -0.5rem; margin-bottom: -0.5rem; }
 
                     .print-grid {
                         display: grid !important;
                         grid-template-columns: 1fr 1fr !important;
-                        gap: 10px !important;
+                        gap: 8px !important;
                     }
                     
                     /* Adjust vertical spacing for print to fit one page */
-                    .print-mb-small { margin-bottom: 1rem !important; }
-                    .print-mb-xsmall { margin-bottom: 0.75rem !important; }
-                    .print-mt-large { margin-top: 1rem !important; }
-                    .print-p-small { padding: 1rem !important; }
-                    .print-text-small { font-size: 10pt !important; }
-                    .print-text-xsmall { font-size: 8pt !important; }
+                    .print-mb-small { margin-bottom: 0.75rem !important; }
+                    .print-mb-xsmall { margin-bottom: 0.5rem !important; }
+                    .print-mb-none { margin-bottom: 0 !important; }
+                    .print-mt-small { margin-top: 0.5rem !important; }
+                    .print-p-small { padding: 0.75rem !important; }
+                    .print-text-small { font-size: 9pt !important; }
+                    .print-text-xsmall { font-size: 7.5pt !important; }
+                    .print-header-text { font-size: 28pt !important; }
+                    .print-sub-text { font-size: 7pt !important; letter-spacing: 0.2em !important; }
                 }
                 .print-only { display: none; }
             `}</style>
@@ -207,19 +211,19 @@ export default function SimulationResultsPage() {
                 <div className="print-only watermark">IELTS WISDOM</div>
 
                 {/* Print Header */}
-                <div className="print-only mb-4 text-center relative z-10 pt-6">
-                    <div className="inline-block border-b-4 border-[#C5A059] pb-2 mb-3">
-                        <h2 className="text-4xl font-black text-[#1A2E44] tracking-tighter">IELTS WISDOM</h2>
-                        <p className="text-sm font-bold text-[#C5A059] uppercase tracking-[0.3em] mt-2">Personal Achievement Report</p>
+                <div className="print-only mb-2 text-center relative z-10 pt-4">
+                    <div className="inline-block border-b-2 border-[#C5A059] pb-1 mb-2">
+                        <h2 className="text-4xl font-black text-[#1A2E44] tracking-tighter print-header-text">IELTS WISDOM</h2>
+                        <p className="text-[10px] font-bold text-[#C5A059] uppercase tracking-[0.3em] mt-1 print-sub-text">Personal Achievement Report</p>
                     </div>
                     <div className="flex justify-between items-center px-10 text-left">
                         <div>
-                            <p className="text-xs uppercase font-black text-slate-400 tracking-widest">Candidate Name</p>
-                            <p className="text-lg font-bold text-slate-900">{user?.email?.split('@')[0] || "Student"}</p>
+                            <p className="text-[8px] uppercase font-black text-slate-400 tracking-widest leading-none">Candidate Name</p>
+                            <p className="text-sm font-bold text-slate-900 mt-0.5">{user?.email?.split('@')[0] || "Student"}</p>
                         </div>
                         <div className="text-right">
-                            <p className="text-xs uppercase font-black text-slate-400 tracking-widest">Verification ID</p>
-                            <p className="text-lg font-bold text-slate-900">#{id}</p>
+                            <p className="text-[8px] uppercase font-black text-slate-400 tracking-widest leading-none">Verification ID</p>
+                            <p className="text-sm font-bold text-slate-900 mt-0.5">#{id}</p>
                         </div>
                     </div>
                 </div>
@@ -251,7 +255,7 @@ export default function SimulationResultsPage() {
                 </div>
 
                 {/* Score Summary Grid */}
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-6 relative z-10 print-mb-small">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-6 relative z-10 print-mb-none">
                     {/* Overall Band Card */}
                     <motion.div 
                         initial={{ opacity: 0, y: 20 }}
@@ -263,12 +267,12 @@ export default function SimulationResultsPage() {
                         </div>
                         
                         <div className="relative z-10">
-                            <div className="text-[14px] uppercase font-black text-[#C5A059] tracking-[0.3em] mb-6">Overall Band Score</div>
+                            <div className="text-[14px] uppercase font-black text-[#C5A059] tracking-[0.3em] mb-6 print-mb-xsmall print-text-small">Overall Band Score</div>
                             <div className="text-[10rem] font-black text-white tracking-tighter mb-4 leading-none band-value">
                                 {overallBand.toFixed(1)}
                             </div>
-                            <div className="inline-flex items-center gap-2 bg-white/10 text-white px-6 py-2 rounded-full text-xs font-black uppercase tracking-widest border border-white/20 backdrop-blur-md">
-                                <CheckCircle2 className="w-4 h-4 text-[#C5A059]" />
+                            <div className="inline-flex items-center gap-2 bg-white/10 text-white px-6 py-2 rounded-full text-xs font-black uppercase tracking-widest border border-white/20 backdrop-blur-md print-p-small print-text-xsmall">
+                                <CheckCircle2 className="w-4 h-4 text-[#C5A059] print-only:w-3 print-only:h-3" />
                                 Certified Result
                             </div>
                         </div>
@@ -326,14 +330,14 @@ export default function SimulationResultsPage() {
                 </div>
 
                 {/* AI Analysis / Actions */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10 print-mb-small">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10 print-mb-none print-mt-small">
                     <div className="bg-white rounded-[2.5rem] p-8 border border-slate-100 shadow-sm print-card print-p-small">
                         <h3 className="text-xl font-black text-slate-900 mb-6 flex items-center gap-3 print-mb-xsmall print-text-small">
-                            <BarChart3 className="w-6 h-6 text-[#C5A059]" />
+                            <BarChart3 className="w-6 h-6 text-[#C5A059] print-only:w-4 print-only:h-4" />
                             Performance Insights
                         </h3>
-                        <div className="space-y-6 print-space-y-small">
-                            <div className="flex gap-4">
+                        <div className="space-y-6 print-space-y-none">
+                            <div className="flex gap-4 print-mb-xsmall">
                                 <div className="w-1.5 h-auto bg-[#C5A059] rounded-full shrink-0" />
                                 <div>
                                     <p className="font-black text-slate-800 text-sm mb-1 uppercase tracking-wide print-text-xsmall">Lexical Resource</p>
@@ -386,20 +390,20 @@ export default function SimulationResultsPage() {
                 </div>
 
                 {/* Print Footer */}
-                <div className="print-only mt-auto text-center relative z-10">
-                    <div className="flex justify-between items-end px-16 mb-8">
+                <div className="print-only mt-auto text-center relative z-10 pb-2">
+                    <div className="flex justify-between items-end px-16 mb-4">
                         <div className="text-left">
-                            <div className="w-40 h-px bg-slate-900 mb-3" />
-                            <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-900">Academic Director</p>
-                            <p className="text-[8px] text-slate-500 italic mt-1 font-serif">IELTS WISDOM Verification System</p>
+                            <div className="w-40 h-px bg-slate-900 mb-2" />
+                            <p className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-900 leading-none">Academic Director</p>
+                            <p className="text-[7px] text-slate-500 italic mt-0.5 font-serif leading-none">IELTS WISDOM Verification System</p>
                         </div>
-                        <div className="w-20 h-20 border-4 border-[#C5A059] rounded-full flex flex-col items-center justify-center p-2">
-                             <CheckCircle2 className="w-6 h-6 text-[#C5A059] mb-1" />
-                             <p className="text-[6px] font-black text-center text-[#1A2E44] uppercase leading-none">Verified<br/>Candidate</p>
+                        <div className="w-16 h-16 border-2 border-[#C5A059] rounded-full flex flex-col items-center justify-center p-1">
+                             <CheckCircle2 className="w-5 h-5 text-[#C5A059] mb-0.5" />
+                             <p className="text-[5px] font-black text-center text-[#1A2E44] uppercase leading-tight">Verified<br/>Candidate</p>
                         </div>
                     </div>
-                    <div className="border-t border-slate-100 pt-6 pb-8">
-                        <p className="text-slate-400 text-[8px] uppercase font-black tracking-[0.4em]">WWW.IELTSWISDOM.COM • GLOBAL EDUCATION PLATFORM</p>
+                    <div className="border-t border-slate-100 pt-3">
+                        <p className="text-slate-400 text-[7px] uppercase font-black tracking-[0.4em]">WWW.IELTSWISDOM.COM • GLOBAL EDUCATION PLATFORM</p>
                     </div>
                 </div>
             </div>
