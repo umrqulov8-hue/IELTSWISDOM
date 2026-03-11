@@ -63,10 +63,10 @@ export const mockTest1Listening: ListeningTest = {
             </div>
             `,
             questions: [
-                { id: 1, type: "fill-blank", correctAnswer: ["ruddick"] },
-                { id: 2, type: "fill-blank", correctAnswer: "garden avenue" },
+                { id: 1, type: "fill-blank", correctAnswer: "RUDDICK" },
+                { id: 2, type: "fill-blank", correctAnswer: "Garden Avenue" },
                 { id: 3, type: "fill-blank", correctAnswer: "home" },
-                { id: 4, type: "fill-blank", correctAnswer: ["31th july", "31st july"] },
+                { id: 4, type: "fill-blank", correctAnswer: "31st July" },
                 { id: 5, type: "fill-blank", correctAnswer: "104" },
                 { id: 6, type: "fill-blank", correctAnswer: "handle" },
                 { id: 7, type: "fill-blank", correctAnswer: "repair" },
