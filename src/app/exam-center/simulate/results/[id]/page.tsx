@@ -123,36 +123,38 @@ export default function SimulationResultsPage() {
                     /* Certificate Design */
                     .certificate-container {
                         width: 210mm !important;
-                        height: 296mm !important; /* Slightly less than 297 to avoid 2nd page */
-                        padding: 15mm !important;
-                        position: relative;
+                        height: 297mm !important;
+                        max-height: 297mm !important;
+                        padding: 12mm !important;
+                        position: relative !important;
                         background: white !important;
-                        overflow: hidden;
+                        overflow: hidden !important;
                         display: flex !important;
                         flex-direction: column !important;
-                        box-sizing: border-box;
-                        page-break-after: avoid;
-                        page-break-before: avoid;
+                        box-sizing: border-box !important;
+                        page-break-after: avoid !important;
+                        page-break-before: avoid !important;
+                        break-inside: avoid !important;
                     }
                     .certificate-border {
-                        position: absolute;
-                        top: 5mm;
-                        left: 5mm;
-                        right: 5mm;
-                        bottom: 5mm;
-                        border: 3px solid #1A2E44;
-                        pointer-events: none;
-                        z-index: 50;
+                        position: absolute !important;
+                        top: 4mm !important;
+                        left: 4mm !important;
+                        right: 4mm !important;
+                        bottom: 4mm !important;
+                        border: 3px solid #1A2E44 !important;
+                        pointer-events: none !important;
+                        z-index: 50 !important;
                     }
                     .certificate-inner-border {
-                        position: absolute;
-                        top: 7mm;
-                        left: 7mm;
-                        right: 7mm;
-                        bottom: 7mm;
-                        border: 1px solid #C5A059;
-                        pointer-events: none;
-                        z-index: 50;
+                        position: absolute !important;
+                        top: 6mm !important;
+                        left: 6mm !important;
+                        right: 6mm !important;
+                        bottom: 6mm !important;
+                        border: 1px solid #C5A059 !important;
+                        pointer-events: none !important;
+                        z-index: 50 !important;
                     }
                     .watermark {
                         position: absolute;
@@ -234,10 +236,17 @@ export default function SimulationResultsPage() {
                     /* Absolute footer for print */
                     .print-footer-absolute {
                         position: absolute !important;
-                        bottom: 10mm !important;
-                        left: 15mm !important;
-                        right: 15mm !important;
-                        z-index: 60;
+                        bottom: 12mm !important;
+                        left: 12mm !important;
+                        right: 12mm !important;
+                        z-index: 60 !important;
+                        background: white !important;
+                    }
+                    
+                    /* Force no second page */
+                    * {
+                        page-break-inside: avoid !important;
+                        break-inside: avoid !important;
                     }
                 }
                 .print-only { display: none; }
@@ -394,7 +403,7 @@ export default function SimulationResultsPage() {
                 </div>
 
                 {/* Score Summary Grid */}
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-6 relative z-10 print-mb-none">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-6 relative z-10 no-print">
                     {/* Overall Band Card */}
                     <motion.div 
                         initial={{ opacity: 0, y: 20 }}
@@ -469,7 +478,7 @@ export default function SimulationResultsPage() {
                 </div>
 
                 {/* AI Analysis / Actions */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10 print-mb-none print-mt-small">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10 no-print">
                     <div className="bg-white rounded-[2.5rem] p-8 border border-slate-100 shadow-sm print-card print-p-small">
                         <h3 className="text-xl font-black text-slate-900 mb-6 flex items-center gap-3 print-mb-xsmall print-text-small">
                             <BarChart3 className="w-6 h-6 text-[#C5A059] print-only:w-4 print-only:h-4" />
