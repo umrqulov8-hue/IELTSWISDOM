@@ -46,7 +46,7 @@ export function CDILayout({
 
     return (
         <div className={cn(
-            "min-h-screen bg-[#F0F2F5] flex flex-col font-sans selection:bg-blue-200 selection:text-blue-900",
+            "h-screen overflow-hidden bg-[#F0F2F5] flex flex-col font-sans selection:bg-blue-200 selection:text-blue-900",
             fontSize === "large" ? "text-lg" : fontSize === "extra-large" ? "text-xl" : "text-base"
         )}>
             <FullscreenLock onForceSubmit={onFinish}>
@@ -78,8 +78,8 @@ export function CDILayout({
                 </header>
 
                 {/* --- Main Area --- */}
-                <main className="flex-1 overflow-hidden relative flex flex-col min-h-0 bg-white">
-                    <div id="scroll-container" className="flex-1 overflow-hidden relative flex flex-col w-full">
+                <main className="flex-1 min-h-0 overflow-hidden relative flex flex-col bg-white">
+                    <div id="scroll-container" className="flex-1 min-h-0 overflow-hidden relative flex flex-col w-full">
                         {children}
                     </div>
                 </main>
