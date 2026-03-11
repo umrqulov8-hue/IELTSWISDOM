@@ -215,11 +215,44 @@ export default function SimulationPage() {
     const totalQ = section === "reading" ? testData.questions.length : testData.parts.reduce((acc: number, p: any) => acc + p.questions.length, 0);
     const currentQCount = Object.keys(answers).length;
 
+    if (isBreak) {
+        return (
+            <div className="min-h-screen bg-[#F0F2F5] flex flex-col items-center justify-center text-slate-900 p-8 text-center selection:bg-blue-200 selection:text-blue-900 font-sans">
+                <AnimatePresence>
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.95 }}
+                        className="max-w-md w-full"
+                    >
+                        <div className="w-24 h-24 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-8 relative">
+                            <div className="absolute inset-0 bg-blue-100 rounded-full animate-ping" />
+                            <Clock className="w-12 h-12 text-blue-600" />
+                        </div>
+                        <h2 className="text-4xl font-black mb-4 text-[#2D3E50]">Section Completed</h2>
+                        <p className="text-slate-600 text-lg mb-12">
+                            Take a short breather. The next section will start automatically in:
+                        </p>
+                        <div className="text-7xl font-black font-mono text-blue-600 mb-12">
+                            00:{breakTimer.toString().padStart(2, '0')}
+                        </div>
+                        <button
+                            onClick={() => setBreakTimer(0)}
+                            className="bg-[#2D3E50] text-white px-10 py-4 rounded-2xl font-bold hover:bg-[#1E293B] transition-all shadow-xl"
+                        >
+                            Skip Break
+                        </button>
+                    </motion.div>
+                </AnimatePresence>
+            </div>
+        );
+    }
+
     return (
         <CDILayout
             title={testData.title || "IELTS Mock Test"}
             section={section.charAt(0).toUpperCase() + section.slice(1) as any}
-            duration={isBreak ? breakTimer : duration}
+            duration={duration}
             onFinish={handleSubmit}
             currentPart={currentPartIndex}
             totalParts={totalParts}
@@ -227,41 +260,6 @@ export default function SimulationPage() {
             questionsHandled={{ current: currentQCount, total: totalQ }}
         >
             <div className="h-full relative">
-                {/* Break Overlay */}
-                <AnimatePresence>
-                    {isBreak && (
-                        <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            className="absolute inset-0 z-[100] bg-[#F0F2F5]/95 backdrop-blur-xl flex flex-col items-center justify-center text-slate-900 p-8 text-center"
-                        >
-                            <motion.div
-                                initial={{ scale: 0.9, opacity: 0 }}
-                                animate={{ scale: 1, opacity: 1 }}
-                                className="max-w-md w-full"
-                            >
-                                <div className="w-24 h-24 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-8 relative">
-                                    <div className="absolute inset-0 bg-blue-100 rounded-full animate-ping" />
-                                    <Clock className="w-12 h-12 text-blue-600" />
-                                </div>
-                                <h2 className="text-4xl font-black mb-4 text-[#2D3E50]">Section Completed</h2>
-                                <p className="text-slate-600 text-lg mb-12">
-                                    Take a short breather. The next section will start automatically in:
-                                </p>
-                                <div className="text-7xl font-black font-mono text-blue-600 mb-12">
-                                    00:{breakTimer.toString().padStart(2, '0')}
-                                </div>
-                                <button
-                                    onClick={() => setBreakTimer(0)}
-                                    className="bg-[#2D3E50] text-white px-10 py-4 rounded-2xl font-bold hover:bg-[#1E293B] transition-all shadow-xl"
-                                >
-                                    Skip Break
-                                </button>
-                            </motion.div>
-                        </motion.div>
-                    )}
-                </AnimatePresence>
                 {section === "reading" && (
                     <div className="flex h-full gap-6">
                         {/* Reading Split-Screen: Passage left, Questions right */}
