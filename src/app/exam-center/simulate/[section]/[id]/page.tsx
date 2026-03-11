@@ -9,7 +9,7 @@ import { CDILayout } from "@/components/exam/CDILayout";
 import { toast } from "sonner";
 import { motion, AnimatePresence } from "framer-motion";
 import { createClient } from "@/utils/supabase/client";
-import { Clock, LayoutList, PenTool, Mic, GripVertical, ChevronRight } from "lucide-react";
+import { Clock, LayoutList, PenTool, Mic, GripVertical, ChevronRight, Highlighter, MousePointer2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export default function SimulationPage() {
@@ -32,6 +32,87 @@ export default function SimulationPage() {
     // Reading Resizer state
     const [leftWidth, setLeftWidth] = useState(50);
     const [isResizing, setIsResizing] = useState(false);
+
+    // Scrolling and Highlighting State
+    const [isScrollSynced, setIsScrollSynced] = useState(false);
+    const passageRef = useRef<HTMLDivElement>(null);
+    const questionsRef = useRef<HTMLDivElement>(null);
+    const isSyncingScroll = useRef(false);
+
+    const syncScroll = (source: HTMLDivElement, target: HTMLDivElement) => {
+        if (!isScrollSynced || isSyncingScroll.current) return;
+        
+        isSyncingScroll.current = true;
+        const scrollPercentage = source.scrollTop / (source.scrollHeight - source.clientHeight);
+        target.scrollTop = scrollPercentage * (target.scrollHeight - target.clientHeight);
+        
+        // Reset the flag after a short delay to prevent feedback loops
+        setTimeout(() => {
+            isSyncingScroll.current = false;
+        }, 50);
+    };
+
+    const handlePassageScroll = () => {
+        if (passageRef.current && questionsRef.current) {
+            syncScroll(passageRef.current, questionsRef.current);
+        }
+    };
+
+    const handleQuestionsScroll = () => {
+        if (questionsRef.current && passageRef.current) {
+            syncScroll(questionsRef.current, passageRef.current);
+        }
+    };
+
+    // Highlighting Logic
+    const [showHighlightToolbar, setShowHighlightToolbar] = useState(false);
+    const [toolbarPosition, setToolbarPosition] = useState({ x: 0, y: 0 });
+
+    const handleTextSelection = () => {
+        const selection = window.getSelection();
+        if (selection && selection.toString().length > 0) {
+            const range = selection.getRangeAt(0);
+            const rect = range.getBoundingClientRect();
+            setToolbarPosition({
+                x: rect.left + rect.width / 2,
+                y: rect.top - 40
+            });
+            setShowHighlightToolbar(true);
+        } else {
+            setShowHighlightToolbar(false);
+        }
+    };
+
+    const applyHighlight = (color: string = "#ffeb3b") => {
+        const selection = window.getSelection();
+        if (!selection || selection.rangeCount === 0) return;
+
+        // Using document.execCommand for simplicity and directness in this simulation
+        // although it's deprecated, it's widely used for this specific legacy-style requirement
+        const passageContent = passageRef.current;
+        if (passageContent) {
+            // We need to make it contentEditable temporarily to use execCommand
+            const originalEditable = passageContent.contentEditable;
+            passageContent.contentEditable = "true";
+            document.execCommand("hiliteColor", false, color);
+            passageContent.contentEditable = originalEditable;
+            
+            // Clear selection
+            selection.removeAllRanges();
+            setShowHighlightToolbar(false);
+        }
+    };
+
+    const clearSelectionHighlight = () => {
+        const passageContent = passageRef.current;
+        if (passageContent) {
+            const originalEditable = passageContent.contentEditable;
+            passageContent.contentEditable = "true";
+            document.execCommand("removeFormat", false, undefined);
+            passageContent.contentEditable = originalEditable;
+            setShowHighlightToolbar(false);
+        }
+    };
 
     useEffect(() => {
         const handleMouseMove = (e: MouseEvent) => {
@@ -295,7 +376,10 @@ export default function SimulationPage() {
                     )}>
                         {/* LEFT: Reading Passage (Scrollable) */}
                         <div 
-                            className="h-full overflow-y-auto p-12 lg:p-16 border-r border-slate-100 prose prose-slate max-w-none prose-h2:text-3xl prose-h2:mb-8 prose-p:text-lg prose-p:leading-relaxed"
+                            ref={passageRef}
+                            onScroll={handlePassageScroll}
+                            onMouseUp={handleTextSelection}
+                            className="h-full overflow-y-auto p-12 lg:p-16 border-r border-slate-100 prose prose-slate max-w-none prose-h2:text-3xl prose-h2:mb-8 prose-p:text-lg prose-p:leading-relaxed selection:bg-blue-100"
                             style={{ width: `${leftWidth}%` }}
                         >
                             <h2 className="text-3xl font-black mb-8">{currentPart.title}</h2>
@@ -304,6 +388,48 @@ export default function SimulationPage() {
                                 dangerouslySetInnerHTML={{ __html: currentPart.content }} 
                             />
                         </div>
+
+                        {/* HIGHLIGHT TOOLBAR */}
+                        <AnimatePresence>
+                            {showHighlightToolbar && (
+                                <motion.div
+                                    initial={{ opacity: 0, scale: 0.9, y: 10 }}
+                                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                                    exit={{ opacity: 0, scale: 0.9, y: 10 }}
+                                    style={{ 
+                                        position: 'fixed',
+                                        left: toolbarPosition.x,
+                                        top: toolbarPosition.y,
+                                        transform: 'translateX(-50%)',
+                                        zIndex: 1000
+                                    }}
+                                    className="flex items-center gap-1 bg-slate-900 text-white p-1 rounded-full shadow-2xl border border-slate-800"
+                                >
+                                    <button
+                                        onClick={() => applyHighlight("#ffeb3b")}
+                                        className="p-2 hover:bg-slate-700 rounded-full transition-colors group relative"
+                                        title="Highlight Yellow"
+                                    >
+                                        <Highlighter className="w-4 h-4 text-yellow-400" />
+                                    </button>
+                                    <button
+                                        onClick={() => applyHighlight("#b2ebf2")}
+                                        className="p-2 hover:bg-slate-700 rounded-full transition-colors group relative"
+                                        title="Highlight Blue"
+                                    >
+                                        <Highlighter className="w-4 h-4 text-blue-300" />
+                                    </button>
+                                    <div className="w-[1px] h-4 bg-slate-700 mx-1" />
+                                    <button
+                                        onClick={clearSelectionHighlight}
+                                        className="p-2 hover:bg-slate-700 rounded-full transition-colors"
+                                        title="Clear Highlight"
+                                    >
+                                        <MousePointer2 className="w-4 h-4 text-slate-400" />
+                                    </button>
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
 
                         {/* RESIZE HANDLE (Matching Practice Page) */}
                         <div
@@ -331,6 +457,8 @@ export default function SimulationPage() {
 
                         {/* RIGHT: Questions (Scrollable) */}
                         <div 
+                            ref={questionsRef}
+                            onScroll={handleQuestionsScroll}
                             className="h-full overflow-y-auto p-12 lg:p-16 bg-slate-50/20"
                             style={{ width: `${100 - leftWidth}%` }}
                         >
@@ -339,6 +467,18 @@ export default function SimulationPage() {
                                     <h3 className="text-xl font-black text-slate-800">
                                         Questions {currentPart.questionRange.start}-{currentPart.questionRange.end}
                                     </h3>
+                                    <button
+                                        onClick={() => setIsScrollSynced(!isScrollSynced)}
+                                        className={cn(
+                                            "flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold transition-all border",
+                                            isScrollSynced 
+                                                ? "bg-blue-600 text-white border-blue-600 shadow-md"
+                                                : "bg-white text-slate-500 border-slate-200 hover:border-slate-300 hover:bg-slate-50"
+                                        )}
+                                    >
+                                        <LayoutList className="w-3.5 h-3.5" />
+                                        {isScrollSynced ? "Sync Scrolled" : "Sync Scroll"}
+                                    </button>
                                 </div>
 
                                 <QuestionsList
