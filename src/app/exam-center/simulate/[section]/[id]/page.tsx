@@ -102,37 +102,66 @@ export default function SimulationPage() {
         };
 
         try {
-            // Restore the selection
             const selection = window.getSelection();
             if (selection) {
                 selection.removeAllRanges();
                 selection.addRange(savedRange);
             }
 
-            // Wrap selected content in a highlight span
-            const span = document.createElement('span');
-            span.setAttribute('data-highlight', color);
-            span.style.backgroundColor = colors[color];
-            span.style.borderRadius = '2px';
-            span.style.padding = '0 1px';
-            span.style.cursor = 'pointer';
+            // Robust TreeWalker logic for cross-element selections
+            const range = savedRange;
+            const walker = document.createTreeWalker(
+                range.commonAncestorContainer.nodeType === Node.TEXT_NODE
+                    ? range.commonAncestorContainer.parentNode!
+                    : range.commonAncestorContainer,
+                NodeFilter.SHOW_TEXT,
+                null
+            );
 
-            savedRange.surroundContents(span);
+            const textNodes: Text[] = [];
+            let node: Node | null;
+            while ((node = walker.nextNode())) {
+                const textNode = node as Text;
+                if (range.intersectsNode(textNode)) {
+                    textNodes.push(textNode);
+                }
+            }
+
+            const bgColor = colors[color];
+
+            textNodes.forEach(textNode => {
+                const nodeStart = textNode === range.startContainer ? range.startOffset : 0;
+                const nodeEnd = textNode === range.endContainer ? range.endOffset : textNode.length;
+
+                if (nodeStart >= nodeEnd) return;
+
+                if (nodeStart > 0) textNode.splitText(nodeStart);
+                const splitNode = textNode === range.startContainer && nodeStart > 0
+                    ? textNode.nextSibling as Text
+                    : textNode;
+
+                if (!splitNode) return;
+
+                const actualEnd = textNode === range.startContainer && nodeStart > 0
+                    ? nodeEnd - nodeStart
+                    : nodeEnd;
+                if (actualEnd < splitNode.length) splitNode.splitText(actualEnd);
+
+                const span = document.createElement('span');
+                span.setAttribute('data-highlight', color);
+                span.style.backgroundColor = bgColor;
+                span.style.borderRadius = '2px';
+                span.style.padding = '0';
+                span.style.cursor = 'pointer';
+                span.style.display = 'inline';
+                
+                splitNode.parentNode?.insertBefore(span, splitNode);
+                span.appendChild(splitNode);
+            });
 
             selection?.removeAllRanges();
         } catch (err) {
-            // Fallback for cross-element selections using extractContents
-            try {
-                const frag = savedRange.extractContents();
-                const span = document.createElement('span');
-                span.setAttribute('data-highlight', color);
-                span.style.backgroundColor = colors[color];
-                span.style.borderRadius = '2px';
-                span.style.padding = '0 1px';
-                span.style.cursor = 'pointer';
-                span.appendChild(frag);
-                savedRange.insertNode(span);
-            } catch (e2) { /* ignore */ }
+            console.error('Highlight error:', err);
         }
 
         setShowHighlightToolbar(false);
@@ -484,7 +513,7 @@ export default function SimulationPage() {
                                     }}
                                     onMouseDown={(e) => e.stopPropagation()}
                                     onMouseUp={(e) => e.stopPropagation()}
-                                    className="flex items-center gap-0.5 bg-[#1E293B] text-white px-1 py-1 rounded-xl shadow-2xl border border-white/10"
+                                    className="flex items-center gap-0.5 bg-[#2D3E50] text-white px-1 py-1 rounded-xl shadow-2xl border border-white/10"
                                 >
                                     <div className="flex items-center gap-1.5 px-2 py-1.5">
                                         <button
@@ -516,7 +545,7 @@ export default function SimulationPage() {
                                         <span className="text-xs font-semibold">Copy</span>
                                     </button>
                                     {/* Small caret */}
-                                    <div className="absolute left-1/2 -translate-x-1/2 -bottom-1.5 w-3 h-1.5 bg-[#1E293B] clip-path-caret" />
+                                    <div className="absolute left-1/2 -translate-x-1/2 -bottom-1.5 w-3 h-1.5 bg-[#2D3E50] clip-path-caret" />
                                 </motion.div>
                             )}
                         </AnimatePresence>
