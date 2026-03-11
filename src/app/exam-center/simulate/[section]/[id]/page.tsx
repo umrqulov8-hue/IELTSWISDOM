@@ -440,37 +440,43 @@ export default function SimulationPage() {
 function QuestionsList({ questions, answers, onAnswerChange, htmlContent }: any) {
     return (
         <div className="space-y-4">
-            {questions.map((q: any) => (
-                <div key={q.id} className="p-2 sm:p-4">
-                    {q.text && (
-                        <p className="font-bold text-slate-700 mb-4">
-                            <span className="text-blue-600 mr-2 font-mono">{q.id}.</span>
-                            {q.text}
-                        </p>
-                    )}
+            {questions.map((q: any) => {
+                // If question is completely embedded in HTML, don't render its wrapper at all
+                const isEmbeddedFillBlank = q.type === "fill-blank" && htmlContent && (htmlContent.includes(`id="q-${q.id}"`) || htmlContent.includes(`id='q-${q.id}'`));
+                if (isEmbeddedFillBlank && !q.text && (!q.options || q.options.length === 0)) {
+                    return null;
+                }
 
-                    {q.type === "multiple-choice" && (
-                        <div className="space-y-2">
-                            {q.options.map((opt: string, idx: number) => (
-                                <label key={idx} className="flex items-center gap-3 p-3 bg-white border border-slate-200 rounded-xl cursor-pointer hover:bg-blue-50 transition-colors">
-                                    <input
-                                        type="radio"
-                                        name={`q-${q.id}`}
-                                        checked={answers[q.id.toString()] === idx.toString()}
-                                        onChange={() => onAnswerChange(q.id.toString(), idx.toString())}
-                                        className="w-4 h-4 text-blue-600"
-                                    />
-                                    <span className="text-sm text-slate-600">
-                                        <span className="font-bold mr-2">{String.fromCharCode(65 + idx)}.</span>
-                                        {opt}
-                                    </span>
-                                </label>
-                            ))}
-                        </div>
-                    )}
+                return (
+                    <div key={q.id} className="p-2 sm:p-4">
+                        {q.text && (
+                            <p className="font-bold text-slate-700 mb-4">
+                                <span className="text-blue-600 mr-2 font-mono">{q.id}.</span>
+                                {q.text}
+                            </p>
+                        )}
 
-                    {q.type === "fill-blank" && (
-                        (htmlContent && (htmlContent.includes(`id="q-${q.id}"`) || htmlContent.includes(`id='q-${q.id}'`))) ? null : (
+                        {q.type === "multiple-choice" && (
+                            <div className="space-y-2">
+                                {q.options.map((opt: string, idx: number) => (
+                                    <label key={idx} className="flex items-center gap-3 p-3 bg-white border border-slate-200 rounded-xl cursor-pointer hover:bg-blue-50 transition-colors">
+                                        <input
+                                            type="radio"
+                                            name={`q-${q.id}`}
+                                            checked={answers[q.id.toString()] === idx.toString()}
+                                            onChange={() => onAnswerChange(q.id.toString(), idx.toString())}
+                                            className="w-4 h-4 text-blue-600"
+                                        />
+                                        <span className="text-sm text-slate-600">
+                                            <span className="font-bold mr-2">{String.fromCharCode(65 + idx)}.</span>
+                                            {opt}
+                                        </span>
+                                    </label>
+                                ))}
+                            </div>
+                        )}
+
+                        {q.type === "fill-blank" && !isEmbeddedFillBlank && (
                             <div className="flex flex-col sm:flex-row sm:items-center gap-4">
                                 {!q.text && (
                                     <span className="text-blue-600 font-mono font-bold whitespace-nowrap">{q.id}.</span>
@@ -483,8 +489,7 @@ function QuestionsList({ questions, answers, onAnswerChange, htmlContent }: any)
                                     placeholder="Type your answer here..."
                                 />
                             </div>
-                        )
-                    )}
+                        )}
 
                     {q.type === "true-false" && (
                         <div className="flex gap-3">
@@ -504,8 +509,9 @@ function QuestionsList({ questions, answers, onAnswerChange, htmlContent }: any)
                             ))}
                         </div>
                     )}
-                </div>
-            ))}
+                    </div>
+                );
+            })}
         </div>
     );
 }
