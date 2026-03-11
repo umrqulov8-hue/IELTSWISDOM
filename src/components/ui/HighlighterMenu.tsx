@@ -75,6 +75,7 @@ export const HighlighterMenu: React.FC<HighlighterMenuProps> = ({ onHighlight, i
                         top: adjustedY,
                         position: 'fixed'
                     }}
+                    onMouseUp={(e) => e.stopPropagation()}
                     className="z-[10002] flex items-center gap-1.5 p-1.5 bg-white/70 backdrop-blur-xl border border-white/40 rounded-full shadow-[0_8px_32px_rgba(0,0,0,0.12)] -translate-x-1/2 before:absolute before:inset-0 before:rounded-full before:bg-gradient-to-b before:from-white/20 before:to-transparent before:pointer-events-none overflow-hidden"
                 >
                     <motion.div variants={itemVariants}>

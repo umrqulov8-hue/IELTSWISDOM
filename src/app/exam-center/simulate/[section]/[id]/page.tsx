@@ -483,20 +483,24 @@ export default function SimulationPage() {
                                         zIndex: 1000
                                     }}
                                     onMouseDown={(e) => e.stopPropagation()}
+                                    onMouseUp={(e) => e.stopPropagation()}
                                     className="flex items-center gap-0.5 bg-[#1E293B] text-white px-1 py-1 rounded-xl shadow-2xl border border-white/10"
                                 >
                                     <div className="flex items-center gap-1.5 px-2 py-1.5">
                                         <button
+                                            onMouseDown={(e) => e.preventDefault()}
                                             onClick={() => applyHighlight('yellow')}
                                             className="w-6 h-6 rounded-full bg-[#FFF59D] border border-white/20 transition-transform hover:scale-110 shadow-sm"
                                             title="Highlight Yellow"
                                         />
                                         <button
+                                            onMouseDown={(e) => e.preventDefault()}
                                             onClick={() => applyHighlight('green')}
                                             className="w-6 h-6 rounded-full bg-[#C8E6C9] border border-white/20 transition-transform hover:scale-110 shadow-sm"
                                             title="Highlight Green"
                                         />
                                         <button
+                                            onMouseDown={(e) => e.preventDefault()}
                                             onClick={() => applyHighlight('blue')}
                                             className="w-6 h-6 rounded-full bg-[#BBDEFB] border border-white/20 transition-transform hover:scale-110 shadow-sm"
                                             title="Highlight Blue"
@@ -504,6 +508,7 @@ export default function SimulationPage() {
                                     </div>
                                     <div className="w-px h-4 bg-white/20" />
                                     <button
+                                        onMouseDown={(e) => e.preventDefault()}
                                         onClick={copySelection}
                                         className="flex items-center gap-1.5 px-3 py-1.5 hover:bg-white/10 rounded-lg transition-colors"
                                     >
