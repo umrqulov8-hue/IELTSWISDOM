@@ -101,95 +101,166 @@ export default function SimulationResultsPage() {
     }
 
     return (
-        <div className="min-h-screen bg-[#F8FAFC] p-4 md:p-8 font-sans transition-all selection:bg-blue-100 relative">
+        <div className="min-h-screen bg-[#F0F2F5] p-4 md:p-12 font-sans transition-all selection:bg-blue-100 relative overflow-x-hidden">
             {/* Custom Print Styles */}
             <style jsx global>{`
                 @media print {
-                    @page { margin: 20mm; }
-                    body { background: white !important; }
+                    @page { 
+                        margin: 0; 
+                        size: portrait;
+                    }
+                    body { 
+                        background: white !important; 
+                        -webkit-print-color-adjust: exact !important;
+                        print-color-adjust: exact !important;
+                    }
                     .no-print { display: none !important; }
                     .print-only { display: block !important; }
-                    .print-shadow { box-shadow: none !important; border: 1px solid #e2e8f0 !important; }
-                    .print-container { width: 100% !important; max-width: none !important; margin: 0 !important; padding: 0 !important; }
-                    .print-grid { display: block !important; }
-                    .print-card { margin-bottom: 20px !important; page-break-inside: avoid !important; }
-                    .print-overall { border: 2px solid #2D3E50 !important; padding: 40px !important; }
+                    
+                    /* Certificate Design */
+                    .certificate-container {
+                        padding: 15mm !important;
+                        min-height: 297mm;
+                        position: relative;
+                        background: white !important;
+                    }
+                    .certificate-border {
+                        position: absolute;
+                        top: 5mm;
+                        left: 5mm;
+                        right: 5mm;
+                        bottom: 5mm;
+                        border: 2px solid #1A2E44;
+                        pointer-events: none;
+                        z-index: 50;
+                    }
+                    .certificate-inner-border {
+                        position: absolute;
+                        top: 7mm;
+                        left: 7mm;
+                        right: 7mm;
+                        bottom: 7mm;
+                        border: 1px solid #C5A059;
+                        pointer-events: none;
+                        z-index: 50;
+                    }
+                    .watermark {
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%) rotate(-45deg);
+                        font-size: 80pt;
+                        font-weight: 900;
+                        color: rgba(26, 46, 68, 0.03);
+                        white-space: nowrap;
+                        pointer-events: none;
+                        z-index: 0;
+                        text-transform: uppercase;
+                        letter-spacing: 0.5em;
+                    }
+                    
+                    .print-card { 
+                        box-shadow: none !important; 
+                        border: 1px solid #e2e8f0 !important;
+                        background: white !important;
+                    }
+                    .print-overall { 
+                        background: #1A2E44 !important;
+                        color: white !important;
+                    }
+                    .print-overall * { color: white !important; }
+                    .print-overall .band-value { color: #C5A059 !important; }
+
+                    .print-grid {
+                        display: grid !important;
+                        grid-template-columns: 1fr 1fr !important;
+                        gap: 15px !important;
+                    }
                 }
                 .print-only { display: none; }
             `}</style>
 
-            <div className="max-w-5xl mx-auto print-container">
+            <div className="max-w-5xl mx-auto certificate-container relative">
+                {/* Visual Elements for Print */}
+                <div className="print-only certificate-border" />
+                <div className="print-only certificate-inner-border" />
+                <div className="print-only watermark">IELTS WISDOM</div>
+
                 {/* Print Header */}
-                <div className="print-only mb-10 border-b-2 border-slate-900 pb-6">
-                    <div className="flex justify-between items-center">
+                <div className="print-only mb-12 text-center relative z-10 pt-10">
+                    <div className="inline-block border-b-4 border-[#C5A059] pb-4 mb-6">
+                        <h2 className="text-5xl font-black text-[#1A2E44] tracking-tighter">IELTS WISDOM</h2>
+                        <p className="text-sm font-bold text-[#C5A059] uppercase tracking-[0.3em] mt-2">Personal Achievement Report</p>
+                    </div>
+                    <div className="flex justify-between items-center px-10 text-left">
                         <div>
-                            <h2 className="text-3xl font-black text-slate-900">IELTS KING</h2>
-                            <p className="text-sm font-bold text-slate-500 uppercase tracking-widest">Official Mock Test Report</p>
+                            <p className="text-xs uppercase font-black text-slate-400 tracking-widest">Candidate Name</p>
+                            <p className="text-lg font-bold text-slate-900">{user?.email?.split('@')[0] || "Student"}</p>
                         </div>
                         <div className="text-right">
-                            <p className="text-sm font-black text-slate-900">Verification ID: {id}</p>
-                            <p className="text-xs text-slate-500">{new Date().toLocaleDateString()} {new Date().toLocaleTimeString()}</p>
+                            <p className="text-xs uppercase font-black text-slate-400 tracking-widest">Verification ID</p>
+                            <p className="text-lg font-bold text-slate-900">#{id}</p>
                         </div>
                     </div>
                 </div>
 
-                {/* Header */}
+                {/* Web Header */}
                 <div className="mb-12 flex items-center justify-between no-print">
                     <div>
                         <button 
                             onClick={() => router.push('/dashboard')}
-                            className="flex items-center gap-2 text-slate-500 hover:text-slate-800 transition-all font-bold group mb-4"
+                            className="flex items-center gap-2 text-slate-400 hover:text-slate-800 transition-all font-bold group mb-4"
                         >
                             <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
                             Back to Dashboard
                         </button>
-                        <h1 className="text-4xl font-black text-slate-900 tracking-tight">Mock Test Results</h1>
-                        <p className="text-slate-500 font-medium">Test ID: <span className="text-blue-600">#{id}</span> • Completed on {new Date().toLocaleDateString()}</p>
+                        <h1 className="text-5xl font-black text-slate-900 tracking-tight">Mock Test Results</h1>
+                        <p className="text-slate-500 font-medium">Test ID: <span className="text-blue-600 font-bold">#{id}</span> • Completed on {new Date().toLocaleDateString()}</p>
                     </div>
                     <div className="hidden md:block">
-                        <div className="p-4 bg-white rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4">
-                            <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
-                                <Trophy className="w-6 h-6 text-green-600" />
+                        <div className="p-5 bg-white rounded-[2rem] shadow-xl shadow-slate-200/50 border border-white flex items-center gap-4">
+                            <div className="w-14 h-14 bg-yellow-400 rounded-2xl flex items-center justify-center shadow-lg shadow-yellow-200">
+                                <Trophy className="w-8 h-8 text-white" />
                             </div>
                             <div>
-                                <p className="text-[10px] uppercase font-black text-slate-400 tracking-widest">Global Rank</p>
-                                <p className="text-lg font-black text-slate-800">Top 12%</p>
+                                <p className="text-[10px] uppercase font-black text-slate-400 tracking-widest leading-none mb-1">Performance Rank</p>
+                                <p className="text-xl font-black text-slate-800 leading-none">Top 5%</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 {/* Score Summary Grid */}
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12 relative z-10">
                     {/* Overall Band Card */}
                     <motion.div 
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="bg-white rounded-[2.5rem] p-10 shadow-xl shadow-slate-200/50 border border-slate-100 flex flex-col items-center justify-center text-center relative overflow-hidden group print-card print-overall"
+                        className="bg-[#1A2E44] rounded-[3rem] p-12 shadow-2xl shadow-blue-900/20 border border-blue-800 flex flex-col items-center justify-center text-center relative overflow-hidden group print-card print-overall"
                     >
                         <div className="absolute top-0 right-0 p-8">
-                            <div className="w-24 h-24 bg-blue-50/50 rounded-full blur-3xl group-hover:bg-blue-100/50 transition-colors" />
+                            <div className="w-32 h-32 bg-blue-400/10 rounded-full blur-3xl group-hover:bg-blue-400/20 transition-colors" />
                         </div>
                         
-                        <div className="relative">
-                            <div className="text-[12px] uppercase font-black text-blue-600 tracking-[0.2em] mb-4">Overall Band Score</div>
-                            <div className="text-8xl font-black text-slate-900 tracking-tighter mb-4 leading-none">
+                        <div className="relative z-10">
+                            <div className="text-[14px] uppercase font-black text-[#C5A059] tracking-[0.3em] mb-6">Overall Band Score</div>
+                            <div className="text-[10rem] font-black text-white tracking-tighter mb-4 leading-none band-value">
                                 {overallBand.toFixed(1)}
                             </div>
-                            <div className="inline-flex items-center gap-2 bg-green-50 text-green-700 px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-wider">
-                                <CheckCircle2 className="w-3.5 h-3.5" />
-                                Target Achieved
+                            <div className="inline-flex items-center gap-2 bg-white/10 text-white px-6 py-2 rounded-full text-xs font-black uppercase tracking-widest border border-white/20 backdrop-blur-md">
+                                <CheckCircle2 className="w-4 h-4 text-[#C5A059]" />
+                                Certified Result
                             </div>
                         </div>
                     </motion.div>
 
                     {/* Section Breakdown */}
-                    <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4 print-grid">
                         {[
-                            { name: "Listening", key: "listening", icon: <Clock />, color: "bg-blue-500" },
-                            { name: "Reading", key: "reading", icon: <Layout />, color: "bg-indigo-500" },
-                            { name: "Writing", key: "writing", icon: <BarChart3 />, color: "bg-purple-500" },
-                            { name: "Speaking", key: "speaking", icon: <Send />, color: "bg-orange-500" }
+                            { name: "Listening", key: "listening", icon: <Clock />, color: "bg-blue-600", light: "bg-blue-50", text: "text-blue-600" },
+                            { name: "Reading", key: "reading", icon: <Layout />, color: "bg-indigo-600", light: "bg-indigo-50", text: "text-indigo-600" },
+                            { name: "Writing", key: "writing", icon: <BarChart3 />, color: "bg-amber-600", light: "bg-amber-50", text: "text-amber-600" },
+                            { name: "Speaking", key: "speaking", icon: <Send />, color: "bg-emerald-600", light: "bg-emerald-50", text: "text-emerald-600" }
                         ].map((section, idx) => {
                             const result = results[section.key];
                             const band = sectionBands[section.key as keyof typeof sectionBands];
@@ -200,24 +271,27 @@ export default function SimulationResultsPage() {
                                     initial={{ opacity: 0, x: 20 }}
                                     animate={{ opacity: 1, x: 0 }}
                                     transition={{ delay: idx * 0.1 }}
-                                    className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm hover:shadow-md transition-all group cursor-default print-card"
+                                    className="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group cursor-default print-card"
                                 >
-                                    <div className="flex items-center justify-between mb-4">
-                                        <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center text-white", section.color)}>
+                                    <div className="flex items-center justify-between mb-6">
+                                        <div className={cn("w-12 h-12 rounded-2xl flex items-center justify-center text-white shadow-lg", section.color)}>
                                             {section.icon}
                                         </div>
-                                        <div className="text-2xl font-black text-slate-800">
-                                            {band > 0 ? band.toFixed(1) : "N/A"}
+                                        <div className="flex flex-col items-end">
+                                            <div className="text-3xl font-black text-slate-900 leading-none">
+                                                {band > 0 ? band.toFixed(1) : "N/A"}
+                                            </div>
+                                            <p className="text-[10px] uppercase font-black text-slate-400 tracking-widest mt-1">Band Score</p>
                                         </div>
                                     </div>
                                     <div className="flex items-end justify-between">
                                         <div>
-                                            <h3 className="font-bold text-slate-900">{section.name}</h3>
-                                            <p className="text-xs text-slate-400 font-medium">
-                                                {result ? `${result.score}/${result.total} Correct` : "Evaluation Pending"}
+                                            <h3 className="text-lg font-black text-slate-900">{section.name}</h3>
+                                            <p className="text-xs text-slate-400 font-bold uppercase tracking-tighter">
+                                                {result ? `${result.score}/${result.total} Correct Answers` : "Manual Assessment Required"}
                                             </p>
                                         </div>
-                                        <div className="w-24 h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                                        <div className="w-20 h-2 bg-slate-100 rounded-full overflow-hidden">
                                             <motion.div 
                                                 initial={{ width: 0 }}
                                                 animate={{ width: `${(band / 9) * 100}%` }}
@@ -231,64 +305,82 @@ export default function SimulationResultsPage() {
                     </div>
                 </div>
 
-                {/* Detailed Analysis / Next Steps */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div className="bg-[#2D3E50] rounded-[2rem] p-8 text-white">
-                        <h3 className="text-xl font-black mb-6 flex items-center gap-2">
-                            <Send className="w-5 h-5" />
-                            AI Recommended Focus
+                {/* AI Analysis / Actions */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10">
+                    <div className="bg-white rounded-[2.5rem] p-10 border border-slate-100 shadow-sm print-card">
+                        <h3 className="text-2xl font-black text-slate-900 mb-8 flex items-center gap-3">
+                            <BarChart3 className="w-6 h-6 text-[#C5A059]" />
+                            Performance Insights
                         </h3>
-                        <div className="space-y-4">
-                            <div className="bg-white/10 p-4 rounded-2xl border border-white/5 backdrop-blur-sm print-card">
-                                <p className="text-sm font-bold mb-1">Vocabulary Precision</p>
-                                <p className="text-xs text-slate-300">Your Task 2 essay shows good structure but could benefit from less common academic collocations.</p>
+                        <div className="space-y-6">
+                            <div className="flex gap-4">
+                                <div className="w-1.5 h-auto bg-[#C5A059] rounded-full shrink-0" />
+                                <div>
+                                    <p className="font-black text-slate-800 text-sm mb-1 uppercase tracking-wide">Lexical Resource</p>
+                                    <p className="text-xs text-slate-500 leading-relaxed">Your Writing Task 1 response uses accurate technical vocabulary. To hit band 7.5+, focus on varied sentence structures when describing trends.</p>
+                                </div>
                             </div>
-                            <div className="bg-white/10 p-4 rounded-2xl border border-white/5 backdrop-blur-sm print-card">
-                                <p className="text-sm font-bold mb-1">Listening S4 - Distractors</p>
-                                <p className="text-xs text-slate-300">You missed 3 questions in Section 4 due to audio distractors. Practice identifying synonyms in lectures.</p>
+                            <div className="flex gap-4">
+                                <div className="w-1.5 h-auto bg-blue-500 rounded-full shrink-0" />
+                                <div>
+                                    <p className="font-black text-slate-800 text-sm mb-1 uppercase tracking-wide">Listening Retention</p>
+                                    <p className="text-xs text-slate-500 leading-relaxed">High accuracy in Section 1 & 2. Most errors occurred during fast-paced dialogue in Section 3. Recommended: Practice note-taking with academic podcasts.</p>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <div className="flex flex-col gap-4">
+                    <div className="flex flex-col gap-4 no-print">
                         <button 
-                            onClick={() => router.push('/exam-center')}
-                            className="bg-white p-6 rounded-2xl border border-slate-200 flex items-center justify-between hover:border-blue-500 transition-all group"
+                            onClick={handleDownload}
+                            className="bg-slate-900 p-8 rounded-[2rem] text-white flex items-center justify-between hover:bg-black transition-all group shadow-2xl shadow-slate-200 border-t border-white/10"
                         >
-                            <div className="flex items-center gap-4">
-                                <div className="w-10 h-10 bg-slate-100 rounded-xl flex items-center justify-center text-slate-600">
-                                    <ArrowLeft className="w-5 h-5" />
+                            <div className="flex items-center gap-5">
+                                <div className="w-14 h-14 bg-[#C5A059] rounded-2xl flex items-center justify-center shadow-lg shadow-yellow-900/20">
+                                    <Download className="w-7 h-7 text-white" />
                                 </div>
                                 <div className="text-left">
-                                    <p className="font-bold text-slate-900">Try Another Test</p>
-                                    <p className="text-xs text-slate-400">Continue practicing to improve</p>
+                                    <p className="text-xl font-black tracking-tight">Download Report</p>
+                                    <p className="text-xs text-slate-400 font-medium">Get your official result certificate PDF</p>
                                 </div>
                             </div>
-                            <ChevronRight className="w-5 h-5 text-slate-300 group-hover:text-blue-500 group-hover:translate-x-1 transition-all" />
+                            <ChevronRight className="w-6 h-6 text-[#C5A059] group-hover:translate-x-2 transition-all" />
                         </button>
 
                         <button 
-                            onClick={handleDownload}
-                            className="bg-blue-600 p-6 rounded-2xl text-white flex items-center justify-between hover:bg-blue-700 transition-all group shadow-lg shadow-blue-200 no-print"
+                            onClick={() => router.push('/exam-center')}
+                            className="bg-white p-8 rounded-[2rem] border border-slate-200 flex items-center justify-between hover:border-[#1A2E44] transition-all group shadow-sm"
                         >
-                            <div className="flex items-center gap-4">
-                                <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center">
-                                    <Download className="w-5 h-5" />
+                            <div className="flex items-center gap-5">
+                                <div className="w-14 h-14 bg-slate-100 rounded-2xl flex items-center justify-center text-slate-600 group-hover:bg-[#1A2E44] group-hover:text-white transition-all">
+                                    <ArrowLeft className="w-6 h-6" />
                                 </div>
                                 <div className="text-left">
-                                    <p className="font-bold">Download Official Report</p>
-                                    <p className="text-xs text-blue-100">Save as PDF for your records</p>
+                                    <p className="text-xl font-black text-slate-900 tracking-tight">Retake Test</p>
+                                    <p className="text-xs text-slate-400 font-medium">Practice again to hit your target band</p>
                                 </div>
                             </div>
-                            <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-all" />
+                            <ChevronRight className="w-6 h-6 text-slate-300 group-hover:text-[#1A2E44] group-hover:translate-x-2 transition-all" />
                         </button>
                     </div>
                 </div>
 
                 {/* Print Footer */}
-                <div className="print-only mt-20 text-center border-t border-slate-200 pt-8">
-                    <p className="text-slate-400 text-[10px] uppercase font-bold tracking-widest mb-2">Authenticated by IELTS KING Academic System</p>
-                    <p className="text-slate-300 text-[8px]">This is an automated report and does not require a physical signature.</p>
+                <div className="print-only mt-20 text-center relative z-10">
+                    <div className="flex justify-between items-end px-16 mb-12">
+                        <div className="text-left">
+                            <div className="w-40 h-px bg-slate-900 mb-4" />
+                            <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-900">Academic Director</p>
+                            <p className="text-[8px] text-slate-500 italic mt-1 font-serif">IELTS WISDOM Verification System</p>
+                        </div>
+                        <div className="w-24 h-24 border-4 border-[#C5A059] rounded-full flex flex-col items-center justify-center p-2">
+                             <CheckCircle2 className="w-8 h-8 text-[#C5A059] mb-1" />
+                             <p className="text-[7px] font-black text-center text-[#1A2E44] uppercase leading-none">Verified<br/>Candidate</p>
+                        </div>
+                    </div>
+                    <div className="border-t border-slate-100 pt-8 pb-10">
+                        <p className="text-slate-400 text-[9px] uppercase font-black tracking-[0.4em]">WWW.IELTSWISDOM.COM • GLOBAL EDUCATION PLATFORM</p>
+                    </div>
                 </div>
             </div>
         </div>
