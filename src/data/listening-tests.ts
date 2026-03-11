@@ -5,8 +5,12 @@ import { trainer1Test4 } from "./trainer1Test4";
 import { trainer2Test1 } from "./trainer2Test1";
 import type { ListeningTest } from "@/types/listening";
 
+import { mockTest1Listening } from "./mockTest1Listening";
+
 // Map ALL test IDs to cambridge11Test1 to prevent "Test Not Found" errors
 export const LISTENING_TESTS: Record<string, ListeningTest> = {
+    // Mock Tests
+    "mt-1": mockTest1Listening,
     // Trainer 1
     "t1-1": cambridge11Test1,
     "t1-2": trainer1Test2,
