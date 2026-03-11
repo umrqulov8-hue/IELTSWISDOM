@@ -30,7 +30,13 @@ export default function MockExamIntroPage({ params }: { params: Promise<{ id: st
 
     const INTRO = T.mockExamsIntro;
     const testIndex = parseInt(id, 10);
-    const mockTest = T.mockExams.tests[testIndex] || T.mockExams.tests[0]; // fallback
+    const testsArray = T.mockExams.tests as any;
+    const mockTest = testsArray[testIndex] || testsArray[0] || {
+        title: { en: "Mock Test", uz: "Mock Test" },
+        desc: { en: "Test description", uz: "Test tavsifi" },
+        listTitle: { en: "Components", uz: "Tarkib" },
+        listItems: []
+    }; // fallback
 
     const handleStartMock = () => {
         try {

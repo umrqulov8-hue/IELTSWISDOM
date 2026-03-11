@@ -108,52 +108,7 @@ export const translations = {
         startTest: { en: "Start Test", uz: "Testni boshlash" },
         fullTest: { en: "FULL TEST", uz: "TO'LIQ TEST" },
         hours: { en: "3 HOURS", uz: "3 SOAT" },
-        tests: [
-            {
-                title: { en: "Academic Mock Test 1", uz: "Akademik Mock Test 1" },
-                desc: { en: "Complete Academic IELTS test covering all four skills.", uz: "To'rtta ko'nikmani qamrab oluvchi to'liq Akademik IELTS testi." },
-                listTitle: { en: "TEST COMPONENTS:", uz: "TEST TARKIBI:" },
-                listItems: [
-                    { en: "Listening: 40 questions (30 min)", uz: "Tinglash: 40 savol (30 daq)" },
-                    { en: "Reading: 40 questions (60 min)", uz: "O'qish: 40 savol (60 daq)" },
-                    { en: "Writing: 2 tasks (60 min)", uz: "Yozish: 2 topshiriq (60 daq)" },
-                    { en: "Speaking: 3 parts (11-14 min)", uz: "Gapirish: 3 qism (11-14 daq)" },
-                ],
-            },
-            {
-                title: { en: "Academic Mock Test 2", uz: "Akademik Mock Test 2" },
-                desc: { en: "Second complete Academic test with different topics.", uz: "Turli mavzular bilan ikkinchi to'liq Akademik test." },
-                listTitle: { en: "TEST FEATURES:", uz: "TEST XUSUSIYATLARI:" },
-                listItems: [
-                    { en: "New topics and questions", uz: "Yangi mavzular va savollar" },
-                    { en: "Band score prediction", uz: "Ball bashorati" },
-                    { en: "Detailed answer explanations", uz: "Batafsil javob tushuntirishlari" },
-                    { en: "Performance analytics", uz: "Natijalar tahlili" },
-                ],
-            },
-            {
-                title: { en: "General Training Mock Test 1", uz: "Umumiy Trening Mock Test 1" },
-                desc: { en: "Complete General Training test for work and migration.", uz: "Ish va migratsiya uchun to'liq Umumiy Trening testi." },
-                listTitle: { en: "TEST COMPONENTS:", uz: "TEST TARKIBI:" },
-                listItems: [
-                    { en: "Listening: 40 questions (30 min)", uz: "Tinglash: 40 savol (30 daq)" },
-                    { en: "Reading: 40 questions (60 min)", uz: "O'qish: 40 savol (60 daq)" },
-                    { en: "Writing: 2 tasks (60 min)", uz: "Yozish: 2 topshiriq (60 daq)" },
-                    { en: "Speaking: 3 parts (11-14 min)", uz: "Gapirish: 3 qism (11-14 daq)" },
-                ],
-            },
-            {
-                title: { en: "General Training Mock Test 2", uz: "Umumiy Trening Mock Test 2" },
-                desc: { en: "Second complete General Training test with varied content.", uz: "Xilma-xil mazmunga ega ikkinchi to'liq Umumiy Trening testi." },
-                listTitle: { en: "TEST FEATURES:", uz: "TEST XUSUSIYATLARI:" },
-                listItems: [
-                    { en: "New topics and questions", uz: "Yangi mavzular va savollar" },
-                    { en: "Band score prediction", uz: "Ball bashorati" },
-                    { en: "Detailed answer explanations", uz: "Batafsil javob tushuntirishlari" },
-                    { en: "Performance analytics", uz: "Natijalar tahlili" },
-                ],
-            },
-        ],
+        tests: [],
     },
 
     // ──── MOCK EXAMS INTRO ────
