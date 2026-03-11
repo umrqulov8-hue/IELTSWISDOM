@@ -51,7 +51,7 @@ export function CDILayout({
         )}>
             <FullscreenLock onForceSubmit={onFinish}>
                 {/* --- CDI Header --- */}
-                <header className="h-[65px] bg-[#0F172A] text-white flex items-center justify-between px-6 shrink-0 shadow-lg z-50">
+                <header className="h-[65px] bg-[#2D3E50] text-white flex items-center justify-between px-6 shrink-0 shadow-lg z-50">
                     <div className="flex items-center gap-6">
                         <div className="flex flex-col">
                             <span className="text-[10px] uppercase tracking-widest text-[#94A3B8] font-bold">IELTS {section}</span>
@@ -94,7 +94,7 @@ export function CDILayout({
                                 className={cn(
                                     "h-10 px-5 rounded-md font-bold text-sm transition-all border",
                                     currentPart === i
-                                        ? "bg-[#0F172A] text-white border-transparent shadow-md"
+                                        ? "bg-[#2D3E50] text-white border-transparent shadow-md"
                                         : "bg-slate-50 text-slate-600 border-slate-200 hover:border-slate-400"
                                 )}
                             >
@@ -122,7 +122,7 @@ export function CDILayout({
                                 if (currentPart < totalParts - 1) onPartChange(currentPart + 1);
                                 else onFinish();
                             }}
-                            className="h-10 px-6 rounded-md font-bold text-sm bg-[#0F172A] text-white hover:bg-[#1E293B] shadow-lg shadow-slate-900/10 transition-all flex items-center gap-2"
+                            className="h-10 px-6 rounded-md font-bold text-sm bg-[#2D3E50] text-white hover:bg-[#1E293B] shadow-lg shadow-slate-900/10 transition-all flex items-center gap-2"
                         >
                             {currentPart < totalParts - 1 ? "Next" : "Submit"}
                             <ChevronRight className="w-4 h-4" />

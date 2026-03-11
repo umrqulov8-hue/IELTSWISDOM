@@ -1,10 +1,11 @@
 @import "tailwindcss";
 
 /* Highlight Classes */
-.hlt-yellow {
-  background-color: rgba(254, 240, 138, 0.6) !important;
+.hlt-yellow, mark {
+  background-color: #FFF59D !important;
   color: inherit !important;
   border-radius: 2px;
+  padding: 0 2px;
 }
 
 .hlt-green {

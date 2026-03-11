@@ -9,7 +9,7 @@ import { CDILayout } from "@/components/exam/CDILayout";
 import { toast } from "sonner";
 import { motion, AnimatePresence } from "framer-motion";
 import { createClient } from "@/utils/supabase/client";
-import { Clock, LayoutList, PenTool, Mic, GripVertical, ChevronRight, Highlighter, MousePointer2 } from "lucide-react";
+import { Clock, LayoutList, PenTool, Mic, GripVertical, ChevronRight, Highlighter, MousePointer2, Copy, Search } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export default function SimulationPage() {
@@ -34,85 +34,108 @@ export default function SimulationPage() {
     const [isResizing, setIsResizing] = useState(false);
 
     // Scrolling and Highlighting State
-    const [isScrollSynced, setIsScrollSynced] = useState(false);
     const passageRef = useRef<HTMLDivElement>(null);
     const questionsRef = useRef<HTMLDivElement>(null);
-    const isSyncingScroll = useRef(false);
-
-    const syncScroll = (source: HTMLDivElement, target: HTMLDivElement) => {
-        if (!isScrollSynced || isSyncingScroll.current) return;
-        
-        isSyncingScroll.current = true;
-        const scrollPercentage = source.scrollTop / (source.scrollHeight - source.clientHeight);
-        target.scrollTop = scrollPercentage * (target.scrollHeight - target.clientHeight);
-        
-        // Reset the flag after a short delay to prevent feedback loops
-        setTimeout(() => {
-            isSyncingScroll.current = false;
-        }, 50);
-    };
-
-    const handlePassageScroll = () => {
-        if (passageRef.current && questionsRef.current) {
-            syncScroll(passageRef.current, questionsRef.current);
-        }
-    };
-
-    const handleQuestionsScroll = () => {
-        if (questionsRef.current && passageRef.current) {
-            syncScroll(questionsRef.current, passageRef.current);
-        }
-    };
 
     // Highlighting Logic
     const [showHighlightToolbar, setShowHighlightToolbar] = useState(false);
+    const [showContextMenu, setShowContextMenu] = useState(false);
     const [toolbarPosition, setToolbarPosition] = useState({ x: 0, y: 0 });
+    const [contextMenuPosition, setContextMenuPosition] = useState({ x: 0, y: 0 });
+    const [selectedRange, setSelectedRange] = useState<Range | null>(null);
 
-    const handleTextSelection = () => {
+    const handleTextSelection = (e: React.MouseEvent) => {
         const selection = window.getSelection();
         if (selection && selection.toString().length > 0) {
             const range = selection.getRangeAt(0);
             const rect = range.getBoundingClientRect();
-            setToolbarPosition({
-                x: rect.left + rect.width / 2,
-                y: rect.top - 40
-            });
-            setShowHighlightToolbar(true);
+            
+            // Only show toolbar if selecting within the passage
+            if (passageRef.current?.contains(range.commonAncestorContainer)) {
+                setSelectedRange(range);
+                setToolbarPosition({
+                    x: rect.left + rect.width / 2,
+                    y: rect.top - 50
+                });
+                setShowHighlightToolbar(true);
+            }
         } else {
             setShowHighlightToolbar(false);
+            setSelectedRange(null);
         }
     };
 
-    const applyHighlight = (color: string = "#ffeb3b") => {
+    const handleContextMenu = (e: React.MouseEvent) => {
+        e.preventDefault();
+        const target = e.target as HTMLElement;
+        
+        // Check if we right-clicked on or inside a highlight
+        if (target.closest('mark')) {
+            setContextMenuPosition({ x: e.clientX, y: e.clientY });
+            setShowContextMenu(true);
+        }
+    };
+
+    const applyHighlight = (color: string | any = "#FFF59D") => {
+        const highlightColor = typeof color === 'string' ? color : "#FFF59D";
+        if (!selectedRange) return;
+
         const selection = window.getSelection();
-        if (!selection || selection.rangeCount === 0) return;
-
-        // Using document.execCommand for simplicity and directness in this simulation
-        // although it's deprecated, it's widely used for this specific legacy-style requirement
-        const passageContent = passageRef.current;
-        if (passageContent) {
-            // We need to make it contentEditable temporarily to use execCommand
-            const originalEditable = passageContent.contentEditable;
-            passageContent.contentEditable = "true";
-            document.execCommand("hiliteColor", false, color);
-            passageContent.contentEditable = originalEditable;
-            
-            // Clear selection
+        if (selection) {
             selection.removeAllRanges();
-            setShowHighlightToolbar(false);
+            selection.addRange(selectedRange);
+            
+            const passageContent = passageRef.current;
+            if (passageContent) {
+                const originalEditable = passageContent.contentEditable;
+                passageContent.contentEditable = "true";
+                document.execCommand("hiliteColor", false, color);
+                passageContent.contentEditable = originalEditable;
+                
+                selection.removeAllRanges();
+                setShowHighlightToolbar(false);
+                setSelectedRange(null);
+            }
         }
     };
 
-    const clearSelectionHighlight = () => {
+    const removeHighlight = () => {
+        const selection = window.getSelection();
+        if (!selection) return;
+
         const passageContent = passageRef.current;
         if (passageContent) {
             const originalEditable = passageContent.contentEditable;
             passageContent.contentEditable = "true";
             document.execCommand("removeFormat", false, undefined);
             passageContent.contentEditable = originalEditable;
-            setShowHighlightToolbar(false);
+            setShowContextMenu(false);
         }
     };
+
+    const copySelection = () => {
+        if (selectedRange) {
+            navigator.clipboard.writeText(selectedRange.toString());
+            toast.success("Text copied to clipboard");
+            setShowHighlightToolbar(false);
+            setSelectedRange(null);
+        }
+    };
+
+    const copyQuestionPath = (qId: string) => {
+        const path = `Reading Test -> Passage ${currentPartIndex + 1} -> Question ${qId}`;
+        navigator.clipboard.writeText(path);
+        toast.success(`Path for Question ${qId} copied`);
+    };
+
+    // Close menus on click outside
+    useEffect(() => {
+        const handleClickOutside = () => {
+            setShowContextMenu(false);
+        };
+        window.addEventListener('click', handleClickOutside);
+        return () => window.removeEventListener('click', handleClickOutside);
+    }, []);
 
     useEffect(() => {
         const handleMouseMove = (e: MouseEvent) => {
@@ -377,8 +400,8 @@ export default function SimulationPage() {
                         {/* LEFT: Reading Passage (Scrollable) */}
                         <div 
                             ref={passageRef}
-                            onScroll={handlePassageScroll}
                             onMouseUp={handleTextSelection}
+                            onContextMenu={handleContextMenu}
                             className="h-full overflow-y-auto p-12 lg:p-16 border-r border-slate-100 prose prose-slate max-w-none prose-h2:text-3xl prose-h2:mb-8 prose-p:text-lg prose-p:leading-relaxed selection:bg-blue-100"
                             style={{ width: `${leftWidth}%` }}
                         >
@@ -406,26 +429,45 @@ export default function SimulationPage() {
                                     className="flex items-center gap-1 bg-slate-900 text-white p-1 rounded-full shadow-2xl border border-slate-800"
                                 >
                                     <button
-                                        onClick={() => applyHighlight("#ffeb3b")}
-                                        className="p-2 hover:bg-slate-700 rounded-full transition-colors group relative"
-                                        title="Highlight Yellow"
+                                        onClick={applyHighlight}
+                                        className="flex items-center gap-2 px-3 py-1.5 hover:bg-slate-700 rounded-lg transition-colors group"
                                     >
                                         <Highlighter className="w-4 h-4 text-yellow-400" />
-                                    </button>
-                                    <button
-                                        onClick={() => applyHighlight("#b2ebf2")}
-                                        className="p-2 hover:bg-slate-700 rounded-full transition-colors group relative"
-                                        title="Highlight Blue"
-                                    >
-                                        <Highlighter className="w-4 h-4 text-blue-300" />
+                                        <span className="text-xs font-bold">Highlight</span>
                                     </button>
                                     <div className="w-[1px] h-4 bg-slate-700 mx-1" />
                                     <button
-                                        onClick={clearSelectionHighlight}
-                                        className="p-2 hover:bg-slate-700 rounded-full transition-colors"
-                                        title="Clear Highlight"
+                                        onClick={copySelection}
+                                        className="flex items-center gap-2 px-3 py-1.5 hover:bg-slate-700 rounded-lg transition-colors"
                                     >
-                                        <MousePointer2 className="w-4 h-4 text-slate-400" />
+                                        <Copy className="w-4 h-4 text-white" />
+                                        <span className="text-xs font-bold">Copy</span>
+                                    </button>
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
+
+                        {/* CONTEXT MENU */}
+                        <AnimatePresence>
+                            {showContextMenu && (
+                                <motion.div
+                                    initial={{ opacity: 0, scale: 0.9 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    exit={{ opacity: 0, scale: 0.9 }}
+                                    style={{ 
+                                        position: 'fixed',
+                                        left: contextMenuPosition.x,
+                                        top: contextMenuPosition.y,
+                                        zIndex: 1001
+                                    }}
+                                    className="bg-slate-900 text-white py-1 rounded-lg shadow-2xl border border-slate-800 min-w-[150px]"
+                                >
+                                    <button
+                                        onClick={removeHighlight}
+                                        className="w-full flex items-center gap-3 px-4 py-2 hover:bg-slate-700 transition-colors text-left"
+                                    >
+                                        <MousePointer2 className="w-3.5 h-3.5 text-slate-400" />
+                                        <span className="text-xs font-bold">Clear Highlight</span>
                                     </button>
                                 </motion.div>
                             )}
@@ -458,7 +500,6 @@ export default function SimulationPage() {
                         {/* RIGHT: Questions (Scrollable) */}
                         <div 
                             ref={questionsRef}
-                            onScroll={handleQuestionsScroll}
                             className="h-full overflow-y-auto p-12 lg:p-16 bg-slate-50/20"
                             style={{ width: `${100 - leftWidth}%` }}
                         >
@@ -480,6 +521,7 @@ export default function SimulationPage() {
                                     onAnswerChange={handleAnswerChange}
                                     htmlContent={currentPart.content}
                                     isSubmitted={isSubmitted}
+                                    onCopyPath={copyQuestionPath}
                                 />
                             </div>
                         </div>
@@ -674,7 +716,7 @@ export default function SimulationPage() {
     );
 }
 
-function QuestionsList({ questions, answers, onAnswerChange, htmlContent, isSubmitted }: any) {
+function QuestionsList({ questions, answers, onAnswerChange, htmlContent, isSubmitted, onCopyPath }: any) {
     const stripLeadingNumber = (text: string) => {
         if (!text) return "";
         // Remove patterns like "1. ", "1) ", or start with "1 " 
@@ -728,14 +770,24 @@ function QuestionsList({ questions, answers, onAnswerChange, htmlContent, isSubm
                                 "border-slate-100 bg-white hover:border-blue-200"
                     )}>
                         <div className="flex gap-4">
-                            <span className={cn(
-                                "flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center text-sm font-black",
-                                isSubmitted && allCorrect ? "bg-green-100 text-green-700" :
-                                    isSubmitted && anyWrong ? "bg-red-100 text-red-700" :
-                                        "bg-blue-50 text-blue-700"
-                            )}>
-                                {coveredIds.length > 1 ? `${coveredIds[0]}-${coveredIds[coveredIds.length - 1]}` : q.id}
-                            </span>
+                                <div className="flex items-start justify-between gap-4">
+                                    <span className={cn(
+                                        "flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center text-sm font-black transition-all",
+                                        isSubmitted && allCorrect ? "bg-green-100 text-green-700" :
+                                            isSubmitted && anyWrong ? "bg-red-100 text-red-700" :
+                                                "bg-[#2D3E50] text-white shadow-md shadow-slate-400/20"
+                                    )}>
+                                        {coveredIds.length > 1 ? `${coveredIds[0]}-${coveredIds[coveredIds.length - 1]}` : q.id}
+                                    </span>
+                                    <button
+                                        onClick={() => onCopyPath(q.id)}
+                                        className="p-1.5 text-slate-300 hover:text-slate-600 hover:bg-slate-100 rounded-md transition-all flex items-center gap-1.5"
+                                        title="Copy Path"
+                                    >
+                                        <Copy className="w-3.5 h-3.5" />
+                                        <span className="text-[10px] uppercase font-bold text-slate-400">Path</span>
+                                    </button>
+                                </div>
                             
                             <div className="w-full">
                                 {q.type === "multiple-choice" && (
