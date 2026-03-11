@@ -377,11 +377,8 @@ export default function SimulationPage() {
             const nextSection = nextSectionMap[section];
 
             if (nextSection === "dashboard") {
-                if (testId.startsWith("mt-")) {
-                    router.push(`/mock-exams/${testId}/intro`);
-                } else {
-                    router.push("/dashboard");
-                }
+                // If we finished the speaking section (or final section), go to results
+                router.push(`/exam-center/simulate/results/${testId}`);
             } else {
                 router.push(`/exam-center/simulate/${nextSection}/${testId}`);
                 setIsBreak(false);
