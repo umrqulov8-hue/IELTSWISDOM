@@ -593,8 +593,8 @@ export default function SimulationPage() {
                 )}
 
                 {section === "listening" && (
-                    <div className="bg-white -mx-4 md:-mx-8 -my-6 px-4 md:px-8 py-8 md:py-12 min-h-[calc(100vh-130px)] flex flex-col">
-                        <div className="max-w-4xl mx-auto w-full space-y-8">
+                    <div className="h-full overflow-y-auto bg-white" style={{ overscrollBehavior: 'contain' }}>
+                        <div className="max-w-4xl mx-auto w-full space-y-8 px-8 py-10">
                             <div className="border-b border-slate-100 pb-8 mb-8">
                                 <h1 className="text-4xl font-black text-[#2D3E50] mb-2">{testData.title}</h1>
                                 <p className="text-slate-500 font-bold uppercase tracking-widest text-xs">Section: {section}</p>
