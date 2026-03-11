@@ -9,7 +9,7 @@ import { CDILayout } from "@/components/exam/CDILayout";
 import { toast } from "sonner";
 import { motion, AnimatePresence } from "framer-motion";
 import { createClient } from "@/utils/supabase/client";
-import { Clock, LayoutList, PenTool, Mic } from "lucide-react";
+import { Clock, LayoutList, PenTool, Mic, GripVertical, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export default function SimulationPage() {
@@ -290,10 +290,10 @@ export default function SimulationPage() {
             <div className="h-full relative">
                 {section === "reading" && (
                     <div className={cn(
-                        "flex h-full gap-0 bg-white overflow-hidden",
+                        "flex h-full gap-0 bg-white overflow-hidden relative",
                         isResizing && "cursor-col-resize select-none"
                     )}>
-                        {/* Reading Split-Screen: Passage left, Questions right */}
+                        {/* LEFT: Reading Passage (Scrollable) */}
                         <div 
                             className="h-full overflow-y-auto p-12 lg:p-16 border-r border-slate-100 prose prose-slate max-w-none prose-h2:text-3xl prose-h2:mb-8 prose-p:text-lg prose-p:leading-relaxed"
                             style={{ width: `${leftWidth}%` }}
@@ -305,22 +305,42 @@ export default function SimulationPage() {
                             />
                         </div>
 
-                        {/* Draggable Resizer Handle */}
-                        <div 
-                            className={cn(
-                                "w-1.5 h-full hover:bg-blue-500/30 cursor-col-resize transition-colors relative z-[60] flex items-center justify-center",
-                                isResizing ? "bg-blue-600 shadow-[0_0_15px_rgba(37,99,235,0.4)]" : "bg-slate-100"
-                            )}
+                        {/* RESIZE HANDLE (Matching Practice Page) */}
+                        <div
                             onMouseDown={() => setIsResizing(true)}
+                            className={cn(
+                                "hidden md:flex group/handle w-3 -mx-1.5 z-[60] transition-all cursor-col-resize items-center justify-center relative",
+                                isResizing && "w-4 -mx-2"
+                            )}
                         >
-                            <div className="w-1 h-8 rounded-full bg-slate-300" />
+                            <div className={cn(
+                                "w-[1px] h-full bg-transparent group-hover/handle:bg-slate-300 transition-colors",
+                                isResizing && "bg-slate-400 w-[2px]"
+                            )} />
+                            <div className={cn(
+                                "absolute top-1/2 -translate-y-1/2 w-8 h-12 bg-white border border-slate-200 rounded-2xl shadow-xl flex items-center justify-center text-slate-400 opacity-0 group-hover/handle:opacity-100 group-hover/handle:scale-110 transition-all",
+                                isResizing && "opacity-100 text-slate-700 scale-110 border-slate-300 shadow-blue-500/10"
+                            )}>
+                                <div className="flex flex-col gap-0.5 items-center justify-center">
+                                    <div className="w-1 h-1 rounded-full bg-slate-300" />
+                                    <div className="w-1 h-1 rounded-full bg-slate-300" />
+                                    <div className="w-1 h-1 rounded-full bg-slate-300" />
+                                </div>
+                            </div>
                         </div>
 
+                        {/* RIGHT: Questions (Scrollable) */}
                         <div 
-                            className="h-full overflow-y-auto p-12 lg:p-16 bg-slate-50/30"
+                            className="h-full overflow-y-auto p-12 lg:p-16 bg-slate-50/20"
                             style={{ width: `${100 - leftWidth}%` }}
                         >
                             <div className="max-w-3xl mx-auto">
+                                <div className="flex items-center justify-between mb-8 border-b border-slate-100 pb-4">
+                                    <h3 className="text-xl font-black text-slate-800">
+                                        Questions {currentPart.questionRange.start}-{currentPart.questionRange.end}
+                                    </h3>
+                                </div>
+
                                 <QuestionsList
                                     questions={testData.questions.filter((q: any) => {
                                         if (testData.passages) {
@@ -528,125 +548,233 @@ export default function SimulationPage() {
 
 function QuestionsList({ questions, answers, onAnswerChange, htmlContent, isSubmitted }: any) {
     return (
-        <div className="space-y-4">
-            {questions.map((q: any) => {
-                // If question is completely embedded in HTML, don't render its wrapper at all
-                const isEmbeddedFillBlank = q.type === "fill-blank" && htmlContent && (htmlContent.includes(`id="q-${q.id}"`) || htmlContent.includes(`id='q-${q.id}'`));
-                if (isEmbeddedFillBlank && !q.text && (!q.options || q.options.length === 0)) {
-                    return null;
+        <div className="space-y-6">
+            {questions.map((q: any, index: number, arr: any[]) => {
+                const passageQuestions = arr;
+                
+                // Special handling for already rendered identifiers
+                const isAlreadyRendered = passageQuestions.some(prevQ => {
+                    if (prevQ.id >= q.id) return false;
+                    if (prevQ.type !== 'fill-blank') return false;
+                    const regex = new RegExp(`(?:^|\\D)${q.id}\\s*(?:[…\\._]{2,})`);
+                    return regex.test(prevQ.text || "");
+                });
+
+                if (isAlreadyRendered) return null;
+
+                // Find all question IDs covered by this box (for grouped fill-blanks)
+                const coveredIds = [q.id];
+                if (q.type === 'fill-blank') {
+                    passageQuestions.forEach(nextQ => {
+                        if (nextQ.id <= q.id) return;
+                        const regex = new RegExp(`(?:^|\\D)${nextQ.id}\\s*(?:[…\\._]{2,})`);
+                        if (regex.test(q.text || "")) {
+                            coveredIds.push(nextQ.id);
+                        }
+                    });
                 }
 
+                const allCorrect = coveredIds.every(id => {
+                    const question = passageQuestions.find((pq: any) => pq.id === id);
+                    if (!question) return false;
+                    return answers[id.toString()]?.toLowerCase().trim() === question.correctAnswer?.toString().toLowerCase().trim();
+                });
+                const anyWrong = coveredIds.some(id => {
+                    const val = answers[id.toString()];
+                    if (!val) return false;
+                    const question = passageQuestions.find((pq: any) => pq.id === id);
+                    return val.toLowerCase().trim() !== question?.correctAnswer?.toString().toLowerCase().trim();
+                });
+
                 return (
-                    <div key={q.id} className="p-2 sm:p-4">
-                        {q.text && (
-                            <p className="font-bold text-slate-700 mb-4">
-                                <span className="text-blue-600 mr-2 font-mono">{q.id}.</span>
-                                {q.text}
-                            </p>
-                        )}
+                    <div id={`question-${q.id}`} key={q.id} className={cn(
+                        "p-6 rounded-2xl border-2 transition-all shadow-sm",
+                        isSubmitted && allCorrect ? "border-green-200 bg-green-50/50" :
+                            isSubmitted && anyWrong ? "border-red-200 bg-red-50/50" :
+                                "border-slate-100 bg-white hover:border-blue-200"
+                    )}>
+                        <div className="flex gap-4">
+                            <span className={cn(
+                                "flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center text-sm font-black",
+                                isSubmitted && allCorrect ? "bg-green-100 text-green-700" :
+                                    isSubmitted && anyWrong ? "bg-red-100 text-red-700" :
+                                        "bg-blue-50 text-blue-700"
+                            )}>
+                                {coveredIds.length > 1 ? `${coveredIds[0]}-${coveredIds[coveredIds.length - 1]}` : q.id}
+                            </span>
+                            
+                            <div className="w-full">
+                                {q.type === "multiple-choice" && (
+                                    <div className="space-y-4">
+                                        <p className="font-bold text-slate-800 leading-relaxed pt-1">{q.text}</p>
+                                        <div className="space-y-3">
+                                            {q.options?.map((option: string, i: number) => {
+                                                const isSelected = answers[q.id.toString()] === i.toString();
+                                                const isCorrectOpt = isSubmitted && i.toString() === q.correctAnswer?.toString();
+                                                const isWrongOpt = isSubmitted && isSelected && i.toString() !== q.correctAnswer?.toString();
 
-                        {q.type === "multiple-choice" && (
-                            <div className="space-y-2">
-                                {q.options.map((opt: string, idx: number) => (
-                                    <label key={idx} className="flex items-center gap-3 p-3 bg-white border border-slate-200 rounded-xl cursor-pointer hover:bg-blue-50 transition-colors">
-                                        <input
-                                            type="radio"
-                                            name={`q-${q.id}`}
-                                            checked={answers[q.id.toString()] === idx.toString()}
-                                            onChange={() => onAnswerChange(q.id.toString(), idx.toString())}
-                                            className="w-4 h-4 text-blue-600"
-                                        />
-                                        <span className="text-sm text-slate-600">
-                                            <span className="font-bold mr-2">{String.fromCharCode(65 + idx)}.</span>
-                                            {opt}
-                                        </span>
-                                    </label>
-                                ))}
-                            </div>
-                        )}
+                                                return (
+                                                    <label key={i} className={cn(
+                                                        "flex items-center gap-3 p-3 rounded-xl border-2 cursor-pointer transition-all group",
+                                                        isSelected ? "border-blue-500 bg-blue-50" : "border-slate-100 bg-slate-50/30 hover:border-slate-200 hover:bg-slate-50",
+                                                        isCorrectOpt && "border-green-500 bg-green-50",
+                                                        isWrongOpt && "border-red-500 bg-red-50"
+                                                    )}>
+                                                        <input 
+                                                            type="radio" 
+                                                            className="hidden" 
+                                                            checked={isSelected}
+                                                            onChange={() => !isSubmitted && onAnswerChange(q.id.toString(), i.toString())}
+                                                            disabled={isSubmitted}
+                                                        />
+                                                        <div className={cn(
+                                                            "w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all",
+                                                            isSelected ? "border-blue-600 bg-blue-600" : "border-slate-300 group-hover:border-blue-400"
+                                                        )}>
+                                                            {isSelected && <div className="w-2.5 h-2.5 rounded-full bg-white shadow-sm" />}
+                                                        </div>
+                                                        <span className={cn("text-base font-medium", isSelected ? "text-blue-900" : "text-slate-700")}>
+                                                            <span className="font-bold mr-2">{String.fromCharCode(65 + i)}.</span>
+                                                            {option}
+                                                        </span>
+                                                    </label>
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
+                                )}
 
-                        {q.type === "fill-blank" && (
-                            <div className="font-medium text-slate-700 leading-relaxed">
-                                {q.text && q.text.includes("_____") ? (
-                                    <>
-                                        {q.text.split(/(_____)/).map((part: string, i: number) => {
-                                            if (part === "_____") {
-                                                const isCorrect = isSubmitted && answers[q.id.toString()]?.trim().toLowerCase() === q.correctAnswer?.toString().toLowerCase();
-                                                const isWrong = isSubmitted && answers[q.id.toString()] && !isCorrect;
-                                                
+                                {q.type === "matching" && (
+                                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                                        <p className="font-bold text-slate-800 leading-relaxed pt-1">{q.text}</p>
+                                        <div className="relative w-full sm:w-64">
+                                            <select
+                                                className={cn(
+                                                    "w-full p-3 pr-10 rounded-xl border-2 appearance-none outline-none transition-all font-bold bg-white text-sm",
+                                                    answers[q.id.toString()] ? "border-blue-400 bg-blue-50 text-blue-900" : "border-slate-200 text-slate-700 hover:border-blue-300",
+                                                    isSubmitted && answers[q.id.toString()] === q.correctAnswer?.toString() && "border-green-400 bg-green-50 text-green-800",
+                                                    isSubmitted && answers[q.id.toString()] && answers[q.id.toString()] !== q.correctAnswer?.toString() && "border-red-400 bg-red-50 text-red-800"
+                                                )}
+                                                value={answers[q.id.toString()] || ""}
+                                                onChange={(e) => onAnswerChange(q.id.toString(), e.target.value)}
+                                                disabled={isSubmitted}
+                                            >
+                                                <option value="">Choose Answer</option>
+                                                {q.options?.map((opt: string, i: number) => (
+                                                    <option key={i} value={opt}>{opt}</option>
+                                                ))}
+                                            </select>
+                                            <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
+                                                <ChevronRight className="w-4 h-4 rotate-90" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+
+                                {q.type === "fill-blank" && (
+                                    <div className="font-medium text-slate-700 leading-relaxed pt-1">
+                                        {q.text.split(/([0-9]+\s*(?:[…\._]{2,}))|(?:[…\._]{2,})/).filter(Boolean).map((part: string, i: number) => {
+                                            const match = part.match(/([0-9]+)\s*(?:[…\._]{2,})/);
+                                            if (match) {
+                                                const targetId = parseInt(match[1]);
+                                                const targetQuestion = passageQuestions.find(pq => pq.id === targetId) || q;
+                                                const isCorrect_target = isSubmitted && answers[targetId.toString()]?.toLowerCase().trim() === targetQuestion.correctAnswer?.toString().toLowerCase().trim();
+                                                const isWrong_target = isSubmitted && answers[targetId.toString()] && !isCorrect_target;
+
+                                                return (
+                                                    <span key={i} className="inline-flex items-center">
+                                                        <span className="font-black text-blue-600 mx-1">{targetId}</span>
+                                                        <input
+                                                            type="text"
+                                                            className={cn(
+                                                                "mx-1 px-3 py-1 bg-white border-b-2 outline-none transition-all w-32 md:w-36 text-center font-black text-sm",
+                                                                isSubmitted ? (
+                                                                    isCorrect_target ? "border-green-500 bg-green-50 text-green-700" : "border-red-500 bg-red-50 text-red-700"
+                                                                ) : "border-blue-400 focus:border-blue-600 focus:ring-4 focus:ring-blue-500/5 hover:border-blue-500 text-slate-900"
+                                                            )}
+                                                            value={answers[targetId.toString()] || ""}
+                                                            onChange={(e) => onAnswerChange(targetId.toString(), e.target.value)}
+                                                            disabled={isSubmitted}
+                                                            autoComplete="off"
+                                                        />
+                                                    </span>
+                                                );
+                                            }
+
+                                            if (part.match(/^[…\._]{2,}$/)) {
+                                                const isCorrect_q = isSubmitted && answers[q.id.toString()]?.toLowerCase().trim() === q.correctAnswer?.toString().toLowerCase().trim();
+                                                const isWrong_q = isSubmitted && answers[q.id.toString()] && !isCorrect_q;
+
                                                 return (
                                                     <input
                                                         key={i}
                                                         type="text"
+                                                        className={cn(
+                                                            "mx-1 px-3 py-1 bg-white border-b-2 outline-none transition-all w-36 md:w-40 text-center font-black text-sm",
+                                                            isSubmitted ? (
+                                                                isCorrect_q ? "border-green-500 bg-green-50 text-green-700" : "border-red-500 bg-red-50 text-red-700"
+                                                            ) : "border-blue-400 focus:border-blue-600 focus:ring-4 focus:ring-blue-500/5 hover:border-blue-500 text-slate-900"
+                                                        )}
                                                         value={answers[q.id.toString()] || ""}
                                                         onChange={(e) => onAnswerChange(q.id.toString(), e.target.value)}
                                                         disabled={isSubmitted}
-                                                        className={cn(
-                                                            "mx-1 px-3 py-1 bg-white border-b-2 outline-none transition-all w-32 md:w-40 text-center font-bold text-sm",
-                                                            isSubmitted ? (
-                                                                isCorrect ? "border-green-500 bg-green-50 text-green-700" : "border-red-500 bg-red-50 text-red-700"
-                                                            ) : "border-blue-400 focus:border-blue-600 focus:ring-4 focus:ring-blue-500/5 hover:border-blue-500 text-slate-800"
-                                                        )}
                                                         autoComplete="off"
                                                     />
                                                 );
                                             }
-                                            return <span key={i}>{part}</span>;
+
+                                            return <span key={i} dangerouslySetInnerHTML={{ __html: part }} />;
                                         })}
-                                        {isSubmitted && answers[q.id.toString()]?.trim().toLowerCase() !== q.correctAnswer?.toString().toLowerCase() && (
-                                            <div className="mt-3 p-3 bg-blue-50 border border-blue-100 rounded-xl text-xs font-bold text-blue-700">
-                                                Correct Answer: {q.correctAnswer}
-                                            </div>
-                                        )}
-                                    </>
-                                ) : (
-                                    <div className="flex flex-col sm:flex-row sm:items-center gap-4">
-                                        {!q.text && (
-                                            <span className="text-blue-600 font-mono font-bold whitespace-nowrap">{q.id}.</span>
-                                        )}
-                                        <input
-                                            type="text"
-                                            value={answers[q.id.toString()] || ""}
-                                            onChange={(e) => onAnswerChange(q.id.toString(), e.target.value)}
-                                            className={cn(
-                                                "w-full px-4 py-3 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition-all font-medium",
-                                                isSubmitted ? (
-                                                    answers[q.id.toString()]?.trim().toLowerCase() === q.correctAnswer?.toString().toLowerCase() 
-                                                        ? "bg-green-50 text-green-700 ring-2 ring-green-200" 
-                                                        : "bg-red-50 text-red-700 ring-2 ring-red-200"
-                                                ) : "bg-slate-50 text-slate-800"
-                                            )}
-                                            disabled={isSubmitted}
-                                            placeholder="Type your answer here..."
-                                        />
-                                        {isSubmitted && answers[q.id.toString()]?.trim().toLowerCase() !== q.correctAnswer?.toString().toLowerCase() && (
-                                            <div className="mt-2 p-2 bg-blue-50 text-blue-700 rounded-lg text-xs font-bold">
-                                                Correct: {q.correctAnswer}
-                                            </div>
-                                        )}
+                                    </div>
+                                )}
+
+                                {q.type === "true-false" && (
+                                    <div className="space-y-4">
+                                        <p className="font-bold text-slate-800 leading-relaxed pt-1">{q.text}</p>
+                                        <div className="flex flex-wrap gap-2">
+                                            {["TRUE", "FALSE", "NOT GIVEN"].map((val) => {
+                                                const isSelected = answers[q.id.toString()] === val;
+                                                const isCorrectVal = isSubmitted && val === q.correctAnswer?.toString().toUpperCase();
+                                                const isWrongVal = isSubmitted && isSelected && val !== q.correctAnswer?.toString().toUpperCase();
+
+                                                return (
+                                                    <button
+                                                        key={val}
+                                                        onClick={() => !isSubmitted && onAnswerChange(q.id.toString(), val)}
+                                                        className={cn(
+                                                            "px-4 py-2 rounded-xl text-xs font-black border-2 transition-all",
+                                                            isSelected ? "bg-slate-800 text-white border-slate-800 shadow-md" : "bg-white text-slate-500 border-slate-100 hover:border-slate-200",
+                                                            isCorrectVal && "bg-green-600 text-white border-green-600",
+                                                            isWrongVal && "bg-red-600 text-white border-red-600"
+                                                        )}
+                                                        disabled={isSubmitted}
+                                                    >
+                                                        {val}
+                                                    </button>
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
+                                )}
+
+                                {isSubmitted && anyWrong && (
+                                    <div className="mt-4 space-y-2">
+                                        {coveredIds.map(id => {
+                                            const question = passageQuestions.find((pq: any) => pq.id === id);
+                                            const val = answers[id.toString()] || "";
+                                            const isWrong_id = val.toLowerCase().trim() !== question?.correctAnswer?.toString().toLowerCase().trim();
+                                            if (!isWrong_id) return null;
+                                            return (
+                                                <div key={id} className="p-3 bg-blue-50 border border-blue-100 rounded-xl text-xs font-bold text-blue-700 flex items-center gap-2 animate-in fade-in slide-in-from-top-1">
+                                                    <div className="w-1.5 h-1.5 rounded-full bg-blue-400" />
+                                                    Question {id}: Correct Answer is "{question?.correctAnswer}"
+                                                </div>
+                                            );
+                                        })}
                                     </div>
                                 )}
                             </div>
-                        )}
-
-                    {q.type === "true-false" && (
-                        <div className="flex gap-3">
-                            {["TRUE", "FALSE", "NOT GIVEN"].map((val) => (
-                                <button
-                                    key={val}
-                                    onClick={() => onAnswerChange(q.id.toString(), val)}
-                                    className={cn(
-                                        "px-4 py-2 rounded-lg text-xs font-bold border transition-all",
-                                        answers[q.id.toString()] === val
-                                            ? "bg-slate-800 text-white border-transparent"
-                                            : "bg-white text-slate-500 border-slate-200 hover:border-slate-400"
-                                    )}
-                                >
-                                    {val}
-                                </button>
-                            ))}
                         </div>
-                    )}
                     </div>
                 );
             })}
