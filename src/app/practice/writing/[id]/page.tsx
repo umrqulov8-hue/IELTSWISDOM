@@ -42,6 +42,42 @@ interface BandResult {
 
 // --- Mock Prompts Data ---
 const PROMPTS: Record<string, TestData> = {
+    "writing-test-9": {
+        title: "March 10 Test - Full Academic Writing Test",
+        type: "full-test",
+        tasks: [
+            {
+                title: "Task 1: Water Cleaning System",
+                type: "task-1",
+                minWords: 150,
+                prompt: `
+                    <h3 class="text-lg font-bold mb-2">WRITING TASK 1</h3>
+                    <p class="mb-4">You should spend about 20 minutes on this task.</p>
+                    <p class="mb-4">The diagram below shows a simple system that turns water into clean water.</p>
+                    <div class="mb-6 flex flex-col items-center gap-4">
+                       <img src="/image for writing test/photo_2026-03-13_19-59-13.jpg" alt="Water Cleaning System Diagram" class="w-full h-auto rounded-lg shadow-sm border border-slate-100"/>
+                    </div>
+                    <p class="mb-4">Summarise the information by selecting and reporting the main features, and make comparisons where relevant.</p>
+                    <p>Write at least 150 words.</p>
+                `
+            },
+            {
+                title: "Task 2: City Problems for Young People",
+                type: "task-2",
+                minWords: 250,
+                prompt: `
+                    <h3 class="text-lg font-bold mb-2">WRITING TASK 2</h3>
+                    <p class="mb-4">You should spend about 40 minutes on this task.</p>
+                    <p class="mb-4">Write about the following topic:</p>
+                    <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 mb-6 italic text-slate-700 leading-relaxed shadow-sm">
+                        As major cities around the world are growing, so are their problems. What are these problems for young people living in cities? What are possible solutions for these problems?
+                    </div>
+                    <p class="mb-4">Give reasons for your answer and include any relevant examples from your own knowledge or experience.</p>
+                    <p>Write at least 250 words.</p>
+                `
+            }
+        ]
+    },
     "writing-test-8": {
         title: "Writing Practice 8 - Full Academic Writing Test",
         type: "full-test",
