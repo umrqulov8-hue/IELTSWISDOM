@@ -38,7 +38,7 @@ export default function SimulationPage() {
     const [answers, setAnswers] = useState<Record<string, string>>({});
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [isBreak, setIsBreak] = useState(false);
-    const [breakTimer, setBreakTimer] = useState(60);
+    const [isVideoEnded, setIsVideoEnded] = useState(false);
 
     // Timer State
     const [duration, setDuration] = useState(0);
@@ -359,36 +359,27 @@ export default function SimulationPage() {
         });
     }, [currentPartIndex, answers]);
 
-    // Break Timer Effect
-    useEffect(() => {
-        let interval: NodeJS.Timeout;
-        if (isBreak && breakTimer > 0) {
-            interval = setInterval(() => {
-                setBreakTimer(prev => prev - 1);
-            }, 1000);
-        } else if (isBreak && breakTimer === 0) {
-            const nextSectionMap: Record<string, string> = {
-                listening: "reading",
-                reading: "writing",
-                writing: "speaking",
-                speaking: "dashboard"
-            };
-            const nextSection = nextSectionMap[section];
+    // Break Timer / Next Section transition
+    const goToNextSection = useCallback(() => {
+        const nextSectionMap: Record<string, string> = {
+            listening: "reading",
+            reading: "writing",
+            writing: "speaking",
+            speaking: "dashboard"
+        };
+        const nextSection = nextSectionMap[section as string];
 
-            if (nextSection === "dashboard") {
-                // If we finished the speaking section (or final section), go to results
-                router.push(`/exam-center/simulate/results/${testId}`);
-            } else {
-                router.push(`/exam-center/simulate/${nextSection}/${testId}`);
-                setIsBreak(false);
-                setBreakTimer(60);
-                setIsSubmitted(false);
-                setCurrentPartIndex(0);
-                setAnswers({});
-            }
+        if (nextSection === "dashboard") {
+            router.push(`/exam-center/simulate/results/${testId}`);
+        } else {
+            router.push(`/exam-center/simulate/${nextSection}/${testId}`);
+            setIsBreak(false);
+            setIsVideoEnded(false);
+            setIsSubmitted(false);
+            setCurrentPartIndex(0);
+            setAnswers({});
         }
-        return () => clearInterval(interval);
-    }, [isBreak, breakTimer, section, testId, router]);
+    }, [section, testId, router]);
 
     const handleSubmit = async () => {
         if (isSubmitted) return;
@@ -467,34 +458,83 @@ export default function SimulationPage() {
     const currentQCount = Object.keys(answers).length;
 
     if (isBreak) {
+        const nextSectionMap: Record<string, string> = {
+            listening: "reading",
+            reading: "writing",
+            writing: "speaking",
+            speaking: "dashboard"
+        };
+        const nextSection = nextSectionMap[section as string];
+        
+        const getSectionData = (sec: string) => {
+            switch(sec) {
+                case "reading": return { title: "Reading", timing: "60 minutes", video: "/test%20uchun%20video/reading.mp4" };
+                case "writing": return { title: "Writing", timing: "60 minutes", video: null };
+                case "speaking": return { title: "Speaking", timing: "11-14 minutes", video: null };
+                default: return { title: "Next Section", timing: "", video: null };
+            }
+        };
+
+        const secData = getSectionData(nextSection);
+
         return (
-            <div className="min-h-screen bg-[#F0F2F5] flex flex-col items-center justify-center text-slate-900 p-8 text-center selection:bg-[#2D3E50]/20 selection:text-blue-900 font-sans">
-                <AnimatePresence>
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0.95 }}
-                        className="max-w-md w-full"
-                    >
-                        <div className="w-24 h-24 bg-[#2D3E50]/10 rounded-full flex items-center justify-center mx-auto mb-8 relative">
-                            <div className="absolute inset-0 bg-[#2D3E50]/10 rounded-full animate-ping" />
-                            <Clock className="w-12 h-12 text-[#2D3E50]" />
+            <div className="min-h-screen bg-[#F0F2F5] flex flex-col font-sans">
+                {/* Header matching pre-check */}
+                <header className="bg-white border-b border-slate-200 px-6 py-4 flex items-center justify-between shadow-sm">
+                    <div className="flex items-center gap-4">
+                        <div className="text-red-600 font-extrabold text-4xl tracking-tighter">IELTS</div>
+                        <div className="flex flex-col text-sm text-slate-800 font-medium pl-4 border-l border-slate-200">
+                            <span className="text-slate-900 leading-tight">123456</span>
                         </div>
-                        <h2 className="text-4xl font-black mb-4 text-[#2D3E50]">Section Completed</h2>
-                        <p className="text-slate-600 text-lg mb-12">
-                            Take a short breather. The next section will start automatically in:
-                        </p>
-                        <div className="text-7xl font-black font-mono text-[#2D3E50] mb-12">
-                            00:{breakTimer.toString().padStart(2, '0')}
-                        </div>
-                        <button
-                            onClick={() => setBreakTimer(0)}
-                            className="bg-[#2D3E50] text-white px-10 py-4 rounded-2xl font-bold hover:bg-[#1E293B] transition-all shadow-xl"
+                    </div>
+                </header>
+
+                <main className="max-w-4xl w-full mx-auto px-4 py-8 space-y-4">
+                    <AnimatePresence>
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.95 }}
+                            className="bg-white rounded-xl border border-blue-200 p-6 shadow-sm"
                         >
-                            Skip Break
-                        </button>
-                    </motion.div>
-                </AnimatePresence>
+                            <h3 className="text-lg font-bold text-slate-900 mb-2">{secData.title}</h3>
+                            <div className="text-red-500 font-medium mb-4">Not completed</div>
+                            <div className="text-slate-600 mb-6">Timing: {secData.timing}</div>
+
+                            {secData.video ? (
+                                <div className="mt-6">
+                                    <video 
+                                        src={secData.video}
+                                        controls
+                                        autoPlay
+                                        controlsList="nodownload noremoteplayback"
+                                        onContextMenu={(e) => e.preventDefault()}
+                                        disablePictureInPicture
+                                        onEnded={() => setIsVideoEnded(true)}
+                                        className="w-full rounded-lg border border-slate-200 shadow-sm mb-6"
+                                    />
+                                    {isVideoEnded && (
+                                        <button
+                                            onClick={goToNextSection}
+                                            className="px-6 py-3 bg-[#0f172a] text-white rounded-lg font-bold shadow-md hover:bg-slate-800 transition-colors mt-6"
+                                        >
+                                            Start {secData.title}
+                                        </button>
+                                    )}
+                                </div>
+                            ) : (
+                                <div className="mt-6">
+                                    <button
+                                        onClick={goToNextSection}
+                                        className="px-6 py-3 bg-[#0f172a] text-white rounded-lg font-bold shadow-md hover:bg-slate-800 transition-colors mt-6"
+                                    >
+                                        Start {secData.title}
+                                    </button>
+                                </div>
+                            )}
+                        </motion.div>
+                    </AnimatePresence>
+                </main>
             </div>
         );
     }
