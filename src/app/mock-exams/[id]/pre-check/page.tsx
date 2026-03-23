@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, use } from "react";
+import { useState, useRef, use, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Check, Menu } from "lucide-react";
 
@@ -14,6 +14,16 @@ export default function PreTestChecksPage({ params }: { params: Promise<{ id: st
     const [step, setStep] = useState<1 | 2 | 3>(1);
     const [isListeningVideoEnded, setIsListeningVideoEnded] = useState(false);
     const audioRef = useRef<HTMLAudioElement | null>(null);
+
+    // Stop audio if component unmounts
+    useEffect(() => {
+        return () => {
+            if (audioRef.current) {
+                audioRef.current.pause();
+                audioRef.current.src = "";
+            }
+        };
+    }, []);
 
     const handlePlaySound = () => {
         if (!audioRef.current) {
@@ -51,6 +61,7 @@ export default function PreTestChecksPage({ params }: { params: Promise<{ id: st
     };
 
     const handleStartListening = () => {
+        handleStopSound();
         const testIndex = parseInt(id, 10);
         const mtId = `mt-${testIndex + 1}`;
         router.push(`/exam-center/simulate/listening/${mtId}`);
