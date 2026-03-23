@@ -12,6 +12,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { createClient } from "@/utils/supabase/client";
 import { Clock, LayoutList, PenTool, Mic, GripVertical, ChevronRight, Highlighter, MousePointer2, Copy, Search, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 
 // Memoized Passage Renderer to prevent highlight wiping on re-renders
 const PassageRenderer = memo(({ title, content }: { title: string; content: string }) => {
@@ -492,8 +493,14 @@ export default function SimulationPage() {
                 {/* Header matching pre-check */}
                 <header className="bg-white border-b border-slate-200 px-6 py-4 flex items-center justify-between shadow-sm">
                     <div className="flex items-center gap-4">
-                        <div className="text-red-600 font-extrabold text-4xl tracking-tighter">IELTSWISDOM</div>
-                        <div className="flex flex-col text-sm text-slate-800 font-medium pl-4 border-l border-slate-200">
+                        <Image 
+                            src="/owl-logo.png" 
+                            alt="IELTS Wisdom Logo" 
+                            width={140} 
+                            height={40} 
+                            className="h-9 w-auto object-contain"
+                        />
+                        <div className="flex flex-col text-sm text-slate-800 font-normal pl-4 border-l border-slate-200">
                             <span className="text-slate-900 leading-tight">{userName}</span>
                         </div>
                     </div>

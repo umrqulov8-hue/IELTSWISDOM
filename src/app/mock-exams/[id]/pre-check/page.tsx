@@ -4,6 +4,7 @@ import { useState, useRef, use, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Check, Menu } from "lucide-react";
 import { createClient } from "@/utils/supabase/client";
+import Image from "next/image";
 
 export default function PreTestChecksPage({ params }: { params: Promise<{ id: string }> }) {
     const resolvedParams = use(params);
@@ -86,8 +87,14 @@ export default function PreTestChecksPage({ params }: { params: Promise<{ id: st
             {/* Header */}
             <header className="bg-white border-b border-slate-200 px-6 py-4 flex items-center justify-between shadow-sm">
                 <div className="flex items-center gap-4">
-                    <div className="text-red-600 font-extrabold text-4xl tracking-tighter">IELTSWISDOM</div>
-                    <div className="flex flex-col text-sm text-slate-800 font-medium pl-4 border-l border-slate-200">
+                    <Image 
+                        src="/owl-logo.png" 
+                        alt="IELTS Wisdom Logo" 
+                        width={140} 
+                        height={40} 
+                        className="h-9 w-auto object-contain"
+                    />
+                    <div className="flex flex-col text-sm text-slate-800 font-normal pl-4 border-l border-slate-200">
                         <span className="text-slate-900 leading-tight">{userName}</span>
                     </div>
                 </div>
