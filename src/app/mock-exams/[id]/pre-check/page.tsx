@@ -11,6 +11,7 @@ export default function PreTestChecksPage({ params }: { params: Promise<{ id: st
     const [hasPlayedSound, setHasPlayedSound] = useState(false);
     const [isPlaying, setIsPlaying] = useState(false);
     const [isVideoVisible, setIsVideoVisible] = useState(true);
+    const [step, setStep] = useState<1 | 2>(1);
     const audioRef = useRef<HTMLAudioElement | null>(null);
 
     const handlePlaySound = () => {
@@ -38,8 +39,12 @@ export default function PreTestChecksPage({ params }: { params: Promise<{ id: st
         }
     };
 
-    const handleContinue = () => {
+    const handleContinueToVideo = () => {
         if (!hasPlayedSound) return;
+        setStep(2);
+    };
+
+    const handleStartTest = () => {
         const testIndex = parseInt(id, 10);
         const mtId = `mt-${testIndex + 1}`;
         router.push(`/exam-center/simulate/listening/${mtId}`);
@@ -65,67 +70,85 @@ export default function PreTestChecksPage({ params }: { params: Promise<{ id: st
             <main className="max-w-4xl mx-auto px-4 py-8 space-y-4">
                 
                 {/* Pre-test checks Card */}
-                <div className={`bg-white rounded-xl border p-6 transition-all ${hasPlayedSound ? 'border-green-200 shadow-sm' : 'border-slate-200 shadow-sm'}`}>
+                <div className={`bg-white rounded-xl border p-6 transition-all ${step === 1 && hasPlayedSound ? 'border-green-200 shadow-sm' : 'border-slate-200 shadow-sm'}`}>
                     <div className="flex items-center justify-between mb-2">
                         <h2 className="text-xl font-bold text-slate-900">Pre-test checks</h2>
-                        {hasPlayedSound && <Check className="w-6 h-6 text-green-500" />}
+                        {step === 1 && hasPlayedSound && <Check className="w-6 h-6 text-green-500" />}
                     </div>
                     
-                    <div className="flex justify-end mb-2">
-                        <button 
-                            onClick={() => setIsVideoVisible(!isVideoVisible)}
-                            className="text-slate-500 hover:text-slate-800 text-sm font-medium transition-colors"
-                        >
-                            {isVideoVisible ? 'Hide video' : 'Show video'}
-                        </button>
-                    </div>
+                    {step === 2 && (
+                        <>
+                            <div className="flex justify-end mb-2">
+                                <button 
+                                    onClick={() => setIsVideoVisible(!isVideoVisible)}
+                                    className="text-slate-500 hover:text-slate-800 text-sm font-medium transition-colors"
+                                >
+                                    {isVideoVisible ? 'Hide video' : 'Show video'}
+                                </button>
+                            </div>
 
-                    {isVideoVisible && (
-                        <div className="mb-8">
-                            <video 
-                                src="/test%20uchun%20video/pre-test.mp4"
-                                controls
-                                controlsList="nodownload noremoteplayback"
-                                onContextMenu={(e) => e.preventDefault()}
-                                disablePictureInPicture
-                                className="w-full rounded-lg border border-slate-200 shadow-sm"
-                            />
-                        </div>
+                            {isVideoVisible && (
+                                <div className="mb-8">
+                                    <video 
+                                        src="/test%20uchun%20video/pre-test.mp4"
+                                        controls
+                                        controlsList="nodownload noremoteplayback"
+                                        onContextMenu={(e) => e.preventDefault()}
+                                        disablePictureInPicture
+                                        className="w-full rounded-lg border border-slate-200 shadow-sm"
+                                    />
+                                </div>
+                            )}
+
+                            <div className="flex justify-end border-t border-slate-100 pt-6">
+                                <button
+                                    onClick={handleStartTest}
+                                    className="px-8 py-3 rounded-lg font-bold transition-colors bg-[#0f172a] text-white hover:bg-slate-800 shadow-md"
+                                >
+                                    Start Test
+                                </button>
+                            </div>
+                        </>
                     )}
-                    <p className="text-slate-700 mb-6">
-                        Put on your headphones and click <span className="font-bold">Play sound</span> to play a sample sound.
-                    </p>
-                    <div className="flex items-center gap-4 mb-4">
-                        {isPlaying ? (
-                            <button
-                                onClick={handleStopSound}
-                                className="px-6 py-2.5 rounded-lg font-bold transition-colors bg-[#0f172a] text-white hover:bg-slate-800"
-                            >
-                                Stop sound
-                            </button>
-                        ) : (
-                            <button
-                                onClick={handlePlaySound}
-                                className="px-6 py-2.5 rounded-lg font-bold transition-colors bg-[#0f172a] text-white hover:bg-slate-800"
-                            >
-                                Play sound
-                            </button>
-                        )}
-                        <button
-                            onClick={handleContinue}
-                            disabled={!hasPlayedSound}
-                            className={`px-6 py-2.5 rounded-lg font-bold border transition-colors ${
-                                hasPlayedSound 
-                                ? "bg-white border-slate-300 text-slate-900 hover:bg-slate-50 cursor-pointer" 
-                                : "bg-slate-50 border-slate-200 text-slate-400 cursor-not-allowed"
-                            }`}
-                        >
-                            Continue
-                        </button>
-                    </div>
-                    <p className="text-sm text-slate-500">
-                        If you cannot hear the sound clearly, please tell the invigilator.
-                    </p>
+
+                    {step === 1 && (
+                        <>
+                            <p className="text-slate-700 mb-6">
+                                Put on your headphones and click <span className="font-bold">Play sound</span> to play a sample sound.
+                            </p>
+                            <div className="flex items-center gap-4 mb-4">
+                                {isPlaying ? (
+                                    <button
+                                        onClick={handleStopSound}
+                                        className="px-6 py-2.5 rounded-lg font-bold transition-colors bg-[#0f172a] text-white hover:bg-slate-800"
+                                    >
+                                        Stop sound
+                                    </button>
+                                ) : (
+                                    <button
+                                        onClick={handlePlaySound}
+                                        className="px-6 py-2.5 rounded-lg font-bold transition-colors bg-[#0f172a] text-white hover:bg-slate-800"
+                                    >
+                                        Play sound
+                                    </button>
+                                )}
+                                <button
+                                    onClick={handleContinueToVideo}
+                                    disabled={!hasPlayedSound}
+                                    className={`px-6 py-2.5 rounded-lg font-bold border transition-colors ${
+                                        hasPlayedSound 
+                                        ? "bg-white border-slate-300 text-slate-900 hover:bg-slate-50 cursor-pointer" 
+                                        : "bg-slate-50 border-slate-200 text-slate-400 cursor-not-allowed"
+                                    }`}
+                                >
+                                    Continue
+                                </button>
+                            </div>
+                            <p className="text-sm text-slate-500">
+                                If you cannot hear the sound clearly, please tell the invigilator.
+                            </p>
+                        </>
+                    )}
                 </div>
 
                 {/* Listening Card */}
