@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, use } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { ShieldCheck, ClipboardList, AlertTriangle, CheckCircle2, Clock, ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useLanguage } from "@/context/LanguageContext";
@@ -27,6 +27,7 @@ export default function MockExamIntroPage({ params }: { params: Promise<{ id: st
     const router = useRouter();
     const { lang } = useLanguage();
     const [agreedRules, setAgreedRules] = useState<boolean>(false);
+    const [isStarting, setIsStarting] = useState(false);
 
     const INTRO = T.mockExamsIntro;
     const testIndex = parseInt(id, 10);
@@ -38,7 +39,9 @@ export default function MockExamIntroPage({ params }: { params: Promise<{ id: st
         listItems: []
     }; // fallback
 
-    const handleStartMock = () => {
+    const handleStartSequence = () => {
+        setIsStarting(true);
+        // Request fullscreen immediately to avoid interruptions
         try {
             const el = document.documentElement as any;
             if (el.requestFullscreen) {
@@ -52,13 +55,65 @@ export default function MockExamIntroPage({ params }: { params: Promise<{ id: st
             console.error("Error attempting to enable fullscreen:", err);
         }
 
-        // This directs to the exam center to start a simulated mock (e.g., listening first).
-        const mtId = `mt-${testIndex + 1}`;
-        router.push(`/exam-center/simulate/listening/${mtId}`);
+        // Delay the actual navigation to show the animation
+        setTimeout(() => {
+            router.push(`/mock-exams/${id}/pre-check`);
+        }, 3500); // 3.5 seconds for a premium feel
     };
 
     return (
         <div className="min-h-screen bg-[#F8FAFC] flex flex-col items-center justify-center p-6 relative overflow-hidden font-sans">
+            {/* Transition Overlay */}
+            <AnimatePresence>
+                {isStarting && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 z-[100] bg-[#2D3E50] flex flex-col items-center justify-center text-white"
+                    >
+                        <motion.div
+                            initial={{ scale: 0.8, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            transition={{ duration: 0.5, ease: "easeOut" }}
+                            className="text-center space-y-8"
+                        >
+                            <div className="w-24 h-24 bg-white/10 rounded-full flex items-center justify-center mx-auto relative">
+                                <motion.div 
+                                    className="absolute inset-0 bg-white/10 rounded-full"
+                                    animate={{ scale: [1, 1.5, 1], opacity: [0.5, 0, 0.5] }}
+                                    transition={{ duration: 2, repeat: Infinity }}
+                                />
+                                <ShieldCheck className="w-12 h-12 text-white" />
+                            </div>
+                            
+                            <div className="space-y-2">
+                                <h3 className="text-3xl font-black tracking-tight">Preparing Exam Center</h3>
+                                <p className="text-white/50 font-medium">Entering secure examination mode...</p>
+                            </div>
+
+                            <div className="w-64 h-1.5 bg-white/10 rounded-full mx-auto overflow-hidden border border-white/5">
+                                <motion.div 
+                                    className="h-full bg-blue-400"
+                                    initial={{ width: "0%" }}
+                                    animate={{ width: "100%" }}
+                                    transition={{ duration: 3, ease: "easeInOut" }}
+                                />
+                            </div>
+
+                            <motion.p 
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: [0, 1, 0] }}
+                                transition={{ duration: 1.5, repeat: Infinity }}
+                                className="text-[10px] uppercase font-black tracking-[0.3em] text-blue-300"
+                            >
+                                Initializing Simulation
+                            </motion.p>
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
             {/* Background Decoration */}
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500" />
             <div className="absolute -top-24 -left-24 w-96 h-96 bg-blue-100/50 rounded-full blur-3xl z-0 pointer-events-none" />
@@ -108,8 +163,8 @@ export default function MockExamIntroPage({ params }: { params: Promise<{ id: st
                         </label>
 
                         <button
-                            onClick={handleStartMock}
-                            disabled={!agreedRules}
+                            onClick={handleStartSequence}
+                            disabled={!agreedRules || isStarting}
                             className="px-10 py-4 bg-[#2D3E50] text-white rounded-2xl font-bold shadow-lg disabled:opacity-30 transition-all hover:bg-slate-800"
                         >
                             {tx(INTRO.startBtn, lang)}
