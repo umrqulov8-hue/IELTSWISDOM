@@ -39,6 +39,19 @@ export default function SimulationPage() {
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [isBreak, setIsBreak] = useState(false);
     const [isVideoEnded, setIsVideoEnded] = useState(false);
+    const [userName, setUserName] = useState<string>("Candidate");
+
+    // Fetch user
+    useEffect(() => {
+        async function fetchUser() {
+            const supabase = createClient();
+            const { data: { user } } = await supabase.auth.getUser();
+            if (user) {
+                setUserName(user.user_metadata?.full_name || user.email?.split('@')[0] || "Candidate");
+            }
+        }
+        fetchUser();
+    }, []);
 
     // Timer State
     const [duration, setDuration] = useState(0);
@@ -479,9 +492,9 @@ export default function SimulationPage() {
                 {/* Header matching pre-check */}
                 <header className="bg-white border-b border-slate-200 px-6 py-4 flex items-center justify-between shadow-sm">
                     <div className="flex items-center gap-4">
-                        <div className="text-red-600 font-extrabold text-4xl tracking-tighter">IELTS</div>
+                        <div className="text-red-600 font-extrabold text-4xl tracking-tighter">IELTSWISDOM</div>
                         <div className="flex flex-col text-sm text-slate-800 font-medium pl-4 border-l border-slate-200">
-                            <span className="text-slate-900 leading-tight">123456</span>
+                            <span className="text-slate-900 leading-tight">{userName}</span>
                         </div>
                     </div>
                 </header>

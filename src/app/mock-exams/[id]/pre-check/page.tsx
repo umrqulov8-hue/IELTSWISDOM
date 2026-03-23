@@ -3,6 +3,7 @@
 import { useState, useRef, use, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Check, Menu } from "lucide-react";
+import { createClient } from "@/utils/supabase/client";
 
 export default function PreTestChecksPage({ params }: { params: Promise<{ id: string }> }) {
     const resolvedParams = use(params);
@@ -14,6 +15,19 @@ export default function PreTestChecksPage({ params }: { params: Promise<{ id: st
     const [step, setStep] = useState<1 | 2 | 3>(1);
     const [isListeningVideoEnded, setIsListeningVideoEnded] = useState(false);
     const audioRef = useRef<HTMLAudioElement | null>(null);
+    const [userName, setUserName] = useState<string>("Candidate");
+
+    // Fetch user
+    useEffect(() => {
+        async function fetchUser() {
+            const supabase = createClient();
+            const { data: { user } } = await supabase.auth.getUser();
+            if (user) {
+                setUserName(user.user_metadata?.full_name || user.email?.split('@')[0] || "Candidate");
+            }
+        }
+        fetchUser();
+    }, []);
 
     // Stop audio if component unmounts
     useEffect(() => {
@@ -72,15 +86,11 @@ export default function PreTestChecksPage({ params }: { params: Promise<{ id: st
             {/* Header */}
             <header className="bg-white border-b border-slate-200 px-6 py-4 flex items-center justify-between shadow-sm">
                 <div className="flex items-center gap-4">
-                    <div className="text-red-600 font-extrabold text-4xl tracking-tighter">IELTS</div>
+                    <div className="text-red-600 font-extrabold text-4xl tracking-tighter">IELTSWISDOM</div>
                     <div className="flex flex-col text-sm text-slate-800 font-medium pl-4 border-l border-slate-200">
-                        <span className="text-slate-900 leading-tight">123456</span>
-                        <span className="text-slate-500 text-xs">00:60 minutes left</span>
+                        <span className="text-slate-900 leading-tight">{userName}</span>
                     </div>
                 </div>
-                <button className="text-slate-500 hover:text-slate-800 transition-colors">
-                    <Menu className="w-6 h-6" />
-                </button>
             </header>
 
             {/* Main Content */}
