@@ -157,7 +157,7 @@ export default function PreTestChecksPage({ params }: { params: Promise<{ id: st
                     {step === 3 && (
                         <div className="mt-6">
                             <video 
-                                src="/test%20uchun%20video/Listening.mp4"
+                                src="/test%20uchun%20video/listening.mp4"
                                 controls
                                 autoPlay
                                 controlsList="nodownload noremoteplayback"
