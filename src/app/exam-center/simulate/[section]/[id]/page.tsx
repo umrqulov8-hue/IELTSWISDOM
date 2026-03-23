@@ -10,7 +10,7 @@ import { CDILayout } from "@/components/exam/CDILayout";
 import { toast } from "sonner";
 import { motion, AnimatePresence } from "framer-motion";
 import { createClient } from "@/utils/supabase/client";
-import { Clock, LayoutList, PenTool, Mic, GripVertical, ChevronRight, Highlighter, MousePointer2, Copy, Search } from "lucide-react";
+import { Clock, LayoutList, PenTool, Mic, GripVertical, ChevronRight, Highlighter, MousePointer2, Copy, Search, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 // Memoized Passage Renderer to prevent highlight wiping on re-renders
@@ -466,16 +466,13 @@ export default function SimulationPage() {
         };
         const nextSection = nextSectionMap[section as string];
         
-        const getSectionData = (sec: string) => {
-            switch(sec) {
-                case "reading": return { title: "Reading", timing: "60 minutes", video: "/test%20uchun%20video/reading.mp4" };
-                case "writing": return { title: "Writing", timing: "60 minutes", video: null };
-                case "speaking": return { title: "Speaking", timing: "11-14 minutes", video: null };
-                default: return { title: "Next Section", timing: "", video: null };
-            }
-        };
-
-        const secData = getSectionData(nextSection);
+        const sectionsData = [
+            { id: "pre-test", title: "Pre-test checks", timing: "", isCompleted: true, video: null },
+            { id: "listening", title: "Listening", timing: "45 minutes", isCompleted: ["reading", "writing", "speaking", "dashboard"].includes(nextSection), video: null },
+            { id: "reading", title: "Reading", timing: "60 minutes", isCompleted: ["writing", "speaking", "dashboard"].includes(nextSection), video: "/test%20uchun%20video/reading.mp4" },
+            { id: "writing", title: "Writing", timing: "60 minutes", isCompleted: ["speaking", "dashboard"].includes(nextSection), video: null },
+            { id: "speaking", title: "Speaking", timing: "11-14 minutes", isCompleted: ["dashboard"].includes(nextSection), video: null }
+        ];
 
         return (
             <div className="min-h-screen bg-[#F0F2F5] flex flex-col font-sans">
@@ -490,50 +487,62 @@ export default function SimulationPage() {
                 </header>
 
                 <main className="max-w-4xl w-full mx-auto px-4 py-8 space-y-4">
-                    <AnimatePresence>
-                        <motion.div
-                            initial={{ opacity: 0, scale: 0.95 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            exit={{ opacity: 0, scale: 0.95 }}
-                            className="bg-white rounded-xl border border-blue-200 p-6 shadow-sm"
-                        >
-                            <h3 className="text-lg font-bold text-slate-900 mb-2">{secData.title}</h3>
-                            <div className="text-red-500 font-medium mb-4">Not completed</div>
-                            <div className="text-slate-600 mb-6">Timing: {secData.timing}</div>
+                    {sectionsData.map(sec => {
+                        const isActive = sec.id === nextSection;
+                        const isCompleted = sec.isCompleted;
 
-                            {secData.video ? (
-                                <div className="mt-6">
-                                    <video 
-                                        src={secData.video}
-                                        controls
-                                        autoPlay
-                                        controlsList="nodownload noremoteplayback"
-                                        onContextMenu={(e) => e.preventDefault()}
-                                        disablePictureInPicture
-                                        onEnded={() => setIsVideoEnded(true)}
-                                        className="w-full rounded-lg border border-slate-200 shadow-sm mb-6"
-                                    />
-                                    {isVideoEnded && (
-                                        <button
-                                            onClick={goToNextSection}
-                                            className="px-6 py-3 bg-[#0f172a] text-white rounded-lg font-bold shadow-md hover:bg-slate-800 transition-colors mt-6"
-                                        >
-                                            Start {secData.title}
-                                        </button>
-                                    )}
+                        return (
+                            <div key={sec.id} className={cn(
+                                "bg-white rounded-xl border p-6 shadow-sm transition-all relative overflow-hidden", 
+                                isActive ? "border-blue-200" : isCompleted ? "border-green-200" : "border-slate-200"
+                            )}>
+                                <div className="flex items-center justify-between mb-2">
+                                    <h3 className="text-xl font-bold text-slate-900">{sec.title}</h3>
+                                    {isCompleted && <Check className="w-6 h-6 text-green-500" />}
                                 </div>
-                            ) : (
-                                <div className="mt-6">
-                                    <button
-                                        onClick={goToNextSection}
-                                        className="px-6 py-3 bg-[#0f172a] text-white rounded-lg font-bold shadow-md hover:bg-slate-800 transition-colors mt-6"
-                                    >
-                                        Start {secData.title}
-                                    </button>
-                                </div>
-                            )}
-                        </motion.div>
-                    </AnimatePresence>
+                                
+                                {!isCompleted && sec.id !== "pre-test" && (
+                                    <div className="text-red-500 font-medium mb-4">Not completed</div>
+                                )}
+
+                                {sec.timing && <div className="text-slate-600 mb-2">Timing: {sec.timing}</div>}
+
+                                {isActive && (
+                                    sec.video ? (
+                                        <div className="mt-4">
+                                            <video 
+                                                src={sec.video}
+                                                controls
+                                                autoPlay
+                                                controlsList="nodownload noremoteplayback"
+                                                onContextMenu={(e) => e.preventDefault()}
+                                                disablePictureInPicture
+                                                onEnded={() => setIsVideoEnded(true)}
+                                                className="w-full rounded-lg border border-slate-200 shadow-sm mb-6"
+                                            />
+                                            {isVideoEnded && (
+                                                <button
+                                                    onClick={goToNextSection}
+                                                    className="px-6 py-3 bg-[#0f172a] text-white rounded-lg font-bold shadow-md hover:bg-slate-800 transition-colors mt-6"
+                                                >
+                                                    Start {sec.title}
+                                                </button>
+                                            )}
+                                        </div>
+                                    ) : (
+                                        <div className="mt-4">
+                                            <button
+                                                onClick={goToNextSection}
+                                                className="px-6 py-3 bg-[#0f172a] text-white rounded-lg font-bold shadow-md hover:bg-slate-800 transition-colors mt-6"
+                                            >
+                                                Start {sec.title}
+                                            </button>
+                                        </div>
+                                    )
+                                )}
+                            </div>
+                        );
+                    })}
                 </main>
             </div>
         );
