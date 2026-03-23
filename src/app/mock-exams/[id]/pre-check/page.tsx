@@ -67,6 +67,7 @@ export default function PreTestChecksPage({ params }: { params: Promise<{ id: st
 
     const handleContinueToVideo = () => {
         if (!hasPlayedSound) return;
+        handleStopSound();
         setStep(2);
     };
 
