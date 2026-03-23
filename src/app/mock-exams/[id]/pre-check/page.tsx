@@ -12,6 +12,7 @@ export default function PreTestChecksPage({ params }: { params: Promise<{ id: st
     const [isPlaying, setIsPlaying] = useState(false);
     const [isVideoVisible, setIsVideoVisible] = useState(true);
     const [step, setStep] = useState<1 | 2>(1);
+    const [videoSrc, setVideoSrc] = useState("/test%20uchun%20video/pre-test.mp4");
     const audioRef = useRef<HTMLAudioElement | null>(null);
 
     const handlePlaySound = () => {
@@ -90,12 +91,18 @@ export default function PreTestChecksPage({ params }: { params: Promise<{ id: st
                             {isVideoVisible && (
                                 <div className="mb-8">
                                     <video 
-                                        src="/test%20uchun%20video/pre-test.mp4"
+                                        src={videoSrc}
                                         controls
+                                        autoPlay={videoSrc.includes("Listening")}
                                         controlsList="nodownload noremoteplayback"
                                         onContextMenu={(e) => e.preventDefault()}
                                         disablePictureInPicture
-                                        className="w-full rounded-lg border border-slate-200 shadow-sm"
+                                        onEnded={() => {
+                                            if (videoSrc.includes("pre-test")) {
+                                                setVideoSrc("/test%20uchun%20video/Listening.mp4");
+                                            }
+                                        }}
+                                        className="w-full rounded-lg border border-slate-200 shadow-sm transition-opacity"
                                     />
                                 </div>
                             )}
