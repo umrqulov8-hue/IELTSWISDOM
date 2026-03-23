@@ -73,20 +73,21 @@ export default function PreTestChecksPage({ params }: { params: Promise<{ id: st
                         Put on your headphones and click <span className="font-bold">Play sound</span> to play a sample sound.
                     </p>
                     <div className="flex items-center gap-4 mb-4">
-                        <button
-                            onClick={handlePlaySound}
-                            disabled={isPlaying}
-                            className={`px-6 py-2.5 rounded-lg font-bold transition-colors ${isPlaying ? 'bg-slate-100 text-slate-400 cursor-not-allowed' : 'bg-[#0f172a] text-white hover:bg-slate-800'}`}
-                        >
-                            Play sound
-                        </button>
-                        <button
-                            onClick={handleStopSound}
-                            disabled={!isPlaying}
-                            className={`px-6 py-2.5 rounded-lg font-bold border transition-colors ${isPlaying ? 'bg-white border-slate-300 text-slate-900 hover:bg-slate-50' : 'bg-slate-50 border-slate-200 text-slate-400 cursor-not-allowed'}`}
-                        >
-                            Stop sound
-                        </button>
+                        {isPlaying ? (
+                            <button
+                                onClick={handleStopSound}
+                                className="px-6 py-2.5 rounded-lg font-bold transition-colors bg-[#0f172a] text-white hover:bg-slate-800"
+                            >
+                                Stop sound
+                            </button>
+                        ) : (
+                            <button
+                                onClick={handlePlaySound}
+                                className="px-6 py-2.5 rounded-lg font-bold transition-colors bg-[#0f172a] text-white hover:bg-slate-800"
+                            >
+                                Play sound
+                            </button>
+                        )}
                         <button
                             onClick={handleContinue}
                             disabled={!hasPlayedSound}
