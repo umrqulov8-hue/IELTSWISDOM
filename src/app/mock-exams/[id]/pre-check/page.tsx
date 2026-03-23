@@ -10,6 +10,7 @@ export default function PreTestChecksPage({ params }: { params: Promise<{ id: st
     const router = useRouter();
     const [hasPlayedSound, setHasPlayedSound] = useState(false);
     const [isPlaying, setIsPlaying] = useState(false);
+    const [isVideoVisible, setIsVideoVisible] = useState(true);
     const audioRef = useRef<HTMLAudioElement | null>(null);
 
     const handlePlaySound = () => {
@@ -65,10 +66,32 @@ export default function PreTestChecksPage({ params }: { params: Promise<{ id: st
                 
                 {/* Pre-test checks Card */}
                 <div className={`bg-white rounded-xl border p-6 transition-all ${hasPlayedSound ? 'border-green-200 shadow-sm' : 'border-slate-200 shadow-sm'}`}>
-                    <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center justify-between mb-2">
                         <h2 className="text-xl font-bold text-slate-900">Pre-test checks</h2>
                         {hasPlayedSound && <Check className="w-6 h-6 text-green-500" />}
                     </div>
+                    
+                    <div className="flex justify-end mb-2">
+                        <button 
+                            onClick={() => setIsVideoVisible(!isVideoVisible)}
+                            className="text-slate-500 hover:text-slate-800 text-sm font-medium transition-colors"
+                        >
+                            {isVideoVisible ? 'Hide video' : 'Show video'}
+                        </button>
+                    </div>
+
+                    {isVideoVisible && (
+                        <div className="mb-8">
+                            <video 
+                                src="/test%20uchun%20video/pre-test.mp4"
+                                controls
+                                controlsList="nodownload noremoteplayback"
+                                onContextMenu={(e) => e.preventDefault()}
+                                disablePictureInPicture
+                                className="w-full rounded-lg border border-slate-200 shadow-sm"
+                            />
+                        </div>
+                    )}
                     <p className="text-slate-700 mb-6">
                         Put on your headphones and click <span className="font-bold">Play sound</span> to play a sample sound.
                     </p>
