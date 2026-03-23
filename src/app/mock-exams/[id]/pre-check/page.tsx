@@ -12,6 +12,7 @@ export default function PreTestChecksPage({ params }: { params: Promise<{ id: st
     const [isPlaying, setIsPlaying] = useState(false);
     const [isPreTestVideoVisible, setIsPreTestVideoVisible] = useState(true);
     const [step, setStep] = useState<1 | 2 | 3>(1);
+    const [isListeningVideoEnded, setIsListeningVideoEnded] = useState(false);
     const audioRef = useRef<HTMLAudioElement | null>(null);
 
     const handlePlaySound = () => {
@@ -162,28 +163,33 @@ export default function PreTestChecksPage({ params }: { params: Promise<{ id: st
                                 controlsList="nodownload noremoteplayback"
                                 onContextMenu={(e) => e.preventDefault()}
                                 disablePictureInPicture
+                                onEnded={() => setIsListeningVideoEnded(true)}
                                 className="w-full rounded-lg border border-slate-200 shadow-sm mb-6"
                             />
 
-                            <div className="flex items-center justify-between border border-slate-200 rounded-lg p-4 mb-6 bg-white shadow-sm">
-                                <div className="flex items-center gap-2">
-                                    <svg className="w-5 h-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                                    </svg>
-                                    <span className="text-slate-600 text-sm font-medium">Test information.</span>
-                                    <span className="text-green-600 font-bold text-sm ml-1">Confirmed</span>
-                                </div>
-                            </div>
+                            {isListeningVideoEnded && (
+                                <>
+                                    <div className="flex items-center justify-between border border-slate-200 rounded-lg p-4 mb-6 bg-white shadow-sm transition-opacity">
+                                        <div className="flex items-center gap-2">
+                                            <svg className="w-5 h-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                            </svg>
+                                            <span className="text-slate-600 text-sm font-medium">Test information.</span>
+                                            <span className="text-green-600 font-bold text-sm ml-1">Confirmed</span>
+                                        </div>
+                                    </div>
 
-                            <button
-                                onClick={handleStartListening}
-                                className="px-6 py-3 bg-[#0f172a] text-white rounded-lg font-bold shadow-md hover:bg-slate-800 transition-colors flex items-center gap-2"
-                            >
-                                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                                </svg>
-                                Start Listening
-                            </button>
+                                    <button
+                                        onClick={handleStartListening}
+                                        className="px-6 py-3 bg-[#0f172a] text-white rounded-lg font-bold shadow-md hover:bg-slate-800 transition-colors flex items-center gap-2"
+                                    >
+                                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                        </svg>
+                                        Start Listening
+                                    </button>
+                                </>
+                            )}
                         </div>
                     )}
                 </div>
