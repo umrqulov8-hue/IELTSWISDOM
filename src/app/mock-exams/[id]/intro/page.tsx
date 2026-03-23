@@ -70,7 +70,7 @@ export default function MockExamIntroPage({ params }: { params: Promise<{ id: st
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-[100] bg-[#2D3E50] flex flex-col items-center justify-center text-white"
+                        className="fixed inset-0 z-[100] bg-white flex flex-col items-center justify-center text-slate-800"
                     >
                         <motion.div
                             initial={{ scale: 0.8, opacity: 0 }}
@@ -78,23 +78,23 @@ export default function MockExamIntroPage({ params }: { params: Promise<{ id: st
                             transition={{ duration: 0.5, ease: "easeOut" }}
                             className="text-center space-y-8"
                         >
-                            <div className="w-24 h-24 bg-white/10 rounded-full flex items-center justify-center mx-auto relative">
+                            <div className="w-24 h-24 bg-blue-50 rounded-full flex items-center justify-center mx-auto relative">
                                 <motion.div 
-                                    className="absolute inset-0 bg-white/10 rounded-full"
+                                    className="absolute inset-0 bg-blue-100 rounded-full"
                                     animate={{ scale: [1, 1.5, 1], opacity: [0.5, 0, 0.5] }}
                                     transition={{ duration: 2, repeat: Infinity }}
                                 />
-                                <ShieldCheck className="w-12 h-12 text-white" />
+                                <ShieldCheck className="w-12 h-12 text-blue-600 relative z-10" />
                             </div>
                             
                             <div className="space-y-2">
-                                <h3 className="text-3xl font-black tracking-tight">Preparing Exam Center</h3>
-                                <p className="text-white/50 font-medium">Entering secure examination mode...</p>
+                                <h3 className="text-3xl font-black tracking-tight text-slate-900">Preparing Exam Center</h3>
+                                <p className="text-slate-500 font-medium">Entering secure examination mode...</p>
                             </div>
 
-                            <div className="w-64 h-1.5 bg-white/10 rounded-full mx-auto overflow-hidden border border-white/5">
+                            <div className="w-64 h-1.5 bg-slate-100 rounded-full mx-auto overflow-hidden border border-slate-200">
                                 <motion.div 
-                                    className="h-full bg-blue-400"
+                                    className="h-full bg-blue-500"
                                     initial={{ width: "0%" }}
                                     animate={{ width: "100%" }}
                                     transition={{ duration: 3, ease: "easeInOut" }}
@@ -105,7 +105,7 @@ export default function MockExamIntroPage({ params }: { params: Promise<{ id: st
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: [0, 1, 0] }}
                                 transition={{ duration: 1.5, repeat: Infinity }}
-                                className="text-[10px] uppercase font-black tracking-[0.3em] text-blue-300"
+                                className="text-[10px] uppercase font-black tracking-[0.3em] text-blue-500"
                             >
                                 Initializing Simulation
                             </motion.p>

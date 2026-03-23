@@ -9,25 +9,32 @@ export default function PreTestChecksPage({ params }: { params: Promise<{ id: st
     const id = resolvedParams.id;
     const router = useRouter();
     const [hasPlayedSound, setHasPlayedSound] = useState(false);
+    const [isPlaying, setIsPlaying] = useState(false);
     const audioRef = useRef<HTMLAudioElement | null>(null);
 
     const handlePlaySound = () => {
         if (!audioRef.current) {
-            audioRef.current = new Audio("/audio/P1.mp3");
+            audioRef.current = new Audio("/audio/Cambridge%20IELTS%2011.1.1.mp3");
+            audioRef.current.onended = () => {
+                setIsPlaying(false);
+            };
         }
         
-        // Play for a short burst to verify
         audioRef.current.currentTime = 0;
-        audioRef.current.play().catch(e => console.log("Audio play error", e));
-        
-        // Let it play for a couple of seconds, then pause to not annoy the user
-        setTimeout(() => {
-            if (audioRef.current) {
-                audioRef.current.pause();
-            }
-        }, 3000);
+        audioRef.current.play()
+            .then(() => {
+                setIsPlaying(true);
+                setHasPlayedSound(true);
+            })
+            .catch(e => console.log("Audio play error", e));
+    };
 
-        setHasPlayedSound(true);
+    const handleStopSound = () => {
+        if (audioRef.current) {
+            audioRef.current.pause();
+            audioRef.current.currentTime = 0;
+            setIsPlaying(false);
+        }
     };
 
     const handleContinue = () => {
@@ -38,7 +45,7 @@ export default function PreTestChecksPage({ params }: { params: Promise<{ id: st
     };
 
     return (
-        <div className="min-h-screen bg-slate-50 font-sans text-slate-900">
+        <div className="min-h-screen bg-white font-sans text-slate-900">
             {/* Header */}
             <header className="bg-white border-b border-slate-200 px-6 py-4 flex items-center justify-between shadow-sm">
                 <div className="flex items-center gap-4">
@@ -68,9 +75,17 @@ export default function PreTestChecksPage({ params }: { params: Promise<{ id: st
                     <div className="flex items-center gap-4 mb-4">
                         <button
                             onClick={handlePlaySound}
-                            className="bg-[#0f172a] text-white px-6 py-2.5 rounded-lg font-bold hover:bg-slate-800 transition-colors"
+                            disabled={isPlaying}
+                            className={`px-6 py-2.5 rounded-lg font-bold transition-colors ${isPlaying ? 'bg-slate-100 text-slate-400 cursor-not-allowed' : 'bg-[#0f172a] text-white hover:bg-slate-800'}`}
                         >
                             Play sound
+                        </button>
+                        <button
+                            onClick={handleStopSound}
+                            disabled={!isPlaying}
+                            className={`px-6 py-2.5 rounded-lg font-bold border transition-colors ${isPlaying ? 'bg-white border-slate-300 text-slate-900 hover:bg-slate-50' : 'bg-slate-50 border-slate-200 text-slate-400 cursor-not-allowed'}`}
+                        >
+                            Stop sound
                         </button>
                         <button
                             onClick={handleContinue}
