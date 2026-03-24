@@ -53,8 +53,7 @@ export function CDILayout({
                 {/* --- CDI Header --- */}
                 <header className="h-[74px] bg-white border-b border-slate-200 text-slate-900 flex items-center justify-between px-8 shrink-0 z-50">
                     <div className="flex items-center gap-4">
-                        <span className="text-[#e2272e] font-black text-4xl tracking-tighter mr-2 select-none">IELTS</span>
-                        <div className="flex flex-col border-l-2 border-slate-200 pl-4">
+                        <div className="flex flex-col pl-2">
                             <span className="font-extrabold text-lg leading-tight text-slate-900 tracking-tight">48887375</span>
                             <CDITimer duration={duration} onTimeUp={onFinish} variant="cdi" />
                         </div>

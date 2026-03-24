@@ -753,14 +753,11 @@ export default function SimulationPage() {
                                     <p className="text-sm font-medium text-slate-700">Listen and answer the questions.</p>
                                     
                                     {currentPart.audioUrl && (
-                                        <div className="mt-5 border-t border-[#e5e4e0] pt-4 flex items-center justify-between">
-                                            <audio
-                                                autoPlay
-                                                controls
-                                                src={currentPart.audioUrl}
-                                                className="h-9 w-full max-w-md opacity-80 hover:opacity-100 transition-opacity"
-                                            />
-                                        </div>
+                                        <audio
+                                            autoPlay
+                                            src={currentPart.audioUrl}
+                                            className="hidden"
+                                        />
                                     )}
                                 </div>
                                 {currentPart.content.includes("<!-- QUESTIONS_PLACEHOLDER -->") ? (
