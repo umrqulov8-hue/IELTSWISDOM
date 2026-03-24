@@ -746,17 +746,21 @@ export default function SimulationPage() {
 
                 {section === "listening" && (
                     <div ref={containerRef} onMouseUp={handleTextSelection} onContextMenu={handleContextMenu} className="h-full overflow-y-auto bg-white relative" style={{ overscrollBehavior: 'contain' }}>
-                        <div className="max-w-6xl mx-auto w-full space-y-6 px-8 py-4">
+                        <div className="max-w-[75rem] mx-auto w-full space-y-8 px-10 py-10">
                             <div className="w-full">
-                                <div className="flex items-center justify-between mb-8">
-                                    <h2 className="text-2xl font-black text-slate-800">{currentPart.title}</h2>
+                                <div className="bg-[#f3f2ef] rounded-md px-6 py-5 mb-10 border border-[#e5e4e0] shadow-sm">
+                                    <h2 className="text-base font-bold text-slate-800 mb-1.5">{currentPart.title}</h2>
+                                    <p className="text-sm font-medium text-slate-700">Listen and answer the questions.</p>
+                                    
                                     {currentPart.audioUrl && (
-                                        <audio
-                                            autoPlay
-                                            controls
-                                            src={currentPart.audioUrl}
-                                            className="h-10"
-                                        />
+                                        <div className="mt-5 border-t border-[#e5e4e0] pt-4 flex items-center justify-between">
+                                            <audio
+                                                autoPlay
+                                                controls
+                                                src={currentPart.audioUrl}
+                                                className="h-9 w-full max-w-md opacity-80 hover:opacity-100 transition-opacity"
+                                            />
+                                        </div>
                                     )}
                                 </div>
                                 {currentPart.content.includes("<!-- QUESTIONS_PLACEHOLDER -->") ? (

@@ -8,9 +8,10 @@ interface CDITimerProps {
     duration: number; // in seconds
     onTimeUp: () => void;
     isRunning?: boolean;
+    variant?: "standard" | "cdi";
 }
 
-export function CDITimer({ duration, onTimeUp, isRunning = true }: CDITimerProps) {
+export function CDITimer({ duration, onTimeUp, isRunning = true, variant = "standard" }: CDITimerProps) {
     const [timeLeft, setTimeLeft] = useState(duration);
 
     useEffect(() => {
@@ -45,6 +46,18 @@ export function CDITimer({ duration, onTimeUp, isRunning = true }: CDITimerProps
     };
 
     const [isHidden, setIsHidden] = useState(false);
+
+    if (variant === "cdi") {
+        return (
+            <button 
+                type="button"
+                onClick={() => setIsHidden(!isHidden)}
+                className="text-xs font-bold text-slate-500 hover:text-slate-800 flex items-center transition-colors text-left"
+            >
+                {isHidden ? "Show time" : `${formatTime(timeLeft)} remaining`}
+            </button>
+        );
+    }
 
     return (
         <button 
