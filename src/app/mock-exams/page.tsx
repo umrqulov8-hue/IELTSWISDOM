@@ -32,7 +32,7 @@ export default function MockExamsPage() {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-[100] bg-white flex flex-col items-center justify-center text-slate-800"
+                        className="fixed inset-0 z-[99999] bg-white flex flex-col items-center justify-center text-slate-800"
                     >
                         <motion.div
                             initial={{ scale: 0.8, opacity: 0 }}
