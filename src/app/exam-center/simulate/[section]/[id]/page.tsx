@@ -284,6 +284,13 @@ export default function SimulationPage() {
     useEffect(() => {
         if (!section || !testId) return;
 
+        // Reset state upon mounting a new section
+        setIsBreak(false);
+        setIsVideoEnded(false);
+        setIsSubmitted(false);
+        setCurrentPartIndex(0);
+        setAnswers({});
+
         let data: any = null;
         let time = 3600; // default 1 hour
 
@@ -388,11 +395,6 @@ export default function SimulationPage() {
             router.push(`/exam-center/simulate/results/${testId}`);
         } else {
             router.push(`/exam-center/simulate/${nextSection}/${testId}`);
-            setIsBreak(false);
-            setIsVideoEnded(false);
-            setIsSubmitted(false);
-            setCurrentPartIndex(0);
-            setAnswers({});
         }
     }, [section, testId, router]);
 
