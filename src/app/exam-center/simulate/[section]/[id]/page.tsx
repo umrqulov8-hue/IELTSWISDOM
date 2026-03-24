@@ -958,10 +958,10 @@ function QuestionsList({ questions, answers, onAnswerChange, htmlContent, isSubm
 
                 return (
                     <div id={`question-${q.id}`} key={q.id} className={cn(
-                        "p-5 rounded-2xl border-2 transition-all",
-                        isSubmitted && allCorrect ? "border-green-200 bg-green-50/50" :
-                            isSubmitted && anyWrong ? "border-red-200 bg-red-50/50" :
-                                "border-slate-100 bg-white hover:border-[#2D3E50]/10"
+                        "py-3 transition-all",
+                        isSubmitted && allCorrect ? "border border-green-200 bg-green-50/50 p-4 rounded-xl" :
+                            isSubmitted && anyWrong ? "border border-red-200 bg-red-50/50 p-4 rounded-xl" :
+                                "bg-transparent"
                     )}>
 
                         <div className="w-full">
