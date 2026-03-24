@@ -81,7 +81,7 @@ export default function MockExamsPage() {
                                     <motion.button
                                         whileHover={{ scale: 1.03 }}
                                         whileTap={{ scale: 0.97 }}
-                                        onClick={() => router.push(`/mock-exams/${index}/intro`)}
+                                        onClick={() => router.push(`/mock-exams/${index}/pre-check`)}
                                         className="w-full text-white font-black py-[16px] rounded-full flex items-center justify-center gap-3 transition-all text-[15px] bg-[#0f172a] shadow-[0_8px_20px_rgba(15,23,42,0.2)] hover:shadow-[0_12px_25px_rgba(15,23,42,0.3)]"
                                     >
                                         <Play className="w-[18px] h-[18px] fill-white" strokeWidth={3} />
