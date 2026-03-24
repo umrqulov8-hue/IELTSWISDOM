@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { Maximize, AlertCircle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -50,14 +51,14 @@ export function FullscreenEnforcer() {
 
     if (!isMounted) return null;
 
-    return (
+    const overlayContent = (
         <AnimatePresence>
             {!isFullscreen && (
                 <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    className="fixed inset-0 z-[99999] bg-[#0f172a]/95 backdrop-blur-md flex flex-col items-center justify-center p-6 text-center select-none"
+                    className="fixed inset-0 z-[999999] bg-white/95 backdrop-blur-md flex flex-col items-center justify-center p-6 text-center select-none"
                 >
                     <motion.div 
                         initial={{ scale: 0.9, y: 20 }}
@@ -86,4 +87,6 @@ export function FullscreenEnforcer() {
             )}
         </AnimatePresence>
     );
+
+    return createPortal(overlayContent, document.body);
 }
