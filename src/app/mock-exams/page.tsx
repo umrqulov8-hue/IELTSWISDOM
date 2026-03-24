@@ -2,10 +2,12 @@
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { Play } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "@/context/LanguageContext";
-import { translations as T, tx } from "@/lib/translations";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { ShieldCheck } from "lucide-react";
+import { translations as T, tx } from "@/lib/translations";
 
 const MOCK_THEMES = [
     { cardBg: "from-[#6beae5] via-[#a2f0c7] to-[#ffe68d]", titleColor: "text-[#0f172a]", textColor: "text-[#1e293b]" },
@@ -17,11 +19,63 @@ const MOCK_THEMES = [
 export default function MockExamsPage() {
     const { lang } = useLanguage();
     const router = useRouter();
+    const [isStarting, setIsStarting] = useState(false);
     const ME = T.mockExams;
     const tests = ME.tests;
 
     return (
         <DashboardLayout title={tx(ME.title, lang)} description={tx(ME.desc, lang)}>
+            {/* Transition Overlay */}
+            <AnimatePresence>
+                {isStarting && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 z-[100] bg-white flex flex-col items-center justify-center text-slate-800"
+                    >
+                        <motion.div
+                            initial={{ scale: 0.8, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            transition={{ duration: 0.5, ease: "easeOut" }}
+                            className="text-center space-y-8"
+                        >
+                            <div className="w-24 h-24 bg-blue-50 rounded-full flex items-center justify-center mx-auto relative">
+                                <motion.div 
+                                    className="absolute inset-0 bg-blue-100 rounded-full"
+                                    animate={{ scale: [1, 1.5, 1], opacity: [0.5, 0, 0.5] }}
+                                    transition={{ duration: 2, repeat: Infinity }}
+                                />
+                                <ShieldCheck className="w-12 h-12 text-blue-600 relative z-10" />
+                            </div>
+                            
+                            <div className="space-y-2">
+                                <h3 className="text-3xl font-black tracking-tight text-slate-900">Preparing Exam Center</h3>
+                                <p className="text-slate-500 font-medium">Entering secure examination mode...</p>
+                            </div>
+
+                            <div className="w-64 h-1.5 bg-slate-100 rounded-full mx-auto overflow-hidden border border-slate-200">
+                                <motion.div 
+                                    className="h-full bg-blue-500"
+                                    initial={{ width: "0%" }}
+                                    animate={{ width: "100%" }}
+                                    transition={{ duration: 3, ease: "easeInOut" }}
+                                />
+                            </div>
+
+                            <motion.p 
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: [0, 1, 0] }}
+                                transition={{ duration: 1.5, repeat: Infinity }}
+                                className="text-[10px] uppercase font-black tracking-[0.3em] text-blue-500"
+                            >
+                                Initializing Simulation
+                            </motion.p>
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
             <div className="max-w-[1150px] mx-auto px-4 md:px-8 space-y-10 relative z-10 pt-6 pb-20">
                 <div className="flex items-center gap-3 mb-10 pl-5 border-l-[4px] border-[#FF8C00]">
                     <h2 className="text-[28px] font-black text-slate-800 tracking-tight">{tx(ME.sectionTitle, lang)}</h2>
@@ -81,8 +135,26 @@ export default function MockExamsPage() {
                                     <motion.button
                                         whileHover={{ scale: 1.03 }}
                                         whileTap={{ scale: 0.97 }}
-                                        onClick={() => router.push(`/mock-exams/${index}/pre-check`)}
-                                        className="w-full text-white font-black py-[16px] rounded-full flex items-center justify-center gap-3 transition-all text-[15px] bg-[#0f172a] shadow-[0_8px_20px_rgba(15,23,42,0.2)] hover:shadow-[0_12px_25px_rgba(15,23,42,0.3)]"
+                                        onClick={() => {
+                                            setIsStarting(true);
+                                            try {
+                                                const el = document.documentElement as any;
+                                                if (el.requestFullscreen) {
+                                                    el.requestFullscreen().catch(console.error);
+                                                } else if (el.webkitRequestFullscreen) {
+                                                    el.webkitRequestFullscreen();
+                                                } else if (el.msRequestFullscreen) {
+                                                    el.msRequestFullscreen();
+                                                }
+                                            } catch (err) {
+                                                console.error("Error attempting to enable fullscreen:", err);
+                                            }
+                                            setTimeout(() => {
+                                                router.push(`/mock-exams/${index}/pre-check`);
+                                            }, 3500);
+                                        }}
+                                        disabled={isStarting}
+                                        className="w-full text-white font-black py-[16px] rounded-full flex items-center justify-center gap-3 transition-all text-[15px] bg-[#0f172a] shadow-[0_8px_20px_rgba(15,23,42,0.2)] hover:shadow-[0_12px_25px_rgba(15,23,42,0.3)] disabled:opacity-50"
                                     >
                                         <Play className="w-[18px] h-[18px] fill-white" strokeWidth={3} />
                                         <span className="tracking-widest uppercase">{tx(ME.startTest, lang)}</span>

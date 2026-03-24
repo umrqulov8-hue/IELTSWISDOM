@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Check, Menu } from "lucide-react";
 import { createClient } from "@/utils/supabase/client";
 import Image from "next/image";
+import { FullscreenEnforcer } from "@/components/exam/FullscreenEnforcer";
 
 export default function PreTestChecksPage({ params }: { params: Promise<{ id: string }> }) {
     const resolvedParams = use(params);
@@ -85,6 +86,7 @@ export default function PreTestChecksPage({ params }: { params: Promise<{ id: st
 
     return (
         <div className="min-h-screen bg-white font-sans text-slate-900">
+            <FullscreenEnforcer />
             {/* Header */}
             <header className="bg-white border-b border-slate-200 px-6 py-4 flex items-center justify-between shadow-sm">
                 <div className="flex items-center gap-4">

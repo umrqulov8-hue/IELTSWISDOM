@@ -13,6 +13,7 @@ import { createClient } from "@/utils/supabase/client";
 import { Clock, LayoutList, PenTool, Mic, GripVertical, ChevronRight, Highlighter, MousePointer2, Copy, Search, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
+import { FullscreenEnforcer } from "@/components/exam/FullscreenEnforcer";
 
 // Memoized Passage Renderer to prevent highlight wiping on re-renders
 const PassageRenderer = memo(({ title, content }: { title: string; content: string }) => {
@@ -490,6 +491,7 @@ export default function SimulationPage() {
 
         return (
             <div className="min-h-screen bg-[#F0F2F5] flex flex-col font-sans">
+                <FullscreenEnforcer />
                 {/* Header matching pre-check */}
                 <header className="bg-white border-b border-slate-200 px-6 py-4 flex items-center justify-between shadow-sm">
                     <div className="flex items-center gap-4">
@@ -569,6 +571,8 @@ export default function SimulationPage() {
     }
 
     return (
+        <>
+        <FullscreenEnforcer />
         <CDILayout
             title={testData.title || "IELTS Mock Test"}
             section={section.charAt(0).toUpperCase() + section.slice(1) as any}
@@ -887,6 +891,7 @@ export default function SimulationPage() {
                 )}
             </div>
         </CDILayout>
+        </>
     );
 }
 
