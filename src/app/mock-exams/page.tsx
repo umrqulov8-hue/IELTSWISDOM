@@ -24,7 +24,7 @@ export default function MockExamsPage() {
     const tests = ME.tests;
 
     return (
-        <DashboardLayout title={tx(ME.title, lang)} description={tx(ME.desc, lang)}>
+        <>
             {/* Transition Overlay */}
             <AnimatePresence>
                 {isStarting && (
@@ -76,7 +76,8 @@ export default function MockExamsPage() {
                 )}
             </AnimatePresence>
 
-            <div className="max-w-[1150px] mx-auto px-4 md:px-8 space-y-10 relative z-10 pt-6 pb-20">
+            <DashboardLayout title={tx(ME.title, lang)} description={tx(ME.desc, lang)}>
+                <div className="max-w-[1150px] mx-auto px-4 md:px-8 space-y-10 relative z-10 pt-6 pb-20">
                 <div className="flex items-center gap-3 mb-10 pl-5 border-l-[4px] border-[#FF8C00]">
                     <h2 className="text-[28px] font-black text-slate-800 tracking-tight">{tx(ME.sectionTitle, lang)}</h2>
                 </div>
@@ -166,5 +167,6 @@ export default function MockExamsPage() {
                 )}
             </div>
         </DashboardLayout>
+        </>
     );
 }
