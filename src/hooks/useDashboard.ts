@@ -75,9 +75,9 @@ export function useDashboard() {
             }
 
             try {
-                // Run all queries in PARALLEL
+                // Run all queries in PARALLEL — use maybeSingle to avoid 404 console errors
                 const [statsResult, testResults, notifResult, lessonResult] = await Promise.all([
-                    supabase.from('student_stats').select('*').eq('user_id', user.id).single(),
+                    supabase.from('student_stats').select('*').eq('user_id', user.id).maybeSingle(),
                     supabase.from('test_results').select('test_id, score, total_questions').eq('user_id', user.id),
                     supabase.from('notifications').select('*').eq('user_id', user.id).order('created_at', { ascending: false }).limit(5),
                     supabase.from('lessons').select('id, title, slug, module, icon_name').limit(20),

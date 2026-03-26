@@ -105,15 +105,31 @@ export function useDeviceCapabilities(): DeviceCapabilities {
   useEffect(() => {
     let cleanup: (() => void)[] = [];
 
-    async function init() {
-      const cores = navigator.hardwareConcurrency ?? 4;
-      const memory = getDeviceMemory();
-      const effectiveType = getEffectiveType();
-      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      const networkTier: NetworkTier = ["slow-2g", "2g", "3g"].includes(effectiveType) ? "slow" : "fast";
+    // ─── PHASE 1: Instant sync detection (runs before first paint) ────────────
+    // All sync APIs — no blocking, establishes initial tier within microseconds
+    const cores = navigator.hardwareConcurrency ?? 4;
+    const memory = getDeviceMemory();
+    const effectiveType = getEffectiveType();
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const networkTier: NetworkTier = ["slow-2g", "2g", "3g"].includes(effectiveType) ? "slow" : "fast";
+    // GPU defaults to "integrated" for initial render — updated async below
+    const initialTier = computeTier(cores, memory, false, "integrated");
+
+    setCapabilities((prev) => ({
+      ...prev,
+      tier: initialTier,
+      prefersReducedMotion,
+      networkTier,
+      cores,
+      memory,
+    }));
+
+    // ─── PHASE 2: Async enrichment (battery + GPU, doesn't block paint) ───────
+    async function enrichAsync() {
+      // GPU detection (WebGPU + WebGL fallback)
       const gpuTier = await detectGpuTier();
 
-      // Battery API (not available on all browsers — Safari, Firefox partial)
+      // Battery API
       let batteryLevel = 1;
       let isCharging = true;
       try {
@@ -140,32 +156,48 @@ export function useDeviceCapabilities(): DeviceCapabilities {
       } catch { /* Battery API not supported */ }
 
       const isBatteryLow = batteryLevel < 0.2 && !isCharging;
-      const tier = computeTier(cores, memory, isBatteryLow, gpuTier);
+      const enrichedTier = computeTier(cores, memory, isBatteryLow, gpuTier);
 
-      setCapabilities({ tier, prefersReducedMotion, networkTier, cores, memory, batteryLevel, isCharging, isBatteryLow, gpuTier });
-
-      // React to prefers-reduced-motion changes
-      const mql = window.matchMedia("(prefers-reduced-motion: reduce)");
-      const motionHandler = (e: MediaQueryListEvent) =>
-        setCapabilities((prev) => ({ ...prev, prefersReducedMotion: e.matches }));
-      mql.addEventListener("change", motionHandler);
-      cleanup.push(() => mql.removeEventListener("change", motionHandler));
-
-      // Network change listener
-      const conn = (navigator as NavigatorWithExtras).connection;
-      if (conn?.addEventListener) {
-        const netHandler = () => {
-          const nt: NetworkTier = ["slow-2g", "2g", "3g"].includes(conn.effectiveType ?? "") ? "slow" : "fast";
-          setCapabilities((prev) => ({ ...prev, networkTier: nt }));
-        };
-        conn.addEventListener("change", netHandler);
-        cleanup.push(() => conn.removeEventListener?.("change", netHandler));
-      }
+      setCapabilities((prev) => ({
+        ...prev,
+        tier: enrichedTier,
+        gpuTier,
+        batteryLevel,
+        isCharging,
+        isBatteryLow,
+      }));
     }
 
-    init();
+    // Use requestIdleCallback to defer GPU detection until after first render
+    if (typeof requestIdleCallback !== "undefined") {
+      const handle = requestIdleCallback(() => enrichAsync());
+      cleanup.push(() => cancelIdleCallback(handle));
+    } else {
+      // Fallback: defer with setTimeout
+      const t = setTimeout(enrichAsync, 200);
+      cleanup.push(() => clearTimeout(t));
+    }
+
+    // ─── Live change listeners ─────────────────────────────────────────────────
+    const mql = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const motionHandler = (e: MediaQueryListEvent) =>
+      setCapabilities((prev) => ({ ...prev, prefersReducedMotion: e.matches }));
+    mql.addEventListener("change", motionHandler);
+    cleanup.push(() => mql.removeEventListener("change", motionHandler));
+
+    const conn = (navigator as NavigatorWithExtras).connection;
+    if (conn?.addEventListener) {
+      const netHandler = () => {
+        const nt: NetworkTier = ["slow-2g", "2g", "3g"].includes(conn.effectiveType ?? "") ? "slow" : "fast";
+        setCapabilities((prev) => ({ ...prev, networkTier: nt }));
+      };
+      conn.addEventListener("change", netHandler);
+      cleanup.push(() => conn.removeEventListener?.("change", netHandler));
+    }
+
     return () => cleanup.forEach((fn) => fn());
   }, []);
 
   return capabilities;
 }
+

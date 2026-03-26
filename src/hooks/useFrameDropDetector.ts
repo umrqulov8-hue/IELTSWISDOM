@@ -28,6 +28,7 @@ export function useFrameDropDetector(expectedFps: number = 60): FrameDropInfo {
   });
 
   const rafRef = useRef<number>(0);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const dropCountRef = useRef(0);
   const framesRef = useRef<number[]>([]);
   const lastTimeRef = useRef(0);
@@ -52,7 +53,6 @@ export function useFrameDropDetector(expectedFps: number = 60): FrameDropInfo {
             isDropping,
             dropCount: dropCountRef.current,
           };
-          // Only update state if values changed to avoid excessive renders
           if (
             prev.currentFps === newInfo.currentFps &&
             prev.isDropping === newInfo.isDropping
@@ -64,11 +64,17 @@ export function useFrameDropDetector(expectedFps: number = 60): FrameDropInfo {
       rafRef.current = requestAnimationFrame(frame);
     }
 
-    rafRef.current = requestAnimationFrame(frame);
+    // Defer startup by 5s to avoid competing with critical rendering
+    timerRef.current = setTimeout(() => {
+      rafRef.current = requestAnimationFrame(frame);
+    }, 5000);
+
     return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
       cancelAnimationFrame(rafRef.current);
     };
   }, [expectedFps]);
+
 
   return info;
 }
