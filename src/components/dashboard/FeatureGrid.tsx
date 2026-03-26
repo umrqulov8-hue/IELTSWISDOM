@@ -9,6 +9,8 @@ import { useLanguage } from "@/context/LanguageContext";
 import { translations as T, tx } from "@/lib/translations";
 import { BouncyText } from "@/components/ui/BouncyText";
 import { cn } from "@/lib/utils";
+import { useDevice } from "@/context/DeviceContext";
+
 
 const featureDefs = [
     { key: "vocabulary" as const, icon: Headphones, color: "text-blue-400", href: "/vocabulary" },
@@ -23,6 +25,7 @@ const featureDefs = [
 
 export function FeatureGrid() {
     const { lang } = useLanguage();
+    const { shouldAnimate, shouldUseHeavyEffects } = useDevice();
     return (
         <>
             {featureDefs.map((feature, index) => {
@@ -36,59 +39,62 @@ export function FeatureGrid() {
                 if (feature.color.includes("pink")) { gradientClass = "from-pink-500 to-rose-400"; waveColor = "text-rose-400"; }
                 if (feature.color.includes("red")) { gradientClass = "from-red-500 to-rose-500"; waveColor = "text-rose-500"; }
 
+                const CardWrapper = shouldAnimate ? motion.div : "div";
+                const motionProps = shouldAnimate
+                    ? { initial: { opacity: 0, y: 30, scale: 0.95 }, animate: { opacity: 1, y: 0, scale: 1 }, transition: { delay: index * 0.08, type: "spring", bounce: 0.5 } }
+                    : {};
+
                 return (
-                    <motion.div
-                        initial={{ opacity: 0, y: 30, scale: 0.95 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        transition={{ delay: index * 0.08, type: "spring", bounce: 0.5 }}
+                    <CardWrapper
+                        {...(motionProps as any)}
                         key={feature.key}
                         className="float-left w-1/2 md:w-1/4 px-2 md:px-3 mb-4 md:mb-6 h-[170px]"
                     >
                         <Link href={feature.href} className="block h-full relative group">
                             <div className="relative bg-white/50 backdrop-blur-xl border border-white/60 p-6 rounded-[2rem] transition-all duration-300 cursor-pointer overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 h-full flex flex-col items-center justify-center">
 
-                                {/* 
-                                    Foaming Ocean & Dense Bubbles Effect 
-                                    - Translates up from bottom
-                                    - Multiple overlapping SVG waves for a noisy, crashing effect
-                                    - Dense CSS animated dropping bubbles
-                                */}
+                                {/* Wave + Bubble Effect — guarded behind shouldAnimate */}
                                 <div className="absolute left-0 right-0 h-full bottom-0 translate-y-[105%] group-hover:translate-y-0 transition-transform duration-[1000ms] ease-[cubic-bezier(0.2,0.8,0.2,1)] z-0">
-                                    {/* Back Wave (Slower, slightly offset) */}
-                                    <div className={cn("absolute top-[-25px] left-0 w-[200%] h-[26px] animate-wave-roll-slow opacity-50", waveColor)}>
-                                        <svg viewBox="0 0 1000 100" preserveAspectRatio="none" className="w-full h-full fill-current">
-                                            <path d="M0,50 Q125,100 250,50 T500,50 T750,50 T1000,50 L1000,100 L0,100 Z" />
-                                        </svg>
-                                    </div>
+                                    {/* Back Wave */}
+                                    {shouldAnimate && (
+                                        <div className={cn("absolute top-[-25px] left-0 w-[200%] h-[26px] animate-wave-roll-slow opacity-50", waveColor)}>
+                                            <svg viewBox="0 0 1000 100" preserveAspectRatio="none" className="w-full h-full fill-current">
+                                                <path d="M0,50 Q125,100 250,50 T500,50 T750,50 T1000,50 L1000,100 L0,100 Z" />
+                                            </svg>
+                                        </div>
+                                    )}
 
-                                    {/* Front Wave (Faster, more turbulent) */}
-                                    <div className={cn("absolute top-[-18px] left-0 w-[200%] h-[20px] animate-wave-roll-fast opacity-90", waveColor)}>
-                                        <svg viewBox="0 0 1000 100" preserveAspectRatio="none" className="w-full h-full fill-current">
-                                            <path d="M0,50 Q125,100 250,50 T500,50 T750,50 T1000,50 L1000,100 L0,100 Z" />
-                                        </svg>
-                                    </div>
+                                    {/* Front Wave */}
+                                    {shouldAnimate && (
+                                        <div className={cn("absolute top-[-18px] left-0 w-[200%] h-[20px] animate-wave-roll-fast opacity-90", waveColor)}>
+                                            <svg viewBox="0 0 1000 100" preserveAspectRatio="none" className="w-full h-full fill-current">
+                                                <path d="M0,50 Q125,100 250,50 T500,50 T750,50 T1000,50 L1000,100 L0,100 Z" />
+                                            </svg>
+                                        </div>
+                                    )}
 
-                                    {/* Liquid Body */}
+                                    {/* Liquid Body (always shown on hover) */}
                                     <div className={cn("absolute inset-0 opacity-90 bg-gradient-to-t", gradientClass)} />
 
-                                    {/* Dense Rising Water Droplets (Kopiklar) */}
-                                    <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                                        <div className="absolute w-2 h-2 rounded-full bg-white/60 left-[10%] animate-drop-rise-turbulent delay-50" />
-                                        <div className="absolute w-3 h-3 rounded-full bg-white/40 left-[25%] animate-drop-rise-turbulent delay-200" />
-                                        <div className="absolute w-1.5 h-1.5 rounded-full bg-white/80 left-[35%] animate-drop-rise-turbulent delay-400" />
-                                        <div className="absolute w-2.5 h-2.5 rounded-full bg-white/50 left-[50%] animate-drop-rise-turbulent delay-600" />
-                                        <div className="absolute w-1 h-1 rounded-full bg-white/70 left-[60%] animate-drop-rise-turbulent delay-800" />
-                                        <div className="absolute w-3 h-3 rounded-full bg-white/30 left-[75%] animate-drop-rise-turbulent delay-900" />
-                                        <div className="absolute w-2 h-2 rounded-full bg-white/60 left-[85%] animate-drop-rise-turbulent delay-1100" />
-                                        <div className="absolute w-1.5 h-1.5 rounded-full bg-white/50 left-[90%] animate-drop-rise-turbulent delay-1300" />
-                                        <div className="absolute w-3 h-3 rounded-full bg-white/40 left-[15%] animate-drop-rise-turbulent delay-1500" />
-                                        <div className="absolute w-2 h-2 rounded-full bg-white/70 left-[45%] animate-drop-rise-turbulent delay-1800" />
-                                        <div className="absolute w-2.5 h-2.5 rounded-full bg-white/60 left-[80%] animate-drop-rise-turbulent delay-2100" />
-                                    </div>
+                                    {/* Bubbles — only on high-tier devices */}
+                                    {shouldUseHeavyEffects && (
+                                        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                                            <div className="absolute w-2 h-2 rounded-full bg-white/60 left-[10%] animate-drop-rise-turbulent delay-50" />
+                                            <div className="absolute w-3 h-3 rounded-full bg-white/40 left-[25%] animate-drop-rise-turbulent delay-200" />
+                                            <div className="absolute w-1.5 h-1.5 rounded-full bg-white/80 left-[35%] animate-drop-rise-turbulent delay-400" />
+                                            <div className="absolute w-2.5 h-2.5 rounded-full bg-white/50 left-[50%] animate-drop-rise-turbulent delay-600" />
+                                            <div className="absolute w-1 h-1 rounded-full bg-white/70 left-[60%] animate-drop-rise-turbulent delay-800" />
+                                            <div className="absolute w-3 h-3 rounded-full bg-white/30 left-[75%] animate-drop-rise-turbulent delay-900" />
+                                            <div className="absolute w-2 h-2 rounded-full bg-white/60 left-[85%] animate-drop-rise-turbulent delay-1100" />
+                                            <div className="absolute w-1.5 h-1.5 rounded-full bg-white/50 left-[90%] animate-drop-rise-turbulent delay-1300" />
+                                            <div className="absolute w-3 h-3 rounded-full bg-white/40 left-[15%] animate-drop-rise-turbulent delay-1500" />
+                                            <div className="absolute w-2 h-2 rounded-full bg-white/70 left-[45%] animate-drop-rise-turbulent delay-1800" />
+                                            <div className="absolute w-2.5 h-2.5 rounded-full bg-white/60 left-[80%] animate-drop-rise-turbulent delay-2100" />
+                                        </div>
+                                    )}
                                 </div>
 
                                 <div className="relative z-10 flex flex-col items-center text-center gap-4">
-                                    {/* Icon container - stays white when water fills */}
                                     <div className={cn(
                                         "p-4 rounded-2xl shadow-lg transition-transform duration-500 ease-out group-hover:scale-110",
                                         "bg-gradient-to-br text-white",
@@ -103,9 +109,10 @@ export function FeatureGrid() {
                                 </div>
                             </div>
                         </Link>
-                    </motion.div>
+                    </CardWrapper>
                 );
             })}
         </>
     );
 }
+

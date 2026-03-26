@@ -379,3 +379,103 @@
 .liquid-glass-panel:hover {
   box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.8), 0 20px 40px rgba(0, 0, 0, 0.15);
 }
+
+/* ==========================================================================
+   ADAPTIVE RENDERING — Hardware & Accessibility Overrides
+   These operate entirely in CSS (no JS cost) for maximum reliability.
+   ========================================================================== */
+
+/*
+  1. PREFERS-REDUCED-MOTION
+  Kill all motion at the CSS level, irrespective of JS state.
+  This is the highest-priority safety net for accessibility.
+*/
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+    will-change: auto !important;
+  }
+
+  .animate-blob,
+  .animate-wave-roll-fast,
+  .animate-wave-roll-slow,
+  .animate-drop-rise-turbulent,
+  .animate-pulse {
+    animation: none !important;
+    will-change: auto !important;
+  }
+}
+
+/*
+  2. LOW-TIER DEVICES  (data-device-tier="low" set by DeviceContext on <html>)
+  Disable all decorative animations to free up CPU/GPU for real content.
+  Preserves transitions needed for functional UI feedback (accordion, tab).
+*/
+[data-device-tier="low"] .animate-blob,
+[data-device-tier="low"] .animate-wave-roll-fast,
+[data-device-tier="low"] .animate-wave-roll-slow,
+[data-device-tier="low"] .animate-drop-rise-turbulent,
+[data-device-tier="low"] [class*="blur-"] {
+  animation: none !important;
+  filter: none !important;
+  will-change: auto !important;
+}
+
+/* Remove backdrop-blur on low-tier (GPU-heavy) */
+[data-device-tier="low"] .backdrop-blur-xl,
+[data-device-tier="low"] .backdrop-blur-3xl,
+[data-device-tier="low"] [class*="backdrop-blur-"] {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  background-color: rgba(255, 255, 255, 0.92) !important;
+}
+
+/* Remove the expensive ambient blobs */
+[data-device-tier="low"] .fixed.rounded-full[class*="blur-"] {
+  display: none !important;
+}
+
+/*
+  3. MID-TIER DEVICES
+  Allow simple transforms/opacity but strip blur-heavy effects.
+*/
+[data-device-tier="mid"] .animate-blob {
+  animation-duration: 20s;
+}
+
+[data-device-tier="mid"] .backdrop-blur-3xl {
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+}
+
+/*
+  4. HIGH-REFRESH-RATE SCREENS
+  Speed up animations slightly so they feel snappy at 120/144Hz.
+  data-fps is set by DeviceContext based on rAF measurement.
+*/
+[data-fps="120"] .animate-wave-roll-fast { animation-duration: 2s; }
+[data-fps="120"] .animate-wave-roll-slow { animation-duration: 3.5s; }
+[data-fps="144"] .animate-wave-roll-fast { animation-duration: 1.8s; }
+[data-fps="144"] .animate-wave-roll-slow { animation-duration: 3s; }
+
+/*
+  5. GRACEFUL DEGRADATION for hover-only animation effects
+  On devices that don't support hover (touchscreens), skip hover-triggered CSS animations.
+*/
+@media (hover: none) {
+  .group:hover .animate-wave-roll-fast,
+  .group:hover .animate-wave-roll-slow,
+  .group:hover .animate-drop-rise-turbulent {
+    animation-play-state: paused;
+  }
+
+  /* Keep the wave visible in a static "filled" state on touch tap */
+  .group:active [class*="translate-y-\[105\%\]"] {
+    transform: translateY(0) !important;
+  }
+}

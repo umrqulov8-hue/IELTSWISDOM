@@ -7,6 +7,7 @@ import { useAuthContext } from "@/context/AuthContext";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 import { usePathname } from "next/navigation";
+import { useDevice } from "@/context/DeviceContext";
 
 interface DashboardLayoutProps extends PropsWithChildren {
     title?: string;
@@ -59,6 +60,7 @@ export function DashboardLayout({
     const { user } = useAuthContext();
     const displayName = user?.email?.split("@")[0] || "Student";
     const pathname = usePathname();
+    const { shouldUseHeavyEffects, shouldAnimate } = useDevice();
     const [isSearchExpanded, setIsSearchExpanded] = useState(false);
     const searchRef = useRef<HTMLDivElement>(null);
 
@@ -73,10 +75,11 @@ export function DashboardLayout({
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
 
+
     return (
         <div className="min-h-[calc(100vh-4rem)] bg-[#F2F4F8] text-slate-900 flex overflow-hidden relative">
-            {/* Ambient Animated Background Blobs */}
-            {!hideSidebar && (
+            {/* Ambient Animated Background Blobs — only on high-tier devices */}
+            {shouldUseHeavyEffects && !hideSidebar && (
                 <>
                     <motion.div
                         style={{ willChange: "transform" }}

@@ -5,6 +5,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { useLanguage } from "@/context/LanguageContext";
 import { AnimatePresence, LazyMotion, domAnimation } from "framer-motion";
+import { DeviceProvider } from "@/context/DeviceContext";
 
 // Dashboard/app routes that should NOT show the landing Header + Footer
 const DASHBOARD_ROUTES = [
@@ -34,11 +35,14 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
 
     return (
         <LazyMotion features={domAnimation}>
-            {!isDashboard && <Header />}
-            <main className={isDashboard ? "flex-grow" : "flex-grow pt-16"}>
-                {children}
-            </main>
-            {!isDashboard && <Footer />}
+            <DeviceProvider>
+                {!isDashboard && <Header />}
+                <main className={isDashboard ? "flex-grow" : "flex-grow pt-16"}>
+                    {children}
+                </main>
+                {!isDashboard && <Footer />}
+            </DeviceProvider>
         </LazyMotion>
     );
 }
+
