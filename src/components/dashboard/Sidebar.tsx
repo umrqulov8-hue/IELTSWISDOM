@@ -286,7 +286,7 @@ export function Sidebar() {
                 />
 
                 <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-700 delay-200 pl-4 py-1">
-                    <p className="text-[10px] text-slate-400/80 font-medium tracking-wide font-sans">
+                    <p className="text-[10px] text-slate-500 font-medium tracking-wide font-sans">
                         © 2025 IELTS Wisdom
                     </p>
                 </div>
