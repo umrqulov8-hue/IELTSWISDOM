@@ -1,6 +1,9 @@
 "use client";
 
 import { createContext, useContext, useState, ReactNode } from "react";
+import dynamic from "next/dynamic";
+
+const DynamicAuthModal = dynamic(() => import('@/components/AuthModal').then(m => m.AuthModal), { ssr: false });
 
 interface ModalContextType {
     isOpen: boolean;
@@ -19,6 +22,7 @@ export function ModalProvider({ children }: { children: ReactNode }) {
     return (
         <ModalContext.Provider value={{ isOpen, openModal, closeModal }}>
             {children}
+            {isOpen && <DynamicAuthModal />}
         </ModalContext.Provider>
     );
 }

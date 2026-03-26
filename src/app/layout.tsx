@@ -3,9 +3,6 @@ import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import { ModalProvider } from "@/context/ModalContext";
-import dynamic from 'next/dynamic';
-
-const AuthModal = dynamic(() => import('@/components/AuthModal').then(m => m.AuthModal), { ssr: false });
 import { LanguageProvider } from "@/context/LanguageContext";
 import { ClientLayout } from "@/components/ClientLayout";
 import { AuthProvider } from "@/context/AuthContext";
@@ -93,7 +90,6 @@ export default function RootLayout({
                     {children}
                   </ClientLayout>
                 </ErrorBoundary>
-                <AuthModal />
                 <Toaster position="top-center" richColors />
               </ModalProvider>
             </SubscriptionProvider>
