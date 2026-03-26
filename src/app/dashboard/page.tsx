@@ -79,9 +79,9 @@ export default function DashboardPage() {
                             <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-white/20 blur-3xl rounded-full group-hover:scale-150 transition-transform duration-700" />
 
                             <div className="relative z-10">
-                                <h3 className="text-lg font-bold text-orange-100 mb-4">
+                                <h2 className="text-lg font-bold text-orange-100 mb-4">
                                     <BouncyText key={`prog-${lang}`} text={tx(D.progress, lang)} type="word" />
-                                </h3>
+                                </h2>
 
                                 {/* Overall Score */}
                                 <div className="flex items-end gap-2 mb-1">
@@ -168,9 +168,9 @@ export default function DashboardPage() {
                     </motion.div>
 
                     <motion.div layout transition={{ layout: { type: "spring", stiffness: 100, damping: 14, mass: 0.8 } }} className="block w-full pt-4 mb-8 after:content-[''] after:table after:clear-both">
-                        <h3 className="text-center text-slate-400 text-xs font-bold uppercase tracking-[0.2em]">
+                        <h2 className="text-center text-slate-500 text-xs font-bold uppercase tracking-[0.2em]">
                             <BouncyText key={`pop-${lang}`} text={tx(D.popular, lang)} type="word" />
-                        </h3>
+                        </h2>
                     </motion.div>
 
                     <FeatureGrid />
