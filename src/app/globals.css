@@ -478,4 +478,75 @@
   .group:active [class*="translate-y-\[105\%\]"] {
     transform: translateY(0) !important;
   }
-}
+}
+
+/*
+  6. ULTRA-LOW-POWER MODE  (data-low-power="true" set by LowPowerToggle / battery auto-detect)
+  The most aggressive reduction. Disables everything decorative.
+  Preserves functional UI transitions (accordion open/close, modal in/out).
+*/
+[data-low-power="true"] *,
+[data-low-power="true"] *::before,
+[data-low-power="true"] *::after {
+  animation: none !important;
+  animation-duration: 0.01ms !important;
+  will-change: auto !important;
+}
+
+[data-low-power="true"] .backdrop-blur-xl,
+[data-low-power="true"] .backdrop-blur-3xl,
+[data-low-power="true"] [class*="backdrop-blur-"] {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  background-color: rgba(255, 255, 255, 0.95) !important;
+}
+
+/* Soften rounded corners to reduce sub-pixel anti-aliasing cost */
+[data-low-power="true"] [class*="rounded-[2rem]"],
+[data-low-power="true"] [class*="rounded-3xl"] {
+  border-radius: 0.75rem !important;
+}
+
+/* Collapse expensive box shadows */
+[data-low-power="true"] [class*="shadow-xl"],
+[data-low-power="true"] [class*="shadow-lg"],
+[data-low-power="true"] [class*="shadow-["] {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12) !important;
+}
+
+/* Hide decorative blobs in low-power mode */
+[data-low-power="true"] .fixed.rounded-full[class*="blur-"],
+[data-low-power="true"] [class*="animate-blob"] {
+  display: none !important;
+}
+
+/*
+  7. SOFTWARE GPU OVERRIDE  (data-gpu="software")
+  Disables any CSS filter that requires GPU rasterization.
+*/
+[data-gpu="software"] [class*="blur-"],
+[data-gpu="software"] [class*="backdrop-blur-"] {
+  filter: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+[data-gpu="software"] .animate-blob,
+[data-gpu="software"] .animate-wave-roll-fast,
+[data-gpu="software"] .animate-wave-roll-slow {
+  animation: none !important;
+  will-change: auto !important;
+}
+
+/*
+  8. FRAME-DROP RECOVERY  (JS adds data-dropping="true" when fps < threshold)
+  Instantly pauses all looping animations to let the browser recovery
+  without needing a React re-render.
+*/
+[data-dropping="true"] .animate-blob,
+[data-dropping="true"] .animate-wave-roll-fast,
+[data-dropping="true"] .animate-wave-roll-slow,
+[data-dropping="true"] .animate-drop-rise-turbulent {
+  animation-play-state: paused !important;
+}
+
