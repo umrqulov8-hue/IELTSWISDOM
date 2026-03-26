@@ -79,7 +79,7 @@ export default function DashboardPage() {
                             <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-white/20 blur-3xl rounded-full group-hover:scale-150 transition-transform duration-700" />
 
                             <div className="relative z-10">
-                                <h2 className="text-lg font-bold text-orange-100 mb-4">
+                                <h2 className="text-lg font-bold text-white mb-4">
                                     <BouncyText key={`prog-${lang}`} text={tx(D.progress, lang)} type="word" />
                                 </h2>
 

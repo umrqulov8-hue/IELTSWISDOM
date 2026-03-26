@@ -157,7 +157,7 @@ export function Sidebar() {
                     <div className="w-12 h-12 flex-shrink-0 rounded-full ring-2 ring-white/60 shadow-lg p-[2px] bg-gradient-to-tr from-orange-400 to-blue-500 relative group/avatar">
                         <div className="w-full h-full rounded-full bg-slate-50 flex items-center justify-center overflow-hidden border-2 border-white">
                             {avatarUrl ? (
-                                <img src={avatarUrl} alt="Avatar" className="w-full h-full object-cover" />
+                                <img src={avatarUrl} alt={user?.email?.split('@')[0] || "User avatar"} className="w-full h-full object-cover" />
                             ) : (
                                 <User className="text-slate-400 w-6 h-6 group-hover/profilebtn:text-blue-500 transition-colors" />
                             )}
@@ -174,7 +174,7 @@ export function Sidebar() {
                                     <ProBadge size="sm" />
                                 </div>
                             ) : (
-                                <p className="text-slate-500 text-[11px] font-semibold bg-white/60 px-2.5 py-0.5 rounded-full w-fit mt-1 border border-white/40">
+                                <p className="text-slate-600 text-[11px] font-semibold bg-white/60 px-2.5 py-0.5 rounded-full w-fit mt-1 border border-white/40">
                                     {lang === 'en' ? 'Free Member' : 'Bepul foydalanuvchi'}
                                 </p>
                             )}
@@ -214,7 +214,7 @@ export function Sidebar() {
                                         "flex items-center gap-3.5 px-3.5 py-3 rounded-[14px] transition-colors duration-300 group/item relative whitespace-nowrap mb-1.5",
                                         isActive
                                             ? "text-white"
-                                            : "text-slate-500 hover:text-slate-800 hover:bg-slate-100/50"
+                                            : "text-slate-600 hover:text-slate-800 hover:bg-slate-100/50"
                                     )}
                                     style={{ WebkitTransform: "translateZ(0)" }}
                                 >

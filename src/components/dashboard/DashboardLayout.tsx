@@ -147,9 +147,9 @@ export function DashboardLayout({
                                 <>
                                     <h1 className="text-3xl md:text-4xl font-extrabold text-slate-800 tracking-tight">
                                         Welcome back,{" "}
-                                        <span className="text-[#FF8C00]">{displayName}</span>!
+                                        <span className="text-orange-700">{displayName}</span>!
                                     </h1>
-                                    <p className="text-slate-500 mt-2 font-medium">
+                                    <p className="text-slate-600 mt-2 font-medium">
                                         Ready to hit your targets today?
                                     </p>
                                 </>
@@ -159,7 +159,7 @@ export function DashboardLayout({
                                         {title}
                                     </h1>
                                     {description && (
-                                        <p className="text-slate-500 mt-2 font-medium">
+                                        <p className="text-slate-600 mt-2 font-medium">
                                             {description}
                                         </p>
                                     )}
@@ -215,6 +215,7 @@ export function DashboardLayout({
 
                                         {isSearchExpanded && (
                                             <button
+                                                aria-label="Close search"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
                                                     setIsSearchExpanded(false);
