@@ -63,8 +63,8 @@ export function Header() {
                                         <motion.span
                                             key={i}
                                             variants={{
-                                                hidden: { opacity: 0, y: 20, scale: 0.8, filter: "blur(4px)" },
-                                                visible: { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", transition: { type: "spring", stiffness: 350, damping: 15 } }
+                                                hidden: { opacity: 0, y: 20, scale: 0.8 },
+                                                visible: { opacity: 1, y: 0, scale: 1, transition: { type: "spring", stiffness: 350, damping: 15 } }
                                             }}
                                             className="text-[28px] font-serif font-black text-[#1c3e2e] tracking-tight drop-shadow-sm inline-block"
                                         >
@@ -78,8 +78,8 @@ export function Header() {
                                         <motion.span
                                             key={i}
                                             variants={{
-                                                hidden: { opacity: 0, y: 20, scale: 0.8, filter: "blur(4px)" },
-                                                visible: { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", transition: { type: "spring", stiffness: 350, damping: 15 } }
+                                                hidden: { opacity: 0, y: 20, scale: 0.8 },
+                                                visible: { opacity: 1, y: 0, scale: 1, transition: { type: "spring", stiffness: 350, damping: 15 } }
                                             }}
                                             className="text-[28px] font-serif font-black text-[#1c3e2e] tracking-tight drop-shadow-sm relative inline-block"
                                         >
@@ -121,8 +121,8 @@ export function Header() {
                                 <motion.div
                                     key={link.name}
                                     variants={{
-                                        hidden: { opacity: 0, y: -20, filter: "blur(4px)" },
-                                        visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { type: "spring", bounce: 0.5, duration: 0.8 } }
+                                        hidden: { opacity: 0, y: -20 },
+                                        visible: { opacity: 1, y: 0, transition: { type: "spring", bounce: 0.5, duration: 0.8 } }
                                     }}
                                 >
                                     <Link

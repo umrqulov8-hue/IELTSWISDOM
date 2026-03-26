@@ -3,7 +3,9 @@ import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import { ModalProvider } from "@/context/ModalContext";
-import { AuthModal } from "@/components/AuthModal";
+import dynamic from 'next/dynamic';
+
+const AuthModal = dynamic(() => import('@/components/AuthModal').then(m => m.AuthModal), { ssr: false });
 import { LanguageProvider } from "@/context/LanguageContext";
 import { ClientLayout } from "@/components/ClientLayout";
 import { AuthProvider } from "@/context/AuthContext";
