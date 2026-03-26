@@ -40,7 +40,7 @@ export function Hero() {
                             {tx(h.badge, lang)}
                         </motion.div>
 
-                        <motion.h1 variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }} className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-primary mb-6 leading-[1.1]">
+                        <motion.h1 variants={{ hidden: { opacity: 1, y: 10 }, visible: { opacity: 1, y: 0 } }} className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-primary mb-6 leading-[1.1]">
                             <BouncyText text={tx(h.h1a, lang)} type="letter" />{" "}
                             <BouncyText text={tx(h.h1b, lang)} type="letter" className="text-secondary" />
                             {tx(h.h1c, lang) && (

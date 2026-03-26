@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Plus_Jakarta_Sans } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import { ModalProvider } from "@/context/ModalContext";
 import { AuthModal } from "@/components/AuthModal";
@@ -64,9 +65,12 @@ export default function RootLayout({
     <html lang="en" className="scroll-smooth">
       <head>
         {/* Apply saved font size BEFORE first paint to prevent layout flash */}
-        <script
+        {/* Apply saved font size BEFORE first paint to prevent layout flash */}
+        <Script
+          id="font-size-setter"
+          strategy="beforeInteractive"
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var s=localStorage.getItem('ielts-font-size');if(s==='small')document.documentElement.style.fontSize='14px';else if(s==='large')document.documentElement.style.fontSize='18px';else document.documentElement.style.fontSize='16px';}catch(e){}})();`,
+             __html: `(function(){try{var s=localStorage.getItem('ielts-font-size');if(s==='small')document.documentElement.style.fontSize='14px';else if(s==='large')document.documentElement.style.fontSize='18px';else document.documentElement.style.fontSize='16px';}catch(e){}})();`,
           }}
         />
         {/* Preconnect to external origins — reduces critical path latency */}

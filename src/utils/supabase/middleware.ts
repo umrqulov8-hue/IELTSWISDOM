@@ -54,8 +54,6 @@ export async function updateSession(request: NextRequest) {
         }
     )
 
-    const { data: { user } } = await supabase.auth.getUser()
-
     const protectedPaths = [
         '/dashboard',
         '/welcome',
@@ -72,6 +70,17 @@ export async function updateSession(request: NextRequest) {
     ]
 
     const isProtected = protectedPaths.some(path => request.nextUrl.pathname.startsWith(path))
+
+    // PERFORMANCE FIX: Skip network calls and cookie updates for completely public static pages
+    if (!isProtected) {
+        return NextResponse.next({
+            request: {
+                headers: request.headers,
+            },
+        });
+    }
+
+    const { data: { user } } = await supabase.auth.getUser()
 
     if (isProtected && !user) {
         return NextResponse.redirect(new URL('/', request.url))
