@@ -76,7 +76,7 @@ export default function RootLayout({
         {/* Preconnect to external origins — reduces critical path latency */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link rel="preconnect" href="https://azrmwfzrgdvkbzezwyfo.supabase.co" />
+        <link rel="preconnect" href="https://azrmwfzrgdvkbzezwyfo.supabase.co" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://azrmwfzrgdvkbzezwyfo.supabase.co" />
       </head>
       <body
