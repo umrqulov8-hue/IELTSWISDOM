@@ -40,9 +40,11 @@ export default function WelcomePage() {
                 {/* Progress Bar */}
                 <div className="absolute top-0 left-0 h-1 bg-slate-100 w-full">
                     <motion.div
-                        initial={{ width: "33%" }}
-                        animate={{ width: `${(step / 3) * 100}%` }}
-                        className="h-full bg-[#FF851B] transition-all duration-500"
+                        initial={{ scaleX: 0.33 }}
+                        animate={{ scaleX: step / 3 }}
+                        transition={{ duration: 0.5, ease: "easeInOut" }}
+                        style={{ transformOrigin: "left" }}
+                        className="h-full bg-[#FF851B]"
                     />
                 </div>
 

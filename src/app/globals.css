@@ -249,12 +249,7 @@
   animation-delay: 2.1s;
 }
 
-/* GPU-composited animations — fixes Lighthouse non-composited warning */
-[data-framer-component-type],
-[style*="transform"],
-[style*="opacity"] {
-  will-change: transform;
-}
+/* Removed aggressive wildcard will-change optimizations to prevent VRAM exhaustion and lag on lower-end devices */
 
 @layer base {
   body {

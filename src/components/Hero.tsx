@@ -35,7 +35,7 @@ export function Hero() {
                         }}
                         className="max-w-2xl"
                     >
-                        <motion.div variants={{ hidden: { opacity: 0, y: 20, scale: 0.9, filter: "blur(4px)" }, visible: { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", transition: { type: "spring", bounce: 0.5, duration: 0.8 } } }} className="inline-flex items-center rounded-full border px-3 py-1 text-sm font-medium text-primary bg-primary/5 mb-6">
+                        <motion.div style={{ willChange: "transform, opacity" }} variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { type: "spring", bounce: 0.5, duration: 0.8 } } }} className="inline-flex items-center rounded-full border px-3 py-1 text-sm font-medium text-primary bg-primary/5 mb-6">
                             <span className="flex h-2 w-2 rounded-full bg-secondary mr-2"></span>
                             {tx(h.badge, lang)}
                         </motion.div>
@@ -52,7 +52,7 @@ export function Hero() {
                             <BouncyText text={tx(h.desc, lang)} type="word" />
                         </motion.p>
 
-                        <motion.div variants={{ hidden: { opacity: 0, y: 20, scale: 0.95 }, visible: { opacity: 1, y: 0, scale: 1, transition: { type: "spring", bounce: 0.5, duration: 0.8 } } }} className="flex flex-col sm:flex-row gap-4 mb-10">
+                        <motion.div style={{ willChange: "transform, opacity" }} variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { type: "spring", bounce: 0.5, duration: 0.8 } } }} className="flex flex-col sm:flex-row gap-4 mb-10">
                             <Button size="lg" className="group shadow-lg shadow-primary/20" onClick={handleStartLearning} disabled={isLoading}>
                                 {isLoading ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : tx(h.cta, lang)}
                                 {!isLoading && <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />}
@@ -62,7 +62,7 @@ export function Hero() {
                             </Button>
                         </motion.div>
 
-                        <motion.div variants={{ hidden: { opacity: 0, y: 15 }, visible: { opacity: 1, y: 0, transition: { type: "spring", bounce: 0.4, duration: 0.8 } } }} className="flex items-center gap-6 text-sm text-muted-foreground">
+                        <motion.div style={{ willChange: "transform, opacity" }} variants={{ hidden: { opacity: 0, y: 15 }, visible: { opacity: 1, y: 0, transition: { type: "spring", bounce: 0.4, duration: 0.8 } } }} className="flex items-center gap-6 text-sm text-muted-foreground">
                             <div className="flex items-center gap-2">
                                 <CheckCircle2 className="h-5 w-5 text-secondary" />
                                 <span>{tx(h.teachers, lang)}</span>

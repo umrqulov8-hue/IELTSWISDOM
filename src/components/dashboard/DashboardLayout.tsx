@@ -25,13 +25,11 @@ const pageVariants: any = {
         opacity: 0,
         y: 18,
         scale: 0.985,
-        filter: "blur(4px)",
     },
     animate: {
         opacity: 1,
         y: 0,
         scale: 1,
-        filter: "blur(0px)",
         transition: {
             duration: 0.38,
             ease: [0.22, 1, 0.36, 1] as [number, number, number, number],
@@ -41,7 +39,6 @@ const pageVariants: any = {
         opacity: 0,
         y: -12,
         scale: 0.99,
-        filter: "blur(3px)",
         transition: {
             duration: 0.22,
             ease: [0.4, 0, 1, 1] as [number, number, number, number],
@@ -82,6 +79,7 @@ export function DashboardLayout({
             {!hideSidebar && (
                 <>
                     <motion.div
+                        style={{ willChange: "transform" }}
                         animate={{
                             x: [0, 40, -20, 0],
                             y: [0, -30, 40, 0],
@@ -96,6 +94,7 @@ export function DashboardLayout({
                         className="fixed top-[-10%] left-[-10%] w-[800px] h-[800px] bg-orange-400/20 blur-[130px] rounded-full pointer-events-none z-[-1]"
                     />
                     <motion.div
+                        style={{ willChange: "transform" }}
                         animate={{
                             x: [0, -50, 30, 0],
                             y: [0, 60, -20, 0],
@@ -110,6 +109,7 @@ export function DashboardLayout({
                         className="fixed bottom-[-15%] right-[-10%] w-[700px] h-[700px] bg-blue-400/15 blur-[110px] rounded-full pointer-events-none z-[-1]"
                     />
                     <motion.div
+                        style={{ willChange: "transform" }}
                         animate={{
                             x: [0, 30, -40, 0],
                             y: [0, 50, 40, 0],
