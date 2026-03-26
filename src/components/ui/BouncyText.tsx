@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 export const BouncyText = ({
     text,
@@ -13,7 +13,7 @@ export const BouncyText = ({
 }) => {
     const items = type === "word" ? text.split(" ") : Array.from(text);
     return (
-        <motion.span
+        <m.span
             variants={{
                 hidden: { opacity: 0 },
                 visible: { opacity: 1, transition: { staggerChildren: type === "word" ? 0.04 : 0.02 } }
@@ -21,7 +21,7 @@ export const BouncyText = ({
             className={`inline-block ${className}`}
         >
             {items.map((item, i) => (
-                <motion.span
+                <m.span
                     key={`${item}-${i}`}
                     variants={{
                         hidden: { opacity: 0, y: 15, rotateX: 45, scale: 0.8 },
@@ -31,8 +31,8 @@ export const BouncyText = ({
                     style={{ whiteSpace: "pre" }}
                 >
                     {item}{type === "word" && i < items.length - 1 ? " " : ""}
-                </motion.span>
+                </m.span>
             ))}
-        </motion.span>
+        </m.span>
     );
 };

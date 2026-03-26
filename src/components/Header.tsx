@@ -158,6 +158,7 @@ export function Header() {
                         <button
                             onClick={() => setIsOpen(!isOpen)}
                             className="inline-flex items-center justify-center p-2 rounded-md text-primary hover:text-secondary focus:outline-none"
+                            aria-label="Toggle mobile menu"
                         >
                             <span className="sr-only">Open main menu</span>
                             {isOpen ? <X className="block h-6 w-6" /> : <Menu className="block h-6 w-6" />}

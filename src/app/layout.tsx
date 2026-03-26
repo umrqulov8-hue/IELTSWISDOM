@@ -26,6 +26,10 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://ieltswisdom.com'),
+  alternates: {
+    canonical: '/',
+  },
   title: {
     default: "IELTS Wisdom | Master IELTS with Confidence",
     template: "%s | IELTS Wisdom"
