@@ -5,7 +5,7 @@ import { FeatureGrid } from "@/components/dashboard/FeatureGrid";
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { PlayCircle, ArrowRight, Loader2, BookOpen, Headphones, PenTool, Brain, Trophy } from "lucide-react";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { useLanguage } from "@/context/LanguageContext";
 import { translations as T, tx } from "@/lib/translations";
 import { BouncyText } from "@/components/ui/BouncyText";
@@ -53,7 +53,7 @@ export default function DashboardPage() {
 
     return (
         <DashboardLayout showGreeting={true}>
-            <motion.div
+            <m.div
                 initial="hidden"
                 animate="visible"
                 variants={{
@@ -67,9 +67,9 @@ export default function DashboardPage() {
                     }
                 }}
             >
-                <motion.section layout transition={{ type: "spring", stiffness: 100, damping: 14, mass: 0.8 }} className="block w-full mb-10 md:-mx-3 after:content-[''] after:table after:clear-both">
+                <m.section layout transition={{ type: "spring", stiffness: 100, damping: 14, mass: 0.8 }} className="block w-full mb-10 md:-mx-3 after:content-[''] after:table after:clear-both">
                     {/* Current Progress - Detailed Stats */}
-                    <motion.div
+                    <m.div
                         layout
                         transition={{ layout: { type: "spring", stiffness: 100, damping: 14, mass: 0.8 } }}
                         className="float-left w-full md:w-1/2 md:px-3 mb-6"
@@ -96,18 +96,18 @@ export default function DashboardPage() {
                                 </div>
                                 {/* Visual Progress Bar */}
                                 <div className="w-full h-2.5 bg-black/20 rounded-full overflow-hidden mb-5 relative">
-                                    <motion.div
+                                    <m.div
                                         initial={{ width: 0 }}
                                         animate={{ width: `${progress_percentage}%` }}
                                         transition={{ duration: 1.5, ease: [0.34, 1.56, 0.64, 1] }}
                                         className="h-full bg-gradient-to-r from-white to-orange-100 rounded-full relative"
                                     >
-                                        <motion.div
+                                        <m.div
                                             animate={{ opacity: [0.4, 0.8, 0.4] }}
                                             transition={{ duration: 2, repeat: Infinity }}
                                             className="absolute inset-0 bg-white blur-[2px]"
                                         />
-                                    </motion.div>
+                                    </m.div>
                                 </div>
 
                                 {/* Level Badge */}
@@ -125,19 +125,12 @@ export default function DashboardPage() {
                                     {lang === 'en' ? "Full View" : "To'liq ko'rish"}
                                 </Link>
 
-                                <p className="text-xs text-orange-200 font-medium mt-3">
-                                    {progress_percentage === 0
-                                        ? "Complete a practice test to see your progress!"
-                                        : progress_percentage < 50
-                                            ? tx(D.keep, lang)
-                                            : tx(D.excellent, lang)}
-                                </p>
                             </div>
                         </div>
-                    </motion.div>
+                    </m.div>
 
                     {/* Next Lesson - Electric Blue Glass */}
-                    <motion.div
+                    <m.div
                         layout
                         transition={{ layout: { type: "spring", stiffness: 100, damping: 14, mass: 0.8 } }}
                         className="float-left w-full md:w-1/2 md:px-3 mb-6"
@@ -165,17 +158,17 @@ export default function DashboardPage() {
                                 </Link>
                             </div>
                         </div>
-                    </motion.div>
+                    </m.div>
 
-                    <motion.div layout transition={{ layout: { type: "spring", stiffness: 100, damping: 14, mass: 0.8 } }} className="block w-full pt-4 mb-8 after:content-[''] after:table after:clear-both">
-                        <h2 className="text-center text-slate-500 text-xs font-bold uppercase tracking-[0.2em]">
+                    <m.div layout transition={{ layout: { type: "spring", stiffness: 100, damping: 14, mass: 0.8 } }} className="block w-full pt-4 mb-8 after:content-[''] after:table after:clear-both">
+                        <h2 className="text-center text-slate-600 text-xs font-bold uppercase tracking-[0.2em]">
                             <BouncyText key={`pop-${lang}`} text={tx(D.popular, lang)} type="word" />
                         </h2>
-                    </motion.div>
+                    </m.div>
 
                     <FeatureGrid />
-                </motion.section>
-            </motion.div>
+                </m.section>
+            </m.div>
         </DashboardLayout>
     );
 }

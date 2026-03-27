@@ -49,7 +49,9 @@ const nextConfig = {
     ];
   },
   experimental: {
-    optimizeCss: false,
+    optimizeCss: true,
+    optimizePackageImports: ["lucide-react"],
+    scrollRestoration: true,
   },
   compiler: {
     removeConsole: process.env.NODE_ENV === "production" ? { exclude: ["error", "warn"] } : false,

@@ -3,7 +3,7 @@
 import {
     Headphones, BookOpen, Pencil, Trophy, ClipboardList, Star, Mic, Book
 } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { useLanguage } from "@/context/LanguageContext";
 import { translations as T, tx } from "@/lib/translations";
@@ -39,7 +39,7 @@ export function FeatureGrid() {
                 if (feature.color.includes("pink")) { gradientClass = "from-pink-500 to-rose-400"; waveColor = "text-rose-400"; }
                 if (feature.color.includes("red")) { gradientClass = "from-red-500 to-rose-500"; waveColor = "text-rose-500"; }
 
-                const CardWrapper = shouldAnimate ? motion.div : "div";
+                const CardWrapper = shouldAnimate ? m.div : "div";
                 const motionProps = shouldAnimate
                     ? { initial: { opacity: 0, y: 30, scale: 0.95 }, animate: { opacity: 1, y: 0, scale: 1 }, transition: { delay: index * 0.08, type: "spring", bounce: 0.5 } }
                     : {};
