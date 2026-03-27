@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X, Loader2 } from "lucide-react";
 import { Button } from "./Button";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { useAuth } from "@/hooks/useAuth";
 import { LanguageToggle } from "./LanguageToggle";
 import { useLanguage } from "@/context/LanguageContext";
@@ -49,8 +49,8 @@ export function Header() {
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex h-16 items-center justify-between">
                     <div className="flex-shrink-0">
-                        <Link href="/" className="flex items-center hover:opacity-80 transition-opacity">
-                            <motion.div
+                        <Link href="/" aria-label="IELTS Wisdom Homepage" className="flex items-center hover:opacity-80 transition-opacity">
+                            <m.div
                                 className="flex items-center relative overflow-visible py-2 px-1 pr-4"
                                 initial="hidden"
                                 animate="visible"
@@ -60,7 +60,7 @@ export function Header() {
                             >
                                 <div className="relative flex">
                                     {"IELTS".split('').map((letter, i) => (
-                                        <motion.span
+                                        <m.span
                                             key={i}
                                             variants={{
                                                 hidden: { opacity: 0, y: 20, scale: 0.8 },
@@ -69,13 +69,13 @@ export function Header() {
                                             className="text-[28px] font-serif font-black text-[#1c3e2e] tracking-tight drop-shadow-sm inline-block"
                                         >
                                             {letter}
-                                        </motion.span>
+                                        </m.span>
                                     ))}
                                 </div>
 
                                 <div className="relative ml-1.5 flex">
                                     {"Wisdom".split('').map((letter, i) => (
-                                        <motion.span
+                                        <m.span
                                             key={i}
                                             variants={{
                                                 hidden: { opacity: 0, y: 20, scale: 0.8 },
@@ -85,7 +85,7 @@ export function Header() {
                                         >
                                             {letter}
                                             {i === 2 && (
-                                                <motion.svg
+                                                <m.svg
                                                     variants={{
                                                         hidden: { opacity: 0, y: -40, scale: 0, rotate: -30 },
                                                         visible: { opacity: 1, y: 0, scale: 1, rotate: 0, transition: { delay: 1.0, type: "spring", stiffness: 500, damping: 10, mass: 0.5 } }
@@ -99,17 +99,17 @@ export function Header() {
                                                     <circle cx="12" cy="2" r="1.5" />
                                                     <circle cx="17" cy="11.5" r="1.5" />
                                                     <circle cx="23" cy="6" r="1.5" />
-                                                </motion.svg>
+                                                </m.svg>
                                             )}
-                                        </motion.span>
+                                        </m.span>
                                     ))}
                                 </div>
-                            </motion.div>
+                            </m.div>
                         </Link>
                     </div>
 
                     <div className="hidden md:block">
-                        <motion.div
+                        <m.div
                             initial="hidden"
                             animate="visible"
                             variants={{
@@ -118,7 +118,7 @@ export function Header() {
                             className="ml-10 flex items-baseline space-x-8"
                         >
                             {navLinks.map((link) => (
-                                <motion.div
+                                <m.div
                                     key={link.name}
                                     variants={{
                                         hidden: { opacity: 0, y: -20 },
@@ -127,16 +127,17 @@ export function Header() {
                                 >
                                     <Link
                                         href={link.href}
+                                        aria-label={`Jump to ${link.name}`}
                                         className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors block"
                                     >
                                         {link.name}
                                     </Link>
-                                </motion.div>
+                                </m.div>
                             ))}
-                        </motion.div>
+                        </m.div>
                     </div>
 
-                    <motion.div
+                    <m.div
                         initial="hidden"
                         animate="visible"
                         variants={{
@@ -144,15 +145,15 @@ export function Header() {
                         }}
                         className="hidden md:flex items-center gap-3"
                     >
-                        <motion.div variants={{ hidden: { opacity: 0, scale: 0.8 }, visible: { opacity: 1, scale: 1, transition: { type: "spring", bounce: 0.5 } } }}>
+                        <m.div variants={{ hidden: { opacity: 0, scale: 0.8 }, visible: { opacity: 1, scale: 1, transition: { type: "spring", bounce: 0.5 } } }}>
                             <LanguageToggle />
-                        </motion.div>
-                        <motion.div variants={{ hidden: { opacity: 0, scale: 0.8 }, visible: { opacity: 1, scale: 1, transition: { type: "spring", bounce: 0.5 } } }}>
-                            <Button variant="secondary" size="sm" onClick={handleStartLearning} disabled={isLoading}>
+                        </m.div>
+                        <m.div variants={{ hidden: { opacity: 0, scale: 0.8 }, visible: { opacity: 1, scale: 1, transition: { type: "spring", bounce: 0.5 } } }}>
+                            <Button variant="secondary" size="sm" onClick={handleStartLearning} disabled={isLoading} aria-label="Start learning now">
                                 {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Get Started"}
                             </Button>
-                        </motion.div>
-                    </motion.div>
+                        </m.div>
+                    </m.div>
 
                     <div className="-mr-2 flex md:hidden">
                         <button
@@ -169,7 +170,7 @@ export function Header() {
 
             <AnimatePresence>
                 {isOpen && (
-                    <motion.div
+                    <m.div
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: "auto" }}
                         exit={{ opacity: 0, height: 0 }}
@@ -192,7 +193,7 @@ export function Header() {
                                 </Button>
                             </div>
                         </div>
-                    </motion.div>
+                    </m.div>
                 )}
             </AnimatePresence>
         </header>

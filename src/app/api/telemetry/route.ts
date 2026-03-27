@@ -23,14 +23,8 @@ export async function POST(request: Request) {
 
     // Strip any accidental PII fields before logging
     const { event, timestamp, tier, fps, cores, memory, gpuTier, networkTier, fromFps, toFps } = payload;
-    const safePayload = { event, timestamp, tier, fps, cores, memory, gpuTier, networkTier, fromFps, toFps };
 
     // In production: forward to analytics (e.g. LogRocket, OpenTelemetry, Vercel Analytics)
-    // For now, log at edge for debugging
-    if (process.env.NODE_ENV === "development") {
-      console.log("[telemetry]", safePayload);
-    }
-
     // Always respond 204 — sendBeacon ignores the response body
     return new NextResponse(null, { status: 204 });
   } catch {

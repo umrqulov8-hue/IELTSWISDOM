@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { Send, Bot, User, Trash2, AlertCircle, Sparkles, BookOpen, Mic, PenLine, ChevronLeft } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { useLanguage } from "@/context/LanguageContext";
 import { useSubscription } from "@/context/SubscriptionContext";
@@ -118,6 +118,7 @@ export default function AICheckPage() {
                     <div className="max-w-5xl mx-auto backdrop-blur-md bg-white/80 border border-slate-200/60 rounded-3xl p-3 md:p-4 flex items-center justify-between shadow-sm">
                         <button
                             onClick={() => router.push('/dashboard')}
+                            aria-label="Back to dashboard"
                             className="flex items-center gap-2 px-3 py-2 rounded-xl hover:bg-slate-100 transition-colors text-slate-600 hover:text-slate-900 group"
                         >
                             <ChevronLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
@@ -146,6 +147,7 @@ export default function AICheckPage() {
 
                         <button
                             onClick={clearChat}
+                            aria-label="Clear chat history"
                             className="flex items-center gap-2 px-3 py-2 md:px-4 md:py-2 rounded-xl border border-red-200 text-red-500 hover:bg-red-50 hover:border-red-300 transition-all text-sm font-semibold"
                         >
                             <Trash2 className="w-4 h-4" />
@@ -159,9 +161,9 @@ export default function AICheckPage() {
                 {/* --- Main Chat Area --- */}
                 <div className="flex-1 w-full max-w-5xl mx-auto overflow-y-auto custom-scrollbar flex flex-col pr-1 md:pr-4">
                     <div className="w-full space-y-6 flex flex-col pt-2 pb-4">
-                        <AnimatePresence>
+                        <AnimatePresence initial={false}>
                             {messages.map((msg, i) => (
-                                <motion.div
+                                <m.div
                                     key={i}
                                     initial={{ opacity: 0, y: 20, scale: 0.95 }}
                                     animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -193,14 +195,14 @@ export default function AICheckPage() {
                                         {/* Subtle edge highlight */}
                                         <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-white/60 to-transparent rounded-t-3xl" />
                                     </div>
-                                </motion.div>
+                                </m.div>
                             ))}
                         </AnimatePresence>
 
                         {/* Quick Prompts */}
                         <AnimatePresence>
                             {showPrompts && messages.length === 1 && (
-                                <motion.div
+                                <m.div
                                     initial={{ opacity: 0, scale: 0.9 }}
                                     animate={{ opacity: 1, scale: 1 }}
                                     exit={{ opacity: 0, scale: 0.9, filter: "blur(10px)" }}
@@ -208,12 +210,13 @@ export default function AICheckPage() {
                                     className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-4 md:pl-14 w-full max-w-3xl"
                                 >
                                     {QUICK_PROMPTS().map(({ icon: Icon, label, text }, idx) => (
-                                        <motion.button
+                                        <m.button
                                             initial={{ opacity: 0, y: 20 }}
                                             animate={{ opacity: 1, y: 0 }}
                                             transition={{ duration: 0.4, delay: 0.3 + (idx * 0.1), type: "spring", bounce: 0.4 }}
                                             key={label}
                                             onClick={() => sendMessage(text)}
+                                            aria-label={`Ask AI: ${label}`}
                                             className="flex items-center gap-4 text-left px-5 py-4 rounded-3xl bg-white border border-slate-200 hover:border-orange-400 hover:shadow-[0_4px_20px_rgba(255,140,0,0.1)] transition-all duration-300 group overflow-hidden relative"
                                         >
                                             <div className="w-12 h-12 rounded-xl bg-orange-50 flex items-center justify-center flex-shrink-0 group-hover:bg-orange-100 transition-colors">
@@ -222,15 +225,15 @@ export default function AICheckPage() {
                                             <span className="font-semibold text-slate-700 group-hover:text-slate-900 transition-colors text-[15px]">
                                                 <BouncyText key={`qp-${idx}-${lang}`} text={label} type="word" />
                                             </span>
-                                        </motion.button>
+                                        </m.button>
                                     ))}
-                                </motion.div>
+                                </m.div>
                             )}
                         </AnimatePresence>
 
                         {/* Typing Indicator */}
                         {loading && (
-                            <motion.div
+                            <m.div
                                 initial={{ opacity: 0, y: 10 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 className="flex gap-4 items-end max-w-[85%]"
@@ -245,18 +248,18 @@ export default function AICheckPage() {
                                         <span className="w-2 h-2 bg-orange-400 rounded-full animate-bounce [animation-delay:0s]" />
                                     </div>
                                 </div>
-                            </motion.div>
+                            </m.div>
                         )}
 
                         {error && (
-                            <motion.div
+                            <m.div
                                 initial={{ opacity: 0, y: 10 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 className="flex items-start gap-3 text-red-600 bg-red-50 border border-red-200 rounded-2xl px-5 py-4 text-sm md:ml-14 max-w-2xl shadow-sm"
                             >
                                 <AlertCircle className="w-5 h-5 flex-shrink-0 text-red-500" />
                                 <span className="leading-relaxed">{error}</span>
-                            </motion.div>
+                            </m.div>
                         )}
 
                         <div ref={bottomRef} className="h-4" />
@@ -276,6 +279,7 @@ export default function AICheckPage() {
                                 onChange={handleInput}
                                 onKeyDown={handleKeyDown}
                                 placeholder={tx(AIC.placeholder, lang)}
+                                aria-label="Chat input message"
                                 rows={1}
                                 className="flex-1 resize-none bg-transparent text-slate-800 placeholder:text-slate-400 focus:outline-none py-3 px-4 min-h-[50px] max-h-[200px] overflow-y-auto leading-relaxed text-[15px] font-medium custom-scrollbar"
                                 disabled={loading || !isPro}
@@ -284,6 +288,7 @@ export default function AICheckPage() {
                                 onClick={() => sendMessage(input)}
                                 disabled={!input.trim() || loading || !isPro}
                                 className="w-12 h-12 rounded-2xl bg-gradient-to-br from-orange-400 to-[#FF8C00] flex items-center justify-center text-white flex-shrink-0 shadow-md disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 hover:scale-105 active:scale-95 mb-0.5 mr-0.5"
+                                aria-label="Send message"
                             >
                                 <Send className="w-5 h-5" />
                             </button>
@@ -298,13 +303,13 @@ export default function AICheckPage() {
                 {/* --- Full Screen Premium Overlay --- */}
                 <AnimatePresence>
                     {!isPro && (
-                        <motion.div
+                        <m.div
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
                             className="fixed inset-0 z-[100] backdrop-blur-[12px] bg-slate-900/40 flex items-center justify-center p-4"
                         >
-                            <motion.div
+                            <m.div
                                 initial={{ opacity: 0, scale: 0.9, y: 20 }}
                                 animate={{ opacity: 1, scale: 1, y: 0 }}
                                 transition={{ type: "spring", damping: 25, stiffness: 300 }}
@@ -329,7 +334,10 @@ export default function AICheckPage() {
                                     </p>
 
                                     <Link href="/upgrade" className="block">
-                                        <button className="w-full py-4 bg-gradient-to-r from-[#FF8C00] to-amber-500 text-white rounded-2xl font-black text-lg shadow-[0_10px_25px_rgba(255,140,0,0.3)] hover:shadow-[0_15px_35px_rgba(255,140,0,0.4)] hover:scale-[1.03] transition-all duration-300 active:scale-95 flex items-center justify-center gap-3 group">
+                                        <button
+                                            className="w-full py-4 bg-gradient-to-r from-[#FF8C00] to-amber-500 text-white rounded-2xl font-black text-lg shadow-[0_10px_25px_rgba(255,140,0,0.3)] hover:shadow-[0_15px_35px_rgba(255,140,0,0.4)] hover:scale-[1.03] transition-all duration-300 active:scale-95 flex items-center justify-center gap-3 group"
+                                            aria-label="Upgrade to Pro"
+                                        >
                                             Upgrade to Pro
                                             <Sparkles className="w-5 h-5 group-hover:rotate-12 transition-transform" />
                                         </button>
@@ -339,8 +347,8 @@ export default function AICheckPage() {
                                         Unlock 20+ Practice Tests
                                     </p>
                                 </div>
-                            </motion.div>
-                        </motion.div>
+                            </m.div>
+                        </m.div>
                     )}
                 </AnimatePresence>
 

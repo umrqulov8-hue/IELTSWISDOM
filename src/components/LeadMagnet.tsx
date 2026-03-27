@@ -14,7 +14,6 @@ export function LeadMagnet() {
         if (email) {
             setSubmitted(true);
             // Here you would typically send the email to your API
-            console.log("Submitted email:", email);
         }
     };
 

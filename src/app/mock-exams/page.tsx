@@ -2,7 +2,7 @@
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { Play } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { useLanguage } from "@/context/LanguageContext";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -28,20 +28,20 @@ export default function MockExamsPage() {
             {/* Transition Overlay */}
             <AnimatePresence>
                 {isStarting && (
-                    <motion.div
+                    <m.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         className="fixed inset-0 z-[99999] bg-white flex flex-col items-center justify-center text-slate-800"
                     >
-                        <motion.div
+                        <m.div
                             initial={{ scale: 0.8, opacity: 0 }}
                             animate={{ scale: 1, opacity: 1 }}
                             transition={{ duration: 0.5, ease: "easeOut" }}
                             className="text-center space-y-8"
                         >
                             <div className="w-24 h-24 bg-blue-50 rounded-full flex items-center justify-center mx-auto relative">
-                                <motion.div 
+                                <m.div 
                                     className="absolute inset-0 bg-blue-100 rounded-full"
                                     animate={{ scale: [1, 1.5, 1], opacity: [0.5, 0, 0.5] }}
                                     transition={{ duration: 2, repeat: Infinity }}
@@ -55,7 +55,7 @@ export default function MockExamsPage() {
                             </div>
 
                             <div className="w-64 h-1.5 bg-slate-100 rounded-full mx-auto overflow-hidden border border-slate-200">
-                                <motion.div 
+                                <m.div 
                                     className="h-full bg-blue-500"
                                     initial={{ width: "0%" }}
                                     animate={{ width: "100%" }}
@@ -63,16 +63,16 @@ export default function MockExamsPage() {
                                 />
                             </div>
 
-                            <motion.p 
+                            <m.p 
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: [0, 1, 0] }}
                                 transition={{ duration: 1.5, repeat: Infinity }}
                                 className="text-[10px] uppercase font-black tracking-[0.3em] text-blue-500"
                             >
                                 Initializing Simulation
-                            </motion.p>
-                        </motion.div>
-                    </motion.div>
+                            </m.p>
+                        </m.div>
+                    </m.div>
                 )}
             </AnimatePresence>
 
@@ -99,13 +99,14 @@ export default function MockExamsPage() {
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-14">
                         {(tests as unknown as any[]).map((test, index) => (
-                            <motion.div
+                            <m.div
                                 key={index}
                                 initial={{ opacity: 0, scale: 0.95, y: 30 }}
                                 animate={{ opacity: 1, scale: 1, y: 0 }}
                                 transition={{ duration: 0.6, delay: index * 0.1, type: "spring", stiffness: 60 }}
                                 className={cn("relative rounded-[40px] p-8 lg:p-10 flex flex-col overflow-hidden group transition-all duration-500 bg-white/90 backdrop-blur-3xl border border-white/60")}
                                 style={{ boxShadow: "inset 4px 4px 15px rgba(255,255,255,1), inset -4px -4px 15px rgba(0,0,0,0.03), 0 25px 50px -12px rgba(0,0,0,0.15)" }}
+                                aria-label={`Exam card for ${tx(test.title, lang)}`}
                             >
                                 <div className="absolute top-[-20%] left-[-10%] w-[120%] h-[50%] bg-gradient-to-b from-white to-transparent -rotate-6 pointer-events-none rounded-[100%] blur-[12px] opacity-90" />
                                 <div className="relative z-10">
@@ -133,7 +134,7 @@ export default function MockExamsPage() {
                                     </ul>
                                 </div>
                                 <div className="mt-auto relative z-10 w-full">
-                                    <motion.button
+                                    <m.button
                                         whileHover={{ scale: 1.03 }}
                                         whileTap={{ scale: 0.97 }}
                                         onClick={() => {
@@ -141,27 +142,28 @@ export default function MockExamsPage() {
                                             try {
                                                 const el = document.documentElement as any;
                                                 if (el.requestFullscreen) {
-                                                    el.requestFullscreen().catch(console.error);
+                                                    el.requestFullscreen();
                                                 } else if (el.webkitRequestFullscreen) {
                                                     el.webkitRequestFullscreen();
                                                 } else if (el.msRequestFullscreen) {
                                                     el.msRequestFullscreen();
                                                 }
                                             } catch (err) {
-                                                console.error("Error attempting to enable fullscreen:", err);
+                                                // Fail silently for non-interactive fullscreen triggers
                                             }
                                             setTimeout(() => {
                                                 router.push(`/mock-exams/${index}/pre-check`);
                                             }, 3500);
                                         }}
                                         disabled={isStarting}
+                                        aria-label={`Start ${tx(test.title, lang)}`}
                                         className="w-full text-white font-black py-[16px] rounded-full flex items-center justify-center gap-3 transition-all text-[15px] bg-[#0f172a] shadow-[0_8px_20px_rgba(15,23,42,0.2)] hover:shadow-[0_12px_25px_rgba(15,23,42,0.3)] disabled:opacity-50"
                                     >
                                         <Play className="w-[18px] h-[18px] fill-white" strokeWidth={3} />
                                         <span className="tracking-widest uppercase">{tx(ME.startTest, lang)}</span>
-                                    </motion.button>
+                                    </m.button>
                                 </div>
-                            </motion.div>
+                            </m.div>
                         ))}
                     </div>
                 )}

@@ -11,6 +11,8 @@ import { translations as T, tx } from "@/lib/translations";
 import { BouncyText } from "@/components/ui/BouncyText";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { cn } from "@/lib/utils";
+import type { Metadata } from "next";
+
 
 export default function DashboardPage() {
     const { stats } = useDashboard();

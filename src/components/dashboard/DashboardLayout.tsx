@@ -5,7 +5,7 @@ import { Bell, Search, X } from "lucide-react";
 import { PropsWithChildren, useState, useRef, useEffect } from "react";
 import { useAuthContext } from "@/context/AuthContext";
 import { cn } from "@/lib/utils";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { usePathname } from "next/navigation";
 import { useDevice } from "@/context/DeviceContext";
 
@@ -81,7 +81,7 @@ export function DashboardLayout({
             {/* Ambient Animated Background Blobs — only on high-tier devices */}
             {shouldUseHeavyEffects && !hideSidebar && (
                 <>
-                    <motion.div
+                    <m.div
                         style={{ willChange: "transform" }}
                         animate={{
                             x: [0, 40, -20, 0],
@@ -96,7 +96,7 @@ export function DashboardLayout({
                         }}
                         className="fixed top-[-10%] left-[-10%] w-[800px] h-[800px] bg-orange-400/20 blur-[130px] rounded-full pointer-events-none z-[-1]"
                     />
-                    <motion.div
+                    <m.div
                         style={{ willChange: "transform" }}
                         animate={{
                             x: [0, -50, 30, 0],
@@ -111,7 +111,7 @@ export function DashboardLayout({
                         }}
                         className="fixed bottom-[-15%] right-[-10%] w-[700px] h-[700px] bg-blue-400/15 blur-[110px] rounded-full pointer-events-none z-[-1]"
                     />
-                    <motion.div
+                    <m.div
                         style={{ willChange: "transform" }}
                         animate={{
                             x: [0, 30, -40, 0],
@@ -173,7 +173,7 @@ export function DashboardLayout({
                         <div className="flex items-center gap-4">
                             <div className="relative flex items-center" ref={searchRef}>
                                 {/* Expandable Search Container */}
-                                <motion.div
+                                <m.div
                                     initial={false}
                                     animate={{
                                         width: isSearchExpanded ? "240px" : "46px",
@@ -203,7 +203,7 @@ export function DashboardLayout({
 
                                         <AnimatePresence>
                                             {isSearchExpanded && (
-                                                <motion.input
+                                                <m.input
                                                     autoFocus
                                                     initial={{ opacity: 0, scale: 0.95, filter: "blur(4px)" }}
                                                     animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
@@ -211,6 +211,7 @@ export function DashboardLayout({
                                                     transition={{ duration: 0.2 }}
                                                     type="text"
                                                     placeholder="Search..."
+                                                    aria-label="Search dashboard"
                                                     className="bg-transparent border-none outline-none py-[10px] pl-[44px] pr-10 text-[15px] font-medium text-slate-800 placeholder:text-slate-400/80 w-full"
                                                 />
                                             )}
@@ -229,7 +230,7 @@ export function DashboardLayout({
                                             </button>
                                         )}
                                     </div>
-                                </motion.div>
+                                </m.div>
                             </div>
 
 
@@ -245,7 +246,7 @@ export function DashboardLayout({
 
                 {/* Page content with transition */}
                 <AnimatePresence mode="wait">
-                    <motion.div
+                    <m.div
                         key={pathname}
                         variants={pageVariants}
                         initial="initial"
@@ -258,7 +259,7 @@ export function DashboardLayout({
                         )}
                     >
                         {children}
-                    </motion.div>
+                    </m.div>
                 </AnimatePresence>
             </main>
         </div>

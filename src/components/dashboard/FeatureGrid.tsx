@@ -50,7 +50,11 @@ export function FeatureGrid() {
                         key={feature.key}
                         className="float-left w-1/2 md:w-1/4 px-2 md:px-3 mb-4 md:mb-6 h-[170px]"
                     >
-                        <Link href={feature.href} className="block h-full relative group">
+                        <Link 
+                            href={feature.href} 
+                            aria-label={`Go to ${tx(T.features[feature.key], lang)} section`}
+                            className="block h-full relative group"
+                        >
                             <div className="relative bg-white/50 backdrop-blur-xl border border-white/60 p-6 rounded-[2rem] transition-all duration-300 cursor-pointer overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 h-full flex flex-col items-center justify-center">
 
                                 {/* Wave + Bubble Effect — guarded behind shouldAnimate */}
