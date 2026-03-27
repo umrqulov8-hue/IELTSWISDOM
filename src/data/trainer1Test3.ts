@@ -8,7 +8,7 @@ export const trainer1Test3: ListeningTest = {
             id: "part-1",
             title: "Help for Carers",
             instructions: "Questions 1-10",
-            audioUrl: "/audio/cambridge-ielts-20-academic-listening-2-audio1.mp3",
+            audioUrl: "https://azrmwfzrgdvkbzezwyfo.supabase.co/storage/v1/object/public/IELTSWISDOM/audio/cambridge-ielts-20-academic-listening-2-audio1.mp3",
             content: `
       <div class="mb-6">
         <p class="font-bold mb-4">Complete the notes below.</p>
@@ -72,7 +72,7 @@ export const trainer1Test3: ListeningTest = {
             id: "part-2",
             title: "Community Volunteering and Local Festival Events",
             instructions: "Questions 11-20",
-            audioUrl: "/audio/cambridge-ielts-20-academic-listening-2-audio-part-2.mp3",
+            audioUrl: "https://azrmwfzrgdvkbzezwyfo.supabase.co/storage/v1/object/public/IELTSWISDOM/audio/cambridge-ielts-20-academic-listening-2-audio-part-2.mp3",
             content: `
       <div class="mb-10">
         <p class="font-bold mb-4">Questions 11-16</p>
@@ -168,7 +168,7 @@ export const trainer1Test3: ListeningTest = {
             id: "part-3",
             title: "Urban Development and Human Geography Discussion",
             instructions: "Questions 21-30",
-            audioUrl: "/audio/cambridge-ielts-20-academic-listening-2-audio-3.mp3",
+            audioUrl: "https://azrmwfzrgdvkbzezwyfo.supabase.co/storage/v1/object/public/IELTSWISDOM/audio/cambridge-ielts-20-academic-listening-2-audio-3.mp3",
             content: `
       <div class="mb-10">
         <p class="font-bold mb-4">Questions 21-25</p>
@@ -264,7 +264,7 @@ export const trainer1Test3: ListeningTest = {
             id: "part-4",
             title: "Developing Food Trends",
             instructions: "Questions 31-40",
-            audioUrl: "/audio/cambridge-ielts-20-academic-listening-2-audio-part-4.mp3",
+            audioUrl: "https://azrmwfzrgdvkbzezwyfo.supabase.co/storage/v1/object/public/IELTSWISDOM/audio/cambridge-ielts-20-academic-listening-2-audio-part-4.mp3",
             content: `
       <div class="mb-10">
         <p class="font-bold mb-4">Complete the notes below.</p>

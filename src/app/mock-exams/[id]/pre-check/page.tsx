@@ -43,7 +43,7 @@ export default function PreTestChecksPage({ params }: { params: Promise<{ id: st
 
     const handlePlaySound = () => {
         if (!audioRef.current) {
-            audioRef.current = new Audio("/audio/Cambridge%20IELTS%2011.1.1.mp3");
+            audioRef.current = new Audio("https://azrmwfzrgdvkbzezwyfo.supabase.co/storage/v1/object/public/IELTSWISDOM/audio/Cambridge%20IELTS%2011.1.1.mp3");
             audioRef.current.onended = () => {
                 setIsPlaying(false);
             };
@@ -127,7 +127,7 @@ export default function PreTestChecksPage({ params }: { params: Promise<{ id: st
                     {(step === 2 || (step === 3 && isPreTestVideoVisible)) && (
                         <div className="mb-4">
                             <video 
-                                src="/test%20uchun%20video/pre-test.mp4"
+                                src="https://azrmwfzrgdvkbzezwyfo.supabase.co/storage/v1/object/public/IELTSWISDOM/test%20uchun%20video/IELTS%20on%20computer%20-%20Quick%20Guide.mp4"
                                 controls
                                 autoPlay={step === 2}
                                 controlsList="nodownload noremoteplayback"
@@ -188,7 +188,7 @@ export default function PreTestChecksPage({ params }: { params: Promise<{ id: st
                     {step === 3 && (
                         <div className="mt-6">
                             <video 
-                                src="/test%20uchun%20video/listening.mp4"
+                                src="https://azrmwfzrgdvkbzezwyfo.supabase.co/storage/v1/object/public/IELTSWISDOM/test%20uchun%20video/listening.mp4"
                                 controls
                                 autoPlay
                                 controlsList="nodownload noremoteplayback"
@@ -216,14 +216,30 @@ export default function PreTestChecksPage({ params }: { params: Promise<{ id: st
                 <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
                     <h3 className="text-lg font-bold text-slate-900 mb-2">Reading</h3>
                     <div className="text-red-500 font-medium mb-4">Not completed</div>
-                    <div className="text-slate-600">Timing: 1 hour</div>
+                    <div className="text-slate-600 mb-4">Timing: 1 hour</div>
+                    <video
+                        src="https://azrmwfzrgdvkbzezwyfo.supabase.co/storage/v1/object/public/IELTSWISDOM/test%20uchun%20video/%24Rda4l6g.mp4"
+                        controls
+                        controlsList="nodownload noremoteplayback"
+                        onContextMenu={(e) => e.preventDefault()}
+                        disablePictureInPicture
+                        className="w-full rounded-lg border border-slate-200 shadow-sm"
+                    />
                 </div>
 
                 {/* Writing Card */}
                 <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
                     <h3 className="text-lg font-bold text-slate-900 mb-2">Writing</h3>
                     <div className="text-red-500 font-medium mb-4">Not completed</div>
-                    <div className="text-slate-600">Timing: 1 hour</div>
+                    <div className="text-slate-600 mb-4">Timing: 1 hour</div>
+                    <video
+                        src="https://azrmwfzrgdvkbzezwyfo.supabase.co/storage/v1/object/public/IELTSWISDOM/test%20uchun%20video/%24Rda4l6g.mp4"
+                        controls
+                        controlsList="nodownload noremoteplayback"
+                        onContextMenu={(e) => e.preventDefault()}
+                        disablePictureInPicture
+                        className="w-full rounded-lg border border-slate-200 shadow-sm"
+                    />
                 </div>
 
             </main>
