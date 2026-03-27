@@ -8,7 +8,7 @@ export const mockTest1Listening: ListeningTest = {
             id: "part-1",
             title: "Part 1",
             instructions: "Questions 1-10",
-            audioUrl: "https://azrmwfzrgdvkbzezwyfo.supabase.co/storage/v1/object/public/IELTSWISDOM/test%20uchun%20video/listening.mp4",
+            audioUrl: "https://azrmwfzrgdvkbzezwyfo.supabase.co/storage/v1/object/public/IELTSWISDOM/test uchun video/listening.mp4",
             content: `
             <div class="mb-6">
                 <p class="font-bold mb-4">Complete the notes below.</p>
@@ -79,7 +79,7 @@ export const mockTest1Listening: ListeningTest = {
             id: "part-2",
             title: "Part 2",
             instructions: "Questions 11-20",
-            audioUrl: "https://azrmwfzrgdvkbzezwyfo.supabase.co/storage/v1/object/public/IELTSWISDOM/test%20uchun%20video/listening.mp4",
+            audioUrl: "https://azrmwfzrgdvkbzezwyfo.supabase.co/storage/v1/object/public/IELTSWISDOM/test uchun video/listening.mp4",
             content: `
             <div class="mb-10">
                 <h3 class="font-bold text-xl mb-6">Linwood Apartment Complex</h3>
@@ -177,7 +177,7 @@ export const mockTest1Listening: ListeningTest = {
             id: "part-3",
             title: "Part 3",
             instructions: "Questions 21-30",
-            audioUrl: "https://azrmwfzrgdvkbzezwyfo.supabase.co/storage/v1/object/public/IELTSWISDOM/test%20uchun%20video/listening.mp4",
+            audioUrl: "https://azrmwfzrgdvkbzezwyfo.supabase.co/storage/v1/object/public/IELTSWISDOM/test uchun video/listening.mp4",
             content: `
             <div class="mb-10">
                 <div class="mb-10 p-6 bg-slate-50 border border-slate-200 rounded-xl">
@@ -300,7 +300,7 @@ export const mockTest1Listening: ListeningTest = {
             id: "part-4",
             title: "Part 4",
             instructions: "Questions 31-40",
-            audioUrl: "https://azrmwfzrgdvkbzezwyfo.supabase.co/storage/v1/object/public/IELTSWISDOM/test%20uchun%20video/listening.mp4",
+            audioUrl: "https://azrmwfzrgdvkbzezwyfo.supabase.co/storage/v1/object/public/IELTSWISDOM/test uchun video/listening.mp4",
             content: `
             <div class="mb-10">
                 <p class="font-bold mb-4">Complete the notes below.</p>
