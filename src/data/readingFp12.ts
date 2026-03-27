@@ -1,0 +1,83 @@
+import { ReadingTest } from "./reading-tests";
+
+export const readingFp12: ReadingTest = {
+        id: "fp-12",
+        title: "Reducing the Effects of Climate Change",
+        content: `
+                                                                                                < h2 class="text-xl font-bold mb-4" > Mark Rowe reports on the increasingly ambitious geo - engineering projects being explored by scientists </h2>
+
+                                                                                                    < p class="mb-4" > <strong>A < /strong> Such is our dependence on fossil fuels, and such is the volume of carbon dioxide already released into the atmosphere, that many experts agree that significant global warming is now inevitable. They believe that the best we can do is keep it at a reasonable level, and at present the only serious option for doing this is cutting back on our carbon emissions. But while a few countries are making major strides in this regard, the majority are having great difficulty even stemming the rate of increase, let alone reversing it. Consequently, an increasing number of scientists are beginning to explore the alternative of geo-engineering – a term which generally refers to the intentional large-scale manipulation of the environment. According to its proponents, geo-engineering is the equivalent of a backup generator: if Plan A – reducing our dependency on fossil fuels – fails, we require a Plan B, employing grand schemes to slow down or reverse the process of global warming.</p >
+
+                                                                                                        <p class="mb-4" > <strong>B < /strong> Geo-engineering has been shown to work, at least on a small localised scale. For decades, May Day parades in Moscow have taken place under clear blue skies, aircraft having deposited dry ice, silver iodide and cement powder to disperse clouds. Many of the schemes now suggested look to do the opposite, and reduce the amount of sunlight reaching the planet. The most eye-catching idea of all is suggested by Professor Roger Angel of the University of Arizona. His scheme would employ up to 16 trillion minute spacecraft, each weighing about one gram, to form a transparent, sunlight-refracting sunshade in an orbit 1.5 million km above the Earth. This could, argues Angel, reduce the amount of light reaching the Earth by two per cent.</p >
+
+                                                                                                            <p class="mb-4" > <strong>C < /strong> The majority of geo-engineering projects so far carried out – which include planting forests in deserts and depositing iron in the ocean to stimulate the growth of algae – have focused on achieving a general cooling of the Earth. But some look specifically at reversing the melting at the poles, particularly the Arctic. The reasoning is that if you replenish the ice sheets and frozen waters of the high latitudes, more light will be reflected back into space, so reducing the warming of the oceans and atmosphere.</p >
+
+                                                                                                                <p class="mb-4" > <strong>D < /strong> The concept of releasing aerosol sprays into the stratosphere above the Arctic has been proposed by several scientists. This would involve using sulphur or hydrogen sulphide aerosols so that sulphur dioxide would form clouds, which would, in turn, lead to a global dimming. The idea is modelled on historic volcanic explosions, such as that of Mount Pinatubo in the Philippines in 1991, which led to a short-term cooling of global temperatures by 0.5 °C. Scientists have also scrutinised whether it's possible to preserve the ice sheets of Greenland with reinforced high-tension cables, preventing icebergs from moving into the sea. Meanwhile in the Russian Arctic, geo-engineering plans include the planting of millions of birch trees. Whereas the region's native evergreen pines shade the snow and absorb radiation, birches would shed their leaves in winter, thus enabling radiation to be reflected by the snow. Re-routing Russian rivers to increase cold water flow to ice-forming areas could also be used to slow down warming, say some climate scientists.</p >
+
+                                                                                                                    <p class="mb-4" > <strong>E < /strong> But will such schemes ever be implemented? Generally speaking, those who are most cautious about geo-engineering are the scientists involved in the research. Angel says that his plan is 'no substitute for developing renewable energy: the only permanent solution'. And Dr Phil Rasch of the US-based Pacific Northwest National Laboratory is equally guarded about the role of geo-engineering: 'I think all of us agree that if we were to end geo-engineering on a given day, then the planet would return to its pre-engineered condition very rapidly, and probably within ten to twenty years. That's certainly something to worry about.'</p >
+
+                                                                                                                        <p class="mb-4" > <strong>F < /strong> The US National Center for Atmospheric Research has already suggested that the proposal to inject sulphur into the atmosphere might affect rainfall patterns across the tropics and the Southern Ocean. 'Geo-engineering plans to inject stratospheric aerosols or to seed clouds would act to cool the planet, and act to increase the extent of sea ice,' says Rasch. 'But all the models suggest some impact on the distribution of precipitation.'</p >
+
+                                                                                                                            <p class="mb-4" > <strong>G < /strong> 'A further risk with geo-engineering projects is that you can "overshoot",' says Dr Dan Lunt, from the University of Bristol's School of Geophysical Sciences, who has studied the likely impacts of the sunshade and aerosol schemes on the climate. 'You may bring global temperatures back to pre-industrial levels, but the risk is that the poles will still be warmer than they should be and the tropics will be cooler than before industrialisation.' To avoid such a scenario, Lunt says Angel's project would have to operate at half strength; all of which reinforces his view that the best option is to avoid the need for geo-engineering altogether.</p >
+
+                                                                                                                                <p class="mb-4" > <strong>H < /strong> The main reason why geo-engineering is supported by many in the scientific community is that most researchers have little faith in the ability of politicians to agree – and then bring in – the necessary carbon cuts. Even leading conservation organisations see the value of investigating the potential of geo-engineering. According to Dr Martin Sommerkorn, climate change advisor for the World Wildlife Fund's International Arctic Programme, 'Human-induced climate change has brought humanity to a position where we shouldn't exclude thinking thoroughly about this topic and its possibilities.'</p >
+                                                                                                                                    `,
+        questions: [
+            // --- Matching Paragraph Information (27-29) ---
+            { id: 27, type: "multiple-choice", text: "mention of a geo-engineering project based on an earlier natural phenomenon", options: ["A", "B", "C", "D", "E", "F", "G", "H"], correctAnswer: 3 }, // D (volcanic explosions)
+            { id: 28, type: "multiple-choice", text: "an example of a successful use of geo-engineering", options: ["A", "B", "C", "D", "E", "F", "G", "H"], correctAnswer: 1 }, // B (Moscow May Day)
+            { id: 29, type: "multiple-choice", text: "a common definition of geo-engineering", options: ["A", "B", "C", "D", "E", "F", "G", "H"], correctAnswer: 0 }, // A (intentional large-scale manipulation)
+
+            // --- Table Completion (30-36) ---
+            // "GEO-ENGINEERING PROJECTS"
+            // We will render this using the custom GlassTable component.
+            // The questions below map to the numbered blanks in the table.
+
+            { id: 30, type: "fill-blank", text: "Spacecraft: put a large number of tiny spacecraft into orbit far above Earth to create a 30______ that would reduce amount of light.", correctAnswer: "sunshade" },
+            { id: 31, type: "fill-blank", text: "Sea usage: place 31______ in the sea to encourage algae to form.", correctAnswer: "iron" },
+            { id: 32, type: "fill-blank", text: "Sea usage: place iron in the sea to encourage 32______ to form.", correctAnswer: "algae" },
+            { id: 33, type: "fill-blank", text: "Atmosphere: release aerosol sprays into the stratosphere to create 33______ that would reduce amount of light.", correctAnswer: "clouds" },
+            { id: 34, type: "fill-blank", text: "Greenland: fix strong 34______ to Greenland ice sheets to prevent icebergs moving into the sea.", correctAnswer: "cables" },
+            { id: 35, type: "fill-blank", text: "Russian Arctic: plant trees to allow the 35______ to reflect radiation.", correctAnswer: "snow" },
+            { id: 36, type: "fill-blank", text: "Russian Arctic: change the direction of 36______ to bring more cold water into ice-forming areas.", correctAnswer: "rivers" },
+
+            // --- Matching People (37-40) ---
+            // 37. The effects of geo-engineering may not be long-lasting. => Dr Phil Rasch (B? No, E: pre-engineered condition very rapidly... ten to twenty years. Dr Phil Rasch -> E)
+            // Wait, standard IELTS matching often has a box of names.
+            // B: Dr Phil Rasch
+            // D: Dr Dan Lunt
+            // C: Dr Martin Sommerkorn
+            // A: Roger Angel
+            // Let's check text.
+            // 37. effects not long-lasting -> Rasch (E: "return to pre-engineered condition very rapidly"). So matches Rasch.
+            // 38. Ge-engineering is a topic worth exploring -> Sommerkorn (H: "shouldn't exclude thinking thoroughly about this"). So matches Sommerkorn.
+            // 39. It may be necessary to limit the effectiveness of geo-engineering projects -> Lunt (G: "Angel's project would have to operate at half strength"). So matches Lunt.
+            // 40. Research into non-fossil-based fuels cannot be replaced by geo-engineering -> Angel (E: "no substitute for developing renewable energy"). So matches Angel.
+
+            // Let's assume a simplified Multiple Choice for now or "Matching" type if supported.
+            // The current system supports "multiple-choice" with options. I will use that.
+            // Options: A: Roger Angel, B: Phil Rasch, C: Martin Sommerkorn, D: Dan Lunt.
+            // 37: B
+            // 38: D? No, Sommerkorn is C in my list above, but let's check the user provided image...
+            // User didn't provide image for 37-40 answers, but provided image for answers key!
+            // Image Key: 37 B, 38 D (Wait... 38 is D?), 39 C, 40 A.
+            // Let me re-read Passage.
+            // 38: "Geo-engineering is a topic worth exploring". H: Sommerkorn. If 38 is D, who is D?
+            // User Key says: 37 B, 38 D, 39 C, 40 A.
+            // List of People likely:
+            // A: Roger Angel
+            // B: Phil Rasch
+            // C: Dan Lunt
+            // D: Martin Sommerkorn
+            // Let's verify this mapping.
+            // 37 (Not long lasting) -> Rasch (B). Correct.
+            // 38 (Worth exploring) -> Sommerkorn (D). User Key 38=D. So Sommerkorn is D.
+            // 39 (Limit effectiveness) -> Lunt (C). User Key 39=C. So Lunt is C.
+            // 40 (Renewable energy) -> Angel (A). User Key 40=A. So Angel is A.
+
+            { id: 37, type: "multiple-choice", text: "The effects of geo-engineering may not be long-lasting.", options: ["A: Roger Angel", "B: Phil Rasch", "C: Dan Lunt", "D: Martin Sommerkorn"], correctAnswer: 1 },
+            { id: 38, type: "multiple-choice", text: "Geo-engineering is a topic worth exploring.", options: ["A: Roger Angel", "B: Phil Rasch", "C: Dan Lunt", "D: Martin Sommerkorn"], correctAnswer: 3 },
+            { id: 39, type: "multiple-choice", text: "It may be necessary to limit the effectiveness of geo-engineering projects.", options: ["A: Roger Angel", "B: Phil Rasch", "C: Dan Lunt", "D: Martin Sommerkorn"], correctAnswer: 2 },
+            { id: 40, type: "multiple-choice", text: "Research into non-fossil-based fuels cannot be replaced by geo-engineering.", options: ["A: Roger Angel", "B: Phil Rasch", "C: Dan Lunt", "D: Martin Sommerkorn"], correctAnswer: 0 },
+        ]
+    };

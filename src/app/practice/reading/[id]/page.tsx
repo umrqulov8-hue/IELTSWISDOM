@@ -7,7 +7,7 @@ import { Clock, CheckCircle2, BookOpen, Flag, AlertCircle, Pause, Play, Type, Mi
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { createClient } from "@/utils/supabase/client";
-import { READING_TESTS, ReadingTest } from "@/data/reading-tests";
+import { getReadingTest, ReadingTest } from "@/data/reading-tests";
 import { HighlighterMenu, HighlightColor } from "@/components/ui/HighlighterMenu";
 import { toast } from "sonner";
 
@@ -18,10 +18,29 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
 
     // Load test data based on ID
     const testId = resolvedParams.id;
-    const testData = READING_TESTS[testId];
+    const [testData, setTestData] = useState<ReadingTest | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        async function loadTest() {
+            setIsLoading(true);
+            try {
+                const data = await getReadingTest(testId);
+                setTestData(data);
+                if (data) {
+                    setTimeLeft(data.timeLimit || 1200);
+                }
+            } catch (error) {
+                console.error("Error loading test:", error);
+            } finally {
+                setIsLoading(false);
+            }
+        }
+        loadTest();
+    }, [testId]);
 
     const [answers, setAnswers] = useState<Record<number, any>>({});
-    const [timeLeft, setTimeLeft] = useState(testData.timeLimit || 1200);
+    const [timeLeft, setTimeLeft] = useState(1200);
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [showResult, setShowResult] = useState(false);
     const [score, setScore] = useState(0);
@@ -233,6 +252,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
 
     // Memoize content with testData and currentPassageIndex as dep
     const memoizedContent = useMemo(() => {
+        if (!testData) return null;
         const content = testData.passages
             ? testData.passages[currentPassageIndex].content
             : (testData.content || "");
@@ -246,20 +266,21 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                 dangerouslySetInnerHTML={{ __html: content }}
             />
         );
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [testData.content, testData.passages, currentPassageIndex]);
+    }, [testData?.content, testData?.passages, currentPassageIndex, fontSize]);
 
 
 
     // Initialize content and manager
     useEffect(() => {
-        setAnswers({});
-        setIsSubmitted(false);
-        setScore(0);
-        setShowResult(false);
-        setTimeLeft(testData.timeLimit || 1200);
-        setCurrentPassageIndex(0);
-    }, [testId]);
+        if (testData) {
+            setAnswers({});
+            setIsSubmitted(false);
+            setScore(0);
+            setShowResult(false);
+            setTimeLeft(testData.timeLimit || 1200);
+            setCurrentPassageIndex(0);
+        }
+    }, [testId, testData]);
 
     // Auto-scroll to top when passage changes
     useEffect(() => {
@@ -268,13 +289,13 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
 
     // Timer Logic
     useEffect(() => {
-        if (hasStarted && timeLeft > 0 && !isSubmitted && isRunning) {
+        if (hasStarted && testData && timeLeft > 0 && !isSubmitted && isRunning) {
             const timer = setInterval(() => setTimeLeft((prev) => prev - 1), 1000);
             return () => clearInterval(timer);
-        } else if (timeLeft === 0 && !isSubmitted) {
+        } else if (hasStarted && testData && timeLeft === 0 && !isSubmitted) {
             handleSubmit();
         }
-    }, [timeLeft, isSubmitted, hasStarted, isRunning]);
+    }, [timeLeft, isSubmitted, hasStarted, isRunning, testData]);
 
     const formatTime = (seconds: number) => {
         const mins = Math.floor(seconds / 60);
@@ -325,6 +346,17 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
             console.error("Error saving test result:", error);
         }
     };
+
+    if (isLoading) {
+        return (
+            <div className="fixed inset-0 z-[9999] bg-[#F2F4F8] flex items-center justify-center">
+                <div className="flex flex-col items-center gap-4">
+                    <div className="w-12 h-12 border-4 border-[#2D3E50]/20 border-t-[#2D3E50] rounded-full animate-spin" />
+                    <p className="text-slate-500 font-medium animate-pulse">Loading test data...</p>
+                </div>
+            </div>
+        );
+    }
 
     if (!testData) {
         return (

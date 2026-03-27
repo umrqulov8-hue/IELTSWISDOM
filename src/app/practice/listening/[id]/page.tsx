@@ -1,7 +1,8 @@
 "use client";
 
 import { use, useState, useEffect, useRef, useCallback, memo, useMemo, forwardRef } from "react";
-import { LISTENING_TESTS } from "@/data/listening-tests";
+import { getListeningTest } from "@/data/listening-tests";
+import type { ListeningTest } from "@/types/listening";
 import type { ListeningPart } from "@/types/listening";
 import { AlertCircle, CheckCircle2, ChevronLeft, Play, ChevronRight, Headphones, Clock } from "lucide-react";
 import Link from "next/link";
@@ -179,7 +180,22 @@ const ListeningPartSection = memo(function ListeningPartSection({
 export default function ListeningTestPage() {
     const params = useParams();
     const testId = params?.id as string;
-    const testData = testId ? LISTENING_TESTS[testId] : null;
+    const [testData, setTestData] = useState<ListeningTest | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
+
+    // Lazy-load test data only when needed
+    useEffect(() => {
+        if (!testId) { setIsLoading(false); return; }
+        let cancelled = false;
+        setIsLoading(true);
+        getListeningTest(testId).then(data => {
+            if (!cancelled) {
+                setTestData(data);
+                setIsLoading(false);
+            }
+        });
+        return () => { cancelled = true; };
+    }, [testId]);
     const [started, setStarted] = useState(false);
     const [currentPartIndex, setCurrentPartIndex] = useState(0);
     const [answers, setAnswers] = useState<Record<string, string>>({});
@@ -430,6 +446,17 @@ export default function ListeningTestPage() {
             toast.error("Failed to save results to your profile, but your score is shown above.");
         }
     };
+
+    if (isLoading) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-slate-50 p-4">
+                <div className="text-center">
+                    <div className="w-12 h-12 border-4 border-slate-200 border-t-slate-600 rounded-full animate-spin mx-auto mb-4" />
+                    <p className="text-slate-500 font-medium">Loading test...</p>
+                </div>
+            </div>
+        );
+    }
 
     if (!testData) {
         return (

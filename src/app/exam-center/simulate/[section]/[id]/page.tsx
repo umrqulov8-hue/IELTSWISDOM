@@ -2,8 +2,8 @@
 
 import React, { use, useState, useEffect, useCallback, useRef, memo } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { READING_TESTS } from "@/data/reading-tests";
-import { LISTENING_TESTS } from "@/data/listening-tests";
+import { getReadingTest } from "@/data/reading-tests";
+import { getListeningTest } from "@/data/listening-tests";
 import { WRITING_TESTS } from "@/data/writing-tests";
 import { SPEAKING_TESTS } from "@/data/speaking-tests";
 import { CDILayout } from "@/components/exam/CDILayout";
@@ -42,6 +42,7 @@ export default function SimulationPage() {
     const [isBreak, setIsBreak] = useState(false);
     const [isVideoEnded, setIsVideoEnded] = useState(false);
     const [userName, setUserName] = useState<string>("Candidate");
+    const [isLoading, setIsLoading] = useState(true);
 
     // Fetch user
     useEffect(() => {
@@ -284,77 +285,98 @@ export default function SimulationPage() {
     useEffect(() => {
         if (!section || !testId) return;
 
-        // Reset state upon mounting a new section
-        setIsBreak(false);
-        setIsVideoEnded(false);
-        setIsSubmitted(false);
-        setCurrentPartIndex(0);
-        setAnswers({});
+        async function loadData() {
+            setIsLoading(true);
+            try {
+                // Reset state upon mounting a new section
+                setIsBreak(false);
+                setIsVideoEnded(false);
+                setIsSubmitted(false);
+                setCurrentPartIndex(0);
+                setAnswers({});
 
-        let data: any = null;
-        let time = 3600; // default 1 hour
+                let data: any = null;
+                let time = 3600; // default 1 hour
 
-        const isMockTest = testId.startsWith("mt-");
+                const isMockTest = testId.startsWith("mt-");
 
-        if (section === "reading") {
-            data = READING_TESTS[testId] || (isMockTest ? {
-                id: testId,
-                title: "Reading Test (Coming Soon)",
-                passages: [
-                    {
-                        id: "p1",
-                        title: "Content Publishing Soon",
-                        content: "<div class='p-10 text-slate-400 text-center font-medium'>The reading passage for this test will be added soon.</div>",
-                        questionRange: { start: 1, end: 13 },
-                        questions: []
+                if (section === "reading") {
+                    data = await getReadingTest(testId);
+                    if (!data && isMockTest) {
+                        data = {
+                            id: testId,
+                            title: "Reading Test (Coming Soon)",
+                            passages: [
+                                {
+                                    id: "p1",
+                                    title: "Content Publishing Soon",
+                                    content: "<div class='p-10 text-slate-400 text-center font-medium'>The reading passage for this test will be added soon.</div>",
+                                    questionRange: { start: 1, end: 13 },
+                                    questions: []
+                                }
+                            ],
+                            questions: []
+                        };
+                    } else if (!data) {
+                        data = await getReadingTest("fp-9");
                     }
-                ],
-                questions: []
-            } : READING_TESTS["fp-9"]);
-            time = 3600;
-        } else if (section === "listening") {
-            data = LISTENING_TESTS[testId] || (isMockTest ? {
-                id: testId,
-                title: "Listening Test (Coming Soon)",
-                parts: [
-                    {
-                        id: "p1",
-                        title: "Audio Publishing Soon",
-                        audioUrl: "",
-                        content: "<div class='p-10 text-slate-400 text-center font-medium'>The listening audio and questions for this test will be added soon.</div>",
-                        questions: []
+                    time = 3600;
+                } else if (section === "listening") {
+                    data = await getListeningTest(testId);
+                    if (!data && isMockTest) {
+                        data = {
+                            id: testId,
+                            title: "Listening Test (Coming Soon)",
+                            parts: [
+                                {
+                                    id: "p1",
+                                    title: "Audio Publishing Soon",
+                                    audioUrl: "",
+                                    content: "<div class='p-10 text-slate-400 text-center font-medium'>The listening audio and questions for this test will be added soon.</div>",
+                                    questions: []
+                                }
+                            ]
+                        };
+                    } else if (!data) {
+                        data = await getListeningTest("t1-1");
                     }
-                ]
-            } : LISTENING_TESTS["t1-1"]);
-            time = 1800; // 30 mins approx
-        } else if (section === "writing") {
-            data = WRITING_TESTS[testId] || {
-                title: "Writing Academic Test",
-                type: "full-test",
-                tasks: [
-                    { title: "Task 1", type: "task-1", minWords: 150, prompt: "<strong>Academic Writing Task 1</strong><br/><br/>The chart below shows the changes in ownership of electrical appliances and amount of time spent on housework in households in one country between 1920 and 2019.<br/><br/>Summarise the information by selecting and reporting the main features, and make comparisons where relevant." },
-                    { title: "Task 2", type: "task-2", minWords: 250, prompt: "<strong>Academic Writing Task 2</strong><br/><br/>In some countries, more and more people are becoming interested in finding out about the history of the house or building they live in.<br/><br/>What are the reasons for this? How can people research this?" }
-                ]
-            };
-            time = 3600;
-        } else if (section === "speaking") {
-            data = SPEAKING_TESTS[testId] || (isMockTest ? {
-                id: testId,
-                title: "Speaking Test (Coming Soon)",
-                parts: [
-                    {
-                        id: "p1",
-                        title: "Questions Publishing Soon",
-                        instructions: "The speaking questions for this test will be added soon.",
-                        questions: []
-                    }
-                ]
-            } : SPEAKING_TESTS["jan-1"]);
-            time = 840; // 14 mins max
+                    time = 1800; // 30 mins approx
+                } else if (section === "writing") {
+                    data = WRITING_TESTS[testId] || {
+                        title: "Writing Academic Test",
+                        type: "full-test",
+                        tasks: [
+                            { title: "Task 1", type: "task-1", minWords: 150, prompt: "<strong>Academic Writing Task 1</strong><br/><br/>The chart below shows the changes in ownership of electrical appliances and amount of time spent on housework in households in one country between 1920 and 2019.<br/><br/>Summarise the information by selecting and reporting the main features, and make comparisons where relevant." },
+                            { title: "Task 2", type: "task-2", minWords: 250, prompt: "<strong>Academic Writing Task 2</strong><br/><br/>In some countries, more and more people are becoming interested in finding out about the history of the house or building they live in.<br/><br/>What are the reasons for this? How can people research this?" }
+                        ]
+                    };
+                    time = 3600;
+                } else if (section === "speaking") {
+                    data = (SPEAKING_TESTS as any)[testId] || (isMockTest ? {
+                        id: testId,
+                        title: "Speaking Test (Coming Soon)",
+                        parts: [
+                            {
+                                id: "p1",
+                                title: "Questions Publishing Soon",
+                                instructions: "The speaking questions for this test will be added soon.",
+                                questions: []
+                            }
+                        ]
+                    } : (SPEAKING_TESTS as any)["jan-1"]);
+                    time = 840; // 14 mins max
+                }
+
+                setTestData(data);
+                setDuration(time);
+            } catch (error) {
+                console.error("Error loading test data:", error);
+            } finally {
+                setIsLoading(false);
+            }
         }
 
-        setTestData(data);
-        setDuration(time);
+        loadData();
     }, [section, testId]);
 
     const handleAnswerChange = useCallback((id: string, value: string) => {
@@ -453,7 +475,26 @@ export default function SimulationPage() {
         }
     };
 
-    if (!testData) return <div className="p-20 text-center font-bold">Loading Test Data...</div>;
+    if (isLoading) {
+        return (
+            <div className="fixed inset-0 bg-[#F2F4F8] flex items-center justify-center z-[9999]">
+                <div className="flex flex-col items-center gap-6">
+                    <div className="relative">
+                        <div className="w-16 h-16 border-4 border-slate-200 border-t-[#2D3E50] rounded-full animate-spin" />
+                        <div className="absolute inset-0 flex items-center justify-center">
+                            <Clock className="w-6 h-6 text-[#2D3E50]/40 animate-pulse" />
+                        </div>
+                    </div>
+                    <div className="flex flex-col items-center gap-2">
+                        <p className="text-xl font-bold text-slate-800 tracking-tight">Initializing Exam environment...</p>
+                        <p className="text-sm text-slate-400 font-medium">Please wait while we prepare your {section} test</p>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    if (!testData) return <div className="p-20 text-center font-bold">Error: Test data not found for {section} {testId}</div>;
 
     const totalParts = section === "reading" 
         ? (testData.passages?.length || 1) 
