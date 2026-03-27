@@ -218,31 +218,22 @@ export default function PreTestChecksPage({ params }: { params: Promise<{ id: st
                 {/* Reading Card */}
                 <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
                     <h3 className="text-lg font-bold text-slate-900 mb-2">Reading</h3>
-                    <div className="text-red-500 font-medium mb-4">Not completed</div>
-                    <div className="text-slate-600 mb-4">Timing: 1 hour</div>
-                    <video
-                        src="https://azrmwfzrgdvkbzezwyfo.supabase.co/storage/v1/object/public/IELTSWISDOM/test%20uchun%20video/$Rda4l6g.mp4"
-                        controls
-                        controlsList="nodownload noremoteplayback"
-                        onContextMenu={(e) => e.preventDefault()}
-                        disablePictureInPicture
-                        className="w-full rounded-lg border border-slate-200 shadow-sm"
-                    />
+                    <div className="text-red-500 font-medium mb-2">Not completed</div>
+                    <div className="text-slate-600">Timing: 1 hour</div>
                 </div>
 
                 {/* Writing Card */}
                 <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
                     <h3 className="text-lg font-bold text-slate-900 mb-2">Writing</h3>
-                    <div className="text-red-500 font-medium mb-4">Not completed</div>
-                    <div className="text-slate-600 mb-4">Timing: 1 hour</div>
-                    <video
-                        src="https://azrmwfzrgdvkbzezwyfo.supabase.co/storage/v1/object/public/IELTSWISDOM/test%20uchun%20video/$Rda4l6g.mp4"
-                        controls
-                        controlsList="nodownload noremoteplayback"
-                        onContextMenu={(e) => e.preventDefault()}
-                        disablePictureInPicture
-                        className="w-full rounded-lg border border-slate-200 shadow-sm"
-                    />
+                    <div className="text-red-500 font-medium mb-2">Not completed</div>
+                    <div className="text-slate-600">Timing: 1 hour</div>
+                </div>
+
+                {/* Speaking Card */}
+                <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
+                    <h3 className="text-lg font-bold text-slate-900 mb-2">Speaking</h3>
+                    <div className="text-red-500 font-medium mb-2">Not completed</div>
+                    <div className="text-slate-600">Timing: 11-14 minutes</div>
                 </div>
 
             </main>
