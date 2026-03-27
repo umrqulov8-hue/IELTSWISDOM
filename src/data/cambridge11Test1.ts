@@ -8,7 +8,7 @@ export const cambridge11Test1: ListeningTest = {
             id: "part-1",
             title: "SECTION 1",
             instructions: "Questions 1-10",
-            audioUrl: "https://azrmwfzrgdvkbzezwyfo.supabase.co/storage/v1/object/public/IELTSWISDOM/audio/Cambridge IELTS 11.1.1.mp3",
+            audioUrl: "https://azrmwfzrgdvkbzezwyfo.supabase.co/storage/v1/object/public/IELTSWISDOM/audio/Cambridge%20IELTS%2011.1.1.mp3",
             content: `
       <div class="mb-6">
         <p class="font-bold mb-4">Complete the notes below.</p>
@@ -72,7 +72,7 @@ export const cambridge11Test1: ListeningTest = {
             id: "part-2",
             title: "SECTION 2",
             instructions: "Questions 11-20",
-            audioUrl: "https://azrmwfzrgdvkbzezwyfo.supabase.co/storage/v1/object/public/IELTSWISDOM/audio/Cambridge IELTS 11.1.2.mp3",
+            audioUrl: "https://azrmwfzrgdvkbzezwyfo.supabase.co/storage/v1/object/public/IELTSWISDOM/audio/Cambridge%20IELTS%2011.1.2.mp3",
             content: `
       <div class="mb-10">
         <p class="font-bold mb-2">Questions 11-14</p>
@@ -186,7 +186,7 @@ export const cambridge11Test1: ListeningTest = {
             id: "part-3",
             title: "SECTION 3",
             instructions: "Questions 21-30",
-            audioUrl: "https://azrmwfzrgdvkbzezwyfo.supabase.co/storage/v1/object/public/IELTSWISDOM/audio/Cambridge IELTS 11.1.3.mp3",
+            audioUrl: "https://azrmwfzrgdvkbzezwyfo.supabase.co/storage/v1/object/public/IELTSWISDOM/audio/Cambridge%20IELTS%2011.1.3.mp3",
             content: `
       <div class="mb-10">
         <p class="mb-6">Choose the correct letter, <span class="font-bold">A, B</span> or <span class="font-bold">C</span>.</p>
@@ -273,7 +273,7 @@ export const cambridge11Test1: ListeningTest = {
             id: "part-4",
             title: "SECTION 4",
             instructions: "Questions 31-40",
-            audioUrl: "https://azrmwfzrgdvkbzezwyfo.supabase.co/storage/v1/object/public/IELTSWISDOM/audio/Cambridge IELTS 11.1.4.mp3",
+            audioUrl: "https://azrmwfzrgdvkbzezwyfo.supabase.co/storage/v1/object/public/IELTSWISDOM/audio/Cambridge%20IELTS%2011.1.4.mp3",
             content: `
       <div class="mb-10">
         <p class="font-bold mb-4">Complete the notes below.</p>

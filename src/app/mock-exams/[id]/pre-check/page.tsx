@@ -43,7 +43,7 @@ export default function PreTestChecksPage({ params }: { params: Promise<{ id: st
 
     const handlePlaySound = () => {
         if (!audioRef.current) {
-            audioRef.current = new Audio("https://azrmwfzrgdvkbzezwyfo.supabase.co/storage/v1/object/public/IELTSWISDOM/audio/Cambridge IELTS 11.1.1.mp3");
+            audioRef.current = new Audio("https://azrmwfzrgdvkbzezwyfo.supabase.co/storage/v1/object/public/IELTSWISDOM/audio/Cambridge%20IELTS%2011.1.1.mp3");
             audioRef.current.onended = () => {
                 setIsPlaying(false);
             };
@@ -130,7 +130,7 @@ export default function PreTestChecksPage({ params }: { params: Promise<{ id: st
                     {(step === 2 || (step === 3 && isPreTestVideoVisible)) && (
                         <div className="mb-4">
                             <video 
-                                src="https://azrmwfzrgdvkbzezwyfo.supabase.co/storage/v1/object/public/IELTSWISDOM/test uchun video/IELTS on computer - Quick Guide.mp4"
+                                src="https://azrmwfzrgdvkbzezwyfo.supabase.co/storage/v1/object/public/IELTSWISDOM/test%20uchun%20video/IELTS%20on%20computer%20-%20Quick%20Guide.mp4"
                                 controls
                                 autoPlay={step === 2}
                                 controlsList="nodownload noremoteplayback"
@@ -191,7 +191,7 @@ export default function PreTestChecksPage({ params }: { params: Promise<{ id: st
                     {step === 3 && (
                         <div className="mt-6">
                             <video 
-                                src="https://azrmwfzrgdvkbzezwyfo.supabase.co/storage/v1/object/public/IELTSWISDOM/test uchun video/listening.mp4"
+                                src="https://azrmwfzrgdvkbzezwyfo.supabase.co/storage/v1/object/public/IELTSWISDOM/test%20uchun%20video/listening.mp4"
                                 controls
                                 autoPlay
                                 controlsList="nodownload noremoteplayback"
@@ -221,7 +221,7 @@ export default function PreTestChecksPage({ params }: { params: Promise<{ id: st
                     <div className="text-red-500 font-medium mb-4">Not completed</div>
                     <div className="text-slate-600 mb-4">Timing: 1 hour</div>
                     <video
-                        src="https://azrmwfzrgdvkbzezwyfo.supabase.co/storage/v1/object/public/IELTSWISDOM/test uchun video/$Rda4l6g.mp4"
+                        src="https://azrmwfzrgdvkbzezwyfo.supabase.co/storage/v1/object/public/IELTSWISDOM/test%20uchun%20video/$Rda4l6g.mp4"
                         controls
                         controlsList="nodownload noremoteplayback"
                         onContextMenu={(e) => e.preventDefault()}
@@ -236,7 +236,7 @@ export default function PreTestChecksPage({ params }: { params: Promise<{ id: st
                     <div className="text-red-500 font-medium mb-4">Not completed</div>
                     <div className="text-slate-600 mb-4">Timing: 1 hour</div>
                     <video
-                        src="https://azrmwfzrgdvkbzezwyfo.supabase.co/storage/v1/object/public/IELTSWISDOM/test uchun video/$Rda4l6g.mp4"
+                        src="https://azrmwfzrgdvkbzezwyfo.supabase.co/storage/v1/object/public/IELTSWISDOM/test%20uchun%20video/$Rda4l6g.mp4"
                         controls
                         controlsList="nodownload noremoteplayback"
                         onContextMenu={(e) => e.preventDefault()}

@@ -8,7 +8,7 @@ export const trainer1Test4: ListeningTest = {
             id: "part-1",
             title: "Moving Company Service Report",
             instructions: "Questions 1-10",
-            audioUrl: "https://azrmwfzrgdvkbzezwyfo.supabase.co/storage/v1/object/public/IELTSWISDOM/audio/PART 1.mp3",
+            audioUrl: "https://azrmwfzrgdvkbzezwyfo.supabase.co/storage/v1/object/public/IELTSWISDOM/audio/PART%201.mp3",
             content: `
       <div class="mb-10">
         <p class="font-bold mb-4">Questions 1-6</p>
@@ -129,7 +129,7 @@ export const trainer1Test4: ListeningTest = {
             id: "part-2",
             title: "Annual Wullaballoo Conference",
             instructions: "Questions 11-20",
-            audioUrl: "https://azrmwfzrgdvkbzezwyfo.supabase.co/storage/v1/object/public/IELTSWISDOM/audio/PART 2.mp3",
+            audioUrl: "https://azrmwfzrgdvkbzezwyfo.supabase.co/storage/v1/object/public/IELTSWISDOM/audio/PART%202.mp3",
             content: `
       <div class="mb-10">
         <p class="font-bold mb-4">Questions 11-16</p>
@@ -238,7 +238,7 @@ export const trainer1Test4: ListeningTest = {
             id: "part-3",
             title: "General Course Details",
             instructions: "Questions 21-30",
-            audioUrl: "https://azrmwfzrgdvkbzezwyfo.supabase.co/storage/v1/object/public/IELTSWISDOM/audio/PART 3.mp3",
+            audioUrl: "https://azrmwfzrgdvkbzezwyfo.supabase.co/storage/v1/object/public/IELTSWISDOM/audio/PART%203.mp3",
             content: `
       <div class="mb-10">
         <h3 class="font-bold text-center text-lg mb-8 tracking-wide underline uppercase">General Course Details</h3>
@@ -391,7 +391,7 @@ export const trainer1Test4: ListeningTest = {
             id: "part-4",
             title: "How to Choose Flooring Materials",
             instructions: "Questions 31-40",
-            audioUrl: "https://azrmwfzrgdvkbzezwyfo.supabase.co/storage/v1/object/public/IELTSWISDOM/audio/PART 4.mp3",
+            audioUrl: "https://azrmwfzrgdvkbzezwyfo.supabase.co/storage/v1/object/public/IELTSWISDOM/audio/PART%204.mp3",
             content: `
       <div class="mb-10">
         <p class="font-bold mb-4">Questions 31-37</p>

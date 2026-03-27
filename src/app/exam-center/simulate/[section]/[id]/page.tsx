@@ -486,8 +486,8 @@ export default function SimulationPage() {
         const sectionsData = [
             { id: "pre-test", title: "Pre-test checks", timing: "", isCompleted: true, video: null },
             { id: "listening", title: "Listening", timing: "45 minutes", isCompleted: ["reading", "writing", "speaking", "dashboard"].includes(nextSection), video: null },
-            { id: "reading", title: "Reading", timing: "60 minutes", isCompleted: ["writing", "speaking", "dashboard"].includes(nextSection), video: "https://azrmwfzrgdvkbzezwyfo.supabase.co/storage/v1/object/public/IELTSWISDOM/test uchun video/$Rda4l6g.mp4" },
-            { id: "writing", title: "Writing", timing: "60 minutes", isCompleted: ["speaking", "dashboard"].includes(nextSection), video: "https://azrmwfzrgdvkbzezwyfo.supabase.co/storage/v1/object/public/IELTSWISDOM/test uchun video/$Rda4l6g.mp4" },
+            { id: "reading", title: "Reading", timing: "60 minutes", isCompleted: ["writing", "speaking", "dashboard"].includes(nextSection), video: "https://azrmwfzrgdvkbzezwyfo.supabase.co/storage/v1/object/public/IELTSWISDOM/test%20uchun%20video/$Rda4l6g.mp4" },
+            { id: "writing", title: "Writing", timing: "60 minutes", isCompleted: ["speaking", "dashboard"].includes(nextSection), video: "https://azrmwfzrgdvkbzezwyfo.supabase.co/storage/v1/object/public/IELTSWISDOM/test%20uchun%20video/$Rda4l6g.mp4" },
             { id: "speaking", title: "Speaking", timing: "11-14 minutes", isCompleted: ["dashboard"].includes(nextSection), video: null }
         ];
 
