@@ -8,6 +8,8 @@ import { cn } from "@/lib/utils";
 import { m, AnimatePresence } from "framer-motion";
 import { usePathname } from "next/navigation";
 import { useDevice } from "@/context/DeviceContext";
+import { useLanguage } from "@/context/LanguageContext";
+import { translations as T, tx } from "@/lib/translations";
 
 interface DashboardLayoutProps extends PropsWithChildren {
     title?: string;
@@ -58,6 +60,7 @@ export function DashboardLayout({
     maxWidth = "max-w-6xl",
 }: DashboardLayoutProps) {
     const { user } = useAuthContext();
+    const { lang } = useLanguage();
     const displayName = user?.email?.split("@")[0] || "Student";
     const pathname = usePathname();
     const { shouldUseHeavyEffects, shouldAnimate } = useDevice();
@@ -149,11 +152,11 @@ export function DashboardLayout({
                             {showGreeting ? (
                                 <>
                                     <h1 className="text-3xl md:text-4xl font-extrabold text-slate-800 tracking-tight">
-                                        Welcome back,{" "}
+                                        {tx(T.greeting.welcomeBack, lang)},{" "}
                                         <span className="text-orange-700">{displayName}</span>!
                                     </h1>
                                     <p className="text-slate-600 mt-2 font-medium">
-                                        Ready to hit your targets today?
+                                        {tx(T.greeting.subtitle, lang)}
                                     </p>
                                 </>
                             ) : (
@@ -210,8 +213,8 @@ export function DashboardLayout({
                                                     exit={{ opacity: 0, scale: 0.95, filter: "blur(4px)" }}
                                                     transition={{ duration: 0.2 }}
                                                     type="text"
-                                                    placeholder="Search..."
-                                                    aria-label="Search dashboard"
+                                                    placeholder={tx(T.greeting.search, lang)}
+                                                    aria-label={tx(T.greeting.search, lang)}
                                                     className="bg-transparent border-none outline-none py-[10px] pl-[44px] pr-10 text-[15px] font-medium text-slate-800 placeholder:text-slate-400/80 w-full"
                                                 />
                                             )}

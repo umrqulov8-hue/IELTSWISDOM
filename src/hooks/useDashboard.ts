@@ -19,6 +19,10 @@ export interface StudentStats {
     vocab_tests_completed: number;
     vocab_average_score: number;
     estimated_level: string;
+    reading_progress?: number;
+    listening_progress?: number;
+    writing_progress?: number;
+    vocab_progress?: number;
     reading_breakdown?: {
         free_passages: { count: number; correct: number; total: number };
         cambridge: { count: number; correct: number; total: number };
@@ -76,7 +80,6 @@ export function useDashboard() {
 
             try {
                 // Run all queries in PARALLEL — use maybeSingle() to handle missing rows
-                // Note: 404s will still occur if TABLES are missing, which is why schema.sql is critical.
                 const [statsResult, testResults, notifResult, lessonResult] = await Promise.all([
                     supabase.from('student_stats').select('*').eq('user_id', user.id).maybeSingle(),
                     supabase.from('test_results').select('test_id, score, total_questions').eq('user_id', user.id),
@@ -119,7 +122,7 @@ export function useDashboard() {
                 if (testResults.data && testResults.data.length > 0) {
                     testResults.data.forEach((test) => {
                         const id = test.test_id.toLowerCase();
-                        const percentage = (test.score / test.total_questions) * 100;
+                        const percentage = (test.score / (test.total_questions || 1)) * 100;
 
                         // Categorize
                         if (id.startsWith('vocab-')) {
@@ -156,7 +159,7 @@ export function useDashboard() {
                             }
                         }
                         else {
-                            // Default to Reading (covers fp-, c17-, c18-, etc.)
+                            // Default to Reading
                             reading_unique.add(test.test_id);
                             reading_score_sum += test.score;
                             reading_q_sum += test.total_questions;
@@ -204,6 +207,10 @@ export function useDashboard() {
                     vocab_tests_completed,
                     vocab_average_score: vocab_q_sum > 0 ? Math.round((vocab_score_sum / vocab_q_sum) * 100) : 0,
                     estimated_level,
+                    reading_progress: Math.min(Math.round((reading_unique.size / 8) * 100), 100),
+                    listening_progress: Math.min(Math.round((listening_unique.size / 15) * 100), 100),
+                    writing_progress: Math.min(Math.round((writing_unique.size / 10) * 100), 100),
+                    vocab_progress: Math.min(Math.round((vocab_unique.size / 20) * 100), 100),
                     reading_breakdown: {
                         free_passages: {
                             count: reading_breakdown.free_passages.unique.size,
@@ -265,7 +272,7 @@ export function useDashboard() {
         };
 
         fetchData();
-    }, [user, authLoading]);
+    }, [user, authLoading, supabase]);
 
     const markNotificationRead = async (id: string) => {
         try {

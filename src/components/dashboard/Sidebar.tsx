@@ -159,6 +159,7 @@ export function Sidebar() {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     className="flex w-full items-center gap-4 mb-2 hover:bg-white/50 p-2.5 -ml-2.5 rounded-2xl transition-all duration-300 text-left cursor-pointer group/profilebtn"
+                    aria-label="User settings"
                 >
                     <div className="w-12 h-12 flex-shrink-0 rounded-full ring-2 ring-white/60 shadow-lg p-[2px] bg-gradient-to-tr from-orange-400 to-blue-500 relative group/avatar">
                         <div className="w-full h-full rounded-full bg-slate-50 flex items-center justify-center overflow-hidden border-2 border-white">
@@ -171,7 +172,7 @@ export function Sidebar() {
                     </div>
 
                     <div className="opacity-0 group-hover:opacity-100 max-w-0 group-hover:max-w-[160px] transition-all duration-[450ms] ease-[cubic-bezier(0.25,1,0.5,1)] whitespace-nowrap flex flex-col justify-center overflow-visible">
-                        <div className="pl-1 py-2 overflow-visible">
+                        <div className="pl-1 py-1 overflow-visible">
                             <h3 className="text-slate-800 font-bold text-lg truncate group-hover/profilebtn:text-blue-600 transition-colors">
                                 {user?.email?.split('@')[0] || "Student"}
                             </h3>
@@ -181,7 +182,7 @@ export function Sidebar() {
                                 </div>
                             ) : (
                                 <p className="text-slate-600 text-[11px] font-semibold bg-white/60 px-2.5 py-0.5 rounded-full w-fit mt-1 border border-white/40">
-                                    {lang === 'en' ? 'Free Member' : 'Bepul foydalanuvchi'}
+                                    {tx(T.membership.free, lang)}
                                 </p>
                             )}
                         </div>
@@ -210,7 +211,7 @@ export function Sidebar() {
                         const Icon = item.icon;
 
                         return (
-                            <Link key={item.name} href={item.href}>
+                            <Link key={item.name} href={item.href} aria-label={`Navigation to ${item.name}`}>
                                 <motion.div
                                     variants={{
                                         hidden: { opacity: 0, y: 10 },
@@ -288,7 +289,7 @@ export function Sidebar() {
             <div className="p-4 border-t border-slate-100 overflow-hidden flex-shrink-0">
                 <AnimatedLogoutButton
                     onLogout={() => signOut()}
-                    label={lang === 'en' ? 'Sign Out' : 'Chiqish'}
+                    label={tx(T.sidebar.logout, lang)}
                 />
 
                 <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-700 delay-200 pl-4 py-1">

@@ -21,30 +21,13 @@ export default function DashboardPage() {
 
     // Show 0/defaults while data loads in background — no blocking spinner
     const {
-        progress_percentage,
-        completed_lessons,
-        reading_tests_completed,
-        reading_average_score,
-        listening_tests_completed,
-        listening_average_score,
-        writing_tests_completed,
-        writing_average_score,
-        vocab_tests_completed,
-        vocab_average_score,
-        estimated_level,
-    } = stats || {
-        progress_percentage: 0,
-        completed_lessons: 0,
-        reading_tests_completed: 0,
-        reading_average_score: 0,
-        listening_tests_completed: 0,
-        listening_average_score: 0,
-        writing_tests_completed: 0,
-        writing_average_score: 0,
-        vocab_tests_completed: 0,
-        vocab_average_score: 0,
-        estimated_level: "Beginner (A1/A2)",
-    };
+        progress_percentage = 0,
+        reading_progress = 0,
+        listening_progress = 0,
+        writing_progress = 0,
+        vocab_progress = 0,
+        estimated_level = "Beginner (A1/A2)",
+    } = stats || {};
 
     const TOTAL_TESTS = {
         reading: 8,
@@ -87,20 +70,14 @@ export default function DashboardPage() {
 
                                 {/* Overall Score */}
                                 <div className="flex items-end gap-2 mb-1">
-                                    {stats ? (
-                                        <>
-                                            <span className="text-5xl font-black">{progress_percentage}</span>
-                                            <span className="text-xl text-orange-200 mb-1 font-bold">%</span>
-                                        </>
-                                    ) : (
-                                        <Skeleton className="h-12 w-20 bg-white/20" />
-                                    )}
+                                    <span className="text-5xl font-black">{progress_percentage ?? 0}</span>
+                                    <span className="text-xl text-orange-200 mb-1 font-bold">%</span>
                                 </div>
                                 {/* Visual Progress Bar */}
                                 <div className="w-full h-2.5 bg-black/20 rounded-full overflow-hidden mb-5 relative">
                                     <m.div
                                         initial={{ width: 0 }}
-                                        animate={{ width: `${progress_percentage}%` }}
+                                        animate={{ width: `${progress_percentage ?? 0}%` }}
                                         transition={{ duration: 1.5, ease: [0.34, 1.56, 0.64, 1] }}
                                         className="h-full bg-gradient-to-r from-white to-orange-100 rounded-full relative"
                                     >
@@ -121,10 +98,11 @@ export default function DashboardPage() {
 
                                 <Link
                                     href="/leaderboard"
+                                    aria-label="View full leaderboard and statistics"
                                     className="w-full mt-4 py-3 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-xl text-xs font-black text-orange-50 uppercase tracking-widest transition-all border border-white/10 flex items-center justify-center gap-2 group shadow-lg shadow-black/5"
                                 >
                                     <Trophy className="w-3.5 h-3.5 transition-transform group-hover:scale-110" />
-                                    {lang === 'en' ? "Full View" : "To'liq ko'rish"}
+                                    {tx(D.fullView, lang)}
                                 </Link>
 
                             </div>
@@ -168,7 +146,7 @@ export default function DashboardPage() {
                         </h2>
                     </m.div>
 
-                    <FeatureGrid />
+                    <FeatureGrid stats={stats} />
                 </m.section>
             </m.div>
         </DashboardLayout>

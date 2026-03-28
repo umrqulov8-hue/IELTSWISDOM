@@ -36,6 +36,7 @@ export const translations = {
             uz: "Band 7.0+ uchun ilg'or bog'lovchi usullar bilan izchil yozish va gapirish san'atini o'zlang."
         },
         continue: { en: "Continue Learning", uz: "O'rganishni davom ettirish" },
+        fullView: { en: "Full View", uz: "To'liq ko'rish" },
         popular: { en: "The most popular features", uz: "Eng mashhur bo'limlar" },
     },
 
@@ -67,7 +68,9 @@ export const translations = {
         morning: { en: "Good morning", uz: "Xayrli tong" },
         afternoon: { en: "Good afternoon", uz: "Xayrli kun" },
         evening: { en: "Good evening", uz: "Xayrli kech" },
+        welcomeBack: { en: "Welcome back", uz: "Xush kelibsiz" },
         subtitle: { en: "Ready to level up today?", uz: "Bugun yangi daraja uchun tayyormisiz?" },
+        search: { en: "Search lessons...", uz: "Darslarni qidirish..." },
     },
 
     // ──── AI CHECK PAGE ────
@@ -260,7 +263,11 @@ export const translations = {
 
     // ──── FOOTER ────
     footer: {
-        copy: { en: "© 2024 IELTS Wisdom. All rights reserved.", uz: "© 2024 IELTS Wisdom. Barcha huquqlar himoyalangan." },
+        copy: { en: "© 2025 IELTS Wisdom. All rights reserved.", uz: "© 2025 IELTS Wisdom. Barcha huquqlar himoyalangan." },
+    },
+    membership: {
+        free: { en: "Free Member", uz: "Bepul foydalanuvchi" },
+        pro: { en: "Pro Member", uz: "Pro foydalanuvchi" },
     },
 } as const;
 
