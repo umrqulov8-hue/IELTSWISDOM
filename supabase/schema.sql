@@ -25,6 +25,7 @@ CREATE TABLE IF NOT EXISTS public.lessons (
 
 -- Enable RLS for lessons (everyone can read)
 ALTER TABLE public.lessons ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Public read for lessons" ON public.lessons;
 CREATE POLICY "Public read for lessons" ON public.lessons FOR SELECT USING (true);
 
 -- 3. TEST RESULTS TABLE
@@ -39,6 +40,7 @@ CREATE TABLE IF NOT EXISTS public.test_results (
 
 -- Enable RLS for test_results (users read/write their own)
 ALTER TABLE public.test_results ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Users can manage their own results" ON public.test_results;
 CREATE POLICY "Users can manage their own results" ON public.test_results
   FOR ALL USING (auth.uid() = user_id);
 
@@ -53,6 +55,7 @@ CREATE TABLE IF NOT EXISTS public.student_stats (
 
 -- Enable RLS for student_stats
 ALTER TABLE public.student_stats ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Users can manage their own stats" ON public.student_stats;
 CREATE POLICY "Users can manage their own stats" ON public.student_stats
   FOR ALL USING (auth.uid() = user_id);
 
@@ -69,6 +72,7 @@ CREATE TABLE IF NOT EXISTS public.notifications (
 
 -- Enable RLS for notifications
 ALTER TABLE public.notifications ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Users can manage their own notifications" ON public.notifications;
 CREATE POLICY "Users can manage their own notifications" ON public.notifications
   FOR ALL USING (auth.uid() = user_id);
 
@@ -97,7 +101,10 @@ CREATE OR REPLACE TRIGGER on_auth_user_created
   FOR EACH ROW EXECUTE FUNCTION public.handle_new_user();
 
 -- 7. POLICIES FOR PROFILES
+DROP POLICY IF EXISTS "Public read for profiles" ON public.profiles;
 CREATE POLICY "Public read for profiles" ON public.profiles FOR SELECT USING (true);
+
+DROP POLICY IF EXISTS "Users can update their own profiles" ON public.profiles;
 CREATE POLICY "Users can update their own profiles" ON public.profiles FOR UPDATE USING (auth.uid() = id);
 
 -- 8. INITIAL SEED DATA FOR LESSONS
