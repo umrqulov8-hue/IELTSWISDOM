@@ -55,13 +55,19 @@ export function Sidebar() {
     useEffect(() => {
         async function loadProfile() {
             if (!user) return;
-            const { data } = await supabase
-                .from('profiles')
-                .select('avatar_url')
-                .eq('id', user.id)
-                .single();
-            if (data?.avatar_url) {
-                setAvatarUrl(data.avatar_url);
+            try {
+                const { data, error } = await supabase
+                    .from('profiles')
+                    .select('avatar_url')
+                    .eq('id', user.id)
+                    .maybeSingle(); // Better than .single() as it doesn't 406 on missing rows
+                
+                if (data?.avatar_url) {
+                    setAvatarUrl(data.avatar_url);
+                }
+            } catch (err) {
+                // Ignore errors here to keep sidebar functional
+                console.debug("Sidebar: Profile fetch skipped or failed", err);
             }
         }
         loadProfile();

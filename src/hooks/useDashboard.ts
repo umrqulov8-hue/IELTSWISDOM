@@ -75,13 +75,20 @@ export function useDashboard() {
             }
 
             try {
-                // Run all queries in PARALLEL — use maybeSingle to avoid 404 console errors
+                // Run all queries in PARALLEL — use maybeSingle() to handle missing rows
+                // Note: 404s will still occur if TABLES are missing, which is why schema.sql is critical.
                 const [statsResult, testResults, notifResult, lessonResult] = await Promise.all([
                     supabase.from('student_stats').select('*').eq('user_id', user.id).maybeSingle(),
                     supabase.from('test_results').select('test_id, score, total_questions').eq('user_id', user.id),
                     supabase.from('notifications').select('*').eq('user_id', user.id).order('created_at', { ascending: false }).limit(5),
                     supabase.from('lessons').select('id, title, slug, module, icon_name').limit(20),
                 ]);
+
+                // Log errors but don't crash
+                if (statsResult.error) console.warn("Dashboard: Could not fetch student_stats", statsResult.error.message);
+                if (testResults.error) console.warn("Dashboard: Could not fetch test_results", testResults.error.message);
+                if (notifResult.error) console.warn("Dashboard: Could not fetch notifications", notifResult.error.message);
+                if (lessonResult.error) console.warn("Dashboard: Could not fetch lessons", lessonResult.error.message);
 
                 // Calculate real stats from test_results
                 let reading_tests_completed = 0, reading_score_sum = 0, reading_q_sum = 0, reading_unique = new Set();
@@ -243,11 +250,11 @@ export function useDashboard() {
                 });
 
                 if (notifResult.data) {
-                    setNotifications(notifResult.data.map(n => ({ ...n, time_ago: "Recently" })));
+                    setNotifications(notifResult.data as Notification[]);
                 }
 
                 if (lessonResult.data) {
-                    setLessons(lessonResult.data);
+                    setLessons(lessonResult.data || []);
                 }
 
             } catch (error) {

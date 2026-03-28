@@ -27,7 +27,7 @@ export function useAuth() {
                 .from('profiles')
                 .select('*')
                 .eq('id', user.id)
-                .single();
+                .maybeSingle(); // Use maybeSingle to avoid 406/404 errors on missing rows
 
             if (profileError && profileError.code !== 'PGRST116') {
                 // Changing from error to warn as this is likely due to missing tables on new setup
