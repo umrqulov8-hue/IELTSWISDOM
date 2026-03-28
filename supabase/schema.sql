@@ -86,10 +86,12 @@ BEGIN
     new.id, 
     COALESCE(new.raw_user_meta_data->>'full_name', new.raw_user_meta_data->>'name', 'New Student'), 
     COALESCE(new.raw_user_meta_data->>'avatar_url', '')
-  );
+  )
+  ON CONFLICT (id) DO NOTHING;
   
   INSERT INTO public.student_stats (user_id, total_lessons)
-  VALUES (new.id, 100);
+  VALUES (new.id, 100)
+  ON CONFLICT (user_id) DO NOTHING;
   
   RETURN new;
 END;
@@ -115,3 +117,19 @@ VALUES
   ('Academic Writing Task 1 Guide', 'writing-task-1', 'writing', 'PenTool'),
   ('Speaking with Confidence', 'speaking-confidence', 'speaking', 'MessageSquare'),
   ('Essential Vocabulary for IELTS', 'essential-vocab', 'reading', 'CheckCircle')
+ON CONFLICT (slug) DO NOTHING;
+
+-- 9. BACKFILL EXISTING USERS
+-- Run this if you already have users in auth.users but their profiles are missing
+INSERT INTO public.profiles (id, full_name, avatar_url)
+SELECT 
+  id, 
+  COALESCE(raw_user_meta_data->>'full_name', raw_user_meta_data->>'name', 'Existing Student'),
+  COALESCE(raw_user_meta_data->>'avatar_url', '')
+FROM auth.users
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO public.student_stats (user_id, total_lessons)
+SELECT id, 100
+FROM auth.users
+ON CONFLICT (user_id) DO NOTHING;
