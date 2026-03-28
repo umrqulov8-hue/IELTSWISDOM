@@ -1,307 +1,142 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { memo } from 'react';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
-import { createClient } from '@/utils/supabase/client';
-import { UserSettingsPanel } from '@/components/settings/UserSettingsPanel';
-import {
-    LayoutDashboard,
-    Trophy,
-    Sparkles,
-    Languages,
-    Users,
-    BookOpen,
-    LogOut,
+import { usePathname } from 'next/navigation';
+import { 
+    LayoutDashboard, 
+    BookOpen, 
+    PenTool, 
+    Headphones, 
+    MessageSquare, 
+    Trophy, 
+    Settings, 
     User,
-    ChevronRight,
-    Search,
-    Lock
+    FileText,
+    LogOut,
+    X
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useAuthContext } from '@/context/AuthContext';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useLanguage } from '@/context/LanguageContext';
-import { useSubscription } from '@/context/SubscriptionContext';
-import { translations as T, tx } from '@/lib/translations';
-import type { Lang } from '@/lib/translations';
-import { ProBadge } from '@/components/ui/ProBadge';
-import { AnimatedLogoutButton } from '@/components/ui/AnimatedLogoutButton';
-import { memo } from 'react';
+import { TargetBandWidget } from './TargetBandWidget';
 
-function getNavItems(lang: Lang) {
-    return [
-        { name: tx(T.sidebar.dashboard, lang), href: '/dashboard', icon: LayoutDashboard },
-        { name: tx(T.sidebar.leaderboard, lang), href: '/leaderboard', icon: Trophy },
-        { name: tx(T.sidebar.results, lang), href: '/results', icon: Sparkles },
-        { name: tx(T.sidebar.aiCheck, lang), href: '/ai-check', icon: Sparkles, premium: true },
-        { name: tx(T.sidebar.lessons, lang), href: '/lessons', icon: Users, featured: true },
-        { name: tx(T.sidebar.articles, lang), href: '/articles', icon: BookOpen },
-    ];
+const NAV_GROUPS = [
+    {
+        label: "SKILLS",
+        items: [
+            { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
+            { name: "Reading", href: "/lessons/reading", icon: BookOpen, badge: "12 Lessons" },
+            { name: "Writing", href: "/lessons/writing", icon: PenTool, badge: "10 Lessons" },
+            { name: "Listening", href: "/lessons/listening", icon: Headphones, badge: "15 Lessons" },
+            { name: "Speaking", href: "/lessons/speaking", icon: MessageSquare, badge: "8 Lessons" },
+        ]
+    },
+    {
+        label: "PRACTICE",
+        items: [
+            { name: "Mock Tests", href: "/mock-exams", icon: Trophy, badge: "30 Tests" },
+            { name: "Study Materials", href: "/articles", icon: FileText },
+        ]
+    },
+    {
+        label: "ACCOUNT",
+        items: [
+            { name: "Profile", href: "/profile", icon: User },
+            { name: "Settings", href: "/settings", icon: Settings },
+        ]
+    }
+];
+
+interface SidebarProps {
+    onMobileClose?: () => void;
 }
 
-export const Sidebar = memo(() => {
+export const Sidebar = memo(({ onMobileClose }: SidebarProps) => {
     const pathname = usePathname();
-    const router = useRouter();
-    const { user, signOut } = useAuthContext();
-    const { lang } = useLanguage();
-    const { isPro } = useSubscription();
-    const navItems = getNavItems(lang);
-
-    const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-    const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
-    const supabase = createClient();
-
-    // Fetch avatar URL if exists for Sidebar
-    useEffect(() => {
-        async function loadProfile() {
-            if (!user) return;
-            try {
-                const { data, error } = await supabase
-                    .from('profiles')
-                    .select('avatar_url')
-                    .eq('id', user.id)
-                    .maybeSingle(); // Better than .single() as it doesn't 406 on missing rows
-                
-                if (data?.avatar_url) {
-                    setAvatarUrl(data.avatar_url);
-                }
-            } catch (err) {
-                // Ignore errors here to keep sidebar functional
-                console.debug("Sidebar: Profile fetch skipped or failed", err);
-            }
-        }
-        loadProfile();
-    }, [user, supabase]);
+    const { signOut } = useAuthContext();
 
     return (
-        <aside className="fixed left-0 top-0 h-screen w-[90px] hover:w-[280px] bg-white/40 backdrop-blur-3xl border-r border-white/40 z-[110] hidden lg:flex flex-col shadow-[4px_0_40px_rgba(0,0,0,0.03)] transition-[width] duration-[450ms] ease-[cubic-bezier(0.25,1,0.5,1)] group peer" style={{ willChange: 'width' }}>
-
+        <aside className="h-screen w-[280px] bg-white border-r border-slate-100 flex flex-col shadow-sm">
             {/* Logo Section */}
-            <div className="px-6 py-8 flex items-center h-[100px] flex-shrink-0 whitespace-nowrap">
-                <Link href="/dashboard" className="flex items-center hover:opacity-80 transition-opacity relative w-full h-12">
-
-                    {/* Collapsed Logo (Dark Green 'I') */}
-                    <div className="absolute left-0 top-1/2 -translate-y-1/2 w-11 h-11 flex items-center justify-center bg-[#1c3e2e] rounded-2xl text-white shadow-xl shadow-[#1c3e2e]/20 flex-shrink-0 transition-[opacity,transform,scale] duration-[400ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] opacity-100 scale-100 translate-x-0 group-hover:opacity-0 group-hover:scale-75 group-hover:-translate-x-4 origin-left pointer-events-auto group-hover:pointer-events-none">
-                        <svg className="absolute top-1.5 w-3.5 h-3.5 text-white/90 fill-current" viewBox="0 0 24 24">
-                            <path d="M4 15l-2-9 5.5 4.5L12 3l4.5 7.5L22 6l-2 9H4z" />
-                            <circle cx="2" cy="5" r="1.5" />
-                            <circle cx="12" cy="2" r="1.5" />
-                            <circle cx="22" cy="5" r="1.5" />
-                        </svg>
-                        <span className="text-2xl font-serif font-black mt-2">I</span>
+            <div className="px-8 py-8 flex items-center justify-between">
+                <Link href="/dashboard" className="flex items-center gap-3 group">
+                    <div className="w-10 h-10 bg-[#0f172a] rounded-xl flex items-center justify-center text-white shadow-lg shadow-slate-200 group-hover:scale-105 transition-transform">
+                        <Trophy className="w-6 h-6" />
                     </div>
-
-                    {/* Expanded Logo (IELTS Wisdom with Crown) */}
-                    <div className="absolute left-0 top-1/2 -translate-y-1/2 flex items-center w-auto overflow-visible pr-4 transition-[opacity,transform,scale] duration-[450ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] opacity-0 scale-75 translate-x-4 group-hover:opacity-100 group-hover:scale-100 group-hover:translate-x-0 origin-left pointer-events-none group-hover:pointer-events-auto z-10">
-                        <motion.div
-                            className="relative flex items-center"
-                            initial="hidden"
-                            animate="visible"
-                            variants={{
-                                visible: { transition: { staggerChildren: 0.05 } }
-                            }}
-                        >
-                            <div className="relative flex">
-                                {"IELTS".split('').map((letter, i) => (
-                                    <motion.span
-                                        key={i}
-                                        variants={{
-                                            hidden: { opacity: 0, y: 15, scale: 0.8 },
-                                            visible: { opacity: 1, y: 0, scale: 1, transition: { type: "spring", stiffness: 400, damping: 15 } }
-                                        }}
-                                        className="text-[30px] font-serif font-black text-[#1c3e2e] tracking-tight drop-shadow-sm inline-block"
-                                    >
-                                        {letter}
-                                    </motion.span>
-                                ))}
-                            </div>
-
-                            <div className="relative ml-2 flex">
-                                {"Wisdom".split('').map((letter, i) => (
-                                    <motion.span
-                                        key={i}
-                                        variants={{
-                                            hidden: { opacity: 0, y: 15, scale: 0.8 },
-                                            visible: { opacity: 1, y: 0, scale: 1, transition: { type: "spring", stiffness: 400, damping: 15 } }
-                                        }}
-                                        className="text-[30px] font-serif font-black text-[#1c3e2e] tracking-tight drop-shadow-sm relative inline-block"
-                                    >
-                                        {letter}
-                                        {i === 2 && (
-                                            <motion.svg
-                                                variants={{
-                                                    hidden: { opacity: 0, y: -30, scale: 0, rotate: -30 },
-                                                    visible: { opacity: 1, y: 0, scale: 1, rotate: 0, transition: { delay: 0.8, type: "spring", stiffness: 500, damping: 12 } }
-                                                }}
-                                                className="absolute -top-[2px] left-[55%] -translate-x-1/2 w-[20px] h-3.5 text-[#1c3e2e] fill-current drop-shadow-sm origin-bottom"
-                                                viewBox="0 0 24 24"
-                                            >
-                                                <path d="M3 16l-2-9 6 4.5L12 3l5 8.5 6-4.5-2 9H3zm-1-2h20v4H2v-4z" />
-                                                <circle cx="1" cy="6" r="1.5" />
-                                                <circle cx="7" cy="11.5" r="1.5" />
-                                                <circle cx="12" cy="2" r="1.5" />
-                                                <circle cx="17" cy="11.5" r="1.5" />
-                                                <circle cx="23" cy="6" r="1.5" />
-                                            </motion.svg>
-                                        )}
-                                    </motion.span>
-                                ))}
-                            </div>
-                        </motion.div>
+                    <div className="flex flex-col">
+                        <span className="text-xl font-black text-slate-900 leading-none tracking-tight">IELTS Prep</span>
+                        <span className="text-[10px] font-bold text-slate-400 mt-0.5 tracking-wider uppercase">Master Your Skills</span>
                     </div>
                 </Link>
+
+                {onMobileClose && (
+                    <button 
+                        onClick={onMobileClose}
+                        className="lg:hidden p-2 rounded-xl bg-slate-50 text-slate-400 hover:text-slate-900 border border-slate-100"
+                    >
+                        <X className="w-5 h-5" />
+                    </button>
+                )}
             </div>
 
-            {/* Profile Section */}
-            <div className="px-5 pb-8 pt-2 border-b border-white/10 flex-shrink-0 relative">
-                <motion.button
-                    onClick={() => setIsSettingsOpen(!isSettingsOpen)}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="flex w-full items-center gap-4 mb-2 hover:bg-white/50 p-2.5 -ml-2.5 rounded-2xl transition-all duration-300 text-left cursor-pointer group/profilebtn"
-                    aria-label="User settings"
-                >
-                    <div className="w-12 h-12 flex-shrink-0 rounded-full ring-2 ring-white/60 shadow-lg p-[2px] bg-gradient-to-tr from-orange-400 to-blue-500 relative group/avatar">
-                        <div className="w-full h-full rounded-full bg-slate-50 flex items-center justify-center overflow-hidden border-2 border-white">
-                            {avatarUrl ? (
-                                <img src={avatarUrl} alt={user?.email?.split('@')[0] || "User avatar"} className="w-full h-full object-cover" />
-                            ) : (
-                                <User className="text-slate-400 w-6 h-6 group-hover/profilebtn:text-blue-500 transition-colors" />
-                            )}
-                        </div>
-                    </div>
+            {/* Navigation Groups */}
+            <div className="flex-1 overflow-y-auto px-6 py-4 space-y-8 custom-scrollbar">
+                {NAV_GROUPS.map((group) => (
+                    <div key={group.label} className="space-y-2">
+                        <h3 className="px-4 text-[10px] font-black text-slate-400 tracking-[0.2em] uppercase">
+                            {group.label}
+                        </h3>
+                        <div className="space-y-1">
+                            {group.items.map((item) => {
+                                const isActive = pathname === item.href || (item.href !== '/dashboard' && pathname.startsWith(item.href));
+                                const Icon = item.icon;
 
-                    <div className="opacity-0 group-hover:opacity-100 max-w-0 group-hover:max-w-[160px] transition-all duration-[450ms] ease-[cubic-bezier(0.25,1,0.5,1)] whitespace-nowrap flex flex-col justify-center overflow-visible">
-                        <div className="pl-1 py-1 overflow-visible">
-                            <h3 className="text-slate-800 font-bold text-lg truncate group-hover/profilebtn:text-blue-600 transition-colors">
-                                {user?.email?.split('@')[0] || "Student"}
-                            </h3>
-                            {isPro ? (
-                                <div className="mt-1.5 py-1 overflow-visible">
-                                    <ProBadge size="sm" />
-                                </div>
-                            ) : (
-                                <p className="text-slate-600 text-[11px] font-semibold bg-white/60 px-2.5 py-0.5 rounded-full w-fit mt-1 border border-white/40">
-                                    {tx(T.membership.free, lang)}
-                                </p>
-                            )}
-                        </div>
-                    </div>
-                </motion.button>
-
-                <UserSettingsPanel
-                    isOpen={isSettingsOpen}
-                    onClose={() => setIsSettingsOpen(false)}
-                />
-            </div>
-
-            {/* Navigation */}
-            <nav className="flex-1 overflow-y-auto overflow-x-hidden py-8 px-4 space-y-1 custom-scrollbar">
-                <motion.div
-                    initial="hidden"
-                    animate="visible"
-                    variants={{
-                        visible: {
-                            transition: { staggerChildren: 0.03 }
-                        }
-                    }}
-                >
-                    {navItems.map((item) => {
-                        const isActive = pathname === item.href;
-                        const Icon = item.icon;
-
-                        return (
-                            <Link key={item.name} href={item.href} aria-label={`Navigation to ${item.name}`}>
-                                <motion.div
-                                    variants={{
-                                        hidden: { opacity: 0, y: 10 },
-                                        visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 450, damping: 30 } }
-                                    }}
-                                    className={cn(
-                                        "flex items-center gap-3.5 px-3.5 py-3 rounded-[14px] transition-colors duration-300 group/item relative whitespace-nowrap mb-1.5",
-                                        isActive
-                                            ? "text-white"
-                                            : "text-slate-600 hover:text-slate-800 hover:bg-slate-100/50"
-                                    )}
-                                    style={{ WebkitTransform: "translateZ(0)" }}
-                                >
-                                    {/* Active background indicator */}
-                                    {isActive && (
-                                        <motion.div
-                                            layoutId="active-indicator"
-                                            className="absolute inset-0 bg-gradient-to-r from-[#FF8C00] to-[#F57C00] rounded-[14px] shadow-sm -z-10"
-                                            initial={false}
-                                            transition={{ type: "spring", stiffness: 400, damping: 30, mass: 0.8 }}
-                                            style={{ willChange: "transform, opacity" }}
-                                        />
-                                    )}
-
-                                    <motion.div
-                                        className="relative flex-shrink-0 flex items-center justify-center w-[22px] h-[22px]"
-                                        animate={isActive ? { y: [0, -1.5, 0] } : {}}
-                                        transition={isActive ? { duration: 3, repeat: Infinity, ease: "easeInOut" } : { type: "spring", stiffness: 400, damping: 10 }}
-                                        whileHover={!isActive ? { rotate: [0, -10, 8, -5, 0], scale: 1.15 } : { scale: 1.1 }}
-                                        style={{ willChange: "transform" }}
+                                return (
+                                    <Link 
+                                        key={item.name} 
+                                        href={item.href}
+                                        className={cn(
+                                            "flex items-center justify-between px-4 py-3 rounded-xl transition-all duration-200 group/item",
+                                            isActive 
+                                                ? "bg-[#0f172a] text-white shadow-md shadow-slate-200" 
+                                                : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+                                        )}
                                     >
-                                        <Icon className={cn(
-                                            "w-[20px] h-[20px] transition-colors duration-300 ease-out",
-                                            isActive
-                                                ? "text-white"
-                                                : "text-slate-400 group-hover/item:text-[#FF8C00]"
-                                        )} strokeWidth={isActive ? 2.5 : 2} />
-                                    </motion.div>
-
-                                    <span className={cn(
-                                        "block overflow-hidden opacity-0 group-hover:opacity-100 max-w-0 group-hover:max-w-[150px] transition-[opacity,max-width] duration-300 ease-in-out tracking-tight",
-                                        isActive ? "text-white font-semibold text-[14px]" : "font-medium text-[14px]"
-                                    )}>
-                                        {item.name}
-                                    </span>
-
-                                    {item.featured && (
-                                        <span
-                                            className={cn(
-                                                "absolute right-3 text-[9px] font-bold px-2 py-[2px] rounded-md transition-[opacity,transform] duration-300 ease-in-out shadow-sm",
-                                                "opacity-0 scale-50 group-hover:opacity-100 group-hover:scale-100 transform origin-right",
-                                                isActive ? "bg-white/20 text-white" : "bg-gradient-to-r from-orange-400 to-amber-500 text-white"
-                                            )}
-                                        >
-                                            NEW
-                                        </span>
-                                    )}
-
-                                    {item.premium && !isPro && (
-                                        <Lock className="absolute right-3 w-3.5 h-3.5 text-slate-400 group-hover:text-amber-500 transition-colors opacity-0 group-hover:opacity-100" />
-                                    )}
-
-                                    {/* Subtle active border indicator when collapsed */}
-                                    {!isActive && (
-                                        <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-0 group-hover/item:h-[50%] bg-[#FF8C00]/40 rounded-r-full transition-[height,opacity] duration-300 opacity-0 group-hover/item:opacity-100" />
-                                    )}
-                                </motion.div>
-                            </Link>
-                        );
-                    })}
-                </motion.div>
-            </nav>
-
-            {/* Footer */}
-            <div className="p-4 border-t border-slate-100 overflow-hidden flex-shrink-0">
-                <AnimatedLogoutButton
-                    onLogout={() => signOut()}
-                    label={tx(T.sidebar.logout, lang)}
-                />
-
-                <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-700 delay-200 pl-4 py-1">
-                    <p className="text-[10px] text-slate-500 font-medium tracking-wide font-sans">
-                        © 2025 IELTS Wisdom
-                    </p>
-                </div>
+                                        <div className="flex items-center gap-3">
+                                            <Icon className={cn(
+                                                "w-5 h-5",
+                                                isActive ? "text-white" : "text-slate-400 group-hover/item:text-slate-600"
+                                            )} />
+                                            <span className="text-sm font-bold tracking-tight">{item.name}</span>
+                                        </div>
+                                        {item.badge && (
+                                            <span className={cn(
+                                                "text-[10px] font-bold px-2 py-1 rounded-lg",
+                                                isActive ? "bg-white/20 text-white" : "bg-slate-100 text-slate-500"
+                                            )}>
+                                                {item.badge}
+                                            </span>
+                                        )}
+                                    </Link>
+                                );
+                            })}
+                        </div>
+                    </div>
+                ))}
             </div>
 
-            {/* Premium edge glow */}
-            <div className="absolute inset-y-0 right-0 w-[2px] bg-gradient-to-b from-transparent via-orange-400/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
+            {/* Sticky Bottom Widgets */}
+            <div className="p-6 border-t border-slate-50 bg-white space-y-4">
+                <TargetBandWidget target={7.5} current={6.8} />
+                
+                <button 
+                    onClick={() => signOut()}
+                    className="flex w-full items-center gap-3 px-4 py-3 rounded-xl text-slate-500 hover:text-red-600 hover:bg-red-50 transition-all font-bold text-sm"
+                >
+                    <LogOut className="w-5 h-5" />
+                    <span>Logout</span>
+                </button>
+            </div>
         </aside>
     );
 });
