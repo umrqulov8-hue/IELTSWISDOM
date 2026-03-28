@@ -4,6 +4,7 @@ import {
   createContext,
   useContext,
   useEffect,
+  useMemo,
   type ReactNode,
 } from "react";
 import { useDeviceCapabilities, type DeviceCapabilities } from "@/hooks/useDeviceCapabilities";
@@ -83,9 +84,8 @@ export function DeviceProvider({ children }: { children: ReactNode }) {
     !isLowPower &&
     !frameDrop.isDropping;
 
-  const value: DeviceContextValue = {
+  const value = useMemo((): DeviceContextValue => ({
     ...capabilities,
-    // Override tier with effective tier
     tier: effectiveTier,
     ...frameRate,
     currentFps: frameDrop.currentFps,
@@ -96,7 +96,7 @@ export function DeviceProvider({ children }: { children: ReactNode }) {
     toggleLowPower: lowPower.toggleLowPower,
     shouldAnimate,
     shouldUseHeavyEffects,
-  };
+  }), [capabilities, effectiveTier, frameRate, frameDrop.currentFps, frameDrop.isDropping, frameDrop.dropCount, isLowPower, lowPower.isManual, lowPower.toggleLowPower, shouldAnimate, shouldUseHeavyEffects]);
 
   // Set data-* HTML attributes for CSS selectors
   useEffect(() => {

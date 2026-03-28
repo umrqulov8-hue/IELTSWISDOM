@@ -12,6 +12,7 @@ export interface FrameDropInfo {
 }
 
 const WINDOW_MS = 2000; // 2-second rolling window
+const UPDATE_MS = 1000; // Only update React state once per second
 const DROP_THRESHOLD = 0.8; // 80% of expected = dropping
 const MIN_EXPECTED_FPS = 55; // floor for 60Hz detection
 
@@ -32,6 +33,8 @@ export function useFrameDropDetector(expectedFps: number = 60): FrameDropInfo {
   const dropCountRef = useRef(0);
   const framesRef = useRef<number[]>([]);
   const lastTimeRef = useRef(0);
+  const lastUpdateRef = useRef(0);
+  const infoRef = useRef<FrameDropInfo>(info);
 
   useEffect(() => {
     const threshold = Math.max(MIN_EXPECTED_FPS, expectedFps) * DROP_THRESHOLD;
@@ -43,22 +46,30 @@ export function useFrameDropDetector(expectedFps: number = 60): FrameDropInfo {
         framesRef.current = framesRef.current.filter((t) => timestamp - t < WINDOW_MS);
 
         const windowFps = framesRef.current.length / (WINDOW_MS / 1000);
-
+        const roundedFps = Math.round(windowFps);
         const isDropping = windowFps < threshold && framesRef.current.length > 5;
         if (isDropping) dropCountRef.current += 1;
 
-        setInfo((prev) => {
-          const newInfo: FrameDropInfo = {
-            currentFps: Math.round(windowFps),
-            isDropping,
-            dropCount: dropCountRef.current,
-          };
-          if (
-            prev.currentFps === newInfo.currentFps &&
-            prev.isDropping === newInfo.isDropping
-          ) return prev;
-          return newInfo;
-        });
+        // Only update React state once per UPDATE_MS or on drop flip
+        const now = timestamp;
+        const lastUpdate = lastUpdateRef.current || 0;
+        
+        if (now - lastUpdate > UPDATE_MS || isDropping !== infoRef.current.isDropping) {
+          setInfo((prev) => {
+            const newInfo: FrameDropInfo = {
+              currentFps: roundedFps,
+              isDropping,
+              dropCount: dropCountRef.current,
+            };
+            if (
+              prev.currentFps === newInfo.currentFps &&
+              prev.isDropping === newInfo.isDropping
+            ) return prev;
+            infoRef.current = newInfo;
+            lastUpdateRef.current = now;
+            return newInfo;
+          });
+        }
       }
       lastTimeRef.current = timestamp;
       rafRef.current = requestAnimationFrame(frame);

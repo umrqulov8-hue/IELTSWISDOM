@@ -10,6 +10,7 @@ import { usePathname } from "next/navigation";
 import { useDevice } from "@/context/DeviceContext";
 import { useLanguage } from "@/context/LanguageContext";
 import { translations as T, tx } from "@/lib/translations";
+import { memo } from "react";
 
 interface DashboardLayoutProps extends PropsWithChildren {
     title?: string;
@@ -49,16 +50,16 @@ const pageVariants: any = {
     },
 };
 
-export function DashboardLayout({
+export const DashboardLayout = memo(({
     children,
-    title,
+    title = "IELTS Dashboard",
     description,
-    showGreeting = false,
+    showGreeting = true,
     hideSidebar = false,
     hideHeader = false,
     fullHeight = false,
     maxWidth = "max-w-6xl",
-}: DashboardLayoutProps) {
+}: DashboardLayoutProps) => {
     const { user } = useAuthContext();
     const { lang } = useLanguage();
     const displayName = user?.email?.split("@")[0] || "Student";
@@ -267,4 +268,4 @@ export function DashboardLayout({
             </main>
         </div>
     );
-}
+});

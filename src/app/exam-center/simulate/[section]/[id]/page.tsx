@@ -584,6 +584,7 @@ export default function SimulationPage() {
                                                 disablePictureInPicture
                                                 onEnded={() => setIsVideoEnded(true)}
                                                 className="w-full rounded-lg border border-slate-200 shadow-sm mb-6"
+                                                preload="none"
                                             />
                                             {isVideoEnded && (
                                                 <button

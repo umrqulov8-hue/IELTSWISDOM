@@ -9,6 +9,8 @@ import { useDashboard } from "@/hooks/useDashboard";
 import { useRouter } from "next/navigation";
 import { useLanguage } from "@/context/LanguageContext";
 import { BouncyText } from "@/components/ui/BouncyText";
+import { translations as T, tx } from "@/lib/translations";
+import { memo } from "react";
 
 // Fallback Mock Data (if DB is empty for demo)
 const FALLBACK_SEARCH_RESULTS = [
@@ -25,7 +27,7 @@ interface DashboardHeaderProps {
     displayName?: string;
 }
 
-export function DashboardHeader({ title, description, showGreeting, displayName }: DashboardHeaderProps) {
+export const DashboardHeader = memo(({ title, description, showGreeting, displayName }: DashboardHeaderProps) => {
     const { notifications, lessons, markNotificationRead, clearNotifications } = useDashboard();
     const router = useRouter();
     const { lang } = useLanguage();
@@ -329,4 +331,4 @@ export function DashboardHeader({ title, description, showGreeting, displayName 
             </div>
         </header>
     );
-}
+});

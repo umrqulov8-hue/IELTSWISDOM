@@ -27,6 +27,7 @@ import { translations as T, tx } from '@/lib/translations';
 import type { Lang } from '@/lib/translations';
 import { ProBadge } from '@/components/ui/ProBadge';
 import { AnimatedLogoutButton } from '@/components/ui/AnimatedLogoutButton';
+import { memo } from 'react';
 
 function getNavItems(lang: Lang) {
     return [
@@ -39,7 +40,7 @@ function getNavItems(lang: Lang) {
     ];
 }
 
-export function Sidebar() {
+export const Sidebar = memo(() => {
     const pathname = usePathname();
     const router = useRouter();
     const { user, signOut } = useAuthContext();
@@ -303,4 +304,4 @@ export function Sidebar() {
             <div className="absolute inset-y-0 right-0 w-[2px] bg-gradient-to-b from-transparent via-orange-400/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
         </aside>
     );
-}
+});

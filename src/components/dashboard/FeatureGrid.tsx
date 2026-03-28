@@ -11,6 +11,7 @@ import { BouncyText } from "@/components/ui/BouncyText";
 import { cn } from "@/lib/utils";
 import { useDevice } from "@/context/DeviceContext";
 import type { StudentStats } from "@/hooks/useDashboard";
+import { memo } from "react";
 
 
 const featureDefs = [
@@ -28,11 +29,11 @@ interface FeatureGridProps {
     stats?: StudentStats | null;
 }
 
-export function FeatureGrid({ stats }: FeatureGridProps) {
+export const FeatureGrid = memo(({ stats }: FeatureGridProps) => {
     const { lang } = useLanguage();
     const { shouldAnimate, shouldUseHeavyEffects } = useDevice();
     return (
-        <>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 pb-8">
             {featureDefs.map((feature, index) => {
                 const Icon = feature.icon;
                 const progress = feature.statKey ? (stats?.[feature.statKey] ?? 0) : null;
@@ -55,14 +56,17 @@ export function FeatureGrid({ stats }: FeatureGridProps) {
                     <CardWrapper
                         {...(motionProps as any)}
                         key={feature.key}
-                        className="float-left w-1/2 md:w-1/4 px-2 md:px-3 mb-4 md:mb-6 h-[170px]"
+                        className="h-[170px]"
                     >
                         <Link 
                             href={feature.href} 
                             aria-label={`Go to ${tx(T.features[feature.key], lang)} section. Current progress: ${progress !== null ? progress : 0}%`}
                             className="block h-full relative group"
                         >
-                            <div className="relative bg-white/50 backdrop-blur-xl border border-white/60 p-6 rounded-[2rem] transition-all duration-300 cursor-pointer overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 h-full flex flex-col items-center justify-center">
+                            <div className={cn(
+                                "relative bg-white/50 border border-white/60 p-6 rounded-[2rem] transition-all duration-300 cursor-pointer overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 h-full flex flex-col items-center justify-center",
+                                shouldUseHeavyEffects && "backdrop-blur-xl"
+                            )}>
 
                                 {/* Wave + Bubble Effect — guarded behind shouldAnimate */}
                                 <div className="absolute left-0 right-0 h-full bottom-0 translate-y-[105%] group-hover:translate-y-0 transition-transform duration-[1000ms] ease-[cubic-bezier(0.2,0.8,0.2,1)] z-0">
@@ -81,7 +85,7 @@ export function FeatureGrid({ stats }: FeatureGridProps) {
                                     </div>
                                     <div className="space-y-2 w-full">
                                         <h3 className="text-sm font-bold transition-colors duration-500 line-clamp-2 text-slate-700 group-hover:text-white delay-100">
-                                            <BouncyText key={lang} text={tx(T.features[feature.key], lang)} type="word" />
+                                            <BouncyText key={lang} text={tx(T.features[feature.key], lang)} type="word" simple />
                                         </h3>
                                         
                                         {/* Mini Progress Indicator */}
@@ -105,7 +109,7 @@ export function FeatureGrid({ stats }: FeatureGridProps) {
                     </CardWrapper>
                 );
             })}
-        </>
+        </div>
     );
-}
+});
 

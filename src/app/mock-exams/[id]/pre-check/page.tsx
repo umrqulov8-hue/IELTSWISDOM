@@ -138,6 +138,7 @@ export default function PreTestChecksPage({ params }: { params: Promise<{ id: st
                                 disablePictureInPicture
                                 onEnded={handlePreTestVideoEnded}
                                 className="w-full rounded-lg border border-slate-200 shadow-sm transition-opacity"
+                                preload="none"
                             />
                         </div>
                     )}
@@ -199,6 +200,7 @@ export default function PreTestChecksPage({ params }: { params: Promise<{ id: st
                                 disablePictureInPicture
                                 onEnded={() => setIsListeningVideoEnded(true)}
                                 className="w-full rounded-lg border border-slate-200 shadow-sm mb-6"
+                                preload="none"
                             />
 
                             {isListeningVideoEnded && (

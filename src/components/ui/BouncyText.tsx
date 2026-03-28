@@ -3,30 +3,25 @@
 import { m } from "framer-motion";
 import type { Variants } from "framer-motion";
 import { useDevice } from "@/context/DeviceContext";
+import { memo } from "react";
 
-export const BouncyText = ({
+export const BouncyText = memo(({
     text,
     className = "",
-    type = "letter"
+    type = "letter",
+    simple = false
 }: {
     text: string,
     className?: string,
-    type?: "word" | "letter"
+    type?: "word" | "letter",
+    simple?: boolean
 }) => {
     const { tier, shouldAnimate } = useDevice();
     const items = type === "word" ? text.split(" ") : Array.from(text);
 
-    // Low-tier or reduced-motion: render plain inline text, zero JS animation cost
-    if (!shouldAnimate) {
-        return (
-            <span className={`inline-block ${className}`}>
-                {items.map((item, i) => (
-                    <span key={`${item}-${i}`} style={{ whiteSpace: "pre" }} className="inline-block">
-                        {item}{type === "word" && i < items.length - 1 ? " " : ""}
-                    </span>
-                ))}
-            </span>
-        );
+    // Low-tier or simple mode on lower tier: render plain inline text
+    if (!shouldAnimate || (simple && tier !== "high")) {
+        return <span className={className}>{text}</span>;
     }
 
     const stagger = tier === "mid"
@@ -52,6 +47,20 @@ export const BouncyText = ({
         visible: { opacity: 1, transition: { staggerChildren: stagger } as any },
     };
 
+    // If simple mode requested, animate the whole container once instead of children
+    if (simple) {
+        return (
+            <m.span 
+                initial="hidden"
+                animate="visible"
+                variants={itemVariants}
+                className={`inline-block ${className}`}
+            >
+                {text}
+            </m.span>
+        );
+    }
+
     return (
         <m.span variants={containerVariants} className={`inline-block ${className}`}>
             {items.map((item, i) => (
@@ -66,4 +75,4 @@ export const BouncyText = ({
             ))}
         </m.span>
     );
-};
+});
