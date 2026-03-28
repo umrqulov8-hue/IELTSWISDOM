@@ -115,4 +115,3 @@ VALUES
   ('Academic Writing Task 1 Guide', 'writing-task-1', 'writing', 'PenTool'),
   ('Speaking with Confidence', 'speaking-confidence', 'speaking', 'MessageSquare'),
   ('Essential Vocabulary for IELTS', 'essential-vocab', 'reading', 'CheckCircle')
-ON CONFLICT (slug) DO NOTHING;
