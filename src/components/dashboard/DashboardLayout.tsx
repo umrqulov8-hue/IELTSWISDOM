@@ -16,6 +16,8 @@ interface DashboardLayoutProps extends PropsWithChildren {
     showGreeting?: boolean;
     hideSidebar?: boolean;
     maxWidth?: string;
+    fullHeight?: boolean;
+    hideHeader?: boolean;
 }
 
 export const DashboardLayout = memo(({
@@ -25,6 +27,8 @@ export const DashboardLayout = memo(({
     showGreeting = true,
     hideSidebar = false,
     maxWidth = "max-w-7xl",
+    fullHeight = false,
+    hideHeader = false,
 }: DashboardLayoutProps) => {
     const { user } = useAuthContext();
     const { lang } = useLanguage();
@@ -77,59 +81,65 @@ export const DashboardLayout = memo(({
                 !hideSidebar && ""
             )}>
                 {/* Clean Header */}
-                <header className="h-20 px-4 md:px-8 flex items-center justify-between sticky top-0 bg-[#F8F9FB]/80 backdrop-blur-md z-40 border-b border-slate-100/50">
-                    <div className="flex items-center gap-4">
-                        <button 
-                            onClick={() => setIsMobileMenuOpen(true)}
-                            className="lg:hidden p-2 rounded-xl bg-white border border-slate-200 text-slate-600 shadow-sm"
-                        >
-                            <Menu className="w-5 h-5" />
-                        </button>
-                        
-                        <div className="flex flex-col">
-                        {showGreeting ? (
-                            <>
-                                <h1 className="text-xl font-black text-slate-900 tracking-tight">
-                                    Welcome Back, {displayName}
-                                </h1>
-                                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">
-                                    {tx(T.greeting.subtitle, lang)}
-                                </p>
-                            </>
-                        ) : (
-                            <h1 className="text-xl font-black text-slate-900 tracking-tight">{title}</h1>
-                        )}
-                        </div>
-                    </div>
-
-                    <div className="flex items-center gap-4">
-                        <div className="relative" ref={searchRef}>
-                            <m.div 
-                                animate={{ width: isSearchExpanded ? 240 : 40 }}
-                                className="h-10 bg-white border border-slate-200 rounded-xl flex items-center overflow-hidden shadow-sm"
+                {!hideHeader && (
+                    <header className="h-20 px-4 md:px-8 flex items-center justify-between sticky top-0 bg-[#F8F9FB]/80 backdrop-blur-md z-40 border-b border-slate-100/50">
+                        <div className="flex items-center gap-4">
+                            <button 
+                                onClick={() => setIsMobileMenuOpen(true)}
+                                className="lg:hidden p-2 rounded-xl bg-white border border-slate-200 text-slate-600 shadow-sm"
                             >
-                                <button 
-                                    onClick={() => setIsSearchExpanded(!isSearchExpanded)}
-                                    className="w-10 h-10 flex-shrink-0 flex items-center justify-center text-slate-400 hover:text-slate-600 transition-colors"
-                                >
-                                    <Search className="w-4 h-4" />
-                                </button>
-                                <input 
-                                    className="bg-transparent border-none outline-none text-sm font-medium w-full pr-4 placeholder:text-slate-300"
-                                    placeholder="Search lessons..."
-                                />
-                            </m.div>
+                                <Menu className="w-5 h-5" />
+                            </button>
+                            
+                            <div className="flex flex-col">
+                            {showGreeting ? (
+                                <>
+                                    <h1 className="text-xl font-black text-slate-900 tracking-tight">
+                                        Welcome Back, {displayName}
+                                    </h1>
+                                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">
+                                        {tx(T.greeting.subtitle, lang)}
+                                    </p>
+                                </>
+                            ) : (
+                                <h1 className="text-xl font-black text-slate-900 tracking-tight">{title}</h1>
+                            )}
+                            </div>
                         </div>
-                        
-                        <button className="w-10 h-10 bg-white border border-slate-200 rounded-xl flex items-center justify-center text-slate-400 hover:text-slate-600 transition-colors shadow-sm relative">
-                            <Bell className="w-4 h-4" />
-                            <span className="absolute top-2.5 right-2.5 w-1.5 h-1.5 bg-orange-500 rounded-full border-2 border-white" />
-                        </button>
-                    </div>
-                </header>
+
+                        <div className="flex items-center gap-4">
+                            <div className="relative" ref={searchRef}>
+                                <m.div 
+                                    animate={{ width: isSearchExpanded ? 240 : 40 }}
+                                    className="h-10 bg-white border border-slate-200 rounded-xl flex items-center overflow-hidden shadow-sm"
+                                >
+                                    <button 
+                                        onClick={() => setIsSearchExpanded(!isSearchExpanded)}
+                                        className="w-10 h-10 flex-shrink-0 flex items-center justify-center text-slate-400 hover:text-slate-600 transition-colors"
+                                    >
+                                        <Search className="w-4 h-4" />
+                                    </button>
+                                    <input 
+                                        className="bg-transparent border-none outline-none text-sm font-medium w-full pr-4 placeholder:text-slate-300"
+                                        placeholder="Search lessons..."
+                                    />
+                                </m.div>
+                            </div>
+                            
+                            <button className="w-10 h-10 bg-white border border-slate-200 rounded-xl flex items-center justify-center text-slate-400 hover:text-slate-600 transition-colors shadow-sm relative">
+                                <Bell className="w-4 h-4" />
+                                <span className="absolute top-2.5 right-2.5 w-1.5 h-1.5 bg-orange-500 rounded-full border-2 border-white" />
+                            </button>
+                        </div>
+                    </header>
+                )}
 
                 {/* Content Area */}
-                <div className={cn("p-8 flex-1", maxWidth, "mx-auto w-full")}>
+                <div className={cn(
+                    fullHeight ? "flex-1 h-full" : "p-8 flex-1", 
+                    maxWidth, 
+                    "mx-auto w-full overflow-hidden"
+                )}>
                     <AnimatePresence mode="wait">
                         <m.div
                             key={pathname}
@@ -137,6 +147,7 @@ export const DashboardLayout = memo(({
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: -10 }}
                             transition={{ duration: 0.2 }}
+                            className={cn(fullHeight && "h-full")}
                         >
                             {children}
                         </m.div>
