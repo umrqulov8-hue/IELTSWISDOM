@@ -86,7 +86,7 @@ export const Sidebar = memo(({ onMobileClose }: SidebarProps) => {
             <div className="flex-1 overflow-y-auto px-6 py-4 space-y-8 custom-scrollbar">
                 {NAV_GROUPS.map((group) => (
                     <div key={group.label} className="space-y-2">
-                        <h3 className="px-4 text-[10px] font-black text-slate-500 tracking-[0.2em] uppercase">
+                        <h3 className="px-4 text-[10px] font-black text-slate-700 tracking-[0.2em] uppercase">
                             {group.label === "SKILLS" ? (lang === 'uz' ? "KO'NIKMALAR" : "SKILLS") : 
                              group.label === "PRACTICE" ? (lang === 'uz' ? "MASHQLAR" : "PRACTICE") : 
                              (lang === 'uz' ? "HISOB" : "ACCOUNT")}
@@ -130,7 +130,7 @@ export const Sidebar = memo(({ onMobileClose }: SidebarProps) => {
                                         {item.badge && (
                                             <span className={cn(
                                                 "text-[10px] font-bold px-2 py-1 rounded-lg",
-                                                isActive ? "bg-white/20 text-white" : "bg-slate-100 text-slate-500"
+                                                isActive ? "bg-white/20 text-white" : "bg-slate-100 text-slate-600"
                                             )}>
                                                 {lang === 'uz' ? item.badge.replace('Lessons', 'Dars').replace('Tests', 'Test') : item.badge}
                                             </span>

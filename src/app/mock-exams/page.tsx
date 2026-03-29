@@ -100,10 +100,10 @@ export default function MockExamsPage() {
                         className="bg-white border border-slate-100 rounded-[2.5rem] p-10 shadow-sm space-y-10"
                     >
                         <div>
-                            <h3 className="text-lg font-black text-slate-900 tracking-tight mb-1">
+                            <h2 className="text-lg font-black text-slate-900 tracking-tight mb-1">
                                 {lang === 'uz' ? "Test natijalari sharhi" : "Test Progress Overview"}
-                            </h3>
-                            <p className="text-sm font-bold text-slate-400">
+                            </h2>
+                            <p className="text-sm font-bold text-slate-500">
                                 {lang === 'uz' ? "Barcha mock testlar bo'yicha ko'rsatkichlaringizni kuzatib boring" : "Track your performance across all mock tests"}
                             </p>
                         </div>
@@ -112,7 +112,7 @@ export default function MockExamsPage() {
                             <SummaryStat label={lang === 'uz' ? "Topshirilgan Testlar" : "Tests Completed"} value={completedCount} color="text-slate-900" />
                             <SummaryStat label={lang === 'uz' ? "O'rtacha Band" : "Average Band Score"} value="7.4" color="text-emerald-500" />
                             <SummaryStat label={lang === 'uz' ? "Band 7+ Natijalar" : "Band 7+ Scores"} value="4" color="text-blue-500" />
-                            <SummaryStat label={lang === 'uz' ? "Qolgan Testlar" : "Tests Remaining"} value={totalTests - completedCount} color="text-slate-400" />
+                            <SummaryStat label={lang === 'uz' ? "Qolgan Testlar" : "Tests Remaining"} value={totalTests - completedCount} color="text-slate-500" />
                         </div>
 
                         <div className="space-y-4 pt-4">
@@ -152,10 +152,10 @@ export default function MockExamsPage() {
                     {/* --- Info Section --- */}
                     <div className="bg-white border border-slate-100 rounded-[2.5rem] p-12 shadow-sm space-y-12">
                         <div className="space-y-2">
-                            <h3 className="text-xl font-black text-slate-900 tracking-tight">
+                            <h2 className="text-xl font-black text-slate-900 tracking-tight">
                                 {lang === 'uz' ? "Mock Test haqida ma'lumot" : "Mock Test Information"}
-                            </h3>
-                            <p className="text-sm font-bold text-slate-400">
+                            </h2>
+                            <p className="text-sm font-bold text-slate-500">
                                 {lang === 'uz' ? "Bizning IELTS amaliy testlarimizdan nimalarni kutish kerak" : "What to expect from our IELTS practice tests"}
                             </p>
                         </div>
@@ -201,7 +201,7 @@ function SummaryStat({ label, value, color }: { label: string, value: string | n
     return (
         <div className="text-center space-y-2">
             <p className={cn("text-4xl font-black tracking-tight", color)}>{value}</p>
-            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{label}</p>
+            <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{label}</p>
         </div>
     );
 }
@@ -213,7 +213,7 @@ function SkillAvg({ icon, label, value, color }: { icon: any, label: string, val
                 {icon}
             </div>
             <div>
-                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-0.5">{label}</p>
+                <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-0.5">{label}</p>
                 <p className="text-lg font-black text-slate-900 tracking-tight">{value}</p>
             </div>
         </div>
@@ -233,30 +233,30 @@ function MockExamCard({ test, lang, onStart }: { test: MockTestMeta, lang: strin
         >
             <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                    <span className="text-sm font-bold text-slate-400">{lang === 'uz' ? `Test ${test.index + 1}` : `Test ${test.index + 1}`}</span>
-                    {isCompleted && <CheckCircle2 className="w-4 h-4 text-emerald-500" />}
-                    {test.isFavorite && <Star className="w-4 h-4 text-amber-400 fill-amber-400" />}
+                    <span className="text-sm font-bold text-slate-500">{lang === 'uz' ? `Test ${test.index + 1}` : `Test ${test.index + 1}`}</span>
+                    {isCompleted && <CheckCircle2 className="w-4 h-4 text-emerald-600" />}
+                    {test.isFavorite && <Star className="w-4 h-4 text-amber-500 fill-amber-500" />}
                 </div>
                 <div className={cn(
                     "px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest",
-                    test.difficulty === "Beginner" ? "bg-emerald-50 text-emerald-600" :
-                    test.difficulty === "Intermediate" ? "bg-amber-50 text-amber-600" :
-                    "bg-rose-50 text-rose-600"
+                    test.difficulty === "Beginner" ? "bg-emerald-50 text-emerald-700" :
+                    test.difficulty === "Intermediate" ? "bg-amber-50 text-amber-700" :
+                    "bg-rose-50 text-rose-700"
                 )}>
                     {lang === 'uz' ? (test.difficulty === "Beginner" ? "Boshlang'ich" : test.difficulty === "Intermediate" ? "O'rta" : "Yuqori") : test.difficulty}
                 </div>
             </div>
 
             <div className="space-y-2">
-                <h4 className="text-xl font-black text-slate-900 tracking-tight group-hover:text-blue-600 transition-colors">
+                <h3 className="text-xl font-black text-slate-900 tracking-tight group-hover:text-blue-600 transition-colors">
                     {lang === 'uz' ? test.title.uz : test.title.en}
-                </h4>
-                <p className="text-xs font-bold text-slate-400 leading-relaxed line-clamp-2">
+                </h3>
+                <p className="text-xs font-bold text-slate-500 leading-relaxed line-clamp-2">
                     {lang === 'uz' ? test.desc.uz : test.desc.en}
                 </p>
             </div>
 
-            <div className="flex flex-col gap-4 text-[10px] font-black uppercase tracking-widest text-slate-400">
+            <div className="flex flex-col gap-4 text-[10px] font-black uppercase tracking-widest text-slate-500">
                 <div className="flex items-center gap-2">
                     <Clock className="w-4 h-4" />
                     <span>{test.duration}</span>
@@ -314,7 +314,7 @@ function MockExamCard({ test, lang, onStart }: { test: MockTestMeta, lang: strin
 function InfoGroup({ title, children }: { title: string, children: React.ReactNode }) {
     return (
         <div className="space-y-4">
-            <h4 className="text-sm font-black text-slate-900 uppercase tracking-[0.2em]">{title}</h4>
+            <h3 className="text-sm font-black text-slate-900 uppercase tracking-[0.2em]">{title}</h3>
             <ul className="space-y-3">
                 {children}
             </ul>

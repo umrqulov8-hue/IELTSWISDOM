@@ -213,7 +213,7 @@ function LessonCard({ lesson, index, lang }: { lesson: any, index: number, lang:
             className="group bg-white border border-slate-100 rounded-3xl p-6 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 relative flex flex-col h-full"
         >
             <div className="flex items-center justify-between mb-4">
-                <span className="text-[11px] font-black text-slate-300 uppercase tracking-widest">
+                <span className="text-[11px] font-black text-slate-500 uppercase tracking-widest">
                     {lang === 'uz' ? `${lesson.lessonNumber}-Dars` : `Lesson ${lesson.lessonNumber}`}
                 </span>
                 {isCompleted && (
@@ -284,8 +284,8 @@ function PracticeCard({ test, index, lang }: { test: any, index: number, lang: s
         >
             <div className="flex flex-col gap-3">
                 <div className="flex items-center justify-between">
-                    <span className="text-[9px] font-black text-slate-300 uppercase tracking-widest">{test.categoryId.replace('-', ' ')}</span>
-                    <div className="flex items-center gap-1 text-[9px] font-bold text-slate-400">
+                    <span className="text-[9px] font-black text-slate-500 uppercase tracking-widest">{test.categoryId.replace('-', ' ')}</span>
+                    <div className="flex items-center gap-1 text-[9px] font-bold text-slate-500">
                         <Clock className="w-2.5 h-2.5" />
                         {test.duration}
                     </div>

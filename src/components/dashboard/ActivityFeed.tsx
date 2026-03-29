@@ -24,14 +24,14 @@ function ActivityItem({ activity }: { activity: Activity }) {
     return (
         <div className="flex items-center justify-between py-4 group/item">
             <div className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover/item:bg-[#0f172a] group-hover/item:text-white transition-all">
+                <div className="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center text-slate-500 group-hover/item:bg-[#0f172a] group-hover/item:text-white transition-all">
                     <Icon className="w-5 h-5" />
                 </div>
                 <div>
                     <div className="flex items-center gap-2 mb-0.5">
-                        <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{activity.type}</span>
+                        <span className="text-[10px] font-black text-slate-600 uppercase tracking-widest">{activity.type}</span>
                         <span className="w-1 h-1 rounded-full bg-slate-200" />
-                        <span className="text-[10px] font-bold text-slate-400">{activity.time}</span>
+                        <span className="text-[10px] font-bold text-slate-500">{activity.time}</span>
                     </div>
                     <h4 className="text-sm font-bold text-slate-900 tracking-tight group-hover/item:text-[#0f172a] transition-colors">{activity.title}</h4>
                 </div>
@@ -46,7 +46,7 @@ export function ActivityFeed({ activities }: { activities: Activity[] }) {
     return (
         <div className="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm flex flex-col h-full">
             <div className="flex items-center gap-3 mb-6">
-                <Clock className="w-5 h-5 text-slate-400" />
+                <Clock className="w-5 h-5 text-slate-500" />
                 <h2 className="text-lg font-bold text-slate-900 tracking-tight">Recent Activity</h2>
             </div>
 
@@ -59,7 +59,7 @@ export function ActivityFeed({ activities }: { activities: Activity[] }) {
             {activities.length === 0 && (
                 <div className="flex flex-col items-center justify-center py-12 text-center">
                     <Clock className="w-12 h-12 text-slate-100 mb-4" />
-                    <p className="text-sm font-bold text-slate-400 uppercase tracking-widest">No activity yet</p>
+                    <p className="text-sm font-bold text-slate-500 uppercase tracking-widest">No activity yet</p>
                 </div>
             )}
         </div>
