@@ -70,28 +70,16 @@ export function Hero() {
                 <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:50px_50px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
 
                 <div className="container relative mx-auto px-4 text-center">
-                    {/* Compact AI Badge */}
-                    <m.div 
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-indigo-50/50 dark:bg-indigo-950/30 border border-indigo-100 dark:border-indigo-800 shadow-sm mb-8"
-                    >
-                        <m.span 
-                            animate={{ rotate: 360 }}
-                            transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-                            className="text-base"
-                        >✨</m.span>
-                        <span className="text-[10px] font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-[0.15em]">AI-Powered Band Score Accuracy</span>
-                    </m.div>
+                    {/* Badge Removed */}
 
                     {/* Headline - Expert Migration */}
                     <m.h1 
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8, delay: 0.1 }}
-                        className="text-4xl md:text-6xl font-black text-slate-900 dark:text-white tracking-tight leading-[1.1] max-w-3xl mx-auto mb-6"
+                        className="text-4xl md:text-6xl font-black tracking-tight leading-[1.1] max-w-3xl mx-auto mb-6"
                     >
-                        Master every section <br /> 
+                        <span className="text-slate-950 dark:text-white">Master</span> every section <br /> 
                         <span className="text-slate-400 font-extrabold uppercase bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-500 dark:from-white dark:to-slate-400">of the IELTS exam</span>
                     </m.h1>
 
@@ -110,16 +98,25 @@ export function Hero() {
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ duration: 0.8, delay: 0.3 }}
-                        className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-24"
+                        className="flex flex-col items-center justify-center gap-4 mb-24"
                     >
-                        <Button size="lg" className="h-14 px-10 rounded-2xl bg-slate-900 dark:bg-white dark:text-slate-900 text-white shadow-xl group text-lg font-bold transition-all hover:scale-105 active:scale-95 border-0" onClick={handleStartLearning} disabled={isLoading}>
-                            {isLoading ? <Loader2 className="h-5 w-5 animate-spin mr-2" /> : "Try for Free"}
-                            {!isLoading && <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />}
-                        </Button>
-                        <Button variant="outline" size="lg" className="h-14 px-10 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-lg group font-bold hover:bg-slate-50 transition-all">
-                            <span className="w-8 h-8 rounded-full border border-slate-200 dark:border-slate-800 flex items-center justify-center mr-3 group-hover:bg-white shadow-sm transition-colors text-slate-600">▶</span>
-                            Book a Demo
-                        </Button>
+                        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                            <Button size="lg" className="h-14 px-10 rounded-2xl bg-slate-900 dark:bg-white dark:text-slate-900 text-white shadow-xl group text-lg font-bold transition-all hover:scale-105 active:scale-95 border-0" onClick={handleStartLearning} disabled={isLoading}>
+                                {isLoading ? <Loader2 className="h-5 w-5 animate-spin mr-2" /> : "Try for Free"}
+                                {!isLoading && <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />}
+                            </Button>
+                            <Button variant="outline" size="lg" className="h-14 px-10 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-lg group font-bold hover:bg-slate-50 transition-all">
+                                <span className="w-8 h-8 rounded-full border border-slate-200 dark:border-slate-800 flex items-center justify-center mr-3 group-hover:bg-white shadow-sm transition-colors text-slate-600">▶</span>
+                                Guide
+                            </Button>
+                        </div>
+                        <m.p 
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 0.6 }}
+                            className="text-sm font-medium text-slate-500 mt-2"
+                        >
+                            Already using IELTS Wisdom? <button onClick={handleStartLearning} className="text-slate-900 dark:text-white font-bold hover:underline">Sign in</button>
+                        </m.p>
                     </m.div>
 
                     {/* Neural Map Visualization - Hyper-Compact */}
@@ -191,7 +188,7 @@ export function Hero() {
                                             rotate: { duration: card.swim.durR, repeat: Infinity, ease: "easeInOut" }
                                         }}
                                         style={{ width: card.w }}
-                                        className="absolute pointer-events-auto glass-card p-4 rounded-[1.25rem] shadow-xl saas-border flex flex-col gap-3 group hover:scale-[1.05] hover:bg-white active:scale-95 transition-all cursor-pointer z-30 origin-center"
+                                        className="absolute pointer-events-auto bg-white dark:bg-slate-900 p-4 rounded-[1.25rem] shadow-[0_32px_64px_-16px_rgba(0,0,0,0.1)] border border-slate-100 dark:border-slate-800 flex flex-col gap-3 group hover:scale-[1.05] hover:bg-white active:scale-95 transition-all cursor-pointer z-30 origin-center"
                                     >
                                         <div className="flex items-center gap-3">
                                             <div className="p-1.5 rounded-lg bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm">
