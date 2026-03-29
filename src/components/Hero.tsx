@@ -14,52 +14,52 @@ export function Hero() {
 
     const connectedCards = [
         { 
-            icon: PenTool, label: "Writing", x: -250, y: -100, 
+            icon: PenTool, label: "Writing", rx: 280, ry: 160, startAngle: 0,
             scale: 1.0, w: 170,
             extra: { type: 'bars', items: [60, 40, 80] },
-            swim: { dx: 20, dy: -25, durX: 5.7, durY: 7.1, durR: 8.3 }
+            duration: 23 // Prime
         },
         { 
-            icon: Headphones, label: "Listening", x: 250, y: -80, 
+            icon: Headphones, label: "Listening", rx: 250, ry: 180, startAngle: 45,
             scale: 0.85, w: 150,
             extra: { type: 'bars', items: [30, 90, 50, 70] },
-            swim: { dx: -15, dy: 25, durX: 6.3, durY: 5.1, durR: 9.9 }
+            duration: 29 // Prime
         },
         { 
-            icon: Sparkles, label: "Band 8.5+", x: -160, y: -180, 
+            icon: Sparkles, label: "Band 8.5+", rx: 220, ry: 200, startAngle: 90,
             scale: 1.1, w: 190,
             extra: { type: 'dots', items: ['#10b981', '#f59e0b', '#ef4444'] },
-            swim: { dx: 10, dy: -30, durX: 7.7, durY: 6.9, durR: 12.1 }
+            duration: 31 // Prime
         },
         { 
-            icon: Target, label: "Mock Exam", x: 180, y: -170, 
+            icon: Target, label: "Mock Exam", rx: 300, ry: 140, startAngle: 135,
             scale: 0.95, w: 170,
             extra: { type: 'versions', items: ['v1.2.0', 'v1.0.5'] },
-            swim: { dx: 25, dy: 12, durX: 5.1, durY: 7.3, durR: 10.7 }
+            duration: 37 // Prime
         },
         { 
-            icon: BarChart, label: "Skill Analytics", x: 280, y: 100, 
+            icon: BarChart, label: "Skill Analytics", rx: 240, ry: 210, startAngle: 180,
             scale: 1.05, w: 180,
             extra: { type: 'chart', items: [40, 70, 30, 90] },
-            swim: { dx: -20, dy: -20, durX: 6.9, durY: 8.1, durR: 14.1 }
+            duration: 41 // Prime
         },
         { 
-            icon: Search, label: "Gap Analysis", x: -300, y: 120, 
+            icon: Search, label: "Gap Analysis", rx: 260, ry: 190, startAngle: 225,
             scale: 0.8, w: 140,
             extra: { type: 'dots', items: ['#334155', '#334155', '#334155'] },
-            swim: { dx: 18, dy: 12, durX: 8.9, durY: 6.3, durR: 7.1 }
+            duration: 43 // Prime
         },
         { 
-            icon: Zap, label: "Speed Prep", x: -180, y: 190, 
+            icon: Zap, label: "Speed Prep", rx: 210, ry: 170, startAngle: 270,
             scale: 0.9, w: 160,
             extra: { type: 'bars', items: [100, 80, 60] },
-            swim: { dx: -25, dy: -18, durX: 5.3, durY: 7.7, durR: 11.3 }
+            duration: 47 // Prime
         },
         { 
-            icon: Trophy, label: "EXAM READY", x: 180, y: 200, 
+            icon: Trophy, label: "EXAM READY", rx: 290, ry: 150, startAngle: 315,
             scale: 1.0, w: 180,
             extra: { type: 'dots', items: ['#f59e0b', '#f59e0b'] },
-            swim: { dx: 18, dy: 30, durX: 7.1, durY: 9.3, durR: 8.9 }
+            duration: 53 // Prime
         },
     ];
 
@@ -119,9 +119,9 @@ export function Hero() {
                         </m.p>
                     </m.div>
 
-                    {/* Neural Map Visualization - Hyper-Compact */}
-                    <div className="relative h-[620px] max-w-5xl mx-auto hidden lg:flex items-center justify-center">
-                        {/* Central Logo - Hyper-Compact */}
+                    {/* Neural Map Visualization - Orbital Animation */}
+                    <div className="relative h-[660px] max-w-5xl mx-auto hidden lg:flex items-center justify-center">
+                        {/* Central Logo - Clockwork Toj */}
                         <m.div 
                             initial={{ scale: 0.8, opacity: 0 }}
                             animate={{ scale: [1, 1.05, 1], opacity: 1 }}
@@ -141,104 +141,118 @@ export function Hero() {
                              </svg>
                         </m.div>
 
-                        {/* Combined Cards & Lines System */}
+                        {/* Combined Orbital Cards System */}
                         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                            {connectedCards.map((card, idx) => (
-                                <m.div
-                                    key={`group-${idx}`}
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    transition={{ delay: 0.8 + idx * 0.1 }}
-                                    className="absolute inset-0 flex items-center justify-center"
-                                >
-                                    {/* Line */}
-                                    <svg className="absolute inset-0 w-full h-full overflow-visible z-10">
-                                        <m.line
+                            {connectedCards.map((card, idx) => {
+                                // Calculate Orbital Path Pre-sets
+                                const steps = 60; // Accuracy of circle path
+                                const xKeyframes = [];
+                                const yKeyframes = [];
+                                const zKeyframes = [];
+                                const sKeyframes = [];
+
+                                for (let i = 0; i <= steps; i++) {
+                                    const angle = (card.startAngle + (i / steps) * 360) * (Math.PI / 180);
+                                    xKeyframes.push(card.rx * Math.cos(angle));
+                                    yKeyframes.push(card.ry * Math.sin(angle));
+                                    
+                                    // Depth Logic (Sin determines front/back distance)
+                                    // sin is 1 at bottom (front), -1 at top (back)
+                                    const depth = Math.sin(angle); 
+                                    zKeyframes.push(depth > 0 ? 40 : 10);
+                                    sKeyframes.push(card.scale * (0.85 + (depth + 1) * 0.15));
+                                }
+
+                                return (
+                                    <m.div
+                                        key={`group-${idx}`}
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        transition={{ delay: 1 + idx * 0.1 }}
+                                        className="absolute inset-0 flex items-center justify-center"
+                                    >
+                                        {/* Line - Tracks the card */}
+                                        <svg className="absolute inset-0 w-full h-full overflow-visible z-10">
+                                            <m.line
+                                                animate={{ 
+                                                    x2: xKeyframes.map(x => `calc(50% + ${x}px)`), 
+                                                    y2: yKeyframes.map(y => `calc(50% + ${y}px)`),
+                                                }}
+                                                transition={{ 
+                                                    repeat: Infinity, 
+                                                    duration: card.duration, 
+                                                    ease: "linear" 
+                                                }}
+                                                x1="50%" y1="50%" x2={`calc(50% + ${card.rx}px)`} y2={`calc(50% + ${card.ry}px)`}
+                                                className="stroke-slate-900/10 dark:stroke-white/10 stroke-[1]"
+                                            />
+                                        </svg>
+
+                                        {/* Card - Clockwise Rotation with Depth */}
+                                        <m.div
+                                            initial={{ opacity: 0 }}
                                             animate={{ 
-                                                x2: [
-                                                    `calc(50% + ${card.x}px)`, 
-                                                    `calc(50% + ${card.x + card.swim.dx}px)`, 
-                                                    `calc(50% + ${card.x}px)`
-                                                ], 
-                                                y2: [
-                                                    `calc(50% + ${card.y}px)`, 
-                                                    `calc(50% + ${card.y + card.swim.dy}px)`, 
-                                                    `calc(50% + ${card.y}px)`
-                                                ],
-                                                opacity: [0.1, 0.2, 0.1]
+                                                opacity: 1, 
+                                                x: xKeyframes, 
+                                                y: yKeyframes,
+                                                zIndex: zKeyframes,
+                                                scale: sKeyframes,
+                                                rotate: [-idx * 2, idx * 2, -idx * 2] // Subtle non-synced wobble
                                             }}
                                             transition={{ 
-                                                x2: { duration: card.swim.durX, repeat: Infinity, ease: "easeInOut" },
-                                                y2: { duration: card.swim.durY, repeat: Infinity, ease: "easeInOut" },
-                                                opacity: { duration: 3, repeat: Infinity, ease: "easeInOut" }
+                                                opacity: { duration: 1 },
+                                                x: { repeat: Infinity, duration: card.duration, ease: "linear" },
+                                                y: { repeat: Infinity, duration: card.duration, ease: "linear" },
+                                                zIndex: { repeat: Infinity, duration: card.duration, ease: "linear" },
+                                                scale: { repeat: Infinity, duration: card.duration, ease: "linear" },
+                                                rotate: { repeat: Infinity, duration: card.duration / 4, ease: "easeInOut" }
                                             }}
-                                            x1="50%" y1="50%" x2={`calc(50% + ${card.x}px)`} y2={`calc(50% + ${card.y}px)`}
-                                            className="stroke-slate-900 dark:stroke-white stroke-[1]"
-                                        />
-                                    </svg>
-
-                                    {/* Card */}
-                                    <m.div
-                                        initial={{ opacity: 0, scale: card.scale * 0.8, x: card.x, y: card.y }}
-                                        animate={{ 
-                                            opacity: 1, 
-                                            scale: [card.scale, card.scale * 1.02, card.scale], 
-                                            x: [card.x, card.x + card.swim.dx, card.x], 
-                                            y: [card.y, card.y + card.swim.dy, card.y],
-                                            rotate: [-1, 1, -1]
-                                        }}
-                                        transition={{ 
-                                            opacity: { duration: 1 },
-                                            scale: { duration: 5.7, repeat: Infinity, ease: "easeInOut" },
-                                            x: { duration: card.swim.durX, repeat: Infinity, ease: "easeInOut" },
-                                            y: { duration: card.swim.durY, repeat: Infinity, ease: "easeInOut" },
-                                            rotate: { duration: card.swim.durR, repeat: Infinity, ease: "easeInOut" }
-                                        }}
-                                        style={{ width: card.w }}
-                                        className="absolute pointer-events-auto bg-white dark:bg-slate-900 p-4 rounded-[1.25rem] shadow-[0_32px_64px_-16px_rgba(0,0,0,0.1)] border border-slate-100 dark:border-slate-800 flex flex-col gap-3 group hover:scale-[1.05] hover:bg-white active:scale-95 transition-all cursor-pointer z-30 origin-center"
-                                    >
-                                        <div className="flex items-center gap-3">
-                                            <div className="p-1.5 rounded-lg bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm">
-                                                <card.icon className="w-4 h-4" />
+                                            style={{ width: card.w }}
+                                            className="absolute pointer-events-auto bg-white dark:bg-slate-900 p-4 rounded-[1.25rem] shadow-[0_32px_64px_-16px_rgba(0,0,0,0.1)] border border-slate-100 dark:border-slate-800 flex flex-col gap-3 group hover:scale-[1.05] hover:bg-white active:scale-95 transition-all cursor-pointer origin-center"
+                                        >
+                                            <div className="flex items-center gap-3">
+                                                <div className="p-1.5 rounded-lg bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm">
+                                                    <card.icon className="w-4 h-4" />
+                                                </div>
+                                                <span className="font-bold text-[10px] text-slate-900 dark:text-white tracking-tight uppercase whitespace-nowrap">{card.label}</span>
                                             </div>
-                                            <span className="font-bold text-[10px] text-slate-900 dark:text-white tracking-tight uppercase whitespace-nowrap">{card.label}</span>
-                                        </div>
 
-                                        {/* Simplified Content */}
-                                        <div className="flex flex-col gap-1.5 opacity-40">
-                                            {card.extra.type === 'versions' && (card.extra.items as string[]).map((v, i) => (
-                                                <div key={i} className="flex items-center gap-2 text-[9px] font-semibold">
-                                                    <div className={`w-1 h-1 rounded-full ${i === 0 ? 'bg-emerald-500' : 'bg-amber-500'}`} />
-                                                    {v}
-                                                </div>
-                                            ))}
-                                            {card.extra.type === 'bars' && (
-                                                <div className="flex flex-col gap-1">
-                                                    {(card.extra.items as number[]).map((w, i) => (
-                                                        <div key={i} className="h-1 bg-slate-900/5 dark:bg-white/5 rounded-full overflow-hidden">
-                                                            <div className="h-full bg-slate-900/60 dark:bg-white/60" style={{ width: `${w}%` }} />
-                                                        </div>
-                                                    ))}
-                                                </div>
-                                            )}
-                                            {card.extra.type === 'dots' && (
-                                                <div className="flex gap-1">
-                                                    {(card.extra.items as string[]).map((c, i) => (
-                                                        <div key={i} className="w-3 h-3 rounded-md shadow-sm" style={{ backgroundColor: c }} />
-                                                    ))}
-                                                </div>
-                                            )}
-                                            {card.extra.type === 'chart' && (
-                                                <div className="flex items-end gap-1 h-6 mt-0.5">
-                                                    {(card.extra.items as number[]).map((v, i) => (
-                                                        <div key={i} className="flex-1 bg-slate-900/10 dark:bg-white/10 rounded-t-sm transition-all group-hover:bg-slate-900/20" style={{ height: `${v}%` }} />
-                                                    ))}
-                                                </div>
-                                            )}
-                                        </div>
+                                            {/* Simplified Content */}
+                                            <div className="flex flex-col gap-1.5 opacity-40">
+                                                {card.extra.type === 'versions' && (card.extra.items as string[]).map((v, i) => (
+                                                    <div key={i} className="flex items-center gap-2 text-[9px] font-semibold">
+                                                        <div className={`w-1 h-1 rounded-full ${i === 0 ? 'bg-emerald-500' : 'bg-amber-500'}`} />
+                                                        {v}
+                                                    </div>
+                                                ))}
+                                                {card.extra.type === 'bars' && (
+                                                    <div className="flex flex-col gap-1">
+                                                        {(card.extra.items as number[]).map((w, i) => (
+                                                            <div key={i} className="h-1 bg-slate-900/5 dark:bg-white/5 rounded-full overflow-hidden">
+                                                                <div className="h-full bg-slate-900/60 dark:bg-white/60" style={{ width: `${w}%` }} />
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                )}
+                                                {card.extra.type === 'dots' && (
+                                                    <div className="flex gap-1">
+                                                        {(card.extra.items as string[]).map((c, i) => (
+                                                            <div key={i} className="w-3 h-3 rounded-md shadow-sm" style={{ backgroundColor: c }} />
+                                                        ))}
+                                                    </div>
+                                                )}
+                                                {card.extra.type === 'chart' && (
+                                                    <div className="flex items-end gap-1 h-6 mt-0.5">
+                                                        {(card.extra.items as number[]).map((v, i) => (
+                                                            <div key={i} className="flex-1 bg-slate-900/10 dark:bg-white/10 rounded-t-sm transition-all group-hover:bg-slate-900/20" style={{ height: `${v}%` }} />
+                                                        ))}
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </m.div>
                                     </m.div>
-                                </m.div>
-                            ))}
+                                );
+                            })}
                         </div>
 
                         {/* Ambient Particles */}
