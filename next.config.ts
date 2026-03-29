@@ -52,15 +52,6 @@ const nextConfig = {
     optimizeCss: false,
     optimizePackageImports: ["lucide-react", "framer-motion"],
     scrollRestoration: true,
-    turbo: {
-      resolveAlias: {
-        "core-js": "./src/lib/polyfills-dummy.js",
-        "core-js-pure": "./src/lib/polyfills-dummy.js",
-        "core-js-compat": "./src/lib/polyfills-dummy.js",
-        "regenerator-runtime": "./src/lib/polyfills-dummy.js",
-        // Aggressively silence all variants of legacy polyfills for our modern-only target
-      }
-    }
   },
 } as any;
 
