@@ -3,11 +3,25 @@
 import { useDashboard } from "@/hooks/useDashboard";
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { SkillStatsCard } from "@/components/dashboard/SkillStatsCard";
-import { MockTestWidget } from "@/components/dashboard/MockTestWidget";
-import { ActivityFeed } from "@/components/dashboard/ActivityFeed";
-import { QuickActions } from "@/components/dashboard/QuickActions";
 import { BookOpen, PenTool, Headphones, MessageSquare } from "lucide-react";
 import { Skeleton } from "@/components/ui/Skeleton";
+import dynamic from "next/dynamic";
+
+// --- Dynamic Imports for Performance & Breaking CSS Chain ---
+const MockTestWidget = dynamic(() => import("@/components/dashboard/MockTestWidget").then(m => m.MockTestWidget), { 
+    ssr: false,
+    loading: () => <Skeleton className="h-[432px] rounded-[2.5rem]" /> 
+});
+
+const ActivityFeed = dynamic(() => import("@/components/dashboard/ActivityFeed").then(m => m.ActivityFeed), { 
+    ssr: false,
+    loading: () => <Skeleton className="h-[432px] rounded-[2.5rem]" />
+});
+
+const QuickActions = dynamic(() => import("@/components/dashboard/QuickActions").then(m => m.QuickActions), { 
+    ssr: false,
+    loading: () => <Skeleton className="h-32 rounded-3xl" />
+});
 
 export default function DashboardPage() {
     const { stats, loading } = useDashboard();
@@ -21,14 +35,16 @@ export default function DashboardPage() {
     if (loading) {
         return (
             <DashboardLayout showGreeting={true}>
-                <div className="space-y-10">
+                <div className="space-y-12">
+                    {/* Synchronized Skeleton Gap-8 */}
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                         {[1, 2, 3, 4].map(i => <Skeleton key={i} className="h-32 rounded-3xl" />)}
                     </div>
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                        <Skeleton className="lg:col-span-2 h-[450px] rounded-3xl" />
-                        <Skeleton className="h-[450px] rounded-3xl" />
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        <Skeleton className="lg:col-span-2 h-[432px] rounded-[2.5rem]" />
+                        <Skeleton className="h-[432px] rounded-[2.5rem]" />
                     </div>
+                    <Skeleton className="h-32 rounded-3xl" />
                 </div>
             </DashboardLayout>
         );
@@ -40,7 +56,7 @@ export default function DashboardPage() {
                 {/* Header Section */}
                 <div className="space-y-1">
                     <h1 className="text-3xl font-black text-slate-900 tracking-tight">Welcome Back to IELTS Prep</h1>
-                    <p className="text-sm font-medium text-slate-600">Continue your journey to IELTS success. Track your progress and practice with authentic materials.</p>
+                    <p className="text-sm font-medium text-slate-700">Continue your journey to IELTS success. Track your progress and practice with authentic materials.</p>
                 </div>
 
                 {/* Skill Stats Cards */}

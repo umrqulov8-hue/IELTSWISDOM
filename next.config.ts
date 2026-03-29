@@ -54,13 +54,8 @@ const nextConfig = {
     scrollRestoration: true,
     turbo: {
       resolveAlias: {
-        "core-js/modules/es.array.at": "./src/lib/polyfills-dummy.js",
-        "core-js/modules/es.array.flat": "./src/lib/polyfills-dummy.js",
-        "core-js/modules/es.array.flat-map": "./src/lib/polyfills-dummy.js",
-        "core-js/modules/es.object.from-entries": "./src/lib/polyfills-dummy.js",
-        "core-js/modules/es.object.has-own": "./src/lib/polyfills-dummy.js",
-        "core-js/modules/es.string.trim-end": "./src/lib/polyfills-dummy.js",
-        "core-js/modules/es.string.trim-start": "./src/lib/polyfills-dummy.js",
+        "core-js": "./src/lib/polyfills-dummy.js",
+        // Aggressively silence all core-js polyfills for our modern-only target
       }
     }
   },

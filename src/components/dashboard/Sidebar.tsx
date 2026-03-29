@@ -67,7 +67,7 @@ export const Sidebar = memo(({ onMobileClose }: SidebarProps) => {
                     </div>
                     <div className="flex flex-col">
                         <span className="text-xl font-black text-black leading-none tracking-tight">IELTS Wisdom</span>
-                        <span className="text-[10px] font-bold text-slate-500 mt-0.5 tracking-wider uppercase">Master Your Skills</span>
+                        <span className="text-[10px] font-bold text-slate-600 mt-0.5 tracking-wider uppercase">Master Your Skills</span>
                     </div>
                 </Link>
 
@@ -149,7 +149,7 @@ export const Sidebar = memo(({ onMobileClose }: SidebarProps) => {
                 
                 <button 
                     onClick={() => signOut()}
-                    className="flex w-full items-center gap-3 px-4 py-3 rounded-xl text-slate-500 hover:text-red-600 hover:bg-red-50 transition-all font-bold text-sm"
+                    className="flex w-full items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:text-red-600 hover:bg-red-50 transition-all font-bold text-sm"
                 >
                     <LogOut className="w-5 h-5" />
                     <span>{lang === 'uz' ? "Chiqish" : "Logout"}</span>
