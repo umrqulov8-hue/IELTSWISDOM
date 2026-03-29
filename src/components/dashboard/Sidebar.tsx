@@ -67,13 +67,14 @@ export const Sidebar = memo(({ onMobileClose }: SidebarProps) => {
                     </div>
                     <div className="flex flex-col">
                         <span className="text-xl font-black text-black leading-none tracking-tight">IELTS Wisdom</span>
-                        <span className="text-[10px] font-bold text-slate-400 mt-0.5 tracking-wider uppercase">Master Your Skills</span>
+                        <span className="text-[10px] font-bold text-slate-500 mt-0.5 tracking-wider uppercase">Master Your Skills</span>
                     </div>
                 </Link>
 
                 {onMobileClose && (
                     <button 
                         onClick={onMobileClose}
+                        aria-label="Close mobile menu"
                         className="lg:hidden p-2 rounded-xl bg-slate-50 text-slate-400 hover:text-slate-900 border border-slate-100"
                     >
                         <X className="w-5 h-5" />
@@ -85,7 +86,7 @@ export const Sidebar = memo(({ onMobileClose }: SidebarProps) => {
             <div className="flex-1 overflow-y-auto px-6 py-4 space-y-8 custom-scrollbar">
                 {NAV_GROUPS.map((group) => (
                     <div key={group.label} className="space-y-2">
-                        <h3 className="px-4 text-[10px] font-black text-slate-400 tracking-[0.2em] uppercase">
+                        <h3 className="px-4 text-[10px] font-black text-slate-500 tracking-[0.2em] uppercase">
                             {group.label === "SKILLS" ? (lang === 'uz' ? "KO'NIKMALAR" : "SKILLS") : 
                              group.label === "PRACTICE" ? (lang === 'uz' ? "MASHQLAR" : "PRACTICE") : 
                              (lang === 'uz' ? "HISOB" : "ACCOUNT")}

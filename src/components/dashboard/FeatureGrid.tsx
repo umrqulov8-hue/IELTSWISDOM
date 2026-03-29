@@ -84,9 +84,9 @@ export const FeatureGrid = memo(({ stats }: FeatureGridProps) => {
                                         <Icon className="w-7 h-7" />
                                     </div>
                                     <div className="space-y-2 w-full">
-                                        <h3 className="text-sm font-bold transition-colors duration-500 line-clamp-2 text-slate-700 group-hover:text-white delay-100">
+                                        <h2 className="text-sm font-bold transition-colors duration-500 line-clamp-2 text-slate-700 group-hover:text-white delay-100">
                                             <BouncyText key={lang} text={tx(T.features[feature.key], lang)} type="word" simple />
-                                        </h3>
+                                        </h2>
                                         
                                         {/* Mini Progress Indicator */}
                                         {progress !== null && (
@@ -99,7 +99,7 @@ export const FeatureGrid = memo(({ stats }: FeatureGridProps) => {
                                                         style={{ color: 'inherit' }}
                                                     />
                                                 </div>
-                                                <span className="text-[10px] font-black group-hover:text-white">{progress}%</span>
+                                                <span className="text-[10px] font-black text-slate-500 group-hover:text-white">{progress}%</span>
                                             </div>
                                         )}
                                     </div>

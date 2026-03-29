@@ -88,6 +88,7 @@ export const DashboardLayout = memo(({
                         <div className="flex items-center gap-4">
                             <button 
                                 onClick={() => setIsMobileMenuOpen(true)}
+                                aria-label="Open mobile menu"
                                 className="lg:hidden p-2 rounded-xl bg-white border border-slate-200 text-slate-600 shadow-sm"
                             >
                                 <Menu className="w-5 h-5" />
@@ -99,7 +100,7 @@ export const DashboardLayout = memo(({
                                     <h1 className="text-xl font-black text-slate-900 tracking-tight">
                                         Welcome Back, {displayName}
                                     </h1>
-                                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">
+                                    <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-0.5">
                                         {tx(T.greeting.subtitle, lang)}
                                     </p>
                                 </>
@@ -117,6 +118,7 @@ export const DashboardLayout = memo(({
                                 >
                                     <button 
                                         onClick={() => setIsSearchExpanded(!isSearchExpanded)}
+                                        aria-label="Search lessons"
                                         className="w-10 h-10 flex-shrink-0 flex items-center justify-center text-slate-400 hover:text-slate-600 transition-colors"
                                     >
                                         <Search className="w-4 h-4" />
@@ -128,7 +130,10 @@ export const DashboardLayout = memo(({
                                 </m.div>
                             </div>
                             
-                            <button className="w-10 h-10 bg-white border border-slate-200 rounded-xl flex items-center justify-center text-slate-400 hover:text-slate-600 transition-colors shadow-sm relative">
+                            <button 
+                                aria-label="Notifications"
+                                className="w-10 h-10 bg-white border border-slate-200 rounded-xl flex items-center justify-center text-slate-400 hover:text-slate-600 transition-colors shadow-sm relative"
+                            >
                                 <Bell className="w-4 h-4" />
                                 <span className="absolute top-2.5 right-2.5 w-1.5 h-1.5 bg-orange-500 rounded-full border-2 border-white" />
                             </button>

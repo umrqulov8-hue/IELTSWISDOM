@@ -14,7 +14,7 @@ function MockMetric({ label, value, color = "text-slate-900" }: MockMetricProps)
     return (
         <div className="flex flex-col gap-1">
             <span className="text-3xl font-black tracking-tight leading-none text-slate-900">{value}</span>
-            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{label}</span>
+            <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">{label}</span>
         </div>
     );
 }
@@ -35,7 +35,7 @@ export function MockTestWidget({ completed, total, avgBand, lastScore }: {
                 </div>
                 <div>
                     <h2 className="text-lg font-bold text-slate-900 tracking-tight">Mock Test Progress</h2>
-                    <p className="text-xs font-medium text-slate-400 tracking-wide">Track your performance across full-length IELTS practice tests</p>
+                    <p className="text-xs font-bold text-slate-500 tracking-wide">Track your performance across full-length IELTS practice tests</p>
                 </div>
             </div>
 
@@ -64,6 +64,7 @@ export function MockTestWidget({ completed, total, avgBand, lastScore }: {
 
                 <Link 
                     href="/mock-exams" 
+                    aria-label="Take Practice Test"
                     className="w-full bg-[#0f172a] text-white font-bold py-4 rounded-2xl flex items-center justify-center gap-3 hover:translate-y-[-2px] hover:shadow-lg hover:shadow-slate-200 transition-all active:translate-y-0"
                 >
                     <span>Take Practice Test</span>

@@ -73,9 +73,7 @@ export default function RootLayout({
              __html: `(function(){try{var s=localStorage.getItem('ielts-font-size');if(s==='small')document.documentElement.style.fontSize='14px';else if(s==='large')document.documentElement.style.fontSize='18px';else document.documentElement.style.fontSize='16px';}catch(e){}})();`,
           }}
         />
-        {/* Preconnect to Supabase — the only external origin we fetch from on page load */}
-        <link rel="preconnect" href="https://azrmwfzrgdvkbzezwyfo.supabase.co" crossOrigin="anonymous" />
-        <link rel="dns-prefetch" href="https://azrmwfzrgdvkbzezwyfo.supabase.co" />
+        {/* Preconnect to external assets if needed */}
       </head>
       <body
         className={`${inter.variable} ${plusJakartaSans.variable} antialiased font-sans bg-background text-foreground flex flex-col min-h-screen`}
