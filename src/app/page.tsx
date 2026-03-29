@@ -1,9 +1,10 @@
 import { Hero } from "@/components/Hero";
+import { CourseCatalog } from "@/components/CourseCatalog";
+import { ValueProps } from "@/components/ValueProps";
+import { Pricing } from "@/components/Pricing";
+import { Testimonials } from "@/components/Testimonials";
 import dynamic from 'next/dynamic';
 
-const CourseCatalog = dynamic(() => import('@/components/CourseCatalog').then(mod => mod.CourseCatalog), { ssr: true });
-const ValueProps = dynamic(() => import('@/components/ValueProps').then(mod => mod.ValueProps), { ssr: true });
-const Testimonials = dynamic(() => import('@/components/Testimonials').then(mod => mod.Testimonials), { ssr: true });
 const LeadMagnet = dynamic(() => import('@/components/LeadMagnet').then(mod => mod.LeadMagnet), { ssr: true });
 
 export default function Home() {
@@ -12,6 +13,7 @@ export default function Home() {
       <Hero />
       <ValueProps />
       <CourseCatalog />
+      <Pricing />
       <Testimonials />
       <LeadMagnet />
     </div>

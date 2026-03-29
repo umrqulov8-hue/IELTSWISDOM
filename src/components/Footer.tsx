@@ -1,71 +1,80 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { m } from "framer-motion";
+import { useLanguage } from "@/context/LanguageContext";
+import { translations as T, tx } from "@/lib/translations";
+import { Button } from "./Button";
 
 export function Footer() {
-    const pathname = usePathname();
-    const isDashboard = pathname.startsWith('/dashboard') || pathname.startsWith('/welcome');
-
-    if (isDashboard) return null;
+    const { lang } = useLanguage();
 
     return (
-        <footer className="bg-slate-50 border-t border-slate-200 dark:bg-slate-950 dark:border-slate-800">
-            <div className="container mx-auto px-4 py-8 md:py-12">
-                <m.div
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true, amount: 0.5 }}
-                    variants={{
-                        hidden: { opacity: 0 },
-                        visible: { opacity: 1, transition: { staggerChildren: 0.1 } }
-                    }}
-                    className="grid grid-cols-1 md:grid-cols-4 gap-8"
-                >
-                    <m.div style={{ willChange: "transform, opacity" }} variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { type: "spring", bounce: 0.5, duration: 0.8 } } }} className="space-y-4">
-                        <Link href="/" className="font-bold text-xl tracking-tighter text-primary">
-                            IELTS<span className="text-secondary">Wisdom</span>
-                        </Link>
-                        <p className="text-sm text-muted-foreground">
-                            Master English naturally with our proven methodology. Join thousands of successful students today.
+        <footer className="py-24 bg-white dark:bg-slate-950 border-t border-slate-100 dark:border-slate-800">
+            <div className="container mx-auto px-4">
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-20">
+                    <div className="col-span-1 md:col-span-1">
+                        <div className="flex items-center gap-3 mb-6">
+                            <div className="w-10 h-10 rounded-2xl bg-slate-900 dark:bg-white flex items-center justify-center">
+                                <div className="w-3 h-3 border-[2.5px] border-white dark:border-slate-900 rounded-md" />
+                            </div>
+                            <span className="text-xl font-black text-slate-900 dark:text-white tracking-tight">IELTS Wisdom</span>
+                        </div>
+                        <p className="text-sm text-slate-500 leading-relaxed font-medium mb-8">
+                            The complete platform for mastering IELTS. <br />
+                            Helping students reach Band 8.0+ through AI-powered education.
                         </p>
-                    </m.div>
+                        <div className="flex flex-col sm:flex-row gap-2">
+                             <input 
+                                type="email" 
+                                placeholder="Enter your email" 
+                                className="h-11 px-4 rounded-xl bg-slate-50 dark:bg-slate-900 saas-border text-sm outline-none focus:ring-2 ring-slate-900/5 transition-all flex-1"
+                             />
+                             <Button className="h-11 px-6 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-xs font-black uppercase tracking-widest whitespace-nowrap">
+                                Subscribe
+                             </Button>
+                        </div>
+                    </div>
 
-                    <m.div style={{ willChange: "transform, opacity" }} variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { type: "spring", bounce: 0.5, duration: 0.8 } } }}>
-                        <h2 className="font-semibold text-primary mb-4">Platform</h2>
-                        <ul className="space-y-2 text-sm text-muted-foreground">
-                            <li><Link href="#" className="hover:text-secondary">Courses</Link></li>
-                            <li><Link href="#" className="hover:text-secondary">Pricing</Link></li>
-                            <li><Link href="#" className="hover:text-secondary">Mentors</Link></li>
+                    <div className="col-span-1">
+                        <h4 className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-widest mb-6">Product</h4>
+                        <ul className="space-y-4">
+                            <li><a href="#" className="text-sm font-bold text-slate-500 hover:text-slate-900 transition-colors">Features</a></li>
+                            <li><a href="#" className="text-sm font-bold text-slate-500 hover:text-slate-900 transition-colors">Pricing</a></li>
+                            <li><a href="#" className="text-sm font-bold text-slate-500 hover:text-slate-900 transition-colors">Changelog</a></li>
+                            <li><a href="#" className="text-sm font-bold text-slate-500 hover:text-slate-900 transition-colors">Roadmap</a></li>
                         </ul>
-                    </m.div>
+                    </div>
 
-                    <m.div style={{ willChange: "transform, opacity" }} variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { type: "spring", bounce: 0.5, duration: 0.8 } } }}>
-                        <h2 className="font-semibold text-primary mb-4">Company</h2>
-                        <ul className="space-y-2 text-sm text-muted-foreground">
-                            <li><Link href="#" className="hover:text-secondary">About Us</Link></li>
-                            <li><Link href="#" className="hover:text-secondary">Careers</Link></li>
-                            <li><Link href="#" className="hover:text-secondary">Contact</Link></li>
+                    <div className="col-span-1">
+                        <h4 className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-widest mb-6">Resources</h4>
+                        <ul className="space-y-4">
+                            <li><a href="#" className="text-sm font-bold text-slate-500 hover:text-slate-900 transition-colors">Documentation</a></li>
+                            <li><a href="#" className="text-sm font-bold text-slate-500 hover:text-slate-900 transition-colors">Guides</a></li>
+                            <li><a href="#" className="text-sm font-bold text-slate-500 hover:text-slate-900 transition-colors">Templates</a></li>
+                            <li><a href="#" className="text-sm font-bold text-slate-500 hover:text-slate-900 transition-colors">Blog</a></li>
                         </ul>
-                    </m.div>
+                    </div>
 
-                    <m.div style={{ willChange: "transform, opacity" }} variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { type: "spring", bounce: 0.5, duration: 0.8 } } }}>
-                        <h2 className="font-semibold text-primary mb-4">Legal</h2>
-                        <ul className="space-y-2 text-sm text-muted-foreground">
-                            <li><Link href="/privacy-policy" className="hover:text-secondary">Privacy Policy</Link></li>
-                            <li><Link href="#" className="hover:text-secondary">Terms of Service</Link></li>
+                    <div className="col-span-1">
+                        <h4 className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-widest mb-6">Company</h4>
+                        <ul className="space-y-4">
+                            <li><a href="#" className="text-sm font-bold text-slate-500 hover:text-slate-900 transition-colors">About</a></li>
+                            <li><a href="#" className="text-sm font-bold text-slate-500 hover:text-slate-900 transition-colors">Careers</a></li>
+                            <li><a href="#" className="text-sm font-bold text-slate-500 hover:text-slate-900 transition-colors">Contact</a></li>
+                            <li><a href="#" className="text-sm font-bold text-slate-500 hover:text-slate-900 transition-colors">Support</a></li>
                         </ul>
-                    </m.div>
-                </m.div>
-                <m.div
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    transition={{ delay: 0.5, duration: 1 }}
-                    className="mt-8 pt-8 border-t border-slate-200 text-center text-sm text-muted-foreground"
-                >
-                    © {new Date().getFullYear()} IELTS Wisdom. All rights reserved.
-                </m.div>
+                    </div>
+                </div>
+
+                <div className="flex flex-col md:flex-row items-center justify-between pt-10 border-t border-slate-100 dark:border-slate-800 gap-6">
+                    <p className="text-xs font-bold text-slate-400">
+                        {tx(T.footer.copy, lang)}
+                    </p>
+                    <div className="flex gap-8">
+                        <a href="#" className="text-xs font-bold text-slate-400 hover:text-slate-900 transition-colors">Privacy Policy</a>
+                        <a href="#" className="text-xs font-bold text-slate-400 hover:text-slate-900 transition-colors">Terms of Service</a>
+                        <a href="#" className="text-xs font-bold text-slate-400 hover:text-slate-900 transition-colors">Cookie Policy</a>
+                    </div>
+                </div>
             </div>
         </footer>
     );
