@@ -62,7 +62,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <head>
         {/* Apply saved font size BEFORE first paint to prevent layout flash */}
         {/* Apply saved font size BEFORE first paint to prevent layout flash */}

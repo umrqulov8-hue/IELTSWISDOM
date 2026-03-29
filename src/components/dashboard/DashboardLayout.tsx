@@ -69,12 +69,14 @@ export const DashboardLayout = memo(({
             </AnimatePresence>
 
             {/* Sidebar Wrapper */}
-            <div className={cn(
-                "fixed inset-y-0 left-0 z-[110] transition-transform duration-300 transform lg:translate-x-0 lg:w-[280px]",
-                isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
-            )}>
-                {!hideSidebar && <Sidebar onMobileClose={() => setIsMobileMenuOpen(false)} />}
-            </div>
+            {!hideSidebar && (
+                <aside className={cn(
+                    "fixed inset-y-0 left-0 z-[110] transition-transform duration-300 transform lg:translate-x-0 lg:w-[280px] bg-white border-r border-slate-100 flex flex-col shadow-sm",
+                    isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
+                )}>
+                    <Sidebar onMobileClose={() => setIsMobileMenuOpen(false)} />
+                </aside>
+            )}
 
             <main className={cn(
                 "flex-1 flex flex-col min-h-screen relative",

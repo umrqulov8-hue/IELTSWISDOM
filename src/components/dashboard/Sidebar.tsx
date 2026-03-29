@@ -58,7 +58,7 @@ export const Sidebar = memo(({ onMobileClose }: SidebarProps) => {
     const { lang } = useLanguage();
 
     return (
-        <aside className="h-screen w-[280px] bg-white border-r border-slate-100 flex flex-col shadow-sm">
+        <div className="h-full flex flex-col">
             {/* Logo Section */}
             <div className="px-8 py-8 flex items-center justify-between">
                 <Link href="/dashboard" className="flex items-center gap-3 group">
@@ -154,6 +154,6 @@ export const Sidebar = memo(({ onMobileClose }: SidebarProps) => {
                     <span>{lang === 'uz' ? "Chiqish" : "Logout"}</span>
                 </button>
             </div>
-        </aside>
+        </div>
     );
 });
