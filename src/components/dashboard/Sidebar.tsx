@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useAuthContext } from '@/context/AuthContext';
+import { useLanguage } from '@/context/LanguageContext';
 import { TargetBandWidget } from './TargetBandWidget';
 
 const NAV_GROUPS = [
@@ -35,7 +36,7 @@ const NAV_GROUPS = [
         label: "PRACTICE",
         items: [
             { name: "Mock Tests", href: "/mock-exams", icon: Trophy, badge: "30 Tests" },
-            { name: "Study Materials", href: "/articles", icon: FileText },
+            { name: "Articles", href: "/articles", icon: FileText },
         ]
     },
     {
@@ -54,6 +55,7 @@ interface SidebarProps {
 export const Sidebar = memo(({ onMobileClose }: SidebarProps) => {
     const pathname = usePathname();
     const { signOut } = useAuthContext();
+    const { lang } = useLanguage();
 
     return (
         <aside className="h-screen w-[280px] bg-white border-r border-slate-100 flex flex-col shadow-sm">
@@ -84,12 +86,27 @@ export const Sidebar = memo(({ onMobileClose }: SidebarProps) => {
                 {NAV_GROUPS.map((group) => (
                     <div key={group.label} className="space-y-2">
                         <h3 className="px-4 text-[10px] font-black text-slate-400 tracking-[0.2em] uppercase">
-                            {group.label}
+                            {group.label === "SKILLS" ? (lang === 'uz' ? "KO'NIKMALAR" : "SKILLS") : 
+                             group.label === "PRACTICE" ? (lang === 'uz' ? "MASHQLAR" : "PRACTICE") : 
+                             (lang === 'uz' ? "HISOB" : "ACCOUNT")}
                         </h3>
                         <div className="space-y-1">
                             {group.items.map((item) => {
                                 const isActive = pathname === item.href || (item.href !== '/dashboard' && pathname.startsWith(item.href));
                                 const Icon = item.icon;
+
+                                // Basic translation mapping for main sidebar items
+                                const translatedName = 
+                                    item.name === "Dashboard" ? (lang === 'uz' ? "Asosiy" : "Dashboard") :
+                                    item.name === "Reading" ? (lang === 'uz' ? "O'qish" : "Reading") :
+                                    item.name === "Writing" ? (lang === 'uz' ? "Yozish" : "Writing") :
+                                    item.name === "Listening" ? (lang === 'uz' ? "Eshitish" : "Listening") :
+                                    item.name === "Speaking" ? (lang === 'uz' ? "Gapirish" : "Speaking") :
+                                    item.name === "Mock Tests" ? (lang === 'uz' ? "Mock Testlar" : "Mock Tests") :
+                                    item.name === "Articles" ? (lang === 'uz' ? "Maqolalar" : "Articles") :
+                                    item.name === "Profile" ? (lang === 'uz' ? "Profil" : "Profile") :
+                                    item.name === "Settings" ? (lang === 'uz' ? "Sozlamalar" : "Settings") :
+                                    item.name;
 
                                 return (
                                     <Link 
@@ -107,14 +124,14 @@ export const Sidebar = memo(({ onMobileClose }: SidebarProps) => {
                                                 "w-5 h-5",
                                                 isActive ? "text-white" : "text-slate-400 group-hover/item:text-slate-600"
                                             )} />
-                                            <span className="text-sm font-bold tracking-tight">{item.name}</span>
+                                            <span className="text-sm font-bold tracking-tight">{translatedName}</span>
                                         </div>
                                         {item.badge && (
                                             <span className={cn(
                                                 "text-[10px] font-bold px-2 py-1 rounded-lg",
                                                 isActive ? "bg-white/20 text-white" : "bg-slate-100 text-slate-500"
                                             )}>
-                                                {item.badge}
+                                                {lang === 'uz' ? item.badge.replace('Lessons', 'Dars').replace('Tests', 'Test') : item.badge}
                                             </span>
                                         )}
                                     </Link>
@@ -134,7 +151,7 @@ export const Sidebar = memo(({ onMobileClose }: SidebarProps) => {
                     className="flex w-full items-center gap-3 px-4 py-3 rounded-xl text-slate-500 hover:text-red-600 hover:bg-red-50 transition-all font-bold text-sm"
                 >
                     <LogOut className="w-5 h-5" />
-                    <span>Logout</span>
+                    <span>{lang === 'uz' ? "Chiqish" : "Logout"}</span>
                 </button>
             </div>
         </aside>
