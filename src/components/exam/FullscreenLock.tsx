@@ -208,9 +208,9 @@ export function FullscreenLock({ children, onForceSubmit }: { children: React.Re
                             className="bg-white rounded-3xl p-12 max-w-lg w-full shadow-2xl text-center"
                         >
                             <div className="w-24 h-24 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                                <ShieldAlert className="w-12 h-12 text-rose-600" />
+                                <ShieldAlert className="w-12 h-12 text-rose-700" />
                             </div>
-                            <h2 className="text-4xl font-black text-rose-600 mb-4">Exam Disqualified</h2>
+                            <h2 className="text-4xl font-black text-rose-700 mb-4">Exam Disqualified</h2>
                             <p className="text-slate-600 text-lg mb-8 font-medium">
                                 You have exceeded the maximum number of security violations ({MAX_VIOLATIONS}). Your exam session has been terminated and your current progress has been submitted.
                             </p>
@@ -222,7 +222,7 @@ export function FullscreenLock({ children, onForceSubmit }: { children: React.Re
                                     transition={{ duration: 3, ease: "linear" }}
                                 />
                             </div>
-                            <p className="text-sm font-bold text-slate-400 uppercase tracking-widest">
+                            <p className="text-sm font-bold text-slate-600 uppercase tracking-widest">
                                 Processing Submission...
                             </p>
                         </motion.div>
@@ -255,12 +255,12 @@ export function FullscreenLock({ children, onForceSubmit }: { children: React.Re
                             </div>
 
                             <div className="w-20 h-20 bg-rose-50 rounded-full flex items-center justify-center mx-auto mb-6">
-                                <Lock className="w-10 h-10 text-rose-500" />
+                                <Lock className="w-10 h-10 text-rose-700" />
                             </div>
 
                             <h2 className="text-3xl font-black text-slate-800 mb-2">Security Lock</h2>
 
-                            <p className="text-rose-600 font-bold mb-4 bg-rose-50 px-4 py-2 rounded-lg">
+                            <p className="text-rose-700 font-bold mb-4 bg-rose-50 px-4 py-2 rounded-lg">
                                 Violation {violations} of {MAX_VIOLATIONS}
                             </p>
 
@@ -269,7 +269,7 @@ export function FullscreenLock({ children, onForceSubmit }: { children: React.Re
                             </p>
 
                             <div className="bg-slate-100 rounded-2xl px-8 py-4 mb-8 w-full border border-slate-200">
-                                <span className="text-sm font-bold text-slate-400 uppercase tracking-widest block mb-1">Verification Code</span>
+                                <span className="text-sm font-bold text-slate-600 uppercase tracking-widest block mb-1">Verification Code</span>
                                 <span className="text-4xl font-mono font-black text-slate-800 tracking-[0.25em]">{currentCode}</span>
                             </div>
 
@@ -291,7 +291,7 @@ export function FullscreenLock({ children, onForceSubmit }: { children: React.Re
                                     <motion.p
                                         initial={{ opacity: 0, y: -10 }}
                                         animate={{ opacity: 1, y: 0 }}
-                                        className="text-rose-500 text-sm font-bold flex items-center justify-center gap-2"
+                                        className="text-rose-700 text-sm font-bold flex items-center justify-center gap-2"
                                     >
                                         <AlertTriangle className="w-4 h-4" /> Incorrect code entered
                                     </motion.p>

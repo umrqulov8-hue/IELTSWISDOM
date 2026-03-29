@@ -16,12 +16,12 @@ export function LanguageToggle() {
         >
             {/* Inactive labels on the track */}
             <span
-                className={`absolute left-[12px] text-xs font-bold text-slate-400 dark:text-slate-500 transition-opacity duration-300 ${isUz ? "opacity-100" : "opacity-0"}`}
+                className={`absolute left-[12px] text-xs font-bold text-slate-600 dark:text-slate-500 transition-opacity duration-300 ${isUz ? "opacity-100" : "opacity-0"}`}
             >
                 US
             </span>
             <span
-                className={`absolute right-[12px] text-xs font-bold text-slate-400 dark:text-slate-500 transition-opacity duration-300 ${!isUz ? "opacity-100" : "opacity-0"}`}
+                className={`absolute right-[12px] text-xs font-bold text-slate-600 dark:text-slate-500 transition-opacity duration-300 ${!isUz ? "opacity-100" : "opacity-0"}`}
             >
                 UZ
             </span>

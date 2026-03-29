@@ -82,7 +82,7 @@ export const trainer1Test2: ListeningTest = {
         
         <div class="grid grid-cols-1 gap-4 mb-10">
             <div class="flex items-center border border-slate-200 p-4 rounded-xl bg-white/50">
-               <span class="font-bold mr-4 text-slate-400">11-12</span>
+               <span class="font-bold mr-4 text-slate-600">11-12</span>
                <div class="flex gap-4">
                   <input id="q-11" type="text" class="border-b border-black w-12 text-center font-bold uppercase focus:outline-none focus:border-blue-500 bg-transparent" maxLength="1" />
                   <input id="q-12" type="text" class="border-b border-black w-12 text-center font-bold uppercase focus:outline-none focus:border-blue-500 bg-transparent" maxLength="1" />
@@ -103,7 +103,7 @@ export const trainer1Test2: ListeningTest = {
         
         <div class="grid grid-cols-1 gap-4 mb-10">
             <div class="flex items-center border border-slate-200 p-4 rounded-xl bg-white/50">
-               <span class="font-bold mr-4 text-slate-400">13-14</span>
+               <span class="font-bold mr-4 text-slate-600">13-14</span>
                <div class="flex gap-4">
                   <input id="q-13" type="text" class="border-b border-black w-12 text-center font-bold uppercase focus:outline-none focus:border-blue-500 bg-transparent" maxLength="1" />
                   <input id="q-14" type="text" class="border-b border-black w-12 text-center font-bold uppercase focus:outline-none focus:border-blue-500 bg-transparent" maxLength="1" />
@@ -192,7 +192,7 @@ export const trainer1Test2: ListeningTest = {
         
         <div class="grid grid-cols-1 gap-4 mb-10">
             <div class="flex items-center border border-slate-200 p-4 rounded-xl bg-white/50">
-               <span class="font-bold mr-4 text-slate-400">21-22</span>
+               <span class="font-bold mr-4 text-slate-600">21-22</span>
                <div class="flex gap-4">
                   <input id="q-21" type="text" class="border-b border-black w-12 text-center font-bold uppercase focus:outline-none focus:border-blue-500 bg-transparent" maxLength="1" />
                   <input id="q-22" type="text" class="border-b border-black w-12 text-center font-bold uppercase focus:outline-none focus:border-blue-500 bg-transparent" maxLength="1" />
@@ -213,7 +213,7 @@ export const trainer1Test2: ListeningTest = {
         
         <div class="grid grid-cols-1 gap-4 mb-10">
             <div class="flex items-center border border-slate-200 p-4 rounded-xl bg-white/50">
-               <span class="font-bold mr-4 text-slate-400">23-24</span>
+               <span class="font-bold mr-4 text-slate-600">23-24</span>
                <div class="flex gap-4">
                   <input id="q-23" type="text" class="border-b border-black w-12 text-center font-bold uppercase focus:outline-none focus:border-blue-500 bg-transparent" maxLength="1" />
                   <input id="q-24" type="text" class="border-b border-black w-12 text-center font-bold uppercase focus:outline-none focus:border-blue-500 bg-transparent" maxLength="1" />

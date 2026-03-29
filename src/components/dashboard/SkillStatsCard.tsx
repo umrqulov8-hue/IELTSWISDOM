@@ -16,7 +16,7 @@ export function SkillStatsCard({ title, icon: Icon, percentage, color = "bg-slat
         <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm hover:shadow-md transition-shadow group">
             <div className="flex items-center justify-between mb-6">
                 <span className="text-sm font-bold text-slate-900 tracking-tight">{title}</span>
-                <div className="w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center text-slate-500 group-hover:text-slate-900 transition-colors">
+                <div className="w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center text-slate-700 group-hover:text-slate-900 transition-colors">
                     <Icon className="w-5 h-5" />
                 </div>
             </div>
@@ -31,7 +31,7 @@ export function SkillStatsCard({ title, icon: Icon, percentage, color = "bg-slat
                     />
                 </div>
                 <div className="flex items-center justify-between text-[11px] font-bold">
-                    <span className="text-slate-500 uppercase tracking-wider">{percentage}% Complete</span>
+                    <span className="text-slate-700 uppercase tracking-wider">{percentage}% Complete</span>
                 </div>
             </div>
         </div>

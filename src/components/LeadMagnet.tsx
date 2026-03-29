@@ -49,7 +49,7 @@ export function LeadMagnet() {
                             <motion.h2 variants={{ hidden: { opacity: 0, y: 30, scale: 0.95, filter: "blur(8px)" }, visible: { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", transition: { type: "spring", bounce: 0.5, duration: 1 } } }} className="text-3xl font-bold tracking-tight text-white mb-4">
                                 Stop Making Simple Grammar Mistakes
                             </motion.h2>
-                            <motion.p variants={{ hidden: { opacity: 0, y: 20, filter: "blur(4px)" }, visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { type: "spring", bounce: 0.5, duration: 1 } } }} className="text-slate-300 mb-8 text-lg">
+                            <motion.p variants={{ hidden: { opacity: 0, y: 20, filter: "blur(4px)" }, visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { type: "spring", bounce: 0.5, duration: 1 } } }} className="text-slate-600 mb-8 text-lg">
                                 Download our free "Essential Grammar Guide" and fix the 50 most common errors English learners make.
                             </motion.p>
 
@@ -80,12 +80,12 @@ export function LeadMagnet() {
                                             Email Address
                                         </label>
                                         <div className="relative">
-                                            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400" />
+                                            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-600" />
                                             <input
                                                 type="email"
                                                 id="email"
                                                 required
-                                                className="block w-full rounded-md border-0 py-2.5 pl-10 text-slate-900 ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-secondary sm:text-sm sm:leading-6 bg-slate-50"
+                                                className="block w-full rounded-md border-0 py-2.5 pl-10 text-slate-900 ring-1 ring-inset ring-slate-300 placeholder:text-slate-600 focus:ring-2 focus:ring-inset focus:ring-secondary sm:text-sm sm:leading-6 bg-slate-50"
                                                 placeholder="you@example.com"
                                                 value={email}
                                                 onChange={(e) => setEmail(e.target.value)}
@@ -97,7 +97,7 @@ export function LeadMagnet() {
                                         Send Me The Guide
                                     </Button>
 
-                                    <p className="text-xs text-center text-slate-400 mt-4">
+                                    <p className="text-xs text-center text-slate-600 mt-4">
                                         We respect your inbox. Unsubscribe at any time.
                                     </p>
                                 </form>

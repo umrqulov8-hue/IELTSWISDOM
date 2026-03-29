@@ -15,8 +15,8 @@ export function LowPowerToggle() {
   // Battery color based on level
   const batteryColor =
     batteryLevel < 0.2 ? "text-red-500" :
-    batteryLevel < 0.5 ? "text-amber-500" :
-    "text-emerald-500";
+    batteryLevel < 0.5 ? "text-amber-700" :
+    "text-emerald-700";
 
   // Battery fill segments (3 bars)
   const filledBars = batteryLevel < 0.25 ? 1 : batteryLevel < 0.6 ? 2 : 3;
@@ -56,7 +56,7 @@ export function LowPowerToggle() {
         </span>
         {/* Charging bolt */}
         {isCharging && (
-          <svg className="w-3 h-3 text-emerald-500 -ml-0.5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <svg className="w-3 h-3 text-emerald-700 -ml-0.5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
           </svg>
         )}

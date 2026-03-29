@@ -73,7 +73,7 @@ const TESTS: TestItem[] = [
 const DIFF_COLORS: Record<string, string> = {
     Easy: "text-emerald-600 bg-emerald-50 border-emerald-200",
     Medium: "text-amber-600 bg-amber-50 border-amber-200",
-    Hard: "text-rose-600 bg-rose-50 border-rose-200",
+    Hard: "text-rose-700 bg-rose-50 border-rose-200",
 };
 
 export default function ListeningPage() {
@@ -137,13 +137,13 @@ export default function ListeningPage() {
             <div className="flex flex-col sm:flex-row gap-3 mb-8">
                 {/* Search */}
                 <div className="relative flex-1">
-                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-600" />
                     <input
                         type="text"
                         placeholder={lang === 'uz' ? "Testlarni qidiring..." : "Search tests…"}
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        className="w-full pl-11 pr-4 py-3 bg-white border border-slate-200 rounded-2xl text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-400/30 focus:border-purple-400 shadow-sm transition-all"
+                        className="w-full pl-11 pr-4 py-3 bg-white border border-slate-200 rounded-2xl text-sm text-slate-700 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-purple-400/30 focus:border-purple-400 shadow-sm transition-all"
                     />
                 </div>
             </div>
@@ -199,7 +199,7 @@ export default function ListeningPage() {
                         <h3 className="text-xl font-bold text-slate-700 mb-2">
                             {lang === 'uz' ? "Testlar topilmadi" : "No tests found"}
                         </h3>
-                        <p className="text-slate-400">
+                        <p className="text-slate-600">
                             {lang === 'uz' ? "Boshqa so'z bilan qidiring yoki toifani o'zgartiring." : "Try different search or category."}
                         </p>
                     </motion.div>
@@ -238,7 +238,7 @@ export default function ListeningPage() {
                                                 <Headphones className="w-6 h-6 text-white" />
                                             </div>
                                             <div>
-                                                <p className="text-xs text-slate-400 font-medium uppercase tracking-wider mb-0.5">
+                                                <p className="text-xs text-slate-600 font-medium uppercase tracking-wider mb-0.5">
                                                     {CATEGORIES.find(c => c.id === test.categoryId)?.title ?? "Test"}
                                                 </p>
                                                 <h3 className="font-bold text-slate-800 text-base group-hover:text-purple-700 transition-colors leading-tight">
@@ -261,15 +261,15 @@ export default function ListeningPage() {
                                     {/* Info pills */}
                                     <div className="flex flex-wrap gap-2 mb-6">
                                         <span className="flex items-center gap-1.5 text-xs text-slate-500 bg-slate-50 border border-slate-200 px-3 py-1.5 rounded-xl font-medium">
-                                            <Clock className="w-3.5 h-3.5 text-slate-400" />
+                                            <Clock className="w-3.5 h-3.5 text-slate-600" />
                                             {test.duration}
                                         </span>
                                         <span className="flex items-center gap-1.5 text-xs text-slate-500 bg-slate-50 border border-slate-200 px-3 py-1.5 rounded-xl font-medium">
-                                            <Mic2 className="w-3.5 h-3.5 text-slate-400" />
+                                            <Mic2 className="w-3.5 h-3.5 text-slate-600" />
                                             {test.parts ?? 4} {lang === 'uz' ? "Qism" : "Sections"}
                                         </span>
                                         <span className="flex items-center gap-1.5 text-xs text-slate-500 bg-slate-50 border border-slate-200 px-3 py-1.5 rounded-xl font-medium">
-                                            <BookOpen className="w-3.5 h-3.5 text-slate-400" />
+                                            <BookOpen className="w-3.5 h-3.5 text-slate-600" />
                                             40 {lang === 'uz' ? "Savol" : "Questions"}
                                         </span>
                                         {test.difficulty && (
@@ -287,7 +287,7 @@ export default function ListeningPage() {
                                         <button className={cn(
                                             "w-full py-3.5 rounded-2xl font-bold text-sm transition-all duration-300 flex items-center justify-center gap-2",
                                             test.status === "premium"
-                                                ? "bg-slate-100 text-slate-400 cursor-not-allowed"
+                                                ? "bg-slate-100 text-slate-600 cursor-not-allowed"
                                                 : "bg-slate-900 group-hover:bg-gradient-to-r group-hover:from-purple-600 group-hover:to-violet-600 text-white shadow-md group-hover:shadow-purple-400/30"
                                         )}>
                                             {test.status === "premium" ? (

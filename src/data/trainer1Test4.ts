@@ -402,7 +402,7 @@ export const trainer1Test4: ListeningTest = {
             <h3 class="font-bold text-center text-xl mb-8 tracking-wide underline uppercase">How to Choose Flooring Materials</h3>
             
             <p class="font-bold text-lg mb-4 text-slate-800">Source</p>
-            <ul class="list-disc pl-5 mb-8 space-y-4 text-slate-700 leading-relaxed marker:text-slate-400">
+            <ul class="list-disc pl-5 mb-8 space-y-4 text-slate-700 leading-relaxed marker:text-slate-600">
                 <li>There are some man-made materials like <span class="inline-flex items-center gap-2"><span class="font-bold text-sm text-black">31</span><input id="q-31" type="text" class="border-b border-black w-32 focus:outline-none focus:border-blue-500 bg-transparent font-semibold" /></span></li>
                 <li>Before being used, material undergoes <span class="inline-flex items-center gap-2"><span class="font-bold text-sm text-black">32</span><input id="q-32" type="text" class="border-b border-black w-36 focus:outline-none focus:border-blue-500 bg-transparent font-semibold" /></span></li>
                 <li>Wood should be cut and <span class="inline-flex items-center gap-2"><span class="font-bold text-sm text-black">33</span><input id="q-33" type="text" class="border-b border-black w-48 focus:outline-none focus:border-blue-500 bg-transparent font-semibold" /></span></li>
@@ -410,7 +410,7 @@ export const trainer1Test4: ListeningTest = {
             </ul>
 
             <p class="font-bold text-lg mb-4 text-slate-800">Selection</p>
-            <ul class="list-disc pl-5 mb-6 space-y-4 text-slate-700 leading-relaxed marker:text-slate-400">
+            <ul class="list-disc pl-5 mb-6 space-y-4 text-slate-700 leading-relaxed marker:text-slate-600">
                 <li>Aside from environmental factors, one should take <span class="inline-flex items-center gap-2"><span class="font-bold text-sm text-black">35</span><input id="q-35" type="text" class="border-b border-black w-32 focus:outline-none focus:border-blue-500 bg-transparent font-semibold" /></span> into account during construction.</li>
                 <li>Some properties of materials affect mood, such as <span class="inline-flex items-center gap-2"><span class="font-bold text-sm text-black">36</span><input id="q-36" type="text" class="border-b border-black w-36 focus:outline-none focus:border-blue-500 bg-transparent font-semibold" /></span>, texture, and colour.</li>
                 <li>Use a mathematical formula to choose the type of wood, because <span class="inline-flex items-center gap-2"><span class="font-bold text-sm text-black">37</span><input id="q-37" type="text" class="border-b border-black w-24 focus:outline-none focus:border-blue-500 bg-transparent font-semibold" /></span> are subjective, which are ambiguous in verbal description.</li>

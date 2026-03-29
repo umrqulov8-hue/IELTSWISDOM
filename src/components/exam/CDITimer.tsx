@@ -66,7 +66,7 @@ export function CDITimer({ duration, onTimeUp, isRunning = true, variant = "stan
             title={isHidden ? "Show timer" : "Hide timer"}
             className={cn(
                 "flex items-center gap-3 px-6 py-2.5 rounded-xl border font-mono font-bold text-xl shadow-inner transition-all duration-300 hover:opacity-90 active:scale-95 cursor-pointer",
-                isHidden ? "text-slate-400 bg-slate-800 border-slate-700 shadow-none px-4" : getTimerColor()
+                isHidden ? "text-slate-600 bg-slate-800 border-slate-700 shadow-none px-4" : getTimerColor()
             )}>
             <Clock className={cn("w-5 h-5 transition-all duration-300", !isHidden && timeLeft <= 60 ? "animate-spin-slow" : "")} />
             <span className={cn("transition-all duration-300 overflow-hidden", isHidden ? "w-0 opacity-0 ml-0" : "w-auto opacity-100 ml-3")}>

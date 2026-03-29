@@ -178,14 +178,14 @@ export default function SamplesPage() {
                 {/* --- Search Bar --- */}
                 <div className="relative max-w-xl mx-auto">
                     <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                        <Search className="h-5 w-5 text-slate-400" />
+                        <Search className="h-5 w-5 text-slate-600" />
                     </div>
                     <input
                         type="text"
                         placeholder={lang === "en" ? "Search for a topic..." : "Mavzuni qidiring..."}
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        className="w-full bg-white border border-slate-200 text-slate-700 rounded-full py-3.5 pl-12 pr-6 shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-400 transition-all placeholder:text-slate-400"
+                        className="w-full bg-white border border-slate-200 text-slate-700 rounded-full py-3.5 pl-12 pr-6 shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-400 transition-all placeholder:text-slate-600"
                     />
                 </div>
 
@@ -216,12 +216,12 @@ export default function SamplesPage() {
                                         Band {sample.band}
                                     </div>
 
-                                    <div className="hidden md:flex items-center gap-1.5 text-xs font-medium text-slate-400 min-w-[80px]">
+                                    <div className="hidden md:flex items-center gap-1.5 text-xs font-medium text-slate-600 min-w-[80px]">
                                         <FileText className="w-3.5 h-3.5" />
                                         {sample.wordCount} {lang === "en" ? "words" : "so'z"}
                                     </div>
 
-                                    <ChevronRight className="w-5 h-5 text-slate-300 group-hover:text-red-400 transition-colors" />
+                                    <ChevronRight className="w-5 h-5 text-slate-600 group-hover:text-red-400 transition-colors" />
                                 </div>
                             </button>
                         </motion.div>
@@ -290,7 +290,7 @@ export default function SamplesPage() {
                                     ) : (
                                         <div className="flex flex-col items-center justify-center py-20 text-center">
                                             <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mb-4">
-                                                <PenTool className="w-8 h-8 text-slate-400" />
+                                                <PenTool className="w-8 h-8 text-slate-600" />
                                             </div>
                                             <h3 className="text-lg font-bold text-slate-700 mb-2">{lang === "en" ? "Content Coming Soon" : "Kontent tez kunda"}</h3>
                                             <p className="text-slate-500 max-w-xs mx-auto">
@@ -301,7 +301,7 @@ export default function SamplesPage() {
                                 </div>
 
                                 {/* Modal Footer */}
-                                <div className="p-4 border-t border-slate-100 bg-slate-50/50 text-center text-sm text-slate-400">
+                                <div className="p-4 border-t border-slate-100 bg-slate-50/50 text-center text-sm text-slate-600">
                                     {selectedSample.wordCount} {lang === 'uz' ? "so'z" : "words"} • {selectedSample.type === 'report' ? 'Task 1' : 'Task 2'}
                                 </div>
                             </motion.div>

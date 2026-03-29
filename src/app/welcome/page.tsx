@@ -130,7 +130,7 @@ export default function WelcomePage() {
                 <div className="mt-12 flex justify-end">
                     <Button
                         onClick={handleNext}
-                        className={`font-bold px-8 py-6 rounded-xl shadow-lg transition-all ${step > 1 && selectedOption === null ? 'bg-slate-200 text-slate-400 cursor-not-allowed hover:bg-slate-200' : 'bg-[#FF851B] hover:bg-[#e67615] text-white shadow-[#FF851B]/20'}`}
+                        className={`font-bold px-8 py-6 rounded-xl shadow-lg transition-all ${step > 1 && selectedOption === null ? 'bg-slate-200 text-slate-600 cursor-not-allowed hover:bg-slate-200' : 'bg-[#FF851B] hover:bg-[#e67615] text-white shadow-[#FF851B]/20'}`}
                         disabled={loading || (step > 1 && selectedOption === null)}
                     >
                         {loading ? <Loader2 className="animate-spin" /> : (

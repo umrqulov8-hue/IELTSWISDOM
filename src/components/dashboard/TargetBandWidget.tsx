@@ -47,17 +47,17 @@ export function TargetBandWidget({ target, current }: TargetBandWidgetProps) {
                         />
                     </svg>
                     <div className="absolute inset-0 flex items-center justify-center">
-                        <TrophyIcon className="w-4 h-4 text-slate-400" />
+                        <TrophyIcon className="w-4 h-4 text-slate-600" />
                     </div>
                 </div>
                 <div>
-                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">Target Band</p>
+                  <p className="text-[10px] font-bold text-slate-600 uppercase tracking-wider mb-0.5">Target Band</p>
                   <p className="text-xl font-black text-slate-900 leading-none">{target}</p>
                 </div>
             </div>
             
             <div className="flex items-center justify-between">
-                <span className="text-[10px] font-bold text-slate-500">Current: {current}</span>
+                <span className="text-[10px] font-bold text-slate-700">Current: {current}</span>
                 <div className="h-1 w-20 bg-slate-200 rounded-full overflow-hidden">
                     <m.div 
                         initial={{ width: 0 }}

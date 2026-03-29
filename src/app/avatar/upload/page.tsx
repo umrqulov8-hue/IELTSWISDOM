@@ -73,11 +73,11 @@ export default function AvatarUploadPage() {
                             accept="image/jpeg, image/png, image/webp"
                             className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
                         />
-                        <UploadCloud className="w-8 h-8 text-slate-400 group-hover:text-orange-500 transition-colors mb-2" />
+                        <UploadCloud className="w-8 h-8 text-slate-600 group-hover:text-orange-500 transition-colors mb-2" />
                         <span className="text-sm font-medium text-slate-600 group-hover:text-slate-800">
                             Click to browse or drag & drop
                         </span>
-                        <span className="text-xs text-slate-400 mt-1">JPEG, PNG, WEBP files up to 4.5MB</span>
+                        <span className="text-xs text-slate-600 mt-1">JPEG, PNG, WEBP files up to 4.5MB</span>
                     </div>
 
                     {error && <div className="p-3 bg-red-50 text-red-600 rounded-xl text-sm border border-red-100 text-center">{error}</div>}
@@ -93,7 +93,7 @@ export default function AvatarUploadPage() {
 
                 {blob && (
                     <div className="mt-8 p-6 bg-emerald-50 rounded-2xl border border-emerald-100 flex flex-col items-center text-center">
-                        <CheckCircle2 className="w-12 h-12 text-emerald-500 mb-2" />
+                        <CheckCircle2 className="w-12 h-12 text-emerald-700 mb-2" />
                         <h3 className="font-bold text-emerald-800 mb-1">Upload Successful!</h3>
                         <p className="text-sm text-emerald-600 mb-4">Your avatar has been safely stored.</p>
 

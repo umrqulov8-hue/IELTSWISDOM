@@ -82,7 +82,7 @@ export function Testimonials() {
                                 ))}
                             </div>
 
-                            <p className="text-slate-600 dark:text-slate-300 mb-6 italic">
+                            <p className="text-slate-600 dark:text-slate-600 mb-6 italic">
                                 "{testimonial.content}"
                             </p>
 

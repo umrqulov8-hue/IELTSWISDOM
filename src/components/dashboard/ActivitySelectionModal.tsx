@@ -22,7 +22,7 @@ const activities = [
         title: "Flashcards",
         description: "Master vocabulary with interactive flashcards",
         icon: Layers,
-        color: "text-blue-500",
+        color: "text-blue-700",
         bg: "bg-blue-50",
         border: "border-blue-100",
         hover: "hover:bg-blue-100/50"
@@ -32,7 +32,7 @@ const activities = [
         title: "Matching Game",
         description: "Connect terms with their definitions",
         icon: LinkIcon,
-        color: "text-purple-500",
+        color: "text-purple-700",
         bg: "bg-purple-50",
         border: "border-purple-100",
         hover: "hover:bg-purple-100/50"
@@ -42,7 +42,7 @@ const activities = [
         title: "Quiz",
         description: "Test your knowledge with challenging questions",
         icon: ClipboardCheck,
-        color: "text-emerald-500",
+        color: "text-emerald-700",
         bg: "bg-emerald-50",
         border: "border-emerald-100",
         hover: "hover:bg-emerald-100/50"
@@ -52,7 +52,7 @@ const activities = [
         title: "Typing Practice",
         description: "Improve recall through active typing exercises",
         icon: Keyboard,
-        color: "text-amber-500",
+        color: "text-amber-700",
         bg: "bg-amber-50",
         border: "border-amber-100",
         hover: "hover:bg-amber-100/50"
@@ -149,7 +149,7 @@ export function ActivitySelectionModal({ isOpen, onClose, data }: ActivitySelect
                                                 <h3 className="text-sm md:text-base font-bold text-slate-800 mb-0.5">
                                                     {activity.title}
                                                 </h3>
-                                                <p className="text-[10px] text-slate-400 font-semibold leading-tight px-1">
+                                                <p className="text-[10px] text-slate-600 font-semibold leading-tight px-1">
                                                     {activity.description}
                                                 </p>
                                             </div>
@@ -160,7 +160,7 @@ export function ActivitySelectionModal({ isOpen, onClose, data }: ActivitySelect
                         </div>
 
                         <div className="text-center relative z-10">
-                            <button onClick={onClose} className="text-slate-400 hover:text-amber-500 text-[11px] font-bold transition-all inline-flex items-center gap-1 group py-1 px-4 rounded-full hover:bg-amber-50/30">
+                            <button onClick={onClose} className="text-slate-600 hover:text-amber-700 text-[11px] font-bold transition-all inline-flex items-center gap-1 group py-1 px-4 rounded-full hover:bg-amber-50/30">
                                 <ArrowLeft className="w-3 h-3 group-hover:-translate-x-1 transition-transform" />
                                 Go back
                             </button>

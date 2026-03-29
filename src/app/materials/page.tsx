@@ -128,7 +128,7 @@ export default function MaterialsPage() {
                             >
                                 <cat.icon className={cn(
                                     "w-4 h-4 relative z-10 transition-colors",
-                                    selectedType === cat.id ? "text-cyan-600" : "text-slate-400 group-hover:text-cyan-500"
+                                    selectedType === cat.id ? "text-cyan-600" : "text-slate-600 group-hover:text-cyan-500"
                                 )} />
                                 <span className={cn("relative z-10 transition-colors", selectedType === cat.id && "font-semibold")}>
                                     {cat.label}
@@ -257,11 +257,11 @@ export default function MaterialsPage() {
                                         {/* Metadata Footer */}
                                         <div className="mt-auto pt-4 border-t border-slate-100 flex items-center justify-between relative z-10">
                                             <div className="flex flex-col">
-                                                <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">{lang === "en" ? "Size" : "Hajm"}</span>
+                                                <span className="text-[10px] text-slate-600 font-bold uppercase tracking-wider">{lang === "en" ? "Size" : "Hajm"}</span>
                                                 <span className="text-xs font-semibold text-slate-600">{item.size}</span>
                                             </div>
                                             <div className="flex flex-col border-l border-slate-100 pl-4">
-                                                <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">{lang === "en" ? "Format" : "Format"}</span>
+                                                <span className="text-[10px] text-slate-600 font-bold uppercase tracking-wider">{lang === "en" ? "Format" : "Format"}</span>
                                                 <span className="text-xs font-semibold text-slate-600">{item.format}</span>
                                             </div>
 
@@ -284,7 +284,7 @@ export default function MaterialsPage() {
 
                     {filteredMaterials.length === 0 && (
                         <div className="text-center py-24">
-                            <p className="text-slate-400">{lang === "en" ? "No resources found matching your search." : "Qidiruv bo'yicha resurslar topilmadi."}</p>
+                            <p className="text-slate-600">{lang === "en" ? "No resources found matching your search." : "Qidiruv bo'yicha resurslar topilmadi."}</p>
                         </div>
                     )}
 

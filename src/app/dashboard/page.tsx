@@ -40,7 +40,7 @@ export default function DashboardPage() {
                 {/* Header Section */}
                 <div className="space-y-1">
                     <h1 className="text-3xl font-black text-slate-900 tracking-tight">Welcome Back to IELTS Prep</h1>
-                    <p className="text-sm font-medium text-slate-400">Continue your journey to IELTS success. Track your progress and practice with authentic materials.</p>
+                    <p className="text-sm font-medium text-slate-600">Continue your journey to IELTS success. Track your progress and practice with authentic materials.</p>
                 </div>
 
                 {/* Skill Stats Cards */}

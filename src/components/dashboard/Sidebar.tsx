@@ -75,7 +75,7 @@ export const Sidebar = memo(({ onMobileClose }: SidebarProps) => {
                     <button 
                         onClick={onMobileClose}
                         aria-label="Close mobile menu"
-                        className="lg:hidden p-2 rounded-xl bg-slate-50 text-slate-400 hover:text-slate-900 border border-slate-100"
+                        className="lg:hidden p-2 rounded-xl bg-slate-50 text-slate-600 hover:text-slate-900 border border-slate-100"
                     >
                         <X className="w-5 h-5" />
                     </button>
@@ -86,7 +86,7 @@ export const Sidebar = memo(({ onMobileClose }: SidebarProps) => {
             <div className="flex-1 overflow-y-auto px-6 py-4 space-y-8 custom-scrollbar">
                 {NAV_GROUPS.map((group) => (
                     <div key={group.label} className="space-y-2">
-                        <h3 className="px-4 text-[10px] font-black text-slate-700 tracking-[0.2em] uppercase">
+                        <h3 className="px-4 text-[10px] font-black text-slate-800 tracking-[0.2em] uppercase">
                             {group.label === "SKILLS" ? (lang === 'uz' ? "KO'NIKMALAR" : "SKILLS") : 
                              group.label === "PRACTICE" ? (lang === 'uz' ? "MASHQLAR" : "PRACTICE") : 
                              (lang === 'uz' ? "HISOB" : "ACCOUNT")}
@@ -123,14 +123,14 @@ export const Sidebar = memo(({ onMobileClose }: SidebarProps) => {
                                         <div className="flex items-center gap-3">
                                             <Icon className={cn(
                                                 "w-5 h-5",
-                                                isActive ? "text-white" : "text-slate-400 group-hover/item:text-slate-600"
+                                                isActive ? "text-white" : "text-slate-600 group-hover/item:text-slate-600"
                                             )} />
                                             <span className="text-sm font-bold tracking-tight">{translatedName}</span>
                                         </div>
                                         {item.badge && (
                                             <span className={cn(
                                                 "text-[10px] font-bold px-2 py-1 rounded-lg",
-                                                isActive ? "bg-white/20 text-white" : "bg-slate-100 text-slate-600"
+                                                isActive ? "bg-white/20 text-white" : "bg-slate-100 text-slate-800"
                                             )}>
                                                 {lang === 'uz' ? item.badge.replace('Lessons', 'Dars').replace('Tests', 'Test') : item.badge}
                                             </span>

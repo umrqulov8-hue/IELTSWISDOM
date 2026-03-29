@@ -42,14 +42,14 @@ export default function SettingsPage() {
                 {/* --- Account Section --- */}
                 <section className="bg-white border border-slate-100 rounded-[2rem] p-8 shadow-sm space-y-8">
                     <div className="flex items-center gap-3">
-                        <User className="w-5 h-5 text-slate-400" />
+                        <User className="w-5 h-5 text-slate-600" />
                         <h3 className="font-black text-slate-900 tracking-tight">{lang === 'uz' ? "Hisob" : "Account"}</h3>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div className="space-y-4">
                             <div className="space-y-1">
-                                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{lang === 'uz' ? "To'liq ism" : "Full Name"}</label>
+                                <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest">{lang === 'uz' ? "To'liq ism" : "Full Name"}</label>
                                 <input 
                                     className="w-full h-12 bg-slate-50 border border-slate-100 rounded-xl px-4 text-sm font-bold text-slate-700 outline-none focus:border-slate-300 transition-all"
                                     defaultValue={user?.user_metadata?.full_name || ""}
@@ -57,9 +57,9 @@ export default function SettingsPage() {
                                 />
                             </div>
                             <div className="space-y-1">
-                                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{lang === 'uz' ? "Email manzil" : "Email Address"}</label>
+                                <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest">{lang === 'uz' ? "Email manzil" : "Email Address"}</label>
                                 <input 
-                                    className="w-full h-12 bg-slate-50 border border-slate-100 rounded-xl px-4 text-sm font-bold text-slate-400 cursor-not-allowed outline-none"
+                                    className="w-full h-12 bg-slate-50 border border-slate-100 rounded-xl px-4 text-sm font-bold text-slate-600 cursor-not-allowed outline-none"
                                     value={user?.email || ""}
                                     disabled
                                 />
@@ -70,7 +70,7 @@ export default function SettingsPage() {
                             <div className="w-16 h-16 rounded-full bg-slate-900 flex items-center justify-center text-white text-xl font-black shadow-lg">
                                 {user?.user_metadata?.full_name?.[0] || user?.email?.[0] || 'U'}
                             </div>
-                            <button className="text-[10px] font-black text-slate-400 uppercase tracking-widest hover:text-slate-900 transition-colors">
+                            <button className="text-[10px] font-black text-slate-600 uppercase tracking-widest hover:text-slate-900 transition-colors">
                                 {lang === 'uz' ? "Suratni o'zgartirish" : "Change Photo"}
                             </button>
                         </div>
@@ -86,7 +86,7 @@ export default function SettingsPage() {
                 {/* --- Preferences Section --- */}
                 <section className="bg-white border border-slate-100 rounded-[2rem] p-8 shadow-sm space-y-6">
                     <div className="flex items-center gap-3">
-                        <Globe className="w-5 h-5 text-slate-400" />
+                        <Globe className="w-5 h-5 text-slate-600" />
                         <h3 className="font-black text-slate-900 tracking-tight">{lang === 'uz' ? "Afzalliklar" : "Preferences"}</h3>
                     </div>
 
@@ -125,10 +125,10 @@ export default function SettingsPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <section className="bg-white border border-slate-100 rounded-[2rem] p-8 shadow-sm space-y-4">
                         <div className="flex items-center gap-3 mb-2">
-                            <Shield className="w-5 h-5 text-emerald-500" />
+                            <Shield className="w-5 h-5 text-emerald-700" />
                             <h3 className="font-black text-slate-900 tracking-tight">{lang === 'uz' ? "Xavfsizlik" : "Security"}</h3>
                         </div>
-                        <p className="text-xs text-slate-400 font-bold leading-relaxed">
+                        <p className="text-xs text-slate-600 font-bold leading-relaxed">
                             {lang === 'uz' ? "Hisobingiz ma'lumotlari xavfsiz va maxfiylik deklaratsiyasiga ko'ra saqlanadi." : "Your account data is secured and stored according to our privacy policy."}
                         </p>
                         <button className="text-[10px] font-black text-blue-600 uppercase tracking-widest hover:underline pt-2 inline-block">
@@ -138,7 +138,7 @@ export default function SettingsPage() {
 
                     <section className="bg-rose-50 border border-rose-100 rounded-[2rem] p-8 space-y-4">
                         <div className="flex items-center gap-3 mb-2">
-                            <LogOut className="w-5 h-5 text-rose-600" />
+                            <LogOut className="w-5 h-5 text-rose-700" />
                             <h3 className="font-black text-rose-900 tracking-tight">{lang === 'uz' ? "Chiqish" : "Sign Out"}</h3>
                         </div>
                         <p className="text-xs text-rose-400 font-bold leading-relaxed">
@@ -146,17 +146,17 @@ export default function SettingsPage() {
                         </p>
                         <button 
                             onClick={handleSignOut}
-                            className="bg-white px-6 h-10 rounded-xl text-rose-600 font-bold text-xs shadow-sm hover:shadow-md transition-all active:scale-95"
+                            className="bg-white px-6 h-10 rounded-xl text-rose-700 font-bold text-xs shadow-sm hover:shadow-md transition-all active:scale-95"
                         >
                             {lang === 'uz' ? "Tizimdan chiqish" : "Logout Now"}
                         </button>
                     </section>
                 </div>
 
-                <div className="flex items-center justify-center gap-8 text-[10px] font-black text-slate-300 uppercase tracking-widest pt-8">
-                    <Link href="/privacy" className="hover:text-slate-400">Privacy Policy</Link>
+                <div className="flex items-center justify-center gap-8 text-[10px] font-black text-slate-600 uppercase tracking-widest pt-8">
+                    <Link href="/privacy" className="hover:text-slate-600">Privacy Policy</Link>
                     <div className="w-1 h-1 bg-slate-200 rounded-full" />
-                    <Link href="/terms" className="hover:text-slate-400">Terms of Service</Link>
+                    <Link href="/terms" className="hover:text-slate-600">Terms of Service</Link>
                     <div className="w-1 h-1 bg-slate-200 rounded-full" />
                     <span>v2.4.0-stable</span>
                 </div>
@@ -173,17 +173,17 @@ function ToggleItem({ icon, label, description, value, active, onClick }: { icon
             className="flex items-center justify-between p-4 rounded-2xl hover:bg-slate-50 transition-colors cursor-pointer group"
         >
             <div className="flex items-center gap-4">
-                <div className="w-10 h-10 bg-slate-50 border border-slate-100 rounded-xl flex items-center justify-center text-slate-400 group-hover:text-slate-900 transition-colors">
+                <div className="w-10 h-10 bg-slate-50 border border-slate-100 rounded-xl flex items-center justify-center text-slate-600 group-hover:text-slate-900 transition-colors">
                     {icon}
                 </div>
                 <div>
                     <p className="text-sm font-black text-slate-900 tracking-tight leading-none mb-1">{label}</p>
-                    <p className="text-[10px] text-slate-400 font-bold">{description}</p>
+                    <p className="text-[10px] text-slate-600 font-bold">{description}</p>
                 </div>
             </div>
 
             <div className="flex items-center gap-3">
-                {value && <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{value}</span>}
+                {value && <span className="text-[10px] font-black text-slate-600 uppercase tracking-widest">{value}</span>}
                 {onClick && active !== undefined && (
                     <div className={cn(
                         "w-10 h-5 rounded-full p-1 transition-all duration-300",

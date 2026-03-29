@@ -145,17 +145,17 @@ export default function PrivacyPolicyPage() {
     return (
         <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
             <div className="container mx-auto px-4 py-12 md:py-20 max-w-4xl">
-                <Link href="/" className="inline-flex items-center text-sm font-medium text-slate-500 hover:text-slate-900 dark:hover:text-slate-300 mb-8 transition-colors">
+                <Link href="/" className="inline-flex items-center text-sm font-medium text-slate-500 hover:text-slate-900 dark:hover:text-slate-600 mb-8 transition-colors">
                     <ArrowLeft className="w-4 h-4 mr-2" /> {t.back}
                 </Link>
 
                 <div className="bg-white dark:bg-slate-900 rounded-3xl p-8 md:p-12 shadow-sm border border-slate-200 dark:border-slate-800">
                     <h1 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-8">
                         {t.title}
-                        <span className="text-slate-500 dark:text-slate-400 font-normal block text-xl mt-3">{t.subtitle}</span>
+                        <span className="text-slate-500 dark:text-slate-600 font-normal block text-xl mt-3">{t.subtitle}</span>
                     </h1>
 
-                    <div className="prose prose-slate dark:prose-invert max-w-none text-slate-600 dark:text-slate-400 space-y-8">
+                    <div className="prose prose-slate dark:prose-invert max-w-none text-slate-600 dark:text-slate-600 space-y-8">
                         <p className="text-lg leading-relaxed">
                             {t.intro}
                         </p>

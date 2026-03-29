@@ -63,7 +63,7 @@ export default function ProfilePage() {
                             <h2 className="text-2xl font-black text-slate-900 tracking-tight">
                                 {user?.user_metadata?.full_name || (lang === 'uz' ? "Foydalanuvchi" : "IELTS Scholar")}
                             </h2>
-                            <p className="text-sm text-slate-400 font-bold flex items-center justify-center gap-2">
+                            <p className="text-sm text-slate-600 font-bold flex items-center justify-center gap-2">
                                 <Mail className="w-3 h-3" />
                                 {user?.email}
                             </p>
@@ -71,11 +71,11 @@ export default function ProfilePage() {
 
                         <div className="w-full pt-6 border-t border-slate-50 grid grid-cols-2 gap-4">
                             <div className="space-y-1">
-                                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{lang === 'uz' ? "A'zolik" : "Joined"}</p>
+                                <p className="text-[10px] font-black text-slate-600 uppercase tracking-widest">{lang === 'uz' ? "A'zolik" : "Joined"}</p>
                                 <p className="text-sm font-bold text-slate-700">March 2024</p>
                             </div>
                             <div className="space-y-1">
-                                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{lang === 'uz' ? "Daraja" : "Level"}</p>
+                                <p className="text-[10px] font-black text-slate-600 uppercase tracking-widest">{lang === 'uz' ? "Daraja" : "Level"}</p>
                                 <p className="text-sm font-bold text-slate-700">{stats?.estimated_level || "Beginner"}</p>
                             </div>
                         </div>
@@ -93,28 +93,28 @@ export default function ProfilePage() {
                         className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6"
                     >
                         <StatsCard 
-                            icon={<Award className="w-5 h-5 text-amber-500" />}
+                            icon={<Award className="w-5 h-5 text-amber-700" />}
                             label={lang === 'uz' ? "O'rtacha Band" : "Avg Band Score"}
                             value={stats?.estimated_level.includes('Advanced') ? "7.5" : stats?.estimated_level.includes('Intermediate') ? "6.5" : "5.5"}
                             subLabel={lang === 'uz' ? "Hozirgi taxmin" : "Current estimate"}
                             bgColor="bg-amber-50"
                         />
                         <StatsCard 
-                            icon={<TrendingUp className="w-5 h-5 text-emerald-500" />}
+                            icon={<TrendingUp className="w-5 h-5 text-emerald-700" />}
                             label={lang === 'uz' ? "O'zlashtirish" : "Total Progress"}
                             value={`${stats?.progress_percentage || 0}%`}
                             subLabel={lang === 'uz' ? "Umumiy darslardan" : "From all lessons"}
                             bgColor="bg-emerald-50"
                         />
                         <StatsCard 
-                            icon={<Clock className="w-5 h-5 text-blue-500" />}
+                            icon={<Clock className="w-5 h-5 text-blue-700" />}
                             label={lang === 'uz' ? "O'quv Zarbi" : "Study Streak"}
                             value={`${stats?.current_streak || 0} ${lang === 'uz' ? "Kun" : "Days"}`}
                             subLabel={lang === 'uz' ? "Ketma-ket" : "In a row"}
                             bgColor="bg-blue-50"
                         />
                         <StatsCard 
-                            icon={<BookOpen className="w-5 h-5 text-purple-500" />}
+                            icon={<BookOpen className="w-5 h-5 text-purple-700" />}
                             label={lang === 'uz' ? "Topshirilgan Testlar" : "Tests Completed"}
                             value={
                                 (stats?.reading_tests_completed || 0) + 
@@ -163,7 +163,7 @@ export default function ProfilePage() {
                         progress={25}
                         color="bg-rose-600"
                         lightColor="bg-rose-50"
-                        textColor="text-rose-600"
+                        textColor="text-rose-700"
                     />
                 </div>
 
@@ -179,10 +179,10 @@ export default function ProfilePage() {
                             </h3>
                         </div>
                         <div className="flex items-center gap-2">
-                            <button className="p-2 bg-slate-50 text-slate-400 rounded-lg hover:text-slate-600 transition-colors">
+                            <button className="p-2 bg-slate-50 text-slate-600 rounded-lg hover:text-slate-600 transition-colors">
                                 <Search className="w-4 h-4" />
                             </button>
-                            <button className="p-2 bg-slate-50 text-slate-400 rounded-lg hover:text-slate-600 transition-colors">
+                            <button className="p-2 bg-slate-50 text-slate-600 rounded-lg hover:text-slate-600 transition-colors">
                                 <Filter className="w-4 h-4" />
                             </button>
                         </div>
@@ -227,9 +227,9 @@ function StatsCard({ icon, label, value, subLabel, bgColor }: { icon: any, label
                 {icon}
             </div>
             <div className="space-y-1">
-                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{label}</p>
+                <p className="text-[10px] font-black text-slate-600 uppercase tracking-widest">{label}</p>
                 <p className="text-3xl font-black text-slate-900 tracking-tight">{value}</p>
-                <p className="text-xs text-slate-400 font-bold">{subLabel}</p>
+                <p className="text-xs text-slate-600 font-bold">{subLabel}</p>
             </div>
         </div>
     );
@@ -243,13 +243,13 @@ function SkillProgressCard({ icon, label, score, progress, color, lightColor, te
                     {icon}
                 </div>
                 <div className="text-right">
-                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1">{label}</p>
+                    <p className="text-[10px] font-black text-slate-600 uppercase tracking-widest leading-none mb-1">{label}</p>
                     <p className={cn("text-lg font-black tracking-tight", textColor)}>{score}%</p>
                 </div>
             </div>
             
             <div className="space-y-2">
-                <div className="flex items-center justify-between text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                <div className="flex items-center justify-between text-[10px] font-bold text-slate-600 uppercase tracking-widest">
                     <span>Progress</span>
                     <span>{progress}%</span>
                 </div>
@@ -275,23 +275,23 @@ function ActivityRow({ icon, title, module, score, band, date }: { icon: any, ti
                 <div className="space-y-1">
                     <h4 className="text-sm font-black text-slate-900 tracking-tight">{title}</h4>
                     <div className="flex items-center gap-3">
-                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{module}</span>
+                        <span className="text-[10px] font-bold text-slate-600 uppercase tracking-widest">{module}</span>
                         <div className="w-1 h-1 bg-slate-200 rounded-full" />
-                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{date}</span>
+                        <span className="text-[10px] font-bold text-slate-600 uppercase tracking-widest">{date}</span>
                     </div>
                 </div>
             </div>
             
             <div className="flex items-center gap-10">
                 <div className="text-right">
-                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Score</p>
+                    <p className="text-[10px] font-black text-slate-600 uppercase tracking-widest mb-1">Score</p>
                     <p className="text-sm font-black text-slate-900">{score}</p>
                 </div>
                 <div className="text-right min-w-[3rem]">
                     <p className="text-[10px] font-black text-orange-600 uppercase tracking-widest mb-1">Band</p>
                     <p className="text-sm font-black text-slate-900">{band}</p>
                 </div>
-                <div className="p-2 bg-white text-slate-300 rounded-xl border border-slate-100 group-hover:text-slate-900 group-hover:border-slate-200 transition-all">
+                <div className="p-2 bg-white text-slate-600 rounded-xl border border-slate-100 group-hover:text-slate-900 group-hover:border-slate-200 transition-all">
                     <ChevronRight className="w-4 h-4" />
                 </div>
             </div>

@@ -141,7 +141,7 @@ export function UserSettingsPanel({ isOpen, onClose }: UserSettingsPanelProps) {
                                         {avatarUrl ? (
                                             <Image src={avatarUrl} alt="Avatar" width={60} height={60} className="w-full h-full object-cover" />
                                         ) : (
-                                            <User className="text-slate-400 w-8 h-8" />
+                                            <User className="text-slate-600 w-8 h-8" />
                                         )}
                                         <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                                             {uploading ? (

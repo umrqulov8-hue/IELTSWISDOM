@@ -74,16 +74,16 @@ export default function ListeningSkillsPage() {
                                     className="h-full bg-slate-900 rounded-full shadow-lg"
                                 />
                             </div>
-                            <p className="text-xs text-slate-400 font-bold uppercase tracking-widest">
+                            <p className="text-xs text-slate-600 font-bold uppercase tracking-widest">
                                 {lang === 'uz' ? "Eshitish ko'nikmalaringizni rivojlanishini kuzating" : "Track your listening skill development across all sections"}
                             </p>
                         </div>
 
                         <div className="grid grid-cols-4 md:col-span-2 gap-2">
-                            <StatItem label={lang === 'uz' ? "Bajarildi" : "Completed"} value={completedItems} color="text-emerald-500" />
+                            <StatItem label={lang === 'uz' ? "Bajarildi" : "Completed"} value={completedItems} color="text-emerald-700" />
                             <StatItem label={lang === 'uz' ? "O'rtacha ball" : "Avg Score"} value="88%" color="text-indigo-500" />
-                            <StatItem label={lang === 'uz' ? "Bo'limlar" : "Sections"} value={1} color="text-purple-500" />
-                            <StatItem label={lang === 'uz' ? "Ko'nikmalar" : "Skills"} value={1} color="text-blue-500" />
+                            <StatItem label={lang === 'uz' ? "Bo'limlar" : "Sections"} value={1} color="text-purple-700" />
+                            <StatItem label={lang === 'uz' ? "Ko'nikmalar" : "Skills"} value={1} color="text-blue-700" />
                         </div>
                     </div>
                 </motion.div>
@@ -92,7 +92,7 @@ export default function ListeningSkillsPage() {
                 <div className="space-y-8">
                     <div className="flex items-center gap-4">
                         <div className="h-px flex-1 bg-slate-100" />
-                        <h2 className="text-sm font-black text-slate-400 uppercase tracking-[0.2em]">
+                        <h2 className="text-sm font-black text-slate-600 uppercase tracking-[0.2em]">
                             {lang === 'uz' ? "Darslar" : "Structured Lessons"}
                         </h2>
                         <div className="h-px flex-1 bg-slate-100" />
@@ -110,7 +110,7 @@ export default function ListeningSkillsPage() {
                     <div className="space-y-8 pt-10">
                         <div className="flex items-center gap-4">
                             <div className="h-px flex-1 bg-slate-100" />
-                            <h2 className="text-sm font-black text-slate-400 uppercase tracking-[0.2em]">
+                            <h2 className="text-sm font-black text-slate-600 uppercase tracking-[0.2em]">
                                 {lang === 'uz' ? "Mock Testlar" : "Mock Practice"}
                             </h2>
                             <div className="h-px flex-1 bg-slate-100" />
@@ -145,13 +145,13 @@ export default function ListeningSkillsPage() {
                                 <StructureRow label={lang === 'uz' ? "1-bo'lim: Ijtimoiy vaziyat" : "Section 1: Social situation"} count="10 questions" color="bg-blue-50 text-blue-600" />
                                 <StructureRow label={lang === 'uz' ? "2-bo'lim: Umumiy qiziqishlar" : "Section 2: General interest"} count="10 questions" color="bg-purple-50 text-purple-600" />
                                 <StructureRow label={lang === 'uz' ? "3-bo'lim: Ta'lim konteksti" : "Section 3: Educational context"} count="10 questions" color="bg-indigo-50 text-indigo-600" />
-                                <StructureRow label={lang === 'uz' ? "4-bo'lim: Akademik ma'ruza" : "Section 4: Academic lecture"} count="10 questions" color="bg-rose-50 text-rose-600" />
+                                <StructureRow label={lang === 'uz' ? "4-bo'lim: Akademik ma'ruza" : "Section 4: Academic lecture"} count="10 questions" color="bg-rose-50 text-rose-700" />
                             </div>
                         </div>
 
                         <div className="space-y-6">
                             <h3 className="font-bold text-slate-800 flex items-center gap-2">
-                                <Target className="w-4 h-4 text-emerald-500" />
+                                <Target className="w-4 h-4 text-emerald-700" />
                                 {lang === 'uz' ? "Asosiy Strategiyalar" : "Essential Strategies"}
                             </h3>
                             <ul className="space-y-4 text-sm text-slate-500 font-medium list-none">
@@ -193,7 +193,7 @@ function StatItem({ label, value, color }: { label: string, value: string | numb
     return (
         <div className="flex flex-col items-center justify-center p-4">
             <span className={cn("text-2xl font-black mb-1", color)}>{value}</span>
-            <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">{label}</span>
+            <span className="text-[10px] font-black text-slate-600 uppercase tracking-widest text-center">{label}</span>
         </div>
     );
 }
@@ -222,7 +222,7 @@ function ListeningLessonCard({ lesson, index, lang }: { lesson: any, index: numb
                     {lang === 'uz' ? `${lesson.lessonNumber}-Dars` : `Lesson ${lesson.lessonNumber}`}
                 </span>
                 {isCompleted && (
-                    <div className="flex items-center gap-1.5 text-emerald-500">
+                    <div className="flex items-center gap-1.5 text-emerald-700">
                         <CheckCircle2 className="w-4 h-4" />
                     </div>
                 )}
@@ -232,22 +232,22 @@ function ListeningLessonCard({ lesson, index, lang }: { lesson: any, index: numb
                 <h3 className="font-black text-slate-900 text-lg leading-tight group-hover:text-indigo-600 transition-colors">
                     {lesson.title}
                 </h3>
-                <p className="text-xs text-slate-400 font-medium leading-relaxed">
+                <p className="text-xs text-slate-600 font-medium leading-relaxed">
                     {lesson.description}
                 </p>
             </div>
 
             <div className="flex items-center gap-3 mb-6">
-                <div className="flex items-center gap-1.5 text-[10px] font-bold text-slate-400 bg-slate-50 px-2 py-1 rounded-lg">
+                <div className="flex items-center gap-1.5 text-[10px] font-bold text-slate-600 bg-slate-50 px-2 py-1 rounded-lg">
                     <Clock className="w-3 h-3 text-indigo-400" />
                     {lesson.duration}
                 </div>
                 <div className={cn(
                     "text-[10px] font-bold px-2 py-1 rounded-lg",
-                    lesson.typeBadge === "Full Test" ? "bg-rose-50 text-rose-500" :
+                    lesson.typeBadge === "Full Test" ? "bg-rose-50 text-rose-700" :
                     lesson.typeBadge === "Overview" ? "bg-slate-50 text-slate-500" :
-                    lesson.typeBadge === "Skills" ? "bg-blue-50 text-blue-500" : 
-                    lesson.typeBadge.includes("Section") ? "bg-purple-50 text-purple-500" : "bg-indigo-50 text-indigo-500"
+                    lesson.typeBadge === "Skills" ? "bg-blue-50 text-blue-700" : 
+                    lesson.typeBadge.includes("Section") ? "bg-purple-50 text-purple-700" : "bg-indigo-50 text-indigo-500"
                 )}>
                     {lesson.typeBadge}
                 </div>
@@ -256,14 +256,14 @@ function ListeningLessonCard({ lesson, index, lang }: { lesson: any, index: numb
             <div className="flex items-center justify-between items-center mb-6">
                 <div className={cn(
                     "text-[10px] font-bold px-2 py-1 rounded-lg",
-                    lesson.level === "Expert" ? "bg-rose-50 text-rose-500" :
-                    lesson.level === "Advanced" ? "bg-amber-50 text-amber-500" :
-                    lesson.level === "Intermediate" ? "bg-blue-50 text-blue-500" : "bg-emerald-50 text-emerald-500"
+                    lesson.level === "Expert" ? "bg-rose-50 text-rose-700" :
+                    lesson.level === "Advanced" ? "bg-amber-50 text-amber-700" :
+                    lesson.level === "Intermediate" ? "bg-blue-50 text-blue-700" : "bg-emerald-50 text-emerald-700"
                 )}>
                     {lesson.level}
                 </div>
                 {lesson.score && (
-                    <span className="text-[10px] font-black text-emerald-500">Score: {lesson.score}%</span>
+                    <span className="text-[10px] font-black text-emerald-700">Score: {lesson.score}%</span>
                 )}
             </div>
 
@@ -298,7 +298,7 @@ function PracticeCard({ test, index, lang, type }: { test: any, index: number, l
                     <span className="text-[9px] font-black text-slate-500 uppercase tracking-widest">
                         {lang === 'uz' ? "Mock Test" : "Mock Practice"}
                     </span>
-                    <div className="flex items-center gap-1 text-[9px] font-bold text-slate-500">
+                    <div className="flex items-center gap-1 text-[9px] font-bold text-slate-700">
                         <Clock className="w-2.5 h-2.5" />
                         {test.duration}
                     </div>
@@ -307,8 +307,12 @@ function PracticeCard({ test, index, lang, type }: { test: any, index: number, l
                     {test.title}
                 </h4>
                 <div className="flex items-center justify-between mt-1">
-                    <span className="text-[9px] font-black px-1.5 py-0.5 bg-slate-50 text-slate-400 rounded-md">{test.level}</span>
-                    <Link href={`/practice/${type}/${test.id}`} className="text-indigo-500 group-hover:translate-x-1 transition-transform">
+                    <span className="text-[9px] font-black px-1.5 py-0.5 bg-slate-50 text-slate-700 rounded-md">{test.level}</span>
+                    <Link 
+                        href={`/practice/${type}/${test.id}`} 
+                        aria-label={lang === 'uz' ? "Testni boshlash" : "Start Test"}
+                        className="text-indigo-600 group-hover:translate-x-1 transition-transform"
+                    >
                         <ChevronRight className="w-4 h-4" />
                     </Link>
                 </div>

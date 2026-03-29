@@ -64,7 +64,7 @@ function BandScoreRing({ band }: { band: number }) {
                 >
                     {band > 0 ? band.toFixed(1) : "—"}
                 </motion.span>
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mt-0.5 text-center leading-tight">
+                <span className="text-[10px] font-bold text-slate-600 uppercase tracking-wider mt-0.5 text-center leading-tight">
                     Overall<br />Band Score
                 </span>
             </div>
@@ -121,7 +121,7 @@ function SkillCard({ icon, iconBg, title, progress, stats, accent, href, delay =
             <div className="grid grid-cols-2 gap-y-1 gap-x-3">
                 {stats.map((s, i) => (
                     <div key={i} className="flex items-baseline gap-1">
-                        <span className="text-[10px] text-slate-400 font-semibold shrink-0">{s.label}:</span>
+                        <span className="text-[10px] text-slate-600 font-semibold shrink-0">{s.label}:</span>
                         <span className="text-[11px] font-bold text-slate-700 truncate">{s.value}</span>
                     </div>
                 ))}
@@ -245,7 +245,7 @@ export default function ResultsPage() {
                                 className="bg-gradient-to-br from-orange-50/60 to-indigo-50/60 border border-white/70 rounded-2xl p-5 flex flex-col items-center justify-center gap-2 shadow-sm"
                             >
                                 <BandScoreRing band={overallBand} />
-                                <p className="text-[10px] font-semibold text-slate-400 text-center">
+                                <p className="text-[10px] font-semibold text-slate-600 text-center">
                                     Calculated across {totalTests} Tests &amp; Submissions.
                                 </p>
                                 <div className="flex items-center gap-1 text-[10px] font-bold text-indigo-500">
@@ -385,14 +385,14 @@ export default function ResultsPage() {
                                 </div>
                                 <div>
                                     <h3 className="text-xl font-black text-slate-800 tracking-tight">Reading Skills Detail</h3>
-                                    <p className="text-sm font-semibold text-slate-400">Comprehensive breakdown of your performance</p>
+                                    <p className="text-sm font-semibold text-slate-600">Comprehensive breakdown of your performance</p>
                                 </div>
                             </div>
 
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 {/* Free Passages Card */}
                                 <div className="bg-white border border-slate-100/60 rounded-2xl p-5 shadow-sm">
-                                    <h4 className="text-[11px] font-black text-slate-400 uppercase tracking-widest mb-4">Free Passages</h4>
+                                    <h4 className="text-[11px] font-black text-slate-600 uppercase tracking-widest mb-4">Free Passages</h4>
 
                                     <div className="space-y-4">
                                         <div>
@@ -421,7 +421,7 @@ export default function ResultsPage() {
 
                                         <div className="pt-2 border-t border-slate-50 border-dashed">
                                             <div className="flex justify-between text-[11px]">
-                                                <span className="font-semibold text-slate-400">Correct Answers</span>
+                                                <span className="font-semibold text-slate-600">Correct Answers</span>
                                                 <span className="font-bold text-blue-600">
                                                     {stats.reading_breakdown.free_passages.correct} / {stats.reading_breakdown.free_passages.total}
                                                 </span>
@@ -432,7 +432,7 @@ export default function ResultsPage() {
 
                                 {/* Cambridge Tests Card */}
                                 <div className="bg-white border border-slate-100/60 rounded-2xl p-5 shadow-sm">
-                                    <h4 className="text-[11px] font-black text-slate-400 uppercase tracking-widest mb-4">Cambridge Tests</h4>
+                                    <h4 className="text-[11px] font-black text-slate-600 uppercase tracking-widest mb-4">Cambridge Tests</h4>
 
                                     <div className="space-y-4">
                                         <div>
@@ -461,7 +461,7 @@ export default function ResultsPage() {
 
                                         <div className="pt-2 border-t border-slate-50 border-dashed">
                                             <div className="flex justify-between text-[11px]">
-                                                <span className="font-semibold text-slate-400">Correct Answers</span>
+                                                <span className="font-semibold text-slate-600">Correct Answers</span>
                                                 <span className="font-bold text-indigo-600">
                                                     {stats.reading_breakdown.cambridge.correct} / {stats.reading_breakdown.cambridge.total}
                                                 </span>
@@ -518,14 +518,14 @@ export default function ResultsPage() {
                                 </div>
                                 <div>
                                     <h3 className="text-xl font-black text-slate-800 tracking-tight">Listening Skills Detail</h3>
-                                    <p className="text-sm font-semibold text-slate-400">Comprehensive breakdown of your performance</p>
+                                    <p className="text-sm font-semibold text-slate-600">Comprehensive breakdown of your performance</p>
                                 </div>
                             </div>
 
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 {/* Practice Tests Card */}
                                 <div className="bg-white border border-slate-100/60 rounded-2xl p-5 shadow-sm">
-                                    <h4 className="text-[11px] font-black text-slate-400 uppercase tracking-widest mb-4">Practice Tests</h4>
+                                    <h4 className="text-[11px] font-black text-slate-600 uppercase tracking-widest mb-4">Practice Tests</h4>
 
                                     <div className="space-y-4">
                                         <div>
@@ -554,7 +554,7 @@ export default function ResultsPage() {
 
                                         <div className="pt-2 border-t border-slate-50 border-dashed">
                                             <div className="flex justify-between text-[11px]">
-                                                <span className="font-semibold text-slate-400">Correct Answers</span>
+                                                <span className="font-semibold text-slate-600">Correct Answers</span>
                                                 <span className="font-bold text-purple-600">
                                                     {stats.listening_breakdown.practice.correct} / {stats.listening_breakdown.practice.total}
                                                 </span>
@@ -565,7 +565,7 @@ export default function ResultsPage() {
 
                                 {/* Cambridge Tests Card */}
                                 <div className="bg-white border border-slate-100/60 rounded-2xl p-5 shadow-sm">
-                                    <h4 className="text-[11px] font-black text-slate-400 uppercase tracking-widest mb-4">Cambridge Tests</h4>
+                                    <h4 className="text-[11px] font-black text-slate-600 uppercase tracking-widest mb-4">Cambridge Tests</h4>
 
                                     <div className="space-y-4">
                                         <div>
@@ -594,7 +594,7 @@ export default function ResultsPage() {
 
                                         <div className="pt-2 border-t border-slate-50 border-dashed">
                                             <div className="flex justify-between text-[11px]">
-                                                <span className="font-semibold text-slate-400">Correct Answers</span>
+                                                <span className="font-semibold text-slate-600">Correct Answers</span>
                                                 <span className="font-bold text-fuchsia-600">
                                                     {stats.listening_breakdown.cambridge.correct} / {stats.listening_breakdown.cambridge.total}
                                                 </span>
@@ -651,14 +651,14 @@ export default function ResultsPage() {
                                 </div>
                                 <div>
                                     <h3 className="text-xl font-black text-slate-800 tracking-tight">Writing Progress Detail</h3>
-                                    <p className="text-sm font-semibold text-slate-400">Task breakdown of your essay submissions</p>
+                                    <p className="text-sm font-semibold text-slate-600">Task breakdown of your essay submissions</p>
                                 </div>
                             </div>
 
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 {/* Task 1 Card */}
                                 <div className="bg-white border border-slate-100/60 rounded-2xl p-5 shadow-sm">
-                                    <h4 className="text-[11px] font-black text-slate-400 uppercase tracking-widest mb-4">Task 1 (Reports/Letters)</h4>
+                                    <h4 className="text-[11px] font-black text-slate-600 uppercase tracking-widest mb-4">Task 1 (Reports/Letters)</h4>
 
                                     <div className="space-y-4">
                                         <div>
@@ -670,7 +670,7 @@ export default function ResultsPage() {
 
                                         <div className="pt-2 border-t border-slate-50 border-dashed">
                                             <div className="flex justify-between items-center text-[11px]">
-                                                <span className="font-semibold text-slate-400">Average Band</span>
+                                                <span className="font-semibold text-slate-600">Average Band</span>
                                                 <div className="flex items-center gap-2">
                                                     <span className="font-black text-lg text-emerald-600">
                                                         {stats.writing_breakdown.task1.average_score > 0 ? stats.writing_breakdown.task1.average_score.toFixed(1) : "—"}
@@ -683,7 +683,7 @@ export default function ResultsPage() {
 
                                 {/* Task 2 Card */}
                                 <div className="bg-white border border-slate-100/60 rounded-2xl p-5 shadow-sm">
-                                    <h4 className="text-[11px] font-black text-slate-400 uppercase tracking-widest mb-4">Task 2 (Essays)</h4>
+                                    <h4 className="text-[11px] font-black text-slate-600 uppercase tracking-widest mb-4">Task 2 (Essays)</h4>
 
                                     <div className="space-y-4">
                                         <div>
@@ -695,7 +695,7 @@ export default function ResultsPage() {
 
                                         <div className="pt-2 border-t border-slate-50 border-dashed">
                                             <div className="flex justify-between items-center text-[11px]">
-                                                <span className="font-semibold text-slate-400">Average Band</span>
+                                                <span className="font-semibold text-slate-600">Average Band</span>
                                                 <div className="flex items-center gap-2">
                                                     <span className="font-black text-lg text-teal-600">
                                                         {stats.writing_breakdown.task2.average_score > 0 ? stats.writing_breakdown.task2.average_score.toFixed(1) : "—"}
@@ -757,15 +757,15 @@ export default function ResultsPage() {
                             <div className="bg-slate-50 rounded-2xl p-4 border border-slate-100">
                                 <div className="flex justify-between items-center py-2 border-b border-slate-200/60 last:border-0 pointer-events-none opacity-50 grayscale">
                                     <span className="text-sm font-bold text-slate-600">Fluency & Coherence</span>
-                                    <span className="text-sm font-black text-rose-500">7.0</span>
+                                    <span className="text-sm font-black text-rose-700">7.0</span>
                                 </div>
                                 <div className="flex justify-between items-center py-2 border-b border-slate-200/60 last:border-0 pointer-events-none opacity-50 grayscale">
                                     <span className="text-sm font-bold text-slate-600">Lexical Resource</span>
-                                    <span className="text-sm font-black text-rose-500">7.0</span>
+                                    <span className="text-sm font-black text-rose-700">7.0</span>
                                 </div>
                                 <div className="flex justify-between items-center py-2 pointer-events-none opacity-50 grayscale">
                                     <span className="text-sm font-bold text-slate-600">Grammatical Range</span>
-                                    <span className="text-sm font-black text-rose-500">7.0</span>
+                                    <span className="text-sm font-black text-rose-700">7.0</span>
                                 </div>
                             </div>
                         </motion.div>
@@ -802,7 +802,7 @@ export default function ResultsPage() {
                                 </div>
                                 <div>
                                     <h3 className="text-xl font-black text-slate-800 tracking-tight">Vocabulary Mastery</h3>
-                                    <p className="text-sm font-semibold text-slate-400">Your word bank progress</p>
+                                    <p className="text-sm font-semibold text-slate-600">Your word bank progress</p>
                                 </div>
                             </div>
 
@@ -818,7 +818,7 @@ export default function ResultsPage() {
                                     <div>
                                         <div className="flex justify-between text-sm mb-2">
                                             <span className="font-semibold text-slate-500">Overall Accuracy</span>
-                                            <span className="font-black text-amber-500 text-lg">
+                                            <span className="font-black text-amber-700 text-lg">
                                                 {stats.vocab_breakdown.total > 0
                                                     ? Math.round((stats.vocab_breakdown.correct / stats.vocab_breakdown.total) * 100)
                                                     : 0}%

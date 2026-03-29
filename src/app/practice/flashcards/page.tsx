@@ -86,7 +86,7 @@ function FlashcardsContent() {
                 </div>
 
                 <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-full border border-slate-200 shadow-sm">
-                    <Layers className="w-4 h-4 text-blue-500" />
+                    <Layers className="w-4 h-4 text-blue-700" />
                     <span className="text-slate-600 font-medium text-sm">{currentIndex + 1} / {vocabList.length}</span>
                 </div>
             </header>
@@ -135,11 +135,11 @@ function FlashcardsContent() {
                                 key={currentCard.id + "front"}
                                 className="text-center z-10"
                             >
-                                <span className="text-xs font-bold tracking-widest text-blue-500 uppercase mb-2 block">Vocabulary Term</span>
+                                <span className="text-xs font-bold tracking-widest text-blue-700 uppercase mb-2 block">Vocabulary Term</span>
                                 <h2 className="text-4xl md:text-6xl font-black text-slate-800 tracking-tight mb-2 drop-shadow-sm">
                                     {currentCard.term}
                                 </h2>
-                                <p className="text-slate-400 text-sm font-medium mt-4 flex items-center justify-center gap-2 group-hover:text-blue-500 transition-colors">
+                                <p className="text-slate-600 text-sm font-medium mt-4 flex items-center justify-center gap-2 group-hover:text-blue-700 transition-colors">
                                     <RotateCcw className="w-3 h-3" /> Click card to reveal meaning
                                 </p>
                             </motion.div>
@@ -152,14 +152,14 @@ function FlashcardsContent() {
 
                             <div className="text-center z-10 space-y-6">
                                 <div>
-                                    <span className="text-xs font-bold tracking-widest text-emerald-500 uppercase mb-2 block">Definition</span>
+                                    <span className="text-xs font-bold tracking-widest text-emerald-700 uppercase mb-2 block">Definition</span>
                                     <p className="text-2xl md:text-3xl text-slate-800 font-medium leading-relaxed">
                                         "{currentCard.definition}"
                                     </p>
                                 </div>
                                 <div className="h-px w-24 bg-slate-200 mx-auto"></div>
                                 <div>
-                                    <span className="text-xs font-bold tracking-widest text-slate-400 uppercase mb-1 block">Example Context</span>
+                                    <span className="text-xs font-bold tracking-widest text-slate-600 uppercase mb-1 block">Example Context</span>
                                     <p className="text-slate-500 italic text-lg leading-relaxed">
                                         {currentCard.example}
                                     </p>
@@ -201,11 +201,11 @@ function FlashcardsContent() {
                 {/* Actions */}
                 <div className="flex gap-4">
                     <button className="px-6 py-2.5 rounded-xl text-sm font-semibold text-slate-500 hover:text-slate-800 hover:bg-white transition-colors flex items-center gap-2 border border-transparent hover:border-slate-200 hover:shadow-sm">
-                        <Sparkles className="w-4 h-4 text-emerald-500" />
+                        <Sparkles className="w-4 h-4 text-emerald-700" />
                         Master this Term
                     </button>
                     <button className="px-6 py-2.5 rounded-xl text-sm font-semibold text-slate-500 hover:text-slate-800 hover:bg-white transition-colors flex items-center gap-2 border border-transparent hover:border-slate-200 hover:shadow-sm">
-                        <Bookmark className="w-4 h-4 text-amber-500" />
+                        <Bookmark className="w-4 h-4 text-amber-700" />
                         Save for Later
                     </button>
                 </div>

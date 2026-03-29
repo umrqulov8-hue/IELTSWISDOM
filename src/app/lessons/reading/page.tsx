@@ -82,15 +82,15 @@ export default function ReadingSkillsPage() {
                                     className="h-full bg-slate-900 rounded-full shadow-lg"
                                 />
                             </div>
-                            <p className="text-xs text-slate-400 font-bold uppercase tracking-widest">
+                            <p className="text-xs text-slate-600 font-bold uppercase tracking-widest">
                                 {lang === 'uz' ? "O'qish ko'nikmalaringizni rivojlanishini kuzating" : "Track your reading skill development"}
                             </p>
                         </div>
 
                         {/* Stats Columns */}
                         <div className="grid grid-cols-3 md:col-span-2 gap-4">
-                            <StatItem label={lang === 'uz' ? "Bajarildi" : "Completed"} value={completedItems} color="text-emerald-500" />
-                            <StatItem label={lang === 'uz' ? "O'rtacha ball" : "Avg Score"} value={`${avgScore}%`} color="text-blue-500" />
+                            <StatItem label={lang === 'uz' ? "Bajarildi" : "Completed"} value={completedItems} color="text-emerald-700" />
+                            <StatItem label={lang === 'uz' ? "O'rtacha ball" : "Avg Score"} value={`${avgScore}%`} color="text-blue-700" />
                             <StatItem label={lang === 'uz' ? "Qoldi" : "Remaining"} value={remainingItems} color="text-orange-500" />
                         </div>
                     </div>
@@ -100,7 +100,7 @@ export default function ReadingSkillsPage() {
                 <div className="space-y-8">
                     <div className="flex items-center gap-4">
                         <div className="h-px flex-1 bg-slate-100" />
-                        <h2 className="text-sm font-black text-slate-400 uppercase tracking-[0.2em]">
+                        <h2 className="text-sm font-black text-slate-600 uppercase tracking-[0.2em]">
                             {lang === 'uz' ? "Darslar" : "Structured Lessons"}
                         </h2>
                         <div className="h-px flex-1 bg-slate-100" />
@@ -117,7 +117,7 @@ export default function ReadingSkillsPage() {
                 <div className="space-y-8 pt-10">
                     <div className="flex items-center gap-4">
                         <div className="h-px flex-1 bg-slate-100" />
-                        <h2 className="text-sm font-black text-slate-400 uppercase tracking-[0.2em]">
+                        <h2 className="text-sm font-black text-slate-600 uppercase tracking-[0.2em]">
                             {lang === 'uz' ? "Qo'shimcha amaliyot" : "Practice Passages"}
                         </h2>
                         <div className="h-px flex-1 bg-slate-100" />
@@ -144,7 +144,7 @@ export default function ReadingSkillsPage() {
                     <div className="grid md:grid-cols-2 gap-12">
                         <div className="space-y-6">
                             <h3 className="font-bold text-slate-800 flex items-center gap-2">
-                                <Clock className="w-4 h-4 text-blue-500" />
+                                <Clock className="w-4 h-4 text-blue-700" />
                                 {lang === 'uz' ? "Vaqtni boshqarish" : "Time Management"}
                             </h3>
                             <ul className="space-y-4 text-sm text-slate-500 font-medium list-none">
@@ -165,7 +165,7 @@ export default function ReadingSkillsPage() {
 
                         <div className="space-y-6">
                             <h3 className="font-bold text-slate-800 flex items-center gap-2">
-                                <Target className="w-4 h-4 text-emerald-500" />
+                                <Target className="w-4 h-4 text-emerald-700" />
                                 {lang === 'uz' ? "Savol strategiyalari" : "Question Strategies"}
                             </h3>
                             <ul className="space-y-4 text-sm text-slate-500 font-medium list-none">
@@ -197,7 +197,7 @@ function StatItem({ label, value, color }: { label: string, value: string | numb
     return (
         <div className="flex flex-col items-center justify-center p-4">
             <span className={cn("text-2xl font-black mb-1", color)}>{value}</span>
-            <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">{label}</span>
+            <span className="text-[10px] font-black text-slate-600 uppercase tracking-widest text-center">{label}</span>
         </div>
     );
 }
@@ -217,7 +217,7 @@ function LessonCard({ lesson, index, lang }: { lesson: any, index: number, lang:
                     {lang === 'uz' ? `${lesson.lessonNumber}-Dars` : `Lesson ${lesson.lessonNumber}`}
                 </span>
                 {isCompleted && (
-                    <div className="flex items-center gap-1.5 text-emerald-500">
+                    <div className="flex items-center gap-1.5 text-emerald-700">
                         <CheckCircle2 className="w-4 h-4" />
                     </div>
                 )}
@@ -227,21 +227,21 @@ function LessonCard({ lesson, index, lang }: { lesson: any, index: number, lang:
                 <h3 className="font-black text-slate-900 text-lg leading-tight group-hover:text-blue-600 transition-colors">
                     {lesson.title}
                 </h3>
-                <p className="text-xs text-slate-400 font-medium leading-relaxed">
+                <p className="text-xs text-slate-600 font-medium leading-relaxed">
                     {lesson.description}
                 </p>
             </div>
 
             <div className="flex items-center gap-4 mb-6">
-                <div className="flex items-center gap-1.5 text-[10px] font-bold text-slate-400 bg-slate-50 px-2 py-1 rounded-lg">
+                <div className="flex items-center gap-1.5 text-[10px] font-bold text-slate-600 bg-slate-50 px-2 py-1 rounded-lg">
                     <Clock className="w-3 h-3 text-blue-400" />
                     {lesson.duration}
                 </div>
                 <div className={cn(
                     "text-[10px] font-bold px-2 py-1 rounded-lg",
-                    lesson.level === "Expert" ? "bg-rose-50 text-rose-500" :
-                    lesson.level === "Advanced" ? "bg-amber-50 text-amber-500" :
-                    lesson.level === "Intermediate" ? "bg-blue-50 text-blue-500" : "bg-emerald-50 text-emerald-500"
+                    lesson.level === "Expert" ? "bg-rose-50 text-rose-700" :
+                    lesson.level === "Advanced" ? "bg-amber-50 text-amber-700" :
+                    lesson.level === "Intermediate" ? "bg-blue-50 text-blue-700" : "bg-emerald-50 text-emerald-700"
                 )}>
                     {lesson.level}
                 </div>
@@ -252,7 +252,7 @@ function LessonCard({ lesson, index, lang }: { lesson: any, index: number, lang:
                     <div className="w-full h-1.5 bg-slate-50 rounded-full overflow-hidden">
                         <div className="h-full bg-emerald-400" style={{ width: `${lesson.score}%` }} />
                     </div>
-                    <span className="text-[10px] font-black text-emerald-500 whitespace-nowrap">Score: {lesson.score}%</span>
+                    <span className="text-[10px] font-black text-emerald-700 whitespace-nowrap">Score: {lesson.score}%</span>
                 </div>
             )}
 
@@ -284,18 +284,22 @@ function PracticeCard({ test, index, lang }: { test: any, index: number, lang: s
         >
             <div className="flex flex-col gap-3">
                 <div className="flex items-center justify-between">
-                    <span className="text-[9px] font-black text-slate-500 uppercase tracking-widest">{test.categoryId.replace('-', ' ')}</span>
-                    <div className="flex items-center gap-1 text-[9px] font-bold text-slate-500">
+                    <span className="text-[9px] font-black text-slate-700 uppercase tracking-widest">{test.categoryId.replace('-', ' ')}</span>
+                    <div className="flex items-center gap-1 text-[9px] font-bold text-slate-700">
                         <Clock className="w-2.5 h-2.5" />
                         {test.duration}
                     </div>
                 </div>
-                <h4 className="text-xs font-bold text-slate-700 line-clamp-1 group-hover:text-blue-600 transition-colors">
+                <h4 className="text-xs font-bold text-slate-700 line-clamp-1 group-hover:text-indigo-600 transition-colors">
                     {test.title}
                 </h4>
                 <div className="flex items-center justify-between mt-1">
-                    <span className="text-[9px] font-black px-1.5 py-0.5 bg-slate-50 text-slate-400 rounded-md">{test.level}</span>
-                    <Link href={`/practice/reading/${test.id}`} className="text-blue-500 group-hover:translate-x-1 transition-transform">
+                    <span className="text-[9px] font-black px-1.5 py-0.5 bg-slate-50 text-slate-700 rounded-md">{test.level}</span>
+                    <Link 
+                        href={`/practice/reading/${test.id}`} 
+                        aria-label={lang === 'uz' ? "Testni boshlash" : "Start Test"}
+                        className="text-indigo-600 group-hover:translate-x-1 transition-transform"
+                    >
                         <ChevronRight className="w-4 h-4" />
                     </Link>
                 </div>

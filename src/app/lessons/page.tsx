@@ -24,7 +24,7 @@ export default function LessonsPage() {
         {
             type: "recorded",
             badgeLabel: tx(LS.recorded, lang),
-            badgeColor: "bg-purple-100 text-purple-500 group-hover:bg-purple-500",
+            badgeColor: "bg-purple-100 text-purple-700 group-hover:bg-purple-500",
             title: tx(LS.l2Title, lang),
             desc: tx(LS.l2Desc, lang),
             buttonLabel: tx(LS.watchRecording, lang),

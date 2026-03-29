@@ -93,7 +93,7 @@ export const DashboardHeader = memo(({ title, description, showGreeting, display
                                 hidden: { opacity: 0, y: -10, filter: "blur(4px)" },
                                 visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.6, ease: [0.34, 1.56, 0.64, 1] } }
                             }}
-                            className="text-slate-500 mt-2 font-medium"
+                            className="text-slate-700 mt-2 font-medium"
                         >
                             {lang === "en" ? "Ready to hit your targets today?" : "Bugun maqsadlaringizga erishishga tayyormisiz?"}
                         </motion.p>
@@ -122,7 +122,7 @@ export const DashboardHeader = memo(({ title, description, showGreeting, display
                                     hidden: { opacity: 0, y: -10, filter: "blur(4px)" },
                                     visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.6, ease: [0.34, 1.56, 0.64, 1] } }
                                 }}
-                                className="text-slate-500 mt-2 font-medium"
+                                className="text-slate-700 mt-2 font-medium"
                             >
                                 {description}
                             </motion.p>
@@ -161,16 +161,17 @@ export const DashboardHeader = memo(({ title, description, showGreeting, display
                     >
                         <Search className={cn(
                             "absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 transition-colors duration-400 ease-in-out z-10",
-                            isSearchFocused ? "text-blue-500" : "text-slate-400"
+                            isSearchFocused ? "text-blue-800" : "text-slate-700"
                         )} />
                         <input
                             type="text"
+                            aria-label="Search lessons"
                             placeholder={lang === "en" ? "Search lessons..." : "Darslarni qidirish..."}
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                             onFocus={() => setIsSearchFocused(true)}
                             className={cn(
-                                "relative w-full bg-white/10 backdrop-blur-2xl rounded-full py-3 pl-12 pr-4 text-sm focus:outline-none transition-all duration-500 ease-in-out shadow-[0_8px_32px_rgba(0,0,0,0.1)] placeholder:text-slate-400 overflow-hidden border-t border-l border-white/40 border-b border-r border-black/10",
+                                "relative w-full bg-white/10 backdrop-blur-2xl rounded-full py-3 pl-12 pr-4 text-sm focus:outline-none transition-all duration-500 ease-in-out shadow-[0_8px_32px_rgba(0,0,0,0.1)] placeholder:text-slate-700 text-slate-900 overflow-hidden border-t border-l border-white/40 border-b border-r border-black/10",
                                 isSearchFocused
                                     ? "ring-1 ring-white/50 bg-white/20 shadow-[0_0_20px_rgba(255,255,255,0.2)]"
                                     : "hover:bg-white/20 hover:shadow-[0_12px_40px_rgba(0,0,0,0.15)]"
@@ -216,12 +217,12 @@ export const DashboardHeader = memo(({ title, description, showGreeting, display
                                                 }}
                                                 className="flex items-center w-full text-left gap-3 p-3 hover:bg-white/50 rounded-xl transition-colors group/item"
                                             >
-                                                <div className="p-2 bg-blue-50 rounded-lg text-blue-500 group-hover/item:bg-blue-500 group-hover/item:text-white transition-colors">
+                                                <div className="p-2 bg-blue-50 rounded-lg text-blue-700 group-hover/item:bg-blue-500 group-hover/item:text-white transition-colors">
                                                     <BookOpen className="w-4 h-4" />
                                                 </div>
                                                 <div>
-                                                    <p className="text-sm font-bold text-slate-800">{result.title}</p>
-                                                    <p className="text-xs text-slate-500">{result.module || "General"}</p>
+                                                    <p className="text-sm font-bold text-slate-900">{result.title}</p>
+                                                    <p className="text-xs text-slate-700">{result.module || "General"}</p>
                                                 </div>
                                             </button>
                                         ))
@@ -292,7 +293,7 @@ export const DashboardHeader = memo(({ title, description, showGreeting, display
                                                 key={notif.id}
                                                 className={cn(
                                                     "p-3 rounded-2xl transition-all relative group",
-                                                    notif.is_read ? "bg-transparent text-slate-400" : "bg-white/60 shadow-sm border border-white/50"
+                                                    notif.is_read ? "bg-transparent text-slate-600" : "bg-white/60 shadow-sm border border-white/50"
                                                 )}
                                             >
                                                 {!notif.is_read && (
@@ -318,7 +319,7 @@ export const DashboardHeader = memo(({ title, description, showGreeting, display
                                             </div>
                                         ))
                                     ) : (
-                                        <div className="p-8 text-center text-slate-400 text-sm flex flex-col items-center">
+                                        <div className="p-8 text-center text-slate-600 text-sm flex flex-col items-center">
                                             <Bell className="w-8 h-8 opacity-20 mb-2" />
                                             {lang === "en" ? "No notifications" : "Bildirishnomalar yo'q"}
                                         </div>

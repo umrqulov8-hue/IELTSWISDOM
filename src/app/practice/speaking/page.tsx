@@ -100,7 +100,7 @@ export default function SpeakingPage() {
                                 <Mic className="w-6 h-6 text-white" />
                             </div>
                             <h3 className="text-white font-bold text-lg leading-tight mb-2 whitespace-pre-line">{S.coverTitle}</h3>
-                            <div className="mt-4 text-[10px] text-slate-400 uppercase tracking-widest">{S.coverSub}</div>
+                            <div className="mt-4 text-[10px] text-slate-600 uppercase tracking-widest">{S.coverSub}</div>
 
                             {/* Lighting Glint */}
                             <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
@@ -159,7 +159,7 @@ export default function SpeakingPage() {
                                         <div>
                                             <h4 className="font-bold text-slate-700 group-hover:text-orange-600 transition-colors line-clamp-1 flex items-center gap-2">
                                                 {lang === 'uz' ? MONTH_UZ[test.month] : test.month} {S.testWord} {test.testNumber}
-                                                {!(isPro || test.id === "jan-1") && <Lock className="w-3.5 h-3.5 text-slate-400" />}
+                                                {!(isPro || test.id === "jan-1") && <Lock className="w-3.5 h-3.5 text-slate-600" />}
                                             </h4>
                                         </div>
 

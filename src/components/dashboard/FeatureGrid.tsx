@@ -45,7 +45,7 @@ export const FeatureGrid = memo(({ stats }: FeatureGridProps) => {
                 if (feature.color.includes("emerald")) { gradientClass = "from-emerald-400 to-teal-500"; waveColor = "text-teal-500"; }
                 if (feature.color.includes("yellow")) { gradientClass = "from-yellow-400 to-orange-400"; waveColor = "text-orange-400"; }
                 if (feature.color.includes("pink")) { gradientClass = "from-pink-500 to-rose-400"; waveColor = "text-rose-400"; }
-                if (feature.color.includes("red")) { gradientClass = "from-red-500 to-rose-500"; waveColor = "text-rose-500"; }
+                if (feature.color.includes("red")) { gradientClass = "from-red-500 to-rose-500"; waveColor = "text-rose-700"; }
 
                 const CardWrapper = shouldAnimate ? m.div : "div";
                 const motionProps = shouldAnimate
@@ -84,7 +84,7 @@ export const FeatureGrid = memo(({ stats }: FeatureGridProps) => {
                                         <Icon className="w-7 h-7" />
                                     </div>
                                     <div className="space-y-2 w-full">
-                                        <h2 className="text-sm font-bold transition-colors duration-500 line-clamp-2 text-slate-700 group-hover:text-white delay-100">
+                                        <h2 className="text-sm font-bold transition-colors duration-500 line-clamp-2 text-slate-800 group-hover:text-white delay-100">
                                             <BouncyText key={lang} text={tx(T.features[feature.key], lang)} type="word" simple />
                                         </h2>
                                         
@@ -99,7 +99,7 @@ export const FeatureGrid = memo(({ stats }: FeatureGridProps) => {
                                                         style={{ color: 'inherit' }}
                                                     />
                                                 </div>
-                                                <span className="text-[10px] font-black text-slate-500 group-hover:text-white">{progress}%</span>
+                                                <span className="text-[10px] font-black text-slate-700 group-hover:text-white">{progress}%</span>
                                             </div>
                                         )}
                                     </div>

@@ -182,24 +182,24 @@ function TypingContent() {
                                             disabled={status === "correct"}
                                             placeholder="Type the vocab word..."
                                             className={cn(
-                                                "relative w-full bg-white border-2 text-center text-2xl font-bold py-4 rounded-xl outline-none transition-all placeholder:text-slate-400 shadow-xl text-slate-800",
+                                                "relative w-full bg-white border-2 text-center text-2xl font-bold py-4 rounded-xl outline-none transition-all placeholder:text-slate-600 shadow-xl text-slate-800",
                                                 status === "idle" && "border-slate-200 focus:border-sky-500",
                                                 status === "correct" && "border-emerald-500 text-emerald-600 bg-emerald-50",
-                                                status === "incorrect" && "border-rose-500 text-rose-600 bg-rose-50"
+                                                status === "incorrect" && "border-rose-500 text-rose-700 bg-rose-50"
                                             )}
                                         />
 
                                         {/* Status Indicators */}
                                         <div className="absolute right-4 top-1/2 -translate-y-1/2">
-                                            {status === "correct" && <CheckCircle className="w-6 h-6 text-emerald-500 animate-bounce" />}
-                                            {status === "incorrect" && <XCircle className="w-6 h-6 text-rose-500 animate-pulse" />}
+                                            {status === "correct" && <CheckCircle className="w-6 h-6 text-emerald-700 animate-bounce" />}
+                                            {status === "incorrect" && <XCircle className="w-6 h-6 text-rose-700 animate-pulse" />}
                                         </div>
                                     </div>
 
                                     {/* Feedback / Instructions */}
                                     <div className="h-8 mt-4 text-center">
                                         {status === "incorrect" && (
-                                            <p className="text-rose-500 font-medium text-sm animate-shake">Incorrect, try again!</p>
+                                            <p className="text-rose-700 font-medium text-sm animate-shake">Incorrect, try again!</p>
                                         )}
                                         {status === "correct" && (
                                             <p className="text-emerald-600 font-medium text-sm flex items-center justify-center gap-1">
@@ -207,7 +207,7 @@ function TypingContent() {
                                             </p>
                                         )}
                                         {status === "idle" && (
-                                            <p className="text-slate-400 text-xs">Press Enter to submit</p>
+                                            <p className="text-slate-600 text-xs">Press Enter to submit</p>
                                         )}
                                     </div>
 

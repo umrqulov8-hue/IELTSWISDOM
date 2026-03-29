@@ -126,7 +126,7 @@ export default function ExamCenterPage() {
                                     Check In to Test Center
                                     <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                                 </button>
-                                <p className="text-slate-400 text-xs mt-4">By proceeding, you agree to the examination code of conduct.</p>
+                                <p className="text-slate-600 text-xs mt-4">By proceeding, you agree to the examination code of conduct.</p>
                             </div>
                         </motion.div>
                     )}
@@ -142,7 +142,7 @@ export default function ExamCenterPage() {
                         >
                             <div className="bg-white rounded-[2.5rem] p-10 shadow-2xl border border-slate-100 text-center">
                                 <div className="w-20 h-20 bg-slate-100 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-inner">
-                                    <User className="w-10 h-10 text-slate-400" />
+                                    <User className="w-10 h-10 text-slate-600" />
                                 </div>
                                 <h2 className="text-2xl font-bold text-slate-800 mb-2">Identity Verification</h2>
                                 <p className="text-slate-500 text-sm mb-8">Please confirm your details before starting the exam.</p>
@@ -151,12 +151,12 @@ export default function ExamCenterPage() {
                                     <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100 flex items-center gap-4">
                                         <div className="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold">JD</div>
                                         <div>
-                                            <p className="text-xs text-slate-400 font-bold uppercase">Candidate Name</p>
+                                            <p className="text-xs text-slate-600 font-bold uppercase">Candidate Name</p>
                                             <p className="text-slate-700 font-bold">John Doe</p>
                                         </div>
                                     </div>
                                     <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                                        <p className="text-xs text-slate-400 font-bold uppercase">Candidate ID</p>
+                                        <p className="text-xs text-slate-600 font-bold uppercase">Candidate ID</p>
                                         <p className="text-slate-700 font-bold">IELTS-CDI-8829</p>
                                     </div>
                                 </div>
@@ -251,7 +251,7 @@ export default function ExamCenterPage() {
                                             <div className="flex items-center justify-between mb-1">
                                                 <h3 className="text-xl font-bold text-slate-800">{section.title}</h3>
                                                 <div className="flex items-center gap-3">
-                                                    <span className="text-[10px] font-black uppercase text-slate-400 bg-slate-50 px-2 py-1 rounded-md border border-slate-100">
+                                                    <span className="text-[10px] font-black uppercase text-slate-600 bg-slate-50 px-2 py-1 rounded-md border border-slate-100">
                                                         {section.duration}
                                                     </span>
                                                 </div>
@@ -268,7 +268,7 @@ export default function ExamCenterPage() {
                             <div className="flex justify-center">
                                 <button
                                     onClick={() => setStep("rules")}
-                                    className="text-slate-400 hover:text-slate-600 text-sm font-medium flex items-center gap-2 transition-colors"
+                                    className="text-slate-600 hover:text-slate-600 text-sm font-medium flex items-center gap-2 transition-colors"
                                 >
                                     <ArrowLeft className="w-4 h-4" /> Back to Rules
                                 </button>
@@ -285,7 +285,7 @@ function RuleItem({ icon: Icon, title, desc }: { icon: any, title: string, desc:
     return (
         <div className="flex items-start gap-4">
             <div className="w-10 h-10 bg-slate-50 rounded-xl flex items-center justify-center shrink-0 border border-slate-100">
-                <Icon className="w-5 h-5 text-slate-400" />
+                <Icon className="w-5 h-5 text-slate-600" />
             </div>
             <div>
                 <h4 className="font-bold text-slate-800 text-base">{title}</h4>

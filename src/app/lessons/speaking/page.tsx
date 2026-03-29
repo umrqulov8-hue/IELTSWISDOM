@@ -37,7 +37,7 @@ export default function SpeakingSkillsPage() {
                 {/* --- Header Section --- */}
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div className="flex items-center gap-3">
-                        <div className="w-12 h-12 bg-rose-50 rounded-2xl flex items-center justify-center text-rose-600 shadow-sm border border-rose-100">
+                        <div className="w-12 h-12 bg-rose-50 rounded-2xl flex items-center justify-center text-rose-700 shadow-sm border border-rose-100">
                             <Mic className="w-6 h-6" />
                         </div>
                         <div>
@@ -64,7 +64,7 @@ export default function SpeakingSkillsPage() {
                         <div className="md:col-span-2 space-y-6">
                             <div className="flex items-center justify-between">
                                 <h3 className="font-bold text-slate-800 tracking-tight">{lang === 'uz' ? "Gapirish Jarayoni" : "Speaking Progress"}</h3>
-                                <span className="text-2xl font-black text-rose-600">{progressPercent}%</span>
+                                <span className="text-2xl font-black text-rose-700">{progressPercent}%</span>
                             </div>
                             <div className="h-4 bg-slate-100 rounded-full overflow-hidden p-1 border border-slate-50 shadow-inner">
                                 <motion.div 
@@ -74,15 +74,15 @@ export default function SpeakingSkillsPage() {
                                     className="h-full bg-slate-900 rounded-full shadow-lg"
                                 />
                             </div>
-                            <p className="text-xs text-slate-400 font-bold uppercase tracking-widest">
+                            <p className="text-xs text-slate-600 font-bold uppercase tracking-widest">
                                 {lang === 'uz' ? "Gapirish ko'nikmalaringiz rivojlanishini kuzating" : "Track your speaking skill development"}
                             </p>
                         </div>
 
                         <div className="grid grid-cols-3 md:col-span-2 gap-4">
-                            <StatItem label={lang === 'uz' ? "Bajarildi" : "Completed"} value={completedItems} color="text-emerald-500" />
-                            <StatItem label={lang === 'uz' ? "O'rtacha ball" : "Avg Score"} value="7.0" color="text-rose-500" />
-                            <StatItem label={lang === 'uz' ? "Qoldi" : "Remaining"} value={totalItems - completedItems} color="text-blue-500" />
+                            <StatItem label={lang === 'uz' ? "Bajarildi" : "Completed"} value={completedItems} color="text-emerald-700" />
+                            <StatItem label={lang === 'uz' ? "O'rtacha ball" : "Avg Score"} value="7.0" color="text-rose-700" />
+                            <StatItem label={lang === 'uz' ? "Qoldi" : "Remaining"} value={totalItems - completedItems} color="text-blue-700" />
                         </div>
                     </div>
                 </motion.div>
@@ -91,7 +91,7 @@ export default function SpeakingSkillsPage() {
                 <div className="space-y-8">
                     <div className="flex items-center gap-4">
                         <div className="h-px flex-1 bg-slate-100" />
-                        <h2 className="text-sm font-black text-slate-400 uppercase tracking-[0.2em]">
+                        <h2 className="text-sm font-black text-slate-600 uppercase tracking-[0.2em]">
                             {lang === 'uz' ? "Darslar" : "Structured Lessons"}
                         </h2>
                         <div className="h-px flex-1 bg-slate-100" />
@@ -109,7 +109,7 @@ export default function SpeakingSkillsPage() {
                     <div className="space-y-8 pt-10">
                         <div className="flex items-center gap-4">
                             <div className="h-px flex-1 bg-slate-100" />
-                            <h2 className="text-sm font-black text-slate-400 uppercase tracking-[0.2em]">
+                            <h2 className="text-sm font-black text-slate-600 uppercase tracking-[0.2em]">
                                 {lang === 'uz' ? "Mock Testlar" : "Mock Practice"}
                             </h2>
                             <div className="h-px flex-1 bg-slate-100" />
@@ -126,7 +126,7 @@ export default function SpeakingSkillsPage() {
                 {/* --- Speaking Test Structure & Assessment --- */}
                 <div className="bg-white border border-slate-100 rounded-[2.5rem] p-10 mt-16 shadow-sm">
                     <div className="flex items-center gap-3 mb-8">
-                        <div className="w-10 h-10 bg-rose-50 rounded-xl flex items-center justify-center text-rose-600">
+                        <div className="w-10 h-10 bg-rose-50 rounded-xl flex items-center justify-center text-rose-700">
                             <MessageCircle className="w-5 h-5" />
                         </div>
                         <h2 className="text-xl font-black text-slate-900 tracking-tight">
@@ -143,23 +143,23 @@ export default function SpeakingSkillsPage() {
                                 <div className="p-4 rounded-2xl border border-slate-50 flex items-center justify-between">
                                     <div>
                                         <p className="text-sm font-bold text-blue-600">{lang === 'uz' ? "1-qism: Kirish" : "Part 1: Introduction"}</p>
-                                        <p className="text-[10px] text-slate-400 font-medium">{lang === 'uz' ? "Siz va tanish mavzular haqida umumiy savollar" : "General questions about yourself and familiar topics"}</p>
+                                        <p className="text-[10px] text-slate-600 font-medium">{lang === 'uz' ? "Siz va tanish mavzular haqida umumiy savollar" : "General questions about yourself and familiar topics"}</p>
                                     </div>
                                     <span className="text-[10px] font-black px-2 py-1 bg-blue-50 text-blue-600 rounded-lg">4-5 min</span>
                                 </div>
                                 <div className="p-4 rounded-2xl border border-slate-50 flex items-center justify-between">
                                     <div>
                                         <p className="text-sm font-bold text-purple-600">{lang === 'uz' ? "2-qism: Uzun nutq" : "Part 2: Long Turn"}</p>
-                                        <p className="text-[10px] text-slate-400 font-medium">{lang === 'uz' ? "Berilgan mavzuda 2 daqiqalik nutq (1 daqiqa tayyorgarlik)" : "2-minute talk on a given topic with 1-minute preparation"}</p>
+                                        <p className="text-[10px] text-slate-600 font-medium">{lang === 'uz' ? "Berilgan mavzuda 2 daqiqalik nutq (1 daqiqa tayyorgarlik)" : "2-minute talk on a given topic with 1-minute preparation"}</p>
                                     </div>
                                     <span className="text-[10px] font-black px-2 py-1 bg-purple-50 text-purple-600 rounded-lg">3-4 min</span>
                                 </div>
                                 <div className="p-4 rounded-2xl border border-slate-50 flex items-center justify-between">
                                     <div>
-                                        <p className="text-sm font-bold text-rose-600">{lang === 'uz' ? "3-qism: Muhokama" : "Part 3: Discussion"}</p>
-                                        <p className="text-[10px] text-slate-400 font-medium">{lang === 'uz' ? "2-qism mavzusiga qarab mavhum mavzularda kengaytirilgan muhokama" : "Extended discussion on abstract topics related to Part 2"}</p>
+                                        <p className="text-sm font-bold text-rose-700">{lang === 'uz' ? "3-qism: Muhokama" : "Part 3: Discussion"}</p>
+                                        <p className="text-[10px] text-slate-600 font-medium">{lang === 'uz' ? "2-qism mavzusiga qarab mavhum mavzularda kengaytirilgan muhokama" : "Extended discussion on abstract topics related to Part 2"}</p>
                                     </div>
-                                    <span className="text-[10px] font-black px-2 py-1 bg-rose-50 text-rose-600 rounded-lg">4-5 min</span>
+                                    <span className="text-[10px] font-black px-2 py-1 bg-rose-50 text-rose-700 rounded-lg">4-5 min</span>
                                 </div>
                             </div>
                         </div>
@@ -253,7 +253,7 @@ function StatItem({ label, value, color }: { label: string, value: string | numb
     return (
         <div className="flex flex-col items-center justify-center p-4">
             <span className={cn("text-2xl font-black mb-1", color)}>{value}</span>
-            <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">{label}</span>
+            <span className="text-[10px] font-black text-slate-600 uppercase tracking-widest text-center">{label}</span>
         </div>
     );
 }
@@ -285,31 +285,31 @@ function SpeakingLessonCard({ lesson, index, lang }: { lesson: any, index: numbe
                     {lang === 'uz' ? `${lesson.lessonNumber}-Dars` : `Lesson ${lesson.lessonNumber}`}
                 </span>
                 {isCompleted && (
-                    <div className="flex items-center gap-1.5 text-emerald-500">
+                    <div className="flex items-center gap-1.5 text-emerald-700">
                         <CheckCircle2 className="w-4 h-4" />
                     </div>
                 )}
             </div>
 
             <div className="space-y-2 mb-6 flex-1">
-                <h3 className="font-black text-slate-900 text-lg leading-tight group-hover:text-rose-600 transition-colors">
+                <h3 className="font-black text-slate-900 text-lg leading-tight group-hover:text-rose-700 transition-colors">
                     {lesson.title}
                 </h3>
-                <p className="text-xs text-slate-400 font-medium leading-relaxed">
+                <p className="text-xs text-slate-600 font-medium leading-relaxed">
                     {lesson.description}
                 </p>
             </div>
 
             <div className="flex items-center gap-3 mb-6">
-                <div className="flex items-center gap-1.5 text-[10px] font-bold text-slate-400 bg-slate-50 px-2 py-1 rounded-lg">
+                <div className="flex items-center gap-1.5 text-[10px] font-bold text-slate-600 bg-slate-50 px-2 py-1 rounded-lg">
                     <Clock className="w-3 h-3 text-rose-400" />
                     {lesson.duration}
                 </div>
                 <div className={cn(
                     "text-[10px] font-bold px-2 py-1 rounded-lg",
-                    lesson.typeBadge === "Full Test" ? "bg-rose-50 text-rose-500" :
+                    lesson.typeBadge === "Full Test" ? "bg-rose-50 text-rose-700" :
                     lesson.typeBadge === "Overview" ? "bg-slate-50 text-slate-500" :
-                    lesson.typeBadge === "Skills" ? "bg-blue-50 text-blue-500" : "bg-rose-50 text-rose-500"
+                    lesson.typeBadge === "Skills" ? "bg-blue-50 text-blue-700" : "bg-rose-50 text-rose-700"
                 )}>
                     {lesson.typeBadge}
                 </div>
@@ -318,9 +318,9 @@ function SpeakingLessonCard({ lesson, index, lang }: { lesson: any, index: numbe
             <div className="flex items-center justify-between items-center mb-6">
                 <div className={cn(
                     "text-[10px] font-bold px-2 py-1 rounded-lg",
-                    lesson.level === "Expert" ? "bg-rose-50 text-rose-500" :
-                    lesson.level === "Advanced" ? "bg-amber-50 text-amber-500" :
-                    lesson.level === "Intermediate" ? "bg-blue-50 text-blue-500" : "bg-emerald-50 text-emerald-500"
+                    lesson.level === "Expert" ? "bg-rose-50 text-rose-700" :
+                    lesson.level === "Advanced" ? "bg-amber-50 text-amber-700" :
+                    lesson.level === "Intermediate" ? "bg-blue-50 text-blue-700" : "bg-emerald-50 text-emerald-700"
                 )}>
                     {lesson.level}
                 </div>
@@ -354,18 +354,22 @@ function PracticeCard({ test, index, lang, type }: { test: any, index: number, l
         >
             <div className="flex flex-col gap-3">
                 <div className="flex items-center justify-between">
-                    <span className="text-[9px] font-black text-slate-500 uppercase tracking-widest">{lang === 'uz' ? "Mock Test" : "Mock Practice"}</span>
-                    <div className="flex items-center gap-1 text-[9px] font-bold text-slate-500">
+                    <span className="text-[9px] font-black text-slate-700 uppercase tracking-widest">{lang === 'uz' ? "Mock Test" : "Mock Practice"}</span>
+                    <div className="flex items-center gap-1 text-[9px] font-bold text-slate-700">
                         <Clock className="w-2.5 h-2.5" />
                         {test.duration}
                     </div>
                 </div>
-                <h4 className="text-xs font-bold text-slate-700 line-clamp-1 group-hover:text-rose-600 transition-colors">
+                <h4 className="text-xs font-bold text-slate-700 line-clamp-1 group-hover:text-indigo-600 transition-colors">
                     {test.title}
                 </h4>
                 <div className="flex items-center justify-between mt-1">
-                    <span className="text-[9px] font-black px-1.5 py-0.5 bg-slate-50 text-slate-400 rounded-md">{test.level}</span>
-                    <Link href={`/practice/${type}/${test.id}`} className="text-rose-500 group-hover:translate-x-1 transition-transform">
+                    <span className="text-[9px] font-black px-1.5 py-0.5 bg-slate-50 text-slate-700 rounded-md">{test.level}</span>
+                    <Link 
+                        href={`/practice/${type}/${test.id}`} 
+                        aria-label={lang === 'uz' ? "Testni boshlash" : "Start Test"}
+                        className="text-indigo-600 group-hover:translate-x-1 transition-transform"
+                    >
                         <ChevronRight className="w-4 h-4" />
                     </Link>
                 </div>

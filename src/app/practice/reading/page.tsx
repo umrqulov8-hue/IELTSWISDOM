@@ -215,7 +215,7 @@ export default function ReadingPage() {
                                 >
                                     <div className="flex items-center gap-3 relative z-10">
                                         {category.icon ? (
-                                            <category.icon className={cn("w-4 h-4", selectedCategory === category.id ? "text-blue-600" : "text-slate-400 group-hover:text-blue-500")} />
+                                            <category.icon className={cn("w-4 h-4", selectedCategory === category.id ? "text-blue-600" : "text-slate-600 group-hover:text-blue-700")} />
                                         ) : (
                                             <div className={cn(
                                                 "w-2 h-2 rounded-full transition-all duration-300",
@@ -237,7 +237,7 @@ export default function ReadingPage() {
                                         "px-2.5 py-0.5 rounded-lg text-[10px] bg-white/50 border font-bold relative z-10 transition-colors",
                                         selectedCategory === category.id
                                             ? "border-blue-200 text-blue-600 bg-white"
-                                            : "border-transparent text-slate-400 group-hover:bg-white group-hover:border-blue-100 group-hover:text-blue-400"
+                                            : "border-transparent text-slate-600 group-hover:bg-white group-hover:border-blue-100 group-hover:text-blue-400"
                                     )}>
                                         {count}
                                     </span>
@@ -317,7 +317,7 @@ export default function ReadingPage() {
                                                                         category.id === "cambridge-ielts" ? "Cambridge IELTS O'qish" : category.title
                                                     ) : category.title}
                                                 </h3>
-                                                <p className="text-sm text-slate-400 font-medium">{categoryTests.length} {lang === 'uz' ? "Test mavjud" : "Items Available"}</p>
+                                                <p className="text-sm text-slate-600 font-medium">{categoryTests.length} {lang === 'uz' ? "Test mavjud" : "Items Available"}</p>
                                             </div>
                                         </div>
 
@@ -371,7 +371,7 @@ export default function ReadingPage() {
                                                                 {test.title}
                                                             </h4>
                                                             {test.isNew && (
-                                                                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-rose-50 text-rose-500 border border-rose-100">
+                                                                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-rose-50 text-rose-700 border border-rose-100">
                                                                     {lang === 'uz' ? "YANGI" : "NEW"}
                                                                 </span>
                                                             )}
@@ -408,7 +408,7 @@ export default function ReadingPage() {
                                     <Search className="w-8 h-8 text-blue-300" />
                                 </div>
                                 <h3 className="text-xl font-bold text-slate-700 mb-2">{lang === 'uz' ? "Matnlar topilmadi" : "No passages found"}</h3>
-                                <p className="text-slate-400">{lang === 'uz' ? "Boshqa narsani qidirib ko'ring yoki filtrlarni tozalang." : "Try searching for something else or clear filters."}</p>
+                                <p className="text-slate-600">{lang === 'uz' ? "Boshqa narsani qidirib ko'ring yoki filtrlarni tozalang." : "Try searching for something else or clear filters."}</p>
                             </motion.div>
                         )}
                     </div>

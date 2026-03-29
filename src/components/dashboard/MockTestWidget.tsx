@@ -14,7 +14,7 @@ function MockMetric({ label, value, color = "text-slate-900" }: MockMetricProps)
     return (
         <div className="flex flex-col gap-1">
             <span className="text-3xl font-black tracking-tight leading-none text-slate-900">{value}</span>
-            <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">{label}</span>
+            <span className="text-[10px] font-bold text-slate-700 uppercase tracking-widest">{label}</span>
         </div>
     );
 }
@@ -35,20 +35,20 @@ export function MockTestWidget({ completed, total, avgBand, lastScore }: {
                 </div>
                 <div>
                     <h2 className="text-lg font-bold text-slate-900 tracking-tight">Mock Test Progress</h2>
-                    <p className="text-xs font-bold text-slate-500 tracking-wide">Track your performance across full-length IELTS practice tests</p>
+                    <p className="text-xs font-bold text-slate-700 tracking-wide">Track your performance across full-length IELTS practice tests</p>
                 </div>
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-10">
                 <MockMetric label="Completed" value={completed} />
                 <MockMetric label="Total Tests" value={total} />
-                <MockMetric label="Avg. Band" value={avgBand} color="text-emerald-500" />
-                <MockMetric label="Last Score" value={lastScore} color="text-blue-500" />
+                <MockMetric label="Avg. Band" value={avgBand} color="text-emerald-700" />
+                <MockMetric label="Last Score" value={lastScore} color="text-blue-700" />
             </div>
 
             <div className="mt-auto space-y-6">
                 <div className="space-y-3">
-                    <div className="flex items-center justify-between text-[11px] font-bold text-slate-500">
+                    <div className="flex items-center justify-between text-[11px] font-bold text-slate-700">
                         <span className="uppercase tracking-widest">Progress</span>
                         <span>{completed}/{total}</span>
                     </div>

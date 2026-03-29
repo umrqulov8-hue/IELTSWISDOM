@@ -141,7 +141,7 @@ export default function WritingPage() {
                         className="relative group"
                     >
                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <Search className="h-4 w-4 text-rose-400 group-focus-within:text-rose-600 transition-colors" />
+                            <Search className="h-4 w-4 text-rose-400 group-focus-within:text-rose-700 transition-colors" />
                         </div>
                         <input
                             type="text"
@@ -160,7 +160,7 @@ export default function WritingPage() {
                         className="liquid-glass-panel p-4 space-y-2 lg:sticky lg:top-24 mt-6"
                     >
                         <div className="flex items-center gap-2 px-3 pb-3 mb-2 border-b border-rose-100/50">
-                            <Filter className="w-4 h-4 text-rose-600" />
+                            <Filter className="w-4 h-4 text-rose-700" />
                             <span className="text-xs font-bold text-rose-400 uppercase tracking-wider">{W.testMode}</span>
                         </div>
 
@@ -177,7 +177,7 @@ export default function WritingPage() {
                             >
                                 <div className="flex items-center gap-3 relative z-10">
                                     {category.icon ? (
-                                        <category.icon className={cn("w-4 h-4", selectedMode === category.id ? "text-rose-600" : "text-slate-400 group-hover:text-rose-500")} />
+                                        <category.icon className={cn("w-4 h-4", selectedMode === category.id ? "text-rose-700" : "text-slate-600 group-hover:text-rose-700")} />
                                     ) : (
                                         <div className={cn(
                                             "w-2 h-2 rounded-full transition-all duration-300",
@@ -191,8 +191,8 @@ export default function WritingPage() {
                                 <span className={cn(
                                     "px-2.5 py-0.5 rounded-lg text-[10px] bg-white/50 border font-bold relative z-10 transition-colors",
                                     selectedMode === category.id
-                                        ? "border-rose-200 text-rose-600 bg-white"
-                                        : "border-transparent text-slate-400 group-hover:bg-white group-hover:border-rose-100 group-hover:text-rose-400"
+                                        ? "border-rose-200 text-rose-700 bg-white"
+                                        : "border-transparent text-slate-600 group-hover:bg-white group-hover:border-rose-100 group-hover:text-rose-400"
                                 )}>
                                     {category.count}
                                 </span>
@@ -282,7 +282,7 @@ export default function WritingPage() {
                     <div className="space-y-8">
                         <div className="flex items-center justify-between">
                             <h3 className="text-xl font-bold text-slate-800 flex items-center gap-2">
-                                {W.available} <span className="text-sm font-normal text-slate-400">({filteredTests.length})</span>
+                                {W.available} <span className="text-sm font-normal text-slate-600">({filteredTests.length})</span>
                             </h3>
                         </div>
 
@@ -330,7 +330,7 @@ export default function WritingPage() {
                                                             {lang === 'uz' ? "YANGI" : "NEW"}
                                                         </span>
                                                     )}
-                                                    <div className="flex items-center gap-1 text-[10px] text-slate-400 font-semibold bg-slate-100/50 px-2 py-1 rounded-lg">
+                                                    <div className="flex items-center gap-1 text-[10px] text-slate-600 font-semibold bg-slate-100/50 px-2 py-1 rounded-lg">
                                                         <Clock className="w-3 h-3" /> {test.duration}
                                                     </div>
                                                 </div>
@@ -338,7 +338,7 @@ export default function WritingPage() {
 
                                             {/* Content */}
                                             <div className="mb-6 relative z-10">
-                                                <h4 className="font-bold text-rose-600 text-sm uppercase tracking-wide mb-1">
+                                                <h4 className="font-bold text-rose-700 text-sm uppercase tracking-wide mb-1">
                                                     {test.title}
                                                 </h4>
                                                 <h3 className="text-lg font-bold text-slate-800 group-hover:text-rose-700 transition-colors line-clamp-2">
@@ -387,7 +387,7 @@ export default function WritingPage() {
                                     <Search className="w-8 h-8 text-rose-300" />
                                 </div>
                                 <h3 className="text-xl font-bold text-slate-700 mb-2">{W.noTests}</h3>
-                                <p className="text-slate-400">{W.noTestsDesc}</p>
+                                <p className="text-slate-600">{W.noTestsDesc}</p>
                             </motion.div>
                         )}
                     </div>

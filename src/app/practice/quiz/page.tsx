@@ -165,7 +165,7 @@ function QuizContent() {
                 </h1>
 
                 <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-full border border-slate-200 shadow-sm">
-                    <Trophy className="w-4 h-4 text-emerald-500" />
+                    <Trophy className="w-4 h-4 text-emerald-700" />
                     <span className="text-slate-600 font-medium text-sm">Score: {score}</span>
                 </div>
             </header>
@@ -221,7 +221,7 @@ function QuizContent() {
                                         animate={{ width: `${((currentQuestionIndex + 1) / questions.length) * 100}%` }}
                                     />
                                 </div>
-                                <span className="text-sm font-bold tracking-widest text-emerald-500 uppercase mb-4 block">Question {currentQuestionIndex + 1} of {questions.length}</span>
+                                <span className="text-sm font-bold tracking-widest text-emerald-700 uppercase mb-4 block">Question {currentQuestionIndex + 1} of {questions.length}</span>
                                 <h2 className="text-2xl md:text-3xl font-bold text-slate-800 leading-relaxed">
                                     {currentQuestion.question}
                                 </h2>
@@ -247,13 +247,13 @@ function QuizContent() {
                                                 status === "idle" && "bg-white border-slate-200 hover:border-emerald-300 hover:shadow-md text-slate-700",
                                                 status === "correct" && "bg-emerald-50 border-emerald-500 text-emerald-800 shadow-[0_0_15px_rgba(16,185,129,0.1)]",
                                                 status === "incorrect" && "bg-rose-50 border-rose-500 text-rose-800",
-                                                status === "dimmed" && "opacity-50 bg-slate-50 border-slate-200 text-slate-400"
+                                                status === "dimmed" && "opacity-50 bg-slate-50 border-slate-200 text-slate-600"
                                             )}
                                         >
                                             <div className="flex items-center justify-between relative z-10">
                                                 <span className="text-lg font-medium">{option}</span>
-                                                {status === "correct" && <CheckCircle className="w-6 h-6 text-emerald-500" />}
-                                                {status === "incorrect" && <XCircle className="w-6 h-6 text-rose-500" />}
+                                                {status === "correct" && <CheckCircle className="w-6 h-6 text-emerald-700" />}
+                                                {status === "incorrect" && <XCircle className="w-6 h-6 text-rose-700" />}
                                             </div>
                                         </button>
                                     );

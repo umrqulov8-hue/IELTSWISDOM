@@ -281,7 +281,7 @@ export default function AICheckPage() {
                                 placeholder={tx(AIC.placeholder, lang)}
                                 aria-label="Chat input message"
                                 rows={1}
-                                className="flex-1 resize-none bg-transparent text-slate-800 placeholder:text-slate-400 focus:outline-none py-3 px-4 min-h-[50px] max-h-[200px] overflow-y-auto leading-relaxed text-[15px] font-medium custom-scrollbar"
+                                className="flex-1 resize-none bg-transparent text-slate-800 placeholder:text-slate-600 focus:outline-none py-3 px-4 min-h-[50px] max-h-[200px] overflow-y-auto leading-relaxed text-[15px] font-medium custom-scrollbar"
                                 disabled={loading || !isPro}
                             />
                             <button
@@ -343,7 +343,7 @@ export default function AICheckPage() {
                                         </button>
                                     </Link>
 
-                                    <p className="mt-6 text-[11px] text-slate-400 font-bold uppercase tracking-[0.15em]">
+                                    <p className="mt-6 text-[11px] text-slate-600 font-bold uppercase tracking-[0.15em]">
                                         Unlock 20+ Practice Tests
                                     </p>
                                 </div>

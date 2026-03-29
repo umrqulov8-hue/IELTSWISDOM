@@ -439,9 +439,9 @@ export default function VocabularyPage() {
                 }}
                 className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8"
             >
-                <StatsCard icon={Book} label={booksLabel} value="13" color="text-blue-500" bg="bg-blue-50" />
-                <StatsCard icon={FileText} label={testsLabel} value="20+" color="text-purple-500" bg="bg-purple-50" />
-                <StatsCard icon={BookOpen} label={passagesLabel} value="60+" color="text-emerald-500" bg="bg-emerald-50" />
+                <StatsCard icon={Book} label={booksLabel} value="13" color="text-blue-700" bg="bg-blue-50" />
+                <StatsCard icon={FileText} label={testsLabel} value="20+" color="text-purple-700" bg="bg-purple-50" />
+                <StatsCard icon={BookOpen} label={passagesLabel} value="60+" color="text-emerald-700" bg="bg-emerald-50" />
             </motion.div>
 
             {/* Main Content Card - Liquid Glass */}
@@ -487,7 +487,7 @@ export default function VocabularyPage() {
                                 <div className="flex items-center gap-4">
                                     <div className={cn(
                                         "w-12 h-12 rounded-xl flex items-center justify-center transition-colors duration-300",
-                                        expandedBook === book.id ? "bg-[#D4AF37] text-white" : "bg-slate-100 text-slate-400 group-hover:bg-[#F59E0B]/10 group-hover:text-[#F59E0B]"
+                                        expandedBook === book.id ? "bg-[#D4AF37] text-white" : "bg-slate-100 text-slate-600 group-hover:bg-[#F59E0B]/10 group-hover:text-[#F59E0B]"
                                     )}>
                                         <Book className="w-6 h-6" />
                                     </div>
@@ -498,7 +498,7 @@ export default function VocabularyPage() {
                                         )}>
                                             {book.title}
                                         </h3>
-                                        <p className="text-xs text-slate-400 font-medium">
+                                        <p className="text-xs text-slate-600 font-medium">
                                             {book.tests.length} {testsWord}
                                         </p>
                                     </div>
@@ -514,7 +514,7 @@ export default function VocabularyPage() {
                                         </span>
                                     )}
                                     <ChevronDown className={cn(
-                                        "w-5 h-5 text-slate-400 transition-transform duration-300",
+                                        "w-5 h-5 text-slate-600 transition-transform duration-300",
                                         expandedBook === book.id ? "rotate-180 text-red-500" : "" // Red chevron when active
                                     )} />
                                 </div>
@@ -545,7 +545,7 @@ export default function VocabularyPage() {
                                                         >
                                                             <span className="font-semibold text-slate-700">{test.title}</span>
                                                             <ChevronDown className={cn(
-                                                                "w-4 h-4 text-slate-400 transition-transform duration-200",
+                                                                "w-4 h-4 text-slate-600 transition-transform duration-200",
                                                                 isTestExpanded ? "rotate-180 text-sky-500" : ""
                                                             )} />
                                                         </button>

@@ -106,7 +106,7 @@ export function FullscreenEnforcer() {
                         ) : (
                             <>
                                 <div className="w-20 h-20 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-6 relative">
-                                    <AlertCircle className="w-10 h-10 text-amber-500" />
+                                    <AlertCircle className="w-10 h-10 text-amber-700" />
                                     {(violations > 0) && (
                                         <div className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold px-2.5 py-1 rounded-full shadow-md animate-bounce">
                                             {violations}/3
