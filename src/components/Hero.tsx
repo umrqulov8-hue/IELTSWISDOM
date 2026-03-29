@@ -7,6 +7,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useLanguage } from "@/context/LanguageContext";
 import { translations as T, tx } from "@/lib/translations";
 import Threads from "./ui/Threads";
+import GradualBlur from "./ui/GradualBlur";
 
 export function Hero() {
     const { handleStartLearning, isLoading } = useAuth();
@@ -70,11 +71,11 @@ export function Hero() {
                 {/* Subtle Grid Background */}
                 <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:50px_50px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
 
-                {/* Dynamic WebGL Threads Background - Repositioned Higher & Smaller */}
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-6xl h-[450px] z-0 opacity-80 pointer-events-none [mask-image:radial-gradient(ellipse_60%_50%_at_50%_40%,#000_20%,transparent_100%)]">
+                {/* Dynamic WebGL Threads Background - Full Width & Enlarged */}
+                <div className="absolute top-0 left-0 w-full h-[550px] z-0 opacity-80 pointer-events-none [mask-image:radial-gradient(ellipse_80%_50%_at_50%_40%,#000_20%,transparent_100%)]">
                     <Threads 
-                        amplitude={0.8}
-                        distance={0.1}
+                        amplitude={1.2}
+                        distance={0.2}
                         enableMouseInteraction={true}
                         color={[0.4, 0.5, 0.8]} 
                     />
@@ -276,6 +277,18 @@ export function Hero() {
                         ))}
                     </div>
                 </div>
+
+                {/* Bottom Scroll Transition Blur */}
+                <GradualBlur
+                    target="parent"
+                    position="bottom"
+                    height="10rem"
+                    strength={3}
+                    divCount={8}
+                    curve="bezier"
+                    exponential
+                    opacity={1}
+                />
             </section>
         </LazyMotion>
     );
