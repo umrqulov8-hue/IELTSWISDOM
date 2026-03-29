@@ -14,52 +14,52 @@ export function Hero() {
 
     const connectedCards = [
         { 
-            icon: PenTool, label: "Writing", rx: 280, ry: 160, startAngle: 0,
+            icon: PenTool, label: "Writing", x: -250, y: -100, 
             scale: 1.0, w: 170,
             extra: { type: 'bars', items: [60, 40, 80] },
-            duration: 23 // Prime
+            duration: 7 // Faster local float
         },
         { 
-            icon: Headphones, label: "Listening", rx: 250, ry: 180, startAngle: 45,
+            icon: Headphones, label: "Listening", x: 250, y: -80, 
             scale: 0.85, w: 150,
             extra: { type: 'bars', items: [30, 90, 50, 70] },
-            duration: 29 // Prime
+            duration: 8.5
         },
         { 
-            icon: Sparkles, label: "Band 8.5+", rx: 220, ry: 200, startAngle: 90,
+            icon: Sparkles, label: "Band 8.5+", x: -160, y: -180, 
             scale: 1.1, w: 190,
             extra: { type: 'dots', items: ['#10b981', '#f59e0b', '#ef4444'] },
-            duration: 31 // Prime
+            duration: 9.3
         },
         { 
-            icon: Target, label: "Mock Exam", rx: 300, ry: 140, startAngle: 135,
+            icon: Target, label: "Mock Exam", x: 180, y: -170, 
             scale: 0.95, w: 170,
             extra: { type: 'versions', items: ['v1.2.0', 'v1.0.5'] },
-            duration: 37 // Prime
+            duration: 10.7
         },
         { 
-            icon: BarChart, label: "Skill Analytics", rx: 240, ry: 210, startAngle: 180,
+            icon: BarChart, label: "Skill Analytics", x: 280, y: 100, 
             scale: 1.05, w: 180,
             extra: { type: 'chart', items: [40, 70, 30, 90] },
-            duration: 41 // Prime
+            duration: 12.1
         },
         { 
-            icon: Search, label: "Gap Analysis", rx: 260, ry: 190, startAngle: 225,
+            icon: Search, label: "Gap Analysis", x: -300, y: 120, 
             scale: 0.8, w: 140,
             extra: { type: 'dots', items: ['#334155', '#334155', '#334155'] },
-            duration: 43 // Prime
+            duration: 11.3
         },
         { 
-            icon: Zap, label: "Speed Prep", rx: 210, ry: 170, startAngle: 270,
+            icon: Zap, label: "Speed Prep", x: -180, y: 190, 
             scale: 0.9, w: 160,
             extra: { type: 'bars', items: [100, 80, 60] },
-            duration: 47 // Prime
+            duration: 13.7
         },
         { 
-            icon: Trophy, label: "EXAM READY", rx: 290, ry: 150, startAngle: 315,
+            icon: Trophy, label: "EXAM READY", x: 180, y: 200, 
             scale: 1.0, w: 180,
             extra: { type: 'dots', items: ['#f59e0b', '#f59e0b'] },
-            duration: 53 // Prime
+            duration: 15.1
         },
     ];
 
@@ -119,8 +119,8 @@ export function Hero() {
                         </m.p>
                     </m.div>
 
-                    {/* Neural Map Visualization - Orbital Animation */}
-                    <div className="relative h-[660px] max-w-5xl mx-auto hidden lg:flex items-center justify-center">
+                    {/* Neural Map Visualization - Hyper-Compact Localized Oval */}
+                    <div className="relative h-[620px] max-w-5xl mx-auto hidden lg:flex items-center justify-center">
                         {/* Central Logo - Clockwork Toj */}
                         <m.div 
                             initial={{ scale: 0.8, opacity: 0 }}
@@ -141,37 +141,26 @@ export function Hero() {
                              </svg>
                         </m.div>
 
-                        {/* Combined Orbital Cards System */}
+                        {/* Combined Cards & Lines System */}
                         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                             {connectedCards.map((card, idx) => {
-                                // Calculate Orbital Path Pre-sets
-                                const steps = 60; // Accuracy of circle path
-                                const xKeyframes = [];
-                                const yKeyframes = [];
-                                const zKeyframes = [];
-                                const sKeyframes = [];
-
-                                for (let i = 0; i <= steps; i++) {
-                                    const angle = (card.startAngle + (i / steps) * 360) * (Math.PI / 180);
-                                    xKeyframes.push(card.rx * Math.cos(angle));
-                                    yKeyframes.push(card.ry * Math.sin(angle));
-                                    
-                                    // Depth Logic (Sin determines front/back distance)
-                                    // sin is 1 at bottom (front), -1 at top (back)
-                                    const depth = Math.sin(angle); 
-                                    zKeyframes.push(depth > 0 ? 40 : 10);
-                                    sKeyframes.push(card.scale * (0.85 + (depth + 1) * 0.15));
-                                }
+                                // Calculate localized clockwise oval keyframes
+                                const dx = 25; // horizontal swing
+                                const dy = 20; // vertical swing
+                                
+                                const xKeyframes = [card.x, card.x + dx, card.x, card.x - dx, card.x];
+                                const yKeyframes = [card.y - dy, card.y, card.y + dy, card.y, card.y - dy];
+                                const sKeyframes = [card.scale, card.scale * 1.05, card.scale, card.scale * 0.95, card.scale];
 
                                 return (
                                     <m.div
                                         key={`group-${idx}`}
                                         initial={{ opacity: 0 }}
                                         animate={{ opacity: 1 }}
-                                        transition={{ delay: 1 + idx * 0.1 }}
+                                        transition={{ delay: 0.8 + idx * 0.1 }}
                                         className="absolute inset-0 flex items-center justify-center"
                                     >
-                                        {/* Line - Tracks the card */}
+                                        {/* Line - Tracks the localized float */}
                                         <svg className="absolute inset-0 w-full h-full overflow-visible z-10">
                                             <m.line
                                                 animate={{ 
@@ -183,32 +172,30 @@ export function Hero() {
                                                     duration: card.duration, 
                                                     ease: "linear" 
                                                 }}
-                                                x1="50%" y1="50%" x2={`calc(50% + ${card.rx}px)`} y2={`calc(50% + ${card.ry}px)`}
-                                                className="stroke-slate-900/10 dark:stroke-white/10 stroke-[1]"
+                                                x1="50%" y1="50%" x2={`calc(50% + ${card.x}px)`} y2={`calc(50% + ${card.y}px)`}
+                                                className="stroke-slate-950/10 dark:stroke-white/10 stroke-[1]"
                                             />
                                         </svg>
 
-                                        {/* Card - Clockwise Rotation with Depth */}
+                                        {/* Card - Localized Clockwise Oval */}
                                         <m.div
-                                            initial={{ opacity: 0 }}
+                                            initial={{ opacity: 0, x: card.x, y: card.y }}
                                             animate={{ 
                                                 opacity: 1, 
                                                 x: xKeyframes, 
                                                 y: yKeyframes,
-                                                zIndex: zKeyframes,
                                                 scale: sKeyframes,
-                                                rotate: [-idx * 2, idx * 2, -idx * 2] // Subtle non-synced wobble
+                                                rotate: [-0.5, 0.5, -0.5]
                                             }}
                                             transition={{ 
                                                 opacity: { duration: 1 },
                                                 x: { repeat: Infinity, duration: card.duration, ease: "linear" },
                                                 y: { repeat: Infinity, duration: card.duration, ease: "linear" },
-                                                zIndex: { repeat: Infinity, duration: card.duration, ease: "linear" },
                                                 scale: { repeat: Infinity, duration: card.duration, ease: "linear" },
-                                                rotate: { repeat: Infinity, duration: card.duration / 4, ease: "easeInOut" }
+                                                rotate: { repeat: Infinity, duration: card.duration / 3, ease: "easeInOut" }
                                             }}
                                             style={{ width: card.w }}
-                                            className="absolute pointer-events-auto bg-white dark:bg-slate-900 p-4 rounded-[1.25rem] shadow-[0_32px_64px_-16px_rgba(0,0,0,0.1)] border border-slate-100 dark:border-slate-800 flex flex-col gap-3 group hover:scale-[1.05] hover:bg-white active:scale-95 transition-all cursor-pointer origin-center"
+                                            className="absolute pointer-events-auto bg-white dark:bg-slate-900 p-4 rounded-[1.25rem] shadow-[0_32px_64px_-16px_rgba(0,0,0,0.1)] border border-slate-100 dark:border-slate-800 flex flex-col gap-3 group hover:scale-[1.05] hover:bg-white active:scale-95 transition-all cursor-pointer z-30 origin-center"
                                         >
                                             <div className="flex items-center gap-3">
                                                 <div className="p-1.5 rounded-lg bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm">
