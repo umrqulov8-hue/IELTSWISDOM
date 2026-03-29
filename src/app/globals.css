@@ -1,5 +1,63 @@
 @import "tailwindcss";
 
+/* Figma Design System Typography - High Fidelity Integration */
+@font-face {
+  font-family: 'Apercu';
+  font-style: italic;
+  font-weight: 200;
+  src: url(https://static.figma.com/blog/fonts/Apercu-LightItalic.woff2) format('woff2');
+}
+@font-face {
+  font-family: 'Apercu';
+  font-style: normal;
+  font-weight: 200;
+  src: url(https://static.figma.com/blog/fonts/Apercu-Light.woff2) format('woff2');
+}
+@font-face {
+  font-family: 'Apercu';
+  font-style: normal;
+  font-weight: 400;
+  src: url(https://static.figma.com/blog/fonts/Apercu-Regular.woff2) format('woff2');
+}
+@font-face {
+  font-family: 'Apercu';
+  font-style: normal;
+  font-weight: 500;
+  src: url(https://static.figma.com/blog/fonts/Apercu-Medium.woff2) format('woff2');
+}
+@font-face {
+  font-family: 'Figma Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: url(https://static.figma.com/webfont/1/Figma-Standard-Text-Regular.woff2) format('woff2');
+}
+@font-face {
+  font-family: 'Figma Sans';
+  font-style: normal;
+  font-weight: 500;
+  src: url(https://static.figma.com/webfont/1/Figma-Standard-Text-Medium.woff2) format('woff2');
+}
+@font-face {
+  font-family: 'Figma Sans';
+  font-style: normal;   font-weight: 700;
+  src: url(https://static.figma.com/webfont/1/Figma-Standard-Text-Bold.woff2) format('woff2');
+}
+@font-face {
+  font-family: 'Figma Sans';
+  font-style: normal;   font-weight: 900;
+  src: url(https://static.figma.com/webfont/1/Figma-Standard-Text-Heavy.woff2) format('woff2');
+}
+@font-face {
+  font-family: 'Whyte';
+  font-style: normal;   font-weight: 400;
+  src: url(https://static.figma.com/webfont/1/Whyte-Regular.woff2) format('woff2');
+}
+@font-face {
+  font-family: 'Whyte';
+  font-style: normal;   font-weight: 700;
+  src: url(https://static.figma.com/webfont/1/Whyte-Bold.woff2) format('woff2');
+}
+
 @theme {
   --color-background: #F9F9F9;
   --color-foreground: #020617;
