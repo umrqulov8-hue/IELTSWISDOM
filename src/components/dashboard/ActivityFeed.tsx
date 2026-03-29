@@ -33,7 +33,7 @@ function ActivityItem({ activity }: { activity: Activity }) {
                         <span className="w-1 h-1 rounded-full bg-slate-200" />
                         <span className="text-[10px] font-bold text-slate-700">{activity.time}</span>
                     </div>
-                    <h4 className="text-sm font-bold text-slate-900 tracking-tight group-hover/item:text-[#0f172a] transition-colors">{activity.title}</h4>
+                    <h3 className="text-sm font-bold text-slate-900 tracking-tight group-hover/item:text-[#0f172a] transition-colors">{activity.title}</h3>
                 </div>
             </div>
             

@@ -42,11 +42,8 @@
     "typescript": "^5"
   },
   "browserslist": [
-    "last 3 chrome versions",
-    "last 3 firefox versions",
-    "last 3 safari versions",
-    "last 3 edge versions",
+    "since 2022",
     "not dead",
-    "not ie 11"
+    "supports es6-module"
   ]
 }

@@ -63,7 +63,7 @@ export default function SpeakingSkillsPage() {
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-10 relative z-10">
                         <div className="md:col-span-2 space-y-6">
                             <div className="flex items-center justify-between">
-                                <h3 className="font-bold text-slate-800 tracking-tight">{lang === 'uz' ? "Gapirish Jarayoni" : "Speaking Progress"}</h3>
+                                <h2 className="font-bold text-slate-800 tracking-tight">{lang === 'uz' ? "Gapirish Jarayoni" : "Speaking Progress"}</h2>
                                 <span className="text-2xl font-black text-rose-700">{progressPercent}%</span>
                             </div>
                             <div className="h-4 bg-slate-100 rounded-full overflow-hidden p-1 border border-slate-50 shadow-inner">
@@ -360,9 +360,9 @@ function PracticeCard({ test, index, lang, type }: { test: any, index: number, l
                         {test.duration}
                     </div>
                 </div>
-                <h4 className="text-xs font-bold text-slate-700 line-clamp-1 group-hover:text-indigo-600 transition-colors">
+                <h3 className="text-xs font-bold text-slate-700 line-clamp-1 group-hover:text-indigo-600 transition-colors">
                     {test.title}
-                </h4>
+                </h3>
                 <div className="flex items-center justify-between mt-1">
                     <span className="text-[9px] font-black px-1.5 py-0.5 bg-slate-50 text-slate-700 rounded-md">{test.level}</span>
                     <Link 

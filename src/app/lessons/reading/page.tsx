@@ -71,7 +71,7 @@ export default function ReadingSkillsPage() {
                         {/* Progress Bar Column */}
                         <div className="md:col-span-2 space-y-6">
                             <div className="flex items-center justify-between">
-                                <h3 className="font-bold text-slate-800 tracking-tight">{lang === 'uz' ? "Jarayon" : "Progress Overview"}</h3>
+                                <h2 className="font-bold text-slate-800 tracking-tight">{lang === 'uz' ? "Jarayon" : "Progress Overview"}</h2>
                                 <span className="text-2xl font-black text-blue-600">{progressPercent}%</span>
                             </div>
                             <div className="h-4 bg-slate-100 rounded-full overflow-hidden p-1 border border-slate-50 shadow-inner">
@@ -290,9 +290,9 @@ function PracticeCard({ test, index, lang }: { test: any, index: number, lang: s
                         {test.duration}
                     </div>
                 </div>
-                <h4 className="text-xs font-bold text-slate-700 line-clamp-1 group-hover:text-indigo-600 transition-colors">
+                <h3 className="text-xs font-bold text-slate-700 line-clamp-1 group-hover:text-indigo-600 transition-colors">
                     {test.title}
-                </h4>
+                </h3>
                 <div className="flex items-center justify-between mt-1">
                     <span className="text-[9px] font-black px-1.5 py-0.5 bg-slate-50 text-slate-700 rounded-md">{test.level}</span>
                     <Link 
