@@ -60,11 +60,11 @@ export const Sidebar = memo(({ onMobileClose }: SidebarProps) => {
             {/* Logo Section */}
             <div className="px-8 py-8 flex items-center justify-between">
                 <Link href="/dashboard" className="flex items-center gap-3 group">
-                    <div className="w-10 h-10 bg-[#0f172a] rounded-xl flex items-center justify-center text-white shadow-lg shadow-slate-200 group-hover:scale-105 transition-transform">
+                    <div className="w-10 h-10 bg-black rounded-xl flex items-center justify-center text-white shadow-lg shadow-slate-200 group-hover:scale-105 transition-transform">
                         <Trophy className="w-6 h-6" />
                     </div>
                     <div className="flex flex-col">
-                        <span className="text-xl font-black text-slate-900 leading-none tracking-tight">IELTS Prep</span>
+                        <span className="text-xl font-black text-black leading-none tracking-tight">IELTS Wisdom</span>
                         <span className="text-[10px] font-bold text-slate-400 mt-0.5 tracking-wider uppercase">Master Your Skills</span>
                     </div>
                 </Link>
@@ -98,7 +98,7 @@ export const Sidebar = memo(({ onMobileClose }: SidebarProps) => {
                                         className={cn(
                                             "flex items-center justify-between px-4 py-3 rounded-xl transition-all duration-200 group/item",
                                             isActive 
-                                                ? "bg-[#0f172a] text-white shadow-md shadow-slate-200" 
+                                                ? "bg-black text-white shadow-md shadow-slate-200" 
                                                 : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
                                         )}
                                     >
