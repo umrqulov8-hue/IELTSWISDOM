@@ -36,14 +36,22 @@ export default function DashboardPage() {
         return (
             <DashboardLayout showGreeting={true}>
                 <div className="space-y-12">
-                    {/* Synchronized Skeleton Gap-8 */}
+                    {/* Stat Cards Skeleton - Fixed gap-6 */}
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                         {[1, 2, 3, 4].map(i => <Skeleton key={i} className="h-32 rounded-3xl" />)}
                     </div>
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                        <Skeleton className="lg:col-span-2 h-[432px] rounded-[2.5rem]" />
-                        <Skeleton className="h-[432px] rounded-[2.5rem]" />
+
+                    {/* Main Middle Row Skeleton - Structural Mirroring with gap-8 and items-stretch */}
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
+                        <div className="lg:col-span-2">
+                             <Skeleton className="h-[432px] rounded-[2.5rem]" />
+                        </div>
+                        <div>
+                             <Skeleton className="h-[432px] rounded-[2.5rem]" />
+                        </div>
                     </div>
+                    
+                    {/* Bottom Quick Actions Skeleton */}
                     <Skeleton className="h-32 rounded-3xl" />
                 </div>
             </DashboardLayout>

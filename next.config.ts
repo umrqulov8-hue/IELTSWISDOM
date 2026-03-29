@@ -55,7 +55,10 @@ const nextConfig = {
     turbo: {
       resolveAlias: {
         "core-js": "./src/lib/polyfills-dummy.js",
-        // Aggressively silence all core-js polyfills for our modern-only target
+        "core-js-pure": "./src/lib/polyfills-dummy.js",
+        "core-js-compat": "./src/lib/polyfills-dummy.js",
+        "regenerator-runtime": "./src/lib/polyfills-dummy.js",
+        // Aggressively silence all variants of legacy polyfills for our modern-only target
       }
     }
   },
