@@ -42,17 +42,19 @@ export default function DashboardPage() {
                     </div>
 
                     {/* Main Middle Row Skeleton - Structural Mirroring with gap-8 and items-stretch */}
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
-                        <div className="lg:col-span-2">
-                             <Skeleton className="h-[432px] rounded-[2.5rem]" />
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch min-h-[432px]">
+                        <div className="lg:col-span-2 min-h-[432px]">
+                             <Skeleton className="h-full w-full rounded-[2.5rem]" />
                         </div>
-                        <div>
-                             <Skeleton className="h-[432px] rounded-[2.5rem]" />
+                        <div className="min-h-[432px]">
+                             <Skeleton className="h-full w-full rounded-[2.5rem]" />
                         </div>
                     </div>
                     
                     {/* Bottom Quick Actions Skeleton */}
-                    <Skeleton className="h-32 rounded-3xl" />
+                    <div className="min-h-[128px]">
+                        <Skeleton className="h-full w-full rounded-3xl" />
+                    </div>
                 </div>
             </DashboardLayout>
         );
@@ -68,7 +70,7 @@ export default function DashboardPage() {
                 </div>
 
                 {/* Skill Stats Cards */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 min-h-[128px]">
                     <SkillStatsCard 
                         title="Reading" 
                         icon={BookOpen} 
@@ -96,8 +98,8 @@ export default function DashboardPage() {
                 </div>
 
                 {/* Main Middle Row */}
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
-                    <div className="lg:col-span-2">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch min-h-[432px]">
+                    <div className="lg:col-span-2 min-h-[432px]">
                         <MockTestWidget 
                             completed={stats?.reading_tests_completed || 0}
                             total={30}
@@ -105,13 +107,15 @@ export default function DashboardPage() {
                             lastScore={7.5}
                         />
                     </div>
-                    <div>
+                    <div className="min-h-[432px]">
                         <ActivityFeed activities={mockActivities} />
                     </div>
                 </div>
 
                 {/* Quick Actions at bottom */}
-                <QuickActions />
+                <div className="min-h-[128px]">
+                    <QuickActions />
+                </div>
             </div>
         </DashboardLayout>
     );
