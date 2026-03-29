@@ -123,62 +123,123 @@ export default function SpeakingSkillsPage() {
                     </div>
                 )}
 
-                {/* --- Speaking Tips & Assessment --- */}
+                {/* --- Speaking Test Structure & Assessment --- */}
                 <div className="bg-white border border-slate-100 rounded-[2.5rem] p-10 mt-16 shadow-sm">
                     <div className="flex items-center gap-3 mb-8">
                         <div className="w-10 h-10 bg-rose-50 rounded-xl flex items-center justify-center text-rose-600">
-                            <Lightbulb className="w-5 h-5" />
+                            <MessageCircle className="w-5 h-5" />
                         </div>
                         <h2 className="text-xl font-black text-slate-900 tracking-tight">
-                            {lang === 'uz' ? "Gapirish bo'yicha maslahatlar va baholash mezonlari" : "Speaking Tips & Assessment Criteria"}
+                            {lang === 'uz' ? "Speaking Testining Formati va Baholash" : "Speaking Test Format & Assessment"}
                         </h2>
                     </div>
 
                     <div className="grid md:grid-cols-2 gap-12">
                         <div className="space-y-6">
                             <h3 className="font-bold text-slate-800 flex items-center gap-2">
-                                <MessageCircle className="w-4 h-4 text-rose-500" />
-                                {lang === 'uz' ? "Asosiy Strategiyalar" : "Essential Strategies"}
+                                {lang === 'uz' ? "Test Tuzilishi (11-14 daqiqa)" : "Test Structure (11-14 minutes)"}
                             </h3>
-                            <ul className="space-y-4 text-sm text-slate-500 font-medium list-none">
-                                <li className="flex items-start gap-3">
-                                    <div className="w-1.5 h-1.5 rounded-full bg-rose-400 mt-1.5" />
-                                    {lang === 'uz' ? "Savollarga javob berishda 'Ha' yoki 'Yo'q' deb cheklanmang" : "Extend your answers; don't just say 'Yes' or 'No'"}
+                            <div className="space-y-4">
+                                <div className="p-4 rounded-2xl border border-slate-50 flex items-center justify-between">
+                                    <div>
+                                        <p className="text-sm font-bold text-blue-600">{lang === 'uz' ? "1-qism: Kirish" : "Part 1: Introduction"}</p>
+                                        <p className="text-[10px] text-slate-400 font-medium">{lang === 'uz' ? "Siz va tanish mavzular haqida umumiy savollar" : "General questions about yourself and familiar topics"}</p>
+                                    </div>
+                                    <span className="text-[10px] font-black px-2 py-1 bg-blue-50 text-blue-600 rounded-lg">4-5 min</span>
+                                </div>
+                                <div className="p-4 rounded-2xl border border-slate-50 flex items-center justify-between">
+                                    <div>
+                                        <p className="text-sm font-bold text-purple-600">{lang === 'uz' ? "2-qism: Uzun nutq" : "Part 2: Long Turn"}</p>
+                                        <p className="text-[10px] text-slate-400 font-medium">{lang === 'uz' ? "Berilgan mavzuda 2 daqiqalik nutq (1 daqiqa tayyorgarlik)" : "2-minute talk on a given topic with 1-minute preparation"}</p>
+                                    </div>
+                                    <span className="text-[10px] font-black px-2 py-1 bg-purple-50 text-purple-600 rounded-lg">3-4 min</span>
+                                </div>
+                                <div className="p-4 rounded-2xl border border-slate-50 flex items-center justify-between">
+                                    <div>
+                                        <p className="text-sm font-bold text-rose-600">{lang === 'uz' ? "3-qism: Muhokama" : "Part 3: Discussion"}</p>
+                                        <p className="text-[10px] text-slate-400 font-medium">{lang === 'uz' ? "2-qism mavzusiga qarab mavhum mavzularda kengaytirilgan muhokama" : "Extended discussion on abstract topics related to Part 2"}</p>
+                                    </div>
+                                    <span className="text-[10px] font-black px-2 py-1 bg-rose-50 text-rose-600 rounded-lg">4-5 min</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="space-y-6">
+                            <h3 className="font-bold text-slate-800 flex items-center gap-2">
+                                {lang === 'uz' ? "Baholash Mezonlari" : "Assessment Criteria"}
+                            </h3>
+                            <div className="grid gap-3">
+                                <CriteriaCard label={lang === 'uz' ? "Ravonlik va aloqa" : "Fluency & Coherence"} desc={lang === 'uz' ? "Nutq oqimi va mantiqiy tashkil qilish" : "Speech flow and logical organization"} percent="25%" color="bg-blue-50 text-blue-600 border-blue-100" />
+                                <CriteriaCard label={lang === 'uz' ? "Lug'at boyligi" : "Lexical Resource"} desc={lang === 'uz' ? "So'z boyligi va aniqligi" : "Vocabulary range and accuracy"} percent="25%" color="bg-emerald-50 text-emerald-600 border-emerald-100" />
+                                <CriteriaCard label={lang === 'uz' ? "Grammatik ko'lam" : "Grammatical Range"} desc={lang === 'uz' ? "Grammatik xilma-xillik va aniqlik" : "Grammar variety and accuracy"} percent="25%" color="bg-purple-50 text-purple-600 border-purple-100" />
+                                <CriteriaCard label={lang === 'uz' ? "Talaffuz" : "Pronunciation"} desc={lang === 'uz' ? "Aniq nutq va tabiiy ohanglar" : "Clear speech and natural patterns"} percent="25%" color="bg-orange-50 text-orange-600 border-orange-100" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* --- Speaking Success Tips --- */}
+                <div className="bg-white border border-slate-100 rounded-[2.5rem] p-10 shadow-sm">
+                    <div className="flex items-center gap-3 mb-8">
+                        <div className="w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center text-emerald-600">
+                            <Target className="w-5 h-5" />
+                        </div>
+                        <h2 className="text-xl font-black text-slate-900 tracking-tight">
+                            {lang === 'uz' ? "Speaking-da muvaffaqiyat qozonish uchun maslahatlar" : "Speaking Success Tips"}
+                        </h2>
+                    </div>
+
+                    <div className="grid md:grid-cols-3 gap-8">
+                        <div className="space-y-4">
+                            <p className="text-sm font-black text-blue-600 uppercase tracking-widest">{lang === 'uz' ? "Speaking-dan oldin" : "Before Speaking"}</p>
+                            <ul className="space-y-3 text-xs text-slate-500 font-bold list-none">
+                                <li className="flex items-center gap-2">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-blue-400" />
+                                    {lang === 'uz' ? "Dam oling va ishonch bilan bo'ling" : "Relax and be confident"}
                                 </li>
-                                <li className="flex items-start gap-3">
-                                    <div className="w-1.5 h-1.5 rounded-full bg-rose-400 mt-1.5" />
-                                    {lang === 'uz' ? "Tabiiy ravishda so'zlashing va pauzalarni kamaytiring" : "Speak naturally and minimize hesitation"}
+                                <li className="flex items-center gap-2">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-blue-400" />
+                                    {lang === 'uz' ? "Savollarni diqqat bilan eshiting" : "Listen carefully to questions"}
                                 </li>
-                                <li className="flex items-start gap-3">
-                                    <div className="w-1.5 h-1.5 rounded-full bg-rose-400 mt-1.5" />
-                                    {lang === 'uz' ? "Lug'at boyligingizni ko'rsatish uchun sinonimlardan foydalaning" : "Use synonyms to show off your range of vocabulary"}
-                                </li>
-                                <li className="flex items-start gap-3">
-                                    <div className="w-1.5 h-1.5 rounded-full bg-rose-400 mt-1.5" />
-                                    {lang === 'uz' ? "Xatolaringizni to'g'rilashga haddan tashqari e'tibor bermang" : "Don't over-correct your minor grammar mistakes"}
+                                <li className="flex items-center gap-2">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-blue-400" />
+                                    {lang === 'uz' ? "Javob berishdan oldin o'ylash uchun vaqt oling" : "Take time to think before answering"}
                                 </li>
                             </ul>
                         </div>
-
-                        <div className="bg-slate-50 rounded-3xl p-8 space-y-6">
-                            <h3 className="font-bold text-slate-800 flex items-center gap-2">
-                                <Star className="w-4 h-4 text-amber-500" />
-                                {lang === 'uz' ? "Baholash Mezonlari (25% har biri)" : "Assessment Criteria (25% each)"}
-                            </h3>
-                            <div className="grid grid-cols-2 gap-4 text-xs font-bold text-slate-600">
-                                <div className="p-3 bg-white rounded-xl shadow-sm border border-slate-100">
-                                    {lang === 'uz' ? "Ravonlik va aloqa" : "Fluency & Coherence"}
-                                </div>
-                                <div className="p-3 bg-white rounded-xl shadow-sm border border-slate-100">
-                                    {lang === 'uz' ? "Lug'at boyligi" : "Lexical Resource"}
-                                </div>
-                                <div className="p-3 bg-white rounded-xl shadow-sm border border-slate-100">
-                                    {lang === 'uz' ? "Grammatik ko'lam va aniqlik" : "Grammatical Range & Accuracy"}
-                                </div>
-                                <div className="p-3 bg-white rounded-xl shadow-sm border border-slate-100">
-                                    {lang === 'uz' ? "Talaffuz" : "Pronunciation"}
-                                </div>
-                            </div>
+                        <div className="space-y-4">
+                            <p className="text-sm font-black text-emerald-600 uppercase tracking-widest">{lang === 'uz' ? "Speaking paytida" : "During Speaking"}</p>
+                            <ul className="space-y-3 text-xs text-slate-500 font-bold list-none">
+                                <li className="flex items-center gap-2">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                                    {lang === 'uz' ? "Aniq va odatdagi tezlikda so'zlang" : "Speak clearly and at normal pace"}
+                                </li>
+                                <li className="flex items-center gap-2">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                                    {lang === 'uz' ? "Lug'at boyligidan foydalaning" : "Use a range of vocabulary"}
+                                </li>
+                                <li className="flex items-center gap-2">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                                    {lang === 'uz' ? "Misollar bilan kengaytirilgan javob bering" : "Give extended answers with examples"}
+                                </li>
+                            </ul>
+                        </div>
+                        <div className="space-y-4">
+                            <p className="text-sm font-black text-purple-600 uppercase tracking-widest">{lang === 'uz' ? "Murakkab maslahatlar" : "Advanced Tips"}</p>
+                            <ul className="space-y-3 text-xs text-slate-500 font-bold list-none">
+                                <li className="flex items-center gap-2">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-purple-400" />
+                                    {lang === 'uz' ? "Bog'lovchi so'zlardan samarali foydalaning" : "Use discourse markers effectively"}
+                                </li>
+                                <li className="flex items-center gap-2">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-purple-400" />
+                                    {lang === 'uz' ? "Shaxsiy fikr va g'oyalarni ko'rsating" : "Show personal opinions and ideas"}
+                                </li>
+                                <li className="flex items-center gap-2">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-purple-400" />
+                                    {lang === 'uz' ? "Zarur bo'lganda o'zingizni tuzating" : "Self-correct when necessary"}
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -193,6 +254,18 @@ function StatItem({ label, value, color }: { label: string, value: string | numb
         <div className="flex flex-col items-center justify-center p-4">
             <span className={cn("text-2xl font-black mb-1", color)}>{value}</span>
             <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">{label}</span>
+        </div>
+    );
+}
+
+function CriteriaCard({ label, desc, percent, color }: { label: string, desc: string, percent: string, color: string }) {
+    return (
+        <div className={cn("p-4 rounded-2xl border flex items-center justify-between", color)}>
+            <div>
+                <p className="text-sm font-bold">{label}</p>
+                <p className="text-[10px] opacity-70 font-medium">{desc}</p>
+            </div>
+            <span className="text-xl font-black">{percent}</span>
         </div>
     );
 }
