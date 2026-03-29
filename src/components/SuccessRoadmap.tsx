@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { CheckCircle2, Star, Target, Zap, Rocket, Award, ShieldCheck, Microscope } from "lucide-react";
-import GradualBlur from "./ui/GradualBlur";
+import CardSwap, { Card } from "./ui/CardSwap";
 
 const milestones = [
     {
@@ -51,82 +51,69 @@ const milestones = [
 
 export function SuccessRoadmap() {
     return (
-        <section className="py-24 bg-white dark:bg-slate-950 relative overflow-hidden">
+        <section className="py-32 bg-slate-50 dark:bg-slate-950 relative overflow-hidden">
             <div className="container mx-auto px-4">
-                <div className="text-center mb-16">
-                    <h2 className="text-3xl md:text-5xl font-black text-slate-900 dark:text-white tracking-tight mb-4 uppercase">
-                        IELTS Wisdom <br /> <span className="text-slate-400">Success Roadmap</span>
+                <div className="text-center mb-24">
+                    <motion.div 
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 text-indigo-500 text-xs font-bold uppercase tracking-widest mb-6"
+                    >
+                        <Rocket className="w-3 h-3" />
+                        The Journey
+                    </motion.div>
+                    <h2 className="text-4xl md:text-6xl font-black text-slate-900 dark:text-white tracking-tight mb-6 uppercase">
+                        IELTS Wisdom <br /> <span className="text-indigo-600 dark:text-indigo-500 text-opacity-80">Success Roadmap</span>
                     </h2>
-                    <p className="text-lg text-slate-500 font-medium max-w-2xl mx-auto">
-                        A structured path toward Band 8.5+. Scroll through the milestones that define our mastery curriculum.
+                    <p className="text-xl text-slate-500 font-medium max-w-2xl mx-auto">
+                        Experience our structured path toward Band 8.5+ through an immersive 3D milestone discovery.
                     </p>
                 </div>
 
-                <div className="max-w-4xl mx-auto relative rounded-[2.5rem] p-1.5 bg-gradient-to-b from-slate-200 to-transparent dark:from-slate-800 dark:to-transparent shadow-2xl overflow-hidden">
-                    <section 
-                        className="relative bg-white dark:bg-slate-900 rounded-[2rem] overflow-hidden shadow-inner"
-                        style={{ height: 500 }}
+                <div className="relative h-[650px] flex items-center justify-center">
+                    <CardSwap
+                        width={500}
+                        height={380}
+                        cardDistance={70}
+                        verticalDistance={80}
+                        delay={6000}
+                        pauseOnHover={true}
                     >
-                        {/* Internal Scrollable Area */}
-                        <div 
-                            className="h-full overflow-y-auto overflow-x-hidden scroll-smooth scrollbar-hide p-8 md:p-16 space-y-12"
-                            id="roadmap-scroll-container"
-                        >
-                            {milestones.map((ms, idx) => (
-                                <motion.div 
-                                    key={idx}
-                                    initial={{ opacity: 0, x: -20 }}
-                                    whileInView={{ opacity: 1, x: 0 }}
-                                    viewport={{ once: true, margin: "-50px" }}
-                                    transition={{ duration: 0.6, delay: 0.1 }}
-                                    className="flex items-start gap-8 relative group"
-                                >
-                                    {/* Connection Line Decor */}
-                                    {idx !== milestones.length - 1 && (
-                                        <div className="absolute left-6 top-12 bottom-[-48px] w-px bg-slate-200 dark:bg-slate-800 hidden md:block" />
-                                    )}
-
-                                    <div className={`w-12 h-12 rounded-2xl ${ms.bg} ${ms.color} flex items-center justify-center shrink-0 shadow-sm group-hover:scale-110 transition-transform duration-500`}>
-                                        <ms.icon className="w-6 h-6" />
+                        {milestones.map((ms, idx) => (
+                            <Card key={idx} className="flex flex-col justify-between">
+                                <div className="space-y-6">
+                                    <div className="flex items-center justify-between">
+                                        <div className={`w-14 h-14 rounded-2xl ${ms.bg} ${ms.color} flex items-center justify-center shadow-lg`}>
+                                            <ms.icon className="w-7 h-7" />
+                                        </div>
+                                        <div className="text-6xl font-black text-slate-200 dark:text-slate-800 opacity-50 select-none">
+                                            {idx + 1}
+                                        </div>
                                     </div>
                                     
-                                    <div className="space-y-2 pt-1">
-                                        <h3 className="text-xl font-bold text-slate-900 dark:text-white tracking-tight">
+                                    <div className="space-y-4">
+                                        <h3 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white tracking-tight leading-tight">
                                             {ms.title}
                                         </h3>
-                                        <p className="text-slate-500 dark:text-slate-400 font-medium leading-relaxed max-w-lg">
+                                        <p className="text-lg text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
                                             {ms.description}
                                         </p>
                                     </div>
+                                </div>
 
-                                    {/* Number Badge */}
-                                    <div className="ml-auto opacity-10 font-black text-4xl select-none hidden md:block">
-                                        {idx + 1}
+                                <div className="pt-8 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+                                    <div className="flex items-center gap-2">
+                                        <div className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse" />
+                                        <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Active Phase</span>
                                     </div>
-                                </motion.div>
-                            ))}
-
-                            {/* Extra Bottom Spacing for Gradual Blur padding */}
-                            <div className="h-32" />
-                        </div>
-
-                        {/* Graduation Blur integration at the bottom */}
-                        <GradualBlur
-                            target="parent"
-                            position="bottom"
-                            height="10rem"
-                            strength={3}
-                            divCount={8}
-                            curve="bezier"
-                            exponential
-                            opacity={1}
-                        />
-
-                        {/* Hint for more content */}
-                        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 pointer-events-none animate-pulse">
-                            Scroll For More
-                        </div>
-                    </section>
+                                    <div className="text-[10px] font-black uppercase tracking-[0.2em] text-indigo-500/50">
+                                        Milestone {idx + 1}/6
+                                    </div>
+                                </div>
+                            </Card>
+                        ))}
+                    </CardSwap>
                 </div>
             </div>
         </section>
