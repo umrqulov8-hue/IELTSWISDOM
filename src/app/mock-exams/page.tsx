@@ -1,174 +1,332 @@
 "use client";
+
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
-import { Play } from "lucide-react";
+import { 
+    Play, 
+    CheckCircle2, 
+    Star, 
+    Clock, 
+    Award, 
+    TrendingUp, 
+    BookOpen, 
+    Headphones, 
+    PenTool, 
+    Mic,
+    Info,
+    ChevronRight,
+    Trophy,
+    ShieldCheck
+} from "lucide-react";
 import { cn } from "@/lib/utils";
-import { m, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "@/context/LanguageContext";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { ShieldCheck } from "lucide-react";
-import { translations as T, tx } from "@/lib/translations";
-
-const MOCK_THEMES = [
-    { cardBg: "from-[#6beae5] via-[#a2f0c7] to-[#ffe68d]", titleColor: "text-[#0f172a]", textColor: "text-[#1e293b]" },
-    { cardBg: "from-[#ff9f6b] via-[#ff6a5a] to-[#ff2a5f]", titleColor: "text-[#0f172a]", textColor: "text-white" },
-    { cardBg: "from-[#6beae5] via-[#a2f0c7] to-[#ffe68d]", titleColor: "text-[#0f172a]", textColor: "text-[#1e293b]" },
-    { cardBg: "from-[#ff9f6b] via-[#ff6a5a] to-[#ff2a5f]", titleColor: "text-[#0f172a]", textColor: "text-white" },
-];
+import { MOCK_TESTS_DASHBOARD, MockTestMeta } from "@/data/mock-exams-dashboard";
 
 export default function MockExamsPage() {
     const { lang } = useLanguage();
     const router = useRouter();
     const [isStarting, setIsStarting] = useState(false);
-    const ME = T.mockExams;
-    const tests = ME.tests;
+
+    const completedCount = MOCK_TESTS_DASHBOARD.filter(t => t.status === "completed").length;
+    const totalTests = MOCK_TESTS_DASHBOARD.length;
+    const progressPercent = Math.round((completedCount / totalTests) * 100);
 
     return (
         <>
-            {/* Transition Overlay */}
             <AnimatePresence>
                 {isStarting && (
-                    <m.div
+                    <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         className="fixed inset-0 z-[99999] bg-white flex flex-col items-center justify-center text-slate-800"
                     >
-                        <m.div
+                        <motion.div
                             initial={{ scale: 0.8, opacity: 0 }}
                             animate={{ scale: 1, opacity: 1 }}
                             transition={{ duration: 0.5, ease: "easeOut" }}
                             className="text-center space-y-8"
                         >
                             <div className="w-24 h-24 bg-blue-50 rounded-full flex items-center justify-center mx-auto relative">
-                                <m.div 
+                                <motion.div 
                                     className="absolute inset-0 bg-blue-100 rounded-full"
                                     animate={{ scale: [1, 1.5, 1], opacity: [0.5, 0, 0.5] }}
                                     transition={{ duration: 2, repeat: Infinity }}
                                 />
                                 <ShieldCheck className="w-12 h-12 text-blue-600 relative z-10" />
                             </div>
-                            
                             <div className="space-y-2">
                                 <h3 className="text-3xl font-black tracking-tight text-slate-900">Preparing Exam Center</h3>
                                 <p className="text-slate-500 font-medium">Entering secure examination mode...</p>
                             </div>
-
                             <div className="w-64 h-1.5 bg-slate-100 rounded-full mx-auto overflow-hidden border border-slate-200">
-                                <m.div 
+                                <motion.div 
                                     className="h-full bg-blue-500"
                                     initial={{ width: "0%" }}
                                     animate={{ width: "100%" }}
                                     transition={{ duration: 3, ease: "easeInOut" }}
                                 />
                             </div>
-
-                            <m.p 
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: [0, 1, 0] }}
-                                transition={{ duration: 1.5, repeat: Infinity }}
-                                className="text-[10px] uppercase font-black tracking-[0.3em] text-blue-500"
-                            >
-                                Initializing Simulation
-                            </m.p>
-                        </m.div>
-                    </m.div>
+                        </motion.div>
+                    </motion.div>
                 )}
             </AnimatePresence>
 
-            <DashboardLayout title={tx(ME.title, lang)} description={tx(ME.desc, lang)}>
-                <div className="max-w-[1150px] mx-auto px-4 md:px-8 space-y-10 relative z-10 pt-6 pb-20">
-                <div className="flex items-center gap-3 mb-10 pl-5 border-l-[4px] border-[#FF8C00]">
-                    <h2 className="text-[28px] font-black text-slate-800 tracking-tight">{tx(ME.sectionTitle, lang)}</h2>
-                </div>
-
-                {(tests as unknown as any[]).length === 0 ? (
-                    <div className="flex flex-col items-center justify-center p-16 bg-white/50 backdrop-blur-xl rounded-[40px] border border-white/60 text-center shadow-lg">
-                        <div className="w-20 h-20 bg-orange-100 rounded-full flex items-center justify-center mb-6">
-                            <Play className="w-10 h-10 text-orange-500" />
+            <DashboardLayout 
+                title={lang === 'uz' ? "IELTS Mock Testlar" : "IELTS Mock Tests"}
+                description={lang === 'uz' ? "Haqiqiy IELTS imtihon muhitini simulyatsiya qilish uchun 30 ta to'liq amaliy testlar" : "30 complete practice tests to simulate real IELTS exam conditions"}
+            >
+                <div className="max-w-7xl mx-auto space-y-12 pb-20 pt-6">
+                    
+                    {/* --- Header & Summary Badge --- */}
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                        <div className="flex items-center gap-3">
+                            <Trophy className="w-6 h-6 text-amber-500" />
+                            <h2 className="text-xl font-black text-slate-900 tracking-tight">
+                                {lang === 'uz' ? "Mock Testlar" : "IELTS Mock Tests"}
+                            </h2>
                         </div>
-                        <h3 className="text-2xl font-black text-slate-800 mb-4 tracking-tight">
-                            {lang === "en" ? "New Mock Tests Coming Soon" : "Yangi Mock Testlar Tez Kunda"}
-                        </h3>
-                        <p className="text-slate-500 font-medium max-w-md">
-                            {lang === "en" 
-                                ? "We are actively preparing new, high-quality mock exams. Check back later!" 
-                                : "Biz yangi, yuqori sifatli mock imtihonlarni tayyorlamoqdamiz. Keyinroq tekshirib ko'ring!"}
-                        </p>
+                        <div className="px-4 py-2 bg-slate-900 text-white rounded-full text-[10px] font-black uppercase tracking-widest shadow-lg">
+                            {completedCount}/{totalTests} {lang === 'uz' ? "Tugallandi" : "Completed"}
+                        </div>
                     </div>
-                ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-14">
-                        {(tests as unknown as any[]).map((test, index) => (
-                            <m.div
-                                key={index}
-                                initial={{ opacity: 0, scale: 0.95, y: 30 }}
-                                animate={{ opacity: 1, scale: 1, y: 0 }}
-                                transition={{ duration: 0.6, delay: index * 0.1, type: "spring", stiffness: 60 }}
-                                className={cn("relative rounded-[40px] p-8 lg:p-10 flex flex-col overflow-hidden group transition-all duration-500 bg-white/90 backdrop-blur-3xl border border-white/60")}
-                                style={{ boxShadow: "inset 4px 4px 15px rgba(255,255,255,1), inset -4px -4px 15px rgba(0,0,0,0.03), 0 25px 50px -12px rgba(0,0,0,0.15)" }}
-                                aria-label={`Exam card for ${tx(test.title, lang)}`}
-                            >
-                                <div className="absolute top-[-20%] left-[-10%] w-[120%] h-[50%] bg-gradient-to-b from-white to-transparent -rotate-6 pointer-events-none rounded-[100%] blur-[12px] opacity-90" />
-                                <div className="relative z-10">
-                                    <h3 className="text-[26px] font-black mb-6 tracking-tight drop-shadow-sm text-[#0f172a]">
-                                        {tx(test.title, lang)}
-                                    </h3>
-                                    <div className="flex flex-wrap gap-4 mb-8">
-                                        <span className="text-[12px] font-black px-4 py-2.5 rounded-full tracking-widest uppercase bg-[#f0fdf4] text-[#16a34a] border border-[#bbf7d0] shadow-sm">
-                                            {tx(ME.fullTest, lang)}
-                                        </span>
-                                        <span className="text-[12px] font-black px-4 py-2.5 rounded-full tracking-widest uppercase bg-[#f0f9ff] text-[#0284c7] border border-[#bae6fd] shadow-sm">
-                                            {tx(ME.hours, lang)}
-                                        </span>
-                                    </div>
-                                    <p className="text-[#334155] text-[15px] mb-8 font-bold leading-relaxed opacity-95">
-                                        {tx(test.desc, lang)}
-                                    </p>
-                                    <h4 className="font-black text-[#0f172a] text-[13px] mb-4 tracking-widest uppercase">
-                                        {tx(test.listTitle, lang)}
-                                    </h4>
-                                    <ul className="list-disc pl-[20px] text-[#334155] text-[15px] font-bold space-y-3 mb-12 opacity-95">
-                                        {test.listItems.map((item: any, i: number) => (
-                                            <li key={i}>{tx(item, lang)}</li>
-                                        ))}
-                                    </ul>
-                                </div>
-                                <div className="mt-auto relative z-10 w-full">
-                                    <m.button
-                                        whileHover={{ scale: 1.03 }}
-                                        whileTap={{ scale: 0.97 }}
-                                        onClick={() => {
-                                            setIsStarting(true);
-                                            try {
-                                                const el = document.documentElement as any;
-                                                if (el.requestFullscreen) {
-                                                    el.requestFullscreen();
-                                                } else if (el.webkitRequestFullscreen) {
-                                                    el.webkitRequestFullscreen();
-                                                } else if (el.msRequestFullscreen) {
-                                                    el.msRequestFullscreen();
-                                                }
-                                            } catch (err) {
-                                                // Fail silently for non-interactive fullscreen triggers
-                                            }
-                                            setTimeout(() => {
-                                                router.push(`/mock-exams/${index}/pre-check`);
-                                            }, 3500);
-                                        }}
-                                        disabled={isStarting}
-                                        aria-label={`Start ${tx(test.title, lang)}`}
-                                        className="w-full text-white font-black py-[16px] rounded-full flex items-center justify-center gap-3 transition-all text-[15px] bg-[#0f172a] shadow-[0_8px_20px_rgba(15,23,42,0.2)] hover:shadow-[0_12px_25px_rgba(15,23,42,0.3)] disabled:opacity-50"
-                                    >
-                                        <Play className="w-[18px] h-[18px] fill-white" strokeWidth={3} />
-                                        <span className="tracking-widest uppercase">{tx(ME.startTest, lang)}</span>
-                                    </m.button>
-                                </div>
-                            </m.div>
+
+                    {/* --- Progress Overview Card --- */}
+                    <motion.div 
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="bg-white border border-slate-100 rounded-[2.5rem] p-10 shadow-sm space-y-10"
+                    >
+                        <div>
+                            <h3 className="text-lg font-black text-slate-900 tracking-tight mb-1">
+                                {lang === 'uz' ? "Test natijalari sharhi" : "Test Progress Overview"}
+                            </h3>
+                            <p className="text-sm font-bold text-slate-400">
+                                {lang === 'uz' ? "Barcha mock testlar bo'yicha ko'rsatkichlaringizni kuzatib boring" : "Track your performance across all mock tests"}
+                            </p>
+                        </div>
+
+                        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+                            <SummaryStat label={lang === 'uz' ? "Topshirilgan Testlar" : "Tests Completed"} value={completedCount} color="text-slate-900" />
+                            <SummaryStat label={lang === 'uz' ? "O'rtacha Band" : "Average Band Score"} value="7.4" color="text-emerald-500" />
+                            <SummaryStat label={lang === 'uz' ? "Band 7+ Natijalar" : "Band 7+ Scores"} value="4" color="text-blue-500" />
+                            <SummaryStat label={lang === 'uz' ? "Qolgan Testlar" : "Tests Remaining"} value={totalTests - completedCount} color="text-slate-400" />
+                        </div>
+
+                        <div className="space-y-4 pt-4">
+                            <div className="h-3 bg-slate-50 rounded-full overflow-hidden border border-slate-100">
+                                <motion.div 
+                                    initial={{ width: 0 }}
+                                    animate={{ width: `${progressPercent}%` }}
+                                    className="h-full bg-slate-900 rounded-full"
+                                />
+                            </div>
+                        </div>
+                    </motion.div>
+
+                    {/* --- Skill Averages --- */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <SkillAvg icon={<BookOpen className="w-5 h-5" />} label={lang === 'uz' ? "Reading Avg" : "Reading Avg"} value="35/40" color="bg-blue-50 text-blue-600" />
+                        <SkillAvg icon={<PenTool className="w-5 h-5" />} label={lang === 'uz' ? "Writing Avg" : "Writing Avg"} value="33/40" color="bg-purple-50 text-purple-600" />
+                        <SkillAvg icon={<Headphones className="w-5 h-5" />} label={lang === 'uz' ? "Listening Avg" : "Listening Avg"} value="37/40" color="bg-emerald-50 text-emerald-600" />
+                        <SkillAvg icon={<Mic className="w-5 h-5" />} label={lang === 'uz' ? "Speaking Avg" : "Speaking Avg"} value="7.6" color="bg-rose-50 text-rose-600" />
+                    </div>
+
+                    {/* --- Test Grid --- */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        {MOCK_TESTS_DASHBOARD.map((test, idx) => (
+                            <MockExamCard 
+                                key={test.id} 
+                                test={test} 
+                                lang={lang} 
+                                onStart={() => {
+                                    setIsStarting(true);
+                                    setTimeout(() => router.push(`/mock-exams/${idx}/pre-check`), 3500);
+                                }}
+                            />
                         ))}
+                    </div>
+
+                    {/* --- Info Section --- */}
+                    <div className="bg-white border border-slate-100 rounded-[2.5rem] p-12 shadow-sm space-y-12">
+                        <div className="space-y-2">
+                            <h3 className="text-xl font-black text-slate-900 tracking-tight">
+                                {lang === 'uz' ? "Mock Test haqida ma'lumot" : "Mock Test Information"}
+                            </h3>
+                            <p className="text-sm font-bold text-slate-400">
+                                {lang === 'uz' ? "Bizning IELTS amaliy testlarimizdan nimalarni kutish kerak" : "What to expect from our IELTS practice tests"}
+                            </p>
+                        </div>
+
+                        <div className="grid md:grid-cols-2 gap-16">
+                            <div className="space-y-8">
+                                <InfoGroup title={lang === 'uz' ? "Test Tuzilishi" : "Test Structure"}>
+                                    <InfoItem label={lang === 'uz' ? "Reading: 60 daqiqa, 40 savol" : "Reading: 60 minutes, 40 questions"} />
+                                    <InfoItem label={lang === 'uz' ? "Writing: 60 daqiqa, 2 topshiriq" : "Writing: 60 minutes, 2 tasks"} />
+                                    <InfoItem label={lang === 'uz' ? "Listening: 30 daqiqa, 40 savol" : "Listening: 30 minutes, 40 questions"} />
+                                    <InfoItem label={lang === 'uz' ? "Speaking: 11-14 daqiqa, 3 qism" : "Speaking: 11-14 minutes, 3 parts"} />
+                                </InfoGroup>
+                                <InfoGroup title={lang === 'uz' ? "Qiyinchilik darajasi" : "Difficulty Progression"}>
+                                    <InfoItem label={lang === 'uz' ? "Boshlang'ich (1-10): Band 5.0-6.5 maqsad" : "Beginner (1-10): Band 5.0-6.5 target"} />
+                                    <InfoItem label={lang === 'uz' ? "O'rta (11-20): Band 6.0-7.5 maqsad" : "Intermediate (11-20): Band 6.0-7.5 target"} />
+                                    <InfoItem label={lang === 'uz' ? "Yuqori (21-30): Band 7.0-9.0 maqsad" : "Advanced (21-30): Band 7.0-9.0 target"} />
+                                </InfoGroup>
+                            </div>
+                            <div className="space-y-8">
+                                <InfoGroup title={lang === 'uz' ? "Xususiyatlari" : "Features"}>
+                                    <InfoItem label={lang === 'uz' ? "Haqiqiy IELTS uslubidagi savollar" : "Authentic IELTS-style questions"} />
+                                    <InfoItem label={lang === 'uz' ? "Vaqt bilan bosim ostida ishlash" : "Timed test conditions"} />
+                                    <InfoItem label={lang === 'uz' ? "Batafsil ishlash tahlili" : "Detailed performance analysis"} />
+                                    <InfoItem label={lang === 'uz' ? "Bo'lim bo'yicha qayta aloqa" : "Section-by-section feedback"} />
+                                    <InfoItem label={lang === 'uz' ? "Band ballarini bashorat qilish" : "Band score predictions"} />
+                                </InfoGroup>
+                                <InfoGroup title={lang === 'uz' ? "Ochish Talablari" : "Unlock Requirements"}>
+                                    <InfoItem label={lang === 'uz' ? "Yangi testlarni ochish uchun oldingilarini yakunlang" : "Complete previous tests to unlock new ones"} />
+                                    <InfoItem label={lang === 'uz' ? "Muntazam mashg'ulot jadvalini saqlang" : "Maintain consistent practice schedule"} />
+                                    <InfoItem label={lang === 'uz' ? "Fikr-mulohazalarni ko'rib chiqing va zaif tomonlarni kuchaytiring" : "Review feedback and improve weak areas"} />
+                                </InfoGroup>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </DashboardLayout>
+        </>
+    );
+}
+
+function SummaryStat({ label, value, color }: { label: string, value: string | number, color: string }) {
+    return (
+        <div className="text-center space-y-2">
+            <p className={cn("text-4xl font-black tracking-tight", color)}>{value}</p>
+            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{label}</p>
+        </div>
+    );
+}
+
+function SkillAvg({ icon, label, value, color }: { icon: any, label: string, value: string, color: string }) {
+    return (
+        <div className="bg-white border border-slate-100 rounded-3xl p-6 flex items-center gap-5 shadow-sm hover:shadow-md transition-shadow">
+            <div className={cn("w-12 h-12 rounded-2xl flex items-center justify-center", color)}>
+                {icon}
+            </div>
+            <div>
+                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-0.5">{label}</p>
+                <p className="text-lg font-black text-slate-900 tracking-tight">{value}</p>
+            </div>
+        </div>
+    );
+}
+
+function MockExamCard({ test, lang, onStart }: { test: MockTestMeta, lang: string, onStart: () => void }) {
+    const isCompleted = test.status === "completed";
+    
+    return (
+        <motion.div 
+            whileHover={{ y: -5 }}
+            className={cn(
+                "bg-white border rounded-[2.5rem] p-8 flex flex-col space-y-6 relative group transition-all duration-300",
+                isCompleted ? "border-emerald-100 shadow-sm" : "border-slate-50 hover:border-slate-200 hover:shadow-lg"
+            )}
+        >
+            <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                    <span className="text-sm font-bold text-slate-400">{lang === 'uz' ? `Test ${test.index + 1}` : `Test ${test.index + 1}`}</span>
+                    {isCompleted && <CheckCircle2 className="w-4 h-4 text-emerald-500" />}
+                    {test.isFavorite && <Star className="w-4 h-4 text-amber-400 fill-amber-400" />}
+                </div>
+                <div className={cn(
+                    "px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest",
+                    test.difficulty === "Beginner" ? "bg-emerald-50 text-emerald-600" :
+                    test.difficulty === "Intermediate" ? "bg-amber-50 text-amber-600" :
+                    "bg-rose-50 text-rose-600"
+                )}>
+                    {lang === 'uz' ? (test.difficulty === "Beginner" ? "Boshlang'ich" : test.difficulty === "Intermediate" ? "O'rta" : "Yuqori") : test.difficulty}
+                </div>
+            </div>
+
+            <div className="space-y-2">
+                <h4 className="text-xl font-black text-slate-900 tracking-tight group-hover:text-blue-600 transition-colors">
+                    {lang === 'uz' ? test.title.uz : test.title.en}
+                </h4>
+                <p className="text-xs font-bold text-slate-400 leading-relaxed line-clamp-2">
+                    {lang === 'uz' ? test.desc.uz : test.desc.en}
+                </p>
+            </div>
+
+            <div className="flex flex-col gap-4 text-[10px] font-black uppercase tracking-widest text-slate-400">
+                <div className="flex items-center gap-2">
+                    <Clock className="w-4 h-4" />
+                    <span>{test.duration}</span>
+                </div>
+                
+                {isCompleted && test.overall_band && (
+                    <div className="pt-2 border-t border-slate-50 space-y-3">
+                        <div className="flex items-center gap-2 text-emerald-600">
+                            <Award className="w-4 h-4" />
+                            <span>Overall Band: {test.overall_band}</span>
+                        </div>
+                        <div className="grid grid-cols-2 gap-y-2 text-[9px] text-slate-400">
+                            <div className="flex justify-between pr-4 border-r border-slate-100">
+                                <span>Reading:</span> <span className="text-slate-900">{test.scores?.reading}</span>
+                            </div>
+                            <div className="flex justify-between pl-4">
+                                <span>Writing:</span> <span className="text-slate-900">{test.scores?.writing}</span>
+                            </div>
+                            <div className="flex justify-between pr-4 border-r border-slate-100">
+                                <span>Listening:</span> <span className="text-slate-900">{test.scores?.listening}</span>
+                            </div>
+                            <div className="flex justify-between pl-4">
+                                <span>Speaking:</span> <span className="text-slate-900">{test.scores?.speaking}</span>
+                            </div>
+                        </div>
                     </div>
                 )}
             </div>
-        </DashboardLayout>
-        </>
+
+            <button 
+                onClick={onStart}
+                className={cn(
+                    "w-full py-4 rounded-2xl font-black text-sm transition-all duration-300 active:scale-95 flex items-center justify-center gap-2 mt-2",
+                    isCompleted 
+                        ? "bg-slate-50 text-slate-900 border border-slate-100 hover:bg-slate-100" 
+                        : "bg-slate-900 text-white shadow-lg hover:shadow-xl hover:bg-slate-800"
+                )}
+            >
+                {isCompleted ? (
+                    <>
+                        <ChevronRight className="w-4 h-4" />
+                        {lang === 'uz' ? "Natijalarni ko'rish" : "Review Results"}
+                    </>
+                ) : (
+                    <>
+                        <Play className="w-4 h-4 fill-white" />
+                        {lang === 'uz' ? "Testni boshlash" : "Start Test"}
+                    </>
+                )}
+            </button>
+        </motion.div>
+    );
+}
+
+function InfoGroup({ title, children }: { title: string, children: React.ReactNode }) {
+    return (
+        <div className="space-y-4">
+            <h4 className="text-sm font-black text-slate-900 uppercase tracking-[0.2em]">{title}</h4>
+            <ul className="space-y-3">
+                {children}
+            </ul>
+        </div>
+    );
+}
+
+function InfoItem({ label }: { label: string }) {
+    return (
+        <li className="flex items-start gap-2 text-sm font-bold text-slate-400">
+            <div className="w-1.5 h-1.5 rounded-full bg-slate-200 mt-2 shrink-0" />
+            <span>{label}</span>
+        </li>
     );
 }
