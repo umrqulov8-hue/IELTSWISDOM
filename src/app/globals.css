@@ -267,7 +267,33 @@
   }
 }
 
-/* Liquid Scrollbar Styles */
+@theme {
+  --color-indigo-primary: #4F46E5;
+  --color-cyan-primary: #06B6D4;
+}
+
+@utility glass-card {
+  background-color: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+}
+
+@utility saas-border {
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgba(226, 232, 240, 0.6);
+  [data-dark-mode="true"] & {
+    border-color: rgba(51, 65, 85, 0.6);
+  }
+}
+
+@utility text-gradient {
+  background-clip: text;
+  color: transparent;
+  background-image: linear-gradient(to right, #6366f1, var(--color-primary), #06b6d4);
+}
+
 @layer utilities {
   .custom-scrollbar::-webkit-scrollbar {
     width: 4px;

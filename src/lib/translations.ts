@@ -265,9 +265,26 @@ export const translations = {
     footer: {
         copy: { en: "© 2025 IELTS Wisdom. All rights reserved.", uz: "© 2025 IELTS Wisdom. Barcha huquqlar himoyalangan." },
     },
-    membership: {
-        free: { en: "Free Member", uz: "Bepul foydalanuvchi" },
-        pro: { en: "Pro Member", uz: "Pro foydalanuvchi" },
+    // ──── VALUE PROPS (BENTO GRID) ────
+    valueProps: {
+        title: { en: "Engineered for IELTS Mastery", uz: "IELTS Mastery uchun yaratilgan" },
+        subtitle: { en: "We've combined decades of pedagogical research with cutting-edge technology to create the ultimate preparation suite.", uz: "Biz o'n yillik pedagogik tadqiqotlarni eng zamonaviy texnologiyalar bilan birlashtirib, yakuniy tayyorgarlik to'plamini yaratdik." },
+        ai: {
+            title: { en: "Adaptive Learning AI", uz: "Moslashuvchan o'rganish AI" },
+            desc: { en: "Our engine analyzes your mistakes in real-time and builds a custom path to your target band.", uz: "Bizning tizimimiz xatolaringizni real vaqt rejimida tahlil qiladi va maqsadli balingizga mos yo'lni quradi." }
+        },
+        materials: {
+            title: { en: "Authentic Materials", uz: "Haqiqiy materiallar" },
+            desc: { en: "Practice with materials that mirror the real IELTS exam 1:1.", uz: "Haqiqiy IELTS imtihonini 1:1 aks ettiruvchi materiallar bilan mashq qiling." }
+        },
+        feedback: {
+            title: { en: "Live Feedback", uz: "Jonli muloqot" },
+            desc: { en: "Instant analysis of your speaking pronunciation and fluency.", uz: "Gapirish talaffuzi va ravonligini bir zumda tahlil qilish." }
+        },
+        success: {
+            title: { en: "Guaranteed Success", uz: "Kafolatlangan muvaffaqiyat" },
+            desc: { en: "98% of our students reach their target band within 45 days.", uz: "O'quvchilarimizning 98 foizi 45 kun ichida maqsadli ballariga erishadilar." }
+        }
     },
 } as const;
 
