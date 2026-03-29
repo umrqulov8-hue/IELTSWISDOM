@@ -74,6 +74,7 @@ export default function RootLayout({
           }}
         />
         {/* Preconnect to external assets if needed */}
+        <link rel="preconnect" href="https://azrmwfzrgdvkbzezwyfo.supabase.co" />
       </head>
       <body
         className={`${inter.variable} ${plusJakartaSans.variable} antialiased font-sans bg-background text-foreground flex flex-col min-h-screen`}

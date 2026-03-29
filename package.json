@@ -42,8 +42,10 @@
     "typescript": "^5"
   },
   "browserslist": [
-    "since 2022",
-    "not dead",
-    "supports es6-module"
+    "chrome 120",
+    "safari 17",
+    "edge 120",
+    "firefox 120",
+    "not dead"
   ]
 }
