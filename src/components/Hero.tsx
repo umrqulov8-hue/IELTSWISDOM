@@ -6,6 +6,7 @@ import { ArrowRight, Loader2, Sparkles, Zap, Shield, Target, PenTool, MessageSqu
 import { useAuth } from "@/hooks/useAuth";
 import { useLanguage } from "@/context/LanguageContext";
 import { translations as T, tx } from "@/lib/translations";
+import Threads from "./ui/Threads";
 
 export function Hero() {
     const { handleStartLearning, isLoading } = useAuth();
@@ -68,6 +69,16 @@ export function Hero() {
             <section className="relative pt-16 pb-24 overflow-hidden bg-white dark:bg-slate-950">
                 {/* Subtle Grid Background */}
                 <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:50px_50px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
+
+                {/* Dynamic WebGL Threads Background */}
+                <div className="absolute inset-0 z-0 opacity-40 dark:opacity-20 pointer-events-none">
+                    <Threads 
+                        amplitude={1.2}
+                        distance={0.2}
+                        enableMouseInteraction={true}
+                        color={[0.4, 0.5, 0.8]} 
+                    />
+                </div>
 
                 <div className="container relative mx-auto px-4 text-center">
                     {/* Badge Removed */}
