@@ -14,44 +14,52 @@ export function Hero() {
 
     const connectedCards = [
         { 
-            icon: PenTool, label: "Writing", x: -300, y: -140, 
+            icon: PenTool, label: "Writing", x: -320, y: -160, 
+            scale: 1.1, w: 200,
             extra: { type: 'bars', items: [60, 40, 80] },
-            swim: { dx: 15, dy: -20, durX: 4.7, durY: 6.1, durR: 7.3 }
+            swim: { dx: 30, dy: -40, durX: 5.7, durY: 7.1, durR: 8.3 }
         },
         { 
-            icon: Headphones, label: "Listening", x: 300, y: -140, 
+            icon: Headphones, label: "Listening", x: 320, y: -120, 
+            scale: 0.95, w: 170,
             extra: { type: 'bars', items: [30, 90, 50, 70] },
-            swim: { dx: -12, dy: 18, durX: 5.3, durY: 4.1, durR: 8.9 }
+            swim: { dx: -25, dy: 35, durX: 6.3, durY: 5.1, durR: 9.9 }
         },
         { 
-            icon: Sparkles, label: "AI Evaluator", x: -200, y: -260, 
+            icon: Sparkles, label: "AI Evaluator", x: -220, y: -280, 
+            scale: 1.2, w: 220,
             extra: { type: 'dots', items: ['#10b981', '#f59e0b', '#ef4444'] },
-            swim: { dx: 10, dy: -25, durX: 6.7, durY: 5.9, durR: 11.1 }
+            swim: { dx: 15, dy: -45, durX: 7.7, durY: 6.9, durR: 12.1 }
         },
         { 
-            icon: Target, label: "Mock Engine", x: 200, y: -260, 
+            icon: Target, label: "Mock Engine", x: 240, y: -240, 
+            scale: 1.05, w: 190,
             extra: { type: 'versions', items: ['v1.2.0', 'v1.0.5'] },
-            swim: { dx: 18, dy: 12, durX: 4.1, durY: 6.3, durR: 9.7 }
+            swim: { dx: 35, dy: 20, durX: 5.1, durY: 7.3, durR: 10.7 }
         },
         { 
-            icon: BarChart, label: "Analytics", x: 360, y: 120, 
+            icon: BarChart, label: "Analytics", x: 400, y: 140, 
+            scale: 1.15, w: 210,
             extra: { type: 'chart', items: [40, 70, 30, 90] },
-            swim: { dx: -15, dy: -15, durX: 5.9, durY: 7.1, durR: 13.1 }
+            swim: { dx: -30, dy: -30, durX: 6.9, durY: 8.1, durR: 14.1 }
         },
         { 
-            icon: Search, label: "Analysis", x: -360, y: 120, 
+            icon: Search, label: "Analysis", x: -420, y: 160, 
+            scale: 0.9, w: 160,
             extra: { type: 'dots', items: ['#334155', '#334155', '#334155'] },
-            swim: { dx: 12, dy: 10, durX: 7.9, durY: 5.3, durR: 6.1 }
+            swim: { dx: 25, dy: 20, durX: 8.9, durY: 6.3, durR: 7.1 }
         },
         { 
-            icon: Zap, label: "Speed Prep", x: -200, y: 240, 
+            icon: Zap, label: "Speed Prep", x: -240, y: 280, 
+            scale: 1.0, w: 180,
             extra: { type: 'bars', items: [100, 80, 60] },
-            swim: { dx: -20, dy: -12, durX: 4.3, durY: 6.7, durR: 10.3 }
+            swim: { dx: -35, dy: -25, durX: 5.3, durY: 7.7, durR: 11.3 }
         },
         { 
-            icon: Trophy, label: "Band 9.0", x: 200, y: 240, 
+            icon: Trophy, label: "Band 9.0", x: 260, y: 300, 
+            scale: 1.1, w: 200,
             extra: { type: 'dots', items: ['#f59e0b', '#f59e0b'] },
-            swim: { dx: 15, dy: 20, durX: 6.1, durY: 8.3, durR: 7.9 }
+            swim: { dx: 25, dy: 40, durX: 7.1, durY: 9.3, durR: 8.9 }
         },
     ];
 
@@ -59,7 +67,7 @@ export function Hero() {
         <LazyMotion features={domMax}>
             <section className="relative pt-24 pb-48 overflow-hidden bg-white dark:bg-slate-950">
                 {/* Subtle Grid Background with slightly larger pattern */}
-                <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:60px_60px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
+                <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:80px_80px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
 
                 <div className="container relative mx-auto px-4 text-center">
                     {/* DesignKit Badge Style */}
@@ -115,8 +123,8 @@ export function Hero() {
                         </Button>
                     </m.div>
 
-                    {/* Neural Map Visualization - Lush Animation Upgrade */}
-                    <div className="relative h-[800px] max-w-7xl mx-auto hidden lg:flex items-center justify-center">
+                    {/* Neural Map Visualization - Multi-Size Asymmetric Upgrade */}
+                    <div className="relative h-[900px] max-w-7xl mx-auto hidden lg:flex items-center justify-center">
                         {/* Central Logo with breathing pulse */}
                         <m.div 
                             initial={{ scale: 0.8, opacity: 0 }}
@@ -125,9 +133,9 @@ export function Hero() {
                                 scale: { duration: 4, repeat: Infinity, ease: "easeInOut" },
                                 opacity: { duration: 1, delay: 0.5 }
                             }}
-                            className="w-40 h-40 rounded-[3rem] bg-slate-900 dark:bg-white flex items-center justify-center shadow-[0_32px_64px_-12px_rgba(0,0,0,0.2)] z-30 relative"
+                            className="w-44 h-44 rounded-[3.5rem] bg-slate-900 dark:bg-white flex items-center justify-center shadow-[0_32px_64px_-12px_rgba(0,0,0,0.2)] z-30 relative"
                         >
-                             <div className="w-12 h-12 border-[8px] border-white dark:border-slate-900 rounded-[1.25rem]" />
+                             <div className="w-14 h-14 border-[10px] border-white dark:border-slate-900 rounded-[1.5rem]" />
                         </m.div>
 
                         {/* Combined Cards & Lines System */}
@@ -140,7 +148,7 @@ export function Hero() {
                                     transition={{ delay: 0.8 + idx * 0.1 }}
                                     className="absolute inset-0 flex items-center justify-center"
                                 >
-                                    {/* Line - Precise real-time tracking of card anchor point */}
+                                    {/* Line - Precise real-time tracking with SOLID neural style */}
                                     <svg className="absolute inset-0 w-full h-full overflow-visible">
                                         <m.line
                                             animate={{ 
@@ -153,36 +161,38 @@ export function Hero() {
                                                     `calc(50% + ${card.y}px)`, 
                                                     `calc(50% + ${card.y + card.swim.dy}px)`, 
                                                     `calc(50% + ${card.y}px)`
-                                                ] 
+                                                ],
+                                                opacity: [0.1, 0.25, 0.1]
                                             }}
                                             transition={{ 
                                                 x2: { duration: card.swim.durX, repeat: Infinity, ease: "easeInOut" },
-                                                y2: { duration: card.swim.durY, repeat: Infinity, ease: "easeInOut" }
+                                                y2: { duration: card.swim.durY, repeat: Infinity, ease: "easeInOut" },
+                                                opacity: { duration: 3, repeat: Infinity, ease: "easeInOut" }
                                             }}
                                             x1="50%" y1="50%" x2={`calc(50% + ${card.x}px)`} y2={`calc(50% + ${card.y}px)`}
-                                            className="stroke-slate-200 dark:stroke-slate-800 stroke-[1.5] opacity-30"
-                                            strokeDasharray="4 4"
+                                            className="stroke-slate-900 dark:stroke-white stroke-[1.5]"
                                         />
                                     </svg>
 
-                                    {/* Card - Lush Uncoupled Swimming Animation */}
+                                    {/* Card - Multi-Size Asymmetric Swimming */}
                                     <m.div
-                                        initial={{ opacity: 0, scale: 0.8, x: card.x, y: card.y }}
+                                        initial={{ opacity: 0, scale: card.scale * 0.8, x: card.x, y: card.y }}
                                         animate={{ 
                                             opacity: 1, 
-                                            scale: [1, 1.03, 1], 
+                                            scale: [card.scale, card.scale * 1.03, card.scale], 
                                             x: [card.x, card.x + card.swim.dx, card.x], 
                                             y: [card.y, card.y + card.swim.dy, card.y],
-                                            rotate: [-2, 2, -2]
+                                            rotate: [-3, 3, -3]
                                         }}
                                         transition={{ 
                                             opacity: { duration: 1 },
-                                            scale: { duration: 5.3, repeat: Infinity, ease: "easeInOut" },
+                                            scale: { duration: 5.7, repeat: Infinity, ease: "easeInOut" },
                                             x: { duration: card.swim.durX, repeat: Infinity, ease: "easeInOut" },
                                             y: { duration: card.swim.durY, repeat: Infinity, ease: "easeInOut" },
                                             rotate: { duration: card.swim.durR, repeat: Infinity, ease: "easeInOut" }
                                         }}
-                                        className="absolute pointer-events-auto glass-card min-w-[180px] p-6 rounded-[1.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.08)] saas-border flex flex-col gap-4 group hover:scale-105 hover:bg-white active:scale-95 transition-all cursor-pointer z-20"
+                                        style={{ width: card.w }}
+                                        className="absolute pointer-events-auto glass-card p-6 rounded-[1.75rem] shadow-[0_20px_50px_rgba(0,0,0,0.06)] saas-border flex flex-col gap-4 group hover:scale-[1.05] hover:bg-white active:scale-95 transition-all cursor-pointer z-20 origin-center"
                                     >
                                         <div className="flex items-center gap-4">
                                             <div className="p-2.5 rounded-2xl bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm">
@@ -229,21 +239,21 @@ export function Hero() {
                         </div>
 
                         {/* Atmospheric Ambient Particles */}
-                        {[...Array(30)].map((_, i) => (
+                        {[...Array(40)].map((_, i) => (
                             <m.div
                                 key={i}
                                 initial={{ opacity: 0 }}
                                 animate={{ 
-                                    opacity: [0.05, 0.2, 0.05],
-                                    scale: [1, 2, 1],
-                                    y: [0, -40, 0]
+                                    opacity: [0.05, 0.25, 0.05],
+                                    scale: [1, 2.5, 1],
+                                    y: [0, -60, 0]
                                 }}
                                 transition={{ 
-                                    duration: 5 + Math.random() * 10, 
+                                    duration: 6 + Math.random() * 8, 
                                     repeat: Infinity, 
                                     delay: Math.random() * 5 
                                 }}
-                                className="absolute w-1.5 h-1.5 bg-slate-300 dark:bg-slate-600 rounded-full blur-[1px]"
+                                className="absolute w-2 h-2 bg-slate-200 dark:bg-slate-800 rounded-full blur-[2px]"
                                 style={{ 
                                     left: `${Math.random() * 100}%`, 
                                     top: `${Math.random() * 100}%` 
