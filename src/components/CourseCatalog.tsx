@@ -52,8 +52,8 @@ export function CourseCatalog() {
                 >
                     <motion.h2
                         variants={{
-                            hidden: { opacity: 0, y: 30, scale: 0.95, filter: "blur(8px)" },
-                            visible: { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", transition: { type: "spring", bounce: 0.5, duration: 1 } }
+                            hidden: { opacity: 0, y: 30, scale: 0.95 },
+                            visible: { opacity: 1, y: 0, scale: 1, transition: { type: "spring", bounce: 0.5, duration: 1 } }
                         }}
                         className="text-3xl font-bold tracking-tight text-primary sm:text-4xl mb-4"
                     >
@@ -61,8 +61,8 @@ export function CourseCatalog() {
                     </motion.h2>
                     <motion.p
                         variants={{
-                            hidden: { opacity: 0, y: 20, filter: "blur(4px)" },
-                            visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { type: "spring", bounce: 0.5, duration: 1 } }
+                            hidden: { opacity: 0, y: 20 },
+                            visible: { opacity: 1, y: 0, transition: { type: "spring", bounce: 0.5, duration: 1 } }
                         }}
                         className="text-lg text-muted-foreground"
                     >

@@ -2,7 +2,7 @@
 
 import { Button } from "./Button";
 import { m, LazyMotion, domMax } from "framer-motion";
-import { ArrowRight, Loader2, Sparkles, Zap, Shield, Target, PenTool, MessageSquare, BookOpen, Headphones, Trophy, Search, BarChart } from "lucide-react";
+import { ArrowRight, Loader2, Sparkles, Zap, Shield, Target, PenTool, MessageSquare, BookOpen, Headphones, Trophy, Search, BarChart, Play } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useLanguage } from "@/context/LanguageContext";
 import { translations as T, tx } from "@/lib/translations";
@@ -72,7 +72,7 @@ export function Hero() {
                 <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:50px_50px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
 
                 {/* Dynamic WebGL Threads Background - Full Width & Enlarged */}
-                <div className="absolute top-0 left-0 w-full h-[550px] z-0 opacity-80 pointer-events-none [mask-image:radial-gradient(ellipse_80%_50%_at_50%_40%,#000_20%,transparent_100%)]">
+                <div className="absolute top-0 left-0 w-full h-[550px] z-0 opacity-80 pointer-events-none [mask-image:radial-gradient(ellipse_80%_50%_at_50%_40%,#000_20%,transparent_100%)] will-change-transform">
                     <Threads 
                         amplitude={1.2}
                         distance={0.2}
@@ -117,8 +117,10 @@ export function Hero() {
                                 {isLoading ? <Loader2 className="h-5 w-5 animate-spin mr-2" /> : "Try for Free"}
                                 {!isLoading && <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />}
                             </Button>
-                            <Button variant="outline" size="lg" className="h-14 px-10 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-lg group font-bold hover:bg-slate-50 transition-all">
-                                <span className="w-8 h-8 rounded-full border border-slate-200 dark:border-slate-800 flex items-center justify-center mr-3 group-hover:bg-white shadow-sm transition-colors text-slate-600">▶</span>
+                            <Button variant="outline" size="lg" className="h-14 px-10 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-lg group font-bold hover:bg-slate-50 dark:hover:bg-slate-800 transition-all flex items-center justify-center">
+                                <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center mr-3 group-hover:bg-indigo-50 dark:group-hover:bg-indigo-950/30 transition-colors">
+                                    <Play className="w-3.5 h-3.5 fill-indigo-600 text-indigo-600 ml-0.5" />
+                                </div>
                                 Guide
                             </Button>
                         </div>
@@ -207,7 +209,7 @@ export function Hero() {
                                                 rotate: { repeat: Infinity, duration: card.duration / 3, ease: "easeInOut" }
                                             }}
                                             style={{ width: card.w }}
-                                            className="absolute pointer-events-auto bg-white dark:bg-slate-900 p-4 rounded-[1.25rem] shadow-[0_32px_64px_-16px_rgba(0,0,0,0.1)] border border-slate-100 dark:border-slate-800 flex flex-col gap-3 group hover:scale-[1.05] hover:bg-white active:scale-95 transition-all cursor-pointer z-30 origin-center"
+                                            className="absolute pointer-events-auto bg-white dark:bg-slate-900 p-4 rounded-[1.25rem] shadow-[0_32px_64px_-16px_rgba(0,0,0,0.1)] border border-slate-100 dark:border-slate-800 flex flex-col gap-3 group hover:scale-[1.05] hover:bg-white active:scale-95 transition-all cursor-pointer z-30 origin-center will-change-transform"
                                         >
                                             <div className="flex items-center gap-3">
                                                 <div className="p-1.5 rounded-lg bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm">
@@ -278,16 +280,16 @@ export function Hero() {
                     </div>
                 </div>
 
-                {/* Bottom Scroll Transition Blur */}
+                {/* Bottom Scroll Transition Blur - Calibrated to prevent smudging headers */}
                 <GradualBlur
                     target="parent"
                     position="bottom"
-                    height="10rem"
-                    strength={3}
-                    divCount={8}
+                    height="6rem"
+                    strength={2}
+                    divCount={6}
                     curve="bezier"
                     exponential
-                    opacity={1}
+                    opacity={0.8}
                 />
             </section>
         </LazyMotion>
