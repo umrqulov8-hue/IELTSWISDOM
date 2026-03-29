@@ -9,14 +9,14 @@ export function ValueProps() {
     const { lang } = useLanguage();
     
     const featureItems = [
-        { icon: Brain, title: "AI Correction", badge: "AI", type: "ai", desc: "Instant feedback on your writing tasks with detailed band score analysis." },
-        { icon: Layers, title: "Full Mock Tests", badge: "Core", type: "core", desc: "Experience the real IELTS environment with timed full-length exams." },
-        { icon: Smartphone, title: "Mobile Practice", badge: "Pro", type: "pro", desc: "Study on the go with our optimized mobile companion app." },
-        { icon: Sparkles, title: "Band 9 Samples", badge: "Core", type: "core", desc: "Access a library of model answers for every task type." },
-        { icon: Shield, title: "Secure Testing", badge: "Pro", type: "pro", desc: "Fraud-proof test environment for authentic mock results." },
-        { icon: Globe, title: "Native Support", badge: "Core", type: "core", desc: "Curriculum designed by native IELTS examiners." },
-        { icon: BarChart, title: "Analytics", badge: "Pro", type: "pro", desc: "Track your progress with detailed performance metrics." },
-        { icon: Zap, title: "Flashcards", badge: "Core", type: "core", desc: "Master 5000+ IELTS words with our smart spaced-repetition system." },
+        { icon: Brain, title: "AI Evaluator", badge: "AI", type: "ai", desc: "Enterprise-grade AI for instant writing and speaking assessment with band 9 precision." },
+        { icon: Layers, title: "Mock Engine", badge: "Core", type: "core", desc: "Track releases and maintain multiple versions of your full-length mock exams." },
+        { icon: Shield, title: "IELTS Security", badge: "Enterprise", type: "pro", desc: "SOC 2 compliant secure testing environment for authorized centers and schools." },
+        { icon: Globe, title: "Multi-Platform", badge: "Core", type: "core", desc: "Export results and progress across web, mobile, and native platform components." },
+        { icon: BarChart, title: "Analytics & Insights", badge: "Pro", type: "pro", desc: "Track component usage, adoption metrics, and student health across your organization." },
+        { icon: Smartphone, title: "Native Prep", badge: "Core", type: "core", desc: "Highly optimized mobile experience for studying design-tokens on the go." },
+        { icon: Search, title: "Version Control", badge: "Pro", type: "pro", desc: "Manage releases and maintain historical versions of your IELTS study materials." },
+        { icon: Zap, title: "Speed Prep", badge: "Core", type: "core", desc: "Master thousands of IELTS concepts with our optimized rapid-learning engine." },
     ];
 
     return (

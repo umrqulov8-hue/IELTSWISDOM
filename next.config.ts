@@ -49,7 +49,7 @@ const nextConfig = {
     ];
   },
   experimental: {
-    optimizeCss: true,
+    optimizeCss: false,
     optimizePackageImports: ["lucide-react", "framer-motion"],
     scrollRestoration: true,
     turbo: {

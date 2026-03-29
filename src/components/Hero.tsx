@@ -2,7 +2,7 @@
 
 import { Button } from "./Button";
 import { m, LazyMotion, domMax } from "framer-motion";
-import { ArrowRight, Loader2, Sparkles, Zap, Shield, Target, PenTool, MessageSquare, BookOpen, Headphones, Trophy, Search } from "lucide-react";
+import { ArrowRight, Loader2, Sparkles, Zap, Shield, Target, PenTool, MessageSquare, BookOpen, Headphones, Trophy, Search, BarChart } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useLanguage } from "@/context/LanguageContext";
 import { translations as T, tx } from "@/lib/translations";
@@ -15,12 +15,12 @@ export function Hero() {
     const connectedCards = [
         { icon: PenTool, label: "Writing", x: -280, y: -120 },
         { icon: Headphones, label: "Listening", x: 280, y: -120 },
-        { icon: BookOpen, label: "Reading", x: -320, y: 80 },
-        { icon: MessageSquare, label: "Speaking", x: 320, y: 80 },
-        { icon: Sparkles, label: "AI Correction", x: -150, y: -220 },
-        { icon: Target, label: "Mock Test", x: 150, y: -220 },
-        { icon: Zap, label: "Grammar", x: -180, y: 220 },
-        { icon: Trophy, label: "Band 8.0+", x: 180, y: 220 },
+        { icon: Sparkles, label: "AI Evaluator", x: -150, y: -220 },
+        { icon: Target, label: "Mock Engine", x: 150, y: -220 },
+        { icon: BarChart, label: "Analytics", x: 320, y: 80 },
+        { icon: Search, label: "Analysis", x: -320, y: 80 },
+        { icon: Zap, label: "Speed Prep", x: -180, y: 220 },
+        { icon: Trophy, label: "Band 9.0", x: 180, y: 220 },
     ];
 
     return (
@@ -49,10 +49,10 @@ export function Hero() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8, delay: 0.1 }}
-                        className="text-5xl md:text-8xl font-black text-slate-900 dark:text-white tracking-tight leading-[0.9] max-w-5xl mx-auto mb-10"
+                        className="text-5xl md:text-8xl font-black text-slate-900 dark:text-white tracking-tight leading-[1.05] max-w-5xl mx-auto mb-10"
                     >
-                        {tx(h.h1a, lang)} <br />
-                        <span className="text-slate-500">{tx(h.h1b, lang)}</span> {tx(h.h1c, lang)}
+                        Build consistent <br /> 
+                        <span className="text-slate-500">IELTS success</span> at scale
                     </m.h1>
 
                     {/* Description */}
@@ -60,10 +60,10 @@ export function Hero() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8, delay: 0.2 }}
-                        className="text-lg md:text-xl text-slate-500 max-w-3xl mx-auto mb-12 leading-relaxed"
+                        className="text-lg md:text-xl text-slate-500 max-w-2xl mx-auto mb-12 leading-relaxed font-medium"
                     >
-                        Prepare for IELTS with the most comprehensive design-driven platform. <br />
-                        Everything you need to master all four skills in one unified experience.
+                        Create, maintain, and scale your IELTS preparation with our comprehensive platform. <br />
+                        From design-tokens to AI-powered mock tests, we've got you covered.
                     </m.p>
 
                     {/* CTAs */}

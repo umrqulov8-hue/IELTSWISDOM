@@ -5,39 +5,39 @@ import { Star } from "lucide-react";
 
 const testimonials = [
     {
-        quote: "IELTS Wisdom transformed how our team builds and maintains our design system. The automation features alone save us hours every week.",
-        name: "Sarah Chen",
-        role: "Design Systems Lead at TechCorp",
-        initials: "SC"
+        quote: "IELTS Wisdom transformed how I approach the Writing section. The AI-powered feedback saves me hours of checking and helped me reach Band 8.5.",
+        name: "Abdurahmon Karimov",
+        role: "Band 8.5 Student",
+        initials: "AK"
     },
     {
-        quote: "The collaboration features are incredible. Our designers and developers are finally speaking the same language thanks to DesignKit.",
-        name: "Marcus Johnson",
-        role: "Frontend Lead at StartupXYZ",
-        initials: "MJ"
+        quote: "The mock test engine is the most authentic I've seen. It perfectly mimics the CDI environment, ensuring students feel fully prepared for exam day.",
+        name: "James Wilson",
+        role: "IELTS Expert Examiner",
+        initials: "JW"
     },
     {
-        quote: "We've been able to scale our design system across 15+ products seamlessly. The versioning and deployment features are game-changers.",
+        quote: "We've been able to scale our language school across 5+ locations seamlessly using the Enterprise dashboard. The student tracking is a game-changer.",
         name: "Elena Rodriguez",
-        role: "Product Designer at Enterprise Inc",
+        role: "Director at Elite English",
         initials: "ER"
     },
     {
-        quote: "The AI-powered component generation is mind-blowing. It's like having a design systems expert working 24/7 for our team.",
-        name: "David Kim",
-        role: "CTO at InnovateLab",
+        quote: "The AI Evaluator's accuracy in predicting scores is mind-blowing. It's like having a native examiner working 24/7 for our students.",
+        name: "Dr. David Kim",
+        role: "Head of Academic English",
         initials: "DK"
     },
     {
-        quote: "Integration with our existing tools was seamless. DesignKit fits perfectly into our workflow without any disruption.",
+        quote: "Integration with our curriculum was seamless. IELTS Wisdom fits perfectly into our prep classes without any technical disruption.",
         name: "Lisa Thompson",
-        role: "UX Director at DesignCo",
+        role: "Senior Prep Instructor",
         initials: "LT"
     },
     {
-        quote: "The documentation auto-generation feature has made our component library so much more accessible to the entire organization.",
+        quote: "The detailed analytics feature has made tracking progress so much easier for our entire organization. Every student knows exactly where to improve.",
         name: "Alex Rivera",
-        role: "Senior Developer at BuildFast",
+        role: "IELTS Program Manager",
         initials: "AR"
     }
 ];
