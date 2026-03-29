@@ -63,7 +63,7 @@ export function MockTestWidget({ completed, total, avgBand, lastScore }: {
                 </div>
 
                 <Link 
-                    href="/mock-exams/quick-start" 
+                    href="/mock-exams" 
                     className="w-full bg-[#0f172a] text-white font-bold py-4 rounded-2xl flex items-center justify-center gap-3 hover:translate-y-[-2px] hover:shadow-lg hover:shadow-slate-200 transition-all active:translate-y-0"
                 >
                     <span>Take Practice Test</span>
