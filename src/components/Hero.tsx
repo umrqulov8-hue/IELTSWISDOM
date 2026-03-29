@@ -131,7 +131,14 @@ export function Hero() {
                             }}
                             className="w-32 h-32 rounded-[2.5rem] bg-slate-900 dark:bg-white flex items-center justify-center shadow-2xl z-20 relative"
                         >
-                             <div className="w-10 h-10 border-[6px] border-white dark:border-slate-900 rounded-[1rem]" />
+                             <svg className="w-12 h-8 text-white dark:text-slate-900 fill-current drop-shadow-lg" viewBox="0 0 24 24">
+                                <path d="M3 16l-2-9 6 4.5L12 3l5 8.5 6-4.5-2 9H3zm-1-2h20v4H2v-4z" />
+                                <circle cx="1" cy="6" r="1.5" />
+                                <circle cx="7" cy="11.5" r="1.5" />
+                                <circle cx="12" cy="2" r="1.5" />
+                                <circle cx="17" cy="11.5" r="1.5" />
+                                <circle cx="23" cy="6" r="1.5" />
+                             </svg>
                         </m.div>
 
                         {/* Combined Cards & Lines System */}

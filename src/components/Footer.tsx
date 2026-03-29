@@ -13,24 +13,17 @@ export function Footer() {
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-20">
                     <div className="col-span-1 md:col-span-1">
                         <div className="flex items-center gap-3 mb-6">
-                            <div className="w-10 h-10 rounded-2xl bg-slate-900 dark:bg-white flex items-center justify-center">
-                                <div className="w-3 h-3 border-[2.5px] border-white dark:border-slate-900 rounded-md" />
+                            <div className="w-10 h-10 rounded-[1rem] bg-slate-900 dark:bg-white flex items-center justify-center shadow-lg">
+                                <svg className="w-5 h-4 text-white dark:text-slate-900 fill-current" viewBox="0 0 24 24">
+                                    <path d="M3 16l-2-9 6 4.5L12 3l5 8.5 6-4.5-2 9H3zm-1-2h20v4H2v-4z" />
+                                    <circle cx="1" cy="6" r="1.5" />
+                                    <circle cx="7" cy="11.5" r="1.5" />
+                                    <circle cx="12" cy="2" r="1.5" />
+                                    <circle cx="17" cy="11.5" r="1.5" />
+                                    <circle cx="23" cy="6" r="1.5" />
+                                </svg>
                             </div>
                             <span className="text-xl font-black text-slate-900 dark:text-white tracking-tight">IELTS Wisdom</span>
-                        </div>
-                        <p className="text-sm text-slate-500 leading-relaxed font-medium mb-8">
-                            The complete platform for mastering IELTS. <br />
-                            Helping students reach Band 8.0+ through AI-powered education.
-                        </p>
-                        <div className="flex flex-col sm:flex-row gap-2">
-                             <input 
-                                type="email" 
-                                placeholder="Enter your email" 
-                                className="h-11 px-4 rounded-xl bg-slate-50 dark:bg-slate-900 saas-border text-sm outline-none focus:ring-2 ring-slate-900/5 transition-all flex-1"
-                             />
-                             <Button className="h-11 px-6 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-xs font-black uppercase tracking-widest whitespace-nowrap">
-                                Subscribe
-                             </Button>
                         </div>
                     </div>
 
