@@ -70,7 +70,7 @@ export const DashboardLayout = memo(({
 
             {/* Sidebar Wrapper */}
             <div className={cn(
-                "fixed inset-y-0 left-0 z-[110] transition-transform duration-300 transform lg:translate-x-0 lg:static lg:inset-auto",
+                "fixed inset-y-0 left-0 z-[110] transition-transform duration-300 transform lg:translate-x-0 lg:w-[280px]",
                 isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
             )}>
                 {!hideSidebar && <Sidebar onMobileClose={() => setIsMobileMenuOpen(false)} />}
@@ -78,7 +78,7 @@ export const DashboardLayout = memo(({
 
             <main className={cn(
                 "flex-1 flex flex-col min-h-screen relative",
-                !hideSidebar && ""
+                !hideSidebar && "lg:ml-[280px]"
             )}>
                 {/* Clean Header */}
                 {!hideHeader && (
