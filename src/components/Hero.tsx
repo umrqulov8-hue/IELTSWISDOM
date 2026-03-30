@@ -98,23 +98,23 @@ export function Hero() {
                         <br />
                         <SplitText
                             text="OF THE IELTS EXAM"
-                            className="text-slate-400 font-extrabold uppercase bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-500 dark:from-white dark:to-slate-400"
+                            className="text-slate-500 dark:text-slate-400 font-extrabold uppercase"
                             delay={50}
                             duration={1}
-                            threshold={0.2}
+                            threshold={0.1}
                             rootMargin="-50px"
                         />
                     </h1>
 
-                    {/* Description - Expert Migration */}
-                    <m.p 
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, delay: 0.2 }}
-                        className="text-base md:text-lg text-slate-500 max-w-xl mx-auto mb-10 leading-relaxed font-medium"
-                    >
-                        Reach Band 8.5+ with precision evaluations, authentic mock tests, and systematic section mastery designed by experts.
-                    </m.p>
+                    {/* Description - Animated */}
+                    <SplitText
+                        text="Reach Band 8.5+ with precision evaluations, authentic mock tests, and systematic section mastery designed by experts."
+                        className="text-base md:text-lg text-slate-600 dark:text-slate-400 max-w-xl mx-auto mb-10 leading-relaxed font-medium block"
+                        delay={20}
+                        duration={0.8}
+                        splitType="words"
+                        threshold={0.1}
+                    />
 
                     {/* CTAs */}
                     <m.div 
