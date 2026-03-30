@@ -57,14 +57,14 @@ export function CourseCatalog() {
                         }}
                         className="text-3xl font-bold tracking-tight text-primary sm:text-4xl mb-4"
                     >
-                        Explore Our <span className="text-secondary">Premium Courses</span>
+                        Explore Our <span className="text-indigo-600 dark:text-indigo-400">Premium Courses</span>
                     </motion.h2>
                     <motion.p
                         variants={{
                             hidden: { opacity: 0, y: 20 },
                             visible: { opacity: 1, y: 0, transition: { type: "spring", bounce: 0.5, duration: 1 } }
                         }}
-                        className="text-lg text-muted-foreground"
+                        className="text-lg text-slate-600 dark:text-slate-400"
                     >
                         Whether you want to travel, advance your career, or pass an exam, we have a structured path for you.
                     </motion.p>

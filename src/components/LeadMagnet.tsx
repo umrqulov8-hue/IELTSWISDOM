@@ -51,7 +51,7 @@ export function LeadMagnet() {
                                     Master <span className="text-indigo-400">Grammar</span> Without the Grind
                                 </h2>
                                 
-                                <p className="text-lg text-slate-300 mb-10 leading-relaxed font-medium">
+                                <p className="text-lg text-white/90 mb-10 leading-relaxed font-medium">
                                     Download our signature "IELTS Mastery Guide" and eliminate the 50 most common errors that hold students back from Band 8.5+.
                                 </p>
 
@@ -67,7 +67,7 @@ export function LeadMagnet() {
                                             whileInView={{ opacity: 1, x: 0 }}
                                             viewport={{ once: true }}
                                             transition={{ delay: 0.2 + i * 0.1 }}
-                                            className="flex items-center text-slate-300 font-medium"
+                                            className="flex items-center text-white/90 font-medium"
                                         >
                                             <div className="w-6 h-6 rounded-full bg-emerald-500/10 flex items-center justify-center mr-4 shrink-0">
                                                 <CheckCircle className="h-4 w-4 text-emerald-400" />

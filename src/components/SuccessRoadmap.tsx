@@ -96,7 +96,7 @@ export function SuccessRoadmap() {
                                         <h3 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white tracking-tight leading-tight">
                                             {ms.title}
                                         </h3>
-                                        <p className="text-lg text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
+                                        <p className="text-lg text-slate-300 dark:text-slate-400 font-medium leading-relaxed">
                                             {ms.description}
                                         </p>
                                     </div>
