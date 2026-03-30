@@ -8,6 +8,7 @@ import { useLanguage } from "@/context/LanguageContext";
 import { translations as T, tx } from "@/lib/translations";
 import Threads from "./ui/Threads";
 import GradualBlur from "./ui/GradualBlur";
+import SplitText from "./ui/SplitText";
 
 export function Hero() {
     const { handleStartLearning, isLoading } = useAuth();
@@ -85,15 +86,25 @@ export function Hero() {
                     {/* Badge Removed */}
 
                     {/* Headline - Expert Migration */}
-                    <m.h1 
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, delay: 0.1 }}
-                        className="text-4xl md:text-6xl font-black tracking-tight leading-[1.1] max-w-3xl mx-auto mb-6"
-                    >
-                        <span className="text-slate-950 dark:text-white">Master</span> every section <br /> 
-                        <span className="text-slate-400 font-extrabold uppercase bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-500 dark:from-white dark:to-slate-400">of the IELTS exam</span>
-                    </m.h1>
+                    <h1 className="text-4xl md:text-6xl font-black tracking-tight leading-[1.1] max-w-3xl mx-auto mb-6">
+                        <SplitText
+                            text="Master every section"
+                            className="text-slate-950 dark:text-white"
+                            delay={30}
+                            duration={0.8}
+                            threshold={0.2}
+                            rootMargin="-50px"
+                        />
+                        <br />
+                        <SplitText
+                            text="OF THE IELTS EXAM"
+                            className="text-slate-400 font-extrabold uppercase bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-500 dark:from-white dark:to-slate-400"
+                            delay={50}
+                            duration={1}
+                            threshold={0.2}
+                            rootMargin="-50px"
+                        />
+                    </h1>
 
                     {/* Description - Expert Migration */}
                     <m.p 
