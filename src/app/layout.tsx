@@ -64,22 +64,6 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <head>
-        <meta name="is_preload_streaming" content="true" />
-        <script dangerouslySetInnerHTML={{ __html: `performance?.mark('figma:bootstrap:earlyJsLoadStart')` }} />
-        
-        {/* Preload Fonts & Key Assets from Source */}
-        <link rel="preload" as="script" href="https://www.figma.com/webpack-artifacts/assets/runtime~figma_app-d74083f2210a7a97.min.js.br" crossOrigin="anonymous" />
-        <link rel="preload" as="script" href="https://www.figma.com/webpack-artifacts/assets/vendor-core-83c17265f2588e9e.min.js.br" crossOrigin="anonymous" />
-        <link rel="preload" as="style" href="https://www.figma.com/webpack-artifacts/assets/figma_app-5024bbfd830adcce.min.css.br" />
-        
-        {/* Design System Cover Image Preload */}
-        <link
-          rel="preload"
-          as="image"
-          href="https://s3-alpha.figma.com/hub/file/2251959376041554426/5e13e50d-113c-4fb0-941d-e9c67ec41b37-cover.png"
-          imageSrcSet="https://s3-alpha.figma.com/hub/file/2251959376041554426/resized/160x96/5e13e50d-113c-4fb0-941d-e9c67ec41b37-cover.png 160w, https://s3-alpha.figma.com/hub/file/2251959376041554426/resized/800x480/5e13e50d-113c-4fb0-941d-e9c67ec41b37-cover.png 800w, https://s3-alpha.figma.com/hub/file/2251959376041554426/5e13e50d-113c-4fb0-941d-e9c67ec41b37-cover.png 1600w"
-          imageSizes="(min-width: 2048px) 50vw, 100vw"
-        />
 
         {/* Apply saved font size BEFORE first paint to prevent layout flash */}
         <Script
