@@ -62,12 +62,12 @@ export const Sidebar = memo(({ onMobileClose }: SidebarProps) => {
             {/* Logo Section */}
             <div className="px-8 py-8 flex items-center justify-between">
                 <Link href="/dashboard" className="flex items-center gap-3 group">
-                    <div className="w-10 h-10 bg-black rounded-xl flex items-center justify-center text-white shadow-lg shadow-slate-200 group-hover:scale-105 transition-transform">
+                    <div className="w-10 h-10 bg-black dark:bg-slate-800 rounded-xl flex items-center justify-center text-white shadow-lg shadow-slate-200 dark:shadow-none group-hover:scale-105 transition-transform">
                         <Trophy className="w-6 h-6" />
                     </div>
                     <div className="flex flex-col">
-                        <span className="text-xl font-black text-black leading-none tracking-tight">IELTS Wisdom</span>
-                        <span className="text-[10px] font-bold text-slate-600 mt-0.5 tracking-wider uppercase">Master Your Skills</span>
+                        <span className="text-xl font-black text-black dark:text-white leading-none tracking-tight transition-colors">IELTS Wisdom</span>
+                        <span className="text-[10px] font-bold text-slate-600 dark:text-slate-500 mt-0.5 tracking-wider uppercase transition-colors">Master Your Skills</span>
                     </div>
                 </Link>
 
@@ -75,7 +75,7 @@ export const Sidebar = memo(({ onMobileClose }: SidebarProps) => {
                     <button 
                         onClick={onMobileClose}
                         aria-label="Close mobile menu"
-                        className="lg:hidden p-2 rounded-xl bg-slate-50 text-slate-600 hover:text-slate-900 border border-slate-100"
+                        className="lg:hidden p-2 rounded-xl bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white border border-slate-100 dark:border-slate-800 transition-colors"
                     >
                         <X className="w-5 h-5" />
                     </button>
@@ -86,7 +86,7 @@ export const Sidebar = memo(({ onMobileClose }: SidebarProps) => {
             <div className="flex-1 overflow-y-auto px-6 py-4 space-y-8 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
                 {NAV_GROUPS.map((group) => (
                     <div key={group.label} className="space-y-2">
-                        <h3 className="px-4 text-[10px] font-black text-slate-800 tracking-[0.2em] uppercase">
+                        <h3 className="px-4 text-[10px] font-black text-slate-800 dark:text-slate-500 tracking-[0.2em] uppercase transition-colors">
                             {group.label === "SKILLS" ? (lang === 'uz' ? "KO'NIKMALAR" : "SKILLS") : 
                              group.label === "PRACTICE" ? (lang === 'uz' ? "MASHQLAR" : "PRACTICE") : 
                              (lang === 'uz' ? "HISOB" : "ACCOUNT")}
@@ -116,21 +116,21 @@ export const Sidebar = memo(({ onMobileClose }: SidebarProps) => {
                                         className={cn(
                                             "flex items-center justify-between px-4 py-3 rounded-xl transition-all duration-200 group/item",
                                             isActive 
-                                                ? "bg-black text-white shadow-md shadow-slate-200" 
-                                                : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+                                                ? "bg-black dark:bg-slate-800 text-white shadow-md shadow-slate-200 dark:shadow-none" 
+                                                : "text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/50 hover:text-slate-900 dark:hover:text-slate-100"
                                         )}
                                     >
                                         <div className="flex items-center gap-3">
                                             <Icon className={cn(
-                                                "w-5 h-5",
-                                                isActive ? "text-white" : "text-slate-600 group-hover/item:text-slate-600"
+                                                "w-5 h-5 transition-colors",
+                                                isActive ? "text-white" : "text-slate-600 dark:text-slate-400 group-hover/item:text-slate-600 dark:group-hover/item:text-slate-300"
                                             )} />
                                             <span className="text-sm font-bold tracking-tight">{translatedName}</span>
                                         </div>
                                         {item.badge && (
                                             <span className={cn(
-                                                "text-[10px] font-bold px-2 py-1 rounded-lg",
-                                                isActive ? "bg-white/20 text-white" : "bg-slate-100 text-slate-800"
+                                                "text-[10px] font-bold px-2 py-1 rounded-lg transition-colors",
+                                                isActive ? "bg-white/20 text-white" : "bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-300"
                                             )}>
                                                 {lang === 'uz' ? item.badge.replace('Lessons', 'Dars').replace('Tests', 'Test') : item.badge}
                                             </span>
@@ -144,7 +144,7 @@ export const Sidebar = memo(({ onMobileClose }: SidebarProps) => {
             </div>
 
             {/* Sticky Bottom Widgets */}
-            <div className="p-6 border-t border-slate-50 bg-white space-y-4">
+            <div className="p-6 border-t border-slate-50 dark:border-slate-800/50 bg-white dark:bg-slate-900 space-y-4 transition-colors duration-200">
                 <TargetBandWidget target={7.5} current={6.8} />
                 
                 <button 
