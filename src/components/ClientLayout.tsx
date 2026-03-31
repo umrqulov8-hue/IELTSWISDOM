@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { useLanguage } from "@/context/LanguageContext";
-import { AnimatePresence, LazyMotion, domAnimation } from "framer-motion";
+import { AnimatePresence, LazyMotion, domMax } from "framer-motion";
 import { DeviceProvider } from "@/context/DeviceContext";
 
 // Dashboard/app routes that should NOT show the landing Header + Footer
@@ -36,7 +36,7 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
     );
 
     return (
-        <LazyMotion features={domAnimation}>
+        <LazyMotion features={domMax}>
             <DeviceProvider>
                 {!isDashboard && <Header />}
                 <main className={isDashboard ? "flex-grow" : "flex-grow pt-16"}>

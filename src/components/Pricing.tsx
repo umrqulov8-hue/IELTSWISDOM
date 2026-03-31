@@ -1,6 +1,6 @@
 "use client";
 
-import { m, LazyMotion, domMax } from "framer-motion";
+import { m } from "framer-motion";
 import { Check, ArrowRight } from "lucide-react";
 import { Button } from "./Button";
 
@@ -51,7 +51,7 @@ const tiers = [
 
 export function Pricing() {
     return (
-        <LazyMotion features={domMax}>
+        <>
             <section id="pricing" className="py-32 bg-white dark:bg-slate-950">
                 <div className="container mx-auto px-4">
                     <div className="text-center mb-20">
@@ -122,6 +122,6 @@ export function Pricing() {
                     </div>
                 </div>
             </section>
-        </LazyMotion>
+        </>
     );
 }

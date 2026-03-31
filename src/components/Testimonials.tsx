@@ -1,6 +1,6 @@
 "use client";
 
-import { m, LazyMotion, domMax } from "framer-motion";
+import { m } from "framer-motion";
 import { Star } from "lucide-react";
 
 const testimonials = [
@@ -44,7 +44,7 @@ const testimonials = [
 
 export function Testimonials() {
     return (
-        <LazyMotion features={domMax}>
+        <>
             <section id="testimonials" className="py-32 bg-slate-50 dark:bg-slate-900/50">
                 <div className="container mx-auto px-4">
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto items-stretch">
@@ -75,6 +75,6 @@ export function Testimonials() {
                     </div>
                 </div>
             </section>
-        </LazyMotion>
+        </>
     );
 }
