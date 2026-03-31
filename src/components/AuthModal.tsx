@@ -116,7 +116,7 @@ export function AuthModal() {
                     {/* Login Form */}
                     <div className={cn(styles.form_box, styles.login)}>
                         <form onSubmit={(e) => handleAuth(e, 'login')} className="w-full px-4 md:px-12">
-                            <h1 className="text-3xl font-bold text-slate-800 mb-6">Login</h1>
+                            <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-6">Login</h1>
 
                             <div className="relative mb-6">
                                 <input
@@ -124,10 +124,10 @@ export function AuthModal() {
                                     placeholder="Email"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
-                                    className="w-full bg-slate-100 rounded-xl py-3 pl-12 pr-4 text-slate-800 focus:outline-none focus:ring-2 focus:ring-secondary/50 placeholder:text-slate-600"
+                                    className="w-full bg-slate-100 dark:bg-slate-700 rounded-xl py-3 pl-12 pr-4 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-slate-400 placeholder:text-slate-500 dark:placeholder:text-slate-400"
                                     required
                                 />
-                                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-600" />
+                                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-500 dark:text-slate-400" />
                             </div>
 
                             <div className="relative mb-2">
@@ -136,20 +136,20 @@ export function AuthModal() {
                                     placeholder="Password"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    className="w-full bg-slate-100 rounded-xl py-3 pl-12 pr-4 text-slate-800 focus:outline-none focus:ring-2 focus:ring-secondary/50 placeholder:text-slate-600"
+                                    className="w-full bg-slate-100 dark:bg-slate-700 rounded-xl py-3 pl-12 pr-4 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-slate-400 placeholder:text-slate-500 dark:placeholder:text-slate-400"
                                     required
                                 />
-                                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-600" />
+                                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-500 dark:text-slate-400" />
                             </div>
 
                             <div className="text-right mb-6">
-                                <a href="#" className="text-sm text-slate-500 hover:text-secondary transition-colors">Forgot Password?</a>
+                                <a href="#" className="text-sm text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">Forgot Password?</a>
                             </div>
 
                             <button
                                 type="submit"
                                 disabled={loading}
-                                className="w-full bg-[#3b82f6] hover:bg-[#2563eb] text-white font-bold py-3 rounded-xl shadow-lg shadow-blue-500/30 transition-all flex justify-center items-center"
+                                className="w-full bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-100 text-white dark:text-slate-900 font-bold py-3 rounded-xl shadow-lg shadow-slate-900/20 transition-all flex justify-center items-center"
                             >
                                 {loading && isLogin ? <Loader2 className="h-5 w-5 animate-spin mr-2" /> : "Login"}
                             </button>
@@ -159,7 +159,7 @@ export function AuthModal() {
                     {/* Registration Form */}
                     <div className={cn(styles.form_box, styles.register)}>
                         <form onSubmit={(e) => handleAuth(e, 'register')} className="w-full px-4 md:px-12">
-                            <h1 className="text-3xl font-bold text-slate-800 mb-6">Registration</h1>
+                            <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-6">Registration</h1>
 
                             <div className="relative mb-6">
                                 <input
@@ -167,10 +167,10 @@ export function AuthModal() {
                                     placeholder="Email"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
-                                    className="w-full bg-slate-100 rounded-xl py-3 pl-12 pr-4 text-slate-800 focus:outline-none focus:ring-2 focus:ring-secondary/50 placeholder:text-slate-600"
+                                    className="w-full bg-slate-100 dark:bg-slate-700 rounded-xl py-3 pl-12 pr-4 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-slate-400 placeholder:text-slate-500 dark:placeholder:text-slate-400"
                                     required
                                 />
-                                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-600" />
+                                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-500 dark:text-slate-400" />
                             </div>
 
                             <div className="relative mb-6">
@@ -179,16 +179,16 @@ export function AuthModal() {
                                     placeholder="Password"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    className="w-full bg-slate-100 rounded-xl py-3 pl-12 pr-4 text-slate-800 focus:outline-none focus:ring-2 focus:ring-secondary/50 placeholder:text-slate-600"
+                                    className="w-full bg-slate-100 dark:bg-slate-700 rounded-xl py-3 pl-12 pr-4 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-slate-400 placeholder:text-slate-500 dark:placeholder:text-slate-400"
                                     required
                                 />
-                                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-600" />
+                                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-500 dark:text-slate-400" />
                             </div>
 
                             <button
                                 type="submit"
                                 disabled={loading}
-                                className="w-full bg-[#3b82f6] hover:bg-[#2563eb] text-white font-bold py-3 rounded-xl shadow-lg shadow-blue-500/30 transition-all flex justify-center items-center"
+                                className="w-full bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-100 text-white dark:text-slate-900 font-bold py-3 rounded-xl shadow-lg shadow-slate-900/20 transition-all flex justify-center items-center"
                             >
                                 {loading && !isLogin ? <Loader2 className="h-5 w-5 animate-spin mr-2" /> : "Register"}
                             </button>
