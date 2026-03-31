@@ -6,12 +6,33 @@ import './magic-button.css';
 interface MagicButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   onClick?: () => void;
   isLoading?: boolean;
+  text1?: string;
+  text2?: string;
+  variant?: "primary" | "secondary";
 }
 
-export const MagicButton: React.FC<MagicButtonProps> = ({ onClick, isLoading, ...props }) => {
+export const MagicButton: React.FC<MagicButtonProps> = ({ 
+  onClick, 
+  isLoading, 
+  text1 = "Start Free",
+  text2 = "Start Now",
+  variant = "primary",
+  className,
+  ...props 
+}) => {
+  const renderChars = (text: string, stateClass: string) => (
+    <span className={`mb-char ${stateClass}`}>
+      {text.split('').map((char, index) => (
+        char === ' ' 
+          ? <span key={index} style={{ width: '6px', display: 'inline-block' }} /> 
+          : <span key={index} data-label={char} style={{'--i': index + 1} as React.CSSProperties}>{char}</span>
+      ))}
+    </span>
+  );
+
   return (
     <button 
-      className="magic-button" 
+      className={`magic-button ${variant === 'secondary' ? 'variant-secondary' : ''} ${className || ''}`} 
       onClick={onClick} 
       disabled={isLoading} 
       {...props}
@@ -53,32 +74,13 @@ export const MagicButton: React.FC<MagicButtonProps> = ({ onClick, isLoading, ..
 
         <div className="mb-outline"></div>
         <div className="mb-content">
-          <span className="mb-char state-1">
-            <span data-label="S" style={{'--i': 1} as React.CSSProperties}>S</span>
-            <span data-label="t" style={{'--i': 2} as React.CSSProperties}>t</span>
-            <span data-label="a" style={{'--i': 3} as React.CSSProperties}>a</span>
-            <span data-label="r" style={{'--i': 4} as React.CSSProperties}>r</span>
-            <span data-label="t" style={{'--i': 5} as React.CSSProperties}>t</span>
-            <span data-label="F" style={{'--i': 6} as React.CSSProperties}>F</span>
-            <span data-label="r" style={{'--i': 7} as React.CSSProperties}>r</span>
-            <span data-label="e" style={{'--i': 8} as React.CSSProperties}>e</span>
-            <span data-label="e" style={{'--i': 9} as React.CSSProperties}>e</span>
-          </span>
+          {renderChars(text1, "state-1")}
 
           <div className="mb-icon">
             <div></div>
           </div>
 
-          <span className="mb-char state-2">
-            <span data-label="S" style={{'--i': 1} as React.CSSProperties}>S</span>
-            <span data-label="t" style={{'--i': 2} as React.CSSProperties}>t</span>
-            <span data-label="a" style={{'--i': 3} as React.CSSProperties}>a</span>
-            <span data-label="r" style={{'--i': 4} as React.CSSProperties}>r</span>
-            <span data-label="t" style={{'--i': 5} as React.CSSProperties}>t</span>
-            <span data-label="N" style={{'--i': 6} as React.CSSProperties}>N</span>
-            <span data-label="o" style={{'--i': 7} as React.CSSProperties}>o</span>
-            <span data-label="w" style={{'--i': 8} as React.CSSProperties}>w</span>
-          </span>
+          {renderChars(text2, "state-2")}
         </div>
       </div>
     </button>

@@ -125,13 +125,12 @@ export function Hero() {
                         className="flex flex-col items-center justify-center gap-4 mb-24"
                     >
                         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                            <MagicButton onClick={handleStartLearning} isLoading={isLoading} />
-                            <Button variant="outline" size="lg" className="h-14 px-10 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-lg group font-bold hover:bg-slate-50 dark:hover:bg-slate-800 transition-all flex items-center justify-center">
-                                <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center mr-3 group-hover:bg-indigo-50 dark:group-hover:bg-indigo-950/30 transition-colors">
-                                    <Play className="w-3.5 h-3.5 fill-indigo-600 text-indigo-600 ml-0.5" />
-                                </div>
-                                Guide
-                            </Button>
+                            <div className="relative z-20">
+                                <MagicButton onClick={handleStartLearning} isLoading={isLoading} />
+                            </div>
+                            <div className="relative z-20">
+                                <MagicButton variant="secondary" text1="Play Guide" text2="Watch Now" />
+                            </div>
                         </div>
                         <m.p 
                             initial={{ opacity: 0 }}
