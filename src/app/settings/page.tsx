@@ -19,12 +19,13 @@ import { useAuthContext } from "@/context/AuthContext";
 import { useLanguage } from "@/context/LanguageContext";
 import { useState } from "react";
 import { createClient } from "@/utils/supabase/client";
+import { useTheme } from "next-themes";
 
 export default function SettingsPage() {
     const { lang, setLang } = useLanguage();
     const { user, signOut } = useAuthContext();
     const [notifs, setNotifs] = useState(true);
-    const [darkMode, setDarkMode] = useState(false);
+    const { theme, setTheme } = useTheme();
     const [updating, setUpdating] = useState(false);
 
     const handleSignOut = async () => {
@@ -109,8 +110,8 @@ export default function SettingsPage() {
                             icon={<Moon className="w-4 h-4" />}
                             label={lang === 'uz' ? "Tungi rejim" : "Dark Mode"}
                             description={lang === 'uz' ? "Kam yoritilgan interfeys" : "Low-light interface"}
-                            active={darkMode}
-                            onClick={() => setDarkMode(!darkMode)}
+                            active={theme === 'dark'}
+                            onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
                         />
                         <ToggleItem 
                             icon={<Volume2 className="w-4 h-4" />}

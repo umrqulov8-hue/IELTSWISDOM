@@ -8,6 +8,7 @@ import { ClientLayout } from "@/components/ClientLayout";
 import { AuthProvider } from "@/context/AuthContext";
 import { SubscriptionProvider } from "@/context/SubscriptionContext";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
+import { ThemeProvider } from "@/components/ThemeProvider";
 import { Toaster } from 'sonner';
 import { Analytics } from "@vercel/analytics/react";
 
@@ -79,20 +80,22 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${plusJakartaSans.variable} antialiased font-sans bg-background text-foreground flex flex-col min-h-screen [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]`}
       >
-        <AuthProvider>
-          <LanguageProvider>
-            <SubscriptionProvider>
-              <ModalProvider>
-                <ErrorBoundary>
-                  <ClientLayout>
-                    {children}
-                  </ClientLayout>
-                </ErrorBoundary>
-                <Toaster position="top-center" richColors />
-              </ModalProvider>
-            </SubscriptionProvider>
-          </LanguageProvider>
-        </AuthProvider>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+          <AuthProvider>
+            <LanguageProvider>
+              <SubscriptionProvider>
+                <ModalProvider>
+                  <ErrorBoundary>
+                    <ClientLayout>
+                      {children}
+                    </ClientLayout>
+                  </ErrorBoundary>
+                  <Toaster position="top-center" richColors />
+                </ModalProvider>
+              </SubscriptionProvider>
+            </LanguageProvider>
+          </AuthProvider>
+        </ThemeProvider>
         <Analytics />
       </body>
     </html>
