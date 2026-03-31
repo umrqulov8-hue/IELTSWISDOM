@@ -3,6 +3,7 @@
 import { Trophy, ArrowRight } from "lucide-react";
 import { m } from "framer-motion";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 interface MockMetricProps {
     label: string;
@@ -13,8 +14,8 @@ interface MockMetricProps {
 function MockMetric({ label, value, color = "text-slate-900" }: MockMetricProps) {
     return (
         <div className="flex flex-col gap-1">
-            <span className="text-3xl font-black tracking-tight leading-none text-slate-900">{value}</span>
-            <span className="text-[10px] font-bold text-slate-700 uppercase tracking-widest">{label}</span>
+            <span className={cn("text-3xl font-black tracking-tight leading-none transition-colors", color === "text-slate-900" ? "text-slate-900 dark:text-white" : color)}>{value}</span>
+            <span className="text-[10px] font-bold text-slate-700 dark:text-slate-400 uppercase tracking-widest transition-colors">{label}</span>
         </div>
     );
 }
@@ -28,36 +29,36 @@ export function MockTestWidget({ completed, total, avgBand, lastScore }: {
     const progress = (completed / total) * 100;
 
     return (
-        <div className="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm flex flex-col h-full group">
+        <div className="bg-white dark:bg-slate-900 rounded-3xl p-8 border border-slate-100 dark:border-slate-800 shadow-sm flex flex-col h-full group transition-all">
             <div className="flex items-center gap-3 mb-8">
-                <div className="w-10 h-10 rounded-xl bg-orange-50 flex items-center justify-center text-orange-600 transition-colors group-hover:bg-[#0f172a] group-hover:text-white">
+                <div className="w-10 h-10 rounded-xl bg-orange-50 dark:bg-orange-950/30 flex items-center justify-center text-orange-600 transition-colors group-hover:bg-[#0f172a] dark:group-hover:bg-white group-hover:text-white dark:group-hover:text-slate-900">
                     <Trophy className="w-5 h-5" />
                 </div>
                 <div>
-                    <h2 className="text-lg font-bold text-slate-900 tracking-tight">Mock Test Progress</h2>
-                    <p className="text-xs font-bold text-slate-700 tracking-wide">Track your performance across full-length IELTS practice tests</p>
+                    <h2 className="text-lg font-bold text-slate-900 dark:text-white tracking-tight transition-colors">Mock Test Progress</h2>
+                    <p className="text-xs font-bold text-slate-700 dark:text-slate-400 tracking-wide transition-colors">Track your performance across full-length IELTS practice tests</p>
                 </div>
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-10">
                 <MockMetric label="Completed" value={completed} />
                 <MockMetric label="Total Tests" value={total} />
-                <MockMetric label="Avg. Band" value={avgBand} color="text-emerald-700" />
-                <MockMetric label="Last Score" value={lastScore} color="text-blue-700" />
+                <MockMetric label="Avg. Band" value={avgBand} color="text-emerald-600 dark:text-emerald-400" />
+                <MockMetric label="Last Score" value={lastScore} color="text-blue-600 dark:text-blue-400" />
             </div>
 
             <div className="mt-auto space-y-6">
                 <div className="space-y-3">
-                    <div className="flex items-center justify-between text-[11px] font-bold text-slate-700">
+                    <div className="flex items-center justify-between text-[11px] font-bold text-slate-700 dark:text-slate-400 transition-colors">
                         <span className="uppercase tracking-widest">Progress</span>
                         <span>{completed}/{total}</span>
                     </div>
-                    <div className="h-3 w-full bg-slate-50 rounded-full overflow-hidden border border-slate-100">
+                    <div className="h-3 w-full bg-slate-50 dark:bg-slate-950 rounded-full overflow-hidden border border-slate-100 dark:border-slate-800 transition-colors">
                         <m.div 
                             initial={{ width: 0 }}
                             animate={{ width: `${progress}%` }}
                             transition={{ duration: 1.2, ease: "circOut" }}
-                            className="h-full bg-[#0f172a] rounded-full"
+                            className="h-full bg-[#0f172a] dark:bg-white rounded-full transition-colors"
                         />
                     </div>
                 </div>
@@ -65,7 +66,7 @@ export function MockTestWidget({ completed, total, avgBand, lastScore }: {
                 <Link 
                     href="/mock-exams" 
                     aria-label="Take Practice Test"
-                    className="w-full bg-[#0f172a] text-white font-bold py-4 rounded-2xl flex items-center justify-center gap-3 hover:translate-y-[-2px] hover:shadow-lg hover:shadow-slate-200 transition-all active:translate-y-0"
+                    className="w-full bg-[#0f172a] dark:bg-white text-white dark:text-slate-900 font-bold py-4 rounded-2xl flex items-center justify-center gap-3 hover:translate-y-[-2px] hover:shadow-lg dark:hover:shadow-none hover:shadow-slate-200 transition-all active:translate-y-0"
                 >
                     <span>Take Practice Test</span>
                     <ArrowRight className="w-4 h-4" />
