@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { CheckCircle2, Star, Target, Zap, Rocket, Award, ShieldCheck, Microscope } from "lucide-react";
 import CardSwap, { Card } from "./ui/CardSwap";
 
@@ -54,7 +54,7 @@ export function SuccessRoadmap() {
         <section className="py-32 bg-slate-50 dark:bg-slate-950 relative overflow-hidden">
             <div className="container mx-auto px-4">
                 <div className="text-center mb-24">
-                    <motion.div 
+                    <m.div 
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
@@ -62,7 +62,7 @@ export function SuccessRoadmap() {
                     >
                         <Rocket className="w-3 h-3" />
                         The Journey
-                    </motion.div>
+                    </m.div>
                     <h2 className="text-4xl md:text-6xl font-black text-slate-900 dark:text-white tracking-tight mb-6 uppercase">
                         IELTS Wisdom <br /> <span className="text-indigo-600 dark:text-indigo-500 text-opacity-80">Success Roadmap</span>
                     </h2>

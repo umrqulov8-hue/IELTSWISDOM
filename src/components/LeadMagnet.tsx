@@ -3,7 +3,7 @@
 import { Button } from "./Button";
 import { Mail, CheckCircle } from "lucide-react";
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 export function LeadMagnet() {
     const [email, setEmail] = useState("");
@@ -20,12 +20,12 @@ export function LeadMagnet() {
         <section id="lead-magnet" className="py-32 bg-slate-950 relative overflow-hidden">
             {/* Background Gradient Orbs */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                <div className="absolute top-1/4 -left-20 w-[500px] h-[500px] rounded-full bg-indigo-500/10 blur-[120px]" />
-                <div className="absolute bottom-1/4 -right-20 w-[500px] h-[500px] rounded-full bg-slate-500/10 blur-[120px]" />
+                <div className="absolute top-1/4 -left-20 w-[500px] h-[500px] rounded-full bg-indigo-500/10 blur-[120px] transform-gpu will-change-transform pointer-events-none" />
+                <div className="absolute bottom-1/4 -right-20 w-[500px] h-[500px] rounded-full bg-slate-500/10 blur-[120px] transform-gpu will-change-transform pointer-events-none" />
             </div>
 
             <div className="container relative mx-auto px-4">
-                <motion.div
+                <m.div
                     initial={{ opacity: 0, y: 40 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
@@ -38,14 +38,14 @@ export function LeadMagnet() {
                         
                         <div className="grid lg:grid-cols-2 gap-16 items-center relative z-10">
                             <div>
-                                <motion.div 
+                                <m.div 
                                     initial={{ opacity: 0, x: -20 }}
                                     whileInView={{ opacity: 1, x: 0 }}
                                     viewport={{ once: true }}
                                     className="inline-flex items-center rounded-full border border-indigo-500/30 bg-indigo-500/10 px-4 py-1.5 text-xs font-bold text-indigo-400 mb-8 uppercase tracking-widest"
                                 >
                                     <span className="mr-2">🎁</span> Free Resource
-                                </motion.div>
+                                </m.div>
                                 
                                 <h2 className="text-4xl md:text-5xl font-black tracking-tight text-white mb-6 leading-[1.1]">
                                     Master <span className="text-indigo-400">Grammar</span> Without the Grind
@@ -61,7 +61,7 @@ export function LeadMagnet() {
                                         "Perfect your complex sentence structures",
                                         "Sound authentic with expert collocations"
                                     ].map((item, i) => (
-                                        <motion.li 
+                                        <m.li 
                                             key={i}
                                             initial={{ opacity: 0, x: -10 }}
                                             whileInView={{ opacity: 1, x: 0 }}
@@ -73,7 +73,7 @@ export function LeadMagnet() {
                                                 <CheckCircle className="h-4 w-4 text-emerald-400" />
                                             </div>
                                             {item}
-                                        </motion.li>
+                                        </m.li>
                                     ))}
                                 </ul>
                             </div>
@@ -113,7 +113,7 @@ export function LeadMagnet() {
                                         </p>
                                     </form>
                                 ) : (
-                                    <motion.div 
+                                    <m.div 
                                         initial={{ opacity: 0, scale: 0.95 }}
                                         animate={{ opacity: 1, scale: 1 }}
                                         className="text-center py-12"
@@ -135,12 +135,12 @@ export function LeadMagnet() {
                                         >
                                             Back to study
                                         </Button>
-                                    </motion.div>
+                                    </m.div>
                                 )}
                             </div>
                         </div>
                     </div>
-                </motion.div>
+                </m.div>
             </div>
         </section>
     );
