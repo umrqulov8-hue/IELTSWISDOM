@@ -129,7 +129,7 @@ export function Hero() {
                                 <MagicButton onClick={handleStartLearning} isLoading={isLoading} />
                             </div>
                             <div className="relative z-20">
-                                <MagicButton variant="secondary" text1="Play Guide" text2="Watch Now" />
+                                <MagicButton variant="secondary" text1="Play Guide" />
                             </div>
                         </div>
                         <m.p 

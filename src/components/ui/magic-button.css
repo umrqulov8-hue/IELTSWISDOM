@@ -1,384 +1,184 @@
-/* From Uiverse.io by marcelodolza - Customized */
+/* From Uiverse.io by MuhammadHasann - Customized */
 .magic-button {
-  --white: #ffffff;
-  --theme-100: #64748b;
-  --theme-200: #475569;
-  --theme-300: #1e293b;
-  --theme-400: #0f172a;
-  --theme-500: #020617;
-  --shadow-r: 15;
-  --shadow-g: 23;
-  --shadow-b: 42;
-  --radius: 16px;
-
-  border-radius: var(--radius);
-  outline: none;
+  --mb-bg: #0f172a;
+  --mb-text: #ffffff;
+  --mb-border: #0f172a;
+  --mb-hover-text: #0f172a;
+  --mb-star: #0f172a;
+  --mb-shadow: rgba(15, 23, 42, 0.5);
+  
+  position: relative;
+  padding: 16px 40px;
+  background: var(--mb-bg);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--mb-text);
+  border: 3px solid var(--mb-border);
+  border-radius: 16px;
+  box-shadow: 0 0 0 transparent;
+  transition: all 0.3s ease-in-out;
   cursor: pointer;
-  font-size: 20px;
-  font-family: inherit;
-  background: transparent;
-  letter-spacing: -0.5px;
-  border: 0;
-  position: relative;
-  width: 240px;
-  height: 64px;
-  /* Removed rotate and skew for a straight look */
-  transition: all 0.3s ease;
-}
-
-.magic-button .mb-bg {
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  filter: blur(1px);
-}
-.magic-button .mb-bg::before,
-.magic-button .mb-bg::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: calc(var(--radius) * 1.1);
-  background: var(--theme-500);
-}
-.magic-button .mb-bg::before {
-  filter: blur(2px);
-  transition: all 0.3s ease;
-  box-shadow:
-    0px 2px 0 0 rgb(var(--shadow-r) var(--shadow-g) var(--shadow-b) / 80%),
-    0px 4px 0 0 rgb(var(--shadow-r) var(--shadow-g) var(--shadow-b) / 60%),
-    0px 6px 12px 0 rgb(var(--shadow-r) var(--shadow-g) var(--shadow-b) / 40%);
-}
-
-.magic-button .mb-wrap {
-  border-radius: inherit;
-  overflow: hidden;
-  height: 100%;
-  transform: translate(0px, 0px); /* Adjust 3D popping distance if needed */
-  padding: 3px;
-  background: linear-gradient(
-    to bottom,
-    var(--theme-100) 0%,
-    var(--theme-400) 100%
-  );
-  position: relative;
-  transition: all 0.3s ease;
-}
-
-.magic-button .mb-outline {
-  position: absolute;
-  overflow: hidden;
-  inset: 0;
-  opacity: 0;
-  outline: none;
-  border-radius: inherit;
-  transition: all 0.4s ease;
-}
-.magic-button .mb-outline::before {
-  content: "";
-  position: absolute;
-  inset: 2px;
-  width: 120px;
-  height: 300px;
-  margin: auto;
-  background: linear-gradient(
-    to right,
-    transparent 0%,
-    white 50%,
-    transparent 100%
-  );
-  animation: mb-spin 3s linear infinite;
-  animation-play-state: paused;
-}
-
-.magic-button .mb-content {
-  pointer-events: none;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1;
-  position: relative;
-  height: 100%;
-  gap: 12px;
-  border-radius: calc(var(--radius) * 0.85);
-  font-weight: 800;
-  transition: all 0.3s ease;
-  background: linear-gradient(
-    to bottom,
-    var(--theme-300) 0%,
-    var(--theme-400) 100%
-  );
-  box-shadow:
-    inset -2px 12px 11px -5px var(--theme-200),
-    inset 1px -3px 11px 0px rgb(0 0 0 / 35%);
-}
-.magic-button .mb-content::before {
-  content: "";
-  inset: 0;
-  position: absolute;
-  z-index: 10;
-  width: 80%;
-  top: 45%;
-  bottom: 35%;
-  opacity: 0.7;
-  margin: auto;
-  background: linear-gradient(to bottom, transparent, var(--theme-400));
-  filter: brightness(1.3) blur(5px);
+  width: 100%;
+  min-width: 200px;
 }
 
-.magic-button .mb-char {
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.magic-button .mb-char span {
-  display: block;
-  color: transparent;
-  position: relative;
-}
-
-.magic-button .mb-char.state-1 span {
-  animation: mb-charAppear 1.2s ease backwards calc(var(--i) * 0.03s);
-}
-.magic-button .mb-char.state-1 span::before,
-.magic-button .mb-char span::after {
-  content: attr(data-label);
-  position: absolute;
-  color: var(--white);
-  text-shadow: -1px 1px 2px var(--theme-500);
-  left: 0;
-}
-.magic-button .mb-char span::before {
-  opacity: 0;
-  transform: translateY(-100%);
-}
-.magic-button .mb-char.state-2 {
-  position: absolute;
-  left: 70px;
-}
-.magic-button .mb-char.state-2 span::after {
-  opacity: 1;
-}
-
-.magic-button .mb-icon {
-  animation: mb-resetArrow 0.8s cubic-bezier(0.7, -0.5, 0.3, 1.2) forwards;
-  z-index: 10;
-}
-.magic-button .mb-icon div,
-.magic-button .mb-icon div::before,
-.magic-button .mb-icon div::after {
-  height: 3px;
-  border-radius: 1px;
-  background-color: var(--white);
-}
-.magic-button .mb-icon div::before,
-.magic-button .mb-icon div::after {
-  content: "";
-  position: absolute;
-  right: 0;
-  transform-origin: center right;
-  width: 14px;
-  border-radius: 15px;
-  transition: all 0.3s ease;
-}
-.magic-button .mb-icon div {
-  position: relative;
-  width: 20px;
-  box-shadow: -2px 2px 5px var(--theme-400);
-  transform: scale(0.9);
-  background: linear-gradient(to bottom, var(--white), var(--theme-100));
-  animation: mb-swingArrow 1s ease-in-out infinite;
-  animation-play-state: paused;
-}
-.magic-button .mb-icon div::before {
-  transform: rotate(44deg);
-  top: 1px;
-  box-shadow: 1px -2px 3px -1px var(--theme-400);
-  animation: mb-rotateArrowLine 1s linear infinite;
-  animation-play-state: paused;
-}
-.magic-button .mb-icon div::after {
-  bottom: 1px;
-  transform: rotate(316deg);
-  box-shadow: -2px 2px 3px 0 var(--theme-400);
-  background: linear-gradient(200deg, var(--white), var(--theme-100));
-  animation: mb-rotateArrowLine2 1s linear infinite;
-  animation-play-state: paused;
-}
-
-.magic-button .mb-path {
-  position: absolute;
-  z-index: 12;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  stroke-dasharray: 150 480;
-  stroke-dashoffset: 150;
-  pointer-events: none;
-}
-
-.magic-button .mb-splash {
-  position: absolute;
-  top: 0;
-  left: 0;
-  pointer-events: none;
-  stroke-dasharray: 60 60;
-  stroke-dashoffset: 60;
-  transform: translate(-17%, -31%);
-  stroke: var(--theme-300);
-}
-
-/** STATES */
-
-.magic-button:hover .mb-words {
-  opacity: 1;
-}
-.magic-button:hover .mb-words span {
-  animation-play-state: running;
-}
-
-.magic-button:hover .mb-char.state-1 span::before {
-  animation: mb-charAppear 0.7s ease calc(var(--i) * 0.03s);
-}
-
-.magic-button:hover .mb-char.state-1 span::after {
-  opacity: 1;
-  animation: mb-charDisappear 0.7s ease calc(var(--i) * 0.03s);
-}
-
-.magic-button:hover .mb-wrap {
-  transform: translate(0px, -4px); /* Slight pop up */
-}
-
-.magic-button:hover .mb-outline {
-  opacity: 1;
-}
-
-.magic-button:hover .mb-outline::before,
-.magic-button:hover .mb-icon div::before,
-.magic-button:hover .mb-icon div::after,
-.magic-button:hover .mb-icon div {
-  animation-play-state: running;
-}
-
-.magic-button:active .mb-bg::before {
-  filter: blur(2px);
-  opacity: 0.7;
-  box-shadow:
-    0px 1px 0 0 rgb(var(--shadow-r) var(--shadow-g) var(--shadow-b) / 60%),
-    0px 2px 4px 0 rgb(var(--shadow-r) var(--shadow-g) var(--shadow-b) / 30%);
-}
-.magic-button:active .mb-content {
-  box-shadow:
-    inset 0px 4px 8px -2px rgba(0, 0, 0, 0.4),
-    inset 0px -1px 4px 0px var(--theme-200);
-}
-
-.magic-button:active .mb-words,
-.magic-button:active .mb-outline {
-  opacity: 0;
-}
-
-.magic-button:active .mb-wrap {
-  transform: translate(0px, 0px);
-}
-
-.magic-button:active .mb-splash {
-  animation: mb-splash 0.8s cubic-bezier(0.3, 0, 0, 1) forwards 0.05s;
-}
-
-.magic-button:focus .mb-path {
-  animation: mb-path 1.6s ease forwards 0.2s;
-}
-
-.magic-button:focus .mb-icon {
-  animation: mb-arrow 1s cubic-bezier(0.7, -0.5, 0.3, 1.5) forwards;
-}
-
-.magic-button .mb-char.state-2 span::after,
-.magic-button:focus .mb-char.state-1 span {
-  animation: mb-charDisappear 0.5s ease forwards calc(var(--i) * 0.03s);
-}
-
-.magic-button:focus .mb-char.state-2 span::after {
-  animation: mb-charAppear 1s ease backwards calc(var(--i) * 0.03s);
-}
-
-@keyframes mb-spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-@keyframes mb-charAppear {
-  0% {
-    transform: translateY(50%);
-    opacity: 0;
-    filter: blur(20px);
-  }
-  20% {
-    transform: translateY(70%);
-    opacity: 1;
-  }
-  50% {
-    transform: translateY(-15%);
-    opacity: 1;
-    filter: blur(0);
-  }
-  100% {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-@keyframes mb-charDisappear {
-  0% { transform: translateY(0); opacity: 1; }
-  100% { transform: translateY(-70%); opacity: 0; filter: blur(3px); }
-}
-
-@keyframes mb-arrow {
-  0% { opacity: 1; }
-  50% { transform: translateX(60px); opacity: 0; }
-  51% { transform: translateX(-200px); opacity: 0; }
-  100% { transform: translateX(-128px); opacity: 1; }
-}
-
-@keyframes mb-swingArrow {
-  50% { transform: translateX(5px) scale(0.9); }
-}
-
-@keyframes mb-rotateArrowLine {
-  50% { transform: rotate(30deg); }
-  80% { transform: rotate(55deg); }
-}
-
-@keyframes mb-rotateArrowLine2 {
-  50% { transform: rotate(330deg); }
-  80% { transform: rotate(300deg); }
-}
-
-@keyframes mb-resetArrow {
-  0% { transform: translateX(-128px); }
-  100% { transform: translateX(0); }
-}
-
-@keyframes mb-path {
-  from { stroke: white; }
-  to { stroke-dashoffset: -480; stroke: #94a3b8; }
-}
-
-@keyframes mb-splash {
-  to { stroke-dasharray: 2 60; stroke-dashoffset: -60; }
-}
-
-/* Secondary Indigo Theme */
 .magic-button.variant-secondary {
-  --theme-100: #c7d2fe;
-  --theme-200: #a5b4fc;
-  --theme-300: #4f46e5;
-  --theme-400: #3730a3;
-  --theme-500: #1e1b4b;
-  --shadow-r: 49;
-  --shadow-g: 46;
-  --shadow-b: 129;
-  --white: #ffffff;
+  --mb-bg: #ffffff;
+  --mb-text: #0f172a;
+  --mb-border: #e2e8f0;
+  --mb-hover-text: #4f46e5;
+  --mb-star: #4f46e5;
+  --mb-shadow: rgba(79, 70, 229, 0.3);
+}
+
+.magic-button .star-1 {
+  position: absolute;
+  top: 20%;
+  left: 20%;
+  width: 25px;
+  height: auto;
+  filter: drop-shadow(0 0 0 var(--mb-star));
+  z-index: -5;
+  transition: all 1s cubic-bezier(0.05, 0.83, 0.43, 0.96);
+  opacity: 0;
+}
+
+.magic-button .star-2 {
+  position: absolute;
+  top: 45%;
+  left: 45%;
+  width: 15px;
+  height: auto;
+  filter: drop-shadow(0 0 0 var(--mb-star));
+  z-index: -5;
+  transition: all 1s cubic-bezier(0, 0.4, 0, 1.01);
+  opacity: 0;
+}
+
+.magic-button .star-3 {
+  position: absolute;
+  top: 40%;
+  left: 40%;
+  width: 5px;
+  height: auto;
+  filter: drop-shadow(0 0 0 var(--mb-star));
+  z-index: -5;
+  transition: all 1s cubic-bezier(0, 0.4, 0, 1.01);
+  opacity: 0;
+}
+
+.magic-button .star-4 {
+  position: absolute;
+  top: 20%;
+  left: 40%;
+  width: 8px;
+  height: auto;
+  filter: drop-shadow(0 0 0 var(--mb-star));
+  z-index: -5;
+  transition: all 0.8s cubic-bezier(0, 0.4, 0, 1.01);
+  opacity: 0;
+}
+
+.magic-button .star-5 {
+  position: absolute;
+  top: 25%;
+  left: 45%;
+  width: 15px;
+  height: auto;
+  filter: drop-shadow(0 0 0 var(--mb-star));
+  z-index: -5;
+  transition: all 0.6s cubic-bezier(0, 0.4, 0, 1.01);
+  opacity: 0;
+}
+
+.magic-button .star-6 {
+  position: absolute;
+  top: 5%;
+  left: 50%;
+  width: 5px;
+  height: auto;
+  filter: drop-shadow(0 0 0 var(--mb-star));
+  z-index: -5;
+  transition: all 0.8s ease;
+  opacity: 0;
+}
+
+.magic-button:hover {
+  background: transparent;
+  color: var(--mb-hover-text);
+  box-shadow: 0 0 25px var(--mb-shadow);
+  border-color: var(--mb-hover-text);
+}
+
+.magic-button:hover .star-1 {
+  position: absolute;
+  top: -80%;
+  left: -30%;
+  width: 25px;
+  height: auto;
+  filter: drop-shadow(0 0 10px var(--mb-shadow));
+  z-index: 2;
+  opacity: 1;
+}
+
+.magic-button:hover .star-2 {
+  position: absolute;
+  top: -25%;
+  left: 10%;
+  width: 15px;
+  height: auto;
+  filter: drop-shadow(0 0 10px var(--mb-shadow));
+  z-index: 2;
+  opacity: 1;
+}
+
+.magic-button:hover .star-3 {
+  position: absolute;
+  top: 55%;
+  left: 25%;
+  width: 5px;
+  height: auto;
+  filter: drop-shadow(0 0 10px var(--mb-shadow));
+  z-index: 2;
+  opacity: 1;
+}
+
+.magic-button:hover .star-4 {
+  position: absolute;
+  top: 30%;
+  left: 80%;
+  width: 8px;
+  height: auto;
+  filter: drop-shadow(0 0 10px var(--mb-shadow));
+  z-index: 2;
+  opacity: 1;
+}
+
+.magic-button:hover .star-5 {
+  position: absolute;
+  top: 25%;
+  left: 115%;
+  width: 15px;
+  height: auto;
+  filter: drop-shadow(0 0 10px var(--mb-shadow));
+  z-index: 2;
+  opacity: 1;
+}
+
+.magic-button:hover .star-6 {
+  position: absolute;
+  top: 5%;
+  left: 60%;
+  width: 5px;
+  height: auto;
+  filter: drop-shadow(0 0 10px var(--mb-shadow));
+  z-index: 2;
+  opacity: 1;
+}
+
+.magic-button .fil0 {
+  fill: var(--mb-star);
 }
