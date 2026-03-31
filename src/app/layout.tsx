@@ -93,7 +93,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://azrmwfzrgdvkbzezwyfo.supabase.co" />
       </head>
       <body
-        className={`${inter.variable} ${plusJakartaSans.variable} antialiased font-sans bg-background text-foreground flex flex-col min-h-screen`}
+        className={`${inter.variable} ${plusJakartaSans.variable} antialiased font-sans bg-background text-foreground flex flex-col min-h-screen [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]`}
       >
         <AuthProvider>
           <LanguageProvider>
