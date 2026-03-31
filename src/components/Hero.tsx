@@ -9,6 +9,7 @@ import { translations as T, tx } from "@/lib/translations";
 import Threads from "./ui/Threads";
 import GradualBlur from "./ui/GradualBlur";
 import SplitText from "./ui/SplitText";
+import { MagicButton } from "./ui/MagicButton";
 
 export function Hero() {
     const { handleStartLearning, isLoading } = useAuth();
@@ -124,10 +125,7 @@ export function Hero() {
                         className="flex flex-col items-center justify-center gap-4 mb-24"
                     >
                         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                            <Button size="lg" className="h-14 px-10 rounded-2xl bg-slate-900 dark:bg-white dark:text-slate-900 text-white shadow-xl group text-lg font-bold transition-all hover:scale-105 active:scale-95 border-0" onClick={handleStartLearning} disabled={isLoading}>
-                                {isLoading ? <Loader2 className="h-5 w-5 animate-spin mr-2" /> : "Try for Free"}
-                                {!isLoading && <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />}
-                            </Button>
+                            <MagicButton onClick={handleStartLearning} isLoading={isLoading} />
                             <Button variant="outline" size="lg" className="h-14 px-10 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-lg group font-bold hover:bg-slate-50 dark:hover:bg-slate-800 transition-all flex items-center justify-center">
                                 <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center mr-3 group-hover:bg-indigo-50 dark:group-hover:bg-indigo-950/30 transition-colors">
                                     <Play className="w-3.5 h-3.5 fill-indigo-600 text-indigo-600 ml-0.5" />
