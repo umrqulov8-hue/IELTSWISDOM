@@ -84,7 +84,7 @@ export const DashboardHeader = memo(({ title, description, showGreeting, display
                                 hidden: { opacity: 0, y: -20, filter: "blur(4px)" },
                                 visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.6, ease: [0.34, 1.56, 0.64, 1] } }
                             }}
-                            className="text-3xl md:text-4xl font-extrabold text-slate-800 tracking-tight"
+                            className="text-3xl md:text-4xl font-extrabold text-slate-800 dark:text-white tracking-tight transition-colors"
                         >
                             <BouncyText text={lang === "en" ? "Welcome back," : "Xush kelibsiz,"} type="word" /> <span className="text-[#FF8C00]">{displayName}</span>!
                         </motion.h1>
@@ -93,7 +93,7 @@ export const DashboardHeader = memo(({ title, description, showGreeting, display
                                 hidden: { opacity: 0, y: -10, filter: "blur(4px)" },
                                 visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.6, ease: [0.34, 1.56, 0.64, 1] } }
                             }}
-                            className="text-slate-700 mt-2 font-medium"
+                            className="text-slate-700 dark:text-slate-300 mt-2 font-medium transition-colors"
                         >
                             {lang === "en" ? "Ready to hit your targets today?" : "Bugun maqsadlaringizga erishishga tayyormisiz?"}
                         </motion.p>
@@ -112,7 +112,7 @@ export const DashboardHeader = memo(({ title, description, showGreeting, display
                                 hidden: { opacity: 0, y: -20, filter: "blur(4px)" },
                                 visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.6, ease: [0.34, 1.56, 0.64, 1] } }
                             }}
-                            className="text-3xl font-extrabold text-slate-800 tracking-tight"
+                            className="text-3xl font-extrabold text-slate-800 dark:text-white tracking-tight transition-colors"
                         >
                             {title}
                         </motion.h1>
@@ -122,7 +122,7 @@ export const DashboardHeader = memo(({ title, description, showGreeting, display
                                     hidden: { opacity: 0, y: -10, filter: "blur(4px)" },
                                     visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.6, ease: [0.34, 1.56, 0.64, 1] } }
                                 }}
-                                className="text-slate-700 mt-2 font-medium"
+                                className="text-slate-700 dark:text-slate-300 mt-2 font-medium transition-colors"
                             >
                                 {description}
                             </motion.p>
@@ -161,7 +161,7 @@ export const DashboardHeader = memo(({ title, description, showGreeting, display
                     >
                         <Search className={cn(
                             "absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 transition-colors duration-400 ease-in-out z-10",
-                            isSearchFocused ? "text-blue-800" : "text-slate-700"
+                            isSearchFocused ? "text-blue-800 dark:text-blue-400" : "text-slate-700 dark:text-slate-400"
                         )} />
                         <input
                             type="text"
@@ -171,10 +171,10 @@ export const DashboardHeader = memo(({ title, description, showGreeting, display
                             onChange={(e) => setSearchQuery(e.target.value)}
                             onFocus={() => setIsSearchFocused(true)}
                             className={cn(
-                                "relative w-full bg-white/10 backdrop-blur-2xl rounded-full py-3 pl-12 pr-4 text-sm focus:outline-none transition-all duration-500 ease-in-out shadow-[0_8px_32px_rgba(0,0,0,0.1)] placeholder:text-slate-700 text-slate-900 overflow-hidden border-t border-l border-white/40 border-b border-r border-black/10",
+                                "relative w-full bg-white/10 dark:bg-slate-900/40 backdrop-blur-2xl rounded-full py-3 pl-12 pr-4 text-sm focus:outline-none transition-all duration-500 ease-in-out shadow-[0_8px_32px_rgba(0,0,0,0.1)] placeholder:text-slate-700 dark:placeholder:text-slate-500 text-slate-900 dark:text-white overflow-hidden border-t border-l border-white/40 dark:border-slate-700/50 border-b border-r border-black/10 dark:border-slate-800/80",
                                 isSearchFocused
-                                    ? "ring-1 ring-white/50 bg-white/20 shadow-[0_0_20px_rgba(255,255,255,0.2)]"
-                                    : "hover:bg-white/20 hover:shadow-[0_12px_40px_rgba(0,0,0,0.15)]"
+                                    ? "ring-1 ring-white/50 dark:ring-slate-700 bg-white/20 dark:bg-slate-800/40 shadow-[0_0_20px_rgba(255,255,255,0.2)] dark:shadow-none"
+                                    : "hover:bg-white/20 dark:hover:bg-slate-800/30 hover:shadow-[0_12px_40px_rgba(0,0,0,0.15)]"
                             )}
                         />
                         {/* Realistic Shimmer Refraction Effect */}
@@ -202,7 +202,7 @@ export const DashboardHeader = memo(({ title, description, showGreeting, display
                                 animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                                 exit={{ opacity: 0, y: 30, filter: "blur(20px)" }}
                                 transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                                className="absolute top-full mt-4 w-[110%] -left-[5%] bg-white/20 backdrop-blur-3xl border-t border-l border-white/50 border-b border-r border-black/10 rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.2)] overflow-hidden"
+                                className="absolute top-full mt-4 w-[110%] -left-[5%] bg-white/20 dark:bg-slate-900/80 backdrop-blur-3xl border-t border-l border-white/50 dark:border-slate-700/50 border-b border-r border-black/10 dark:border-slate-800/80 rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.2)] overflow-hidden transition-all"
                             >
                                 <div className="p-2">
                                     {filteredResults.length > 0 ? (
@@ -215,19 +215,19 @@ export const DashboardHeader = memo(({ title, description, showGreeting, display
                                                     router.push(target);
                                                     setIsSearchFocused(false);
                                                 }}
-                                                className="flex items-center w-full text-left gap-3 p-3 hover:bg-white/50 rounded-xl transition-colors group/item"
+                                                className="flex items-center w-full text-left gap-3 p-3 hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-xl transition-colors group/item"
                                             >
-                                                <div className="p-2 bg-blue-50 rounded-lg text-blue-700 group-hover/item:bg-blue-500 group-hover/item:text-white transition-colors">
+                                                <div className="p-2 bg-blue-50 dark:bg-blue-900/30 rounded-lg text-blue-700 dark:text-blue-400 group-hover/item:bg-blue-500 group-hover/item:text-white transition-colors">
                                                     <BookOpen className="w-4 h-4" />
                                                 </div>
                                                 <div>
-                                                    <p className="text-sm font-bold text-slate-900">{result.title}</p>
-                                                    <p className="text-xs text-slate-700">{result.module || "General"}</p>
+                                                    <p className="text-sm font-bold text-slate-900 dark:text-white transition-colors">{result.title}</p>
+                                                    <p className="text-xs text-slate-700 dark:text-slate-400 transition-colors">{result.module || "General"}</p>
                                                 </div>
                                             </button>
                                         ))
                                     ) : (
-                                        <div className="p-4 text-center text-slate-500 text-sm">
+                                        <div className="p-4 text-center text-slate-500 dark:text-slate-400 text-sm transition-colors">
                                             {lang === "en" ? "No results found." : "Natija topilmadi."}
                                         </div>
                                     )}
@@ -245,21 +245,21 @@ export const DashboardHeader = memo(({ title, description, showGreeting, display
                         transition={{ duration: 0.4, ease: "easeInOut" }}
                         onClick={() => setShowNotifications(!showNotifications)}
                         className={cn(
-                            "p-3 rounded-full bg-white/10 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.1)] relative transition-all duration-500 ease-in-out border-t border-l border-white/40 border-b border-r border-black/10",
-                            showNotifications ? "ring-1 ring-white/50 bg-white/20" : "hover:bg-white/20 hover:shadow-[0_12px_40px_rgba(0,0,0,0.15)]"
+                            "p-3 rounded-full bg-white/10 dark:bg-slate-900/40 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.1)] relative transition-all duration-500 ease-in-out border-t border-l border-white/40 dark:border-slate-700/50 border-b border-r border-black/10 dark:border-slate-800/80",
+                            showNotifications ? "ring-1 ring-white/50 dark:ring-slate-700 bg-white/20 dark:bg-slate-800/40" : "hover:bg-white/20 dark:hover:bg-slate-800/30 hover:shadow-[0_12px_40px_rgba(0,0,0,0.15)]"
                         )}
                     >
                         <motion.div
                             animate={showNotifications || unreadCount === 0 ? {} : { rotate: [0, -20, 20, -20, 20, 0] }}
                             transition={showNotifications || unreadCount === 0 ? {} : { repeat: Infinity, repeatDelay: 4, duration: 0.6 }}
                         >
-                            <Bell className={cn("w-5 h-5 transition-colors duration-500 ease-in-out", showNotifications ? "text-orange-400" : "text-slate-600")} />
+                            <Bell className={cn("w-5 h-5 transition-colors duration-500 ease-in-out", showNotifications ? "text-orange-400" : "text-slate-600 dark:text-slate-400")} />
                         </motion.div>
                         {unreadCount > 0 && (
-                            <motion.span
+                             <motion.span
                                 initial={{ scale: 0 }}
                                 animate={{ scale: 1 }}
-                                className="absolute top-0 right-0 w-3.5 h-3.5 bg-red-500 rounded-full border-2 border-white flex items-center justify-center z-10"
+                                className="absolute top-0 right-0 w-3.5 h-3.5 bg-red-500 rounded-full border-2 border-white dark:border-slate-900 flex items-center justify-center z-10"
                             >
                             </motion.span>
                         )}
@@ -273,13 +273,13 @@ export const DashboardHeader = memo(({ title, description, showGreeting, display
                                 animate={{ opacity: 1, scale: 1, y: 0, x: 0, filter: "blur(0px)" }}
                                 exit={{ opacity: 0, scale: 0.8, y: 40, x: 20, filter: "blur(20px)" }}
                                 transition={{ type: "spring", stiffness: 260, damping: 25 }}
-                                className="absolute right-0 top-[calc(100%+20px)] w-85 bg-white/20 backdrop-blur-3xl border-t border-l border-white/50 border-b border-r border-black/10 rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.2)] overflow-hidden origin-top-right"
+                                className="absolute right-0 top-[calc(100%+20px)] w-85 bg-white/20 dark:bg-slate-900/80 backdrop-blur-3xl border-t border-l border-white/50 dark:border-slate-700/50 border-b border-r border-black/10 dark:border-slate-800/80 rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.2)] overflow-hidden origin-top-right transition-all"
                             >
                                 {/* Header */}
-                                <div className="p-4 border-b border-white/20 flex justify-between items-center bg-white/40">
-                                    <h3 className="font-bold text-slate-800">{lang === "en" ? "Notifications" : "Bildirishnomalar"}</h3>
+                                <div className="p-4 border-b border-white/20 dark:border-slate-800/50 flex justify-between items-center bg-white/40 dark:bg-slate-800/40 transition-colors">
+                                    <h3 className="font-bold text-slate-800 dark:text-white transition-colors">{lang === "en" ? "Notifications" : "Bildirishnomalar"}</h3>
                                     {notifications && notifications.length > 0 && (
-                                        <button onClick={clearNotifications} className="text-xs text-slate-500 hover:text-red-500 transition-colors">
+                                        <button onClick={clearNotifications} className="text-xs text-slate-500 dark:text-slate-400 hover:text-red-500 dark:hover:text-red-400 transition-colors">
                                             {lang === "en" ? "Clear All" : "Hammasini o'chirish"}
                                         </button>
                                     )}
@@ -293,24 +293,24 @@ export const DashboardHeader = memo(({ title, description, showGreeting, display
                                                 key={notif.id}
                                                 className={cn(
                                                     "p-3 rounded-2xl transition-all relative group",
-                                                    notif.is_read ? "bg-transparent text-slate-600" : "bg-white/60 shadow-sm border border-white/50"
+                                                    notif.is_read ? "bg-transparent text-slate-600 dark:text-slate-400" : "bg-white/60 dark:bg-slate-800/60 shadow-sm border border-white/50 dark:border-slate-700/50"
                                                 )}
                                             >
                                                 {!notif.is_read && (
                                                     <div className="absolute right-2 top-2 w-2 h-2 bg-[#FF8C00] rounded-full" />
                                                 )}
-                                                <h4 className={cn("text-sm font-bold mb-1", notif.is_read ? "text-slate-500" : "text-slate-800")}>
+                                                <h4 className={cn("text-sm font-bold mb-1 transition-colors", notif.is_read ? "text-slate-500 dark:text-slate-500" : "text-slate-800 dark:text-white")}>
                                                     {notif.title}
                                                 </h4>
-                                                <p className="text-xs mb-2 leading-relaxed opacity-90">
+                                                <p className="text-xs mb-2 leading-relaxed opacity-90 transition-colors">
                                                     {notif.message}
                                                 </p>
                                                 <div className="flex justify-between items-center mt-2">
-                                                    <span className="text-[10px] opacity-70">{notif.time_ago || "Just now"}</span>
+                                                    <span className="text-[10px] opacity-70 transition-colors">{notif.time_ago || "Just now"}</span>
                                                     {!notif.is_read && (
                                                         <button
                                                             onClick={(e) => { e.stopPropagation(); markNotificationRead(notif.id); }}
-                                                            className="text-[10px] bg-slate-200 hover:bg-green-100 hover:text-green-600 px-2 py-1 rounded-full transition-colors flex items-center gap-1"
+                                                            className="text-[10px] bg-slate-200 dark:bg-slate-700 hover:bg-green-100 dark:hover:bg-green-900/40 hover:text-green-600 dark:hover:text-green-400 px-2 py-1 rounded-full transition-colors flex items-center gap-1"
                                                         >
                                                             <Check className="w-3 h-3" /> {lang === "en" ? "Mark read" : "O'qildi"}
                                                         </button>

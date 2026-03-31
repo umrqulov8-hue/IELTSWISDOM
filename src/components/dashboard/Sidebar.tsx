@@ -86,7 +86,7 @@ export const Sidebar = memo(({ onMobileClose }: SidebarProps) => {
             <div className="flex-1 overflow-y-auto px-6 py-4 space-y-8 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
                 {NAV_GROUPS.map((group) => (
                     <div key={group.label} className="space-y-2">
-                        <h3 className="px-4 text-[10px] font-black text-slate-800 dark:text-slate-500 tracking-[0.2em] uppercase transition-colors">
+                        <h3 className="px-4 text-[10px] font-black text-slate-500 dark:text-slate-400 tracking-[0.1em] uppercase transition-colors">
                             {group.label === "SKILLS" ? (lang === 'uz' ? "KO'NIKMALAR" : "SKILLS") : 
                              group.label === "PRACTICE" ? (lang === 'uz' ? "MASHQLAR" : "PRACTICE") : 
                              (lang === 'uz' ? "HISOB" : "ACCOUNT")}

@@ -65,8 +65,8 @@ export default function DashboardPage() {
             <div className="space-y-12">
                 {/* Header Section */}
                 <div className="space-y-1">
-                    <h1 className="text-3xl font-black text-slate-900 tracking-tight">Welcome Back to IELTS Prep</h1>
-                    <p className="text-sm font-medium text-slate-700">Continue your journey to IELTS success. Track your progress and practice with authentic materials.</p>
+                    <h1 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight transition-colors">Welcome Back to IELTS Prep</h1>
+                    <p className="text-sm font-medium text-slate-700 dark:text-slate-400 transition-colors">Continue your journey to IELTS success. Track your progress and practice with authentic materials.</p>
                 </div>
 
                 {/* Skill Stats Cards */}
@@ -75,25 +75,25 @@ export default function DashboardPage() {
                         title="Reading" 
                         icon={BookOpen} 
                         percentage={stats?.reading_progress || 0} 
-                        color="bg-[#0f172a]"
+                        color="bg-slate-900 dark:bg-slate-800"
                     />
                     <SkillStatsCard 
                         title="Writing" 
                         icon={PenTool} 
                         percentage={stats?.writing_progress || 0} 
-                        color="bg-slate-400"
+                        color="bg-orange-500 dark:bg-orange-400"
                     />
                     <SkillStatsCard 
                         title="Listening" 
                         icon={Headphones} 
                         percentage={stats?.listening_progress || 0} 
-                        color="bg-slate-300"
+                        color="bg-blue-600 dark:bg-blue-400"
                     />
                     <SkillStatsCard 
                         title="Speaking" 
                         icon={MessageSquare} 
                         percentage={stats?.vocab_progress || 0} 
-                        color="bg-slate-100"
+                        color="bg-emerald-600 dark:bg-emerald-400"
                     />
                 </div>
 

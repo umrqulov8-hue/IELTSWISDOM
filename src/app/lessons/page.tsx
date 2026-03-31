@@ -53,24 +53,24 @@ export default function LessonsPage() {
                             hidden: { opacity: 0, y: 30, scale: 0.95 },
                             visible: { opacity: 1, y: 0, scale: 1, transition: { type: "spring", bounce: 0.4 } }
                         }}
-                        className="bg-white/40 backdrop-blur-xl border border-white/60 p-8 rounded-3xl shadow-sm hover:shadow-md transition-all cursor-pointer group flex flex-col justify-between"
+                        className="bg-white/40 dark:bg-slate-900/40 backdrop-blur-xl border border-white/60 dark:border-slate-800/60 p-8 rounded-3xl shadow-sm hover:shadow-md dark:hover:shadow-none transition-all cursor-pointer group flex flex-col justify-between"
                     >
                         <div>
                             <div className="flex items-center gap-4 mb-4">
-                                <div className={`p-3 rounded-xl group-hover:text-white transition-colors ${lesson.badgeColor}`}>
+                                <div className={`p-3 rounded-xl group-hover:text-white transition-colors dark:group-hover:text-white ${lesson.badgeColor} dark:bg-slate-800/50`}>
                                     <span className="font-bold text-xs uppercase tracking-wider">
                                         <BouncyText key={`badge-${idx}-${lang}`} text={lesson.badgeLabel} type="word" />
                                     </span>
                                 </div>
-                                <h3 className="font-bold text-lg text-slate-800">
+                                <h3 className="font-bold text-lg text-slate-800 dark:text-slate-100 transition-colors">
                                     <BouncyText key={`title-${idx}-${lang}`} text={lesson.title} type="word" />
                                 </h3>
                             </div>
-                            <p className="text-slate-500 text-sm mb-6 max-w-sm">
+                            <p className="text-slate-500 dark:text-slate-400 text-sm mb-6 max-w-sm transition-colors">
                                 <BouncyText key={`desc-${idx}-${lang}`} text={lesson.desc} type="word" />
                             </p>
                         </div>
-                        <a href={lesson.link} target="_blank" rel="noopener noreferrer" className="block text-center w-full py-3 rounded-xl bg-white border border-slate-200 text-slate-600 font-bold hover:bg-slate-50 hover:text-slate-900 transition-colors">
+                        <a href={lesson.link} target="_blank" rel="noopener noreferrer" className="block text-center w-full py-3 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 font-bold hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-white transition-all">
                             <BouncyText key={`btn-${idx}-${lang}`} text={lesson.buttonLabel} type="word" />
                         </a>
                     </motion.div>

@@ -8,11 +8,11 @@ export default function ListeningLessonsGrid({ lang }: { lang: string }) {
     return (
         <div className="space-y-8">
             <div className="flex items-center gap-4">
-                <div className="h-px flex-1 bg-slate-100" />
-                <h2 className="text-sm font-black text-slate-600 uppercase tracking-[0.2em]">
+                <div className="h-px flex-1 bg-slate-100 dark:bg-slate-800 transition-colors" />
+                <h2 className="text-[10px] font-black text-slate-600 dark:text-slate-500 uppercase tracking-[0.2em] transition-colors">
                     {lang === 'uz' ? "Darslar" : "Structured Lessons"}
                 </h2>
-                <div className="h-px flex-1 bg-slate-100" />
+                <div className="h-px flex-1 bg-slate-100 dark:bg-slate-800 transition-colors" />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

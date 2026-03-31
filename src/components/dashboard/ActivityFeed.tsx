@@ -25,16 +25,16 @@ function ActivityItem({ activity }: { activity: Activity }) {
     return (
         <div className="flex items-center justify-between py-4 group/item transition-colors">
             <div className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded-xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center text-slate-700 dark:text-slate-400 group-hover/item:bg-[#0f172a] dark:group-hover/item:bg-white group-hover/item:text-white dark:group-hover/item:text-slate-900 transition-all">
+                <div className="w-10 h-10 rounded-xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center text-slate-700 dark:text-slate-400 group-hover/item:bg-slate-900 dark:group-hover/item:bg-white group-hover/item:text-white dark:group-hover/item:text-slate-900 transition-all">
                     <Icon className="w-5 h-5" />
                 </div>
                 <div>
                     <div className="flex items-center gap-2 mb-0.5">
-                        <span className="text-[10px] font-black text-slate-700 dark:text-slate-500 uppercase tracking-widest transition-colors">{activity.type}</span>
-                        <span className="w-1 h-1 rounded-full bg-slate-200 dark:bg-slate-800 transition-colors" />
-                        <span className="text-[10px] font-bold text-slate-700 dark:text-slate-500 transition-colors">{activity.time}</span>
+                        <span className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest transition-colors">{activity.type}</span>
+                        <span className="w-1 h-1 rounded-full bg-slate-200 dark:bg-slate-700 transition-colors" />
+                        <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400 transition-colors">{activity.time}</span>
                     </div>
-                    <h3 className="text-sm font-bold text-slate-900 dark:text-slate-200 tracking-tight group-hover/item:text-[#0f172a] dark:group-hover/item:text-white transition-colors">{activity.title}</h3>
+                    <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100 tracking-tight transition-colors">{activity.title}</h3>
                 </div>
             </div>
             

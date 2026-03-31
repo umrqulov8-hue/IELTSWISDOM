@@ -31,12 +31,12 @@ export function MockTestWidget({ completed, total, avgBand, lastScore }: {
     return (
         <div className="bg-white dark:bg-slate-900 rounded-3xl p-8 border border-slate-100 dark:border-slate-800 shadow-sm flex flex-col h-full group transition-all">
             <div className="flex items-center gap-3 mb-8">
-                <div className="w-10 h-10 rounded-xl bg-orange-50 dark:bg-orange-950/30 flex items-center justify-center text-orange-600 transition-colors group-hover:bg-[#0f172a] dark:group-hover:bg-white group-hover:text-white dark:group-hover:text-slate-900">
+                <div className="w-10 h-10 rounded-xl bg-orange-50 dark:bg-orange-950/30 flex items-center justify-center text-orange-600 transition-colors group-hover:bg-slate-900 dark:group-hover:bg-white group-hover:text-white dark:group-hover:text-slate-900">
                     <Trophy className="w-5 h-5" />
                 </div>
                 <div>
                     <h2 className="text-lg font-bold text-slate-900 dark:text-white tracking-tight transition-colors">Mock Test Progress</h2>
-                    <p className="text-xs font-bold text-slate-700 dark:text-slate-400 tracking-wide transition-colors">Track your performance across full-length IELTS practice tests</p>
+                    <p className="text-xs font-bold text-slate-500 dark:text-slate-400 tracking-wide transition-colors">Track your performance across full-length IELTS practice tests</p>
                 </div>
             </div>
 
@@ -58,7 +58,7 @@ export function MockTestWidget({ completed, total, avgBand, lastScore }: {
                             initial={{ width: 0 }}
                             animate={{ width: `${progress}%` }}
                             transition={{ duration: 1.2, ease: "circOut" }}
-                            className="h-full bg-[#0f172a] dark:bg-white rounded-full transition-colors"
+                            className="h-full bg-slate-900 dark:bg-white rounded-full transition-colors"
                         />
                     </div>
                 </div>
@@ -66,7 +66,7 @@ export function MockTestWidget({ completed, total, avgBand, lastScore }: {
                 <Link 
                     href="/mock-exams" 
                     aria-label="Take Practice Test"
-                    className="w-full bg-[#0f172a] dark:bg-white text-white dark:text-slate-900 font-bold py-4 rounded-2xl flex items-center justify-center gap-3 hover:translate-y-[-2px] hover:shadow-lg dark:hover:shadow-none hover:shadow-slate-200 transition-all active:translate-y-0"
+                    className="w-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold py-4 rounded-2xl flex items-center justify-center gap-3 hover:translate-y-[-2px] hover:shadow-lg dark:hover:shadow-none hover:shadow-slate-200 transition-all active:translate-y-0"
                 >
                     <span>Take Practice Test</span>
                     <ArrowRight className="w-4 h-4" />

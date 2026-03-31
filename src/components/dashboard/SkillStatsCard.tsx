@@ -31,7 +31,7 @@ export function SkillStatsCard({ title, icon: Icon, percentage, color = "bg-slat
                     />
                 </div>
                 <div className="flex items-center justify-between text-[11px] font-bold">
-                    <span className="text-slate-700 dark:text-slate-400 uppercase tracking-wider transition-colors">{percentage}% Complete</span>
+                    <span className="text-slate-500 dark:text-slate-400 uppercase tracking-wider transition-colors">{percentage}% Complete</span>
                 </div>
             </div>
         </div>
