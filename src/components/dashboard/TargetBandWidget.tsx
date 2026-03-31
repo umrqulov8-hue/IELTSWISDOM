@@ -16,7 +16,7 @@ export function TargetBandWidget({ target, current }: TargetBandWidgetProps) {
     const offset = circumference - (percentage / 100) * circumference;
 
     return (
-        <div className="bg-slate-50/50 rounded-2xl p-4 border border-slate-100 mt-6 group/target">
+        <div className="bg-slate-50/50 dark:bg-slate-800/50 rounded-2xl p-4 border border-slate-100 dark:border-slate-700 mt-6 group/target">
             <div className="flex items-center gap-3 mb-3">
                 <div className="w-10 h-10 relative flex-shrink-0">
                     <svg className="w-full h-full -rotate-90" viewBox="0 0 80 80">
@@ -28,7 +28,7 @@ export function TargetBandWidget({ target, current }: TargetBandWidgetProps) {
                             fill="none"
                             stroke="currentColor"
                             strokeWidth="6"
-                            className="text-slate-200"
+                            className="text-slate-200 dark:text-slate-700"
                         />
                         {/* Progress Circle */}
                         <m.circle
@@ -42,7 +42,7 @@ export function TargetBandWidget({ target, current }: TargetBandWidgetProps) {
                             initial={{ strokeDashoffset: circumference }}
                             animate={{ strokeDashoffset: offset }}
                             transition={{ duration: 1.5, ease: "easeOut", delay: 0.5 }}
-                            className="text-[#0f172a]"
+                            className="text-slate-900 dark:text-slate-100"
                             strokeLinecap="round"
                         />
                     </svg>
@@ -51,19 +51,19 @@ export function TargetBandWidget({ target, current }: TargetBandWidgetProps) {
                     </div>
                 </div>
                 <div>
-                  <p className="text-[10px] font-bold text-slate-600 uppercase tracking-wider mb-0.5">Target Band</p>
-                  <p className="text-xl font-black text-slate-900 leading-none">{target}</p>
+                  <p className="text-[10px] font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-0.5">Target Band</p>
+                  <p className="text-xl font-black text-slate-900 dark:text-white leading-none">{target}</p>
                 </div>
             </div>
             
             <div className="flex items-center justify-between">
                 <span className="text-[10px] font-bold text-slate-700">Current: {current}</span>
-                <div className="h-1 w-20 bg-slate-200 rounded-full overflow-hidden">
+                <div className="h-1 w-20 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
                     <m.div 
                         initial={{ width: 0 }}
                         animate={{ width: `${percentage}%` }}
                         transition={{ duration: 1, delay: 0.8 }}
-                        className="h-full bg-orange-400"
+                        className="h-full bg-slate-900 dark:bg-slate-100"
                     />
                 </div>
             </div>

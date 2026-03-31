@@ -144,7 +144,7 @@ export const DashboardLayout = memo(({
                                     className="w-10 h-10 bg-white border border-slate-200 rounded-xl flex items-center justify-center text-slate-600 hover:text-slate-600 transition-colors shadow-sm relative"
                                 >
                                     <Bell className="w-4 h-4" />
-                                    <span className="absolute top-2.5 right-2.5 w-1.5 h-1.5 bg-orange-500 rounded-full border-2 border-white" />
+                                    <span className="absolute top-2.5 right-2.5 w-1.5 h-1.5 bg-slate-900 dark:bg-white rounded-full border-2 border-white dark:border-slate-900" />
                                 </button>
                             </div>
                         </header>

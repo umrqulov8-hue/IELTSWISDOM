@@ -83,7 +83,7 @@ export const Sidebar = memo(({ onMobileClose }: SidebarProps) => {
             </div>
 
             {/* Navigation Groups */}
-            <div className="flex-1 overflow-y-auto px-6 py-4 space-y-8 custom-scrollbar">
+            <div className="flex-1 overflow-y-auto px-6 py-4 space-y-8 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
                 {NAV_GROUPS.map((group) => (
                     <div key={group.label} className="space-y-2">
                         <h3 className="px-4 text-[10px] font-black text-slate-800 tracking-[0.2em] uppercase">
