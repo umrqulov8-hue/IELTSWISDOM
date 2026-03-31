@@ -155,9 +155,9 @@ export default function SettingsPage() {
                 </div>
 
                 <div className="flex items-center justify-center gap-8 text-[10px] font-black text-slate-600 uppercase tracking-widest pt-8">
-                    <Link href="/privacy" className="hover:text-slate-600">Privacy Policy</Link>
+                    <Link href="/privacy-policy" className="hover:text-slate-600">Privacy Policy</Link>
                     <div className="w-1 h-1 bg-slate-200 rounded-full" />
-                    <Link href="/terms" className="hover:text-slate-600">Terms of Service</Link>
+                    <Link href="/privacy-policy" className="hover:text-slate-600">Terms of Service</Link>
                     <div className="w-1 h-1 bg-slate-200 rounded-full" />
                     <span>v2.4.0-stable</span>
                 </div>
