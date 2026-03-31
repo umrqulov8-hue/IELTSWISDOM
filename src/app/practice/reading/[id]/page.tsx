@@ -448,7 +448,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                     </Link>
                                     <button
                                         onClick={() => setHasStarted(true)}
-                                        className="px-10 py-4 bg-gradient-to-r from-[#2D3E50] to-indigo-600 text-white rounded-xl font-bold shadow-lg shadow-[#2D3E50]/30 hover:shadow-[#2D3E50]/50 transition-all hover:-translate-y-0.5 active:scale-95"
+                                        className="px-10 py-4 bg-slate-900 text-white rounded-xl font-bold shadow-lg shadow-slate-900/20 hover:shadow-slate-900/40 hover:bg-slate-800 transition-all hover:-translate-y-0.5 active:scale-95"
                                     >
                                         Start Test
                                     </button>

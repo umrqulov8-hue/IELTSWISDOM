@@ -548,7 +548,7 @@ export default function ListeningTestPage() {
                                 </Link>
                                 <button
                                     onClick={() => setStarted(true)}
-                                    className="px-10 py-4 bg-[#2D3E50] text-white rounded-xl font-bold shadow-lg shadow-[#2D3E50]/20 hover:shadow-[#2D3E50]/40 transition-all hover:-translate-y-0.5 active:scale-95"
+                                    className="px-10 py-4 bg-slate-900 text-white rounded-xl font-bold shadow-lg shadow-slate-900/20 hover:shadow-slate-900/40 hover:bg-slate-800 transition-all hover:-translate-y-0.5 active:scale-95"
                                 >
                                     Start Test
                                 </button>
