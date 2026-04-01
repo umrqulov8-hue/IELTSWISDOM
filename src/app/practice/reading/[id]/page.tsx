@@ -262,7 +262,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
             <div
                 ref={contentRef}
                 id="reading-content"
-                className="prose prose-slate max-w-none text-slate-700 leading-loose selection:bg-[#2D3E50]/15 selection:text-blue-900"
+                className="prose prose-slate dark:prose-invert max-w-none text-slate-700 dark:text-slate-200 leading-loose selection:bg-[#2D3E50]/15 selection:text-blue-900"
                 style={{ fontSize: `${fontSize}px` }}
                 dangerouslySetInnerHTML={{ __html: content }}
             />
@@ -836,7 +836,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                                             "border-slate-200 dark:border-slate-700 bg-white/50 dark:bg-slate-800/30 hover:border-blue-300 dark:hover:border-blue-500"
                                                 )}>
                                                     <div className="flex items-start gap-4 mb-3">
-                                                        <p className="font-medium text-slate-700 leading-relaxed pt-1">{stripLeadingNumber(q.text)}</p>
+                                                        <p className="font-medium text-slate-700 dark:text-slate-200 leading-relaxed pt-1">{stripLeadingNumber(q.text)}</p>
                                                     </div>
 
                                                     {isShortOptions ? (
@@ -921,7 +921,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                                                             />
                                                                             <span className={cn(
                                                                                 "text-sm",
-                                                                                isSelected ? "text-slate-900 font-medium" : "text-slate-600"
+                                                                                isSelected ? "text-slate-900 dark:text-white font-medium" : "text-slate-600 dark:text-slate-400"
                                                                             )}>{option}</span>
                                                                         </label>
                                                                     );
@@ -952,7 +952,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                                 )}>
                                                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                                                         <div className="flex items-start gap-4">
-                                                            <p className="font-bold text-slate-800 leading-relaxed pt-1">{stripLeadingNumber(q.text)}</p>
+                                                            <p className="font-bold text-slate-800 dark:text-white leading-relaxed pt-1">{stripLeadingNumber(q.text)}</p>
                                                         </div>
 
                                                         <div className="relative flex-1 max-w-[240px]">
@@ -1037,7 +1037,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                                             </div>
                                                         )}
                                                         {q.type === "fill-blank" ? (
-                                                            <div className="font-medium text-slate-700 leading-relaxed">
+                                                            <div className="font-medium text-slate-700 dark:text-slate-200 leading-relaxed">
                                                                 {q.text.split(/([0-9]+\s*(?:[…\._]{2,}))|(?:[…\._]{2,})/).filter(Boolean).map((part, i, arr) => {
                                                                     // Check if this part contains a numbered blank (e.g. "5 ____")
                                                                     const match = part.match(/([0-9]+)\s*(?:[…\._]{2,})/);
@@ -1107,7 +1107,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                                                 )}
                                                             </div>
                                                         ) : (
-                                                            <div className="font-medium text-slate-700">
+                                                            <div className="font-medium text-slate-700 dark:text-slate-200">
                                                                 <p dangerouslySetInnerHTML={{ __html: q.text }} />
                                                                 {isSubmitted && !allCorrect && (
                                                                     <div className="mt-3 p-3 bg-red-50 border border-red-100 rounded-xl text-xs font-bold text-red-700 animate-in fade-in slide-in-from-top-1">
