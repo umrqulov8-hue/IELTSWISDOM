@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Clock, CheckCircle2, BookOpen, Flag, AlertCircle, Pause, Play, Type, Minus, Plus, ChevronRight, GripVertical } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { ThemeBurger } from "@/components/ui/ThemeBurger";
 import { createClient } from "@/utils/supabase/client";
 import { getReadingTest, ReadingTest } from "@/data/reading-tests";
 import { HighlighterMenu, HighlightColor } from "@/components/ui/HighlighterMenu";
@@ -500,58 +501,67 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                     )}
 
                     {/* --- Distraction-Free Header --- */}
-                    <div className="fixed top-0 left-0 right-0 h-16 bg-white border-b border-slate-200 flex items-center justify-between px-6 z-10 shadow-sm">
-                        <div className="flex items-center gap-6">
-                            <Link href="/practice/reading" className="font-bold text-2xl tracking-tighter text-slate-900 hover:opacity-80 transition-opacity">
-                                IELTS<span className="text-[#2D3E50]">Wisdom</span>
+                    <div className="fixed top-0 left-0 right-0 h-16 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-6 z-10 shadow-sm transition-colors">
+                        {/* LEFT: Branding & Title */}
+                        <div className="flex items-center gap-6 min-w-[240px]">
+                            <Link href="/practice/reading" className="font-bold text-2xl tracking-tighter text-slate-900 dark:text-white hover:opacity-80 transition-opacity">
+                                IELTS<span className="text-[#2D3E50] dark:text-blue-400">Wisdom</span>
                             </Link>
-                            <div className="h-6 w-px bg-slate-200" />
-                            <h2 className="font-bold text-slate-700 text-lg line-clamp-1 max-w-xl">
+                            <div className="h-6 w-px bg-slate-200 dark:bg-slate-700" />
+                            <h2 className="font-bold text-slate-700 dark:text-slate-200 text-lg line-clamp-1 max-w-md">
                                 {testData.passages
                                     ? testData.passages[currentPassageIndex].title
                                     : `Part 1: ${testData.title}`}
                             </h2>
                         </div>
 
-                        <div className="flex items-center gap-2">
+                        {/* MIDDLE: Repositioned Timer */}
+                        <div className="absolute left-1/2 -translate-x-1/2 flex items-center">
+                            <div className={cn(
+                                "flex items-center gap-1.5 font-mono text-sm font-bold px-4 py-1.5 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm transition-all",
+                                timeLeft < 300 ? "text-red-500 bg-red-50 dark:bg-red-950/30 border-red-100 dark:border-red-900 animate-pulse" : "text-slate-700 dark:text-slate-200"
+                            )}>
+                                <Clock className="w-3.5 h-3.5" />
+                                <span className="min-w-[3rem] text-center">{formatTime(timeLeft)}</span>
+                                <div className="w-px h-4 bg-slate-300 dark:bg-slate-600 ml-1" />
+                                <button
+                                    onClick={() => setIsRunning(!isRunning)}
+                                    className="p-1 rounded hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200 transition-colors active:scale-95"
+                                    title={isRunning ? "Pause Timer" : "Resume Timer"}
+                                >
+                                    {isRunning ? <Pause className="w-3.5 h-3.5 fill-current" /> : <Play className="w-3.5 h-3.5 fill-current" />}
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* RIGHT: Controls & Theme Burger */}
+                        <div className="flex items-center gap-4">
                             {/* Font Size Controls */}
-                            <div className="flex items-center gap-0.5 bg-slate-50 border border-slate-200 rounded-lg px-2 py-1.5">
-                                <Type className="w-3.5 h-3.5 text-slate-400" />
+                            <div className="flex items-center gap-0.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-2 py-1.5">
+                                <Type className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500" />
                                 <button
                                     onClick={() => setFontSize(prev => Math.max(14, prev - 2))}
-                                    className="p-1 rounded hover:bg-white hover:shadow-sm text-slate-500 hover:text-[#2D3E50] transition-all active:scale-90"
+                                    className="p-1 rounded hover:bg-white dark:hover:bg-slate-700 hover:shadow-sm text-slate-500 hover:text-[#2D3E50] dark:text-slate-400 dark:hover:text-white transition-all active:scale-90"
                                     title="Decrease Font Size"
                                 >
                                     <Minus className="w-3.5 h-3.5" />
                                 </button>
-                                <div className="w-px h-4 bg-slate-200" />
+                                <div className="w-px h-4 bg-slate-200 dark:bg-slate-700" />
                                 <button
                                     onClick={() => setFontSize(prev => Math.min(32, prev + 2))}
-                                    className="p-1 rounded hover:bg-white hover:shadow-sm text-slate-500 hover:text-[#2D3E50] transition-all active:scale-90"
+                                    className="p-1 rounded hover:bg-white dark:hover:bg-slate-700 hover:shadow-sm text-slate-500 hover:text-[#2D3E50] dark:text-slate-400 dark:hover:text-white transition-all active:scale-90"
                                     title="Increase Font Size"
                                 >
                                     <Plus className="w-3.5 h-3.5" />
                                 </button>
                             </div>
 
-                            <div className={cn(
-                                "flex items-center gap-1.5 font-mono text-sm font-bold px-2 py-1.5 rounded-lg bg-slate-50 border border-slate-200",
-                                timeLeft < 300 ? "text-red-500 bg-red-50 border-red-100 animate-pulse" : "text-slate-700"
-                            )}>
-                                <Clock className="w-3.5 h-3.5" />
-                                <span className="min-w-[3rem] text-center">{formatTime(timeLeft)}</span>
-                                <div className="w-px h-4 bg-slate-300" />
-                                <button
-                                    onClick={() => setIsRunning(!isRunning)}
-                                    className="p-0.5 rounded hover:bg-slate-200 text-slate-500 hover:text-slate-800 transition-colors active:scale-95"
-                                    title={isRunning ? "Pause Timer" : "Resume Timer"}
-                                >
-                                    {isRunning ? <Pause className="w-3.5 h-3.5 fill-current" /> : <Play className="w-3.5 h-3.5 fill-current" />}
-                                </button>
+                            <div className="h-8 w-px bg-slate-100 dark:bg-slate-800 ml-1" />
+
+                            {/* New Theme Burger Menu (Dark Mode Function) */}
+                            <div className="text-slate-900 dark:text-white">
+                                <ThemeBurger />
                             </div>
-
-
-
                         </div>
                     </div>
 
