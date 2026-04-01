@@ -176,65 +176,47 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
             const range = savedRangeRef.current;
 
             // Walk text nodes in the selection to wrap each one individually
-            // (surroundContents fails on partial cross-element selections)
             const walker = document.createTreeWalker(
-                range.commonAncestorContainer.nodeType === Node.TEXT_NODE
-                    ? range.commonAncestorContainer.parentNode!
-                    : range.commonAncestorContainer,
+                range.commonAncestorContainer,
                 NodeFilter.SHOW_TEXT,
-                null
+                {
+                    acceptNode: (node) => {
+                        return range.intersectsNode(node) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+                    }
+                }
             );
 
             const textNodes: Text[] = [];
             let node: Node | null;
             while ((node = walker.nextNode())) {
-                const textNode = node as Text;
-                // Check if this text node overlaps with the selection
-                if (range.intersectsNode(textNode)) {
-                    textNodes.push(textNode);
-                }
+                textNodes.push(node as Text);
             }
 
             const colorMap: Record<string, string> = {
-                yellow: '#FFF59D',
-                green: '#C8E6C9',
-                blue: '#BBDEFB',
+                yellow: 'rgba(255, 245, 157, 0.4)',
+                green: 'rgba(200, 230, 201, 0.4)',
+                blue: 'rgba(187, 222, 251, 0.4)',
             };
-            const bgColor = colorMap[color] ?? '#FFF59D';
+            
+            // Adjust colors for dark mode if needed, but RGBA usually works well on both
+            const highlightColor = colorMap[color] ?? 'rgba(255, 245, 157, 0.4)';
 
             textNodes.forEach(textNode => {
-                // Determine what slice of this text node is selected
                 const nodeStart = textNode === range.startContainer ? range.startOffset : 0;
                 const nodeEnd = textNode === range.endContainer ? range.endOffset : textNode.length;
 
-                if (nodeStart >= nodeEnd) return; // Empty slice, skip
+                if (nodeStart >= nodeEnd) return;
 
-                // Split off the un-highlighted prefix
-                if (nodeStart > 0) textNode.splitText(nodeStart);
-                const splitNode = textNode === range.startContainer && nodeStart > 0
-                    ? textNode.nextSibling as Text
-                    : textNode;
+                // Create the highlighted span
+                const splitNode = textNode.splitText(nodeStart);
+                const remainingNode = splitNode.splitText(nodeEnd - nodeStart);
 
-                if (!splitNode) return;
-
-                // Split off the un-highlighted suffix
-                const actualEnd = textNode === range.startContainer && nodeStart > 0
-                    ? nodeEnd - nodeStart
-                    : nodeEnd;
-                if (actualEnd < splitNode.length) splitNode.splitText(actualEnd);
-
-                // Wrap in a <mark> element
                 const mark = document.createElement('mark');
                 mark.setAttribute('data-hlt', color);
-                mark.style.display = 'inline';
-                mark.style.backgroundColor = bgColor;
-                mark.style.borderRadius = '2px';
-                mark.style.padding = '0';
-                mark.style.margin = '0';
-                mark.style.color = 'inherit';
-                mark.style.lineHeight = 'inherit';
-                (mark.style as any).WebkitBoxDecorationBreak = 'clone';
-                (mark.style as any).boxDecorationBreak = 'clone';
+                mark.className = "rounded-sm px-0.5 transition-colors duration-200";
+                mark.style.backgroundColor = highlightColor;
+                mark.style.color = "inherit";
+                
                 splitNode.parentNode?.insertBefore(mark, splitNode);
                 mark.appendChild(splitNode);
             });
@@ -254,9 +236,16 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
     // Memoize content with testData and currentPassageIndex as dep
     const memoizedContent = useMemo(() => {
         if (!testData) return null;
-        const content = testData.passages
+        let content = testData.passages
             ? testData.passages[currentPassageIndex].content
             : (testData.content || "");
+
+        // Fix pseudo-HTML tags with spaces (e.g., < p > -> <p>, < /p > -> </p>)
+        content = content
+            .replace(/<\s*([a-zA-Z0-9]+)\s*([^>]*)>/g, '<$1 $2>')
+            .replace(/<\s*\/([a-zA-Z0-9]+)\s*>/g, '</$1>')
+            .replace(/\s{2,}/g, ' ') // Cleanup extra spaces
+            .replace(/>\s+</g, '><'); // Remove spaces between tags
 
         return (
             <div

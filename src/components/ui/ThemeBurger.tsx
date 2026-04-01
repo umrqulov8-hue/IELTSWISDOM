@@ -42,14 +42,15 @@ export function ThemeBurger() {
       <button 
         onClick={toggleMenu}
         className={cn(
-          "relative w-10 h-10 flex items-center justify-center rounded-xl transition-all duration-300",
+          "relative w-10 h-10 flex items-center justify-center rounded-full transition-all duration-300",
           isOpen ? "bg-slate-100 dark:bg-slate-800" : "hover:bg-slate-50 dark:hover:bg-slate-800/50"
         )}
         aria-label="Settings Menu"
       >
         <div className="flex flex-col gap-1.5 w-5 h-5 items-center justify-center relative">
           <motion.span 
-            animate={isOpen ? { rotate: 45, y: 4.5 } : { rotate: 0, y: 0 }}
+            animate={isOpen ? { rotate: 45, y: 8 } : { rotate: 0, y: 0 }}
+            style={{ marginBottom: "-2px" }}
             className="block w-5 h-0.5 bg-slate-600 dark:bg-slate-300 rounded-full origin-center"
           />
           <motion.span 
@@ -57,7 +58,8 @@ export function ThemeBurger() {
             className="block w-5 h-0.5 bg-slate-600 dark:bg-slate-300 rounded-full"
           />
           <motion.span 
-            animate={isOpen ? { rotate: -45, y: -4.5 } : { rotate: 0, y: 0 }}
+            animate={isOpen ? { rotate: -45, y: -8 } : { rotate: 0, y: 0 }}
+            style={{ marginTop: "-2px" }}
             className="block w-5 h-0.5 bg-slate-600 dark:bg-slate-300 rounded-full origin-center"
           />
         </div>
@@ -116,18 +118,6 @@ export function ThemeBurger() {
 
               {/* Other Settings (Placeholders for future richness) */}
               <div className="space-y-1.5 border-t border-slate-100 dark:border-slate-800/60 pt-4">
-                <button className="w-full flex items-center justify-between p-2.5 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors group">
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-indigo-50 dark:bg-indigo-500/10 flex items-center justify-center">
-                      <Globe className="w-4 h-4 text-indigo-500 dark:text-indigo-400" />
-                    </div>
-                    <span className="text-sm font-semibold text-slate-700 dark:text-slate-200">Language</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs text-slate-400 font-medium">English</span>
-                    <ChevronRight className="w-3.5 h-3.5 text-slate-300 group-hover:translate-x-0.5 transition-transform" />
-                  </div>
-                </button>
                 
                 <button className="w-full flex items-center justify-between p-2.5 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors group">
                   <div className="flex items-center gap-3">
