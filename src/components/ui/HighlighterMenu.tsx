@@ -76,7 +76,12 @@ export const HighlighterMenu: React.FC<HighlighterMenuProps> = ({ onHighlight, i
                         position: 'fixed'
                     }}
                     onMouseUp={(e) => e.stopPropagation()}
-                    className="z-[10002] flex items-center gap-1.5 p-1.5 bg-[#2D3E50] border border-white/10 rounded-full shadow-[0_8px_32px_rgba(0,0,0,0.25)] -translate-x-1/2 before:absolute before:inset-0 before:rounded-full before:bg-gradient-to-b before:from-white/10 before:to-transparent before:pointer-events-none overflow-hidden"
+                    onMouseDown={(e) => e.preventDefault()}
+                    className={cn(
+                        "z-[10002] flex items-center gap-1.5 p-1.5 rounded-full -translate-x-1/2 overflow-hidden transition-colors duration-300",
+                        "bg-white dark:bg-[#2D3E50] border border-slate-200 dark:border-white/10 shadow-xl dark:shadow-[0_8px_32px_rgba(0,0,0,0.25)]",
+                        "before:absolute before:inset-0 before:rounded-full before:bg-gradient-to-b before:from-white/10 before:to-transparent before:pointer-events-none dark:before:opacity-100 before:opacity-0"
+                    )}
                 >
                     <motion.div variants={itemVariants}>
                         <HighlightButton
@@ -100,13 +105,13 @@ export const HighlighterMenu: React.FC<HighlighterMenuProps> = ({ onHighlight, i
                         />
                     </motion.div>
 
-                    <motion.div variants={itemVariants} className="w-px h-4 bg-white/10 mx-0.5" />
+                    <motion.div variants={itemVariants} className="w-px h-4 bg-slate-200 dark:bg-white/10 mx-0.5" />
 
                     <motion.div variants={itemVariants}>
                         <button
                             onMouseDown={(e) => e.preventDefault()}
                             onClick={() => onHighlight('copy')}
-                            className="p-1.5 rounded-full hover:bg-white/10 text-white/70 transition-colors relative group active:scale-95"
+                            className="p-1.5 rounded-full hover:bg-slate-100 dark:hover:bg-white/10 text-slate-600 dark:text-white/70 transition-colors relative group active:scale-95"
                             title="Copy to Clipboard"
                         >
                             <Copy className="w-4 h-4 transition-transform group-hover:scale-110" />
@@ -117,7 +122,7 @@ export const HighlighterMenu: React.FC<HighlighterMenuProps> = ({ onHighlight, i
                         <button
                             onMouseDown={(e) => e.preventDefault()}
                             onClick={() => onHighlight('none')}
-                            className="p-1.5 rounded-full hover:bg-red-500/20 text-white/50 hover:text-red-400 transition-colors group active:scale-95"
+                            className="p-1.5 rounded-full hover:bg-red-500/20 text-slate-400 dark:text-white/50 hover:text-red-500 transition-colors group active:scale-95"
                             title="Remove Highlight"
                         >
                             <Eraser className="w-4 h-4 transition-transform group-hover:rotate-12" />
