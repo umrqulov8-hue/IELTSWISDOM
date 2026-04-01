@@ -1,6 +1,7 @@
 "use client";
 
 import { use, useState, useEffect, useRef, useCallback, memo, useMemo, forwardRef } from "react";
+import { useTheme } from "next-themes";
 import { getListeningTest } from "@/data/listening-tests";
 import type { ListeningTest } from "@/types/listening";
 import type { ListeningPart } from "@/types/listening";
@@ -23,7 +24,7 @@ const StaticContent = memo(
         return (
             <div
                 ref={ref}
-                className="prose prose-slate max-w-none text-slate-700 prose-p:my-1 prose-li:my-1 selection:bg-blue-100 selection:text-blue-900"
+                className="prose prose-slate dark:prose-invert max-w-none text-slate-700 dark:text-slate-300 prose-p:my-1 prose-li:my-1 selection:bg-blue-100 selection:text-blue-900"
                 dangerouslySetInnerHTML={{ __html: content }}
             />
         );
@@ -178,6 +179,7 @@ const ListeningPartSection = memo(function ListeningPartSection({
 // Main Page
 // ─────────────────────────────────────────────
 export default function ListeningTestPage() {
+    const { theme } = useTheme();
     const params = useParams();
     const testId = params?.id as string;
     const [testData, setTestData] = useState<ListeningTest | null>(null);
@@ -449,7 +451,7 @@ export default function ListeningTestPage() {
 
     if (isLoading) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-slate-50 p-4">
+            <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-950 p-4 transition-colors">
                 <div className="text-center">
                     <div className="w-12 h-12 border-4 border-slate-200 border-t-slate-600 rounded-full animate-spin mx-auto mb-4" />
                     <p className="text-slate-500 font-medium">Loading test...</p>
@@ -460,7 +462,7 @@ export default function ListeningTestPage() {
 
     if (!testData) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-slate-50 p-4 text-center">
+            <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-950 p-4 text-center transition-colors">
                 <div>
                     <AlertCircle className="w-14 h-14 text-red-400 mx-auto mb-4" />
                     <h2 className="text-2xl font-bold text-slate-800 mb-2">Test Not Found</h2>
@@ -484,13 +486,13 @@ export default function ListeningTestPage() {
         <div className="relative min-h-screen">
             {/* Start Screen Overlay */}
             {!started && (
-                <div className="fixed inset-0 z-[100] flex items-center justify-center bg-[#F2F4F8]/90 backdrop-blur-xl p-4">
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.9, y: 20 }}
-                        animate={{ opacity: 1, scale: 1, y: 0 }}
-                        transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
-                        className="bg-white/90 backdrop-blur-2xl rounded-[2rem] p-10 max-w-lg w-full text-center shadow-[0_20px_60px_rgba(0,0,0,0.15)] border border-white/60 relative overflow-hidden"
-                    >
+                <div className="fixed inset-0 z-[100] flex items-center justify-center bg-[#F2F4F8]/90 dark:bg-slate-950/90 backdrop-blur-xl p-4 transition-colors">
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                            transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
+                            className="bg-white/90 dark:bg-slate-900/90 backdrop-blur-2xl rounded-[2rem] p-10 max-w-lg w-full text-center shadow-[0_20px_60px_rgba(0,0,0,0.15)] border border-white/60 dark:border-slate-800 relative overflow-hidden"
+                        >
                         {/* Decorative background elements inside card */}
                         <motion.div 
                             initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.2, duration: 1 }}
@@ -580,18 +582,18 @@ export default function ListeningTestPage() {
                 initial={{ y: 0 }}
                 animate={{ y: showTopbar ? 0 : -100 }}
                 transition={{ duration: 0.3, ease: "easeInOut" }}
-                className="glass-topbar fixed top-0 left-0 right-0 z-50 px-5 py-3 flex items-center justify-between"
+                className="glass-topbar fixed top-0 left-0 right-0 z-50 px-5 py-3 flex items-center justify-between transition-all"
             >
                 <div className="flex items-center gap-3">
                     <Link href="/practice/listening">
-                        <button className="flex items-center gap-1.5 text-slate-500 hover:text-slate-800 text-sm font-medium">
+                        <button className="flex items-center gap-1.5 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 text-sm font-medium">
                             <ChevronLeft className="w-4 h-4" /> Back
                         </button>
                     </Link>
-                    <span className="text-slate-300 text-sm">|</span>
-                    <span className="font-bold text-slate-700 text-sm">{testData.title}</span>
+                    <span className="text-slate-300 dark:text-slate-700 text-sm">|</span>
+                    <span className="font-bold text-slate-700 dark:text-slate-200 text-sm">{testData.title}</span>
                 </div>
-                <span className="text-xs text-slate-400 font-medium bg-white/50 px-2.5 py-1 rounded-full">{answeredCount}/{totalQ}</span>
+                <span className="text-xs text-slate-400 dark:text-slate-500 font-medium bg-white/50 dark:bg-slate-800/50 px-2.5 py-1 rounded-full">{answeredCount}/{totalQ}</span>
             </motion.div>
 
             <main className="flex-1 max-w-none w-full mx-auto px-6 md:px-12 py-6 space-y-5 mt-16 pb-10">
@@ -601,14 +603,14 @@ export default function ListeningTestPage() {
                     {isSubmitted && (
                         <motion.div
                             initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
-                            className="glass-card rounded-2xl p-6 text-center"
+                            className="glass-card rounded-2xl p-6 text-center transition-colors duration-300"
                         >
                             <CheckCircle2 className="w-10 h-10 text-green-500 mx-auto mb-2" />
-                            <h2 className="text-xl font-bold text-slate-800 mb-1">Test Completed!</h2>
-                            <div className="text-4xl font-black text-slate-800 my-2">
-                                {score} <span className="text-xl text-slate-400">/ {totalQ}</span>
+                            <h2 className="text-xl font-bold text-slate-800 dark:text-slate-100 mb-1 font-outfit">Test Completed!</h2>
+                            <div className="text-4xl font-black text-slate-800 dark:text-white my-2">
+                                {score} <span className="text-xl text-slate-400 dark:text-slate-500">/ {totalQ}</span>
                             </div>
-                            <p className="text-slate-500 text-sm">Accuracy: {Math.round((score / totalQ) * 100)}%</p>
+                            <p className="text-slate-500 dark:text-slate-400 text-sm font-medium">Accuracy: {Math.round((score / totalQ) * 100)}%</p>
                         </motion.div>
                     )}
                 </AnimatePresence>
@@ -625,13 +627,13 @@ export default function ListeningTestPage() {
                             <motion.div
                                 initial={{ opacity: 1 }}
                                 exit={{ opacity: 0 }}
-                                className="absolute inset-0 z-10 flex items-center justify-center rounded-2xl cursor-pointer"
+                                className="absolute inset-0 z-10 flex items-center justify-center rounded-2xl cursor-pointer transition-colors duration-300"
                                 style={{
-                                    background: "rgba(255, 255, 255, 0.4)",
+                                    background: theme === 'dark' ? "rgba(15, 23, 42, 0.7)" : "rgba(255, 255, 255, 0.4)",
                                     backdropFilter: "blur(12px)",
                                     WebkitBackdropFilter: "blur(12px)",
-                                    border: "1px solid rgba(255, 255, 255, 0.8)",
-                                    boxShadow: "0 8px 32px rgba(255, 255, 255, 0.4) inset, 0 4px 20px rgba(100, 120, 160, 0.1)",
+                                    border: theme === 'dark' ? "1px solid rgba(255, 255, 255, 0.1)" : "1px solid rgba(255, 255, 255, 0.8)",
+                                    boxShadow: theme === 'dark' ? "0 8px 32px rgba(0, 0, 0, 0.4)" : "0 8px 32px rgba(255, 255, 255, 0.4) inset, 0 4px 20px rgba(100, 120, 160, 0.1)",
                                 }}
                                 onClick={() => {
                                     setStartedAudio(true);
@@ -639,21 +641,25 @@ export default function ListeningTestPage() {
                                 }}
                             >
                                 <div
-                                    className="px-8 py-3 rounded-[30px] font-black text-2xl tracking-wider text-white flex items-center justify-center"
+                                    className="px-8 py-3 rounded-[30px] font-black text-2xl tracking-wider flex items-center justify-center transition-all duration-300"
                                     style={{
-                                        background: "linear-gradient(135deg, rgba(255,255,255,0.9), rgba(240,245,255,0.7))",
+                                        background: theme === 'dark' 
+                                            ? "linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.8))" 
+                                            : "linear-gradient(135deg, rgba(255,255,255,0.9), rgba(240,245,255,0.7))",
                                         backdropFilter: "blur(20px)",
-                                        boxShadow: "0 8px 24px rgba(100,120,160,0.15), inset 0 2px 4px rgba(255,255,255,0.9), inset 0 -2px 4px rgba(200,210,230,0.5)",
-                                        textShadow: "0 2px 4px rgba(100,120,160,0.2)",
-                                        color: "rgba(255,255,255,0.9)", // slightly transparent white
-                                        WebkitTextStroke: "1px rgba(200, 210, 230, 0.8)" // outline effect to match the image
+                                        boxShadow: theme === 'dark'
+                                            ? "0 8px 24px rgba(0, 0, 0, 0.3), inset 0 2px 4px rgba(255,255,255,0.05)"
+                                            : "0 8px 24px rgba(100,120,160,0.15), inset 0 2px 4px rgba(255,255,255,0.9), inset 0 -2px 4px rgba(200,210,230,0.5)",
+                                        textShadow: theme === 'dark' ? "0 2px 4px rgba(0,0,0,0.4)" : "0 2px 4px rgba(100,120,160,0.2)",
+                                        color: "rgba(255,255,255,0.9)",
+                                        WebkitTextStroke: theme === 'dark' ? "1px rgba(255, 255, 255, 0.1)" : "1px rgba(200, 210, 230, 0.8)"
                                     }}
                                 >
                                     <span style={{
-                                        background: "linear-gradient(to bottom, #ffffff, #e2e8f0)",
+                                        background: theme === 'dark' ? "linear-gradient(to bottom, #f8fafc, #94a3b8)" : "linear-gradient(to bottom, #ffffff, #e2e8f0)",
                                         WebkitBackgroundClip: "text",
                                         WebkitTextFillColor: "transparent",
-                                        filter: "drop-shadow(0px 2px 4px rgba(100,120,160,0.3))"
+                                        filter: theme === 'dark' ? "drop-shadow(0px 2px 4px rgba(0,0,0,0.5))" : "drop-shadow(0px 2px 4px rgba(100,120,160,0.3))"
                                     }}>
                                         START PLAY
                                     </span>
@@ -822,9 +828,9 @@ export default function ListeningTestPage() {
                 </div>
 
                 {/* Progress */}
-                <div className="max-w-[860px] mx-auto mt-2.5 h-1 bg-white/20 rounded-full overflow-hidden">
+                <div className="max-w-[860px] mx-auto mt-2.5 h-1.5 bg-white/20 dark:bg-slate-800 rounded-full overflow-hidden shadow-inner">
                     <div
-                        className="h-full bg-gradient-to-r from-slate-500 to-slate-700 rounded-full transition-all duration-500"
+                        className="h-full bg-gradient-to-r from-blue-500 to-indigo-600 dark:from-blue-400 dark:to-indigo-500 rounded-full transition-all duration-700 ease-out shadow-[0_0_10px_rgba(59,130,246,0.5)]"
                         style={{ width: `${totalQ ? (answeredCount / totalQ) * 100 : 0}%` }}
                     />
                 </div>
@@ -843,6 +849,10 @@ const liquidStyles = `
     background: linear-gradient(135deg, #e8edf2 0%, #d4dce8 25%, #e2e8ef 50%, #cdd5e0 75%, #dde4ec 100%);
     position: relative;
     overflow-x: hidden;
+    transition: background 0.5s ease;
+  }
+  .dark .liquid-bg {
+    background: linear-gradient(135deg, #020617 0%, #0f172a 100%);
   }
   .liquid-bg::before {
     content: '';
@@ -855,6 +865,13 @@ const liquidStyles = `
       radial-gradient(ellipse 40% 60% at 90% 20%, rgba(185,200,225,0.4) 0%, transparent 50%);
     pointer-events: none;
     z-index: 0;
+  }
+  .dark .liquid-bg::before {
+    background:
+      radial-gradient(ellipse 70% 50% at 15% 30%, rgba(30,41,59,0.4) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 70% at 80% 70%, rgba(15,23,42,0.3) 0%, transparent 55%),
+      radial-gradient(ellipse 80% 40% at 50% 10%, rgba(51,65,85,0.2) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 60% at 90% 20%, rgba(30,41,59,0.3) 0%, transparent 50%);
   }
   .liquid-bg::after {
     content: '';
@@ -876,6 +893,11 @@ const liquidStyles = `
     border: 1px solid rgba(255,255,255,0.65);
     box-shadow: 0 8px 32px rgba(100,120,160,0.08), inset 0 1px 0 rgba(255,255,255,0.8);
   }
+  .dark .glass-card {
+    background: rgba(15, 23, 42, 0.6);
+    border-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  }
 
   /* Audio player glass */
   .glass-audio {
@@ -884,6 +906,11 @@ const liquidStyles = `
     -webkit-backdrop-filter: blur(24px) saturate(1.5);
     border: 1px solid rgba(255,255,255,0.7);
     box-shadow: 0 4px 20px rgba(100,120,160,0.08), inset 0 1px 0 rgba(255,255,255,0.9);
+  }
+  .dark .glass-audio {
+    background: rgba(30, 41, 59, 0.8);
+    border-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
   }
 
   /* Hide native play button */
@@ -900,6 +927,11 @@ const liquidStyles = `
     border-bottom: 1px solid rgba(255,255,255,0.6);
     box-shadow: 0 1px 12px rgba(100,120,160,0.06);
   }
+  .dark .glass-topbar {
+    background: rgba(15, 23, 42, 0.8);
+    border-bottom-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 1px 12px rgba(0, 0, 0, 0.4);
+  }
 
   /* Bottom bar glass */
   .glass-bottombar {
@@ -908,6 +940,10 @@ const liquidStyles = `
     -webkit-backdrop-filter: blur(28px) saturate(1.6);
     border-top: 1px solid rgba(255,255,255,0.7);
     box-shadow: 0 -4px 24px rgba(100,120,160,0.08);
+  }
+  .dark .glass-bottombar {
+    background: rgba(15, 23, 42, 0.9);
+    border-top-color: rgba(255, 255, 255, 0.1);
   }
 
   /* Pill glass (light) */

@@ -382,16 +382,16 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
 
     return (
         <>
-            <div className="fixed inset-0 z-[9999] bg-[#F2F4F8] flex flex-col h-full">
+            <div className="fixed inset-0 z-[9999] bg-[#F2F4F8] dark:bg-slate-950 flex flex-col h-full transition-colors duration-300">
 
                 {/* --- Start Screen Overlay --- */}
                 {!hasStarted && (
-                    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-[#F2F4F8]/90 backdrop-blur-xl">
+                    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-[#F2F4F8]/90 dark:bg-slate-950/90 backdrop-blur-xl">
                         <motion.div
                             initial={{ opacity: 0, scale: 0.9, y: 20 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
-                            className="bg-white/90 backdrop-blur-2xl rounded-[2rem] p-10 max-w-lg w-full text-center shadow-[0_20px_60px_rgba(0,0,0,0.15)] border border-white/60 relative overflow-hidden"
+                            className="bg-white/90 dark:bg-slate-900/90 backdrop-blur-2xl rounded-[2rem] p-10 max-w-lg w-full text-center shadow-[0_20px_60px_rgba(0,0,0,0.15)] border border-white/60 dark:border-slate-800 relative overflow-hidden"
                         >
                             <motion.div 
                                 initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.2, duration: 1 }}
@@ -412,20 +412,20 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                 
                                 <motion.h2 
                                     initial={{ y: 10, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.2 }}
-                                    className="text-3xl font-black text-slate-800 mb-4 tracking-tight"
+                                    className="text-3xl font-black text-slate-800 dark:text-white mb-4 tracking-tight"
                                 >
                                     {testData.title}
                                 </motion.h2>
                                 
                                 <motion.div 
                                     initial={{ y: 10, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.3 }}
-                                    className="flex justify-center gap-6 mb-8 text-slate-600"
+                                    className="flex justify-center gap-6 mb-8 text-slate-600 dark:text-slate-400"
                                 >
-                                    <div className="flex items-center gap-2 bg-white/50 px-4 py-2 rounded-full border border-white/60 shadow-sm">
-                                        <Clock className="w-4 h-4 text-[#2D3E50]/50" />
+                                    <div className="flex items-center gap-2 bg-white/50 dark:bg-slate-800/50 px-4 py-2 rounded-full border border-white/60 dark:border-slate-700/50 shadow-sm">
+                                        <Clock className="w-4 h-4 text-[#2D3E50]/50 dark:text-blue-400/50" />
                                         <span className="font-semibold text-sm">{Math.floor((testData.timeLimit || 1200) / 60)} Minutes</span>
                                     </div>
-                                    <div className="flex items-center gap-2 bg-white/50 px-4 py-2 rounded-full border border-white/60 shadow-sm">
+                                    <div className="flex items-center gap-2 bg-white/50 dark:bg-slate-800/50 px-4 py-2 rounded-full border border-white/60 dark:border-slate-700/50 shadow-sm">
                                         <CheckCircle2 className="w-4 h-4 text-emerald-500" />
                                         <span className="font-semibold text-sm">{testData.questions.length} Questions</span>
                                     </div>
@@ -443,7 +443,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                     className="flex gap-4 justify-center"
                                 >
                                     <Link href="/practice/reading">
-                                        <button className="px-6 py-4 rounded-xl border-2 border-slate-200/60 bg-white/50 text-slate-600 font-bold hover:bg-white hover:border-slate-300 transition-all shadow-sm">
+                                        <button className="px-6 py-4 rounded-xl border-2 border-slate-200/60 dark:border-slate-700 bg-white/50 dark:bg-slate-800/50 text-slate-600 dark:text-slate-400 font-bold hover:bg-white dark:hover:bg-slate-800 hover:border-slate-300 transition-all shadow-sm">
                                             Cancel
                                         </button>
                                     </Link>
@@ -467,7 +467,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                             <motion.div
                                 initial={{ opacity: 0, scale: 0.9 }}
                                 animate={{ opacity: 1, scale: 1 }}
-                                className="bg-white rounded-2xl p-8 max-w-sm w-full text-center shadow-2xl"
+                                className="bg-white dark:bg-slate-900 rounded-2xl p-8 max-w-sm w-full text-center shadow-2xl border border-slate-100 dark:border-slate-800"
                             >
                                 <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
                                     <CheckCircle2 className="w-10 h-10 text-green-600" />
@@ -571,7 +571,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                         {/* LEFT: Reading Passage (Scrollable) */}
                         <div
                             ref={readingAreaRef}
-                            className="w-full h-full bg-white px-5 py-4 overflow-y-auto hide-scrollbar relative group transition-none"
+                            className="w-full h-full bg-white dark:bg-slate-900 px-5 py-4 overflow-y-auto hide-scrollbar relative group transition-colors duration-300"
                             style={{ width: typeof window !== 'undefined' && window.innerWidth >= 768 ? `${leftWidth}%` : '100%' }}
                         >
                             {/* Text Selection Popover */}
@@ -581,7 +581,9 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                 onHighlight={handleHighlight}
                             />
 
-                            {memoizedContent}
+                            <div className="dark:prose-invert">
+                                {memoizedContent}
+                            </div>
                         </div>
 
                         {/* RESIZE HANDLE */}
@@ -606,14 +608,14 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
 
                         {/* RIGHT: Questions (Scrollable) */}
                         <div
-                            className="w-full h-full bg-white px-5 py-4 overflow-y-auto hide-scrollbar"
+                            className="w-full h-full bg-white dark:bg-slate-900 px-5 py-4 overflow-y-auto hide-scrollbar transition-colors duration-300 border-l border-slate-100 dark:border-slate-800"
                             style={{
                                 fontSize: `${fontSize}px`,
                                 width: typeof window !== 'undefined' && window.innerWidth >= 768 ? `${100 - leftWidth}%` : '100%'
                             }}
                         >
                             <div className="flex items-center justify-between mb-6">
-                                <h3 className="text-lg font-bold text-slate-800">
+                                <h3 className="text-lg font-bold text-slate-800 dark:text-slate-200">
                                     {testData.passages
                                         ? `Questions ${testData.passages[currentPassageIndex].questionRange.start}-${testData.passages[currentPassageIndex].questionRange.end}`
                                         : `Questions 1-${testData.questions.length}`}
@@ -829,9 +831,9 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                             return (
                                                 <div id={`question-${q.id}`} key={q.id} className={cn(
                                                     "p-4 rounded-xl border transition-colors",
-                                                    isSubmitted && isCorrect ? "border-green-200 bg-green-50/50" :
-                                                        isSubmitted && !isCorrect ? "border-red-200 bg-red-50/50" :
-                                                            "border-slate-200 hover:border-blue-300"
+                                                    isSubmitted && isCorrect ? "border-green-200 bg-green-50/50 dark:bg-green-900/20" :
+                                                        isSubmitted && !isCorrect ? "border-red-200 bg-red-50/50 dark:bg-red-900/20" :
+                                                            "border-slate-200 dark:border-slate-700 bg-white/50 dark:bg-slate-800/30 hover:border-blue-300 dark:hover:border-blue-500"
                                                 )}>
                                                     <div className="flex items-start gap-4 mb-3">
                                                         <p className="font-medium text-slate-700 leading-relaxed pt-1">{stripLeadingNumber(q.text)}</p>
@@ -849,8 +851,8 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                                                         className={cn(
                                                                             "w-10 h-10 rounded-lg text-sm font-bold border transition-all flex items-center justify-center",
                                                                             isSelected
-                                                                                ? "bg-[#2D3E50] border-[#2D3E50] text-white shadow-md scale-105"
-                                                                                : "bg-white border-slate-200 text-slate-600 hover:border-[#2D3E50]/40 hover:bg-[#2D3E50]/5",
+                                                                                ? "bg-[#2D3E50] dark:bg-blue-600 border-[#2D3E50] dark:border-blue-500 text-white shadow-md scale-105"
+                                                                                : "bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:border-[#2D3E50]/40 dark:hover:border-blue-400 hover:bg-[#2D3E50]/5 dark:hover:bg-blue-500/10",
                                                                             isSubmitted && index === Number(q.correctAnswer) && "bg-green-500 border-green-500 text-white", // Show correct answer
                                                                             isSubmitted && isSelected && index !== Number(q.correctAnswer) && "bg-red-500 border-red-500 text-white", // Show wrong user selection
                                                                         )}
@@ -865,10 +867,10 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                                             <div className="ml-12 mt-2 relative">
                                                                 <select
                                                                     className={cn(
-                                                                        "w-full p-4 rounded-2xl border-2 appearance-none outline-none transition-all cursor-pointer font-bold bg-white shadow-sm",
-                                                                        answers[q.id] !== undefined ? "border-[#2D3E50]/60 bg-[#2D3E50]/5 text-[#2D3E50] ring-4 ring-[#2D3E50]/5" : "border-slate-200 text-slate-700 hover:border-[#2D3E50]/40 hover:bg-slate-50",
-                                                                        isSubmitted && answers[q.id] === q.correctAnswer && "border-green-400 bg-green-50 text-green-800 ring-green-500/10",
-                                                                        isSubmitted && answers[q.id] !== undefined && answers[q.id] !== q.correctAnswer && "border-red-400 bg-red-50 text-red-800 ring-red-500/10",
+                                                                        "w-full p-4 rounded-2xl border-2 appearance-none outline-none transition-all cursor-pointer font-bold bg-white dark:bg-slate-800 shadow-sm",
+                                                                        answers[q.id] !== undefined ? "border-[#2D3E50]/60 dark:border-blue-500/60 bg-[#2D3E50]/5 dark:bg-blue-500/5 text-[#2D3E50] dark:text-blue-400 ring-4 ring-[#2D3E50]/5 dark:ring-blue-500/5" : "border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:border-[#2D3E50]/40 dark:hover:border-blue-400 hover:bg-slate-50 dark:hover:bg-slate-800/80",
+                                                                        isSubmitted && answers[q.id] === q.correctAnswer && "border-green-400 bg-green-50 dark:bg-green-900/20 text-green-800 dark:text-green-400 ring-green-500/10",
+                                                                        isSubmitted && answers[q.id] !== undefined && answers[q.id] !== q.correctAnswer && "border-red-400 bg-red-50 dark:bg-red-900/20 text-red-800 dark:text-red-400 ring-red-500/10",
                                                                         isSubmitted && "cursor-not-allowed"
                                                                     )}
                                                                     value={answers[q.id] !== undefined ? answers[q.id] : ""}
@@ -898,15 +900,15 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                                                     return (
                                                                         <label key={index} className={cn(
                                                                             "flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-all group",
-                                                                            isSelected ? "bg-[#2D3E50]/5 border-[#2D3E50]/20" : "bg-white border-slate-100 hover:border-slate-200 hover:bg-slate-50",
-                                                                            isSubmitted && index === Number(q.correctAnswer) && "bg-green-50 border-green-200",
-                                                                            isSubmitted && isSelected && index !== Number(q.correctAnswer) && "bg-red-50 border-red-200"
+                                                                            isSelected ? "bg-[#2D3E50]/5 dark:bg-blue-500/10 border-[#2D3E50]/20 dark:border-blue-500/40" : "bg-white dark:bg-slate-800/50 border-slate-100 dark:border-slate-700 hover:border-slate-200 dark:hover:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800",
+                                                                            isSubmitted && index === Number(q.correctAnswer) && "bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800",
+                                                                            isSubmitted && isSelected && index !== Number(q.correctAnswer) && "bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800"
                                                                         )}>
                                                                             <div className={cn(
                                                                                 "w-5 h-5 rounded-full border flex items-center justify-center transition-colors",
-                                                                                isSelected ? "border-[#2D3E50] bg-[#2D3E50]" : "border-slate-300 group-hover:border-blue-400"
+                                                                                isSelected ? "border-[#2D3E50] dark:border-blue-500 bg-[#2D3E50] dark:bg-blue-500" : "border-slate-300 dark:border-slate-600 group-hover:border-blue-400"
                                                                             )}>
-                                                                                {isSelected && <div className="w-2 h-2 rounded-full bg-white" />}
+                                                                                {isSelected && <div className="w-2 h-2 rounded-full bg-white transition-transform scale-110" />}
                                                                             </div>
                                                                             <input
                                                                                 type="radio"
@@ -944,9 +946,9 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                             return (
                                                 <div id={`question-${q.id}`} key={q.id} className={cn(
                                                     "p-5 rounded-2xl border-2 transition-all shadow-sm",
-                                                    isSubmitted && isCorrect ? "border-green-200 bg-green-50/50" :
-                                                        isSubmitted && !isCorrect ? "border-red-200 bg-red-50/50" :
-                                                            "border-slate-100 bg-white hover:border-[#2D3E50]/20"
+                                                    isSubmitted && isCorrect ? "border-green-200 bg-green-50/50 dark:bg-green-900/20" :
+                                                        isSubmitted && !isCorrect ? "border-red-200 bg-red-50/50 dark:bg-red-900/20" :
+                                                            "border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-800/40 hover:border-[#2D3E50]/20 dark:hover:border-blue-500/20"
                                                 )}>
                                                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                                                         <div className="flex items-start gap-4">
@@ -956,10 +958,10 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                                         <div className="relative flex-1 max-w-[240px]">
                                                             <select
                                                                 className={cn(
-                                                                    "w-full p-3 pl-4 pr-10 rounded-xl border-2 appearance-none outline-none transition-all cursor-pointer font-bold bg-white shadow-sm text-sm",
-                                                                    answers[q.id] !== undefined ? "border-blue-400 bg-[#2D3E50]/5 text-blue-900 ring-4 ring-[#2D3E50]/20" : "border-slate-200 text-slate-700 hover:border-blue-300 hover:bg-slate-50",
-                                                                    isSubmitted && answers[q.id] === q.correctAnswer && "border-green-400 bg-green-50 text-green-800 ring-green-500/10",
-                                                                    isSubmitted && answers[q.id] !== undefined && answers[q.id] !== q.correctAnswer && "border-red-400 bg-red-50 text-red-800 ring-red-500/10",
+                                                                    "w-full p-3 pl-4 pr-10 rounded-xl border-2 appearance-none outline-none transition-all cursor-pointer font-bold bg-white dark:bg-slate-800 shadow-sm text-sm",
+                                                                    answers[q.id] !== undefined ? "border-blue-400 dark:border-blue-500 bg-[#2D3E50]/5 dark:bg-blue-500/10 text-blue-900 dark:text-blue-300 ring-4 ring-[#2D3E50]/20 dark:ring-blue-500/20" : "border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:border-blue-300 dark:hover:border-blue-400 hover:bg-slate-50 dark:hover:bg-slate-800/80",
+                                                                    isSubmitted && answers[q.id] === q.correctAnswer && "border-green-400 bg-green-50 dark:bg-green-900/20 text-green-800 dark:text-green-400 ring-green-500/10",
+                                                                    isSubmitted && answers[q.id] !== undefined && answers[q.id] !== q.correctAnswer && "border-red-400 bg-red-50 dark:bg-red-900/20 text-red-800 dark:text-red-400 ring-red-500/10",
                                                                     isSubmitted && "cursor-not-allowed"
                                                                 )}
                                                                 value={answers[q.id] !== undefined ? answers[q.id] : ""}
@@ -1023,9 +1025,9 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                         return (
                                             <div id={`question-${q.id}`} key={q.id} className={cn(
                                                 "p-4 rounded-xl border transition-colors",
-                                                isSubmitted && allCorrect ? "border-green-200 bg-green-50/50" :
-                                                    isSubmitted && anyWrong ? "border-red-200 bg-red-50/50" :
-                                                        "border-slate-100 bg-slate-50/50"
+                                                isSubmitted && allCorrect ? "border-green-200 bg-green-50/50 dark:bg-green-900/20" :
+                                                    isSubmitted && anyWrong ? "border-red-200 bg-red-50/50 dark:bg-red-900/20" :
+                                                        "border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50"
                                             )}>
                                                 <div className="flex gap-3 mb-3">
                                                     <div className="w-full">
@@ -1051,10 +1053,10 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                                                                 <input
                                                                                     type="text"
                                                                                     className={cn(
-                                                                                        "inline-block mx-1 px-3 py-1 bg-white border-b-2 focus:outline-none transition-all w-32 text-center font-bold text-sm",
-                                                                                        isSubmitted && isCorrect_target ? "border-green-500 bg-green-50 text-green-700" :
-                                                                                            isSubmitted && isWrong_target ? "border-red-500 bg-red-50 text-red-700" :
-                                                                                                "border-blue-400 focus:border-[#2D3E50] hover:border-[#2D3E50]/50 text-slate-800"
+                                                                                        "inline-block mx-1 px-3 py-1 bg-white dark:bg-slate-800 border-b-2 focus:outline-none transition-all w-32 text-center font-bold text-sm",
+                                                                                        isSubmitted && isCorrect_target ? "border-green-500 bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400" :
+                                                                                            isSubmitted && isWrong_target ? "border-red-500 bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400" :
+                                                                                                "border-blue-400 dark:border-blue-500 focus:border-[#2D3E50] dark:focus:border-blue-300 hover:border-[#2D3E50]/50 dark:hover:border-blue-400 text-slate-800 dark:text-slate-200"
                                                                                     )}
                                                                                     value={answers[targetId] || ""}
                                                                                     onChange={(e) => handleAnswer(targetId, e.target.value)}
@@ -1126,19 +1128,19 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                                                     className={cn(
                                                                         "flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-all",
                                                                         answers[q.id] === optIndex
-                                                                            ? "bg-[#2D3E50]/5 border-[#2D3E50]/20 ring-1 ring-[#2D3E50]/20"
-                                                                            : "bg-white border-slate-200 hover:border-slate-300",
+                                                                            ? "bg-[#2D3E50]/5 dark:bg-blue-500/10 border-[#2D3E50]/20 dark:border-blue-500/40 ring-1 ring-[#2D3E50]/20"
+                                                                            : "bg-white dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600",
                                                                     )}
                                                                 >
                                                                     <input
                                                                         type="radio"
                                                                         name={`question-${q.id}`}
-                                                                        className="w-4 h-4 text-[#2D3E50] border-slate-300 focus:ring-[#2D3E50]/50"
+                                                                        className="w-4 h-4 text-[#2D3E50] dark:text-blue-500 border-slate-300 dark:border-slate-600 focus:ring-[#2D3E50]/50"
                                                                         checked={answers[q.id] === optIndex}
                                                                         onChange={() => handleAnswer(q.id, optIndex)}
                                                                         disabled={isSubmitted}
                                                                     />
-                                                                    <span className={cn("text-sm", answers[q.id] === optIndex ? "text-blue-700 font-medium" : "text-slate-600")}>
+                                                                    <span className={cn("text-sm", answers[q.id] === optIndex ? "text-blue-700 dark:text-blue-300 font-medium" : "text-slate-600 dark:text-slate-400")}>
                                                                         {option}
                                                                     </span>
                                                                 </label>
@@ -1161,7 +1163,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
 
                 {/* --- Question Navigator (Fixed Bottom Bar - Always Visible) --- */}
                 <div className="fixed bottom-0 left-0 right-0 z-[110]">
-                    <div className="bg-white/95 backdrop-blur-xl border-t border-slate-200 px-3 py-1.5 shadow-[0_-10px_40px_rgba(0,0,0,0.08)]">
+                    <div className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-t border-slate-200 dark:border-slate-800 px-3 py-1.5 shadow-[0_-10px_40px_rgba(0,0,0,0.08)]">
                         <div className="max-w-[1920px] mx-auto flex items-center gap-1 overflow-x-auto custom-scrollbar-hide">
                             {testData.passages ? (
                                 <>
