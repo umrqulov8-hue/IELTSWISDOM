@@ -193,13 +193,13 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
             }
 
             const colorMap: Record<string, string> = {
-                yellow: 'rgba(255, 245, 157, 0.4)',
-                green: 'rgba(200, 230, 201, 0.4)',
-                blue: 'rgba(187, 222, 251, 0.4)',
+                yellow: 'rgba(255, 235, 59, 0.6)',
+                green: 'rgba(76, 175, 80, 0.6)',
+                blue: 'rgba(33, 150, 243, 0.6)',
             };
             
             // Adjust colors for dark mode if needed, but RGBA usually works well on both
-            const highlightColor = colorMap[color] ?? 'rgba(255, 245, 157, 0.4)';
+            const highlightColor = colorMap[color] ?? 'rgba(255, 235, 59, 0.6)';
 
             textNodes.forEach(textNode => {
                 const nodeStart = textNode === range.startContainer ? range.startOffset : 0;
@@ -1027,9 +1027,9 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                                         )}
                                                         {q.type === "fill-blank" ? (
                                                             <div className="font-medium text-slate-700 dark:text-slate-200 leading-relaxed">
-                                                                {q.text.split(/([0-9]+\s*(?:[…\._]{2,}))|(?:[…\._]{2,})/).filter(Boolean).map((part, i, arr) => {
-                                                                    // Check if this part contains a numbered blank (e.g. "5 ____")
-                                                                    const match = part.match(/([0-9]+)\s*(?:[…\._]{2,})/);
+                                                                {q.text.split(/([0-9]+\s*[\.\s]*\s*(?:[…\._]{2,}))|(?:[…\._]{2,})/).filter(Boolean).map((part, i, arr) => {
+                                                                    // Check if this part contains a numbered blank (e.g. "5 ____" or "11. ____")
+                                                                    const match = part.match(/([0-9]+)\s*[\.\s]*\s*(?:[…\._]{2,})/);
                                                                     if (match) {
                                                                         const targetId = parseInt(match[1]);
                                                                         const targetQuestion = passageQuestions.find(pq => pq.id === targetId) || q;
@@ -1038,7 +1038,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
 
                                                                         return (
                                                                             <span key={i}>
-                                                                                <span className="font-bold text-[#2D3E50] mr-1">{targetId}</span>
+                                                                                <span className="font-bold text-[#2D3E50] dark:text-blue-400 mr-1 underline decoration-dotted decoration-blue-500/30">{targetId}</span>
                                                                                 <input
                                                                                     type="text"
                                                                                     className={cn(
@@ -1059,15 +1059,17 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
 
                                                                     // Check if it's a plain blank (un-numbered)
                                                                     if (part.match(/^[…\._]{2,}$/)) {
+                                                                        const allCorrect = passageQuestions.every(pq => answers[pq.id]?.toLowerCase().trim() === String(pq.correctAnswer).toLowerCase().trim());
+                                                                        const anyWrong = passageQuestions.some(pq => answers[pq.id] && answers[pq.id]?.toLowerCase().trim() !== String(pq.correctAnswer).toLowerCase().trim());
                                                                         return (
                                                                             <input
                                                                                 key={i}
                                                                                 type="text"
                                                                                 className={cn(
-                                                                                    "inline-block mx-2 px-3 py-1 bg-white border-b-2 focus:outline-none transition-all w-40 text-center font-bold text-sm",
-                                                                                    isSubmitted && allCorrect ? "border-green-500 bg-green-50 text-green-700" :
-                                                                                        isSubmitted && anyWrong ? "border-red-500 bg-red-50 text-red-700" :
-                                                                                            "border-blue-400 focus:border-[#2D3E50] hover:border-[#2D3E50]/50 text-slate-800"
+                                                                                    "inline-flex mx-2 px-3 py-1 bg-white dark:bg-slate-800 border-b-2 focus:outline-none transition-all w-40 text-center font-bold text-sm",
+                                                                                    isSubmitted && allCorrect ? "border-green-500 bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400" :
+                                                                                        isSubmitted && anyWrong ? "border-red-500 bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400" :
+                                                                                            "border-blue-400 dark:border-blue-500 focus:border-[#2D3E50] dark:focus:border-blue-300 hover:border-[#2D3E50]/50 dark:hover:border-blue-400 text-slate-800 dark:text-slate-200"
                                                                                 )}
                                                                                 value={answers[q.id] || ""}
                                                                                 onChange={(e) => handleAnswer(q.id, e.target.value)}
