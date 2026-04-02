@@ -111,7 +111,14 @@ export default function SettingsPage() {
                             label={lang === 'uz' ? "Tungi rejim" : "Dark Mode"}
                             description={lang === 'uz' ? "Kam yoritilgan interfeys" : "Low-light interface"}
                             active={theme === 'dark'}
-                            onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                            onClick={() => {
+                                const toDark = theme !== 'dark';
+                                // Fire ink animation first, then switch theme
+                                if (typeof window !== 'undefined' && (window as any).__triggerInkTransition) {
+                                    (window as any).__triggerInkTransition(toDark);
+                                }
+                                setTheme(toDark ? 'dark' : 'light');
+                            }}
                         />
                         <ToggleItem 
                             icon={<Volume2 className="w-4 h-4" />}
