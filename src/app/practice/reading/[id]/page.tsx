@@ -448,7 +448,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                     </div>
                 )}
 
-                <div className="flex-1 flex flex-col h-full w-full p-0 pt-16 overflow-hidden">
+                <div data-exam-content className="flex-1 flex flex-col h-full w-full p-0 pt-16 overflow-hidden">
 
                     {/* --- Result Modal --- */}
                     {showResult && (
@@ -490,7 +490,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                     )}
 
                     {/* --- Distraction-Free Header --- */}
-                    <div className="fixed top-0 left-0 right-0 h-16 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-6 z-10 shadow-sm transition-colors">
+                    <div data-exam-header className="fixed top-0 left-0 right-0 h-16 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-6 z-10 shadow-sm transition-colors">
                         {/* LEFT: Branding & Title */}
                         <div className="flex items-center gap-6 min-w-[240px]">
                             <Link href="/practice/reading" className="font-bold text-2xl tracking-tighter text-slate-900 dark:text-white hover:opacity-80 transition-opacity">
