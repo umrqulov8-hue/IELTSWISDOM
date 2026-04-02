@@ -113,11 +113,14 @@ export default function SettingsPage() {
                             active={theme === 'dark'}
                             onClick={() => {
                                 const toDark = theme !== 'dark';
-                                // Fire ink animation first, then switch theme
+                                // 1. Fire animation first — canvas immediately fills with OLD color
                                 if (typeof window !== 'undefined' && (window as any).__triggerInkTransition) {
                                     (window as any).__triggerInkTransition(toDark);
                                 }
-                                setTheme(toDark ? 'dark' : 'light');
+                                // 2. After one frame (canvas is painted), switch theme underneath
+                                requestAnimationFrame(() => {
+                                    setTheme(toDark ? 'dark' : 'light');
+                                });
                             }}
                         />
                         <ToggleItem 
