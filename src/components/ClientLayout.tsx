@@ -6,7 +6,6 @@ import { Footer } from "@/components/Footer";
 import { useLanguage } from "@/context/LanguageContext";
 import { AnimatePresence, LazyMotion, domMax } from "framer-motion";
 import { DeviceProvider } from "@/context/DeviceContext";
-import { DarkModeTransition } from "@/components/DarkModeTransition";
 
 // Dashboard/app routes that should NOT show the landing Header + Footer
 const DASHBOARD_ROUTES = [
@@ -39,7 +38,6 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
     return (
         <LazyMotion features={domMax}>
             <DeviceProvider>
-                <DarkModeTransition />
                 {!isDashboard && <Header />}
                 <main className={isDashboard ? "flex-grow" : "flex-grow pt-16"}>
                     {children}
@@ -49,4 +47,3 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
         </LazyMotion>
     );
 }
-

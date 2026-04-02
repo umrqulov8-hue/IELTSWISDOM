@@ -111,17 +111,7 @@ export default function SettingsPage() {
                             label={lang === 'uz' ? "Tungi rejim" : "Dark Mode"}
                             description={lang === 'uz' ? "Kam yoritilgan interfeys" : "Low-light interface"}
                             active={theme === 'dark'}
-                            onClick={() => {
-                                const toDark = theme !== 'dark';
-                                // 1. Fire animation first — canvas immediately fills with OLD color
-                                if (typeof window !== 'undefined' && (window as any).__triggerInkTransition) {
-                                    (window as any).__triggerInkTransition(toDark);
-                                }
-                                // 2. After one frame (canvas is painted), switch theme underneath
-                                requestAnimationFrame(() => {
-                                    setTheme(toDark ? 'dark' : 'light');
-                                });
-                            }}
+                            onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
                         />
                         <ToggleItem 
                             icon={<Volume2 className="w-4 h-4" />}

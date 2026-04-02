@@ -31,18 +31,9 @@
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 
-  /* Smooth theme color transitions behind the ink canvas overlay */
-  html {
-    transition: background-color 0.6s ease, color 0.6s ease;
-  }
-  body, body * {
-    transition-property: background-color, border-color, color, fill, stroke;
-    transition-duration: 0.5s;
-    transition-timing-function: ease;
-  }
-  /* Don't transition transforms/opacity to avoid breaking layout animations */
-  :where(*, *::before, *::after) {
-    transition-behavior: allow-discrete;
+  /* Simple fade between light and dark themes */
+  *, *::before, *::after {
+    transition: background-color 300ms ease, border-color 300ms ease, color 300ms ease;
   }
 }
 
