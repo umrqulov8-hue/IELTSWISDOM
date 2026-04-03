@@ -7,22 +7,16 @@ import {
     BookOpen, 
     CheckCircle2, 
     Clock, 
-    BarChart3, 
-    ChevronRight, 
-    Lock, 
-    PlayCircle,
-    Star,
-    Zap,
-    BookMarked,
-    Target,
-    Lightbulb
+    ChevronRight,
+    Lightbulb,
+    Target
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
 import { translations as T, tx } from "@/lib/translations";
 import { BouncyText } from "@/components/ui/BouncyText";
-import { READING_LESSONS, MIGRATED_TESTS } from "@/data/reading-lessons";
+import { READING_LESSONS } from "@/data/reading-lessons";
 
 export default function ReadingSkillsPage() {
     const { lang } = useLanguage();
@@ -113,22 +107,7 @@ export default function ReadingSkillsPage() {
                     </div>
                 </div>
 
-                {/* --- Migrated Tests Section (Old Data) --- */}
-                <div className="space-y-8 pt-10">
-                    <div className="flex items-center gap-4">
-                        <div className="h-px flex-1 bg-slate-100 dark:bg-slate-800 transition-colors" />
-                        <h2 className="text-[10px] font-black text-slate-600 dark:text-slate-500 uppercase tracking-[0.2em] transition-colors">
-                            {lang === 'uz' ? "Qo'shimcha amaliyot" : "Practice Passages"}
-                        </h2>
-                        <div className="h-px flex-1 bg-slate-100 dark:bg-slate-800 transition-colors" />
-                    </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                        {MIGRATED_TESTS.map((test, idx) => (
-                            <PracticeCard key={test.id} test={test} index={idx} lang={lang} />
-                        ))}
-                    </div>
-                </div>
 
                 {/* --- Reading Tips & Strategies --- */}
                 <div className="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-[2.5rem] p-10 mt-16 shadow-sm transition-all">
@@ -274,36 +253,4 @@ function LessonCard({ lesson, index, lang }: { lesson: any, index: number, lang:
     );
 }
 
-function PracticeCard({ test, index, lang }: { test: any, index: number, lang: string }) {
-    return (
-        <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.3 + (index * 0.03) }}
-            className="group bg-white/50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-800 rounded-2xl p-4 hover:border-blue-200 dark:hover:border-blue-500 hover:bg-white dark:hover:bg-slate-800 lg:hover:shadow-lg transition-all"
-        >
-            <div className="flex flex-col gap-3">
-                <div className="flex items-center justify-between">
-                    <span className="text-[9px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest transition-colors">{test.categoryId.replace('-', ' ')}</span>
-                    <div className="flex items-center gap-1 text-[9px] font-bold text-slate-700 dark:text-slate-400 transition-colors">
-                        <Clock className="w-2.5 h-2.5" />
-                        {test.duration}
-                    </div>
-                </div>
-                <h3 className="text-xs font-bold text-slate-700 dark:text-slate-200 line-clamp-1 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
-                    {test.title}
-                </h3>
-                <div className="flex items-center justify-between mt-1">
-                    <span className="text-[9px] font-black px-1.5 py-0.5 bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-400 rounded-md transition-colors">{test.level}</span>
-                    <Link 
-                        href={`/practice/reading/${test.id}`} 
-                        aria-label={lang === 'uz' ? "Testni boshlash" : "Start Test"}
-                        className="text-indigo-600 dark:text-indigo-400 group-hover:translate-x-1 transition-transform"
-                    >
-                        <ChevronRight className="w-4 h-4" />
-                    </Link>
-                </div>
-            </div>
-        </motion.div>
-    );
-}
+
