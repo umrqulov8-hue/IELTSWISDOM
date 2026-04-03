@@ -1,15 +1,16 @@
 "use client";
 
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
-import { useState, useMemo } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import { 
     BookOpen, 
     CheckCircle2, 
     Clock, 
     ChevronRight,
     Lightbulb,
-    Target
+    Target,
+    PlayCircle
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
@@ -17,16 +18,88 @@ import { useLanguage } from "@/context/LanguageContext";
 import { translations as T, tx } from "@/lib/translations";
 import { BouncyText } from "@/components/ui/BouncyText";
 import { READING_LESSONS } from "@/data/reading-lessons";
+import { createClient } from "@/utils/supabase/client";
+
+const PRACTICE_TESTS = [
+    { id: "homers-literary-legacy", title: "Homer's Literary Legacy", status: "premium" as const },
+    { id: "the-rise-of-agribots", title: "The Rise of Agribots", status: "premium" as const },
+    { id: "fp-9", title: "Socially Responsible Businesses", status: "free" as const },
+    { id: "south-pole-adventurer", title: "South Pole Adventurer", status: "free" as const },
+    { id: "fp-13", title: "The Dover Bronze-Age Boat", status: "free" as const },
+    { id: "fp-14", title: "A Closer Examination of a Study on Verbal and Non-Verbal Message", status: "free" as const },
+    { id: "fp-15", title: "Katherine Mansfield", status: "free" as const },
+    { id: "fp-16", title: "Aphantasia: A life without mental images", status: "free" as const },
+    { id: "fp-17", title: "Australian artist Margaret Preston", status: "free" as const },
+    { id: "fp-18", title: "Life lessons from villains, crooks and gangsters", status: "free" as const },
+    { id: "fp-19", title: "Fear of the Unknown", status: "free" as const },
+    { id: "fp-20", title: "Britain needs strong TV industry", status: "free" as const },
+    { id: "fp-21", title: "How to find your way out of a food desert", status: "free" as const },
+    { id: "fp-22", title: "Insect decision-making", status: "free" as const },
+    { id: "fp-23", title: "Why Do We Touch Strangers So Much?", status: "free" as const },
+    { id: "fp-24", title: "Economic Evolution", status: "free" as const },
+    { id: "fp-10", title: "Crop-growing skyscrapers", status: "free" as const },
+    { id: "fp-11", title: "The Falkirk Wheel", status: "free" as const },
+    { id: "fp-12", title: "Reducing the Effects of Climate Change", status: "free" as const },
+    { id: "fp-3", title: "Raising the Mary Rose", status: "free" as const },
+    { id: "fp-4", title: "What destroyed the civilisation of Easter Island?", status: "free" as const },
+    { id: "mock-1-p1", title: "Tea and the Industrial Revolution", status: "free" as const },
+    { id: "mock-1-p2", title: "Gifted children and learning", status: "free" as const },
+    { id: "mock-1-p3", title: "Museums of fine art and their public", status: "free" as const },
+    { id: "mock-2-p1", title: "Our Vanishing Night", status: "free" as const },
+    { id: "mock-2-p2", title: "Endless Harvest", status: "free" as const },
+    { id: "mock-2-p3", title: "Film Noir", status: "free" as const },
+    { id: "mock-3-p1", title: "Development of Adolescence", status: "free" as const },
+    { id: "mock-3-p2", title: "Intelligence and Giftedness", status: "free" as const },
+    { id: "mock-3-p3", title: "Communicating Styles and Conflict", status: "free" as const },
+    { id: "mock-4-p1", title: "Can animals count?", status: "free" as const },
+    { id: "mock-4-p2", title: "Is It Time To Halt the Rising Tide of Plastic Packaging?", status: "free" as const },
+    { id: "mock-4-p3", title: "The Growth of Intelligence", status: "free" as const },
+    { id: "mock-5-p1", title: "Nutmeg – a valuable spice", status: "free" as const },
+    { id: "mock-5-p2", title: "Driverless cars", status: "free" as const },
+    { id: "mock-5-p3", title: "What is exploration?", status: "free" as const },
+    { id: "mock-6-p1", title: "Could urban engineers learn from dance?", status: "free" as const },
+    { id: "mock-6-p2", title: "Should we try to bring extinct species back to life?", status: "free" as const },
+    { id: "mock-6-p3", title: "Having a laugh", status: "free" as const },
+    { id: "mt-1", title: "IELTS Reading Mock Test 1 (Full)", status: "free" as const },
+    { id: "mock-2-full", title: "IELTS Reading Mock Test 2 (Full)", status: "free" as const },
+    { id: "mock-3-full", title: "IELTS Reading Mock Test 3 (Full)", status: "free" as const },
+    { id: "mock-4-full", title: "IELTS Reading Mock Test 4 (Full)", status: "free" as const },
+    { id: "mock-5-full", title: "IELTS Reading Mock Test 5 (Full)", status: "free" as const },
+    { id: "mock-6-full", title: "IELTS Reading Mock Test 6 (Full)", status: "free" as const },
+    { id: "mock-7-full", title: "IELTS Reading Mock Test 7 (Full)", status: "free" as const },
+];
 
 export default function ReadingSkillsPage() {
     const { lang } = useLanguage();
+    const supabase = createClient();
+    const [bestScores, setBestScores] = useState<Record<string, { score: number; total: number }>>({});
     
     // Calculate stats
     const totalItems = READING_LESSONS.length;
     const completedItems = READING_LESSONS.filter(l => l.status === "completed").length;
     const progressPercent = Math.round((completedItems / totalItems) * 100);
-    const avgScore = 85; // Mock avg score
+    const avgScore = 85;
     const remainingItems = totalItems - completedItems;
+
+    useEffect(() => {
+        const fetchScores = async () => {
+            const { data: { user } } = await supabase.auth.getUser();
+            if (!user) return;
+            const { data } = await supabase
+                .from("test_results")
+                .select("test_id, score, total_questions")
+                .eq("user_id", user.id);
+            if (data) {
+                const scores: Record<string, { score: number; total: number }> = {};
+                data.forEach((r: any) => {
+                    if (!scores[r.test_id] || r.score > scores[r.test_id].score)
+                        scores[r.test_id] = { score: r.score, total: r.total_questions };
+                });
+                setBestScores(scores);
+            }
+        };
+        fetchScores();
+    }, [supabase]);
 
     return (
         <DashboardLayout
@@ -107,9 +180,71 @@ export default function ReadingSkillsPage() {
                     </div>
                 </div>
 
+                {/* --- Practice Passages --- */}
+                <div className="space-y-8 pt-6">
+                    <div className="flex items-center gap-4">
+                        <div className="h-px flex-1 bg-slate-100 dark:bg-slate-800 transition-colors" />
+                        <h2 className="text-[10px] font-black text-slate-600 dark:text-slate-500 uppercase tracking-[0.2em] transition-colors">
+                            {lang === 'uz' ? "Amaliyot Matnlari" : "Practice Passages"}
+                        </h2>
+                        <div className="h-px flex-1 bg-slate-100 dark:bg-slate-800 transition-colors" />
+                    </div>
+
+                    <motion.div
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true, margin: "-40px" }}
+                        variants={{
+                            hidden: { opacity: 0 },
+                            visible: { opacity: 1, transition: { staggerChildren: 0.05 } },
+                        }}
+                        className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4"
+                    >
+                        {PRACTICE_TESTS.map((test) => (
+                            <motion.div
+                                key={test.id}
+                                variants={{
+                                    hidden: { opacity: 0, y: 20, scale: 0.95 },
+                                    visible: { opacity: 1, y: 0, scale: 1, transition: { type: "spring", bounce: 0.4, duration: 0.5 } },
+                                }}
+                                className="group bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-2xl p-5 flex flex-col hover:border-blue-200 dark:hover:border-blue-700 hover:shadow-lg dark:hover:shadow-none transition-all duration-300 hover:-translate-y-0.5"
+                            >
+                                {/* Badges */}
+                                <div className="flex items-center justify-between mb-3">
+                                    <span className={cn(
+                                        "text-[10px] font-bold px-2 py-0.5 rounded-full border uppercase tracking-wider",
+                                        test.status === "free"
+                                            ? "bg-emerald-50 dark:bg-emerald-900/20 border-emerald-100 dark:border-emerald-800/50 text-emerald-600 dark:text-emerald-400"
+                                            : "bg-amber-50 dark:bg-amber-900/20 border-amber-100 dark:border-amber-800/50 text-amber-600 dark:text-amber-400"
+                                    )}>
+                                        {test.status === "free" ? (lang === "uz" ? "Bepul" : "Free") : "Premium"}
+                                    </span>
+                                    {bestScores[test.id] && (
+                                        <div className="flex items-center gap-1 text-[10px] text-white font-bold bg-blue-500 px-2 py-0.5 rounded-full">
+                                            <CheckCircle2 className="w-3 h-3" />
+                                            {bestScores[test.id].score}/{bestScores[test.id].total}
+                                        </div>
+                                    )}
+                                </div>
+
+                                {/* Title */}
+                                <h4 className="text-sm font-bold text-slate-800 dark:text-slate-100 group-hover:text-blue-700 dark:group-hover:text-blue-400 transition-colors line-clamp-2 mb-4 flex-1 min-h-[2.5em]">
+                                    {test.title}
+                                </h4>
+
+                                {/* Button */}
+                                <Link href={`/practice/reading/${test.id}`} className="w-full">
+                                    <button className="w-full py-2.5 rounded-xl bg-slate-900 dark:bg-slate-800 group-hover:bg-blue-600 text-white font-bold text-xs flex items-center justify-center gap-2 transition-all duration-300">
+                                        <PlayCircle className="w-3.5 h-3.5 fill-current opacity-90" />
+                                        {lang === 'uz' ? "Boshlash" : "Start"}
+                                    </button>
+                                </Link>
+                            </motion.div>
+                        ))}
+                    </motion.div>
+                </div>
 
 
-                {/* --- Reading Tips & Strategies --- */}
                 <div className="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-[2.5rem] p-10 mt-16 shadow-sm transition-all">
                     <div className="flex items-center gap-3 mb-8">
                         <div className="w-10 h-10 bg-amber-50 dark:bg-amber-900/20 rounded-xl flex items-center justify-center text-amber-600 dark:text-amber-400 transition-colors">
