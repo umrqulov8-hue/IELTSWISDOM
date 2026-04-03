@@ -249,7 +249,6 @@ export default function ReadingPage() {
                         {visibleCategories.map((category, catIndex) => {
                             const categoryTests = filteredTests.filter((t) => t.categoryId === category.id);
                             if (categoryTests.length === 0) return null;
-                            const CatIcon = category.icon;
 
                             return (
                                 <motion.div
@@ -259,22 +258,6 @@ export default function ReadingPage() {
                                     exit={{ opacity: 0, scale: 0.95 }}
                                     transition={{ duration: 0.5, delay: catIndex * 0.1 }}
                                 >
-                                    {/* Section header */}
-                                    <div className="flex items-center gap-4 mb-6">
-                                        {CatIcon && (
-                                            <div className="flex items-center justify-center w-10 h-10 rounded-2xl bg-white dark:bg-slate-800 shadow-sm border border-blue-100 dark:border-slate-700 text-blue-600 dark:text-blue-400">
-                                                <CatIcon className="w-5 h-5" />
-                                            </div>
-                                        )}
-                                        <div>
-                                            <h3 className="text-xl font-bold text-slate-800 dark:text-white">
-                                                {lang === "uz" ? (CAT_LABELS_UZ[category.id] ?? category.title) : category.title}
-                                            </h3>
-                                            <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">
-                                                {categoryTests.length} {lang === "uz" ? "Test mavjud" : "Items Available"}
-                                            </p>
-                                        </div>
-                                    </div>
 
                                     {/* Cards grid */}
                                     <motion.div
