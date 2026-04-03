@@ -134,6 +134,7 @@ export const DashboardLayout = memo(({
                                         <input 
                                             id="dashboard-search-input"
                                             name="dashboard-search"
+                                            autoComplete="off"
                                             aria-label="Search"
                                             className="bg-transparent border-none outline-none text-sm font-medium w-full pr-4 placeholder:text-slate-500 dark:placeholder:text-slate-400 text-slate-900 dark:text-slate-100"
                                             placeholder="Search..."

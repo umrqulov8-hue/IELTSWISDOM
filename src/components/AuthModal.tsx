@@ -123,6 +123,7 @@ export function AuthModal() {
                                     type="email"
                                     id="login-email"
                                     name="email"
+                                    autoComplete="email"
                                     placeholder="Email"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
@@ -137,6 +138,7 @@ export function AuthModal() {
                                     type="password"
                                     id="login-password"
                                     name="password"
+                                    autoComplete="current-password"
                                     placeholder="Password"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
@@ -170,6 +172,7 @@ export function AuthModal() {
                                     type="email"
                                     id="register-email"
                                     name="email"
+                                    autoComplete="email"
                                     placeholder="Email"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
@@ -184,6 +187,7 @@ export function AuthModal() {
                                     type="password"
                                     id="register-password"
                                     name="password"
+                                    autoComplete="new-password"
                                     placeholder="Password"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}

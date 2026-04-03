@@ -167,6 +167,7 @@ export const DashboardHeader = memo(({ title, description, showGreeting, display
                             type="text"
                             id="header-search-input"
                             name="search"
+                            autoComplete="off"
                             aria-label="Search lessons"
                             placeholder={lang === "en" ? "Search lessons..." : "Darslarni qidirish..."}
                             value={searchQuery}

@@ -68,6 +68,7 @@ export default function AvatarUploadPage() {
                         <input
                             id="avatar-file-input"
                             name="file"
+                            autoComplete="off"
                             ref={inputFileRef}
                             type="file"
                             required

@@ -50,20 +50,22 @@ export default function SettingsPage() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div className="space-y-4">
                             <div className="space-y-1">
-                                <label className="text-[10px] font-black text-slate-600 dark:text-slate-500 uppercase tracking-widest transition-colors">{lang === 'uz' ? "To'liq ism" : "Full Name"}</label>
+                                <label htmlFor="fullname-input" className="text-[10px] font-black text-slate-600 dark:text-slate-500 uppercase tracking-widest transition-colors">{lang === 'uz' ? "To'liq ism" : "Full Name"}</label>
                                 <input 
                                     id="fullname-input"
                                     name="full_name"
+                                    autoComplete="name"
                                     className="w-full h-12 bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-800 rounded-xl px-4 text-sm font-bold text-slate-700 dark:text-slate-200 outline-none focus:border-slate-300 dark:focus:border-slate-700 transition-all"
                                     defaultValue={user?.user_metadata?.full_name || ""}
                                     placeholder="Enter your name"
                                 />
                             </div>
                             <div className="space-y-1">
-                                <label className="text-[10px] font-black text-slate-600 dark:text-slate-500 uppercase tracking-widest transition-colors">{lang === 'uz' ? "Email manzil" : "Email Address"}</label>
+                                <label htmlFor="email-input" className="text-[10px] font-black text-slate-600 dark:text-slate-500 uppercase tracking-widest transition-colors">{lang === 'uz' ? "Email manzil" : "Email Address"}</label>
                                 <input 
                                     id="email-input"
                                     name="email"
+                                    autoComplete="email"
                                     className="w-full h-12 bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-800 rounded-xl px-4 text-sm font-bold text-slate-600 dark:text-slate-400 cursor-not-allowed outline-none transition-colors duration-200"
                                     value={user?.email || ""}
                                     disabled
