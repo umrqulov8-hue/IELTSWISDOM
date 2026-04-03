@@ -3,77 +3,53 @@
 import React, { useEffect, useState, useRef, useCallback } from "react";
 import { useTheme } from "next-themes";
 import { motion, AnimatePresence } from "framer-motion";
-import { Moon, Sun, Monitor, Settings2, Layout } from "lucide-react";
+import { Moon, Sun, Monitor, Settings2, Maximize, Minimize } from "lucide-react";
 import { cn } from "@/lib/utils";
-
-const FULL_INTERFACE_KEY = "ielts-full-interface";
-
-// Apply/remove header visibility outside React render cycle
-function applyFullInterface(enabled: boolean) {
-  const header = document.querySelector<HTMLElement>("[data-exam-header]");
-  if (header) {
-    header.style.transition = "opacity 300ms ease, transform 300ms ease";
-    header.style.opacity = enabled ? "0" : "1";
-    header.style.transform = enabled ? "translateY(-100%)" : "translateY(0)";
-    header.style.pointerEvents = enabled ? "none" : "";
-  }
-  const content = document.querySelector<HTMLElement>("[data-exam-content]");
-  if (content) {
-    content.style.transition = "padding-top 300ms ease";
-    content.style.paddingTop = enabled ? "0" : "";
-  }
-}
 
 export function ThemeBurger() {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const [fullInterface, setFullInterface] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
-  // Hydration + read persisted state
   useEffect(() => {
     setMounted(true);
-    try {
-      const saved = localStorage.getItem(FULL_INTERFACE_KEY);
-      const enabled = saved === "true";
-      setFullInterface(enabled);
-      applyFullInterface(enabled);
-    } catch {
-      // localStorage not available (SSR guard)
-    }
+    // Sync state with actual fullscreen status
+    const onFsChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+    document.addEventListener("fullscreenchange", onFsChange);
+    return () => document.removeEventListener("fullscreenchange", onFsChange);
   }, []);
 
   // Close on outside click
   useEffect(() => {
     if (!isOpen) return;
-    function handleClickOutside(event: MouseEvent) {
-      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+    const handler = (e: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
         setIsOpen(false);
       }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
   }, [isOpen]);
 
-  // Close on Esc
+  // Close on Esc (note: Esc also exits fullscreen natively)
   useEffect(() => {
-    function handleKeyDown(e: KeyboardEvent) {
+    const handler = (e: KeyboardEvent) => {
       if (e.key === "Escape") setIsOpen(false);
-    }
-    document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
+    };
+    document.addEventListener("keydown", handler);
+    return () => document.removeEventListener("keydown", handler);
   }, []);
 
-  const toggleFullInterface = useCallback(() => {
-    setFullInterface((prev) => {
-      const next = !prev;
-      try {
-        localStorage.setItem(FULL_INTERFACE_KEY, String(next));
-      } catch {}
-      applyFullInterface(next);
-      return next;
-    });
+  const toggleFullscreen = useCallback(() => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch(() => {});
+    } else {
+      document.exitFullscreen().catch(() => {});
+    }
     setIsOpen(false);
   }, []);
 
@@ -86,7 +62,9 @@ export function ThemeBurger() {
         onClick={() => setIsOpen((v) => !v)}
         className={cn(
           "relative w-10 h-10 flex items-center justify-center rounded-full transition-colors duration-300",
-          isOpen ? "bg-slate-100 dark:bg-slate-800" : "hover:bg-slate-50 dark:hover:bg-slate-800/50"
+          isOpen
+            ? "bg-slate-100 dark:bg-slate-800"
+            : "hover:bg-slate-50 dark:hover:bg-slate-800/50"
         )}
         aria-label="Settings Menu"
       >
@@ -108,7 +86,7 @@ export function ThemeBurger() {
         </div>
       </button>
 
-      {/* Dropdown Menu */}
+      {/* Dropdown */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -163,38 +141,42 @@ export function ThemeBurger() {
                 </div>
               </div>
 
-              {/* Full Interface Toggle */}
+              {/* Fullscreen Toggle */}
               <div className="border-t border-slate-100 dark:border-slate-800/60 pt-4">
                 <button
-                  onClick={toggleFullInterface}
+                  onClick={toggleFullscreen}
                   className="w-full flex items-center justify-between p-2.5 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors group"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 flex items-center justify-center">
-                      <Layout className="w-4 h-4 text-emerald-500 dark:text-emerald-400" />
+                    <div className={cn(
+                      "w-8 h-8 rounded-lg flex items-center justify-center transition-colors",
+                      isFullscreen
+                        ? "bg-emerald-100 dark:bg-emerald-500/20"
+                        : "bg-slate-100 dark:bg-slate-700/50"
+                    )}>
+                      {isFullscreen
+                        ? <Minimize className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                        : <Maximize className="w-4 h-4 text-slate-500 dark:text-slate-400" />
+                      }
                     </div>
                     <div className="text-left">
                       <span className="block text-sm font-semibold text-slate-700 dark:text-slate-200">
-                        Full Interface
+                        {isFullscreen ? "Exit Fullscreen" : "Full Interface"}
                       </span>
                       <span className="text-[10px] text-slate-400 dark:text-slate-500">
-                        {fullInterface ? "Header hidden" : "Header visible"}
+                        {isFullscreen ? "Press Esc to exit" : "Hide browser chrome"}
                       </span>
                     </div>
                   </div>
-                  {/* Toggle pill */}
-                  <div
-                    className={cn(
-                      "w-9 h-5 rounded-full relative transition-colors duration-300",
-                      fullInterface ? "bg-emerald-500" : "bg-slate-200 dark:bg-slate-700"
-                    )}
-                  >
-                    <div
-                      className={cn(
-                        "absolute top-0.5 w-4 h-4 bg-white rounded-full shadow-sm transition-all duration-300",
-                        fullInterface ? "left-[18px]" : "left-0.5"
-                      )}
-                    />
+                  {/* State indicator */}
+                  <div className={cn(
+                    "w-9 h-5 rounded-full relative transition-colors duration-300",
+                    isFullscreen ? "bg-emerald-500" : "bg-slate-200 dark:bg-slate-700"
+                  )}>
+                    <div className={cn(
+                      "absolute top-0.5 w-4 h-4 bg-white rounded-full shadow-sm transition-all duration-300",
+                      isFullscreen ? "left-[18px]" : "left-0.5"
+                    )} />
                   </div>
                 </button>
               </div>
@@ -207,7 +189,7 @@ export function ThemeBurger() {
                 <kbd className="font-sans px-1 rounded bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 shadow-sm">
                   Esc
                 </kbd>{" "}
-                to close menu
+                to exit fullscreen
               </p>
             </div>
           </motion.div>
