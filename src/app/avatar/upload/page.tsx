@@ -66,6 +66,7 @@ export default function AvatarUploadPage() {
                 >
                     <div className="relative border-2 border-dashed border-slate-300 rounded-2xl p-8 hover:border-orange-400 transition-colors bg-white hover:bg-orange-50/50 flex flex-col items-center justify-center cursor-pointer group">
                         <input
+                            id="avatar-file-input"
                             name="file"
                             ref={inputFileRef}
                             type="file"

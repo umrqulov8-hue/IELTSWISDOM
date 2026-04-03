@@ -121,6 +121,8 @@ export function AuthModal() {
                             <div className="relative mb-6">
                                 <input
                                     type="email"
+                                    id="login-email"
+                                    name="email"
                                     placeholder="Email"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
@@ -133,6 +135,8 @@ export function AuthModal() {
                             <div className="relative mb-2">
                                 <input
                                     type="password"
+                                    id="login-password"
+                                    name="password"
                                     placeholder="Password"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
@@ -164,6 +168,8 @@ export function AuthModal() {
                             <div className="relative mb-6">
                                 <input
                                     type="email"
+                                    id="register-email"
+                                    name="email"
                                     placeholder="Email"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
@@ -176,6 +182,8 @@ export function AuthModal() {
                             <div className="relative mb-6">
                                 <input
                                     type="password"
+                                    id="register-password"
+                                    name="password"
                                     placeholder="Password"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}

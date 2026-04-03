@@ -154,6 +154,8 @@ export function UserSettingsPanel({ isOpen, onClose }: UserSettingsPanelProps) {
                                 </div>
                                 <input
                                     type="file"
+                                    id="avatar-upload-input"
+                                    name="avatar"
                                     ref={fileInputRef}
                                     className="hidden"
                                     accept="image/*"
