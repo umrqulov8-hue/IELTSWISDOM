@@ -359,7 +359,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                     <p className="text-slate-500 mb-8 max-w-md">
                         We couldn't find the reading test you're looking for. It might have been removed or the URL is incorrect.
                     </p>
-                    <Link href="/practice/reading">
+                    <Link href="/lessons/reading">
                         <button className="px-6 py-3 bg-[#2D3E50] text-white rounded-xl font-bold hover:bg-blue-700 transition-colors">
                             Return to Library
                         </button>
@@ -431,7 +431,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                     initial={{ y: 10, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.5 }}
                                     className="flex gap-4 justify-center"
                                 >
-                                    <Link href="/practice/reading">
+                                    <Link href="/lessons/reading">
                                         <button className="px-6 py-4 rounded-xl border-2 border-slate-200/60 dark:border-slate-700 bg-white/50 dark:bg-slate-800/50 text-slate-600 dark:text-slate-400 font-bold hover:bg-white dark:hover:bg-slate-800 hover:border-slate-300 transition-all shadow-sm">
                                             Cancel
                                         </button>
@@ -479,7 +479,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                     >
                                         Review Answers
                                     </button>
-                                    <Link href="/practice/reading" className="flex-1">
+                                    <Link href="/lessons/reading" className="flex-1">
                                         <button className="w-full py-3 rounded-xl bg-[#2D3E50] text-white font-bold hover:bg-blue-700 transition-colors shadow-lg shadow-[#2D3E50]/20">
                                             Back to List
                                         </button>
@@ -493,7 +493,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                     <div data-exam-header className="fixed top-0 left-0 right-0 h-16 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-6 z-10 shadow-sm transition-colors">
                         {/* LEFT: Branding & Title */}
                         <div className="flex items-center gap-6 min-w-[240px]">
-                            <Link href="/practice/reading" className="font-bold text-2xl tracking-tighter text-slate-900 dark:text-white hover:opacity-80 transition-opacity">
+                            <Link href="/lessons/reading" className="font-bold text-2xl tracking-tighter text-slate-900 dark:text-white hover:opacity-80 transition-opacity">
                                 IELTS<span className="text-[#2D3E50] dark:text-blue-400">Wisdom</span>
                             </Link>
                             <div className="h-6 w-px bg-slate-200 dark:bg-slate-700" />
