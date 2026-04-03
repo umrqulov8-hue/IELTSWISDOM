@@ -1,12 +1,28 @@
 "use client";
 
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import { useTheme } from "next-themes";
 import { motion, AnimatePresence } from "framer-motion";
 import { Moon, Sun, Monitor, Settings2, Layout } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const FULL_INTERFACE_KEY = "ielts-full-interface";
+
+// Apply/remove header visibility outside React render cycle
+function applyFullInterface(enabled: boolean) {
+  const header = document.querySelector<HTMLElement>("[data-exam-header]");
+  if (header) {
+    header.style.transition = "opacity 300ms ease, transform 300ms ease";
+    header.style.opacity = enabled ? "0" : "1";
+    header.style.transform = enabled ? "translateY(-100%)" : "translateY(0)";
+    header.style.pointerEvents = enabled ? "none" : "";
+  }
+  const content = document.querySelector<HTMLElement>("[data-exam-content]");
+  if (content) {
+    content.style.transition = "padding-top 300ms ease";
+    content.style.paddingTop = enabled ? "0" : "";
+  }
+}
 
 export function ThemeBurger() {
   const { theme, setTheme } = useTheme();
@@ -15,32 +31,32 @@ export function ThemeBurger() {
   const [fullInterface, setFullInterface] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
-  // Avoid hydration mismatch
+  // Hydration + read persisted state
   useEffect(() => {
     setMounted(true);
-    // Read saved preference
-    const saved = localStorage.getItem(FULL_INTERFACE_KEY);
-    const enabled = saved === "true";
-    setFullInterface(enabled);
-    applyFullInterface(enabled);
+    try {
+      const saved = localStorage.getItem(FULL_INTERFACE_KEY);
+      const enabled = saved === "true";
+      setFullInterface(enabled);
+      applyFullInterface(enabled);
+    } catch {
+      // localStorage not available (SSR guard)
+    }
   }, []);
 
-  // Close menu when clicking outside
+  // Close on outside click
   useEffect(() => {
+    if (!isOpen) return;
     function handleClickOutside(event: MouseEvent) {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
         setIsOpen(false);
       }
     }
-    if (isOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isOpen]);
 
-  // Esc key closes menu
+  // Close on Esc
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
       if (e.key === "Escape") setIsOpen(false);
@@ -49,49 +65,27 @@ export function ThemeBurger() {
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, []);
 
-  if (!mounted) return null;
-
-  const toggleMenu = () => setIsOpen(!isOpen);
-
-  const applyFullInterface = (enabled: boolean) => {
-    // Toggle the exam header visibility
-    const header = document.querySelector<HTMLElement>("[data-exam-header]");
-    if (header) {
-      header.style.transition = "opacity 300ms ease, transform 300ms ease";
-      if (enabled) {
-        header.style.opacity = "0";
-        header.style.transform = "translateY(-100%)";
-        header.style.pointerEvents = "none";
-      } else {
-        header.style.opacity = "1";
-        header.style.transform = "translateY(0)";
-        header.style.pointerEvents = "";
-      }
-    }
-
-    // Adjust the content padding
-    const content = document.querySelector<HTMLElement>("[data-exam-content]");
-    if (content) {
-      content.style.transition = "padding-top 300ms ease";
-      content.style.paddingTop = enabled ? "0" : "";
-    }
-  };
-
-  const toggleFullInterface = () => {
-    const next = !fullInterface;
-    setFullInterface(next);
-    localStorage.setItem(FULL_INTERFACE_KEY, String(next));
-    applyFullInterface(next);
+  const toggleFullInterface = useCallback(() => {
+    setFullInterface((prev) => {
+      const next = !prev;
+      try {
+        localStorage.setItem(FULL_INTERFACE_KEY, String(next));
+      } catch {}
+      applyFullInterface(next);
+      return next;
+    });
     setIsOpen(false);
-  };
+  }, []);
+
+  if (!mounted) return null;
 
   return (
     <div className="relative" ref={menuRef}>
       {/* Burger Trigger */}
       <button
-        onClick={toggleMenu}
+        onClick={() => setIsOpen((v) => !v)}
         className={cn(
-          "relative w-10 h-10 flex items-center justify-center rounded-full transition-all duration-300",
+          "relative w-10 h-10 flex items-center justify-center rounded-full transition-colors duration-300",
           isOpen ? "bg-slate-100 dark:bg-slate-800" : "hover:bg-slate-50 dark:hover:bg-slate-800/50"
         )}
         aria-label="Settings Menu"
@@ -132,16 +126,20 @@ export function ThemeBurger() {
                 </div>
                 <div>
                   <h3 className="font-bold text-slate-800 dark:text-slate-100">Preferences</h3>
-                  <p className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">Customize your exam experience</p>
+                  <p className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">
+                    Customize your exam experience
+                  </p>
                 </div>
               </div>
             </div>
 
             {/* Content */}
             <div className="p-4 space-y-4">
-              {/* Theme Toggle Section */}
+              {/* Theme Selector */}
               <div className="space-y-3">
-                <p className="px-2 text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">Interface Theme</p>
+                <p className="px-2 text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">
+                  Interface Theme
+                </p>
                 <div className="grid grid-cols-3 gap-2">
                   {[
                     { id: "light", icon: Sun, label: "Light" },
@@ -166,7 +164,7 @@ export function ThemeBurger() {
               </div>
 
               {/* Full Interface Toggle */}
-              <div className="space-y-1.5 border-t border-slate-100 dark:border-slate-800/60 pt-4">
+              <div className="border-t border-slate-100 dark:border-slate-800/60 pt-4">
                 <button
                   onClick={toggleFullInterface}
                   className="w-full flex items-center justify-between p-2.5 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors group"
@@ -176,30 +174,40 @@ export function ThemeBurger() {
                       <Layout className="w-4 h-4 text-emerald-500 dark:text-emerald-400" />
                     </div>
                     <div className="text-left">
-                      <span className="text-sm font-semibold text-slate-700 dark:text-slate-200 block">Full Interface</span>
+                      <span className="block text-sm font-semibold text-slate-700 dark:text-slate-200">
+                        Full Interface
+                      </span>
                       <span className="text-[10px] text-slate-400 dark:text-slate-500">
-                        {fullInterface ? "Header yashirilgan" : "Header ko'rinmoqda"}
+                        {fullInterface ? "Header hidden" : "Header visible"}
                       </span>
                     </div>
                   </div>
-                  {/* Toggle switch */}
-                  <div className={cn(
-                    "w-9 h-5 rounded-full relative transition-colors duration-300",
-                    fullInterface ? "bg-emerald-500" : "bg-slate-200 dark:bg-slate-700"
-                  )}>
-                    <div className={cn(
-                      "absolute top-0.5 w-4 h-4 bg-white rounded-full shadow-sm transition-all duration-300",
-                      fullInterface ? "left-[18px]" : "left-0.5"
-                    )} />
+                  {/* Toggle pill */}
+                  <div
+                    className={cn(
+                      "w-9 h-5 rounded-full relative transition-colors duration-300",
+                      fullInterface ? "bg-emerald-500" : "bg-slate-200 dark:bg-slate-700"
+                    )}
+                  >
+                    <div
+                      className={cn(
+                        "absolute top-0.5 w-4 h-4 bg-white rounded-full shadow-sm transition-all duration-300",
+                        fullInterface ? "left-[18px]" : "left-0.5"
+                      )}
+                    />
                   </div>
                 </button>
               </div>
             </div>
 
-            {/* Footer Tip */}
+            {/* Footer */}
             <div className="px-6 py-4 bg-slate-50/50 dark:bg-slate-800/30 border-t border-slate-100 dark:border-slate-800/60">
               <p className="text-[10px] text-slate-400 dark:text-slate-500 text-center font-medium italic">
-                Pro tip: Press <kbd className="font-sans px-1 rounded bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 shadow-sm">Esc</kbd> to close menu
+                Pro tip: Press{" "}
+                <kbd className="font-sans px-1 rounded bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 shadow-sm">
+                  Esc
+                </kbd>{" "}
+                to close menu
               </p>
             </div>
           </motion.div>

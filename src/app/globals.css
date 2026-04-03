@@ -31,9 +31,9 @@
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 
-  /* Simple fade between light and dark themes */
-  *, *::before, *::after {
-    transition: background-color 300ms ease, border-color 300ms ease, color 300ms ease;
+  /* Theme fade — only on root elements, not all children (avoids Framer Motion conflicts) */
+  html, body {
+    transition: background-color 300ms ease, color 300ms ease;
   }
 }
 
