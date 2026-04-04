@@ -96,7 +96,7 @@ export function SuccessRoadmap() {
                                         <h3 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white tracking-tight leading-tight">
                                             {ms.title}
                                         </h3>
-                                        <p className="text-lg text-slate-300 dark:text-slate-400 font-medium leading-relaxed">
+                                        <p className="text-lg text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
                                             {ms.description}
                                         </p>
                                     </div>
@@ -105,9 +105,9 @@ export function SuccessRoadmap() {
                                 <div className="pt-8 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
                                     <div className="flex items-center gap-2">
                                         <div className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse" />
-                                        <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Active Phase</span>
+                                        <span className="text-xs font-bold text-slate-500 uppercase tracking-widest">Active Phase</span>
                                     </div>
-                                    <div className="text-[10px] font-black uppercase tracking-[0.2em] text-indigo-500/50">
+                                    <div className="text-[10px] font-black uppercase tracking-[0.2em] text-indigo-600 dark:text-indigo-400">
                                         Milestone {idx + 1}/6
                                     </div>
                                 </div>

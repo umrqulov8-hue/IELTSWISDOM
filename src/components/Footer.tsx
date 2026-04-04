@@ -59,13 +59,13 @@ export function Footer() {
                 </div>
 
                 <div className="flex flex-col md:flex-row items-center justify-between pt-10 border-t border-slate-100 dark:border-slate-800 gap-6">
-                    <p className="text-xs font-bold text-slate-400">
+                    <p className="text-xs font-bold text-slate-500">
                         {tx(T.footer.copy, lang)}
                     </p>
                     <div className="flex gap-8">
-                        <a href="#" className="text-xs font-bold text-slate-400 hover:text-slate-900 transition-colors">Privacy Policy</a>
-                        <a href="#" className="text-xs font-bold text-slate-400 hover:text-slate-900 transition-colors">Terms of Service</a>
-                        <a href="#" className="text-xs font-bold text-slate-400 hover:text-slate-900 transition-colors">Cookie Policy</a>
+                        <a href="#" className="text-xs font-bold text-slate-500 hover:text-slate-900 transition-colors">Privacy Policy</a>
+                        <a href="#" className="text-xs font-bold text-slate-500 hover:text-slate-900 transition-colors">Terms of Service</a>
+                        <a href="#" className="text-xs font-bold text-slate-500 hover:text-slate-900 transition-colors">Cookie Policy</a>
                     </div>
                 </div>
             </div>

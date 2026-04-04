@@ -70,12 +70,18 @@ const SplitText: React.FC<SplitTextProps> = ({
       // Use a context to ensure clean revert and scoped animation
       const splitInstance = new GSAPSplitText(el, {
         type: splitType,
+        tag: 'span',               // Ensuring NO <div> tags inside <p> or <hX>
         smartWrap: true,
         autoSplit: splitType === 'lines',
         linesClass: 'split-line',
         wordsClass: 'split-word',
         charsClass: 'split-char',
         reduceWhiteSpace: false,
+      });
+
+      // Add ARIA attributes to split parts for accessibility
+      [...(splitInstance.lines || []), ...(splitInstance.words || []), ...(splitInstance.chars || [])].forEach(part => {
+        part.setAttribute('aria-hidden', 'true');
       });
 
       let targets: any;
@@ -135,6 +141,7 @@ const SplitText: React.FC<SplitTextProps> = ({
     <Tag 
       ref={ref} 
       className={`split-parent inline-block ${className}`}
+      aria-label={text}
       style={{ 
         textAlign: textAlign as any, 
         overflow: 'hidden',
