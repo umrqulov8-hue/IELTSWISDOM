@@ -5,6 +5,7 @@ import type { NextConfig } from "next";
 // See: https://github.com/vercel/next.js/issues/72072
 const nextConfig = {
   compress: true,
+  swcMinify: true,
 
   typescript: {
     ignoreBuildErrors: false,
@@ -49,8 +50,8 @@ const nextConfig = {
     ];
   },
   experimental: {
-    optimizeCss: false,
-    optimizePackageImports: ["lucide-react", "framer-motion"],
+    optimizeCss: true,
+    optimizePackageImports: ["lucide-react", "framer-motion", "gsap"],
     scrollRestoration: true,
   },
 } as any;

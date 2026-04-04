@@ -6,10 +6,17 @@ import { ArrowRight, Loader2, Sparkles, Zap, Shield, Target, PenTool, MessageSqu
 import { useAuth } from "@/hooks/useAuth";
 import { useLanguage } from "@/context/LanguageContext";
 import { translations as T, tx } from "@/lib/translations";
-import Threads from "./ui/Threads";
-import GradualBlur from "./ui/GradualBlur";
-import SplitText from "./ui/SplitText";
+import dynamic from "next/dynamic";
 import { MagicButton } from "./ui/MagicButton";
+import SplitText from "./ui/SplitText";
+
+const Threads = dynamic(() => import("./ui/Threads"), {
+  ssr: false,
+});
+
+const GradualBlur = dynamic(() => import("./ui/GradualBlur"), {
+  ssr: false,
+});
 
 export function Hero() {
     const { handleStartLearning, isLoading } = useAuth();

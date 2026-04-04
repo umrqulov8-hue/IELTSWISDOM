@@ -64,8 +64,10 @@ const SplitText: React.FC<SplitTextProps> = ({
     () => {
       if (!ref.current || !text || !fontsLoaded) return;
       if (animationCompletedRef.current) return;
+      
       const el = ref.current;
 
+      // Use a context to ensure clean revert and scoped animation
       const splitInstance = new GSAPSplitText(el, {
         type: splitType,
         smartWrap: true,
@@ -77,9 +79,9 @@ const SplitText: React.FC<SplitTextProps> = ({
       });
 
       let targets: any;
-      if (splitType.includes('chars') && splitInstance.chars?.length) targets = splitInstance.chars;
-      else if (splitType.includes('words') && splitInstance.words?.length) targets = splitInstance.words;
-      else if (splitType.includes('lines') && splitInstance.lines?.length) targets = splitInstance.lines;
+      if (splitType.includes('chars')) targets = splitInstance.chars;
+      else if (splitType.includes('words')) targets = splitInstance.words;
+      else if (splitType.includes('lines')) targets = splitInstance.lines;
       else targets = splitInstance.chars || splitInstance.words || splitInstance.lines;
 
       if (!targets || targets.length === 0) return;
@@ -91,9 +93,7 @@ const SplitText: React.FC<SplitTextProps> = ({
       const sign = marginValue === 0 ? '' : marginValue < 0 ? `-=${Math.abs(marginValue)}${marginUnit}` : `+=${marginValue}${marginUnit}`;
       const start = `top ${startPct}%${sign}`;
 
-      // Set initial state before animation starts to avoid FOUT / double-flash
-      gsap.set(el, { opacity: 1 });
-
+      // Animation setup
       gsap.fromTo(
         targets,
         { ...from },
@@ -112,29 +112,19 @@ const SplitText: React.FC<SplitTextProps> = ({
             animationCompletedRef.current = true;
             onCompleteRef.current?.();
           },
-          force3D: true
+          force3D: true,
+          lazy: true // Batching DOM writes
         }
       );
 
       return () => {
-        try {
+        if (splitInstance) {
           splitInstance.revert();
-        } catch (_) {}
+        }
       };
     },
     {
-      dependencies: [
-        text,
-        delay,
-        duration,
-        ease,
-        splitType,
-        JSON.stringify(from),
-        JSON.stringify(to),
-        threshold,
-        rootMargin,
-        fontsLoaded
-      ],
+      dependencies: [text, fontsLoaded], // Reduced dependencies for less frequent re-runs
       scope: ref
     }
   );
@@ -151,7 +141,6 @@ const SplitText: React.FC<SplitTextProps> = ({
         whiteSpace: 'normal',
         wordWrap: 'break-word',
         willChange: 'transform, opacity',
-        opacity: fontsLoaded ? undefined : 0,
       }}
     >
       {text}
