@@ -219,7 +219,7 @@ export default function Home() {
         document.head.appendChild(style1);
 
         const customStyles = document.createElement("style");
-        customStyles.innerHTML = \`
+        customStyles.innerHTML = `
             @font-face {
                 font-family: "rz-bold";
                 src: url(https://www.rezo-zero.com/fonts/rezozero/rz-bold.eot);
@@ -240,7 +240,7 @@ export default function Home() {
                 font-style: normal;
                 font-weight: normal;
             }
-        \`;
+        `;
         document.head.appendChild(customStyles);
 
         // Add scripts dynamically to execute interactive parallax/animations
