@@ -31,7 +31,7 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();
     const { lang } = useLanguage();
 
-    const isDashboard = DASHBOARD_ROUTES.some((route) =>
+    const isDashboard = pathname === '/' || DASHBOARD_ROUTES.some((route) =>
         pathname === route || pathname.startsWith(route + "/")
     );
 
