@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect } from 'react';
 
-const htmlContent = \`
+const htmlContent = `
 
     
 
@@ -1721,9 +1721,9 @@ France</p>
     <script nomodule defer crossorigin src="https://www.rezo-zero.com/js/legacy.vendors~app.js"></script>
     <script nomodule defer crossorigin src="https://www.rezo-zero.com/js/legacy.app.js"></script>
 
-\`;
+`;
 
-const customStylesStr = \`
+const customStylesStr = `
 
         @font-face {
             font-family: "rz-bold";
@@ -1748,7 +1748,7 @@ const customStylesStr = \`
         }
 
     
-\`.replace(/@font-face\s*{/g, '@font-face { font-display: swap;');
+`.replace(/@font-face\s*{/g, '@font-face { font-display: swap;');
 
 export default function Home() {
     useEffect(() => {
