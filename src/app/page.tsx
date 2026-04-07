@@ -8,8 +8,13 @@ import HeroParallax from '@/components/parallax-home/HeroParallax';
 import FeaturesParallax from '@/components/parallax-home/FeaturesParallax';
 import HorizontalScroll from '@/components/parallax-home/HorizontalScroll';
 import StatsParallax from '@/components/parallax-home/StatsParallax';
+import { useModal } from '@/context/ModalContext';
+import { useAuth } from '@/hooks/useAuth';
 
 export default function Home() {
+    const { openModal } = useModal();
+    const { handleStartLearning, isLoading } = useAuth();
+
     useEffect(() => {
         // Ensure background is strictly white for the light theme
         document.body.style.backgroundColor = "#FFFFFF";
@@ -35,9 +40,12 @@ export default function Home() {
                         <Link href="/dashboard" className="text-sm uppercase tracking-widest text-black hover:opacity-50 transition-opacity font-semibold">
                             Dashboard
                         </Link>
-                        <Link href="/auth/login" className="text-sm uppercase tracking-widest bg-black text-white px-6 py-3 rounded-full hover:scale-105 transition-transform font-medium shadow-xl">
+                        <button 
+                            onClick={openModal}
+                            className="text-sm uppercase tracking-widest bg-black text-white px-6 py-3 rounded-full hover:scale-105 transition-transform font-medium shadow-xl cursor-pointer"
+                        >
                             Log In
-                        </Link>
+                        </button>
                     </div>
                 </motion.header>
 
@@ -50,9 +58,13 @@ export default function Home() {
                     <h2 className="text-5xl md:text-8xl font-bold tracking-tighter uppercase mb-12 text-black">
                         Ready to Begin?
                     </h2>
-                    <Link href="/dashboard" className="inline-block bg-black text-white px-12 py-6 rounded-full text-xl font-medium hover:scale-105 transition-transform shadow-2xl">
-                        Start Practicing Now
-                    </Link>
+                    <button 
+                        onClick={handleStartLearning}
+                        disabled={isLoading}
+                        className="inline-block bg-black text-white px-12 py-6 rounded-full text-xl font-medium hover:scale-105 transition-transform shadow-2xl disabled:opacity-50"
+                    >
+                        {isLoading ? 'Checking...' : 'Start Practicing Now'}
+                    </button>
                     <div className="mt-40 pt-10 border-t border-gray-200 text-gray-500 text-sm flex flex-col md:flex-row justify-between max-w-7xl mx-auto items-center">
                         <p>&copy; 2026 IELTS Wisdom. All rights reserved.</p>
                         <p className="mt-4 md:mt-0 uppercase tracking-widest font-semibold text-black">Designed for absolute mastery.</p>
