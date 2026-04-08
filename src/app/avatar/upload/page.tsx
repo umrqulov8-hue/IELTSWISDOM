@@ -1,13 +1,12 @@
 'use client';
 
-import { type PutBlobResult } from '@vercel/blob';
 import { useState, useRef } from 'react';
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { UploadCloud, CheckCircle2 } from "lucide-react";
 
 export default function AvatarUploadPage() {
     const inputFileRef = useRef<HTMLInputElement>(null);
-    const [blob, setBlob] = useState<PutBlobResult | null>(null);
+    const [blob, setBlob] = useState<{ url: string } | null>(null);
     const [isUploading, setIsUploading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
@@ -54,7 +53,7 @@ export default function AvatarUploadPage() {
                                 throw new Error("Upload failed. Please try again.");
                             }
 
-                            const newBlob = (await response.json()) as PutBlobResult;
+                            const newBlob = (await response.json());
                             setBlob(newBlob);
                         } catch (err: any) {
                             setError(err.message || "An error occurred during upload.");
