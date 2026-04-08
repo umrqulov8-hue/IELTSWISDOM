@@ -10,7 +10,7 @@ import { SubscriptionProvider } from "@/context/SubscriptionContext";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { Toaster } from 'sonner';
-import { Analytics } from "@vercel/analytics/react";
+
 
 const inter = Inter({
   variable: "--font-inter",
@@ -96,7 +96,7 @@ export default function RootLayout({
             </LanguageProvider>
           </AuthProvider>
         </ThemeProvider>
-        <Analytics />
+
       </body>
     </html>
   );
