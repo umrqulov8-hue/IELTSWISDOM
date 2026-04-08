@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && node -e \"require('fs').mkdirSync('.next/standalone/.next/static/css', { recursive: true })\" && opennextjs-cloudflare build --skipBuild",
+    "build": "next build && node -e \"require('fs').mkdirSync('.next/standalone/.next/static/css', { recursive: true })\" && cross-env OPEN_NEXT_DEBUG=true opennextjs-cloudflare build --skipBuild && node -e \"const fs = require('fs'); if (fs.existsSync('.open-next/worker.js')) { fs.renameSync('.open-next/worker.js', '.open-next/_worker.js'); console.log('Fixed worker naming: _worker.js created'); }\"",
     "build:cf": "npm run build",
     "deploy": "npm run build:cf && opennextjs-cloudflare deploy",
     "start": "next start",
@@ -15,8 +15,6 @@
     "@gsap/react": "^2.1.2",
     "@supabase/ssr": "^0.8.0",
     "@supabase/supabase-js": "^2.96.0",
-
-
     "bytez.js": "^3.0.0",
     "canvas-confetti": "^1.9.4",
     "cheerio": "^1.2.0",
@@ -38,17 +36,18 @@
     "zod": "^4.3.6"
   },
   "devDependencies": {
-    "@opennextjs/cloudflare": "^1.18.0",
-    "wrangler": "^4.81.0",
+    "@opennextjs/cloudflare": "^1.18.1",
     "@tailwindcss/postcss": "^4",
     "@types/canvas-confetti": "^1.9.0",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "cross-env": "^10.1.0",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "wrangler": "^4.81.0"
   },
   "browserslist": [
     "chrome 120",
