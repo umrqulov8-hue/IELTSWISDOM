@@ -5,7 +5,7 @@ import type { NextConfig } from "next";
 // See: https://github.com/vercel/next.js/issues/72072
 const nextConfig = {
   compress: true,
-  swcMinify: true,
+  output: 'standalone',
 
   typescript: {
     ignoreBuildErrors: false,
