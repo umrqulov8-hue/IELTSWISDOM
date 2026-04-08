@@ -1,4 +1,4 @@
 name = "ieltswisdom"
 pages_build_output_dir = ".open-next"
-compatibility_date = "2024-04-01"
+compatibility_date = "2024-11-18"
 compatibility_flags = ["nodejs_compat"]
