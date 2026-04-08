@@ -5,8 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "build:cf": "opennextjs-cloudflare build",
-    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "build:cf": "next build && opennextjs-cloudflare build",
+    "deploy": "npm run build:cf && opennextjs-cloudflare deploy",
     "start": "next start",
     "lint": "eslint"
   },
