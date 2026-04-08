@@ -1,7 +1,0 @@
-name = "ieltswisdom"
-compatibility_date = "2024-04-08"
-compatibility_flags = ["nodejs_compat"]
-
-[pages_build_config]
-build_command = "npm run build"
-pages_build_output_dir = ".open-next/.build"
