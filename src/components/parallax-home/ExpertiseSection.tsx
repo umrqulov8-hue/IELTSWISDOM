@@ -25,7 +25,7 @@ export default function ExpertiseSection() {
     const { shouldAnimate, isMobile } = usePerformance();
 
     return (
-        <section className="w-full bg-white py-80 border-t border-black/5">
+        <section className="w-full bg-white py-40 border-t border-black/5">
             <div className="max-w-7xl mx-auto px-6">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-40 items-start">
                     <div className="sticky top-40">
@@ -76,10 +76,10 @@ export default function ExpertiseSection() {
                                 transition={{ duration: 0.8, delay: i * 0.1, ease: "easeOut" }}
                                 className="group relative will-change-transform"
                             >
-                                <div className="text-[14rem] md:text-[18rem] font-sans font-black leading-none text-black/[0.03] group-hover:text-black/[0.08] transition-colors duration-1000 select-none tracking-tighter">
+                                <div className="text-[14rem] md:text-[18rem] font-sans font-black leading-none text-black/[0.06] group-hover:text-black/[0.12] transition-colors duration-1000 select-none tracking-tighter">
                                     {m.value}
                                 </div>
-                                <div className="mt-[-4rem] ml-4 md:ml-12 border-l border-black/10 pl-8 md:pl-12 group-hover:border-black transition-colors duration-700">
+                                <div className="mt-[-2.5rem] ml-4 md:ml-12 border-l border-black/10 pl-8 md:pl-12 group-hover:border-black transition-colors duration-700">
                                     <h3 className="text-3xl font-black uppercase tracking-tighter mb-4">
                                         {m.title}
                                     </h3>

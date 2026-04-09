@@ -45,20 +45,21 @@ export default function LandingPage() {
                         borderBottom: "1px solid",
                         borderBottomColor: headerBorder,
                         paddingTop: headerPadding,
-                        paddingBottom: headerPadding
+                        paddingBottom: headerPadding,
+                        boxShadow: scrollYProgress.get() > 0.05 ? "0 10px 30px -10px rgba(0,0,0,0.1)" : "none"
                     }}
                     initial={{ y: -100, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
-                    className="fixed top-0 left-0 right-0 z-[100] px-10 flex justify-between items-center transition-all duration-500"
+                    className="fixed top-0 left-0 right-0 z-[100] px-6 md:px-20 flex justify-between items-center transition-all duration-500"
                 >
                     <div className="flex items-center gap-4">
                         <div className="w-10 h-10 bg-black rounded-full flex items-center justify-center">
-                            <span className="text-white font-serif italic text-xl">W</span>
+                            <span className="text-white font-serif italic text-xl leading-none">W</span>
                         </div>
                         <span className="text-xl font-black uppercase tracking-tighter text-black">Wisdom</span>
                     </div>
 
-                    <nav className="hidden md:flex items-center gap-12">
+                    <nav className="hidden lg:flex items-center gap-12">
                         {['Methodology', 'Curriculum', 'Results', 'Pricing'].map((item) => (
                             <a key={item} href={`#${item.toLowerCase()}`} className="text-[10px] font-black uppercase tracking-[0.4em] text-black/40 hover:text-black transition-colors">
                                 {item}
@@ -68,7 +69,7 @@ export default function LandingPage() {
 
                     <button 
                         onClick={handleStartLearning}
-                        className="px-8 py-3 bg-black text-white text-[10px] font-black uppercase tracking-[0.3em] rounded-full hover:scale-105 active:scale-95 transition-all"
+                        className="px-8 py-3 bg-black text-white text-[10px] font-black uppercase tracking-[0.3em] rounded-full hover:scale-105 active:scale-95 transition-all shadow-lg"
                     >
                         Begin Journey
                     </button>

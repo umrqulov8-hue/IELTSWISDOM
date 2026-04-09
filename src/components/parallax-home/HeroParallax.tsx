@@ -38,7 +38,7 @@ export default function HeroParallax() {
     const letters = title.split("");
 
     return (
-        <section ref={containerRef} className="relative h-[140vh] w-full overflow-hidden bg-white flex items-start justify-center">
+        <section ref={containerRef} className="relative h-[120vh] w-full overflow-hidden bg-white flex items-start justify-center">
             {/* Main Hero Image Layer */}
             <motion.div 
                 style={{ scale: scaleImage, y: yImage }}
