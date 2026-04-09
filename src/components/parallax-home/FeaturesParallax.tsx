@@ -2,22 +2,23 @@
 
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
+import { NeuralMasteryVisual, EvaluationVisual, MockTestVisual } from "./VisualOrnaments";
 
 const features = [
     {
-        title: "Precision Evaluations",
+        title: "Precision Evaluation",
         description: "Get accurate, AI-driven insights into your Writing and Speaking tasks, highlighting exactly where you need improvement to achieve a Band 8.5+.",
-        image: "https://images.unsplash.com/photo-1544716900-50f01de6c66b?q=80&w=2670&auto=format&fit=crop"
+        type: "evaluation"
     },
     {
         title: "Authentic Mock Tests",
         description: "Experience the real IELTS exam pressure with our rigorously timed, full-length practice tests across all four skills - Reading, Listening, Speaking, and Writing.",
-        image: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?q=80&w=2670&auto=format&fit=crop"
+        type: "mock"
     },
     {
         title: "Systematic Mastery",
         description: "Break down complex topics into digestible exercises. Build your vocabulary and grammatical range progressively with expertly curated content.",
-        image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=2670&auto=format&fit=crop"
+        type: "mastery"
     }
 ];
 
@@ -28,62 +29,93 @@ function FeatureCard({ feature, index }: { feature: typeof features[0], index: n
         offset: ["start end", "end start"]
     });
 
-    const yImage = useTransform(scrollYProgress, [0, 1], ["-15%", "15%"]);
-    // Slight rotation mapping on parallax to give a premium 3D feel
-    const rotateImage = useTransform(scrollYProgress, [0, 1], [-2, 2]);
     const isEven = index % 2 === 0;
+    
+    // Parallax values
+    const yVisual = useTransform(scrollYProgress, [0, 1], ["-10%", "10%"]);
+    const scale = useTransform(scrollYProgress, [0, 0.5, 1], [0.9, 1, 0.9]);
+    const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
+
+    const titleParts = feature.title.split(" ");
+    const head = titleParts[0];
+    const tail = titleParts.slice(1).join(" ");
+
+    const renderVisual = () => {
+        switch (feature.type) {
+            case "evaluation": return <EvaluationVisual />;
+            case "mock": return <MockTestVisual />;
+            case "mastery": return <NeuralMasteryVisual />;
+            default: return null;
+        }
+    };
 
     return (
-        <div ref={ref} className={`flex flex-col md:flex-row items-center w-full min-h-[80vh] gap-12 md:gap-24 px-6 md:px-12 xl:px-24 mb-32 ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'}`}>
-            <div className="w-full md:w-1/2 overflow-visible h-[50vh] md:h-[70vh] relative group perspective-1000">
+        <motion.div 
+            ref={ref} 
+            style={{ opacity }}
+            className={`flex flex-col md:flex-row items-center w-full min-h-[90vh] gap-12 md:gap-32 px-6 md:px-16 xl:px-32 mb-40 ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'}`}
+        >
+            <div className="w-full md:w-[55%] h-[60vh] md:h-[80vh] relative group perspective-2000">
                 <motion.div 
                     initial={{ scale: 0.9, opacity: 0, rotateY: isEven ? -10 : 10 }}
                     whileInView={{ scale: 1, opacity: 1, rotateY: 0 }}
                     viewport={{ once: true, margin: "-100px" }}
-                    transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-                    className="absolute inset-0 w-full h-full shadow-2xl rounded-2xl overflow-hidden"
+                    transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
+                    style={{ y: yVisual, scale }}
+                    className="absolute inset-0 w-full h-full shadow-[0_80px_160px_-40px_rgba(0,0,0,0.5)] rounded-[4rem] overflow-hidden bg-black"
                 >
-                    <motion.img 
-                        style={{ y: yImage, scale: 1.15, rotate: rotateImage }}
-                        src={feature.image} 
-                        alt={feature.title} 
-                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-[1.2] grayscale hover:grayscale-0"
-                    />
+                    {renderVisual()}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60" />
+                    
+                    <div className="absolute bottom-12 left-12 flex items-center gap-4 text-white/20">
+                        <span className="text-[10px] font-black uppercase tracking-[0.5em]">0{index + 1}</span>
+                        <div className="w-8 h-[1px] bg-white opacity-20" />
+                    </div>
                 </motion.div>
             </div>
             
-            <div className="w-full md:w-1/2 flex flex-col justify-center text-black">
-                <div className="overflow-hidden pb-2 mb-6">
+            <div className={`w-full md:w-[45%] flex flex-col justify-center text-black ${!isEven ? 'md:items-end md:text-right' : ''}`}>
+                <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 0.4, x: 0 }}
+                    viewport={{ once: true }}
+                    className={`flex items-center gap-4 mb-8 ${!isEven ? 'flex-row-reverse' : ''}`}
+                >
+                    <div className="w-12 h-[1px] bg-black" />
+                    <span className="text-xs font-black uppercase tracking-[0.6em]">Core {index + 1}</span>
+                </motion.div>
+
+                <div className="mb-12">
                     <motion.h2 
-                        initial={{ y: "100%" }}
-                        whileInView={{ y: 0 }}
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true, margin: "-100px" }}
-                        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                        className="text-5xl md:text-7xl font-bold tracking-tight text-black uppercase drop-shadow-sm"
+                        transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                        className="text-7xl md:text-[8rem] font-serif italic text-black leading-[0.85] tracking-tighter"
                     >
-                        {feature.title}
+                        <span className="font-sans font-black uppercase not-italic block mb-2">{head}</span>
+                        {tail}
                     </motion.h2>
                 </div>
-                <div className="overflow-hidden">
-                    <motion.p 
-                        initial={{ y: "100%", opacity: 0 }}
-                        whileInView={{ y: 0, opacity: 1 }}
-                        viewport={{ once: true, margin: "-100px" }}
-                        transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-                        className="text-xl md:text-2xl text-black/70 font-medium leading-relaxed"
-                    >
-                        {feature.description}
-                    </motion.p>
-                </div>
+
+                <motion.p 
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                    className="text-2xl text-black/40 font-medium leading-[1.4] tracking-tight max-w-sm group-hover:text-black transition-colors duration-700"
+                >
+                    {feature.description}
+                </motion.p>
             </div>
-        </div>
+        </motion.div>
     );
 }
 
 export default function FeaturesParallax() {
     return (
-        <section className="w-full bg-[#FAFAFA] py-32 z-30 relative overflow-hidden">
-            <div className="max-w-[1400px] mx-auto">
+        <section className="w-full bg-white py-60 z-30 relative overflow-hidden border-t border-black/5">
+            <div className="max-w-[1600px] mx-auto">
                 {features.map((f, i) => (
                     <FeatureCard key={i} feature={f} index={i} />
                 ))}

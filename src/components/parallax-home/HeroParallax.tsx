@@ -1,60 +1,117 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef, useState } from "react";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { usePerformance } from "@/hooks/usePerformance";
 
 export default function HeroParallax() {
     const containerRef = useRef<HTMLDivElement>(null);
+    const buttonRef = useRef<HTMLDivElement>(null);
+    
+    const { isMobile, shouldAnimate } = usePerformance();
+    
     const { scrollYProgress } = useScroll({
         target: containerRef,
         offset: ["start start", "end start"]
     });
 
-    const yText = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
-    const opacityText = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
-    const scaleImage = useTransform(scrollYProgress, [0, 1], [1, 1.15]);
-    const yImage = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
+    // Smooth Spring for "Liquid" motion
+    const smoothProgress = useSpring(scrollYProgress, {
+        stiffness: 100,
+        damping: 30,
+        restDelta: 0.001
+    });
+
+    // Parallax values with spring damping
+    const yText = useTransform(smoothProgress, [0, 1], ["0%", shouldAnimate && !isMobile ? "100%" : "0%"]);
+    const opacityText = useTransform(smoothProgress, [0, 0.4], [1, 0]);
+    const scaleImage = useTransform(smoothProgress, [0, 1], [1, shouldAnimate && !isMobile ? 1.15 : 1]);
+    const yImage = useTransform(smoothProgress, [0, 1], ["0%", shouldAnimate && !isMobile ? "20%" : "0%"]);
+    
+    // Depth ornaments
+    const ornament1Y = useTransform(smoothProgress, [0, 1], ["0%", "-50%"]);
+    const ornament2Y = useTransform(smoothProgress, [0, 1], ["0%", "150%"]);
+    const ornament3Rotation = useTransform(smoothProgress, [0, 1], [0, 45]);
+    
+    // Text Splitting logic
+    const title = "Wisdom";
+    const letters = title.split("");
 
     return (
-        <section ref={containerRef} className="relative h-[120vh] w-full overflow-hidden bg-[#FAFAFA] flex items-start justify-center">
+        <section ref={containerRef} className="relative h-[140vh] w-full overflow-hidden bg-white flex items-start justify-center">
+            {/* Main Hero Image Layer */}
             <motion.div 
                 style={{ scale: scaleImage, y: yImage }}
-                className="absolute inset-0 z-0 h-screen origin-bottom"
+                className="absolute inset-0 z-0 h-screen origin-bottom will-change-transform"
             >
-                {/* Changed overlay to a light gradient for high-end cinematic bright look */}
-                <div className="absolute inset-0 bg-gradient-to-b from-white/20 via-white/40 to-[#FAFAFA] z-10" />
+                <div className="absolute inset-0 bg-gradient-to-b from-white/10 via-white/40 to-white z-10" />
                 <img 
-                    src="https://images.unsplash.com/photo-1497032628192-86f99bcd76bc?q=80&w=2670&auto=format&fit=crop" 
+                    src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?q=80&w=2670&auto=format&fit=crop" 
                     alt="IELTS Hero Architecture" 
-                    className="w-full h-full object-cover opacity-80"
+                    className="w-full h-full object-cover opacity-40 grayscale"
                 />
             </motion.div>
 
+            {/* Depth Ornaments */}
+            {shouldAnimate && !isMobile && (
+                <>
+                    <motion.div 
+                        style={{ y: ornament1Y }}
+                        className="absolute top-[20%] left-[10%] w-64 h-80 bg-black/[0.03] backdrop-blur-3xl rounded-3xl border border-black/[0.05] z-10 rotate-12 will-change-transform"
+                    />
+                    <motion.div 
+                        style={{ y: ornament2Y, rotate: ornament3Rotation }}
+                        className="absolute top-[40%] right-[15%] w-40 h-40 bg-black text-white flex items-center justify-center rounded-2xl z-20 shadow-2xl will-change-transform"
+                    >
+                        <span className="text-4xl font-black">8.5</span>
+                    </motion.div>
+                </>
+            )}
+
+            {/* Content Layer */}
             <motion.div 
                 style={{ y: yText, opacity: opacityText }}
                 className="relative z-20 flex flex-col items-center justify-center text-center px-4 w-full h-screen"
             >
-                <div className="overflow-hidden pb-4">
-                    <motion.h1 
-                        initial={{ y: "120%", rotate: 2 }}
-                        animate={{ y: 0, rotate: 0 }}
-                        transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-                        className="text-7xl md:text-[10rem] leading-none font-bold tracking-tighter text-black uppercase"
-                    >
-                        Wisdom
-                    </motion.h1>
+                <div className="overflow-hidden pb-4 flex">
+                    {letters.map((char, i) => (
+                        <motion.span
+                            key={i}
+                            initial={{ y: "150%", rotate: 10 }}
+                            animate={{ y: 0, rotate: 0 }}
+                            transition={{ 
+                                duration: 1.5, 
+                                delay: 0.2 + i * 0.08, 
+                                ease: [0.16, 1, 0.3, 1] 
+                            }}
+                            className="text-[14vw] md:text-[16vw] leading-[0.75] font-black tracking-tighter text-black uppercase inline-block"
+                        >
+                            {char}
+                        </motion.span>
+                    ))}
                 </div>
-                <div className="overflow-hidden mt-6">
-                    <motion.p 
-                        initial={{ y: 50, opacity: 0 }}
-                        animate={{ y: 0, opacity: 1 }}
-                        transition={{ duration: 1, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                        className="text-xl md:text-3xl font-medium text-black/70 max-w-3xl"
-                    >
-                        Master every section OF THE IELTS EXAM
-                    </motion.p>
-                </div>
+                
+                <motion.div 
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 1, delay: 1.2 }}
+                    className="flex flex-col items-center mt-12"
+                >
+                    <p className="text-2xl md:text-4xl font-serif italic text-black/80 max-w-2xl tracking-tight mb-16">
+                        The Science of Scoring.
+                    </p>
+                    
+                    {/* Magnetic Button */}
+                    <div className="relative">
+                        <button className="bg-black text-white px-10 py-5 rounded-full text-xl font-bold uppercase tracking-widest shadow-2xl hover:bg-black/80 transition-all duration-300">
+                            Explore System
+                        </button>
+                    </div>
+                </motion.div>
             </motion.div>
+
+            {/* Transition to next section overlay */}
+            <div className="absolute bottom-0 left-0 w-full h-40 bg-gradient-to-t from-white to-transparent z-30" />
         </section>
     );
 }

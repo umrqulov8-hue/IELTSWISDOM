@@ -2,7 +2,6 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-
 @theme {
   --color-background: #F9F9F9;
   --color-foreground: #020617;
@@ -20,6 +19,7 @@
   --color-input: #e2e8f0;
   --color-ring: #020617;
   --radius-xl: 1rem;
+  --font-serif: var(--font-playfair);
 }
 
 @layer base {
@@ -29,6 +29,11 @@
   body {
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  /* Ultra-Premium Selection Effect */
+  ::selection {
+    @apply bg-black text-white mix-blend-difference;
   }
 
   /* Theme fade — only on root elements, not all children (avoids Framer Motion conflicts) */
@@ -49,15 +54,19 @@
   @apply bg-clip-text text-transparent bg-gradient-to-br from-slate-900 via-slate-800 to-slate-500 dark:from-white dark:to-slate-400;
 }
 
-/* Custom Scrollbar for Premium Feel */
+@utility font-serif {
+  font-family: var(--font-playfair);
+}
+
+/* Custom Scrollbar for Ultra-Premium Feel */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 4px;
 }
 
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: white;
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-slate-200 dark:bg-slate-800 rounded-full hover:bg-slate-300 dark:hover:bg-slate-700 transition-colors;
+  @apply bg-black rounded-full hover:opacity-70 transition-opacity;
 }

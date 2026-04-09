@@ -1,9 +1,6 @@
 import type { NextConfig } from "next";
 
-// Next.js 16 has a type regression where 'eslint' was removed from NextConfig.
-// We use a cast to work around this while keeping the config functional.
-// See: https://github.com/vercel/next.js/issues/72072
-const nextConfig = {
+const nextConfig: NextConfig = {
   compress: true,
   output: 'standalone',
 
@@ -17,6 +14,12 @@ const nextConfig = {
         hostname: 'azrmwfzrgdvkbzezwyfo.supabase.co',
         port: '',
         pathname: '/storage/v1/object/public/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+        port: '',
+        pathname: '/**',
       },
     ],
     formats: ['image/avif', 'image/webp'],
@@ -43,17 +46,16 @@ const nextConfig = {
           { key: 'Cross-Origin-Resource-Policy', value: 'cross-origin' },
           {
             key: 'Content-Security-Policy',
-            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' fonts.googleapis.com; font-src 'self' fonts.gstatic.com data:; img-src 'self' data: blob: *.supabase.co; media-src 'self' *.supabase.co blob:; connect-src 'self' *.supabase.co; frame-ancestors 'none';"
+            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: *.supabase.co https://images.unsplash.com; media-src 'self' *.supabase.co blob:; connect-src 'self' *.supabase.co; frame-ancestors 'none';"
           },
         ],
       },
     ];
   },
   experimental: {
-    optimizeCss: false,
     optimizePackageImports: ["lucide-react", "framer-motion", "gsap"],
     scrollRestoration: true,
   },
-} as any;
+};
 
 export default nextConfig;

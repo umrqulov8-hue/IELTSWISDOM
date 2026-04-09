@@ -36,46 +36,80 @@ export default function HorizontalScroll() {
         target: targetRef,
     });
 
-    // Translate horizontal container based on vertical scroll
-    const x = useTransform(scrollYProgress, [0, 1], ["1%", "-65%"]);
+    const x = useTransform(scrollYProgress, [0, 0.9], ["0%", "-75%"]);
 
     return (
-        <section ref={targetRef} className="relative h-[300vh] bg-[#FAFAFA]">
+        <section ref={targetRef} className="relative h-[450vh] bg-white">
             <div className="sticky top-0 flex h-screen items-center overflow-hidden">
-                <motion.div style={{ x }} className="flex gap-16 px-12 md:px-32">
+                <motion.div style={{ x }} className="flex gap-24 px-12 md:px-40">
                     
                     {/* Header Block inside the scroll */}
-                    <div className="w-[80vw] md:w-[40vw] flex-shrink-0 flex flex-col justify-center">
-                        <h2 className="text-6xl md:text-8xl font-bold tracking-tighter uppercase text-black leading-none">
-                            Success<br/>Stories
+                    <div className="w-[80vw] md:w-[60vw] flex-shrink-0 flex flex-col justify-center">
+                        <motion.div
+                            initial={{ opacity: 0, x: -20 }}
+                            whileInView={{ opacity: 0.4, x: 0 }}
+                            viewport={{ once: true }}
+                            className="flex items-center gap-4 mb-8"
+                        >
+                            <div className="w-12 h-[1px] bg-black" />
+                            <span className="text-xs font-black uppercase tracking-[0.6em]">Results</span>
+                        </motion.div>
+                        <h2 className="text-7xl md:text-[12rem] font-serif italic text-black leading-[0.85] tracking-tighter mb-12">
+                            Success<br/>
+                            <span className="font-sans font-black uppercase not-italic tracking-tighter">Stories.</span>
                         </h2>
-                        <p className="mt-8 text-xl text-black/60 max-w-md">
+                        <p className="text-2xl text-black/40 font-medium leading-[1.4] max-w-lg">
                             Join thousands of candidates who transformed their scores and unlocked their global futures.
                         </p>
                     </div>
 
                     {testimonials.map((t, idx) => (
-                        <div key={idx} className="w-[80vw] md:w-[40vw] flex-shrink-0 relative group rounded-3xl overflow-hidden shadow-xl aspect-square md:aspect-auto md:h-[60vh] bg-white border border-gray-100 flex flex-col">
-                            <div className="h-1/2 w-full overflow-hidden relative">
-                                <img src={t.image} alt={t.name} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                                <div className="absolute bottom-6 left-8 text-white">
-                                    <h3 className="text-3xl font-bold">{t.name}</h3>
-                                    <span className="inline-block mt-2 px-4 py-1 bg-white/20 backdrop-blur-md rounded-full text-sm font-semibold tracking-wider uppercase">
-                                        {t.score}
-                                    </span>
+                        <motion.div 
+                            key={idx} 
+                            transition={{ duration: 1 }}
+                            className="w-[85vw] md:w-[45vw] flex-shrink-0 relative group rounded-[4rem] overflow-hidden shadow-[0_80px_160px_-40px_rgba(0,0,0,0.1)] border border-black/5 flex flex-col bg-white"
+                        >
+                            <div className="h-[60%] w-full relative flex items-center justify-center bg-black overflow-hidden p-12">
+                                <motion.div 
+                                    animate={{ 
+                                        opacity: [0.1, 0.2, 0.1],
+                                        scale: [1, 1.1, 1]
+                                    }}
+                                    transition={{ duration: 5, repeat: Infinity }}
+                                    className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,#3b82f644,transparent)]"
+                                />
+                                <div className="relative z-10 flex flex-col items-center gap-6">
+                                    <div className="w-32 h-32 md:w-48 md:h-48 rounded-full border border-white/20 flex items-center justify-center bg-white/5 backdrop-blur-xl">
+                                        <span className="text-4xl md:text-6xl font-black text-white">
+                                            {t.name ? (
+                                                <>
+                                                    {t.name.split(' ')[0]?.[0] || ''}
+                                                    {t.name.split(' ')[1]?.[0] || ''}
+                                                </>
+                                            ) : 'ST'}
+                                        </span>
+                                    </div>
+                                    <div className="text-center">
+                                        <div className="flex items-center gap-2 mb-2 opacity-40 justify-center">
+                                            <div className="w-4 h-[1px] bg-white" />
+                                            <span className="text-[10px] font-black uppercase tracking-[0.4em] text-white">Score Record</span>
+                                        </div>
+                                        <h3 className="text-4xl md:text-5xl font-black uppercase tracking-tighter text-white">{t.name}</h3>
+                                        <div className="mt-4 px-6 py-2 bg-white/10 rounded-full border border-white/10 inline-block">
+                                            <span className="text-sm font-serif italic text-white/60 tracking-widest">{t.score}</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div className="h-1/2 w-full p-8 md:p-12 flex items-center">
-                                <p className="text-2xl md:text-3xl font-light text-black/80 leading-relaxed">
+                            <div className="h-[40%] w-full p-10 md:p-16 flex items-center bg-white">
+                                <p className="text-2xl md:text-3xl font-serif italic text-black/60 leading-[1.4] group-hover:text-black transition-colors duration-700">
                                     "{t.text}"
                                 </p>
                             </div>
-                        </div>
+                        </motion.div>
                     ))}
                     
-                    {/* Buffer space at the end */}
-                    <div className="w-[10vw] flex-shrink-0" />
+                    <div className="w-[40vw] flex-shrink-0" />
                 </motion.div>
             </div>
         </section>
