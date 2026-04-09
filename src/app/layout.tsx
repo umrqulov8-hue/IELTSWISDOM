@@ -104,6 +104,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://azrmwfzrgdvkbzezwyfo.supabase.co" />
       </head>
       <body
+        suppressHydrationWarning
         className={`${inter.variable} ${plusJakartaSans.variable} ${playfair.variable} antialiased font-sans bg-background text-foreground flex flex-col min-h-screen [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]`}
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>

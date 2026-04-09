@@ -17,16 +17,16 @@ import { usePerformance } from '@/hooks/usePerformance';
 export default function Home() {
     const { openModal } = useModal();
     const { handleStartLearning, isLoading } = useAuth();
-    const { scrollYProgress } = useScroll();
-    
-    // Smooth progress bar at the top
-    const scaleX = useSpring(scrollYProgress, {
-        stiffness: 100,
-        damping: 30,
-        restDelta: 0.001
+    const [isMounted, setIsMounted] = useState(false);
+
+    const containerRef = useRef(null);
+    const { scrollYProgress } = useScroll({
+        target: containerRef,
+        offset: ["start start", "end end"]
     });
 
     useEffect(() => {
+        setIsMounted(true);
         document.body.style.backgroundColor = "#FFFFFF";
         return () => {
             document.body.style.backgroundColor = "";
@@ -35,18 +35,17 @@ export default function Home() {
 
     const headerBg = useTransform(scrollYProgress, [0, 0.05], ["rgba(255, 255, 255, 0)", "rgba(255, 255, 255, 0.8)"]);
     const headerBlur = useTransform(scrollYProgress, [0, 0.05], ["blur(0px)", "blur(20px)"]);
-    const headerBorder = useTransform(scrollYProgress, [0, 0.05], ["rgba(0, 0, 0, 0)", "rgba(0, 0, 0, 0.05)"]);
-    const headerPadding = useTransform(scrollYProgress, [0, 0.05], ["40px", "24px"]);
+    const headerBorder = useTransform(scrollYProgress, [0, 0.05], ["rgba(0,0,0,0)", "rgba(0,0,0,0.05)"]);
+    const headerPadding = useTransform(scrollYProgress, [0, 0.05], ["2rem", "1rem"]);
+
+    if (!isMounted) {
+        return <div className="min-h-screen bg-white" />; // Clean skeleton during hydration
+    }
 
     return (
         <SmoothScrollLenis>
-            <main className="bg-white min-h-screen text-black font-sans selection:bg-black selection:text-white w-full overflow-hidden">
-                {/* Progress Bar */}
-                <motion.div 
-                    className="fixed top-0 left-0 right-0 h-1 bg-black z-[100] origin-left mix-blend-difference"
-                    style={{ scaleX }}
-                />
-
+            <main ref={containerRef} className="relative bg-white selection:bg-black selection:text-white overflow-hidden">
+                {/* Fixed Premium Header */}
                 <motion.header 
                     style={{ 
                         backgroundColor: headerBg, 
