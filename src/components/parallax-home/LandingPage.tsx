@@ -15,6 +15,7 @@ import FAQParallax from '@/components/parallax-home/FAQParallax';
 
 export default function LandingPage() {
     const { handleStartLearning, isLoading } = useAuth();
+    const [mounted, setMounted] = useState(false);
     const containerRef = useRef(null);
     const { scrollYProgress } = useScroll({
         target: containerRef,
@@ -22,6 +23,7 @@ export default function LandingPage() {
     });
 
     useEffect(() => {
+        setMounted(true);
         document.body.style.backgroundColor = "#FFFFFF";
         return () => {
             document.body.style.backgroundColor = "";
@@ -32,6 +34,8 @@ export default function LandingPage() {
     const headerBlur = useTransform(scrollYProgress, [0, 0.05], ["blur(0px)", "blur(20px)"]);
     const headerBorder = useTransform(scrollYProgress, [0, 0.05], ["rgba(0,0,0,0)", "rgba(0,0,0,0.05)"]);
     const headerPadding = useTransform(scrollYProgress, [0, 0.05], ["2rem", "1rem"]);
+
+    if (!mounted) return <div className="min-h-screen bg-white" />;
 
     return (
         <SmoothScrollLenis>

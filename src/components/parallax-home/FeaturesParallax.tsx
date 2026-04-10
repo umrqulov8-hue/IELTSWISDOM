@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { NeuralMasteryVisual, EvaluationVisual, MockTestVisual } from "./VisualOrnaments";
 

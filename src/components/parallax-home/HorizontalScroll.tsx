@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { motion, useTransform, useScroll } from "framer-motion";
 
 const testimonials = [

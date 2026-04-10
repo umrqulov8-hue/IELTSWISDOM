@@ -20,12 +20,28 @@ if (workerPath) {
                 globalThis.__name = function(t, v) { return Object.defineProperty(t, 'name', { value: v, configurable: true }); };
             }
 
-            // Serve static assets (JS, CSS, images, etc.) directly from Cloudflare Pages
-            if (url.pathname.startsWith("/_next/static/") || url.pathname.includes(".")) {
+            // Serve static assets (JS, CSS, images, favicon, etc.) directly from Cloudflare Pages
+            if (
+                url.pathname.startsWith("/_next/") || 
+                url.pathname.includes(".") || 
+                url.pathname.startsWith("/assets/") || 
+                url.pathname === "/favicon.ico" || 
+                url.pathname === "/favicon.png"
+            ) {
                 try {
+                    // Try to fetch the asset from the Pages Assets bucket
                     const assetResponse = await env.ASSETS.fetch(request);
                     if (assetResponse.status < 400) {
                         return assetResponse;
+                    }
+
+                    // Fallback: If asset not found, try stripping query params for some static files
+                    if (url.search) {
+                        const cleanRequest = new Request(url.origin + url.pathname, request);
+                        const retryResponse = await env.ASSETS.fetch(cleanRequest);
+                        if (retryResponse.status < 400) {
+                            return retryResponse;
+                        }
                     }
                 } catch (e) {
                     console.error("Asset fetch error:", e);
