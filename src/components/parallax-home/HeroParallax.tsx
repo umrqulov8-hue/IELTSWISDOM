@@ -52,22 +52,6 @@ export default function HeroParallax() {
                 />
             </motion.div>
 
-            {/* Depth Ornaments */}
-            {shouldAnimate && !isMobile && (
-                <>
-                    <motion.div 
-                        style={{ y: ornament1Y }}
-                        className="absolute top-[20%] left-[10%] w-64 h-80 bg-black/[0.03] backdrop-blur-3xl rounded-3xl border border-black/[0.05] z-10 rotate-12 will-change-transform"
-                    />
-                    <motion.div 
-                        style={{ y: ornament2Y, rotate: ornament3Rotation }}
-                        className="absolute top-[40%] right-[15%] w-40 h-40 bg-black text-white flex items-center justify-center rounded-2xl z-20 shadow-2xl will-change-transform"
-                    >
-                        <span className="text-4xl font-black">8.5</span>
-                    </motion.div>
-                </>
-            )}
-
             {/* Content Layer */}
             <motion.div 
                 style={{ y: yText, opacity: opacityText }}
