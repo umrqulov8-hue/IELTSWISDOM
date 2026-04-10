@@ -1,13 +1,12 @@
-"use client";
-
+import * as React from "react";
 import { useState, useEffect } from "react";
 import { useReducedMotion } from "framer-motion";
 
 export function usePerformance() {
-    const [isMobile, setIsMobile] = useState(false);
+    const [isMobile, setIsMobile] = React.useState(false);
     const prefersReducedMotion = useReducedMotion();
 
-    useEffect(() => {
+    React.useEffect(() => {
         const checkMobile = () => {
             setIsMobile(window.innerWidth < 768);
         };

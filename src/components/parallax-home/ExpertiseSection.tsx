@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import * as React from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { usePerformance } from "@/hooks/usePerformance";
 
@@ -24,6 +25,13 @@ const metrics = [
 
 export default function ExpertiseSection() {
     const { shouldAnimate, isMobile } = usePerformance();
+    const [mounted, setMounted] = React.useState(false);
+
+    React.useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    if (!mounted) return null;
 
     return (
         <section className="w-full bg-white py-40 border-t border-black/5">

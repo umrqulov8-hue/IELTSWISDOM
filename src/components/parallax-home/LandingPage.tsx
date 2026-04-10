@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useRef, useState, useEffect } from "react";
+import * as React from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useAuth } from "@/hooks/useAuth";
 import { useModal } from "@/context/ModalContext";
@@ -15,8 +16,8 @@ import FAQParallax from '@/components/parallax-home/FAQParallax';
 
 export default function LandingPage() {
     const { handleStartLearning, isLoading } = useAuth();
-    const [mounted, setMounted] = useState(false);
-    const containerRef = useRef(null);
+    const [mounted, setMounted] = React.useState(false);
+    const containerRef = React.useRef(null);
     const { scrollYProgress } = useScroll({
         target: containerRef,
         offset: ["start start", "end end"]

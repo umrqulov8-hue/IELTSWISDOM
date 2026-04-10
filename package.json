@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "build:cf": "cross-env NODE_ENV=production next build && opennextjs-cloudflare build && node fix_assets.js && node patch_worker.js",
+    "build:cf": "node build-prod.js",
     "deploy": "npm run build:cf && wrangler pages deploy .open-next --project-name ieltswisdom",
     "start": "next start",
     "lint": "eslint"
