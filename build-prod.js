@@ -66,6 +66,7 @@ const workerPath = workerPaths.find(p => fs.existsSync(p));
 if (workerPath) {
     log(`Patching worker: ${workerPath}...`);
     let content = fs.readFileSync(workerPath, 'utf8');
+    const finalWorkerPath = path.join(openNextDir, '_worker.js');
     
     // The patch code to intercept static assets
     const patchCode = `
@@ -78,10 +79,6 @@ if (workerPath) {
                 try {
                     const assetResponse = await env.ASSETS.fetch(request);
                     if (assetResponse.status < 400) return assetResponse;
-                    if (url.search) {
-                        const retryResponse = await env.ASSETS.fetch(new Request(url.origin + url.pathname, request));
-                        if (retryResponse.status < 400) return retryResponse;
-                    }
                 } catch (e) {}
             }
             // --- CUSTOM ASSET PATCH END ---
@@ -95,10 +92,20 @@ if (workerPath) {
         } else {
              content = '/** Patched Worker **/\n' + content.replace('async () => {', 'async () => {\n' + patchCode);
         }
-        fs.writeFileSync(workerPath, content);
-        log('Worker patched successfully.');
+        
+        fs.writeFileSync(finalWorkerPath, content);
+        log(`Worker patched and saved to: ${finalWorkerPath}`);
+        
+        // If we found 'worker.js' but saved as '_worker.js', delete the original to avoid confusion
+        if (path.basename(workerPath) === 'worker.js') {
+            fs.unlinkSync(workerPath);
+            log('Cleaned up redundant worker.js');
+        }
     } else {
         log('Worker is already patched.');
+        if (workerPath !== finalWorkerPath) {
+            fs.renameSync(workerPath, finalWorkerPath);
+        }
     }
 } else {
     log('CRITICAL ERROR: No worker file found in .open-next! Deployment will likely fail.');
