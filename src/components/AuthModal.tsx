@@ -108,7 +108,7 @@ export function AuthModal() {
                 >
                     <button
                         onClick={closeModal}
-                        className="absolute right-4 top-4 z-50 rounded-full p-2 text-slate-500 hover:bg-slate-100 hover:text-slate-800 transition-colors"
+                        className="absolute right-6 top-6 z-50 rounded-full p-2 text-black/20 hover:text-black transition-all"
                     >
                         <X className="h-6 w-6" />
                     </button>
@@ -116,7 +116,7 @@ export function AuthModal() {
                     {/* Login Form */}
                     <div className={cn(styles.form_box, styles.login)}>
                         <form onSubmit={(e) => handleAuth(e, 'login')} className="w-full px-4 md:px-12">
-                            <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-6">Login</h1>
+                            <h1 className="text-4xl font-black uppercase tracking-tighter text-black mb-8 italic">Wisdom</h1>
 
                             <div className="relative mb-6">
                                 <input
@@ -127,10 +127,10 @@ export function AuthModal() {
                                     placeholder="Email"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
-                                    className="w-full bg-slate-100 dark:bg-slate-700 rounded-xl py-3 pl-12 pr-4 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-slate-400 placeholder:text-slate-500 dark:placeholder:text-slate-400"
+                                    className="w-full bg-black/5 rounded-full py-4 pl-14 pr-4 text-black focus:outline-none focus:ring-1 focus:ring-black placeholder:text-black/20 text-sm font-medium"
                                     required
                                 />
-                                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-500 dark:text-slate-400" />
+                                <Mail className="absolute left-6 top-1/2 -translate-y-1/2 h-4 w-4 text-black/40" />
                             </div>
 
                             <div className="relative mb-2">
@@ -142,22 +142,22 @@ export function AuthModal() {
                                     placeholder="Password"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    className="w-full bg-slate-100 dark:bg-slate-700 rounded-xl py-3 pl-12 pr-4 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-slate-400 placeholder:text-slate-500 dark:placeholder:text-slate-400"
+                                    className="w-full bg-black/5 rounded-full py-4 pl-14 pr-4 text-black focus:outline-none focus:ring-1 focus:ring-black placeholder:text-black/20 text-sm font-medium"
                                     required
                                 />
-                                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-500 dark:text-slate-400" />
+                                <Lock className="absolute left-6 top-1/2 -translate-y-1/2 h-4 w-4 text-black/40" />
                             </div>
 
-                            <div className="text-right mb-6">
-                                <a href="#" className="text-sm text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">Forgot Password?</a>
+                            <div className="text-right mb-8">
+                                <a href="#" className="text-[10px] font-bold uppercase tracking-widest text-black/30 hover:text-black transition-colors">Forgot Password?</a>
                             </div>
 
                             <button
                                 type="submit"
                                 disabled={loading}
-                                className="w-full bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-100 text-white dark:text-slate-900 font-bold py-3 rounded-xl shadow-lg shadow-slate-900/20 transition-all flex justify-center items-center"
+                                className={styles.btn_form}
                             >
-                                {loading && isLogin ? <Loader2 className="h-5 w-5 animate-spin mr-2" /> : "Login"}
+                                {loading && isLogin ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : "Sign In"}
                             </button>
                         </form>
                     </div>
@@ -165,7 +165,7 @@ export function AuthModal() {
                     {/* Registration Form */}
                     <div className={cn(styles.form_box, styles.register)}>
                         <form onSubmit={(e) => handleAuth(e, 'register')} className="w-full px-4 md:px-12">
-                            <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-6">Registration</h1>
+                            <h1 className="text-4xl font-black uppercase tracking-tighter text-black mb-8 italic">Wisdom</h1>
 
                             <div className="relative mb-6">
                                 <input
@@ -176,10 +176,10 @@ export function AuthModal() {
                                     placeholder="Email"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
-                                    className="w-full bg-slate-100 dark:bg-slate-700 rounded-xl py-3 pl-12 pr-4 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-slate-400 placeholder:text-slate-500 dark:placeholder:text-slate-400"
+                                    className="w-full bg-black/5 rounded-full py-4 pl-14 pr-4 text-black focus:outline-none focus:ring-1 focus:ring-black placeholder:text-black/20 text-sm font-medium"
                                     required
                                 />
-                                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-500 dark:text-slate-400" />
+                                <Mail className="absolute left-6 top-1/2 -translate-y-1/2 h-4 w-4 text-black/40" />
                             </div>
 
                             <div className="relative mb-6">
@@ -191,18 +191,18 @@ export function AuthModal() {
                                     placeholder="Password"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    className="w-full bg-slate-100 dark:bg-slate-700 rounded-xl py-3 pl-12 pr-4 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-slate-400 placeholder:text-slate-500 dark:placeholder:text-slate-400"
+                                    className="w-full bg-black/5 rounded-full py-4 pl-14 pr-4 text-black focus:outline-none focus:ring-1 focus:ring-black placeholder:text-black/20 text-sm font-medium"
                                     required
                                 />
-                                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-500 dark:text-slate-400" />
+                                <Lock className="absolute left-6 top-1/2 -translate-y-1/2 h-4 w-4 text-black/40" />
                             </div>
 
                             <button
                                 type="submit"
                                 disabled={loading}
-                                className="w-full bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-100 text-white dark:text-slate-900 font-bold py-3 rounded-xl shadow-lg shadow-slate-900/20 transition-all flex justify-center items-center"
+                                className={styles.btn_form}
                             >
-                                {loading && !isLogin ? <Loader2 className="h-5 w-5 animate-spin mr-2" /> : "Register"}
+                                {loading && !isLogin ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : "Create Account"}
                             </button>
                         </form>
                     </div>
@@ -210,8 +210,8 @@ export function AuthModal() {
                     {/* Sliding Toggle Overlay */}
                     <div className={styles.toggle_box}>
                         <div className={cn(styles.toggle_panel, styles.toggle_left)}>
-                            <h1 className="text-4xl font-bold mb-4">Hello, Welcome!</h1>
-                            <p className="mb-8">Don't have an account?</p>
+                            <h1 className="text-4xl font-serif italic mb-2">Hello, Friend!</h1>
+                            <p className="text-[10px] font-black uppercase tracking-[0.4em] text-white/40 mb-12">New to the logic?</p>
                             <button
                                 onClick={() => setIsLogin(false)}
                                 className={styles.btn_toggle}
@@ -221,8 +221,8 @@ export function AuthModal() {
                         </div>
 
                         <div className={cn(styles.toggle_panel, styles.toggle_right)}>
-                            <h1 className="text-4xl font-bold mb-4">Welcome Back!</h1>
-                            <p className="mb-8">Already have an account?</p>
+                            <h1 className="text-4xl font-serif italic mb-2">Welcome Back!</h1>
+                            <p className="text-[10px] font-black uppercase tracking-[0.4em] text-white/40 mb-12">Ready to master?</p>
                             <button
                                 onClick={() => setIsLogin(true)}
                                 className={styles.btn_toggle}
