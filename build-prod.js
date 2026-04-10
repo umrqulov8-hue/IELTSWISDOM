@@ -71,15 +71,17 @@ if (workerPath) {
     // The patch code to intercept static assets
     const patchCode = `
             // --- CUSTOM ASSET PATCH START ---
-            const url = new URL(request.url);
-            if (!globalThis.__name) {
-                globalThis.__name = function(t, v) { return Object.defineProperty(t, 'name', { value: v, configurable: true }); };
-            }
-            if (url.pathname.startsWith("/_next/") || url.pathname.includes(".") || url.pathname.startsWith("/assets/")) {
-                try {
-                    const assetResponse = await env.ASSETS.fetch(request);
-                    if (assetResponse.status < 400) return assetResponse;
-                } catch (e) {}
+            {
+                const _patchUrl = url || new URL(request.url);
+                if (!globalThis.__name) {
+                    globalThis.__name = function(t, v) { return Object.defineProperty(t, 'name', { value: v, configurable: true }); };
+                }
+                if (_patchUrl.pathname.startsWith("/_next/") || _patchUrl.pathname.includes(".") || _patchUrl.pathname.startsWith("/assets/")) {
+                    try {
+                        const assetResponse = await env.ASSETS.fetch(request);
+                        if (assetResponse.status < 400) return assetResponse;
+                    } catch (e) {}
+                }
             }
             // --- CUSTOM ASSET PATCH END ---
 `;
