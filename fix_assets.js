@@ -23,6 +23,9 @@ const destDir = '.open-next';
 if (fs.existsSync(srcDir)) {
   console.log(`Copying assets from ${srcDir} to ${destDir}...`);
   fs.readdirSync(srcDir).forEach((item) => {
+    // Skip the assets directory itself to avoid recursion if it's already in destDir
+    if (item === 'assets') return;
+    
     const srcPath = path.join(srcDir, item);
     const destPath = path.join(destDir, item);
     copyRecursiveSync(srcPath, destPath);

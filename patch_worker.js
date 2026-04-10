@@ -53,7 +53,9 @@ if (workerPath) {
         // Actually, the skew protection is at line 18. I'll insert it right after the url definition.
         
         if (content.includes('const url = new URL(request.url);')) {
-            content = content.replace('const url = new URL(request.url);', patchCode);
+            content = content.replace('const url = new URL(request.url);', 'const url = new URL(request.url);' + patchCode);
+        } else if (content.includes('async fetch(request, env, ctx) {')) {
+            content = content.replace('async fetch(request, env, ctx) {', 'async fetch(request, env, ctx) {\n' + patchCode);
         } else {
             // Fallback: insert at the beginning of the inner function
             content = content.replace('async () => {', 'async () => {\n' + patchCode);
