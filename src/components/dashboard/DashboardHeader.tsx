@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { Search, Bell, X, Check, BookOpen, Trophy, PlayCircle } from "lucide-react";
+import { Search, Bell, X, Check, BookOpen, Trophy, PlayCircle, Settings, BellOff } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
@@ -40,6 +40,48 @@ export const DashboardHeader = memo(({ title, description, showGreeting, display
     // Notification State
     const [showNotifications, setShowNotifications] = useState(false);
     const notificationRef = useRef<HTMLDivElement>(null);
+
+    // Push Notification State
+    const [isPushEnabled, setIsPushEnabled] = useState(false);
+    const [isPushSupported, setIsPushSupported] = useState(false);
+
+    // Sync Push Status
+    useEffect(() => {
+        const checkPushStatus = async () => {
+            if (typeof window !== 'undefined' && (window as any).OneSignal) {
+                setIsPushSupported(true);
+                const optedIn = (window as any).OneSignal.User.PushSubscription.optedIn;
+                setIsPushEnabled(optedIn);
+            }
+        };
+
+        // Poll for OneSignal availability if not immediately ready
+        const timer = setInterval(() => {
+            if ((window as any).OneSignal) {
+                checkPushStatus();
+                clearInterval(timer);
+            }
+        }, 1000);
+
+        return () => clearInterval(timer);
+    }, []);
+
+    const togglePush = async () => {
+        if (typeof window !== 'undefined' && (window as any).OneSignal) {
+            const OneSignal = (window as any).OneSignal;
+            if (isPushEnabled) {
+                await OneSignal.User.PushSubscription.optOut();
+                setIsPushEnabled(false);
+            } else {
+                await OneSignal.Notifications.requestPermission();
+                // We update state optimistically or wait for permission result
+                // Better to re-check status after a short delay
+                setTimeout(async () => {
+                    setIsPushEnabled(OneSignal.User.PushSubscription.optedIn);
+                }, 1000);
+            }
+        }
+    };
 
     // Safe unread count
     const unreadCount = notifications ? notifications.filter(n => !n.is_read).length : 0;
@@ -227,6 +269,37 @@ export const DashboardHeader = memo(({ title, description, showGreeting, display
                                         </button>
                                     )}
                                 </div>
+                                
+                                {/* Push Notification Toggle Row */}
+                                {isPushSupported && (
+                                    <div className="px-4 py-3 bg-white/40 dark:bg-slate-800/40 border-b border-white/20 dark:border-slate-800/50 flex items-center justify-between transition-colors">
+                                        <div className="flex items-center gap-2">
+                                            {isPushEnabled ? <Bell className="w-4 h-4 text-orange-400" /> : <BellOff className="w-4 h-4 text-slate-400" />}
+                                            <div className="flex flex-col">
+                                                <span className="text-xs font-bold text-slate-800 dark:text-white">
+                                                    {lang === "en" ? "Browser Notifications" : "Brauzer bildirishnomalari"}
+                                                </span>
+                                                <span className="text-[10px] text-slate-500 dark:text-slate-400">
+                                                    {isPushEnabled ? (lang === "en" ? "Active" : "Yoqilgan") : (lang === "en" ? "Inactive" : "O'chirilgan")}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <button 
+                                            onClick={togglePush}
+                                            className={cn(
+                                                "relative inline-flex h-5 w-10 items-center rounded-full transition-colors duration-300 focus:outline-none",
+                                                isPushEnabled ? "bg-orange-500" : "bg-slate-300 dark:bg-slate-700"
+                                            )}
+                                        >
+                                            <span 
+                                                className={cn(
+                                                    "inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-300",
+                                                    isPushEnabled ? "translate-x-5" : "translate-x-1"
+                                                )}
+                                            />
+                                        </button>
+                                    </div>
+                                )}
 
                                 {/* List */}
                                 <div className="max-h-[300px] overflow-y-auto p-2 space-y-1">

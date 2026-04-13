@@ -12,11 +12,7 @@ export default function OneSignalInit() {
         appId: appId,
         allowLocalhostAsSecureOrigin: true, // Useful for development
         notifyButton: {
-          enable: true,
-          position: 'bottom-right',
-          colors: {
-            'circle.background': '#FF8C00', // Matching your site's orange
-          }
+          enable: false, // Hidden to use custom dashboard integration
         },
         welcomeNotification: {
           title: "Welcome to IELTS Wisdom",
