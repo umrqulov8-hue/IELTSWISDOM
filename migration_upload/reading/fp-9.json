@@ -1,0 +1,140 @@
+{
+  "id": "fp-9",
+  "title": "Socially Responsible Businesses",
+  "content": "\n    < p class=\"mb-4\" > Many economies today are witnessing the rise of socially responsible businesses, or SRBs.These are profit - making companies which have the additional goal of improving society in some way.Business commentators usually describe SRBs as a fundamentally 21st - century phenomenon.However, this common generalisation overlooks the significant contribution of Muhammad Yunus, among a number of other entrepreneurs.Yunus established a highly successful bank in Bangladesh in the 1980s lending money to small village business projects that could not attract conventional loans.</p>\n\n        < p class=\"mb-4\" > There are also those such as CEO Dan Rathbourne who dismiss SRBs as a passing fad which have had little impact on the real world of business.This cynical view is disproved by the evidence: in the UK alone, there are an estimated 80,000 SRBs, turning over about £25 billion a year.What is more, research by the Quorate Group based on interviews with over 5,000 respondents in twelve nations found that not only were consumers prepared to support SRBs but that employees preferred to work for them.Ten years ago Christine Dubois used her experience in corporate finance to establish the Concern Consultancy, which coordinates advice and funding for SRB start - ups.As professional investors increasingly recognise the potential of SRBs, the number of niche firms such as Dubois's will almost inevitably multiply. Professor of business studies Joel Drew claims that this is partly a consequence of the digital revolution. In his persuasive analysis, digital networks have allowed consumers to identify socially responsible products and services in ways never possible before.</p>\n\n            < p class=\"mb-4\" > So what are some examples of SRBs ? Many that have come to my attention recently are small - scale local companies, such as Renew, which searches demolition sites for old materials - wooden floorboards and other construction timber, for example.Rather than allow these resources to be wasted, the team at Renew have fashioned them into a range of tables, chairs and similar items that are sold at relatively low cost.Other SRBs have rather different goals.The first Indulge cafe was established by owner Derek Jardine in an area with few local amenities.The idea for the cafe was to provide a meeting place for local residents - a community hub - not only by serving food and drink but also by running workshops, film evenings and art exhibitions.There are now six Indulge cafes around the country with more planned.Of course, large corporations may not be in a position to change their products or services quickly.But one international telecommunications corporation, for example, enables its employees to take part in the Green Scheme, whereby staff give short periods of their time unpaid to plant trees in conservation areas, and numerous other large companies have similar initiatives.</p>\n\n                < p class=\"mb-4\" > Another small SRB that caught my eye is Bright Sparks, where engineer Johann Jensen is investigating the use of things such as bamboo and soya beans to make coffee capsules and takeaway cups that will break down and decay naturally.In the longer term.Jensen hopes to work on other kinds of packaging for the food and hospitality industries.Meanwhile, Greater Good is now in its second decade of running a farm - to - table vegetable and fruit delivery box service to inner city residents.Recent years have seen a significant increase in demand for this type of direct service, bypassing traditional retailers.</p>\n\n                    < p class=\"mb-4\" > The increase in the number of such SRBs is associated with the rise of' conscious consumers', who want to know exactly how the products they buy have been produced.What was the environmental impact ? Were workers treated ethically ? So the argument is sometimes put forward that SRBs are a response to new consumer values.But equally, many SRBs that I have studied were established by entrepreneurs who wanted to make a difference and have taken consumers along with them.In reality, both sides of the relationship have contributed to the fresh approach.</p>\n\n                        < p class=\"mb-4\" > Consumers, of course, are not always members of the public.Recently I spoke to Lucinda Mitchell, procurement officer for my local council here in London, who told me that her organisation frequently purchases from SRBs because of shared values.Local, state and national authorities have huge purchasing power for both goods and services.And Mitchell's position is becoming commonplace internationally as these bodies are increasingly prepared to work with SRBs, provided they are competitive on price and quality.</p>\n\n                            < p class=\"mb-4\" > In terms of goals, there are numerous types of social benefits that SRBs can hope to achieve.Many concern employment, whether creating opportunities in deprived areas, promoting gender equality in employment or providing jobs for disabled people.Others focus on fair and ethical treatment of employees and trading partners.Some SRBs add additional goals as they develop, which has worked well.Undoubtedly the most common goal, though, is environmental protection.While this is commendable and a reflection of deep concern in contemporary society, it would be good to see greater diversity as the SRB concept evolves.</p>\n\n                                < p class=\"mb-4\" > As with any business, of course, there are issues to be faced.Some SRBs are set up with considerable energy and dedication, but with little knowledge or experience of business, and find it difficult to compete.Some find it a challenge to promote their values successfully and so never gain support from consumers or investors.Others lack an internal organisational structure, which leads to inefficiencies.However, few of these problems relate specifically to SRBs but are witnessed in many start - ups.Greater professionalism and business school education can solve all of these issues, ensuring the sector has a bright future.</p>\n                                    ",
+  "questions": [
+    {
+      "id": 1,
+      "type": "true-false",
+      "text": "Many business commentators forget the example of Muhammad Yunus.",
+      "options": [
+        "YES",
+        "NO",
+        "NOT GIVEN"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 2,
+      "type": "true-false",
+      "text": "Dan Rathbourne provides an accurate assessment of Socially Responsible Businesses (SRBs).",
+      "options": [
+        "YES",
+        "NO",
+        "NOT GIVEN"
+      ],
+      "correctAnswer": 1
+    },
+    {
+      "id": 3,
+      "type": "true-false",
+      "text": "The Quorate Group is a good example of an influential SRB.",
+      "options": [
+        "YES",
+        "NO",
+        "NOT GIVEN"
+      ],
+      "correctAnswer": 2
+    },
+    {
+      "id": 4,
+      "type": "true-false",
+      "text": "Few other businesses will wish to follow the example of the Concern Consultancy.",
+      "options": [
+        "YES",
+        "NO",
+        "NOT GIVEN"
+      ],
+      "correctAnswer": 1
+    },
+    {
+      "id": 5,
+      "type": "true-false",
+      "text": "Professor Drew has correctly identified one reason for the emergence of SRBs.",
+      "options": [
+        "YES",
+        "NO",
+        "NOT GIVEN"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 6,
+      "type": "fill-blank",
+      "text": "<strong>List of words:</strong> A. biodegradable materials, B. recycled clothing, C. fresh produce, D. closer neighbourhoods, E. secure accommodation, F. affordable furniture, G. permanent employment, H. volunteer work.<br/><br/>Renew has made a successful business out of designing 6_____.",
+      "correctAnswer": "F"
+    },
+    {
+      "id": 7,
+      "type": "fill-blank",
+      "text": "On the other hand, Indulge wishes to promote 7_____ and is expanding to new sites.",
+      "correctAnswer": "D"
+    },
+    {
+      "id": 8,
+      "type": "fill-blank",
+      "text": "Large corporations cannot always make quick changes but many make provision for 8_____ such as the Green Scheme.",
+      "correctAnswer": "H"
+    },
+    {
+      "id": 9,
+      "type": "fill-blank",
+      "text": "On a smaller scale, Johann Jensen is experimenting with types of 9_____ and is planning other ventures.",
+      "correctAnswer": "A"
+    },
+    {
+      "id": 10,
+      "type": "fill-blank",
+      "text": "In contrast, an example of a well-established business is Greater Good, which provides 10_____ to a growing market.",
+      "correctAnswer": "C"
+    },
+    {
+      "id": 11,
+      "type": "multiple-choice",
+      "text": "When discussing 'conscious consumers' the writer concludes that",
+      "options": [
+        "businesses are slow to respond to consumer demand.",
+        "consumers and businesses have different interests.",
+        "businesses and consumers are influencing each other.",
+        "consumers should put more pressure on businesses."
+      ],
+      "correctAnswer": 2
+    },
+    {
+      "id": 12,
+      "type": "multiple-choice",
+      "text": "The writer refers to Lucinda Mitchell in order to",
+      "options": [
+        "explain why SRBs lose out to other businesses.",
+        "exemplify the way governments often support SRBs.",
+        "contrast the approach of different governments to SRBs.",
+        "compare the role of SRBs in different regions."
+      ],
+      "correctAnswer": 1
+    },
+    {
+      "id": 13,
+      "type": "multiple-choice",
+      "text": "What does the writer suggest about the goals of SRBs?",
+      "options": [
+        "SRBs should have a wider range of goals.",
+        "It is a mistake for an SRB to change goal.",
+        "Some goals may make an SRB unprofitable.",
+        "An SRB should not have more than one goal."
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 14,
+      "type": "multiple-choice",
+      "text": "Which of the following best summarises the writer's argument in the final paragraph?",
+      "options": [
+        "A minority of businesses will inevitably fail.",
+        "SRBs are more successful than other businesses.",
+        "Universities should do more research into SRBs.",
+        "The problems faced by SRBs can be overcome."
+      ],
+      "correctAnswer": 3
+    }
+  ]
+}

@@ -1,8 +1,8 @@
 "use client";
 
 import dynamic from 'next/dynamic';
-
 import { Suspense } from 'react';
+import SkeletonHero from '@/components/parallax-home/SkeletonHero';
 
 const LandingPage = dynamic(() => import('@/components/parallax-home/LandingPage'), { 
     ssr: false,
@@ -10,7 +10,7 @@ const LandingPage = dynamic(() => import('@/components/parallax-home/LandingPage
 
 export default function Home() {
     return (
-        <Suspense fallback={<div className="min-h-screen bg-white" />}>
+        <Suspense fallback={<SkeletonHero />}>
             <LandingPage />
         </Suspense>
     );

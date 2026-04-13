@@ -31,37 +31,41 @@ export default function ExpertiseSection() {
         setMounted(true);
     }, []);
 
-    if (!mounted) return null;
+    // if (!mounted) return null; // REMOVED FOR SSR COMPATIBILITY
 
     return (
-        <section className="w-full bg-white py-40 border-t border-black/5">
+        <section className="w-full bg-white py-40">
             <div className="max-w-7xl mx-auto px-6">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-40 items-start">
                     <div className="sticky top-40">
                         <motion.div
                             initial={{ opacity: 0, x: -20 }}
-                            whileInView={{ opacity: 0.4, x: 0 }}
+                            whileInView={{ opacity: 0.6, x: 0 }}
                             viewport={{ once: true }}
                             className="flex items-center gap-4 mb-8"
                         >
                             <div className="w-12 h-[1px] bg-black" />
                             <span className="text-xs font-black uppercase tracking-[0.6em]">The Science</span>
                         </motion.div>
-                        <motion.h2 
-                            initial={{ opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            className="text-7xl md:text-[9rem] font-serif italic text-black leading-[0.85] mb-16"
-                        >
-                            Beyond just<br/>
-                            <span className="font-sans font-black uppercase not-italic tracking-tighter">practice.</span>
-                        </motion.h2>
+                        <div className="overflow-hidden mb-16 px-1">
+                            <motion.h2 
+                                initial={{ opacity: 0, y: "100%" }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+                                style={{ transform: "translateZ(0)" }}
+                                className="text-4xl md:text-[clamp(3rem,6vw,5.5rem)] font-bold uppercase text-black leading-[1.0] tracking-[-0.04em] font-plus-jakarta"
+                            >
+                                Master<br/>
+                                <span className="text-black/40">The Logic.</span>
+                            </motion.h2>
+                        </div>
                         <motion.p 
                             initial={{ opacity: 0 }}
                             whileInView={{ opacity: 1 }}
                             viewport={{ once: true }}
                             transition={{ delay: 0.3 }}
-                            className="text-2xl text-black/50 font-medium leading-[1.5] max-w-md mb-20"
+                            className="text-2xl text-black/80 font-medium leading-[1.5] max-w-md mb-20"
                         >
                             We deconstruct the IELTS exam into 12 distinct linguistic parameters, allowing you to master the logic behind the score.
                         </motion.p>
@@ -82,17 +86,26 @@ export default function ExpertiseSection() {
                                 initial={shouldAnimate ? { opacity: 0, y: isMobile ? 50 : 100 } : { opacity: 1, y: 0 }}
                                 whileInView={shouldAnimate ? { opacity: 1, y: 0 } : {}}
                                 viewport={{ once: true, margin: "-100px" }}
+                                style={{ transform: "translateZ(0)" }}
                                 transition={{ duration: 0.8, delay: i * 0.1, ease: "easeOut" }}
                                 className="group relative will-change-transform"
                             >
-                                <div className="text-[14rem] md:text-[18rem] font-sans font-black leading-none text-black/[0.06] group-hover:text-black/[0.12] transition-colors duration-1000 select-none tracking-tighter">
-                                    {m.value}
+                                <div className="overflow-hidden px-1">
+                                    <motion.div 
+                                        initial={{ y: "100%" }}
+                                        whileInView={{ y: 0 }}
+                                        viewport={{ once: true }}
+                                        transition={{ duration: 1, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
+                                        className="text-8xl md:text-[clamp(5rem,10vw,9rem)] font-bold leading-none text-black tracking-[-0.05em] select-none font-plus-jakarta"
+                                    >
+                                        {m.value}
+                                    </motion.div>
                                 </div>
-                                <div className="mt-[-2.5rem] ml-4 md:ml-12 border-l border-black/10 pl-8 md:pl-12 group-hover:border-black transition-colors duration-700">
-                                    <h3 className="text-3xl font-black uppercase tracking-tighter mb-4">
+                                <div className="mt-8 ml-4 md:ml-12 border-l-2 border-black pl-8 md:pl-12">
+                                    <h3 className="text-2xl font-bold uppercase tracking-tight mb-4 font-plus-jakarta">
                                         {m.title}
                                     </h3>
-                                    <p className="text-lg text-black/40 font-medium max-w-xs group-hover:text-black/70 transition-colors duration-500">
+                                    <p className="text-base text-black/70 font-medium max-w-xs group-hover:text-black transition-colors duration-500 leading-relaxed">
                                         {m.description}
                                     </p>
                                 </div>

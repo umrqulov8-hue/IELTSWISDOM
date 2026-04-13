@@ -70,95 +70,34 @@ export const DashboardHeader = memo(({ title, description, showGreeting, display
         <header className="flex justify-between items-center mb-10 z-50 relative">
             <div>
                 {showGreeting ? (
-                    <motion.div
-                        initial="hidden"
-                        animate="visible"
-                        variants={{
-                            hidden: { opacity: 0 },
-                            visible: { opacity: 1, transition: { staggerChildren: 0.1 } }
-                        }}
-                    >
-                        <motion.h1
-                            key={lang}
-                            variants={{
-                                hidden: { opacity: 0, y: -20, filter: "blur(4px)" },
-                                visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.6, ease: [0.34, 1.56, 0.64, 1] } }
-                            }}
-                            className="text-3xl md:text-4xl font-extrabold text-slate-800 dark:text-white tracking-tight transition-colors"
-                        >
-                            <BouncyText text={lang === "en" ? "Welcome back," : "Xush kelibsiz,"} type="word" /> <span className="text-[#FF8C00]">{displayName}</span>!
-                        </motion.h1>
-                        <motion.p
-                            variants={{
-                                hidden: { opacity: 0, y: -10, filter: "blur(4px)" },
-                                visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.6, ease: [0.34, 1.56, 0.64, 1] } }
-                            }}
-                            className="text-slate-700 dark:text-slate-300 mt-2 font-medium transition-colors"
-                        >
+                    <div className="opacity-0 animate-in fade-in slide-in-from-top-4 duration-700 fill-mode-forwards">
+                        <h1 className="text-3xl md:text-4xl font-extrabold text-slate-800 dark:text-white tracking-tight transition-colors">
+                            {lang === "en" ? "Welcome back, " : "Xush kelibsiz, "} 
+                            <span className="text-[#FF8C00] drop-shadow-sm">{displayName}</span>!
+                        </h1>
+                        <p className="text-slate-700 dark:text-slate-300 mt-2 font-medium transition-colors">
                             {lang === "en" ? "Ready to hit your targets today?" : "Bugun maqsadlaringizga erishishga tayyormisiz?"}
-                        </motion.p>
-                    </motion.div>
+                        </p>
+                    </div>
                 ) : (
-                    <motion.div
-                        initial="hidden"
-                        animate="visible"
-                        variants={{
-                            hidden: { opacity: 0 },
-                            visible: { opacity: 1, transition: { staggerChildren: 0.1 } }
-                        }}
-                    >
-                        <motion.h1
-                            variants={{
-                                hidden: { opacity: 0, y: -20, filter: "blur(4px)" },
-                                visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.6, ease: [0.34, 1.56, 0.64, 1] } }
-                            }}
-                            className="text-3xl font-extrabold text-slate-800 dark:text-white tracking-tight transition-colors"
-                        >
+                    <div className="opacity-0 animate-in fade-in slide-in-from-top-4 duration-700 fill-mode-forwards">
+                        <h1 className="text-3xl font-extrabold text-slate-800 dark:text-white tracking-tight transition-colors">
                             {title}
-                        </motion.h1>
+                        </h1>
                         {description && (
-                            <motion.p
-                                variants={{
-                                    hidden: { opacity: 0, y: -10, filter: "blur(4px)" },
-                                    visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.6, ease: [0.34, 1.56, 0.64, 1] } }
-                                }}
-                                className="text-slate-700 dark:text-slate-300 mt-2 font-medium transition-colors"
-                            >
+                            <p className="text-slate-700 dark:text-slate-300 mt-2 font-medium transition-colors">
                                 {description}
-                            </motion.p>
+                            </p>
                         )}
-                    </motion.div>
+                    </div>
                 )}
             </div>
 
             <div className="flex items-center gap-4">
                 {/* --- Search Bar --- */}
                 <div ref={searchRef} className="relative hidden md:block group z-50">
-                    <div className="absolute inset-x-0 -top-full h-[200%] pointer-events-none opacity-20 blur-3xl overflow-hidden rounded-full">
-                        <motion.div
-                            animate={{
-                                x: [0, 100, -100, 0],
-                                y: [0, -50, 50, 0],
-                                scale: [1, 1.2, 0.8, 1]
-                            }}
-                            transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-                            className="absolute -left-1/4 top-1/4 w-1/2 h-1/2 bg-gradient-to-tr from-blue-400 to-indigo-500 rounded-full"
-                        />
-                        <motion.div
-                            animate={{
-                                x: [0, -100, 100, 0],
-                                y: [0, 50, -50, 0],
-                                scale: [1, 1.5, 0.7, 1]
-                            }}
-                            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                            className="absolute -right-1/4 bottom-1/4 w-1/2 h-1/2 bg-gradient-to-br from-orange-400 to-purple-500 rounded-full"
-                        />
-                    </div>
-                    <motion.div
-                        initial={false}
-                        animate={{ width: isSearchFocused ? 380 : 280 }}
-                        className="relative"
-                    >
+                    <div className="relative">
+
                         <Search className={cn(
                             "absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 transition-colors duration-400 ease-in-out z-10",
                             isSearchFocused ? "text-blue-800 dark:text-blue-400" : "text-slate-700 dark:text-slate-400"
@@ -247,6 +186,7 @@ export const DashboardHeader = memo(({ title, description, showGreeting, display
                         whileTap={{ scale: 0.95 }}
                         transition={{ duration: 0.4, ease: "easeInOut" }}
                         onClick={() => setShowNotifications(!showNotifications)}
+                        aria-label={lang === "en" ? "View notifications" : "Bildirishnomalarni ko'rish"}
                         className={cn(
                             "p-3 rounded-full bg-white/10 dark:bg-slate-900/40 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.1)] relative transition-all duration-500 ease-in-out border-t border-l border-white/40 dark:border-slate-700/50 border-b border-r border-black/10 dark:border-slate-800/80",
                             showNotifications ? "ring-1 ring-white/50 dark:ring-slate-700 bg-white/20 dark:bg-slate-800/40" : "hover:bg-white/20 dark:hover:bg-slate-800/30 hover:shadow-[0_12px_40px_rgba(0,0,0,0.15)]"

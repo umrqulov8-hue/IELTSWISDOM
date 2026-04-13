@@ -1,0 +1,165 @@
+{
+  "id": "south-pole-adventurer",
+  "title": "South Pole Adventurer",
+  "passages": [
+    {
+      "id": "south-pole-p1",
+      "title": "South Pole Adventurer",
+      "content": "\n                <p class=\"mb-4\">In the race to the South Pole, there was a Japanese team attempting to be first, led by heroic explorer Nobu Shirase</p>\n\n                <p class=\"mb-4\">For a few weeks in January 1912, Antarctica was full of explorers. Norwegian Roald Amundsen had reached the South Pole on 14 December and was speeding back to the coast. On 17 January, Robert Scott and the men of the British Antarctic expedition had arrived at the pole to find they had been beaten to it. Just then, a third man arrived; Japanese explorer Nobu Shirase. However, his part in one of the greatest adventure stories of the 20th century is hardly known outside his own country, even by fellow explorers. Yet as Scott was nearing the pole and with the rest of the world still unaware of Amundsen’s triumph, Shirase and his team sailed into Antarctica’s Bay of Whales in the smallest ship ever to try its luck in these dangerous waters. Since boyhood Shirase had dreamed of becoming a polar explorer. Like Amundsen, he initially set his sights on the North Pole. But after the American Robert Peary claimed to have reached it in 1909, both men hastily altered their plans. Instead they would aim for the last big prize: the South Pole. In January 1910, Shirase put his plans before Japanese government officials, promising to raise the flag at the South Pole within three years. For many of them, the question wasn’t could he do it but why would it be worth doing? 15 years earlier the International Geographical Congress had said that as the last unknown continent the Antarctic offered the chance to add to knowledge in almost every branch of science. So, like the British, Shirase presented his expedition as a search for knowledge: he would bring back fossils, make meteorological measurements and explore unknown parts of the continent.</p>\n\n                <p class=\"mb-4\">The response from the government was cool, however, and Shirase struggled to raise funds. Fortunately, a few months later, Japan’s former prime minister Shigenobu kuma came to Shirase’s rescue. With kuma’s backing, Shirase got together just enough money to buy and equip a small ship. He eventually acquired a scientist, too, called Terutaro Takeda. At the end of November 1910, his ship the Kainan Maru finally left Tokyo with 27 men and 28 Siberian dogs on board. Before leaving, Shirase confidently outlined his plans to the media. He would sail to New Zealand, then reach Antarctica in February, during the southern summer, and then proceed to the pole the following spring. This was not to be, however. Bad weather delayed the expedition and they didn’t reach New Zealand until 8 February; Amundsen and Scott had already been in Antarctica for a month, preparing for winter.</p>\n\n                <p class=\"mb-4\">In New Zealand local reporters were astonished: the ship was half the size of Amundsen’s ship. True, it was reinforced with iron plate and extra wood, but the ship had only the feeblest engine to help force its way through ice. Few doubted Shirase’s courage, but most reckoned the expedition to be ill – prepared as the Japanese had only lightweight sledges for transport across the ice, made of bamboo and wood.</p>\n\n                <p class=\"mb-4\">But Shirase’s biggest challenge was time. Antarctica is only accessible by sea for a few weeks in summer and expeditions usually aimed to arrive in January or February. ‘Even with their determination and daring, our Japanese friends are running it rather fine,’ wrote local reporters.</p>\n\n                <p class=\"mb-4\">Nevertheless, on 11 February the Kainan Maru left New Zealand and sailed straight into the worst weather the captain had ever seen. Then, on 6 March, they approached the coastline of Antarctica’s Ross Sea, looking for a place to land. The ice began to close in, threatening to trap them for the winter, an experience no one was likely to survive. With a remarkable piece of seamanship, the captain steered the ship out of the ice and turned north. They would have to wait out the winter in a warmer climate.</p>\n\n                <p class=\"mb-4\">A year later than planned, Shirase and six men finally reached Antarctica. Catching up with Scott or Amundsen was out of the question and he had said he would stick to science this time. Yet Shirase still felt the pull of the pole and eventually decided he would head southward to experience the thrills and hardships of polar exploration he had always dreamed of. With provisions for 20 days, he and four men would see how far they could get.</p>\n\n                <p class=\"mb-4\">Shirase set off on 20 January 1912 with Takeda and two dog handlers, leaving two men at the edge of the ice shelf to make meteorological measurements. For a week they struggled through one blizzard after another, holing up in their tents during the worst of the weather. The temperature fell to -25°C, and frostbite claimed some of the dogs. On 26 January, Shirase estimated there were enough provisions to continue for two more days. Two days later, he announced it was time to turn back. Takeda calculated they had reached 80°5 south and had travelled 250 kilometres. The men hoisted the Japanese flag.</p>\n\n                <p class=\"mb-4\">On 3 February, all the men were heading home. The ship reached Tokyo in June 1912 – and Shirase was greeted like a hero despite the fact that he never reached the pole. Nor did he contribute much to science – but then nor did Amundsen, whose only interest was in being first to the pole. Yet Shirase’s expedition was heroic. They travelled beyond 80° south, one of only four teams to have gone so far south at the time. Furthermore, they did it all without the advantages of the other teams and with no previous experience.</p>\n            ",
+      "questionRange": {
+        "start": 1,
+        "end": 13
+      }
+    }
+  ],
+  "questions": [
+    {
+      "id": 1,
+      "type": "true-false",
+      "text": "Shirase's trip to the South Pole is well known to other explorers.",
+      "options": [
+        "TRUE",
+        "FALSE",
+        "NOT GIVEN"
+      ],
+      "correctAnswer": 1
+    },
+    {
+      "id": 2,
+      "type": "true-false",
+      "text": "Since Shirase arrived in Antarctica, smaller ships have also made the journey.",
+      "options": [
+        "TRUE",
+        "FALSE",
+        "NOT GIVEN"
+      ],
+      "correctAnswer": 2
+    },
+    {
+      "id": 3,
+      "type": "true-false",
+      "text": "Shirase's original ambition was to travel to the North Pole.",
+      "options": [
+        "TRUE",
+        "FALSE",
+        "NOT GIVEN"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 4,
+      "type": "true-false",
+      "text": "Some Japanese officials thought Shirase's intention to travel to the South Pole was pointless.",
+      "options": [
+        "TRUE",
+        "FALSE",
+        "NOT GIVEN"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 5,
+      "type": "true-false",
+      "text": "The British team announced their decision to carry out scientific research in Antarctica before Shirase.",
+      "options": [
+        "TRUE",
+        "FALSE",
+        "NOT GIVEN"
+      ],
+      "correctAnswer": 2
+    },
+    {
+      "id": 6,
+      "type": "true-false",
+      "text": "Shirase found it easy to raise the money he needed for his trip to the South Pole.",
+      "options": [
+        "TRUE",
+        "FALSE",
+        "NOT GIVEN"
+      ],
+      "correctAnswer": 1
+    },
+    {
+      "id": 7,
+      "type": "true-false",
+      "text": "A previous prime minister of Japan persuaded a scientist to go with Shirase.",
+      "options": [
+        "TRUE",
+        "FALSE",
+        "NOT GIVEN"
+      ],
+      "correctAnswer": 2
+    },
+    {
+      "id": 8,
+      "type": "true-false",
+      "text": "The weather that slowed down Shirase's progress to New Zealand was unusually bad for the season.",
+      "options": [
+        "TRUE",
+        "FALSE",
+        "NOT GIVEN"
+      ],
+      "correctAnswer": 2
+    },
+    {
+      "id": 9,
+      "type": "multiple-choice",
+      "text": "When reporters in New Zealand met Shirase, they were",
+      "options": [
+        "A. concerned about the quality of his equipment.",
+        "B. impressed with the design of his ship.",
+        "C. certain he was unaware of the dangers ahead.",
+        "D. surprised by the bravery he demonstrated."
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 10,
+      "type": "multiple-choice",
+      "text": "What are we told about the captain of the Kainan Maru in the sixth paragraph?",
+      "options": [
+        "A. He had given Shirase some poor advice.",
+        "B. His skill in avoiding icebergs was exceptional.",
+        "C. He was a former colleague of Shirase's.",
+        "D. He was unhappy about the expedition's delays."
+      ],
+      "correctAnswer": 1
+    },
+    {
+      "id": 11,
+      "type": "multiple-choice",
+      "text": "After Shirase finally reached Antarctica he realised that",
+      "options": [
+        "A. He focused solely on scientific research.",
+        "B. He tried to catch up with Scott and Amundsen.",
+        "C. He gave up on the expedition and returned home.",
+        "D. He attempted to endure the challenges of polar exploration."
+      ],
+      "correctAnswer": 3
+    },
+    {
+      "id": 12,
+      "type": "multiple-choice",
+      "text": "What is the writer doing in the seventh paragraph?",
+      "options": [
+        "A. explaining why Shirase's team failed to reach the pole.",
+        "B. describing the conditions that Shirase's team had to endure.",
+        "C. emphasizing the importance of Shirase's scientific results.",
+        "D. comparing Shirase's leadership style with that of Scott."
+      ],
+      "correctAnswer": 1
+    },
+    {
+      "id": 13,
+      "type": "multiple-choice",
+      "text": "What is the writer's main point in the final paragraph?",
+      "options": [
+        "A. It was a greater achievement than Amundsen's.",
+        "B. It was a remarkable achievement given the circumstances.",
+        "C. It was a failure because he did not reach the Pole.",
+        "D. It contributed little to scientific knowledge."
+      ],
+      "correctAnswer": 1
+    }
+  ]
+}

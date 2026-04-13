@@ -10,8 +10,7 @@ import { SubscriptionProvider } from "@/context/SubscriptionContext";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { Toaster } from 'sonner';
-import CustomCursor from "@/components/ui/CustomCursor";
-import NoiseOverlay from "@/components/ui/NoiseOverlay";
+import OneSignalInit from "@/components/OneSignalInit";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -37,11 +36,11 @@ const playfair = Playfair_Display({
 export const metadata: Metadata = {
   metadataBase: new URL('https://ieltswisdom.com'),
   title: {
-    default: "IELTS Wisdom - Master English at Scale",
+    default: "IELTS Wisdom | Noir Elite Preparation",
     template: "%s | IELTS Wisdom"
   },
-  description: "Create, maintain, and scale your IELTS preparation with our comprehensive platform. AI-powered evaluations, structured curriculum, and native support.",
-  keywords: ["IELTS", "English Learning", "SaaS", "Design System", "AI Evaluator"],
+  description: "Experience the science of scoring. AI-powered evaluations, cinematic curriculum, and elite IELTS support.",
+  keywords: ["IELTS", "English Learning", "Noir Elite", "Design System", "AI Evaluator"],
   authors: [{ name: "IELTS Wisdom Team" }],
   openGraph: {
     type: "website",
@@ -59,8 +58,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "IELTS Wisdom - Design System SaaS",
-    description: "Master English with a Proven System.",
+    title: "IELTS Wisdom - The Science of Scoring",
+    description: "Master English with a Proven Boutique System.",
     images: ["https://s3-alpha.figma.com/hub/file/2251959376041554426/5e13e50d-113c-4fb0-941d-e9c67ec41b37-cover.png"]
   },
   icons: {
@@ -114,8 +113,7 @@ export default function RootLayout({
                 <ModalProvider>
                   <ErrorBoundary>
                     <ClientLayout>
-                      <NoiseOverlay />
-                      <CustomCursor />
+                      <OneSignalInit />
                       {children}
                     </ClientLayout>
                   </ErrorBoundary>
@@ -129,3 +127,4 @@ export default function RootLayout({
     </html>
   );
 }
+

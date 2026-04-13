@@ -128,10 +128,16 @@ export default function ArticlesPage() {
                             <p className="text-slate-500 text-sm mt-1 font-medium">Ekspertlar maslahatlari va IELTS bo'yicha yo'riqnomalar.</p>
                         </motion.div>
                         <div className="flex items-center gap-3">
-                            <button className="w-12 h-12 rounded-2xl bg-white/60 backdrop-blur-md border border-white/80 shadow-[0_4px_12px_rgba(0,0,0,0.03)] flex items-center justify-center hover:bg-white text-slate-500 transition-all hover:scale-105 active:scale-95 group">
+                            <button 
+                                aria-label={lang === "en" ? "Search articles" : "Maqolalarni qidirish"}
+                                className="w-12 h-12 rounded-2xl bg-white/60 backdrop-blur-md border border-white/80 shadow-[0_4px_12px_rgba(0,0,0,0.03)] flex items-center justify-center hover:bg-white text-slate-500 transition-all hover:scale-105 active:scale-95 group"
+                            >
                                 <Search className="w-5 h-5 group-hover:text-slate-800 transition-colors" />
                             </button>
-                            <button className="w-12 h-12 rounded-2xl bg-white/60 backdrop-blur-md border border-white/80 shadow-[0_4px_12px_rgba(0,0,0,0.03)] flex items-center justify-center hover:bg-white text-slate-500 transition-all hover:scale-105 active:scale-95 group relative">
+                            <button 
+                                aria-label={lang === "en" ? "View notifications" : "Bildirishnomalarni ko'rish"}
+                                className="w-12 h-12 rounded-2xl bg-white/60 backdrop-blur-md border border-white/80 shadow-[0_4px_12px_rgba(0,0,0,0.03)] flex items-center justify-center hover:bg-white text-slate-500 transition-all hover:scale-105 active:scale-95 group relative"
+                            >
                                 <Bell className="w-5 h-5 group-hover:text-slate-800 transition-colors" />
                                 <span className="absolute top-3 right-3 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white animate-pulse"></span>
                             </button>
@@ -193,9 +199,9 @@ export default function ArticlesPage() {
 
                             {/* Content */}
                             <motion.div layoutId={`article-content-${article.id}`} className="flex flex-col flex-1 px-1">
-                                <motion.h3 layoutId={`article-title-${article.id}`} className="font-bold text-slate-800 text-lg leading-tight mb-2 line-clamp-2">
+                                <motion.h2 layoutId={`article-title-${article.id}`} className="font-bold text-slate-800 text-lg leading-tight mb-2 line-clamp-2">
                                     {article.title}
-                                </motion.h3>
+                                </motion.h2>
                                 <motion.p layoutId={`article-desc-${article.id}`} className="text-slate-500 text-xs leading-relaxed line-clamp-2 mb-3">
                                     {article.desc}
                                 </motion.p>
@@ -230,26 +236,27 @@ export default function ArticlesPage() {
                                 animate={{ opacity: 1 }}
                                 exit={{ opacity: 0 }}
                                 onClick={() => setSelectedId(null)}
-                                className="fixed inset-0 bg-slate-900/20 backdrop-blur-sm z-40"
+                                className="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-[200]"
                             />
 
                             {/* Expanded Card */}
-                            <div className="fixed inset-0 z-50 flex items-center justify-center pointer-events-none p-4 md:p-10">
+                            <div className="fixed inset-0 z-[210] flex items-center justify-center pointer-events-none p-4 md:p-8">
                                 {articles.filter(a => a.id.toString() === selectedId).map(article => (
                                     <motion.div
                                         layoutId={`article-container-${article.id}`}
                                         key={`expanded-${article.id}`}
-                                        className="bg-white/90 backdrop-blur-3xl border border-white rounded-[40px] shadow-[0_20px_80px_rgba(0,0,0,0.15)] flex flex-col w-full max-w-4xl max-h-[90vh] overflow-hidden pointer-events-auto relative"
+                                        className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-[32px] shadow-[0_40px_100px_rgba(0,0,0,0.35)] flex flex-col w-full max-w-5xl max-h-[92vh] overflow-hidden pointer-events-auto relative"
                                     >
                                         <button
                                             onClick={() => setSelectedId(null)}
-                                            className="absolute top-6 right-6 z-10 w-12 h-12 rounded-full bg-white/50 backdrop-blur-md border border-white flex items-center justify-center text-slate-500 hover:text-slate-800 hover:bg-white transition-colors shadow-sm"
+                                            aria-label={lang === "en" ? "Close article" : "Maqolani yopish"}
+                                            className="absolute top-5 right-5 z-10 w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors shadow-sm"
                                         >
                                             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                                         </button>
 
                                         {/* Hero Image */}
-                                        <motion.div layoutId={`article-image-${article.id}`} className="relative w-full h-80 shrink-0">
+                                        <motion.div layoutId={`article-image-${article.id}`} className="relative w-full h-64 md:h-80 shrink-0">
                                             <Image
                                                 src={article.image}
                                                 alt={article.title}
@@ -260,14 +267,14 @@ export default function ArticlesPage() {
                                         </motion.div>
 
                                         {/* Scrollable Content */}
-                                        <motion.div layoutId={`article-content-${article.id}`} className="p-8 md:p-12 overflow-y-auto custom-scrollbar flex-1">
+                                        <motion.div layoutId={`article-content-${article.id}`} className="p-6 md:p-10 overflow-y-auto custom-scrollbar flex-1">
                                             <span className="inline-block px-4 py-1.5 bg-orange-100 text-orange-600 rounded-xl text-sm font-bold mb-6">
                                                 {article.tag}
                                             </span>
 
-                                            <motion.h3 layoutId={`article-title-${article.id}`} className="font-extrabold text-slate-800 text-3xl md:text-5xl leading-tight mb-6">
+                                            <motion.h2 layoutId={`article-title-${article.id}`} className="font-black text-slate-900 dark:text-white text-2xl md:text-4xl leading-tight mb-5">
                                                 {article.title}
-                                            </motion.h3>
+                                            </motion.h2>
 
                                             <div className="flex items-center gap-4 mb-10 pb-10 border-b border-slate-200">
                                                 <div className="w-12 h-12 rounded-full overflow-hidden relative border-2 border-white shadow-md">

@@ -5,10 +5,9 @@ export interface ListeningLesson {
     description: string;
     duration: string;
     level: "Beginner" | "Intermediate" | "Advanced" | "Expert";
-    status: "completed" | "in-progress" | "not-started";
-    score?: number;
     typeBadge: "Overview" | "Section 1" | "Section 2" | "Section 3" | "Section 4" | "Skills" | "Full Test";
-    testId: string;
+    videoUrl: string;
+    testId?: string;
 }
 
 export const LISTENING_LESSONS: ListeningLesson[] = [
@@ -19,10 +18,8 @@ export const LISTENING_LESSONS: ListeningLesson[] = [
         description: "Understanding the test format and question types",
         duration: "15 min",
         level: "Beginner",
-        status: "completed",
-        score: 90,
         typeBadge: "Overview",
-        testId: "intro"
+        videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ"
     },
     {
         id: "l-lesson-2",
@@ -31,10 +28,8 @@ export const LISTENING_LESSONS: ListeningLesson[] = [
         description: "Conversations in everyday social contexts",
         duration: "25 min",
         level: "Beginner",
-        status: "completed",
-        score: 85,
         typeBadge: "Section 1",
-        testId: "mock-1"
+        videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ"
     },
     {
         id: "l-lesson-3",
@@ -43,10 +38,8 @@ export const LISTENING_LESSONS: ListeningLesson[] = [
         description: "Effective techniques for capturing key information",
         duration: "20 min",
         level: "Beginner",
-        status: "completed",
-        score: 88,
         typeBadge: "Skills",
-        testId: "mock-1"
+        videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ"
     },
     {
         id: "l-lesson-4",
@@ -55,9 +48,8 @@ export const LISTENING_LESSONS: ListeningLesson[] = [
         description: "Practice filling out forms with listening information",
         duration: "30 min",
         level: "Beginner",
-        status: "not-started",
         typeBadge: "Section 1",
-        testId: "mock-1"
+        videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ"
     },
     {
         id: "l-lesson-5",
@@ -66,9 +58,8 @@ export const LISTENING_LESSONS: ListeningLesson[] = [
         description: "Speech about general interest topics",
         duration: "25 min",
         level: "Intermediate",
-        status: "not-started",
         typeBadge: "Section 2",
-        testId: "mock-1"
+        videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ"
     },
     {
         id: "l-lesson-6",
@@ -77,9 +68,8 @@ export const LISTENING_LESSONS: ListeningLesson[] = [
         description: "Master different types of multiple choice tasks",
         duration: "35 min",
         level: "Intermediate",
-        status: "not-started",
         typeBadge: "Skills",
-        testId: "mock-1"
+        videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ"
     },
     {
         id: "l-lesson-7",
@@ -88,9 +78,8 @@ export const LISTENING_LESSONS: ListeningLesson[] = [
         description: "Navigate through maps and building plans",
         duration: "30 min",
         level: "Intermediate",
-        status: "not-started",
         typeBadge: "Section 2",
-        testId: "mock-1"
+        videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ"
     },
     {
         id: "l-lesson-8",
@@ -99,9 +88,8 @@ export const LISTENING_LESSONS: ListeningLesson[] = [
         description: "Conversations in educational and training contexts",
         duration: "25 min",
         level: "Intermediate",
-        status: "not-started",
         typeBadge: "Section 3",
-        testId: "mock-1"
+        videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ"
     },
     {
         id: "l-lesson-9",
@@ -110,9 +98,8 @@ export const LISTENING_LESSONS: ListeningLesson[] = [
         description: "Connect speakers with opinions, actions, or characteristics",
         duration: "35 min",
         level: "Advanced",
-        status: "not-started",
         typeBadge: "Skills",
-        testId: "mock-1"
+        videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ"
     },
     {
         id: "l-lesson-10",
@@ -121,9 +108,8 @@ export const LISTENING_LESSONS: ListeningLesson[] = [
         description: "Monologues on academic subjects",
         duration: "25 min",
         level: "Advanced",
-        status: "not-started",
         typeBadge: "Section 4",
-        testId: "mock-1"
+        videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ"
     },
     {
         id: "l-lesson-11",
@@ -132,9 +118,8 @@ export const LISTENING_LESSONS: ListeningLesson[] = [
         description: "Complete sentences using words from the audio",
         duration: "30 min",
         level: "Advanced",
-        status: "not-started",
         typeBadge: "Skills",
-        testId: "mock-1"
+        videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ"
     },
     {
         id: "l-lesson-12",
@@ -143,9 +128,8 @@ export const LISTENING_LESSONS: ListeningLesson[] = [
         description: "Fill gaps in summaries of listening passages",
         duration: "35 min",
         level: "Advanced",
-        status: "not-started",
         typeBadge: "Skills",
-        testId: "mock-1"
+        videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ"
     },
     {
         id: "l-lesson-13",
@@ -154,9 +138,8 @@ export const LISTENING_LESSONS: ListeningLesson[] = [
         description: "Techniques for anticipating content and answers",
         duration: "25 min",
         level: "Advanced",
-        status: "not-started",
         typeBadge: "Skills",
-        testId: "mock-1"
+        videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ"
     },
     {
         id: "l-lesson-14",
@@ -165,23 +148,26 @@ export const LISTENING_LESSONS: ListeningLesson[] = [
         description: "Recognize and avoid wrong answer traps",
         duration: "30 min",
         level: "Advanced",
-        status: "not-started",
         typeBadge: "Skills",
-        testId: "mock-1"
+        videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ"
     },
     {
         id: "l-lesson-15",
         lessonNumber: 15,
-        title: "Full Listening Test Practice",
-        description: "Complete 30-minute listening test simulation",
+        title: "IELTS Listening Strategies",
+        description: "Final tips and strategies for the test day",
         duration: "40 min",
         level: "Expert",
-        status: "not-started",
         typeBadge: "Full Test",
-        testId: "mock-1"
+        videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ"
     }
 ];
 
 export const MIGRATED_LISTENING_TESTS = [
-    { id: "mock-1", title: "Listening Mock Test 1", duration: "40 min", level: "Expert" },
+    { id: "cambridge-11-test-1", title: "Cambridge IELTS 11, Test 1", duration: "40 min", level: "Advanced" },
+    { id: "t1-2", title: "IELTS Trainer 1, Test 2", duration: "40 min", level: "Intermediate" },
+    { id: "t1-3", title: "IELTS Trainer 1, Test 3", duration: "40 min", level: "Advanced" },
+    { id: "t1-4", title: "IELTS Trainer 1, Test 4", duration: "40 min", level: "Advanced" },
+    { id: "t2-1", title: "IELTS Trainer 2, Test 1", duration: "40 min", level: "Advanced" },
+    { id: "cambridge-20-test-1", title: "Cambridge IELTS 20, Test 1", duration: "40 min", level: "Advanced" },
 ];

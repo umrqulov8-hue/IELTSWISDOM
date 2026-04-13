@@ -102,7 +102,7 @@ export const DashboardLayout = memo(({
                                     <Menu className="w-5 h-5 antialias" />
                                 </button>
                                 
-                                <div className="flex flex-col min-w-[120px]">
+                                <div className="flex flex-col min-w-[120px] min-h-[48px] justify-center">
                                 {showGreeting ? (
                                     <>
                                         <h1 className="text-xl font-black text-slate-800 dark:text-slate-100 tracking-tight transition-colors">
@@ -157,12 +157,12 @@ export const DashboardLayout = memo(({
                     <div className={cn(
                         fullHeight ? "flex-1 h-full" : "p-8 flex-1", 
                         maxWidth, 
-                        "mx-auto w-full overflow-hidden"
+                        "mx-auto w-full overflow-hidden contain-layout"
                     )}>
                         <AnimatePresence mode="wait">
                             <m.div
                                 key={pathname}
-                                initial={isInitialLoad ? false : { opacity: 0, y: 10 }}
+                                initial={isInitialLoad ? false : { opacity: 0, y: 0 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 exit={{ opacity: 0, y: -10 }}
                                 transition={{ duration: 0.2 }}

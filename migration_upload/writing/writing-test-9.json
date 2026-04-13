@@ -1,0 +1,19 @@
+{
+  "id": "writing-test-9",
+  "title": "March 10 Test",
+  "type": "full-test",
+  "tasks": [
+    {
+      "title": "Writing Task 1",
+      "type": "task-1",
+      "minWords": 150,
+      "prompt": "\n                <div class=\"space-y-4\">\n                    <p class=\"font-bold text-lg\">You should spend about 20 minutes on this task.</p>\n                    <p class=\"text-slate-700\">The diagram below shows a simple system that turns water into clean water.</p>\n                    <p class=\"text-slate-700\">Summarise the information by selecting and reporting the main features, and make comparisons where relevant.</p>\n                    <p class=\"font-bold\">Write at least 150 words.</p>\n                </div>\n                <div class=\"mt-8 p-4 bg-white border border-slate-200 rounded-lg shadow-sm\">\n                    <img src=\"https://pub-f4853e2729ef419db32a71fae029ebe4.r2.dev/image for writing test/photo_2026-03-13_19-59-13.jpg\" alt=\"Water Cleaning System Diagram\" class=\"max-w-full h-auto mx-auto rounded-md\" />\n                </div>\n            "
+    },
+    {
+      "title": "Writing Task 2",
+      "type": "task-2",
+      "minWords": 250,
+      "prompt": "\n                <div class=\"space-y-4\">\n                    <p class=\"font-bold text-lg\">You should spend about 40 minutes on this task.</p>\n                    <p class=\"text-slate-700\">As major cities around the world are growing, so are their problems. What are these problems for young people living in cities? What are possible solutions for these problems?</p>\n                    <p class=\"text-slate-700 font-bold\">Give reasons for your answer and include any relevant examples from your own knowledge or experience.</p>\n                    <p class=\"font-bold\">Write at least 250 words.</p>\n                </div>\n            "
+    }
+  ]
+}

@@ -1,0 +1,309 @@
+{
+  "id": "t1-4",
+  "title": "IELTS Trainer 1, Test 4",
+  "parts": [
+    {
+      "id": "part-1",
+      "title": "Moving Company Service Report",
+      "instructions": "Questions 1-10",
+      "audioUrl": "https://azrmwfzrgdvkbzezwyfo.supabase.co/storage/v1/object/public/IELTSWISDOM/audio/PART%201.mp3",
+      "content": "\n      <div class=\"mb-10\">\n        <p class=\"font-bold mb-4\">Questions 1-6</p>\n        <p class=\"mb-4\">Complete the form below.</p>\n        <p class=\"text-sm mb-6\">Write <span class=\"font-bold uppercase\">NO MORE THAN TWO WORDS AND/OR A NUMBER</span> for each answer.</p>\n        \n        <div class=\"border-2 border-slate-800 p-6 sm:p-8 rounded-sm bg-white mb-10 overflow-x-auto\">\n            <h3 class=\"font-bold text-center text-lg mb-6 tracking-wide underline uppercase min-w-[500px]\">Moving Company Service Report</h3>\n            \n            <table class=\"w-full border-collapse border border-slate-400 min-w-[500px]\">\n                <thead>\n                    <tr class=\"bg-slate-700 text-white\">\n                        <th class=\"border border-slate-400 p-3 text-left w-1/3\"></th>\n                        <th class=\"border border-slate-400 p-3 text-left w-2/3\">Details</th>\n                    </tr>\n                </thead>\n                <tbody>\n                    <tr class=\"bg-slate-50\">\n                        <td class=\"border border-slate-400 p-3 font-bold\">Example<br/><span class=\"font-normal italic\">Full Name:</span></td>\n                        <td class=\"border border-slate-400 p-3 italic\">Jane Bond</td>\n                    </tr>\n                    <tr>\n                        <td class=\"border border-slate-400 p-3 font-bold\">Phone Number:</td>\n                        <td class=\"border border-slate-400 p-3\">\n                            <span class=\"inline-flex items-center gap-2\"><span class=\"font-bold text-sm\">1</span><input id=\"q-1\" type=\"text\" class=\"border-b border-black w-40 focus:outline-none focus:border-blue-500 bg-transparent font-semibold\" /></span>\n                        </td>\n                    </tr>\n                    <tr class=\"bg-slate-50\">\n                        <td class=\"border border-slate-400 p-3 font-bold\">USA Address:</td>\n                        <td class=\"border border-slate-400 p-3\">\n                            509 <span class=\"inline-flex items-center gap-2\"><span class=\"font-bold text-sm\">2</span><input id=\"q-2\" type=\"text\" class=\"border-b border-black w-32 focus:outline-none focus:border-blue-500 bg-transparent font-semibold\" /></span><br/>\n                            1137 <span class=\"inline-flex items-center gap-2 mt-2\"><span class=\"font-bold text-sm\">3</span><input id=\"q-3\" type=\"text\" class=\"border-b border-black w-40 focus:outline-none focus:border-blue-500 bg-transparent font-semibold\" /></span>, Seattle\n                        </td>\n                    </tr>\n                    <tr>\n                        <td class=\"border border-slate-400 p-3 font-bold\">Packing Day:</td>\n                        <td class=\"border border-slate-400 p-3\">\n                            <span class=\"inline-flex items-center gap-2\"><span class=\"font-bold text-sm\">4</span><input id=\"q-4\" type=\"text\" class=\"border-b border-black w-32 focus:outline-none focus:border-blue-500 bg-transparent font-semibold\" /></span>\n                        </td>\n                    </tr>\n                    <tr class=\"bg-slate-50\">\n                        <td class=\"border border-slate-400 p-3 font-bold\">Date:</td>\n                        <td class=\"border border-slate-400 p-3\">11th March</td>\n                    </tr>\n                    <tr>\n                        <td class=\"border border-slate-400 p-3 font-bold\">Clean-up by:</td>\n                        <td class=\"border border-slate-400 p-3\">5:00 p.m.</td>\n                    </tr>\n                    <tr class=\"bg-slate-50\">\n                        <td class=\"border border-slate-400 p-3 font-bold\">Day:</td>\n                        <td class=\"border border-slate-400 p-3\">\n                            <span class=\"inline-flex items-center gap-2\"><span class=\"font-bold text-sm\">5</span><input id=\"q-5\" type=\"text\" class=\"border-b border-black w-32 focus:outline-none focus:border-blue-500 bg-transparent font-semibold\" /></span> 14th\n                        </td>\n                    </tr>\n                    <tr>\n                        <td class=\"border border-slate-400 p-3 font-bold\">About the Price:</td>\n                        <td class=\"border border-slate-400 p-3\">Rather expensive</td>\n                    </tr>\n                    <tr class=\"bg-slate-50\">\n                        <td class=\"border border-slate-400 p-3 font-bold\">Storage Time:</td>\n                        <td class=\"border border-slate-400 p-3\">\n                            <span class=\"inline-flex items-center gap-2\"><span class=\"font-bold text-sm\">6</span><input id=\"q-6\" type=\"text\" class=\"border-b border-black w-32 focus:outline-none focus:border-blue-500 bg-transparent font-semibold\" /></span>\n                        </td>\n                    </tr>\n                </tbody>\n            </table>\n        </div>\n\n        <p class=\"font-bold mb-4\">Questions 7-10</p>\n        <p class=\"mb-4\">Where does the speaker decide to put items in?</p>\n        <p class=\"text-sm mb-6\">Write the correct letter, <span class=\"font-bold\">A</span>, <span class=\"font-bold\">B</span>, or <span class=\"font-bold\">C</span>, next to questions <span class=\"font-bold\">7-10</span>.</p>\n        \n        <div class=\"border-2 border-slate-800 p-6 rounded-sm bg-slate-50 mb-8 max-w-lg mx-auto\">\n            <div class=\"grid grid-cols-1 gap-y-3 font-semibold text-slate-800\">\n                <p><span class=\"font-bold text-black mr-2\">A</span> in emergency pack</p>\n                <p><span class=\"font-bold text-black mr-2\">B</span> in personal package</p>\n                <p><span class=\"font-bold text-black mr-2\">C</span> in storage with the furniture</p>\n            </div>\n        </div>\n\n        <div class=\"bg-white p-6 rounded-xl border border-slate-200 shadow-sm max-w-lg mx-auto\">\n            <p class=\"font-bold mb-4 underline\">Items</p>\n            <div class=\"grid grid-cols-1 gap-y-4\">\n               <div class=\"flex items-center justify-between border-b border-slate-100 pb-2\">\n                   <span class=\"font-semibold text-slate-700 max-w-[70%]\"><span class=\"font-bold text-black mr-3\">7</span> cutlery and dishes</span>\n                   <input id=\"q-7\" type=\"text\" class=\"border-b border-black w-12 text-center font-bold uppercase focus:outline-none focus:border-blue-500 bg-transparent\" maxLength={1} />\n               </div>\n               <div class=\"flex items-center justify-between border-b border-slate-100 pb-2\">\n                   <span class=\"font-semibold text-slate-700 max-w-[70%]\"><span class=\"font-bold text-black mr-3\">8</span> kettle</span>\n                   <input id=\"q-8\" type=\"text\" class=\"border-b border-black w-12 text-center font-bold uppercase focus:outline-none focus:border-blue-500 bg-transparent\" maxLength={1} />\n               </div>\n               <div class=\"flex items-center justify-between border-b border-slate-100 pb-2\">\n                   <span class=\"font-semibold text-slate-700 max-w-[70%]\"><span class=\"font-bold text-black mr-3\">9</span> alarm clock</span>\n                   <input id=\"q-9\" type=\"text\" class=\"border-b border-black w-12 text-center font-bold uppercase focus:outline-none focus:border-blue-500 bg-transparent\" maxLength={1} />\n               </div>\n               <div class=\"flex items-center justify-between border-b border-slate-100 pb-2\">\n                   <span class=\"font-semibold text-slate-700 max-w-[70%]\"><span class=\"font-bold text-black mr-3\">10</span> CD player</span>\n                   <input id=\"q-10\" type=\"text\" class=\"border-b border-black w-12 text-center font-bold uppercase focus:outline-none focus:border-blue-500 bg-transparent\" maxLength={1} />\n               </div>\n            </div>\n        </div>\n      </div>\n      ",
+      "questions": [
+        {
+          "id": 1,
+          "type": "fill-blank",
+          "correctAnswer": "94635550"
+        },
+        {
+          "id": 2,
+          "type": "fill-blank",
+          "correctAnswer": [
+            "Clark House",
+            "clark house"
+          ]
+        },
+        {
+          "id": 3,
+          "type": "fill-blank",
+          "correctAnswer": [
+            "University Drive",
+            "university drive"
+          ]
+        },
+        {
+          "id": 4,
+          "type": "fill-blank",
+          "correctAnswer": [
+            "Monday",
+            "monday"
+          ]
+        },
+        {
+          "id": 5,
+          "type": "fill-blank",
+          "correctAnswer": [
+            "Thursday",
+            "thursday"
+          ]
+        },
+        {
+          "id": 6,
+          "type": "fill-blank",
+          "correctAnswer": [
+            "a/one/ 1 month",
+            "a/one/1 month",
+            "1 month",
+            "one month",
+            "a month"
+          ]
+        },
+        {
+          "id": 7,
+          "type": "fill-blank",
+          "correctAnswer": "A"
+        },
+        {
+          "id": 8,
+          "type": "fill-blank",
+          "correctAnswer": "C"
+        },
+        {
+          "id": 9,
+          "type": "fill-blank",
+          "correctAnswer": "B"
+        },
+        {
+          "id": 10,
+          "type": "fill-blank",
+          "correctAnswer": "C"
+        }
+      ]
+    },
+    {
+      "id": "part-2",
+      "title": "Annual Wullaballoo Conference",
+      "instructions": "Questions 11-20",
+      "audioUrl": "https://azrmwfzrgdvkbzezwyfo.supabase.co/storage/v1/object/public/IELTSWISDOM/audio/PART%202.mp3",
+      "content": "\n      <div class=\"mb-10\">\n        <p class=\"font-bold mb-4\">Questions 11-16</p>\n        <p class=\"mb-4\">Complete the table below.</p>\n        <p class=\"text-sm mb-6\">Write <span class=\"font-bold uppercase\">NO MORE THAN THREE WORDS AND/OR A NUMBER</span> for each answer.</p>\n        \n        <div class=\"border-2 border-slate-800 p-6 sm:p-8 rounded-sm bg-white mb-10 overflow-x-auto\">\n            <h3 class=\"font-bold text-center text-lg mb-6 tracking-wide underline uppercase min-w-[600px]\">ANNUAL WULLABALLOO CONFERENCE</h3>\n            \n            <table class=\"w-full border-collapse border border-slate-400 min-w-[600px]\">\n                <thead>\n                    <tr class=\"bg-slate-700 text-white\">\n                        <th class=\"border border-slate-400 p-3 text-center w-1/5\">TIME</th>\n                        <th class=\"border border-slate-400 p-3 text-center w-1/2\">CONTENT</th>\n                        <th class=\"border border-slate-400 p-3 text-center w-3/10\">LOCATION</th>\n                    </tr>\n                </thead>\n                <tbody>\n                    <tr class=\"bg-slate-50\">\n                        <td class=\"border border-slate-400 p-3 text-center align-top font-semibold\">9:00 a.m.</td>\n                        <td class=\"border border-slate-400 p-3 align-top leading-loose\">\n                            Title of the lecture:<br/>\n                            <span class=\"inline-flex items-center gap-2\"><span class=\"font-bold text-sm\">11</span><input id=\"q-11\" type=\"text\" class=\"border-b border-black w-48 focus:outline-none focus:border-blue-500 bg-transparent font-semibold\" /></span><br/>\n                            Lecturer: John Smith from<br/>\n                            the <span class=\"inline-flex items-center gap-2\"><span class=\"font-bold text-sm\">12</span><input id=\"q-12\" type=\"text\" class=\"border-b border-black w-48 focus:outline-none focus:border-blue-500 bg-transparent font-semibold\" /></span>\n                        </td>\n                        <td class=\"border border-slate-400 p-3 text-center align-top\">Main Hall</td>\n                    </tr>\n                    <tr>\n                        <td class=\"border border-slate-400 p-3 text-center font-semibold\">10:30 a.m.</td>\n                        <td class=\"border border-slate-400 p-3\">Presentation of papers</td>\n                        <td class=\"border border-slate-400 p-3 text-center\">Garden Room on the ground floor</td>\n                    </tr>\n                    <tr class=\"bg-slate-50\">\n                        <td class=\"border border-slate-400 p-3 text-center font-semibold\">11:15 a.m.</td>\n                        <td class=\"border border-slate-400 p-3\">Coffee break</td>\n                        <td class=\"border border-slate-400 p-3 text-center\">Main Hall</td>\n                    </tr>\n                    <tr>\n                        <td class=\"border border-slate-400 p-3 text-center align-top font-semibold\">1:00 p.m.</td>\n                        <td class=\"border border-slate-400 p-3 align-top\">Lunch</td>\n                        <td class=\"border border-slate-400 p-3 align-top text-center leading-loose\">\n                            Sea View Restaurant on the<br/>\n                            <span class=\"inline-flex items-center gap-2\"><span class=\"font-bold text-sm\">13</span><input id=\"q-13\" type=\"text\" class=\"border-b border-black w-32 focus:outline-none focus:border-blue-500 bg-transparent font-semibold mx-auto\" /></span><br/>\n                            The lift on the <span class=\"inline-flex items-center gap-2 mt-2\"><span class=\"font-bold text-sm\">14</span><input id=\"q-14\" type=\"text\" class=\"border-b border-black w-32 focus:outline-none focus:border-blue-500 bg-transparent font-semibold mx-auto\" /></span>\n                        </td>\n                    </tr>\n                    <tr class=\"bg-slate-50\">\n                        <td class=\"border border-slate-400 p-3 text-center font-semibold\">2:00 p.m.</td>\n                        <td class=\"border border-slate-400 p-3\">Presentation of further papers</td>\n                        <td class=\"border border-slate-400 p-3 text-center\">Ballroom</td>\n                    </tr>\n                    <tr>\n                        <td class=\"border border-slate-400 p-3 text-center font-semibold text-nowrap\">\n                            <span class=\"inline-flex items-center gap-2\"><span class=\"font-bold text-sm\">15</span><input id=\"q-15\" type=\"text\" class=\"border-b border-black w-16 text-center focus:outline-none focus:border-blue-500 bg-transparent font-semibold\" /></span> p.m.\n                        </td>\n                        <td class=\"border border-slate-400 p-3\">Afternoon tea</td>\n                        <td class=\"border border-slate-400 p-3 text-center\">Ballroom</td>\n                    </tr>\n                    <tr class=\"bg-slate-50\">\n                        <td class=\"border border-slate-400 p-3 text-center font-semibold\">5:00 p.m.</td>\n                        <td class=\"border border-slate-400 p-3\">Conference will be finished</td>\n                        <td class=\"border border-slate-400 p-3 text-center\">Main Hall</td>\n                    </tr>\n                    <tr>\n                        <td class=\"border border-slate-400 p-3 text-center font-semibold text-nowrap\">5:10–6:10 p.m.</td>\n                        <td class=\"border border-slate-400 p-3\">Informal reception</td>\n                        <td class=\"border border-slate-400 p-3 text-center\">\n                            <span class=\"inline-flex items-center gap-2 mx-auto\"><span class=\"font-bold text-sm\">16</span><input id=\"q-16\" type=\"text\" class=\"border-b border-black w-32 focus:outline-none focus:border-blue-500 bg-transparent font-semibold\" /></span>\n                        </td>\n                    </tr>\n                </tbody>\n            </table>\n        </div>\n\n        <p class=\"font-bold mb-4 mt-12\">Questions 17-20</p>\n        <p class=\"mb-6\">Choose the correct letter, <span class=\"font-bold\">A, B</span> or <span class=\"font-bold\">C</span>.</p>\n      </div>\n      ",
+      "questions": [
+        {
+          "id": 11,
+          "type": "fill-blank",
+          "correctAnswer": "Computer as Teacher"
+        },
+        {
+          "id": 12,
+          "type": "fill-blank",
+          "correctAnswer": "University of Melbourne"
+        },
+        {
+          "id": 13,
+          "type": "fill-blank",
+          "correctAnswer": "top floor"
+        },
+        {
+          "id": 14,
+          "type": "fill-blank",
+          "correctAnswer": "ground floor"
+        },
+        {
+          "id": 15,
+          "type": "fill-blank",
+          "correctAnswer": "3:10"
+        },
+        {
+          "id": 16,
+          "type": "fill-blank",
+          "correctAnswer": [
+            "Palm Lounge",
+            "palm lounge"
+          ]
+        },
+        {
+          "id": 17,
+          "type": "multiple-choice",
+          "correctAnswer": "2",
+          "text": "Tickets are available",
+          "options": [
+            "only at the reception desk.",
+            "tomorrow evening.",
+            "at any time before the reception."
+          ]
+        },
+        {
+          "id": 18,
+          "type": "multiple-choice",
+          "correctAnswer": "1",
+          "text": "The delegates will be charged……...",
+          "options": [
+            "$6.50",
+            "$15.00",
+            "$25.00"
+          ]
+        },
+        {
+          "id": 19,
+          "type": "multiple-choice",
+          "correctAnswer": "1",
+          "text": "The restaurant is famous for",
+          "options": [
+            "steak.",
+            "fish.",
+            "barbecue."
+          ]
+        },
+        {
+          "id": 20,
+          "type": "multiple-choice",
+          "correctAnswer": "0",
+          "text": "The trip on Sunday costs",
+          "options": [
+            "$35 in total.",
+            "$35 plus entrance fees.",
+            "$35 plus lunch."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "part-3",
+      "title": "General Course Details",
+      "instructions": "Questions 21-30",
+      "audioUrl": "https://azrmwfzrgdvkbzezwyfo.supabase.co/storage/v1/object/public/IELTSWISDOM/audio/PART%203.mp3",
+      "content": "\n      <div class=\"mb-10\">\n        <h3 class=\"font-bold text-center text-lg mb-8 tracking-wide underline uppercase\">General Course Details</h3>\n\n        <p class=\"font-bold mb-4\">Questions 21-26</p>\n        <p class=\"mb-6\">Choose the correct letter, <span class=\"font-bold\">A, B</span> or <span class=\"font-bold\">C</span>.</p>\n\n        <div class=\"space-y-8 mb-12\">\n            <div>\n                <div class=\"flex items-start gap-4 mb-3\">\n                    <span class=\"inline-flex items-center gap-2 font-semibold\"><span class=\"font-bold mr-1\">21</span><input id=\"q-21\" type=\"text\" class=\"border border-slate-400 rounded-md w-12 h-10 text-center font-bold uppercase focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 bg-white\" maxLength={1} /></span>\n                    <p class=\"font-semibold text-slate-800 pt-1\">What is the defining characteristic of a specialised course?</p>\n                </div>\n                <div class=\"pl-16 space-y-2 text-slate-700\">\n                    <p><span class=\"font-bold mr-2\">A</span>Taking a proficiency exam</p>\n                    <p><span class=\"font-bold mr-2\">B</span>Attending the class frequently</p>\n                    <p><span class=\"font-bold mr-2\">C</span>Compulsory and regular</p>\n                </div>\n            </div>\n\n            <div class=\"bg-slate-100 h-px w-full\"></div>\n\n            <div>\n                <div class=\"flex items-start gap-4 mb-3\">\n                    <span class=\"inline-flex items-center gap-2 font-semibold\"><span class=\"font-bold mr-1\">22</span><input id=\"q-22\" type=\"text\" class=\"border border-slate-400 rounded-md w-12 h-10 text-center font-bold uppercase focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 bg-white\" maxLength={1} /></span>\n                    <p class=\"font-semibold text-slate-800 pt-1\">The Microbiology courses are available for</p>\n                </div>\n                <div class=\"pl-16 space-y-2 text-slate-700\">\n                    <p><span class=\"font-bold mr-2\">A</span>full-time and flexible-time students.</p>\n                    <p><span class=\"font-bold mr-2\">B</span>Microbiology students only.</p>\n                    <p><span class=\"font-bold mr-2\">C</span>students on a flexible schedule.</p>\n                </div>\n            </div>\n\n            <div class=\"bg-slate-100 h-px w-full\"></div>\n\n            <div>\n                <div class=\"flex items-start gap-4 mb-3\">\n                    <span class=\"inline-flex items-center gap-2 font-semibold\"><span class=\"font-bold mr-1\">23</span><input id=\"q-23\" type=\"text\" class=\"border border-slate-400 rounded-md w-12 h-10 text-center font-bold uppercase focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 bg-white\" maxLength={1} /></span>\n                    <p class=\"font-semibold text-slate-800 pt-1\">The Biology courses are available for</p>\n                </div>\n                <div class=\"pl-16 space-y-2 text-slate-700\">\n                    <p><span class=\"font-bold mr-2\">A</span>all students.</p>\n                    <p><span class=\"font-bold mr-2\">B</span>full-time students only.</p>\n                    <p><span class=\"font-bold mr-2\">C</span>freshmen only.</p>\n                </div>\n            </div>\n\n            <div class=\"bg-slate-100 h-px w-full\"></div>\n\n            <div>\n                <div class=\"flex items-start gap-4 mb-3\">\n                    <span class=\"inline-flex items-center gap-2 font-semibold\"><span class=\"font-bold mr-1\">24</span><input id=\"q-24\" type=\"text\" class=\"border border-slate-400 rounded-md w-12 h-10 text-center font-bold uppercase focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 bg-white\" maxLength={1} /></span>\n                    <p class=\"font-semibold text-slate-800 pt-1\">Who are interested in Microbiology courses?</p>\n                </div>\n                <div class=\"pl-16 space-y-2 text-slate-700\">\n                    <p><span class=\"font-bold mr-2\">A</span>People who need work experience</p>\n                    <p><span class=\"font-bold mr-2\">B</span>People from off-campus</p>\n                    <p><span class=\"font-bold mr-2\">C</span>People who work at hospital</p>\n                </div>\n            </div>\n\n            <div class=\"bg-slate-100 h-px w-full\"></div>\n\n            <div>\n                <div class=\"flex items-start gap-4 mb-3\">\n                    <span class=\"inline-flex items-center gap-2 font-semibold\"><span class=\"font-bold mr-1\">25</span><input id=\"q-25\" type=\"text\" class=\"border border-slate-400 rounded-md w-12 h-10 text-center font-bold uppercase focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 bg-white\" maxLength={1} /></span>\n                    <p class=\"font-semibold text-slate-800 pt-1\">A Medical Science course will be opened next year because</p>\n                </div>\n                <div class=\"pl-16 space-y-2 text-slate-700\">\n                    <p><span class=\"font-bold mr-2\">A</span>there are no experimental facilities.</p>\n                    <p><span class=\"font-bold mr-2\">B</span>the lab equipment is too expensive.</p>\n                    <p><span class=\"font-bold mr-2\">C</span>the building is damaged.</p>\n                </div>\n            </div>\n\n            <div class=\"bg-slate-100 h-px w-full\"></div>\n\n            <div>\n                <div class=\"flex items-start gap-4 mb-3\">\n                    <span class=\"inline-flex items-center gap-2 font-semibold\"><span class=\"font-bold mr-1\">26</span><input id=\"q-26\" type=\"text\" class=\"border border-slate-400 rounded-md w-12 h-10 text-center font-bold uppercase focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 bg-white\" maxLength={1} /></span>\n                    <p class=\"font-semibold text-slate-800 pt-1\">Which is the quickest increasing subject in enrolment?</p>\n                </div>\n                <div class=\"pl-16 space-y-2 text-slate-700\">\n                    <p><span class=\"font-bold mr-2\">A</span>Medical Science</p>\n                    <p><span class=\"font-bold mr-2\">B</span>Statistics</p>\n                    <p><span class=\"font-bold mr-2\">C</span>Environmental Science</p>\n                </div>\n            </div>\n        </div>\n\n        <p class=\"font-bold mb-4 mt-12\">Questions 27-29</p>\n        <p class=\"mb-4\">Choose <span class=\"font-bold uppercase\">THREE</span> letters, <span class=\"font-bold\">A-G</span>, and write each next to questions 27-29.</p>\n        <p class=\"italic mb-6 text-slate-700\">Which <span class=\"font-bold uppercase\">THREE</span> compulsory courses must be taken?</p>\n        \n        <div class=\"border-2 border-slate-800 p-6 rounded-sm bg-slate-50 mb-8 max-w-lg mx-auto shadow-sm\">\n            <div class=\"grid grid-cols-1 sm:grid-cols-2 gap-y-3 font-semibold text-slate-800\">\n                <p><span class=\"font-bold text-black mr-2\">A</span> Medical Science</p>\n                <p><span class=\"font-bold text-black mr-2\">B</span> Computing</p>\n                <p><span class=\"font-bold text-black mr-2\">C</span> Mathematics</p>\n                <p><span class=\"font-bold text-black mr-2\">D</span> Laboratory Techniques</p>\n                <p><span class=\"font-bold text-black mr-2\">E</span> Statistics</p>\n                <p><span class=\"font-bold text-black mr-2\">F</span> Medicine</p>\n                <p><span class=\"font-bold text-black mr-2\">G</span> Environmental Science</p>\n            </div>\n        </div>\n\n        <div class=\"bg-white p-6 rounded-xl border border-slate-200 shadow-sm mb-12 max-w-lg mx-auto\">\n            <div class=\"grid grid-cols-1 gap-y-4\">\n               <div class=\"flex items-center justify-between border-b border-slate-100 pb-2\">\n                   <span class=\"font-semibold text-slate-700\"><span class=\"font-bold text-black mr-3\">27</span> Compulsory course 1</span>\n                   <input id=\"q-27\" type=\"text\" class=\"border-b border-black w-12 text-center font-bold uppercase focus:outline-none focus:border-blue-500 bg-transparent\" maxLength={1} />\n               </div>\n               <div class=\"flex items-center justify-between border-b border-slate-100 pb-2\">\n                   <span class=\"font-semibold text-slate-700\"><span class=\"font-bold text-black mr-3\">28</span> Compulsory course 2</span>\n                   <input id=\"q-28\" type=\"text\" class=\"border-b border-black w-12 text-center font-bold uppercase focus:outline-none focus:border-blue-500 bg-transparent\" maxLength={1} />\n               </div>\n               <div class=\"flex items-center justify-between border-b border-slate-100 pb-2\">\n                   <span class=\"font-semibold text-slate-700\"><span class=\"font-bold text-black mr-3\">29</span> Compulsory course 3</span>\n                   <input id=\"q-29\" type=\"text\" class=\"border-b border-black w-12 text-center font-bold uppercase focus:outline-none focus:border-blue-500 bg-transparent\" maxLength={1} />\n               </div>\n            </div>\n        </div>\n\n        <p class=\"font-bold mb-4\">Question 30</p>\n        <p class=\"mb-4\">Complete the sentence below.</p>\n        <p class=\"text-sm mb-6\">Write <span class=\"font-bold uppercase\">NO MORE THAN TWO WORDS</span> for the answer.</p>\n        \n        <div class=\"bg-white p-6 rounded-xl border border-slate-200\">\n            <p class=\"text-lg leading-loose\">\n                There are three full scholarships that cover tuition and provide $1,500 cash as a <span class=\"inline-flex items-center gap-2 mx-1\"><span class=\"font-bold text-sm\">30</span><input id=\"q-30\" type=\"text\" class=\"border-b border-black w-48 focus:outline-none focus:border-blue-500 bg-transparent font-semibold text-center\" /></span>.\n            </p>\n        </div>\n      </div>\n      ",
+      "questions": [
+        {
+          "id": 21,
+          "type": "fill-blank",
+          "correctAnswer": "C"
+        },
+        {
+          "id": 22,
+          "type": "fill-blank",
+          "correctAnswer": "A"
+        },
+        {
+          "id": 23,
+          "type": "fill-blank",
+          "correctAnswer": "B"
+        },
+        {
+          "id": 24,
+          "type": "fill-blank",
+          "correctAnswer": "B"
+        },
+        {
+          "id": 25,
+          "type": "fill-blank",
+          "correctAnswer": "A"
+        },
+        {
+          "id": 26,
+          "type": "fill-blank",
+          "correctAnswer": "C"
+        },
+        {
+          "id": 27,
+          "type": "fill-blank",
+          "correctAnswer": [
+            "C",
+            "E",
+            "F"
+          ]
+        },
+        {
+          "id": 28,
+          "type": "fill-blank",
+          "correctAnswer": [
+            "C",
+            "E",
+            "F"
+          ]
+        },
+        {
+          "id": 29,
+          "type": "fill-blank",
+          "correctAnswer": [
+            "C",
+            "E",
+            "F"
+          ]
+        },
+        {
+          "id": 30,
+          "type": "fill-blank",
+          "correctAnswer": "textbook allowance"
+        }
+      ]
+    },
+    {
+      "id": "part-4",
+      "title": "How to Choose Flooring Materials",
+      "instructions": "Questions 31-40",
+      "audioUrl": "https://azrmwfzrgdvkbzezwyfo.supabase.co/storage/v1/object/public/IELTSWISDOM/audio/PART%204.mp3",
+      "content": "\n      <div class=\"mb-10\">\n        <p class=\"font-bold mb-4\">Questions 31-37</p>\n        <p class=\"mb-4\">Complete the notes below.</p>\n        <p class=\"text-sm mb-6\">Write <span class=\"font-bold uppercase\">NO MORE THAN TWO WORDS</span> for each answer.</p>\n        \n        <div class=\"border-2 border-slate-800 p-6 sm:p-10 rounded-sm bg-white mb-10\">\n            <h3 class=\"font-bold text-center text-xl mb-8 tracking-wide underline uppercase\">How to Choose Flooring Materials</h3>\n            \n            <p class=\"font-bold text-lg mb-4 text-slate-800\">Source</p>\n            <ul class=\"list-disc pl-5 mb-8 space-y-4 text-slate-700 leading-relaxed marker:text-slate-600\">\n                <li>There are some man-made materials like <span class=\"inline-flex items-center gap-2\"><span class=\"font-bold text-sm text-black\">31</span><input id=\"q-31\" type=\"text\" class=\"border-b border-black w-32 focus:outline-none focus:border-blue-500 bg-transparent font-semibold\" /></span></li>\n                <li>Before being used, material undergoes <span class=\"inline-flex items-center gap-2\"><span class=\"font-bold text-sm text-black\">32</span><input id=\"q-32\" type=\"text\" class=\"border-b border-black w-36 focus:outline-none focus:border-blue-500 bg-transparent font-semibold\" /></span></li>\n                <li>Wood should be cut and <span class=\"inline-flex items-center gap-2\"><span class=\"font-bold text-sm text-black\">33</span><input id=\"q-33\" type=\"text\" class=\"border-b border-black w-48 focus:outline-none focus:border-blue-500 bg-transparent font-semibold\" /></span></li>\n                <li>Stone should be cut and <span class=\"inline-flex items-center gap-2\"><span class=\"font-bold text-sm text-black\">34</span><input id=\"q-34\" type=\"text\" class=\"border-b border-black w-32 focus:outline-none focus:border-blue-500 bg-transparent font-semibold\" /></span></li>\n            </ul>\n\n            <p class=\"font-bold text-lg mb-4 text-slate-800\">Selection</p>\n            <ul class=\"list-disc pl-5 mb-6 space-y-4 text-slate-700 leading-relaxed marker:text-slate-600\">\n                <li>Aside from environmental factors, one should take <span class=\"inline-flex items-center gap-2\"><span class=\"font-bold text-sm text-black\">35</span><input id=\"q-35\" type=\"text\" class=\"border-b border-black w-32 focus:outline-none focus:border-blue-500 bg-transparent font-semibold\" /></span> into account during construction.</li>\n                <li>Some properties of materials affect mood, such as <span class=\"inline-flex items-center gap-2\"><span class=\"font-bold text-sm text-black\">36</span><input id=\"q-36\" type=\"text\" class=\"border-b border-black w-36 focus:outline-none focus:border-blue-500 bg-transparent font-semibold\" /></span>, texture, and colour.</li>\n                <li>Use a mathematical formula to choose the type of wood, because <span class=\"inline-flex items-center gap-2\"><span class=\"font-bold text-sm text-black\">37</span><input id=\"q-37\" type=\"text\" class=\"border-b border-black w-24 focus:outline-none focus:border-blue-500 bg-transparent font-semibold\" /></span> are subjective, which are ambiguous in verbal description.</li>\n            </ul>\n        </div>\n\n        <p class=\"font-bold mb-4 mt-12\">Questions 38-40</p>\n        <p class=\"mb-4\">Complete the table below.</p>\n        <p class=\"text-sm mb-6\">Write <span class=\"font-bold uppercase\">NO MORE THAN TWO WORDS AND/OR A NUMBER</span> for each answer.</p>\n\n        <div class=\"overflow-x-auto border-2 border-slate-800 rounded-sm\">\n            <table class=\"w-full border-collapse min-w-[500px]\">\n                <thead>\n                    <tr class=\"bg-slate-700 text-white border-b-2 border-slate-800\">\n                        <th class=\"border-r border-slate-400 p-4 text-left w-1/2 font-bold tracking-wider uppercase\">MATERIAL</th>\n                        <th class=\"p-4 text-left w-1/2 font-bold tracking-wider uppercase\">REFLECTANCE RATE</th>\n                    </tr>\n                </thead>\n                <tbody class=\"text-slate-800 font-medium\">\n                    <tr class=\"bg-white border-b border-slate-300\">\n                        <td class=\"border-r border-slate-300 p-4\">Polished silver</td>\n                        <td class=\"p-4\">Almost 1.0</td>\n                    </tr>\n                    <tr class=\"bg-slate-50 border-b border-slate-300\">\n                        <td class=\"border-r border-slate-300 p-4\">White-painted plastic</td>\n                        <td class=\"p-4 leading-loose\">\n                            Approximately <span class=\"inline-flex items-center gap-2\"><span class=\"font-bold text-sm\">38</span><input id=\"q-38\" type=\"text\" class=\"border-b border-black w-24 focus:outline-none focus:border-blue-500 bg-transparent font-bold\" /></span>\n                        </td>\n                    </tr>\n                    <tr class=\"bg-white border-b border-slate-300\">\n                        <td class=\"border-r border-slate-300 p-4\">Quarry tile</td>\n                        <td class=\"p-4 leading-loose\">\n                            Approximately <span class=\"inline-flex items-center gap-2\"><span class=\"font-bold text-sm\">39</span><input id=\"q-39\" type=\"text\" class=\"border-b border-black w-24 focus:outline-none focus:border-blue-500 bg-transparent font-bold\" /></span>\n                        </td>\n                    </tr>\n                    <tr class=\"bg-slate-50\">\n                        <td class=\"border-r border-slate-300 p-4 leading-loose text-center\">\n                            <span class=\"inline-flex items-center gap-2\"><span class=\"font-bold text-sm\">40</span><input id=\"q-40\" type=\"text\" class=\"border-b border-black w-40 focus:outline-none focus:border-blue-500 bg-transparent font-bold\" /></span>\n                        </td>\n                        <td class=\"p-4\">Almost 0.0</td>\n                    </tr>\n                </tbody>\n            </table>\n        </div>\n      </div>\n      ",
+      "questions": [
+        {
+          "id": 31,
+          "type": "fill-blank",
+          "correctAnswer": "plastic"
+        },
+        {
+          "id": 32,
+          "type": "fill-blank",
+          "correctAnswer": "processing"
+        },
+        {
+          "id": 33,
+          "type": "fill-blank",
+          "correctAnswer": [
+            "properly seasoned",
+            "seasoned"
+          ]
+        },
+        {
+          "id": 34,
+          "type": "fill-blank",
+          "correctAnswer": "polished"
+        },
+        {
+          "id": 35,
+          "type": "fill-blank",
+          "correctAnswer": [
+            "the cost",
+            "cost"
+          ]
+        },
+        {
+          "id": 36,
+          "type": "fill-blank",
+          "correctAnswer": [
+            "grain patterns",
+            "grain pattern",
+            "grain"
+          ]
+        },
+        {
+          "id": 37,
+          "type": "fill-blank",
+          "correctAnswer": "words"
+        },
+        {
+          "id": 38,
+          "type": "fill-blank",
+          "correctAnswer": "0.8"
+        },
+        {
+          "id": 39,
+          "type": "fill-blank",
+          "correctAnswer": "0.1"
+        },
+        {
+          "id": 40,
+          "type": "fill-blank",
+          "correctAnswer": "black velvet"
+        }
+      ]
+    }
+  ]
+}

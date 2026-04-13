@@ -16,7 +16,7 @@ import { memo } from "react";
 
 const featureDefs = [
     { key: "vocabulary" as const, icon: Headphones, color: "text-blue-400", href: "/vocabulary", statKey: "vocab_progress" as const },
-    { key: "listening" as const, icon: Mic, color: "text-purple-400", href: "/practice/listening", statKey: "listening_progress" as const },
+    { key: "listening" as const, icon: Mic, color: "text-purple-400", href: "/lessons/listening", statKey: "listening_progress" as const },
     { key: "reading" as const, icon: BookOpen, color: "text-emerald-400", href: "/lessons/reading", statKey: "reading_progress" as const },
     { key: "writing" as const, icon: Pencil, color: "text-orange-400", href: "/practice/writing", statKey: "writing_progress" as const },
     { key: "samples" as const, icon: Trophy, color: "text-yellow-400", href: "/samples" },

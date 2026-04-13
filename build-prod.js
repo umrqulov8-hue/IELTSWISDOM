@@ -55,6 +55,14 @@ if (fs.existsSync(assetsSrc)) {
   console.warn('WARNING: .open-next/assets not found. Skipping asset fix.');
 }
 
+// 3.1 Copy Headers to deployment root
+const headersSrc = path.join('public', '_headers');
+const headersDest = path.join(openNextDir, '_headers');
+if (fs.existsSync(headersSrc)) {
+  log(`Copying headers from ${headersSrc} to ${headersDest}...`);
+  fs.copyFileSync(headersSrc, headersDest);
+}
+
 // 4. Patch Worker
 const workerPaths = [
     path.join(openNextDir, '_worker.js'),

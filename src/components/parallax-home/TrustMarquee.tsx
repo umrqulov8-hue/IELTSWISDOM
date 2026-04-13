@@ -25,6 +25,7 @@ export default function TrustMarquee() {
             <div className="flex whitespace-nowrap">
                 <motion.div 
                     animate={shouldAnimate ? { x: [0, -1000] } : {}}
+                    style={{ transform: "translateZ(0)" }}
                     transition={{ 
                         duration: 30, 
                         repeat: Infinity, 
@@ -33,7 +34,7 @@ export default function TrustMarquee() {
                     className="flex gap-20 items-center px-10 will-change-transform"
                 >
                     {partners.map((p, i) => (
-                        <span key={i} className="text-xl md:text-2xl font-black uppercase tracking-[0.4em] text-black/20 hover:text-black transition-colors cursor-default whitespace-nowrap">
+                        <span key={i} className="text-xl md:text-2xl font-black uppercase tracking-[0.4em] text-black/60 hover:text-black transition-colors cursor-default whitespace-nowrap">
                             {p}
                         </span>
                     ))}

@@ -1,3 +1,5 @@
+import { CONFIG } from "@/config";
+
 export interface Question {
     id: number;
     type: "multiple-choice" | "true-false" | "fill-blank" | "matching";
@@ -23,13 +25,27 @@ export interface ReadingTest {
     timeLimit?: number; // in seconds
 }
 
-const TEST_LOADERS: Record<string, () => Promise<any>> = {
-    // Special files
-    "homers-literary-legacy": () => import("./homersLiteraryLegacy").then(m => m.homersLiteraryLegacyData),
-    "the-rise-of-agribots": () => import("./theRiseOfAgribots").then(m => m.theRiseOfAgribotsData),
-    "south-pole-adventurer": () => import("./southPoleAdventurer").then(m => m.southPoleAdventurerData),
+export async function getReadingTest(id: string): Promise<ReadingTest | null> {
+    try {
+        const response = await fetch(`${CONFIG.DATA_BASE_URL}/reading/${id}.json`);
+        if (!response.ok) {
+            console.error(`Failed to fetch reading test ${id}: ${response.statusText}`);
+            return null;
+        }
+        
+        const data = await response.json();
+        if (Array.isArray(data)) {
+            return data.find(t => t.id === id) || data[0];
+        }
+        return data as ReadingTest;
+    } catch (err) {
+        console.error(`Error loading reading test ${id}:`, err);
+        return null;
+    }
+}
 
-    // FP tests
+// Registry for the export script
+export const TEST_LOADERS: Record<string, () => Promise<any>> = {
     "fp-3": () => import("./readingFp3").then(m => m.readingFp3),
     "fp-4": () => import("./readingFp4").then(m => m.readingFp4),
     "fp-9": () => import("./readingFp9").then(m => m.readingFp9),
@@ -48,54 +64,10 @@ const TEST_LOADERS: Record<string, () => Promise<any>> = {
     "fp-22": () => import("./readingFp22").then(m => m.readingFp22),
     "fp-23": () => import("./readingFp23").then(m => m.readingFp23),
     "fp-24": () => import("./readingFp24").then(m => m.readingFp24),
-
-    // Mock tests (each contains an array of tests)
-    "mock-1": () => import("./mockTest1").then(m => m.mockReadingTest1),
-    "mock-1-p1": () => import("./mockTest1").then(m => m.mockReadingTest1),
-    "mock-1-p2": () => import("./mockTest1").then(m => m.mockReadingTest1),
-    "mock-1-p3": () => import("./mockTest1").then(m => m.mockReadingTest1),
-
-    "mock-2": () => import("./mockTest2").then(m => m.mockReadingTest2),
-    "mock-2-p1": () => import("./mockTest2").then(m => m.mockReadingTest2),
-    "mock-2-p2": () => import("./mockTest2").then(m => m.mockReadingTest2),
-    "mock-2-p3": () => import("./mockTest2").then(m => m.mockReadingTest2),
-
-    "mock-3": () => import("./mockTest3").then(m => m.mockReadingTest3),
-    "mock-3-p1": () => import("./mockTest3").then(m => m.mockReadingTest3),
-    "mock-3-p2": () => import("./mockTest3").then(m => m.mockReadingTest3),
-    "mock-3-p3": () => import("./mockTest3").then(m => m.mockReadingTest3),
-
-    "mock-4": () => import("./mockTest4").then(m => m.mockReadingTest4),
-    "mock-4-p1": () => import("./mockTest4").then(m => m.mockReadingTest4),
-    "mock-4-p2": () => import("./mockTest4").then(m => m.mockReadingTest4),
-    "mock-4-p3": () => import("./mockTest4").then(m => m.mockReadingTest4),
-
-    "mock-5": () => import("./mockTest5").then(m => m.mockReadingTest5),
-    "mock-5-p1": () => import("./mockTest5").then(m => m.mockReadingTest5),
-    "mock-5-p2": () => import("./mockTest5").then(m => m.mockReadingTest5),
-    "mock-5-p3": () => import("./mockTest5").then(m => m.mockReadingTest5),
-
-    "mock-6": () => import("./mockTest6").then(m => m.mockReadingTest6),
-    "mock-6-p1": () => import("./mockTest6").then(m => m.mockReadingTest6),
-    "mock-6-p2": () => import("./mockTest6").then(m => m.mockReadingTest6),
-    "mock-6-p3": () => import("./mockTest6").then(m => m.mockReadingTest6),
-
-    "mock-7": () => import("./mockTest7").then(m => m.mockReadingTest7),
-    "mock-7-p1": () => import("./mockTest7").then(m => m.mockReadingTest7),
-    "mock-7-p2": () => import("./mockTest7").then(m => m.mockReadingTest7),
-    "mock-7-p3": () => import("./mockTest7").then(m => m.mockReadingTest7),
+    "mock-1": () => import("./mockTest1Reading").then(m => m.mockTest1Reading),
+    "mock-2": () => import("./mockTest2").then(m => m.mockReadingTest2 || (m as any).readingTests),
 };
-
-export async function getReadingTest(id: string): Promise<ReadingTest | null> {
-    const loader = TEST_LOADERS[id];
-    if (!loader) return null;
-
-    const data = await loader();
-    if (Array.isArray(data)) {
-        return data.find(t => t.id === id) || data[0];
-    }
-    return data;
-}
 
 // Deprecated: Use getReadingTest(id) instead for better performance
 export const READING_TESTS: Record<string, ReadingTest> = {};
+

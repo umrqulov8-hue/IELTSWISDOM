@@ -6,6 +6,7 @@ export interface ListeningQuestion {
     text?: string;
     options?: string[];
     correctAnswer: string | number | string[];
+    pointValue?: number;
 }
 
 export interface ListeningPart {
@@ -13,6 +14,7 @@ export interface ListeningPart {
     title: string;
     instructions: string;
     audioUrl?: string;
+    youtubeId?: string;
     content: string;
     questions: ListeningQuestion[];
 }

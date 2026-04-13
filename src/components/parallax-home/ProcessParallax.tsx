@@ -87,7 +87,7 @@ export default function ProcessParallax() {
         <section ref={containerRef} className="w-full bg-white py-32 relative overflow-hidden">
             {/* Background Text (Premium Parallax) */}
             <motion.div 
-                style={{ y: shouldAnimate && !isMobile ? yBackground : 0, opacity: opacityBackground }}
+                style={{ y: shouldAnimate && !isMobile ? yBackground : 0, opacity: opacityBackground, transform: "translateZ(0)" }}
                 className="absolute top-0 right-[-10%] text-[20vw] font-black text-black uppercase leading-none select-none pointer-events-none will-change-transform"
             >
                 Process

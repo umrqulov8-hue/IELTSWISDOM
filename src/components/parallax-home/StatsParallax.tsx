@@ -50,20 +50,23 @@ export default function StatsParallax() {
     return (
         <section ref={containerRef} className="w-full bg-white text-black py-80 overflow-hidden relative">
             <motion.div 
-                style={{ y: shouldAnimate && !isMobile ? yPosition : 0 }} 
+                style={{ y: shouldAnimate && !isMobile ? yPosition : 0, transform: "translateZ(0)" }} 
                 className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-40 text-center will-change-transform"
             >
                 
                 <div className="flex flex-col items-center justify-center group">
-                    <motion.div 
-                        initial={{ opacity: 0, y: 50 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="text-[14rem] md:text-[20rem] font-black leading-[0.7] tracking-tighter transition-transform group-hover:scale-105 duration-700"
-                    >
-                        <Counter value={8.5} decimal={1} />
-                    </motion.div>
-                    <div className="w-12 h-[2px] bg-black/10 mt-16 mb-8 group-hover:w-20 group-hover:bg-black transition-all duration-700" />
+                    <div className="overflow-hidden px-1">
+                        <motion.div 
+                            initial={{ opacity: 0, y: "100%" }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+                            className="text-7xl md:text-[clamp(5rem,12vw,9.5rem)] font-bold leading-[1.0] tracking-[-0.05em] transition-transform group-hover:scale-105 duration-700 font-plus-jakarta"
+                        >
+                            <Counter value={8.5} decimal={1} />
+                        </motion.div>
+                    </div>
+                    <div className="w-12 h-[2px] bg-black mt-16 mb-8 group-hover:w-24 transition-all duration-700" />
                     <motion.p 
                         initial={{ opacity: 0 }}
                         whileInView={{ opacity: 0.4 }}
@@ -76,16 +79,18 @@ export default function StatsParallax() {
                 </div>
 
                 <div className="flex flex-col items-center justify-center group">
-                    <motion.div 
-                        initial={{ opacity: 0, y: 50 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.2 }}
-                        className="text-[14rem] md:text-[20rem] font-black leading-[0.7] tracking-tighter transition-transform group-hover:scale-105 duration-700"
-                    >
-                        <Counter value={10} suffix="k+" />
-                    </motion.div>
-                    <div className="w-12 h-[2px] bg-black/10 mt-16 mb-8 group-hover:w-20 group-hover:bg-black transition-all duration-700" />
+                    <div className="overflow-hidden px-1">
+                        <motion.div 
+                            initial={{ opacity: 0, y: "100%" }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 1.2, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                            className="text-7xl md:text-[clamp(5rem,12vw,9.5rem)] font-bold leading-[1.0] tracking-[-0.05em] transition-transform group-hover:scale-105 duration-700 font-plus-jakarta"
+                        >
+                            <Counter value={10} suffix="k+" />
+                        </motion.div>
+                    </div>
+                    <div className="w-12 h-[2px] bg-black mt-16 mb-8 group-hover:w-24 transition-all duration-700" />
                     <motion.p 
                         initial={{ opacity: 0 }}
                         whileInView={{ opacity: 0.4 }}

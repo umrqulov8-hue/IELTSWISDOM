@@ -7,15 +7,17 @@ import { useAuth } from "@/hooks/useAuth";
 import { useModal } from "@/context/ModalContext";
 import SmoothScrollLenis from '@/components/parallax-home/SmoothScrollLenis';
 import HeroParallax from '@/components/parallax-home/HeroParallax';
-import ExpertiseSection from '@/components/parallax-home/ExpertiseSection';
-import ProcessParallax from '@/components/parallax-home/ProcessParallax';
-import TrustMarquee from '@/components/parallax-home/TrustMarquee';
-import StatsParallax from '@/components/parallax-home/StatsParallax';
-import PricingParallax from '@/components/parallax-home/PricingParallax';
-import FAQParallax from '@/components/parallax-home/FAQParallax';
+import dynamic from 'next/dynamic';
+import { LazySection } from './LazySection';
+
+const ExpertiseSection = dynamic(() => import('@/components/parallax-home/ExpertiseSection'), { ssr: false });
+const ProcessParallax = dynamic(() => import('@/components/parallax-home/ProcessParallax'), { ssr: false });
+const TrustMarquee = dynamic(() => import('@/components/parallax-home/TrustMarquee'), { ssr: false });
+const StatsParallax = dynamic(() => import('@/components/parallax-home/StatsParallax'), { ssr: false });
+const PricingParallax = dynamic(() => import('@/components/parallax-home/PricingParallax'), { ssr: false });
+const FAQParallax = dynamic(() => import('@/components/parallax-home/FAQParallax'), { ssr: false });
 
 export default function LandingPage() {
-    const { handleStartLearning, isLoading } = useAuth();
     const [mounted, setMounted] = React.useState(false);
     const containerRef = React.useRef(null);
     const { scrollYProgress } = useScroll({
@@ -32,30 +34,37 @@ export default function LandingPage() {
     }, []);
 
     const headerBg = useTransform(scrollYProgress, [0, 0.05], ["rgba(255, 255, 255, 0)", "rgba(255, 255, 255, 0.8)"]);
-    const headerBlur = useTransform(scrollYProgress, [0, 0.05], ["blur(0px)", "blur(20px)"]);
+    const headerBlur = useTransform(scrollYProgress, [0, 0.05], ["blur(0px)", "blur(8px)"]);
     const headerBorder = useTransform(scrollYProgress, [0, 0.05], ["rgba(0,0,0,0)", "rgba(0,0,0,0.05)"]);
+    const headerBorderWidth = useTransform(scrollYProgress, [0, 0.01], [0, 1]);
     const headerPadding = useTransform(scrollYProgress, [0, 0.05], ["2rem", "1rem"]);
-
-    if (!mounted) return <div className="min-h-screen bg-white" />;
+    const headerShadow = useTransform(
+        scrollYProgress, 
+        [0, 0.05], 
+        ["0 0px 0px 0 rgba(0,0,0,0)", "0 4px 20px -5px rgba(0,0,0,0.05)"]
+    );
 
     return (
         <SmoothScrollLenis>
-            <main ref={containerRef} className="relative bg-white selection:bg-black selection:text-white overflow-hidden">
-                {/* Fixed Premium Header */}
+            <main ref={containerRef} className="relative bg-white selection:bg-black selection:text-white overflow-hidden font-plus-jakarta">
+                {/* Fixed Premium Header - SSR Safe Shell */}
                 <motion.header 
                     style={{ 
                         backgroundColor: headerBg, 
-                        backdropFilter: headerBlur,
-                        WebkitBackdropFilter: headerBlur,
-                        borderBottom: "1px solid",
+                        borderBottomWidth: headerBorderWidth,
+                        borderBottomStyle: "solid",
                         borderBottomColor: headerBorder,
                         paddingTop: headerPadding,
                         paddingBottom: headerPadding,
-                        boxShadow: scrollYProgress.get() > 0.05 ? "0 10px 30px -10px rgba(0,0,0,0.1)" : "none"
+                        boxShadow: headerShadow,
+                        backdropFilter: headerBlur,
+                        WebkitBackdropFilter: headerBlur,
+                        willChange: "opacity, background-color, backdrop-filter",
+                        transform: "translateZ(0)"
                     }}
                     initial={{ y: -100, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
-                    className="fixed top-0 left-0 right-0 z-[100] px-6 md:px-20 flex justify-between items-center transition-all duration-500"
+                    className="fixed top-0 left-0 right-0 z-[100] px-6 md:px-20 flex justify-between items-center transition-all duration-500 will-change-transform"
                 >
                     <div className="flex items-center gap-4">
                         <div className="w-10 h-10 bg-black rounded-full flex items-center justify-center">
@@ -66,62 +75,45 @@ export default function LandingPage() {
 
                     <nav className="hidden lg:flex items-center gap-12">
                         {['Methodology', 'Curriculum', 'Results', 'Pricing'].map((item) => (
-                            <a key={item} href={`#${item.toLowerCase()}`} className="text-[10px] font-black uppercase tracking-[0.4em] text-black/40 hover:text-black transition-colors">
+                            <a key={item} href={`#${item.toLowerCase()}`} className="text-[10px] font-black uppercase tracking-[0.4em] text-black/60 hover:text-black transition-colors">
                                 {item}
                             </a>
                         ))}
                     </nav>
 
-                    <button 
-                        onClick={handleStartLearning}
-                        className="px-8 py-3 bg-black text-white text-[10px] font-black uppercase tracking-[0.3em] rounded-full hover:scale-105 active:scale-95 transition-all shadow-lg"
-                    >
-                        Begin Journey
-                    </button>
+                    {/* Button Placeholder for SSR, Real button when mounted */}
+                    <div className="w-40 h-10 flex justify-end">
+                        {mounted && <BeginJourneyButton />}
+                    </div>
                 </motion.header>
 
                 <HeroParallax />
                 
+                {/* SSR Safe Structure: Render only expensive sections when mounted */}
                 <section id="methodology">
-                    <ExpertiseSection />
+                    <LazySection>
+                        <ExpertiseSection />
+                    </LazySection>
                 </section>
 
-                <TrustMarquee />
-                
-                <StatsParallax />
-
-                <section id="curriculum">
-                    <ProcessParallax />
-                </section>
-
-                <PricingParallax />
-
-                <FAQParallax />
+                {mounted && <ClientSections />}
 
                 {/* Modern Minimal Footer */}
                 <footer className="w-full bg-black text-white py-40 px-10">
                     <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-40 items-end">
                         <div className="space-y-12">
                             <h2 className="text-8xl md:text-[12rem] font-black uppercase leading-[0.8] tracking-tighter">
-                                Reach<br/>Band 8.5
+                                Reach<br/><span className="text-white/60">Band 8.5</span>
                             </h2>
-                            <p className="text-xl text-white/40 font-medium max-w-sm">
+                            <p className="text-xl text-white/70 font-medium max-w-sm">
                                 Join the elite circle of students who mastered the IELTS logic, not just the questions.
                             </p>
                         </div>
                         <div className="flex flex-col items-end gap-12">
-                            <motion.button 
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
-                                onClick={handleStartLearning}
-                                disabled={isLoading}
-                                className="px-16 py-8 bg-white text-black text-xl font-black uppercase tracking-widest rounded-full hover:bg-white/90 transition-all shadow-2xl flex items-center gap-4 relative overflow-hidden"
-                            >
-                                {isLoading ? 'Wait...' : 'Secure Success'}
-                            </motion.button>
-                            <div className="text-[10px] font-black uppercase tracking-[0.4em] text-white/20 flex gap-8">
-                                <span>Privacy</span>
-                                <span>Terms</span>
+                           {mounted && <SecureSuccessButton />}
+                            <div className="text-[10px] font-black uppercase tracking-[0.6em] text-white/50 flex gap-8">
+                                <span className="hover:text-white transition-colors cursor-pointer">Privacy</span>
+                                <span className="hover:text-white transition-colors cursor-pointer">Terms</span>
                                 <span>© 2024 Wisdom</span>
                             </div>
                         </div>
@@ -129,5 +121,61 @@ export default function LandingPage() {
                 </footer>
             </main>
         </SmoothScrollLenis>
+    );
+}
+
+// Client-only components to isolate useAuth and other browser-only logic from SSR
+function BeginJourneyButton() {
+    const { handleStartLearning } = useAuth();
+    return (
+        <button 
+            onClick={handleStartLearning}
+            className="px-10 py-4 bg-black text-white text-[11px] font-black uppercase tracking-[0.2em] rounded-full hover:scale-105 active:scale-95 transition-all shadow-lg whitespace-nowrap min-w-[180px] flex items-center justify-center"
+        >
+            Begin Journey
+        </button>
+    );
+}
+
+function SecureSuccessButton() {
+    const { handleStartLearning, isLoading } = useAuth();
+    return (
+        <motion.button 
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={handleStartLearning}
+            disabled={isLoading}
+            className="px-16 py-8 bg-white text-black text-xl font-black uppercase tracking-widest rounded-full hover:bg-white/90 transition-all shadow-2xl flex items-center gap-4 relative overflow-hidden"
+        >
+            {isLoading ? 'Wait...' : 'Secure Success'}
+        </motion.button>
+    );
+}
+
+function ClientSections() {
+    return (
+        <>
+            <LazySection>
+                <TrustMarquee />
+            </LazySection>
+            
+            <LazySection>
+                <StatsParallax />
+            </LazySection>
+
+            <section id="curriculum">
+                <LazySection>
+                    <ProcessParallax />
+                </LazySection>
+            </section>
+
+            <LazySection>
+                <PricingParallax />
+            </LazySection>
+
+            <LazySection>
+                <FAQParallax />
+            </LazySection>
+        </>
     );
 }

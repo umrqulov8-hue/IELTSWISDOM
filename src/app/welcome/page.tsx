@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Button } from "@/components/Button";
 import { CheckCircle, ArrowRight, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
@@ -128,9 +127,9 @@ export default function WelcomePage() {
                 </div>
 
                 <div className="mt-12 flex justify-end">
-                    <Button
+                    <button
                         onClick={handleNext}
-                        className={`font-bold px-8 py-6 rounded-xl shadow-lg transition-all ${step > 1 && selectedOption === null ? 'bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400 cursor-not-allowed border-0 hover:bg-slate-200 dark:hover:bg-slate-800' : 'bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-100 text-white dark:text-slate-900 border-0 shadow-slate-900/20 dark:shadow-white/20'}`}
+                        className={`font-bold px-8 py-4 flex items-center rounded-xl shadow-lg transition-all ${step > 1 && selectedOption === null ? 'bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400 cursor-not-allowed' : 'bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-100 text-white dark:text-slate-900 shadow-slate-900/20 dark:shadow-white/20'}`}
                         disabled={loading || (step > 1 && selectedOption === null)}
                     >
                         {loading ? <Loader2 className="animate-spin" /> : (
@@ -139,8 +138,9 @@ export default function WelcomePage() {
                                 <ArrowRight className="ml-2 w-5 h-5" />
                             </>
                         )}
-                    </Button>
+                    </button>
                 </div>
+
 
             </motion.div>
         </div>

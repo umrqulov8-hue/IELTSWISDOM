@@ -15,6 +15,7 @@ import { createClient } from "@/utils/supabase/client";
 import { createPortal } from "react-dom";
 import { HighlighterMenu, HighlightColor } from "@/components/ui/HighlighterMenu";
 import { toast } from "sonner";
+import { YouTubeAudioPlayer } from "@/components/exam/YouTubeAudioPlayer";
 
 // ─────────────────────────────────────────────
 // Static Content
@@ -112,12 +113,24 @@ const ListeningPartSection = memo(function ListeningPartSection({
             <div ref={readingAreaRef} className="glass-card rounded-2xl p-6 md:p-8 mb-6 selection:bg-blue-100 selection:text-blue-900">
                 <StaticContent ref={contentRef} content={part.content} />
 
-                {/* Multiple choice */}
-                {part.questions.filter(q => q.type === "multiple-choice").length > 0 && (
+                {/* Multiple choice and Multiple Choice Multiple */}
+                {part.questions.filter(q => q.type === "multiple-choice" || q.type === "multiple-choice-multiple").length > 0 && (
                     <div className="mt-8 space-y-5">
-                        {part.questions.filter(q => q.type === "multiple-choice").map((q, qIndex) => {
-                            const isCorrect = isSubmitted && answers[q.id.toString()] === q.correctAnswer.toString();
-                            const isWrong = isSubmitted && answers[q.id.toString()] !== q.correctAnswer.toString();
+                        {part.questions.filter(q => q.type === "multiple-choice" || q.type === "multiple-choice-multiple").map((q, qIndex) => {
+                            const isMulti = q.type === "multiple-choice-multiple";
+                            const userAns = answers[q.id.toString()] || (isMulti ? "" : "");
+                            const userAnsArray = isMulti ? (userAns ? userAns.split(",") : []) : [userAns];
+                            
+                            const correctOptIndices = Array.isArray(q.correctAnswer) 
+                                ? q.correctAnswer.map(a => a.toString()) 
+                                : [q.correctAnswer.toString()];
+
+                            const isCorrect = isSubmitted && (
+                                isMulti 
+                                    ? correctOptIndices.every(idx => userAnsArray.includes(idx)) && userAnsArray.length === correctOptIndices.length
+                                    : userAns === q.correctAnswer.toString()
+                            );
+                            
                             return (
                                 <motion.div
                                     initial={{ opacity: 0, y: 20 }}
@@ -127,8 +140,8 @@ const ListeningPartSection = memo(function ListeningPartSection({
                                     key={q.id}
                                     className={cn(
                                         "p-4 rounded-xl border backdrop-blur-sm transition-colors",
-                                        isCorrect ? "border-green-300/60 bg-green-50/40" :
-                                            isWrong ? "border-red-300/60 bg-red-50/40" :
+                                        isSubmitted && isCorrect ? "border-green-300/60 bg-green-50/40" :
+                                            isSubmitted && !isCorrect ? "border-red-300/60 bg-red-50/40" :
                                                 "border-white/40 bg-white/20 hover:bg-white/30 hover:shadow-sm"
                                     )}>
                                     <p className="font-bold text-slate-700 mb-3 flex gap-2">
@@ -136,26 +149,50 @@ const ListeningPartSection = memo(function ListeningPartSection({
                                     </p>
                                     <div className="space-y-2 pl-5">
                                         {q.options?.map((opt, idx) => {
-                                            const sel = answers[q.id.toString()] === idx.toString();
-                                            const correctOpt = idx.toString() === q.correctAnswer.toString();
+                                            const idxStr = idx.toString();
+                                            const isSelected = userAnsArray.includes(idxStr);
+                                            const isCorrectOption = correctOptIndices.includes(idxStr);
+                                            
                                             return (
                                                 <label key={idx} className={cn(
                                                     "flex items-center gap-3 p-2.5 rounded-xl border cursor-pointer transition-all text-sm",
-                                                    sel && !isSubmitted ? "bg-[#2D3E50]/5 border-[#2D3E50]/20 shadow-sm" : "bg-white/20 border-white/30 hover:bg-white/40",
-                                                    isSubmitted && correctOpt ? "bg-green-100/50 border-green-300" : "",
-                                                    isSubmitted && sel && !correctOpt ? "bg-red-100/50 border-red-300" : "",
+                                                    isSelected && !isSubmitted ? "bg-[#2D3E50]/5 border-[#2D3E50]/20 shadow-sm" : "bg-white/20 border-white/30 hover:bg-white/40",
+                                                    isSubmitted && isCorrectOption ? "bg-green-100/50 border-green-300" : "",
+                                                    isSubmitted && isSelected && !isCorrectOption ? "bg-red-100/50 border-red-300" : "",
                                                 )}>
                                                     <div className={cn(
-                                                        "w-4 h-4 rounded-full border-2 flex items-center justify-center flex-shrink-0",
-                                                        sel ? "border-[#2D3E50] bg-[#2D3E50]" : "border-slate-300",
-                                                        isSubmitted && correctOpt ? "border-green-500 bg-green-500" : "",
-                                                        isSubmitted && sel && !correctOpt ? "border-red-500 bg-red-500" : "",
+                                                        "w-4 h-4 flex items-center justify-center flex-shrink-0 border-2 transition-all",
+                                                        isMulti ? "rounded-sm" : "rounded-full",
+                                                        isSelected ? "border-[#2D3E50] bg-[#2D3E50]" : "border-slate-300",
+                                                        isSubmitted && isCorrectOption ? "border-green-500 bg-green-500" : "",
+                                                        isSubmitted && isSelected && !isCorrectOption ? "border-red-500 bg-red-500" : "",
                                                     )}>
-                                                        {(sel || (isSubmitted && correctOpt)) && <div className="w-1.5 h-1.5 bg-white rounded-full" />}
+                                                        {(isSelected || (isSubmitted && isCorrectOption)) && (
+                                                            isMulti ? (
+                                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" className="w-3 h-3 text-white">
+                                                                    <polyline points="20 6 9 17 4 12" />
+                                                                </svg>
+                                                            ) : (
+                                                                <div className="w-1.5 h-1.5 bg-white rounded-full" />
+                                                            )
+                                                        )}
                                                     </div>
-                                                    <input type="radio" name={`q-${q.id}`} className="hidden"
-                                                        checked={sel}
-                                                        onChange={() => !isSubmitted && onAnswerChange(q.id.toString(), idx.toString())}
+                                                    <input 
+                                                        type={isMulti ? "checkbox" : "radio"} 
+                                                        name={`q-${q.id}`} 
+                                                        className="hidden"
+                                                        checked={isSelected}
+                                                        onChange={() => {
+                                                            if (isSubmitted) return;
+                                                            if (isMulti) {
+                                                                const newArray = isSelected 
+                                                                    ? userAnsArray.filter(i => i !== idxStr)
+                                                                    : [...userAnsArray, idxStr];
+                                                                onAnswerChange(q.id.toString(), newArray.sort().join(","));
+                                                            } else {
+                                                                onAnswerChange(q.id.toString(), idxStr);
+                                                            }
+                                                        }}
                                                     />
                                                     <span className="text-slate-700">
                                                         <span className="text-slate-400 mr-1 font-semibold">{String.fromCharCode(65 + idx)}.</span>
@@ -394,6 +431,11 @@ export default function ListeningTestPage() {
 
     const togglePlay = () => {
         const audio = audioRef.current;
+        if (currentPart.youtubeId) {
+            setIsPlaying(prev => !prev);
+            setStartedAudio(true);
+            return;
+        }
         if (!audio) return;
         if (isPlaying) { audio.pause(); setIsPlaying(false); }
         else { audio.play().catch(() => { }); setIsPlaying(true); }
@@ -420,7 +462,19 @@ export default function ListeningTestPage() {
                         : [q.correctAnswer.toString().toLowerCase()];
                     if (correctOptions.includes(userAns)) s++;
                 }
-                if (q.type === "multiple-choice" && ua === q.correctAnswer.toString()) s++;
+                if (q.type === "multiple-choice" && ua === q.correctAnswer.toString()) {
+                    s += (q.pointValue || 1);
+                }
+                if (q.type === "multiple-choice-multiple") {
+                    const userAnsArray = ua.split(",");
+                    const correctOptIndices = Array.isArray(q.correctAnswer) 
+                        ? q.correctAnswer.map(a => a.toString()) 
+                        : [q.correctAnswer.toString()];
+                    
+                    const correctCount = correctOptIndices.filter(idx => userAnsArray.includes(idx)).length;
+                    // If it's a "Choose TWO" question, each correct choice is 1 point
+                    s += correctCount;
+                }
             })
         );
         setScore(s);
@@ -466,7 +520,7 @@ export default function ListeningTestPage() {
                 <div>
                     <AlertCircle className="w-14 h-14 text-red-400 mx-auto mb-4" />
                     <h2 className="text-2xl font-bold text-slate-800 mb-2">Test Not Found</h2>
-                    <Link href="/practice/listening">
+                    <Link href="/lessons/listening">
                         <button className="mt-6 px-6 py-3 bg-slate-800 text-white rounded-xl font-bold">← Back</button>
                     </Link>
                 </div>
@@ -474,7 +528,8 @@ export default function ListeningTestPage() {
         );
     }
 
-    const totalQ = testData.parts.reduce((a, p) => a + p.questions.length, 0);
+    const totalQ = testData.parts.reduce((a, p) => 
+        a + p.questions.reduce((sum, q) => sum + (q.pointValue || 1), 0), 0);
     const currentPart = testData.parts[currentPartIndex];
     const answeredCount = Object.values(answers).filter(v => v !== "").length;
 
@@ -543,7 +598,7 @@ export default function ListeningTestPage() {
                                 initial={{ y: 10, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.5 }}
                                 className="flex gap-4 justify-center"
                             >
-                                <Link href="/practice/listening">
+                                <Link href="/lessons/listening">
                                     <button className="px-6 py-4 rounded-xl border-2 border-slate-200/60 bg-white/50 text-slate-600 font-bold hover:bg-white hover:border-slate-300 transition-all shadow-sm">
                                         Cancel
                                     </button>
@@ -585,7 +640,7 @@ export default function ListeningTestPage() {
                 className="glass-topbar fixed top-0 left-0 right-0 z-50 px-5 py-3 flex items-center justify-between transition-all"
             >
                 <div className="flex items-center gap-3">
-                    <Link href="/practice/listening">
+                    <Link href="/lessons/listening">
                         <button className="flex items-center gap-1.5 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 text-sm font-medium">
                             <ChevronLeft className="w-4 h-4" /> Back
                         </button>
@@ -700,7 +755,13 @@ export default function ListeningTestPage() {
                             {/* Native audio (hidden controls, driven by ref) */}
                             <div className="flex-1">
                                 <p className="text-slate-400 text-[10px] uppercase tracking-widest font-semibold mb-1.5">Audio Player</p>
-                                {currentPart.audioUrl ? (
+                                {currentPart.youtubeId ? (
+                                    <YouTubeAudioPlayer 
+                                        youtubeId={currentPart.youtubeId}
+                                        isPlaying={isPlaying}
+                                        onEnded={() => setIsPlaying(false)}
+                                    />
+                                ) : currentPart.audioUrl ? (
                                     <audio
                                         ref={audioRef}
                                         key={currentPart.audioUrl}

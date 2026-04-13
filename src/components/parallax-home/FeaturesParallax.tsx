@@ -61,8 +61,8 @@ function FeatureCard({ feature, index }: { feature: typeof features[0], index: n
                     whileInView={{ scale: 1, opacity: 1, rotateY: 0 }}
                     viewport={{ once: true, margin: "-100px" }}
                     transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
-                    style={{ y: yVisual, scale }}
-                    className="absolute inset-0 w-full h-full shadow-[0_80px_160px_-40px_rgba(0,0,0,0.5)] rounded-[4rem] overflow-hidden bg-black"
+                    style={{ y: yVisual, scale, transform: "translateZ(0)" }}
+                    className="absolute inset-0 w-full h-full shadow-[0_80px_160px_-40px_rgba(0,0,0,0.5)] rounded-[4rem] overflow-hidden bg-black will-change-transform"
                 >
                     {renderVisual()}
                     <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60" />
@@ -85,16 +85,16 @@ function FeatureCard({ feature, index }: { feature: typeof features[0], index: n
                     <span className="text-xs font-black uppercase tracking-[0.6em]">Core {index + 1}</span>
                 </motion.div>
 
-                <div className="mb-12">
+                <div className="mb-12 overflow-hidden px-1">
                     <motion.h2 
-                        initial={{ opacity: 0, y: 30 }}
+                        initial={{ opacity: 0, y: "100%" }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true, margin: "-100px" }}
-                        transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-                        className="text-7xl md:text-[8rem] font-serif italic text-black leading-[0.85] tracking-tighter"
+                        transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+                        className="text-4xl md:text-[clamp(2.5rem,5vw,4.5rem)] font-bold uppercase text-black leading-[1.0] tracking-[-0.04em] font-plus-jakarta"
                     >
-                        <span className="font-sans font-black uppercase not-italic block mb-2">{head}</span>
-                        {tail}
+                        {head}<br/>
+                        <span className="text-black/10">{tail}</span>
                     </motion.h2>
                 </div>
 
@@ -103,7 +103,7 @@ function FeatureCard({ feature, index }: { feature: typeof features[0], index: n
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-100px" }}
                     transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-                    className="text-2xl text-black/40 font-medium leading-[1.4] tracking-tight max-w-sm group-hover:text-black transition-colors duration-700"
+                    className="text-2xl text-black/60 font-medium leading-[1.3] tracking-tight max-w-sm group-hover:text-black transition-colors duration-700"
                 >
                     {feature.description}
                 </motion.p>

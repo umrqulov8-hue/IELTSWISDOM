@@ -38,7 +38,7 @@ function ActivityItem({ activity }: { activity: Activity }) {
                 </div>
             </div>
             
-            <span className="text-sm font-black text-emerald-600 dark:text-emerald-400 transition-colors">{activity.score}</span>
+            <span className="text-sm font-black text-emerald-700 dark:text-emerald-400 transition-colors">{activity.score}</span>
         </div>
     );
 }

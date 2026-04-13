@@ -9,7 +9,9 @@ export default function SmoothScrollLenis({ children }: { children: React.ReactN
             duration: 1.2,
             easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
             touchMultiplier: 2,
+            wheelMultiplier: 1,
             infinite: false,
+            lerp: 0.1, // Custom lerp for smoother momentum
         });
 
         function raf(time: number) {

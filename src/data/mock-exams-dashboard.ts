@@ -42,7 +42,10 @@ export const MOCK_TESTS_DASHBOARD: MockTestMeta[] = Array.from({ length: 30 }, (
     return {
         id: `mock-${id}`,
         index: i,
-        title: { en: `IELTS Mock Test ${id}`, uz: `IELTS Mock Test ${id}` },
+        title: { 
+            en: id === 1 ? "Cambridge IELTS 20, Test 1" : `IELTS Mock Test ${id}`, 
+            uz: id === 1 ? "Cambridge IELTS 20, Test 1" : `IELTS Mock Test ${id}` 
+        },
         desc: { 
             en: `Complete practice test with all four skills - ${difficulty} level`, 
             uz: `To'rtta ko'nikmani qamrab oluvchi to'liq mock test - ${difficulty} darajasi` 
