@@ -623,7 +623,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                         const passageQuestions = arr;
                                         const isCorrect = isSubmitted && (
                                             q.type === "fill-blank"
-                                                ? (typeof answers[q.id] === 'string' && answers[q.id].trim().toLowerCase() === (q.correctAnswer as string).toLowerCase())
+                                                ? (answers[q.id] !== undefined && String(answers[q.id]).trim().toLowerCase() === String(q.correctAnswer).toLowerCase())
                                                 : answers[q.id] === q.correctAnswer
                                         );
                                         const isWrong = isSubmitted && !isCorrect;
@@ -641,8 +641,8 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                                         if (!question) return false;
                                                         const userAnswer = answers[qid];
                                                         if (typeof userAnswer === 'string') {
-                                                            const acceptable = (question.correctAnswer as string).split(',').map(s => s.trim().toLowerCase());
-                                                            return acceptable.includes(userAnswer.trim().toLowerCase());
+                                                            const acceptable = String(question.correctAnswer).split(',').map(s => s.trim().toLowerCase());
+                                                            return acceptable.includes(String(userAnswer).trim().toLowerCase());
                                                         }
                                                         return false;
                                                     };
@@ -1003,12 +1003,12 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
 
                                         const allCorrect = coveredIds.every(id => {
                                             const question = passageQuestions.find((pq: any) => pq.id === id);
-                                            return answers[id]?.toLowerCase().trim() === String(question?.correctAnswer).toLowerCase().trim();
+                                            return String(answers[id] ?? "").toLowerCase().trim() === String(question?.correctAnswer ?? "").toLowerCase().trim();
                                         });
                                         const anyWrong = coveredIds.some(id => {
-                                            if (!answers[id]) return false;
+                                            if (answers[id] === undefined || answers[id] === "") return false;
                                             const question = passageQuestions.find((pq: any) => pq.id === id);
-                                            return answers[id]?.toLowerCase().trim() !== String(question?.correctAnswer).toLowerCase().trim();
+                                            return String(answers[id] ?? "").toLowerCase().trim() !== String(question?.correctAnswer ?? "").toLowerCase().trim();
                                         });
 
                                         return (
@@ -1033,7 +1033,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                                                     if (match) {
                                                                         const targetId = parseInt(match[1]);
                                                                         const targetQuestion = passageQuestions.find(pq => pq.id === targetId) || q;
-                                                                        const isCorrect_target = isSubmitted && answers[targetId]?.toLowerCase().trim() === String(targetQuestion.correctAnswer).toLowerCase().trim();
+                                                                        const isCorrect_target = isSubmitted && String(answers[targetId] ?? "").toLowerCase().trim() === String(targetQuestion.correctAnswer ?? "").toLowerCase().trim();
                                                                         const isWrong_target = isSubmitted && answers[targetId] && !isCorrect_target;
 
                                                                         return (
@@ -1059,8 +1059,8 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
 
                                                                     // Check if it's a plain blank (un-numbered)
                                                                     if (part.match(/^[…\._]{2,}$/)) {
-                                                                        const allCorrect = passageQuestions.every(pq => answers[pq.id]?.toLowerCase().trim() === String(pq.correctAnswer).toLowerCase().trim());
-                                                                        const anyWrong = passageQuestions.some(pq => answers[pq.id] && answers[pq.id]?.toLowerCase().trim() !== String(pq.correctAnswer).toLowerCase().trim());
+                                                                        const allCorrect = passageQuestions.every(pq => String(answers[pq.id] ?? "").toLowerCase().trim() === String(pq.correctAnswer ?? "").toLowerCase().trim());
+                                                                        const anyWrong = passageQuestions.some(pq => answers[pq.id] && String(answers[pq.id] ?? "").toLowerCase().trim() !== String(pq.correctAnswer ?? "").toLowerCase().trim());
                                                                         return (
                                                                             <input
                                                                                 key={i}
@@ -1086,7 +1086,7 @@ export default function ReadingTestPage({ params }: { params: Promise<{ id: stri
                                                                     <div className="mt-3 space-y-2">
                                                                         {coveredIds.map(id => {
                                                                             const question = passageQuestions.find((pq: any) => pq.id === id);
-                                                                            const isWrong_id = answers[id]?.toLowerCase().trim() !== String(question?.correctAnswer).toLowerCase().trim();
+                                                                            const isWrong_id = String(answers[id] ?? "").toLowerCase().trim() !== String(question?.correctAnswer ?? "").toLowerCase().trim();
                                                                             if (!isWrong_id) return null;
                                                                             return (
                                                                                 <div key={id} className="p-3 bg-red-50 border border-red-100 rounded-xl text-xs font-bold text-red-700 animate-in fade-in slide-in-from-top-1">
