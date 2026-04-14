@@ -152,14 +152,14 @@ export function ActivityCalendar() {
                 className={cn(
                     "flex items-center gap-2 p-2 px-3 rounded-xl bg-white dark:bg-slate-900 border shadow-sm transition-all duration-150 ease-in-out cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 active:scale-95",
                     currentStreakCount > 0 
-                      ? "border-teal-200 dark:border-teal-900/50" 
+                      ? "border-slate-800 dark:border-slate-200" 
                       : "border-slate-200 dark:border-slate-800",
-                    isOpen && "ring-2 ring-teal-400"
+                    isOpen && "ring-2 ring-slate-800 dark:ring-slate-200"
                 )}
             >
-                <CalendarIcon className={cn("w-5 h-5", currentStreakCount > 0 ? "text-teal-600" : "text-slate-400")} />
-                <span className={cn("text-sm font-extrabold font-mono", currentStreakCount > 0 ? "text-teal-600 dark:text-teal-400" : "text-slate-500 dark:text-slate-400")}>
-                    {currentStreakCount} <Flame className="inline-block w-3 h-3 text-teal-600 fill-teal-600 -mt-1 -ml-1" />
+                <CalendarIcon className={cn("w-5 h-5", currentStreakCount > 0 ? "text-slate-800 dark:text-slate-100" : "text-slate-400")} />
+                <span className={cn("text-sm font-extrabold font-mono", currentStreakCount > 0 ? "text-slate-800 dark:text-slate-100" : "text-slate-500 dark:text-slate-400")}>
+                    {currentStreakCount} <Flame className="inline-block w-3 h-3 text-slate-800 dark:text-slate-100 fill-slate-800 dark:fill-slate-100 -mt-1 -ml-1" />
                 </span>
             </button>
 
@@ -214,8 +214,8 @@ export function ActivityCalendar() {
                                             className={cn(
                                                 "w-9 h-9 flex items-center justify-center rounded-full text-sm font-semibold transition-all duration-300 relative z-10",
                                                 d.isCurrentMonth ? "text-slate-700 dark:text-slate-300" : "text-slate-300 dark:text-slate-600",
-                                                isActive && "bg-teal-600 text-white shadow-[0_4px_12px_rgba(13,148,136,0.3)] transform hover:scale-105",
-                                                !isActive && isToday && "ring-2 ring-teal-600 text-teal-700 dark:text-teal-400 font-extrabold",
+                                                isActive && "bg-slate-800 dark:bg-slate-100 text-white dark:text-slate-900 shadow-md transform hover:scale-105",
+                                                !isActive && isToday && "ring-2 ring-slate-800 dark:ring-slate-100 text-slate-800 dark:text-slate-100 font-extrabold",
                                                 !isActive && !isToday && d.isCurrentMonth && "hover:bg-slate-100 dark:hover:bg-slate-800 cursor-default"
                                             )}
                                         >
@@ -230,8 +230,8 @@ export function ActivityCalendar() {
                             <span className="text-xs text-slate-500 font-medium">
                                 {lang === "en" ? "Current Streak" : "Joriy seriya"}
                             </span>
-                            <span className="text-sm font-extrabold text-teal-600 flex items-center gap-1">
-                                {currentStreakCount} {lang === "en" ? "Days" : "Kun"} <Flame className="w-3.5 h-3.5 fill-teal-600" />
+                            <span className="text-sm font-extrabold text-slate-800 dark:text-slate-100 flex items-center gap-1">
+                                {currentStreakCount} {lang === "en" ? "Days" : "Kun"} <Flame className="w-3.5 h-3.5 fill-slate-800 dark:fill-slate-100" />
                             </span>
                         </div>
                     </motion.div>
