@@ -25,11 +25,7 @@ const QuickActions = dynamic(() => import("@/components/dashboard/QuickActions")
 export function DashboardClient() {
     const { stats } = useDashboard();
 
-    const mockActivities: any[] = [
-        { id: "1", type: "Reading", title: "Academic Reading Task 1", time: "Today", score: "85%" },
-        { id: "2", type: "Listening", title: "Social Context Practice", time: "Yesterday", score: "92%" },
-        { id: "3", type: "Writing", title: "Task 2 Essay Structure", time: "2 days ago", score: "78%" },
-    ];
+    const mockActivities: any[] = [];
 
     return (
         <div className="space-y-12 animate-in fade-in duration-700">
@@ -71,10 +67,10 @@ export function DashboardClient() {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch h-[432px]">
                 <div className="lg:col-span-2 h-[432px]">
                     <MockTestWidget 
-                        completed={stats?.reading_tests_completed || 0}
-                        total={30}
-                        avgBand={stats?.writing_average_score || 0}
-                        lastScore={7.5}
+                        completed={stats?.mock_tests_completed || 0}
+                        total={stats?.mock_tests_total || 30}
+                        avgBand={stats?.mock_average_band || 0}
+                        lastScore={stats?.mock_last_band || 0}
                     />
                 </div>
                 <div className="h-[432px]">

@@ -29,22 +29,29 @@ export class ErrorBoundary extends Component<Props, State> {
     public render() {
         if (this.state.hasError) {
             return (
-                <div className="min-h-screen bg-slate-50 flex items-center justify-center p-6">
-                    <div className="max-w-md w-full bg-white rounded-3xl shadow-xl border border-slate-100 p-10 text-center animate-in fade-in zoom-in duration-300">
-                        <div className="w-20 h-20 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-8">
-                            <AlertTriangle className="w-10 h-10 text-red-500" />
+                <div className="flex flex-col items-center justify-center min-h-screen bg-[#F8F9FB] p-6 text-center">
+                    <div className="bg-white p-10 rounded-2xl shadow-xl max-w-md w-full border border-slate-100 flex flex-col items-center">
+                        <div className="w-16 h-16 bg-red-50 text-red-500 rounded-full flex items-center justify-center mb-6">
+                            <AlertTriangle className="w-8 h-8" />
                         </div>
-                        <h1 className="text-2xl font-black text-slate-800 mb-4 tracking-tight">Something went wrong</h1>
-                        <p className="text-slate-500 mb-8 leading-relaxed">
+                        
+                        <h2 className="text-2xl font-black text-slate-800 mb-3 tracking-tight">Something went wrong</h2>
+                        <p className="text-slate-500 mb-4 font-medium text-sm leading-relaxed">
                             We've encountered an unexpected error. Don't worry, your progress is likely safe.
                         </p>
+                        
+                        {this.state.error && (
+                            <div className="w-full bg-red-50 text-red-600 text-xs p-4 rounded-lg mb-8 text-left overflow-auto max-h-32 font-mono">
+                                {this.state.error.toString()}
+                            </div>
+                        )}
 
-                        <div className="flex flex-col gap-3">
+                        <div className="flex flex-col w-full gap-3">
                             <button
                                 onClick={() => window.location.reload()}
-                                className="w-full py-4 rounded-xl bg-blue-600 text-white font-bold flex items-center justify-center gap-2 hover:bg-blue-700 transition-all shadow-lg shadow-blue-500/20 active:scale-[0.98]"
+                                className="w-full py-3 px-6 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold transition-all flex items-center justify-center gap-2 shadow-md shadow-blue-500/20"
                             >
-                                <RefreshCcw className="w-5 h-5" />
+                                <RefreshCcw className="w-4 h-4" />
                                 Refresh Page
                             </button>
 

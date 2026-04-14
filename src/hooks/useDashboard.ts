@@ -4,6 +4,12 @@ import { useEffect, useState } from "react";
 import { createClient } from "@/utils/supabase/client";
 import { useAuthContext } from "@/context/AuthContext";
 
+import { READING_LESSONS, MIGRATED_TESTS } from "@/data/reading-lessons";
+import { LISTENING_LESSONS, MIGRATED_LISTENING_TESTS } from "@/data/listening-lessons";
+import { WRITING_LESSONS } from "@/data/writing-lessons";
+import { SPEAKING_LESSONS } from "@/data/speaking-lessons";
+import { MOCK_TESTS_DASHBOARD } from "@/data/mock-exams-dashboard";
+
 // Types
 export interface StudentStats {
     progress_percentage: number;
@@ -15,7 +21,7 @@ export interface StudentStats {
     listening_tests_completed: number;
     listening_average_score: number;
     writing_tests_completed: number;
-    writing_average_score: number; // This will actually be the average Band score 0-9
+    writing_average_score: number; 
     vocab_tests_completed: number;
     vocab_average_score: number;
     estimated_level: string;
@@ -23,6 +29,10 @@ export interface StudentStats {
     listening_progress?: number;
     writing_progress?: number;
     vocab_progress?: number;
+    mock_tests_completed?: number;
+    mock_tests_total?: number;
+    mock_average_band?: number;
+    mock_last_band?: number;
     reading_breakdown?: {
         free_passages: { count: number; correct: number; total: number };
         cambridge: { count: number; correct: number; total: number };
@@ -49,7 +59,7 @@ export interface Notification {
     type: 'info' | 'success' | 'warning' | 'error';
     is_read: boolean;
     created_at: string;
-    time_ago?: string; // Calculated field
+    time_ago?: string;
 }
 
 export interface Lesson {
@@ -70,36 +80,37 @@ export function useDashboard() {
 
     useEffect(() => {
         const fetchData = async () => {
-            if (authLoading) return; // Wait for auth to settle
+            if (authLoading) return;
 
             if (!user) {
-                // Not logged in -> Stop loading, no data
                 setDataLoading(false);
                 return;
             }
 
             try {
-                // Run all queries in PARALLEL — use maybeSingle() to handle missing rows
                 const [statsResult, testResults, notifResult, lessonResult] = await Promise.all([
                     supabase.from('student_stats').select('*').eq('user_id', user.id).maybeSingle(),
-                    supabase.from('test_results').select('test_id, score, total_questions').eq('user_id', user.id),
+                    supabase.from('test_results').select('test_id, score, total_questions, created_at').eq('user_id', user.id).order('created_at', { ascending: false }),
                     supabase.from('notifications').select('*').eq('user_id', user.id).order('created_at', { ascending: false }).limit(5),
                     supabase.from('lessons').select('id, title, slug, module, icon_name').limit(20),
                 ]);
 
-                // Log errors but don't crash
                 if (statsResult.error) console.warn("Dashboard: Could not fetch student_stats", statsResult.error.message);
                 if (testResults.error) console.warn("Dashboard: Could not fetch test_results", testResults.error.message);
                 if (notifResult.error) console.warn("Dashboard: Could not fetch notifications", notifResult.error.message);
                 if (lessonResult.error) console.warn("Dashboard: Could not fetch lessons", lessonResult.error.message);
 
-                // Calculate real stats from test_results
                 let reading_tests_completed = 0, reading_score_sum = 0, reading_q_sum = 0, reading_unique = new Set();
                 let listening_tests_completed = 0, listening_score_sum = 0, listening_q_sum = 0, listening_unique = new Set();
                 let writing_tests_completed = 0, writing_score_sum = 0, writing_unique = new Set();
                 let vocab_tests_completed = 0, vocab_score_sum = 0, vocab_q_sum = 0, vocab_unique = new Set();
 
-                // Detailed breakdown
+                // Mock test tracking
+                let mock_unique = new Set<string>();
+                let mock_band_sum = 0;
+                let mock_band_count = 0;
+                let last_mock_band = 0;
+
                 const reading_breakdown = {
                     free_passages: { count: 0, correct: 0, total: 0, unique: new Set() },
                     cambridge: { count: 0, correct: 0, total: 0, unique: new Set() }
@@ -120,12 +131,24 @@ export function useDashboard() {
                 let completedTestsCount = 0;
 
                 if (testResults.data && testResults.data.length > 0) {
-                    testResults.data.forEach((test) => {
+                    testResults.data.forEach((test, index) => {
                         const id = test.test_id.toLowerCase();
                         const percentage = (test.score / (test.total_questions || 1)) * 100;
+                        const bandEstimate = test.total_questions > 0 ? (test.score / test.total_questions) * 9 : test.score;
 
-                        // Categorize
-                        if (id.startsWith('vocab-')) {
+                        if (id.startsWith('mock-')) {
+                            // Map mock tests properly
+                            if (!mock_unique.has(id)) {
+                                mock_unique.add(id);
+                                mock_band_sum += bandEstimate;
+                                mock_band_count++;
+                                if (mock_band_count === 1) {
+                                    // Because the results are ordered by created_at DESC (latest first) due to the query modifier
+                                    last_mock_band = bandEstimate;
+                                }
+                            }
+                        }
+                        else if (id.startsWith('vocab-')) {
                             vocab_unique.add(test.test_id);
                             vocab_score_sum += test.score;
                             vocab_q_sum += test.total_questions;
@@ -133,9 +156,9 @@ export function useDashboard() {
                             vocab_breakdown.correct += test.score;
                             vocab_breakdown.total += test.total_questions;
                         }
-                        else if (id.startsWith('w-') || id.startsWith('feb')) {
+                        else if (id.startsWith('w-') || id.startsWith('feb') || id.includes('writing')) {
                             writing_unique.add(test.test_id);
-                            writing_score_sum += test.score; // Band score
+                            writing_score_sum += test.score;
                             if (id.startsWith('t1-') || id.includes('task1')) {
                                 writing_breakdown.task1.unique.add(test.test_id);
                                 writing_breakdown.task1.sum_score += test.score;
@@ -144,7 +167,7 @@ export function useDashboard() {
                                 writing_breakdown.task2.sum_score += test.score;
                             }
                         }
-                        else if (id.startsWith('t1-') || id.startsWith('t2-') || id.startsWith('tp3-') || id.startsWith('cambridge-') || id.startsWith('auth-')) {
+                        else if (id.startsWith('t1-') || id.startsWith('t2-') || id.startsWith('tp3-') || id.startsWith('cambridge-') || id.startsWith('auth-') || id.includes('listening')) {
                             listening_unique.add(test.test_id);
                             listening_score_sum += test.score;
                             listening_q_sum += test.total_questions;
@@ -175,7 +198,6 @@ export function useDashboard() {
                             }
                         }
 
-                        // For overall
                         completedTestsCount++;
                         totalScorePercentage += percentage;
                     });
@@ -190,6 +212,13 @@ export function useDashboard() {
                 let estimated_level = "Beginner (A1/A2)";
                 if (avgScore >= 40 && avgScore < 70) estimated_level = "Intermediate (B1/B2)";
                 if (avgScore >= 70) estimated_level = "Advanced (C1/C2)";
+
+                // Calculate dynamic totals from exactly available modules
+                const totalReadingAvailable = READING_LESSONS.length + MIGRATED_TESTS.length;
+                const totalListeningAvailable = LISTENING_LESSONS.length + MIGRATED_LISTENING_TESTS.length;
+                const totalWritingAvailable = WRITING_LESSONS.length;
+                const totalSpeakingAvailable = SPEAKING_LESSONS.length;
+                const totalMockExams = MOCK_TESTS_DASHBOARD.length;
 
                 setStats({
                     ...(statsResult.data || {
@@ -207,47 +236,29 @@ export function useDashboard() {
                     vocab_tests_completed,
                     vocab_average_score: vocab_q_sum > 0 ? Math.round((vocab_score_sum / vocab_q_sum) * 100) : 0,
                     estimated_level,
-                    reading_progress: Math.min(Math.round((reading_unique.size / 8) * 100), 100),
-                    listening_progress: Math.min(Math.round((listening_unique.size / 15) * 100), 100),
-                    writing_progress: Math.min(Math.round((writing_unique.size / 10) * 100), 100),
-                    vocab_progress: Math.min(Math.round((vocab_unique.size / 20) * 100), 100),
+                    
+                    // Dynamic Progress percentages
+                    reading_progress: totalReadingAvailable > 0 ? Math.min(Math.round((reading_unique.size / totalReadingAvailable) * 100), 100) : 0,
+                    listening_progress: totalListeningAvailable > 0 ? Math.min(Math.round((listening_unique.size / totalListeningAvailable) * 100), 100) : 0,
+                    writing_progress: totalWritingAvailable > 0 ? Math.min(Math.round((writing_unique.size / totalWritingAvailable) * 100), 100) : 0,
+                    vocab_progress: totalSpeakingAvailable > 0 ? Math.min(Math.round((vocab_unique.size / totalSpeakingAvailable) * 100), 100) : 0, // treating speaking/vocab map for now
+
+                    mock_tests_completed: mock_unique.size,
+                    mock_tests_total: totalMockExams,
+                    mock_average_band: mock_band_count > 0 ? Number((mock_band_sum / mock_band_count).toFixed(1)) : 0,
+                    mock_last_band: Number(last_mock_band.toFixed(1)),
+
                     reading_breakdown: {
-                        free_passages: {
-                            count: reading_breakdown.free_passages.unique.size,
-                            correct: reading_breakdown.free_passages.correct,
-                            total: reading_breakdown.free_passages.total
-                        },
-                        cambridge: {
-                            count: reading_breakdown.cambridge.unique.size,
-                            correct: reading_breakdown.cambridge.correct,
-                            total: reading_breakdown.cambridge.total
-                        }
+                        free_passages: { count: reading_breakdown.free_passages.unique.size, correct: reading_breakdown.free_passages.correct, total: reading_breakdown.free_passages.total },
+                        cambridge: { count: reading_breakdown.cambridge.unique.size, correct: reading_breakdown.cambridge.correct, total: reading_breakdown.cambridge.total }
                     },
                     listening_breakdown: {
-                        practice: {
-                            count: listening_breakdown.practice.unique.size,
-                            correct: listening_breakdown.practice.correct,
-                            total: listening_breakdown.practice.total
-                        },
-                        cambridge: {
-                            count: listening_breakdown.cambridge.unique.size,
-                            correct: listening_breakdown.cambridge.correct,
-                            total: listening_breakdown.cambridge.total
-                        }
+                        practice: { count: listening_breakdown.practice.unique.size, correct: listening_breakdown.practice.correct, total: listening_breakdown.practice.total },
+                        cambridge: { count: listening_breakdown.cambridge.unique.size, correct: listening_breakdown.cambridge.correct, total: listening_breakdown.cambridge.total }
                     },
                     writing_breakdown: {
-                        task1: {
-                            count: writing_breakdown.task1.unique.size,
-                            average_score: writing_breakdown.task1.unique.size > 0
-                                ? Number((writing_breakdown.task1.sum_score / writing_breakdown.task1.unique.size).toFixed(1))
-                                : 0
-                        },
-                        task2: {
-                            count: writing_breakdown.task2.unique.size,
-                            average_score: writing_breakdown.task2.unique.size > 0
-                                ? Number((writing_breakdown.task2.sum_score / writing_breakdown.task2.unique.size).toFixed(1))
-                                : 0
-                        }
+                        task1: { count: writing_breakdown.task1.unique.size, average_score: writing_breakdown.task1.unique.size > 0 ? Number((writing_breakdown.task1.sum_score / writing_breakdown.task1.unique.size).toFixed(1)) : 0 },
+                        task2: { count: writing_breakdown.task2.unique.size, average_score: writing_breakdown.task2.unique.size > 0 ? Number((writing_breakdown.task2.sum_score / writing_breakdown.task2.unique.size).toFixed(1)) : 0 }
                     },
                     vocab_breakdown: {
                         count: vocab_breakdown.unique.size,

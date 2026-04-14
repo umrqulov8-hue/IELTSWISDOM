@@ -5,7 +5,7 @@ export interface WritingLesson {
     description: string;
     duration: string;
     level: "Beginner" | "Intermediate" | "Advanced" | "Expert";
-    status: "completed" | "in-progress" | "not-started";
+    status: "completed" | "in-progress" | "not-started" | "locked";
     score?: number;
     typeBadge: "Theory" | "Task 1" | "Task 2" | "Full Test";
     testId: string;
@@ -19,8 +19,7 @@ export const WRITING_LESSONS: WritingLesson[] = [
         description: "Understanding Task 1 and Task 2 requirements and assessment criteria",
         duration: "20 min",
         level: "Beginner",
-        status: "completed",
-        score: 88,
+        status: "not-started",
         typeBadge: "Theory",
         testId: "intro"
     },
@@ -31,8 +30,7 @@ export const WRITING_LESSONS: WritingLesson[] = [
         description: "Learn to describe charts, graphs, and tables effectively",
         duration: "45 min",
         level: "Beginner",
-        status: "completed",
-        score: 82,
+        status: "not-started",
         typeBadge: "Task 1",
         testId: "mt-1"
     },

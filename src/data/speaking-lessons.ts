@@ -5,7 +5,7 @@ export interface SpeakingLesson {
     description: string;
     duration: string;
     level: "Beginner" | "Intermediate" | "Advanced" | "Expert";
-    status: "completed" | "in-progress" | "not-started";
+    status: "completed" | "in-progress" | "not-started" | "locked";
     score?: number;
     typeBadge: "Overview" | "Part 1" | "Part 2" | "Part 3" | "Skills" | "Full Test";
     testId: string;

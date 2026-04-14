@@ -42,17 +42,7 @@ export function ActivityCalendar() {
             localStorage.setItem(key, JSON.stringify(history));
         }
 
-        // Mock some days for demo
-        if (history.length === 1) {
-            for (let i = 1; i <= 60; i++) {
-                if (Math.random() > 0.4) {
-                    const mockDate = new Date();
-                    mockDate.setDate(mockDate.getDate() - i);
-                    history.push(toLocalIso(mockDate));
-                }
-            }
-            localStorage.setItem(key, JSON.stringify(history));
-        }
+        // Removed mock data demo filling for new users.
 
         setActiveDates(new Set(history));
     }, [user]);

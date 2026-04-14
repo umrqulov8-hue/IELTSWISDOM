@@ -8,6 +8,8 @@ export interface ListeningLesson {
     typeBadge: "Overview" | "Section 1" | "Section 2" | "Section 3" | "Section 4" | "Skills" | "Full Test";
     videoUrl: string;
     testId?: string;
+    status?: "completed" | "in-progress" | "not-started" | "locked";
+    score?: number;
 }
 
 export const LISTENING_LESSONS: ListeningLesson[] = [

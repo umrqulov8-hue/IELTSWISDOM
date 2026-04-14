@@ -1,7 +1,6 @@
 "use client";
 
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
-import { motion } from "framer-motion";
 import { 
     User, 
     Bell, 
@@ -11,15 +10,17 @@ import {
     ChevronRight,
     Moon,
     Volume2,
-    Database,
-    HelpCircle
+    Camera
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuthContext } from "@/context/AuthContext";
 import { useLanguage } from "@/context/LanguageContext";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { createClient } from "@/utils/supabase/client";
 import { useTheme } from "next-themes";
+import Link from "next/link";
+import { toast } from "sonner";
+import Image from "next/image";
 
 export default function SettingsPage() {
     const { lang, setLang } = useLanguage();
@@ -27,10 +28,103 @@ export default function SettingsPage() {
     const [notifs, setNotifs] = useState(true);
     const { theme, setTheme } = useTheme();
     const [updating, setUpdating] = useState(false);
+    
+    const [fullName, setFullName] = useState("");
+    const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+    const [uploadingAvatar, setUploadingAvatar] = useState(false);
+    
+    const fileInputRef = useRef<HTMLInputElement>(null);
+    const supabase = createClient();
+
+    useEffect(() => {
+        if (user) {
+            setFullName(user.user_metadata?.full_name || "");
+            
+            // Fetch avatar from profiles
+            const loadProfile = async () => {
+                const { data } = await supabase
+                    .from('profiles')
+                    .select('avatar_url, full_name')
+                    .eq('id', user.id)
+                    .single();
+                    
+                if (data) {
+                    if (data.avatar_url) setAvatarUrl(data.avatar_url);
+                    if (data.full_name) setFullName(data.full_name);
+                }
+            };
+            loadProfile();
+        }
+    }, [user, supabase]);
 
     const handleSignOut = async () => {
         await signOut();
         window.location.href = "/login";
+    };
+
+    const handleAvatarChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+        try {
+            setUploadingAvatar(true);
+            const file = event.target.files?.[0];
+            if (!file || !user) return;
+
+            const fileExt = file.name.split('.').pop();
+            const filePath = `${user.id}-${Math.random()}.${fileExt}`;
+
+            const { error: uploadError } = await supabase.storage
+                .from('avatars')
+                .upload(filePath, file);
+
+            if (uploadError) throw uploadError;
+
+            const { data } = supabase.storage.from('avatars').getPublicUrl(filePath);
+            const newAvatarUrl = data.publicUrl;
+
+            const { error: updateError } = await supabase
+                .from('profiles')
+                .upsert({ id: user.id, avatar_url: newAvatarUrl });
+
+            if (updateError) throw updateError;
+
+            // Also update Auth identity so the user object has it!
+            await supabase.auth.updateUser({
+                data: { avatar_url: newAvatarUrl }
+            });
+
+            setAvatarUrl(newAvatarUrl);
+            toast.success(lang === 'uz' ? 'Asosiy rasm yangilandi!' : 'Profile picture updated!');
+        } catch (error) {
+            console.error(error);
+            toast.error(lang === 'uz' ? 'Rasm yuklashda xatolik yuz berdi' : 'Error uploading image');
+        } finally {
+            setUploadingAvatar(false);
+        }
+    };
+
+    const handleSaveProfile = async () => {
+        if (!user) return;
+        setUpdating(true);
+        try {
+            // Update auth metadata
+            const { error: authError } = await supabase.auth.updateUser({
+                data: { full_name: fullName }
+            });
+            if (authError) throw authError;
+
+            // Update profiles table
+            const { error: profileError } = await supabase
+                .from('profiles')
+                .upsert({ id: user.id, full_name: fullName });
+            
+            if (profileError) throw profileError;
+
+            toast.success(lang === 'uz' ? 'Sozlamalar saqlandi!' : 'Profile changes saved!');
+        } catch (e: any) {
+            console.error(e);
+            toast.error(lang === 'uz' ? "Xatolik yuz berdi" : e.message);
+        } finally {
+            setUpdating(false);
+        }
     };
 
     return (
@@ -56,7 +150,8 @@ export default function SettingsPage() {
                                     name="full_name"
                                     autoComplete="name"
                                     className="w-full h-12 bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-800 rounded-xl px-4 text-sm font-bold text-slate-700 dark:text-slate-200 outline-none focus:border-slate-300 dark:focus:border-slate-700 transition-all"
-                                    defaultValue={user?.user_metadata?.full_name || ""}
+                                    value={fullName}
+                                    onChange={(e) => setFullName(e.target.value)}
                                     placeholder="Enter your name"
                                 />
                             </div>
@@ -74,17 +169,48 @@ export default function SettingsPage() {
                         </div>
 
                         <div className="flex flex-col items-center justify-center p-6 bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-800 rounded-[1.5rem] space-y-4 text-center transition-colors duration-200">
-                            <div className="w-16 h-16 rounded-full bg-slate-900 dark:bg-white flex items-center justify-center text-white dark:text-slate-900 text-xl font-black shadow-lg transition-colors">
-                                {user?.user_metadata?.full_name?.[0] || user?.email?.[0] || 'U'}
+                            <div 
+                                onClick={() => fileInputRef.current?.click()}
+                                className="w-20 h-20 rounded-full bg-slate-900 dark:bg-white flex items-center justify-center text-white dark:text-slate-900 text-2xl font-black shadow-lg transition-colors cursor-pointer relative group overflow-hidden"
+                            >
+                                {avatarUrl ? (
+                                    <Image src={avatarUrl} alt="Avatar" width={80} height={80} className="w-full h-full object-cover" />
+                                ) : (
+                                    fullName?.[0] || user?.email?.[0] || 'U'
+                                )}
+                                <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                    {uploadingAvatar ? (
+                                        <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                                    ) : (
+                                        <Camera className="text-white w-6 h-6" />
+                                    )}
+                                </div>
                             </div>
-                            <button className="text-[10px] font-black text-slate-600 dark:text-slate-400 uppercase tracking-widest hover:text-slate-900 dark:hover:text-white transition-colors">
-                                {lang === 'uz' ? "Suratni o'zgartirish" : "Change Photo"}
+                            <input 
+                                type="file" 
+                                ref={fileInputRef} 
+                                className="hidden" 
+                                accept="image/*"
+                                onChange={handleAvatarChange}
+                                disabled={uploadingAvatar}
+                            />
+                            <button 
+                                onClick={() => fileInputRef.current?.click()}
+                                disabled={uploadingAvatar}
+                                className="text-[10px] font-black text-slate-600 dark:text-slate-400 uppercase tracking-widest hover:text-slate-900 dark:hover:text-white transition-colors"
+                            >
+                                {uploadingAvatar ? (lang === 'uz' ? "Yuklanmoqda..." : "Uploading...") : (lang === 'uz' ? "Suratni o'zgartirish" : "Change Photo")}
                             </button>
                         </div>
                     </div>
 
                     <div className="pt-6 border-t border-slate-50 dark:border-slate-800/50 flex justify-end transition-colors">
-                        <button className="px-8 h-12 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-xl font-bold text-sm hover:bg-slate-800 dark:hover:bg-slate-100 transition-colors">
+                        <button 
+                            onClick={handleSaveProfile}
+                            disabled={updating}
+                            className="px-8 h-12 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-xl font-bold text-sm hover:bg-slate-800 dark:hover:bg-slate-100 transition-all active:scale-95 disabled:opacity-70 flex items-center gap-2"
+                        >
+                            {updating && <div className="w-3 h-3 border-2 border-current border-t-transparent rounded-full animate-spin" />}
                             {lang === 'uz' ? "Saqlash" : "Save Changes"}
                         </button>
                     </div>
@@ -207,5 +333,3 @@ function ToggleItem({ icon, label, description, value, active, onClick }: { icon
         </div>
     );
 }
-
-import Link from "next/link";

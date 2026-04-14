@@ -20,8 +20,7 @@ export const READING_LESSONS: ReadingLesson[] = [
         description: "Learn about different types of academic passages and their structures",
         duration: "25 min",
         level: "Beginner",
-        status: "completed",
-        score: 85,
+        status: "not-started",
         type: "lesson",
         testId: "fp-10"
     },
@@ -32,8 +31,7 @@ export const READING_LESSONS: ReadingLesson[] = [
         description: "Master essential reading strategies for time management",
         duration: "30 min",
         level: "Beginner",
-        status: "completed",
-        score: 92,
+        status: "not-started",
         type: "lesson",
         testId: "fp-11"
     },
@@ -44,8 +42,7 @@ export const READING_LESSONS: ReadingLesson[] = [
         description: "Practice with various multiple choice question types",
         duration: "35 min",
         level: "Intermediate",
-        status: "completed",
-        score: 78,
+        status: "not-started",
         type: "lesson",
         testId: "fp-12"
     },
