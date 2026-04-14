@@ -116,18 +116,25 @@ export const DashboardHeader = memo(({ title, description, showGreeting, display
     // Close dropdowns on click outside
     useEffect(() => {
         function handleClickOutside(event: MouseEvent | TouchEvent) {
+            // Close search dropdown
             if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
                 setIsSearchFocused(false);
             }
+            
+            // Close notification dropdown ONLY if click is outside BOTH the dropdown AND the bell button itself
+            // We ensure we don't accidentally close it when they are trying to open/close it via the bell
             if (notificationRef.current && !notificationRef.current.contains(event.target as Node)) {
                 setShowNotifications(false);
             }
         }
-        document.addEventListener("mousedown", handleClickOutside);
-        document.addEventListener("touchstart", handleClickOutside);
+
+        // Use capture phase to ensure it runs before any React event handlers bubble up and get stopped
+        document.addEventListener("mousedown", handleClickOutside, true);
+        document.addEventListener("touchstart", handleClickOutside, { passive: true, capture: true });
+        
         return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-            document.removeEventListener("touchstart", handleClickOutside);
+            document.removeEventListener("mousedown", handleClickOutside, true);
+            document.removeEventListener("touchstart", handleClickOutside, { capture: true });
         };
     }, []);
 
@@ -245,12 +252,9 @@ export const DashboardHeader = memo(({ title, description, showGreeting, display
                 </div>
 
                 {/* --- Notification Bell --- */}
-                <div ref={notificationRef} className="relative z-50">
-                    <motion.button
+                <div ref={notificationRef} className="relative z-[9999]">
+                    <button
                         type="button"
-                        whileHover={!showNotifications ? { scale: 1.05 } : {}}
-                        whileTap={{ scale: 0.95 }}
-                        transition={{ duration: 0.4, ease: "easeInOut" }}
                         onClick={(e) => {
                             e.preventDefault();
                             e.stopPropagation();
@@ -258,9 +262,10 @@ export const DashboardHeader = memo(({ title, description, showGreeting, display
                         }}
                         aria-label={lang === "en" ? "View notifications" : "Bildirishnomalarni ko'rish"}
                         className={cn(
-                            "p-3 rounded-full bg-white/10 dark:bg-slate-900/40 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.1)] relative transition-all duration-500 ease-in-out border-t border-l border-white/40 dark:border-slate-700/50 border-b border-r border-black/10 dark:border-slate-800/80 cursor-pointer",
-                            showNotifications ? "ring-1 ring-white/50 dark:ring-slate-700 bg-white/20 dark:bg-slate-800/40" : "hover:bg-white/20 dark:hover:bg-slate-800/30 hover:shadow-[0_12px_40px_rgba(0,0,0,0.15)]"
+                            "flex items-center justify-center p-3 rounded-full bg-white/10 dark:bg-slate-900/40 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.1)] transition-all duration-300 ease-in-out border border-white/40 dark:border-slate-700/50 cursor-pointer hover:bg-white/20 dark:hover:bg-slate-800/60 active:scale-95",
+                            showNotifications ? "ring-2 ring-orange-400 bg-white/20 dark:bg-slate-800/40" : ""
                         )}
+                        style={{ pointerEvents: "auto" }}
                     >
                         <motion.div
                             animate={showNotifications || unreadCount === 0 ? {} : { rotate: [0, -20, 20, -20, 20, 0] }}
@@ -276,7 +281,7 @@ export const DashboardHeader = memo(({ title, description, showGreeting, display
                             >
                             </motion.span>
                         )}
-                    </motion.button>
+                    </button>
 
                     {/* Notification Dropdown */}
                     <AnimatePresence>
