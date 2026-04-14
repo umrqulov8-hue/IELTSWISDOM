@@ -950,6 +950,9 @@ function QuestionsList({ questions, answers, onAnswerChange, htmlContent, isSubm
         return text.replace(/^[0-9]+[\.\)\s]+\s*/, "");
     };
 
+    // SAFE string comparison helper to prevent Error Boundary crashes
+    const safeStr = (val: any) => String(val ?? "").toLowerCase().trim();
+
     return (
         <div className="space-y-6">
             {questions.map((q: any, index: number, arr: any[]) => {
@@ -989,13 +992,13 @@ function QuestionsList({ questions, answers, onAnswerChange, htmlContent, isSubm
                 const allCorrect = coveredIds.every(id => {
                     const question = passageQuestions.find((pq: any) => pq.id === id);
                     if (!question) return false;
-                    return answers[id.toString()]?.toLowerCase().trim() === question.correctAnswer?.toString().toLowerCase().trim();
+                    return safeStr(answers[id.toString()]) === safeStr(question.correctAnswer);
                 });
                 const anyWrong = coveredIds.some(id => {
                     const val = answers[id.toString()];
                     if (!val) return false;
                     const question = passageQuestions.find((pq: any) => pq.id === id);
-                    return val.toLowerCase().trim() !== question?.correctAnswer?.toString().toLowerCase().trim();
+                    return safeStr(val) !== safeStr(question?.correctAnswer);
                 });
 
                 return (
@@ -1081,7 +1084,7 @@ function QuestionsList({ questions, answers, onAnswerChange, htmlContent, isSubm
                                             if (match) {
                                                 const targetId = parseInt(match[1]);
                                                 const targetQuestion = passageQuestions.find(pq => pq.id === targetId) || q;
-                                                const isCorrect_target = isSubmitted && answers[targetId.toString()]?.toLowerCase().trim() === targetQuestion.correctAnswer?.toString().toLowerCase().trim();
+                                                const isCorrect_target = isSubmitted && safeStr(answers[targetId.toString()]) === safeStr(targetQuestion.correctAnswer);
                                                 const isWrong_target = isSubmitted && answers[targetId.toString()] && !isCorrect_target;
 
                                                 return (
@@ -1105,7 +1108,7 @@ function QuestionsList({ questions, answers, onAnswerChange, htmlContent, isSubm
                                             }
 
                                             if (part.match(/^[…\._]{2,}$/)) {
-                                                const isCorrect_q = isSubmitted && answers[q.id.toString()]?.toLowerCase().trim() === q.correctAnswer?.toString().toLowerCase().trim();
+                                                const isCorrect_q = isSubmitted && safeStr(answers[q.id.toString()]) === safeStr(q.correctAnswer);
                                                 const isWrong_q = isSubmitted && answers[q.id.toString()] && !isCorrect_q;
 
                                                 return (
@@ -1165,7 +1168,7 @@ function QuestionsList({ questions, answers, onAnswerChange, htmlContent, isSubm
                                         {coveredIds.map(id => {
                                             const question = passageQuestions.find((pq: any) => pq.id === id);
                                             const val = answers[id.toString()] || "";
-                                            const isWrong_id = val.toLowerCase().trim() !== question?.correctAnswer?.toString().toLowerCase().trim();
+                                            const isWrong_id = safeStr(val) !== safeStr(question?.correctAnswer);
                                             if (!isWrong_id) return null;
                                             return (
                                                 <div key={id} className="p-3 bg-[#2D3E50]/5 border border-[#2D3E50]/10 rounded-xl text-xs font-bold text-blue-700 flex items-center gap-2 animate-in fade-in slide-in-from-top-1">
