@@ -115,7 +115,7 @@ export const DashboardHeader = memo(({ title, description, showGreeting, display
 
     // Close dropdowns on click outside
     useEffect(() => {
-        function handleClickOutside(event: MouseEvent) {
+        function handleClickOutside(event: MouseEvent | TouchEvent) {
             if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
                 setIsSearchFocused(false);
             }
@@ -124,7 +124,11 @@ export const DashboardHeader = memo(({ title, description, showGreeting, display
             }
         }
         document.addEventListener("mousedown", handleClickOutside);
-        return () => document.removeEventListener("mousedown", handleClickOutside);
+        document.addEventListener("touchstart", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+            document.removeEventListener("touchstart", handleClickOutside);
+        };
     }, []);
 
     return (
@@ -241,15 +245,20 @@ export const DashboardHeader = memo(({ title, description, showGreeting, display
                 </div>
 
                 {/* --- Notification Bell --- */}
-                <div ref={notificationRef} className="relative z-40">
+                <div ref={notificationRef} className="relative z-50">
                     <motion.button
+                        type="button"
                         whileHover={!showNotifications ? { scale: 1.05 } : {}}
                         whileTap={{ scale: 0.95 }}
                         transition={{ duration: 0.4, ease: "easeInOut" }}
-                        onClick={() => setShowNotifications(!showNotifications)}
+                        onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            setShowNotifications((prev) => !prev);
+                        }}
                         aria-label={lang === "en" ? "View notifications" : "Bildirishnomalarni ko'rish"}
                         className={cn(
-                            "p-3 rounded-full bg-white/10 dark:bg-slate-900/40 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.1)] relative transition-all duration-500 ease-in-out border-t border-l border-white/40 dark:border-slate-700/50 border-b border-r border-black/10 dark:border-slate-800/80",
+                            "p-3 rounded-full bg-white/10 dark:bg-slate-900/40 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.1)] relative transition-all duration-500 ease-in-out border-t border-l border-white/40 dark:border-slate-700/50 border-b border-r border-black/10 dark:border-slate-800/80 cursor-pointer",
                             showNotifications ? "ring-1 ring-white/50 dark:ring-slate-700 bg-white/20 dark:bg-slate-800/40" : "hover:bg-white/20 dark:hover:bg-slate-800/30 hover:shadow-[0_12px_40px_rgba(0,0,0,0.15)]"
                         )}
                     >
@@ -277,7 +286,7 @@ export const DashboardHeader = memo(({ title, description, showGreeting, display
                                 animate={{ opacity: 1, scale: 1, y: 0, x: 0, filter: "blur(0px)" }}
                                 exit={{ opacity: 0, scale: 0.8, y: 40, x: 20, filter: "blur(20px)" }}
                                 transition={{ type: "spring", stiffness: 260, damping: 25 }}
-                                className="absolute right-0 top-[calc(100%+20px)] w-85 bg-white/20 dark:bg-slate-900/80 backdrop-blur-3xl border-t border-l border-white/50 dark:border-slate-700/50 border-b border-r border-black/10 dark:border-slate-800/80 rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.2)] overflow-hidden origin-top-right transition-all"
+                                className="absolute right-0 top-[calc(100%+20px)] w-80 sm:w-96 bg-white/20 dark:bg-slate-900/80 backdrop-blur-3xl border-t border-l border-white/50 dark:border-slate-700/50 border-b border-r border-black/10 dark:border-slate-800/80 rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.2)] overflow-hidden origin-top-right transition-all z-50"
                             >
                                 {/* Header */}
                                 <div className="p-4 border-b border-white/20 dark:border-slate-800/50 flex justify-between items-center bg-white/40 dark:bg-slate-800/40 transition-colors">
