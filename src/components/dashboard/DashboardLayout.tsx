@@ -1,7 +1,7 @@
 "use client";
 
 import { Sidebar } from "@/components/dashboard/Sidebar";
-import { Bell, Search, X, Menu } from "lucide-react";
+import { X, Menu } from "lucide-react";
 import { PropsWithChildren, useState, useRef, useEffect, memo } from "react";
 import { useAuthContext } from "@/context/AuthContext";
 import { cn } from "@/lib/utils";
@@ -118,38 +118,7 @@ export const DashboardLayout = memo(({
                                 </div>
                             </div>
 
-                            <div className="flex items-center gap-4">
-                                <div className="relative" ref={searchRef}>
-                                    <m.div 
-                                        animate={{ width: isSearchExpanded ? 240 : 40 }}
-                                        className="h-10 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl flex items-center overflow-hidden shadow-sm transition-colors duration-200"
-                                    >
-                                        <button 
-                                            onClick={() => setIsSearchExpanded(!isSearchExpanded)}
-                                            aria-label="Search lessons"
-                                            className="w-10 h-10 flex-shrink-0 flex items-center justify-center text-slate-700 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition-colors"
-                                        >
-                                            <Search className="w-4 h-4" />
-                                        </button>
-                                        <input 
-                                            id="dashboard-search-input"
-                                            name="dashboard-search"
-                                            autoComplete="off"
-                                            aria-label="Search"
-                                            className="bg-transparent border-none outline-none text-sm font-medium w-full pr-4 placeholder:text-slate-500 dark:placeholder:text-slate-400 text-slate-900 dark:text-slate-100"
-                                            placeholder="Search..."
-                                        />
-                                    </m.div>
-                                </div>
-                                
-                                <button 
-                                    aria-label="Notifications"
-                                    className="w-10 h-10 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl flex items-center justify-center text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition-colors shadow-sm relative"
-                                >
-                                    <Bell className="w-4 h-4" />
-                                    <span className="absolute top-2.5 right-2.5 w-1.5 h-1.5 bg-slate-900 dark:bg-slate-50 rounded-full border-2 border-white dark:border-slate-900 transition-colors" />
-                                </button>
-                            </div>
+                            {/* Search Bar and Notification Bell removed to clean up UI per user request */}
                         </header>
                     )}
 
