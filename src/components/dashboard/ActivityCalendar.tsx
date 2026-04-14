@@ -166,10 +166,10 @@ export function ActivityCalendar() {
             <AnimatePresence>
                 {isOpen && (
                     <motion.div
-                        initial={{ opacity: 0, scale: 0.95, y: 15, filter: "blur(10px)" }}
-                        animate={{ opacity: 1, scale: 1, y: 0, filter: "blur(0px)" }}
-                        exit={{ opacity: 0, scale: 0.95, y: 15, filter: "blur(10px)" }}
-                        transition={{ type: "spring", stiffness: 260, damping: 25 }}
+                        initial={{ opacity: 0, scale: 0.98, y: 5 }}
+                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                        exit={{ opacity: 0, scale: 0.98, y: 5 }}
+                        transition={{ duration: 0.15, ease: "easeOut" }}
                         className="absolute right-0 top-[calc(100%+16px)] w-[320px] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] origin-top-right transition-all z-50 p-5 overflow-hidden"
                     >
                         {/* Calendar Header */}
@@ -214,8 +214,8 @@ export function ActivityCalendar() {
                                             className={cn(
                                                 "w-9 h-9 flex items-center justify-center rounded-full text-sm font-semibold transition-all duration-300 relative z-10",
                                                 d.isCurrentMonth ? "text-slate-700 dark:text-slate-300" : "text-slate-300 dark:text-slate-600",
-                                                isActive && "bg-orange-500 text-white shadow-[0_4px_12px_rgba(249,115,22,0.4)] transform hover:scale-110",
-                                                !isActive && isToday && "ring-2 ring-orange-500 text-orange-600 dark:text-orange-400 font-extrabold",
+                                                isActive && "bg-teal-700 text-white shadow-[0_4px_12px_rgba(15,118,110,0.4)] transform hover:scale-110",
+                                                !isActive && isToday && "ring-2 ring-teal-700 text-teal-700 dark:text-teal-500 font-extrabold",
                                                 !isActive && !isToday && d.isCurrentMonth && "hover:bg-slate-100 dark:hover:bg-slate-800 cursor-default"
                                             )}
                                         >
