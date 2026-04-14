@@ -11,6 +11,8 @@ import { useLanguage } from "@/context/LanguageContext";
 import { BouncyText } from "@/components/ui/BouncyText";
 import { translations as T, tx } from "@/lib/translations";
 import { memo } from "react";
+import OneSignal from 'react-onesignal';
+
 
 // Fallback Mock Data (if DB is empty for demo)
 const FALLBACK_SEARCH_RESULTS = [
@@ -47,41 +49,58 @@ export const DashboardHeader = memo(({ title, description, showGreeting, display
 
     // Sync Push Status
     useEffect(() => {
-        const checkPushStatus = async () => {
-            if (typeof window !== 'undefined' && (window as any).OneSignal) {
-                setIsPushSupported(true);
-                const optedIn = (window as any).OneSignal.User.PushSubscription.optedIn;
-                setIsPushEnabled(optedIn);
+        let isMounted = true;
+        
+        const checkPushStatus = () => {
+            if (!isMounted) return;
+            try {
+                if (typeof window !== 'undefined' && OneSignal && OneSignal.User && OneSignal.User.PushSubscription) {
+                    setIsPushSupported(true);
+                    const optedIn = OneSignal.User.PushSubscription.optedIn;
+                    setIsPushEnabled(!!optedIn);
+                    
+                    // Add listener for future changes
+                    OneSignal.User.PushSubscription.addEventListener("change", (event) => {
+                        if (isMounted) setIsPushEnabled(!!event.current.optedIn);
+                    });
+                }
+            } catch (err) {
+                console.error("OneSignal push status error:", err);
             }
         };
 
-        // Poll for OneSignal availability if not immediately ready
         const timer = setInterval(() => {
-            if ((window as any).OneSignal) {
+            if (typeof window !== 'undefined' && OneSignal && OneSignal.User) {
                 checkPushStatus();
                 clearInterval(timer);
             }
         }, 1000);
 
-        return () => clearInterval(timer);
+        return () => {
+            isMounted = false;
+            clearInterval(timer);
+        };
     }, []);
 
     const togglePush = async () => {
-        if (typeof window !== 'undefined' && (window as any).OneSignal) {
-            const OneSignal = (window as any).OneSignal;
-            if (isPushEnabled) {
-                await OneSignal.User.PushSubscription.optOut();
-                setIsPushEnabled(false);
-            } else {
-                await OneSignal.Notifications.requestPermission();
-                // We update state optimistically or wait for permission result
-                // Better to re-check status after a short delay
-                setTimeout(async () => {
-                    setIsPushEnabled(OneSignal.User.PushSubscription.optedIn);
-                }, 1000);
+        try {
+            if (typeof window !== 'undefined' && OneSignal && OneSignal.User) {
+                if (isPushEnabled) {
+                    await OneSignal.User.PushSubscription.optOut();
+                    setIsPushEnabled(false);
+                } else {
+                    await OneSignal.Notifications.requestPermission();
+                    // State will update via the event listener, but optimism helps
+                    setTimeout(() => {
+                        setIsPushEnabled(!!OneSignal.User.PushSubscription.optedIn);
+                    }, 500);
+                }
             }
+        } catch (err) {
+            console.error("OneSignal toggle error:", err);
         }
     };
+
 
     // Safe unread count
     const unreadCount = notifications ? notifications.filter(n => !n.is_read).length : 0;
