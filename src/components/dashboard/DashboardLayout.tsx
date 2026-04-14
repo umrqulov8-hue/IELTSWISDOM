@@ -2,15 +2,17 @@
 
 import { Sidebar } from "@/components/dashboard/Sidebar";
 import { X, Menu } from "lucide-react";
-import { PropsWithChildren, useState, useRef, useEffect, memo } from "react";
+import { useState, useRef, useEffect, memo } from "react";
 import { useAuthContext } from "@/context/AuthContext";
 import { cn } from "@/lib/utils";
 import { m, AnimatePresence, LazyMotion, domMax } from "framer-motion";
 import { usePathname } from "next/navigation";
 import { useLanguage } from "@/context/LanguageContext";
 import { translations as T, tx } from "@/lib/translations";
+import { ActivityCalendar } from "@/components/dashboard/ActivityCalendar";
 
-interface DashboardLayoutProps extends PropsWithChildren {
+interface DashboardLayoutProps {
+    children?: React.ReactNode;
     title?: string;
     description?: string;
     showGreeting?: boolean;
@@ -117,8 +119,9 @@ export const DashboardLayout = memo(({
                                 )}
                                 </div>
                             </div>
-
-                            {/* Search Bar and Notification Bell removed to clean up UI per user request */}
+                            <div className="flex items-center gap-4">
+                                <ActivityCalendar />
+                            </div>
                         </header>
                     )}
 

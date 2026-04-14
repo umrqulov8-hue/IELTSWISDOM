@@ -2,6 +2,7 @@
 
 import { useLanguage } from "@/context/LanguageContext";
 import { memo } from "react";
+import { ActivityCalendar } from "@/components/dashboard/ActivityCalendar";
 
 interface DashboardHeaderProps {
     title?: string;
@@ -39,9 +40,9 @@ export const DashboardHeader = memo(({ title, description, showGreeting, display
                     </div>
                 )}
             </div>
-            
-            {/* NOTE: The Search Box and Notification Bell features were intentionally removed here
-                to streamline the user experience and avoid deep z-index layer conflicts on complex pages. */}
+            <div className="flex items-center gap-4">
+                <ActivityCalendar />
+            </div>
         </header>
     );
 });
