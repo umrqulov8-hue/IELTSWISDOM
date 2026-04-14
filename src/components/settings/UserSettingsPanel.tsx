@@ -84,7 +84,7 @@ export function UserSettingsPanel({ isOpen, onClose }: UserSettingsPanelProps) {
             if (!file || !user) return;
 
             const fileExt = file.name.split('.').pop();
-            const filePath = `${user.id}-${Math.random()}.${fileExt}`;
+            const filePath = `${user.id}/${Math.random()}.${fileExt}`;
 
             const { error: uploadError } = await supabase.storage
                 .from('avatars')
