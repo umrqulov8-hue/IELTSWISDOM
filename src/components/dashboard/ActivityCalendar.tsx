@@ -150,10 +150,7 @@ export function ActivityCalendar() {
                 onClick={() => setIsOpen(!isOpen)}
                 aria-label="Activity Streak"
                 className={cn(
-                    "flex items-center gap-2 p-2 px-3 rounded-xl bg-white dark:bg-slate-900 border shadow-sm transition-all duration-150 ease-in-out cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 active:scale-95",
-                    currentStreakCount > 0 
-                      ? "border-slate-800 dark:border-slate-200" 
-                      : "border-slate-200 dark:border-slate-800",
+                    "flex items-center gap-2 p-2 px-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm transition-all duration-150 ease-in-out cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 active:scale-95",
                     isOpen && "ring-2 ring-slate-800 dark:ring-slate-200"
                 )}
             >
