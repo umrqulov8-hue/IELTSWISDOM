@@ -46,6 +46,7 @@ const variants = {
 export function ClientLayout({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();
     const [mounted, setMounted] = useState(false);
+    const [isTransitioning, setIsTransitioning] = useState(false);
 
     // Prevent hydration mismatch
     useEffect(() => {
@@ -78,7 +79,9 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
     return (
         <LazyMotion features={domMax}>
             <DeviceProvider>
-                <div className="relative overflow-hidden min-h-screen bg-background">
+                <div 
+                    className={`relative min-h-screen bg-background ${isTransitioning ? "overflow-hidden h-screen" : ""}`}
+                >
                     {/* 
                       * STATIONARY HEADER
                       * Only for Landing pages.
@@ -89,6 +92,7 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
                         mode="popLayout" 
                         initial={false} 
                         custom={navigationState.direction}
+                        onExitComplete={() => setIsTransitioning(false)}
                     >
                         <m.div
                             key={pathname}
@@ -97,6 +101,8 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
                             initial="initial"
                             animate="animate"
                             exit="exit"
+                            onAnimationStart={() => setIsTransitioning(true)}
+                            onAnimationComplete={() => setIsTransitioning(false)}
                             className="w-full min-h-screen bg-background"
                             style={{ willChange: "transform" }}
                         >
