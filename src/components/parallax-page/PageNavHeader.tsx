@@ -1,8 +1,8 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import { usePathname } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import TransitionLink from "@/components/TransitionLink";
 import { useAuth } from "@/hooks/useAuth";
 
@@ -21,12 +21,9 @@ export default function PageNavHeader() {
     const { scrollY } = useScroll();
     const [isScrolled, setIsScrolled] = useState(false);
 
-    useEffect(() => {
-        const unsubscribe = scrollY.onChange((v) => {
-            setIsScrolled(v > 50);
-        });
-        return () => unsubscribe();
-    }, [scrollY]);
+    useMotionValueEvent(scrollY, "change", (latest) => {
+        setIsScrolled(latest > 50);
+    });
 
     // On non-home pages, it's always "scrolled" (solid)
     const activeScrolled = isHome ? isScrolled : true;

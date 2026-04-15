@@ -10,7 +10,7 @@ export const navigationState = {
     get direction(): NavDirection {
         return _direction;
     },
-    set(dir: NavDirection) {
+    set direction(dir: NavDirection) {
         _direction = dir;
     },
 };
