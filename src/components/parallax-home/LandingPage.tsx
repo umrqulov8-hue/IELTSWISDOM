@@ -34,6 +34,9 @@ export default function LandingPage() {
         };
     }, []);
 
+    return (
+        <SmoothScrollLenis>
+            <main ref={containerRef} className="relative bg-white selection:bg-black selection:text-white overflow-hidden font-plus-jakarta">
                 <HeroParallax />
                 
                 {/* SSR Safe Structure: Render only expensive sections when mounted */}
