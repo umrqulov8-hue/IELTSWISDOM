@@ -22,11 +22,44 @@ import { useAuthContext } from "@/context/AuthContext";
 import { useDashboard } from "@/hooks/useDashboard";
 import { useLanguage } from "@/context/LanguageContext";
 import Link from "next/link";
+import { useState, useEffect } from "react";
+import { createClient } from "@/utils/supabase/client";
+import Image from "next/image";
 
 export default function ProfilePage() {
     const { lang } = useLanguage();
     const { user } = useAuthContext();
     const { stats, loading } = useDashboard();
+    const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+    const [displayName, setDisplayName] = useState("");
+    const supabase = createClient();
+
+    useEffect(() => {
+        if (user) {
+            console.log("DEBUG: User object from Auth", user);
+            setDisplayName(user.user_metadata?.full_name || "");
+            setAvatarUrl(user.user_metadata?.avatar_url || null);
+
+            const loadProfile = async () => {
+                const { data, error } = await supabase
+                    .from('profiles')
+                    .select('avatar_url, full_name')
+                    .eq('id', user.id)
+                    .single();
+                
+                if (error) {
+                    console.error("DEBUG: Supabase fetch error", error);
+                }
+
+                if (data) {
+                    console.log("DEBUG: Database fetch result", data);
+                    if (data.avatar_url) setAvatarUrl(data.avatar_url);
+                    if (data.full_name) setDisplayName(data.full_name);
+                }
+            };
+            loadProfile();
+        }
+    }, [user, supabase]);
 
     if (loading) {
         return (
@@ -53,15 +86,19 @@ export default function ProfilePage() {
                         className="lg:col-span-1 bg-white border border-slate-100 rounded-[2.5rem] p-8 shadow-sm flex flex-col items-center text-center space-y-6"
                     >
                         <div className="relative group">
-                            <div className="w-32 h-32 rounded-full bg-slate-900 flex items-center justify-center text-white text-4xl font-black shadow-xl group-hover:scale-105 transition-transform">
-                                {user?.user_metadata?.full_name?.[0] || user?.email?.[0] || 'U'}
+                            <div className="w-32 h-32 rounded-full bg-slate-900 border-4 border-slate-50 flex items-center justify-center text-white text-4xl font-black shadow-xl group-hover:scale-105 transition-transform overflow-hidden relative">
+                                {avatarUrl ? (
+                                    <Image src={avatarUrl} alt="Avatar" width={128} height={128} className="w-full h-full object-cover" />
+                                ) : (
+                                    displayName?.[0] || user?.email?.[0] || 'U'
+                                )}
                             </div>
                             <div className="absolute bottom-1 right-1 w-8 h-8 bg-emerald-500 border-4 border-white rounded-full shadow-lg" />
                         </div>
                         
                         <div className="space-y-1">
                             <h2 className="text-2xl font-black text-slate-900 tracking-tight">
-                                {user?.user_metadata?.full_name || (lang === 'uz' ? "Foydalanuvchi" : "IELTS Scholar")}
+                                {displayName || (lang === 'uz' ? "Foydalanuvchi" : "IELTS Scholar")}
                             </h2>
                             <p className="text-sm text-slate-600 font-bold flex items-center justify-center gap-2">
                                 <Mail className="w-3 h-3" />

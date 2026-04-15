@@ -9,6 +9,7 @@ import SmoothScrollLenis from '@/components/parallax-home/SmoothScrollLenis';
 import HeroParallax from '@/components/parallax-home/HeroParallax';
 import dynamic from 'next/dynamic';
 import { LazySection } from './LazySection';
+import TransitionLink from '@/components/TransitionLink';
 
 const ExpertiseSection = dynamic(() => import('@/components/parallax-home/ExpertiseSection'), { ssr: false });
 const ProcessParallax = dynamic(() => import('@/components/parallax-home/ProcessParallax'), { ssr: false });
@@ -74,10 +75,15 @@ export default function LandingPage() {
                     </div>
 
                     <nav className="hidden lg:flex items-center gap-12">
-                        {['Methodology', 'Curriculum', 'Results', 'Pricing'].map((item) => (
-                            <a key={item} href={`#${item.toLowerCase()}`} className="text-[10px] font-black uppercase tracking-[0.4em] text-black/60 hover:text-black transition-colors">
-                                {item}
-                            </a>
+                        {[
+                            { label: 'Methodology', href: '/methodology' },
+                            { label: 'Curriculum', href: '/curriculum' },
+                            { label: 'Results', href: '/success-stories' },
+                            { label: 'Pricing', href: '/pricing' },
+                        ].map(({ label, href }) => (
+                            <TransitionLink key={href} href={href} className="text-[10px] font-black uppercase tracking-[0.4em] text-black/60 hover:text-black transition-colors">
+                                {label}
+                            </TransitionLink>
                         ))}
                     </nav>
 

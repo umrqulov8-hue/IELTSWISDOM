@@ -70,3 +70,7 @@
 ::-webkit-scrollbar-thumb {
   @apply bg-black rounded-full hover:opacity-70 transition-opacity;
 }
+
+::-webkit-scrollbar-thumb {
+  @apply bg-black rounded-full hover:opacity-70 transition-opacity;
+}

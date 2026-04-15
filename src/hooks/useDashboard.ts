@@ -96,7 +96,14 @@ export function useDashboard() {
                 ]);
 
                 if (statsResult.error) console.warn("Dashboard: Could not fetch student_stats", statsResult.error.message);
-                if (testResults.error) console.warn("Dashboard: Could not fetch test_results", testResults.error.message);
+                if (testResults.error) {
+                    console.warn("Dashboard: Could not fetch test_results", testResults.error.message);
+                    // Fallback to query without created_at if it still fails
+                    if (testResults.error.code === 'PGRST204' || testResults.error.message.includes('created_at')) {
+                         const retry = await supabase.from('test_results').select('test_id, score, total_questions').eq('user_id', user.id);
+                         if (!retry.error) testResults.data = retry.data as any;
+                    }
+                }
                 if (notifResult.error) console.warn("Dashboard: Could not fetch notifications", notifResult.error.message);
                 if (lessonResult.error) console.warn("Dashboard: Could not fetch lessons", lessonResult.error.message);
 
@@ -131,19 +138,17 @@ export function useDashboard() {
                 let completedTestsCount = 0;
 
                 if (testResults.data && testResults.data.length > 0) {
-                    testResults.data.forEach((test, index) => {
+                    testResults.data.forEach((test: any, index: number) => {
                         const id = test.test_id.toLowerCase();
                         const percentage = (test.score / (test.total_questions || 1)) * 100;
                         const bandEstimate = test.total_questions > 0 ? (test.score / test.total_questions) * 9 : test.score;
 
                         if (id.startsWith('mock-')) {
-                            // Map mock tests properly
                             if (!mock_unique.has(id)) {
                                 mock_unique.add(id);
                                 mock_band_sum += bandEstimate;
                                 mock_band_count++;
                                 if (mock_band_count === 1) {
-                                    // Because the results are ordered by created_at DESC (latest first) due to the query modifier
                                     last_mock_band = bandEstimate;
                                 }
                             }
@@ -182,7 +187,6 @@ export function useDashboard() {
                             }
                         }
                         else {
-                            // Default to Reading
                             reading_unique.add(test.test_id);
                             reading_score_sum += test.score;
                             reading_q_sum += test.total_questions;
@@ -213,7 +217,7 @@ export function useDashboard() {
                 if (avgScore >= 40 && avgScore < 70) estimated_level = "Intermediate (B1/B2)";
                 if (avgScore >= 70) estimated_level = "Advanced (C1/C2)";
 
-                // Calculate dynamic totals from exactly available modules
+                // Dynamic totals
                 const totalReadingAvailable = READING_LESSONS.length + MIGRATED_TESTS.length;
                 const totalListeningAvailable = LISTENING_LESSONS.length + MIGRATED_LISTENING_TESTS.length;
                 const totalWritingAvailable = WRITING_LESSONS.length;
@@ -237,11 +241,10 @@ export function useDashboard() {
                     vocab_average_score: vocab_q_sum > 0 ? Math.round((vocab_score_sum / vocab_q_sum) * 100) : 0,
                     estimated_level,
                     
-                    // Dynamic Progress percentages
                     reading_progress: totalReadingAvailable > 0 ? Math.min(Math.round((reading_unique.size / totalReadingAvailable) * 100), 100) : 0,
                     listening_progress: totalListeningAvailable > 0 ? Math.min(Math.round((listening_unique.size / totalListeningAvailable) * 100), 100) : 0,
                     writing_progress: totalWritingAvailable > 0 ? Math.min(Math.round((writing_unique.size / totalWritingAvailable) * 100), 100) : 0,
-                    vocab_progress: totalSpeakingAvailable > 0 ? Math.min(Math.round((vocab_unique.size / totalSpeakingAvailable) * 100), 100) : 0, // treating speaking/vocab map for now
+                    vocab_progress: totalSpeakingAvailable > 0 ? Math.min(Math.round((vocab_unique.size / totalSpeakingAvailable) * 100), 100) : 0,
 
                     mock_tests_completed: mock_unique.size,
                     mock_tests_total: totalMockExams,

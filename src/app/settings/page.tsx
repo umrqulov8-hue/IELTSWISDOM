@@ -80,15 +80,20 @@ export default function SettingsPage() {
             const { data } = supabase.storage.from('avatars').getPublicUrl(filePath);
             const newAvatarUrl = data.publicUrl;
 
+            // Updated: Use current values for metadata sync
             const { error: updateError } = await supabase
                 .from('profiles')
-                .upsert({ id: user.id, avatar_url: newAvatarUrl });
+                .upsert({ 
+                    id: user.id, 
+                    avatar_url: newAvatarUrl,
+                    full_name: fullName, // Preserve name
+                    updated_at: new Date().toISOString()
+                });
 
             if (updateError) throw updateError;
 
-            // Also update Auth identity so the user object has it!
             await supabase.auth.updateUser({
-                data: { avatar_url: newAvatarUrl }
+                data: { avatar_url: newAvatarUrl, full_name: fullName }
             });
 
             setAvatarUrl(newAvatarUrl);
@@ -107,14 +112,19 @@ export default function SettingsPage() {
         try {
             // Update auth metadata
             const { error: authError } = await supabase.auth.updateUser({
-                data: { full_name: fullName }
+                data: { full_name: fullName, avatar_url: avatarUrl }
             });
             if (authError) throw authError;
 
-            // Update profiles table
+            // Update profiles table - merge with avatar_url
             const { error: profileError } = await supabase
                 .from('profiles')
-                .upsert({ id: user.id, full_name: fullName });
+                .upsert({ 
+                    id: user.id, 
+                    full_name: fullName,
+                    avatar_url: avatarUrl, // Preserve avatar
+                    updated_at: new Date().toISOString()
+                });
             
             if (profileError) throw profileError;
 
