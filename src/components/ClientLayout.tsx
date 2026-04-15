@@ -60,14 +60,28 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
         );
     }
 
+    // List of paths that constitute the "Landing Site" and should have cinematic transitions
+    const landingPaths = ["/", "/methodology", "/curriculum", "/success-stories", "/pricing"];
+    const isLandingPage = landingPaths.includes(pathname);
+
+    // If it's an app page (Dashboard, Lessons, etc.), render plainly without the cinematic wrapper
+    if (!isLandingPage) {
+        return (
+            <DeviceProvider>
+                <main className="min-h-screen bg-background">
+                    {children}
+                </main>
+            </DeviceProvider>
+        );
+    }
+
     return (
         <LazyMotion features={domMax}>
             <DeviceProvider>
                 <div className="relative overflow-hidden min-h-screen bg-background">
                     {/* 
                       * STATIONARY HEADER
-                      * Placing it OUTSIDE AnimatePresence ensures it doesn't move 
-                      * during page transitions, exactly like Rezo-Zero.
+                      * Only for Landing pages.
                       */}
                     <PageNavHeader />
 
@@ -84,12 +98,7 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
                             animate="animate"
                             exit="exit"
                             className="w-full min-h-screen bg-background"
-                            style={{
-                                willChange: "transform",
-                                // Add 80px (header height) padding-top to handle fixed header
-                                // OR ensure pages handle their own top padding.
-                                // Since we moved the header here, we'll keep the stack clean.
-                            }}
+                            style={{ willChange: "transform" }}
                         >
                             <main className="flex-grow">
                                 {children}
