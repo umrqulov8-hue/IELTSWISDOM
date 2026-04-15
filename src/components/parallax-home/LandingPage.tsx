@@ -34,65 +34,6 @@ export default function LandingPage() {
         };
     }, []);
 
-    const headerBg = useTransform(scrollYProgress, [0, 0.05], ["rgba(255, 255, 255, 0)", "rgba(255, 255, 255, 0.8)"]);
-    const headerBlur = useTransform(scrollYProgress, [0, 0.05], ["blur(0px)", "blur(8px)"]);
-    const headerBorder = useTransform(scrollYProgress, [0, 0.05], ["rgba(0,0,0,0)", "rgba(0,0,0,0.05)"]);
-    const headerBorderWidth = useTransform(scrollYProgress, [0, 0.01], [0, 1]);
-    const headerPadding = useTransform(scrollYProgress, [0, 0.05], ["2rem", "1rem"]);
-    const headerShadow = useTransform(
-        scrollYProgress, 
-        [0, 0.05], 
-        ["0 0px 0px 0 rgba(0,0,0,0)", "0 4px 20px -5px rgba(0,0,0,0.05)"]
-    );
-
-    return (
-        <SmoothScrollLenis>
-            <main ref={containerRef} className="relative bg-white selection:bg-black selection:text-white overflow-hidden font-plus-jakarta">
-                {/* Fixed Premium Header - SSR Safe Shell */}
-                <motion.header 
-                    style={{ 
-                        backgroundColor: headerBg, 
-                        borderBottomWidth: headerBorderWidth,
-                        borderBottomStyle: "solid",
-                        borderBottomColor: headerBorder,
-                        paddingTop: headerPadding,
-                        paddingBottom: headerPadding,
-                        boxShadow: headerShadow,
-                        backdropFilter: headerBlur,
-                        WebkitBackdropFilter: headerBlur,
-                        willChange: "opacity, background-color, backdrop-filter",
-                        transform: "translateZ(0)"
-                    }}
-                    initial={{ y: -100, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    className="fixed top-0 left-0 right-0 z-[100] px-6 md:px-20 flex justify-between items-center transition-all duration-500 will-change-transform"
-                >
-                    <div className="flex items-center gap-4">
-                        <div className="w-10 h-10 bg-black rounded-full flex items-center justify-center">
-                            <span className="text-white font-serif italic text-xl leading-none">W</span>
-                        </div>
-                        <span className="text-xl font-black uppercase tracking-tighter text-black">Wisdom</span>
-                    </div>
-
-                    <nav className="hidden lg:flex items-center gap-12">
-                        {[
-                            { label: 'Methodology', href: '/methodology' },
-                            { label: 'Curriculum', href: '/curriculum' },
-                            { label: 'Results', href: '/success-stories' },
-                            { label: 'Pricing', href: '/pricing' },
-                        ].map(({ label, href }) => (
-                            <TransitionLink key={href} href={href} className="text-[10px] font-black uppercase tracking-[0.4em] text-black/60 hover:text-black transition-colors">
-                                {label}
-                            </TransitionLink>
-                        ))}
-                    </nav>
-
-                    {/* Button Placeholder for SSR, Real button when mounted */}
-                    <div className="w-40 h-10 flex justify-end">
-                        {mounted && <BeginJourneyButton />}
-                    </div>
-                </motion.header>
-
                 <HeroParallax />
                 
                 {/* SSR Safe Structure: Render only expensive sections when mounted */}
