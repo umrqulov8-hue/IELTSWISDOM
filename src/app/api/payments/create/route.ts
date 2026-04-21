@@ -57,15 +57,16 @@ export async function POST(request: Request) {
             console.error("DEBUG: TSPay API error detail:", {
                 status: res.status,
                 errorData,
-                requestPayload: {
-                    merchant_id: merchantId,
-                    amount: Number(amount),
-                    order_id: Number(payment.order_id),
-                    redirect_url: redirectUrl
-                }
             });
+
+            // Extract message from various possible structures
+            const msg = errorData.message || 
+                        errorData.detail || 
+                        (errorData.error && typeof errorData.error === 'object' ? errorData.error.message : errorData.error) ||
+                        JSON.stringify(errorData);
+
             return NextResponse.json({ 
-                error: `TSPay Error (${res.status}): ${errorData.message || errorData.detail || JSON.stringify(errorData)}`
+                error: `TSPay Error (${res.status}): ${msg}`
             }, { status: res.status });
         }
 
