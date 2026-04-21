@@ -7,6 +7,10 @@ export async function POST(request: Request) {
         const body = await request.json();
         const headers = request.headers;
         
+        // DEEP LOGGING FOR SIGNATURE DEBUGGING
+        console.log("[TSPAY_WEBHOOK] FULL HEADERS:", Object.fromEntries(headers.entries()));
+        console.log("[TSPAY_WEBHOOK] FULL BODY:", JSON.stringify(body, null, 2));
+
         const sig = headers.get("x-signature") || "";
         const ts = headers.get("x-timestamp") || "";
         const { params, method } = body;
