@@ -10,7 +10,8 @@ import {
     ChevronRight,
     Moon,
     Volume2,
-    Camera
+    Camera,
+    Trophy
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuthContext } from "@/context/AuthContext";
@@ -144,6 +145,35 @@ export default function SettingsPage() {
         >
             <div className="max-w-4xl mx-auto space-y-8 pb-20">
                 
+                {/* --- Subscription Section --- */}
+                <section className="bg-black dark:bg-slate-800 border border-slate-900 rounded-[2rem] p-8 shadow-xl text-white space-y-6">
+                    <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                            <Trophy className="w-5 h-5 text-yellow-500" />
+                            <h3 className="font-black tracking-tight">{lang === 'uz' ? "Obuna" : "Subscription"}</h3>
+                        </div>
+                        <span className="px-3 py-1 bg-white/10 rounded-full text-[10px] font-black uppercase tracking-widest border border-white/10">
+                            {lang === 'uz' ? "Bepul Tarif" : "Free Plan"}
+                        </span>
+                    </div>
+                    
+                    <div className="space-y-2">
+                        <p className="text-sm font-bold opacity-70">
+                            {lang === 'uz' ? "Barcha Premium imkoniyatlarni faollashtiring" : "Unlock all premium features and elite support"}
+                        </p>
+                        <p className="text-[10px] uppercase font-black tracking-widest opacity-40">
+                            {lang === 'uz' ? "Mock testlar, AI baholash va boshqalar" : "Unlimited mock tests, AI evaluation & more"}
+                        </p>
+                    </div>
+
+                    <Link 
+                        href="/pricing"
+                        className="flex items-center justify-center w-full h-14 bg-white text-black rounded-xl font-black text-sm hover:scale-[1.02] active:scale-[0.98] transition-all"
+                    >
+                        {lang === 'uz' ? "PRO ga o'tish" : "Upgrade to PRO"}
+                    </Link>
+                </section>
+
                 {/* --- Account Section --- */}
                 <section className="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-[2rem] p-8 shadow-sm space-y-8 transition-colors duration-200">
                     <div className="flex items-center gap-3">

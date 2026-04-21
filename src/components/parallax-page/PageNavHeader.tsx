@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useScroll, useMotionValueEvent } from "framer-motion";
+import { motion, useScroll, useMotionValueEvent, AnimatePresence } from "framer-motion";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import TransitionLink from "@/components/TransitionLink";
@@ -55,8 +55,49 @@ export default function PageNavHeader() {
             {/* Nav */}
             <nav className="hidden lg:flex items-center gap-10">
                 {navItems.map(({ label, href }) => {
-                    const isActive = pathname === href;
-                    return (
+                    const isActive = pathname === href ||
+                        (pathname === "/" && href === "/methodology" && false); // homepage sections
+                    
+                    const handleNavClick = (e: React.MouseEvent) => {
+                        if (pathname === "/") {
+                            // On homepage: scroll to section
+                            e.preventDefault();
+                            const sectionMap: Record<string, string> = {
+                                "/methodology": "methodology",
+                                "/curriculum": "curriculum",
+                                "/success-stories": "results",
+                                "/pricing": "special-pricing",
+                            };
+                            const sectionId = sectionMap[href];
+                            if (sectionId) {
+                                document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
+                            }
+                        }
+                        // On other pages: TransitionLink handles normal routing
+                    };
+
+                    return isHome ? (
+                        // On homepage: plain button that scrolls to section
+                        <button
+                            key={href}
+                            onClick={() => {
+                                const sectionMap: Record<string, string> = {
+                                    "/methodology": "methodology",
+                                    "/curriculum": "curriculum",
+                                    "/success-stories": "results",
+                                    "/pricing": "special-pricing",
+                                };
+                                const sectionId = sectionMap[href];
+                                if (sectionId) {
+                                    document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
+                                }
+                            }}
+                            className="relative text-[10px] font-black uppercase tracking-[0.4em] transition-colors duration-300 cursor-pointer text-black/45 hover:text-black"
+                        >
+                            {label}
+                        </button>
+                    ) : (
+                        // On other pages: navigate normally
                         <TransitionLink
                             key={href}
                             href={href}
@@ -64,13 +105,19 @@ export default function PageNavHeader() {
                             style={{ color: isActive ? "#000" : "rgba(0,0,0,0.45)" }}
                         >
                             {label}
-                            {isActive && (
-                                <motion.div
-                                    layoutId="nav-underline"
-                                    className="absolute -bottom-1 left-0 right-0 h-[1.5px] bg-black"
-                                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                                />
-                            )}
+                            <AnimatePresence>
+                                {isActive && (
+                                    <motion.div
+                                        key={href}
+                                        initial={{ scaleX: 0, opacity: 0 }}
+                                        animate={{ scaleX: 1, opacity: 1 }}
+                                        exit={{ scaleX: 0, opacity: 0 }}
+                                        transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                                        style={{ transformOrigin: "left" }}
+                                        className="absolute -bottom-1 left-0 right-0 h-[1.5px] bg-black"
+                                    />
+                                )}
+                            </AnimatePresence>
                         </TransitionLink>
                     );
                 })}

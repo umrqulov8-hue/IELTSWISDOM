@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic';
 import { Suspense } from 'react';
 import SkeletonHero from '@/components/parallax-home/SkeletonHero';
 
-const LandingPage = dynamic(() => import('@/components/parallax-home/LandingPage'), { 
+const LandingPage = dynamic(() => import('@/components/parallax-home/NoirLanding'), { 
     ssr: false,
 });
 

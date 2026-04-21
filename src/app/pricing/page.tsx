@@ -2,6 +2,7 @@
 
 import { useState, useRef } from "react";
 import { motion, useScroll, useTransform, useSpring, AnimatePresence } from "framer-motion";
+import { useRouter } from "next/navigation";
 import SmoothScrollLenis from "@/components/parallax-home/SmoothScrollLenis";
 import { useAuth } from "@/hooks/useAuth";
 import TransitionLink from "@/components/TransitionLink";
@@ -10,44 +11,45 @@ import TransitionLink from "@/components/TransitionLink";
 
 const plans = [
     {
-        name: "Essential",
-        price: "$49",
-        period: "per month",
+        name: "Pro",
+        price: "25,000",
+        period: "so'm / oy",
         features: [
-            "AI Writing Evaluation (10/mo)",
-            "AI Speaking Practice (5/mo)",
-            "All Reading & Listening Tests",
-            "Detailed Performance Analytics",
+            "AI Writing Evaluation (oyiga 10 ta)",
+            "AI Speaking Practice (oyiga 5 ta)",
+            "Reading & Listening testlari",
+            "Batafsil natijalar tahlili",
+            "Mock Test — 2 ta",
         ],
         popular: false,
         bg: "#f5f5f0",
         textDark: true,
     },
     {
-        name: "Pro",
-        price: "$89",
-        period: "per month",
+        name: "Premium",
+        price: "50,000",
+        period: "so'm / oy",
         features: [
-            "Unlimited Writing Evaluation",
-            "Unlimited Speaking Practice",
-            "Personalized Study Roadmap",
-            "Examiner-curated Strategies",
-            "Mock Test Simulations",
+            "Cheksiz AI Writing Evaluation",
+            "Cheksiz AI Speaking Practice",
+            "Shaxsiy o'quv yo'l xaritasi",
+            "Examiner strategiyalari",
+            "Mock Test — 3 ta",
         ],
         popular: true,
         bg: "#0f0f0f",
         textDark: false,
     },
     {
-        name: "Master",
-        price: "$149",
-        period: "quarterly",
+        name: "Ultimate",
+        price: "80,000",
+        period: "so'm / oy",
         features: [
-            "Full Pro Experience",
-            "1-on-1 Native Tutor Sessions",
-            "VIP Support Channel",
-            "Extended Mock Exams",
-            "Lifetime Resource Access",
+            "Premium ning hamma imkoniyatlari",
+            "Mock Test — 4 ta",
+            "VIP yordam kanali",
+            "Kengaytirilgan mock testlar",
+            "AI cheklovi oz",
         ],
         popular: false,
         bg: "#f5f5f0",
@@ -57,24 +59,24 @@ const plans = [
 
 const faqs = [
     {
-        q: "Can I switch plans later?",
-        a: "Yes. You can upgrade or downgrade at any time. Changes take effect from your next billing cycle.",
+        q: "Rejani o'zgartirish mumkinmi?",
+        a: "Ha. Istalgan vaqtda yangilash yoki pastga tushirish mumkin. O'zgarishlar keyingi to'lov siklidan kuchga kiradi.",
     },
     {
-        q: "Is there a free trial?",
-        a: "We offer a 7-day free access to the Essential plan. No credit card required to start.",
+        q: "Bepul sinov bormi?",
+        a: "Ha, 1 ta mock test va bir nechta AI tekshiruvlari bepul taqdim etiladi. Karta ma'lumotlari talab qilinmaydi.",
     },
     {
-        q: "How does the AI writing evaluator work?",
-        a: "Our model evaluates on the same 4 IELTS criteria: Task Achievement, Coherence & Cohesion, Lexical Resource, Grammatical Range & Accuracy.",
+        q: "AI Writing tekshiruvi qanday ishlaydi?",
+        a: "Modelimiz 4 IELTS mezonida baholaydi: Task Achievement, Coherence & Cohesion, Lexical Resource, Grammatical Range & Accuracy.",
     },
     {
-        q: "What happens after I reach my target score?",
-        a: "Many students continue to push beyond their original goal. You keep full access until your subscription ends.",
+        q: "Maqsad bandiga erishgach nima bo'ladi?",
+        a: "Ko'p talabalar dastlabki maqsadlaridan oshib ketishadi. Obuna tugaguncha to'liq kirish huquqi saqlanadi.",
     },
     {
-        q: "Is there a refund policy?",
-        a: "Yes. We offer a full refund within 14 days of purchase if you're not satisfied — no questions asked.",
+        q: "Qaytarish siyosati bormi?",
+        a: "Ha. Xarid qilingan kundan 14 kun ichida to'liq qaytarib beramiz — hech qanday savol so'ramasdan.",
     },
 ];
 
@@ -119,8 +121,8 @@ function HeroSection() {
                         transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
                         className="text-[clamp(3.5rem,10vw,9rem)] font-black uppercase tracking-tighter leading-[0.88] text-black"
                     >
-                        Invest In<br />
-                        <span className="text-black/20">Your Future.</span>
+                        IELTS<br />
+                        <span className="text-black/20">Wisdom.</span>
                     </motion.h1>
                 </div>
 
@@ -130,7 +132,7 @@ function HeroSection() {
                     transition={{ delay: 0.6 }}
                     className="text-xl md:text-2xl text-black/45 font-medium max-w-2xl mx-auto mt-8 leading-relaxed"
                 >
-                    One clear goal: Band 8.5. One system to get you there. Pick the plan that fits your journey.
+                    Muvaffaqiyat garovi. O'zingizga mos tarifni tanlang.
                 </motion.p>
 
                 <motion.div
@@ -156,12 +158,46 @@ function PlanSection({ plan, index }: { plan: typeof plans[0]; index: number }) 
     const smooth = useSpring(scrollYProgress, { stiffness: 80, damping: 30 });
     const innerY = useTransform(smooth, [0, 1], ["5%", "-5%"]);
     const { handleStartLearning } = useAuth();
+    const router = useRouter();
+    const [isLoading, setIsLoading] = useState(false);
 
     const isDark = !plan.textDark;
     const textColor = isDark ? "#fff" : "#000";
     const muted = isDark ? "rgba(255,255,255,0.45)" : "rgba(0,0,0,0.45)";
     const borderColor = isDark ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.1)";
     const dimPrice = isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.04)";
+
+    const handlePlanSelect = async () => {
+        try {
+            setIsLoading(true);
+            const res = await fetch("/api/payments/create", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    planName: plan.name,
+                    amount: parseInt(plan.price.replace(/,/g, "")),
+                }),
+            });
+
+            if (res.status === 401) {
+                handleStartLearning(); // Opens modal
+                return;
+            }
+
+            if (!res.ok) {
+                const data = await res.json();
+                throw new Error(data.error || "Payment initiation failed");
+            }
+
+            const { payment_url } = await res.json();
+            window.location.href = payment_url;
+        } catch (error: any) {
+            console.error("Payment error:", error);
+            alert(`Error: ${error.message}`);
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
     return (
         <div
@@ -234,18 +270,26 @@ function PlanSection({ plan, index }: { plan: typeof plans[0]; index: number }) 
                     <motion.button
                         whileHover={{ scale: 1.04 }}
                         whileTap={{ scale: 0.97 }}
-                        onClick={handleStartLearning}
+                        onClick={handlePlanSelect}
+                        disabled={isLoading}
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: 0.3 }}
-                        className="px-10 py-4 text-[11px] font-black uppercase tracking-[0.3em] rounded-full transition-all"
+                        className="px-10 py-4 text-[11px] font-black uppercase tracking-[0.3em] rounded-full transition-all flex items-center justify-center gap-3 disabled:opacity-50"
                         style={{
                             backgroundColor: isDark ? "#fff" : "#000",
                             color: isDark ? "#000" : "#fff",
                         }}
                     >
-                        Get Started
+                        {isLoading ? (
+                            <>
+                                <div className="w-3 h-3 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                                Processing...
+                            </>
+                        ) : (
+                            "Get Started"
+                        )}
                     </motion.button>
                 </div>
 

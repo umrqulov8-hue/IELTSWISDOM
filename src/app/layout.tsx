@@ -36,11 +36,11 @@ const playfair = Playfair_Display({
 export const metadata: Metadata = {
   metadataBase: new URL('https://ieltswisdom.com'),
   title: {
-    default: "IELTS Wisdom | Noir Elite Preparation",
+    default: "IELTS Wisdom",
     template: "%s | IELTS Wisdom"
   },
-  description: "Experience the science of scoring. AI-powered evaluations, cinematic curriculum, and elite IELTS support.",
-  keywords: ["IELTS", "English Learning", "Noir Elite", "Design System", "AI Evaluator"],
+  description: "Master English with a Proven Boutique System. AI-powered evaluations and elite support.",
+  keywords: ["IELTS", "English Learning", "IELTS Wisdom", "AI Evaluator"],
   authors: [{ name: "IELTS Wisdom Team" }],
   openGraph: {
     type: "website",
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
         url: "https://s3-alpha.figma.com/hub/file/2251959376041554426/5e13e50d-113c-4fb0-941d-e9c67ec41b37-cover.png",
         width: 1200,
         height: 630,
-        alt: "IELTS Wisdom - Master English"
+        alt: "IELTS Wisdom"
       }
     ]
   },
@@ -104,9 +104,9 @@ export default function RootLayout({
       </head>
       <body
         suppressHydrationWarning
-        className={`${inter.variable} ${plusJakartaSans.variable} ${playfair.variable} antialiased font-sans bg-background text-foreground flex flex-col min-h-screen [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]`}
+        className={`${inter.variable} ${plusJakartaSans.variable} ${playfair.variable} antialiased font-sans bg-white text-foreground flex flex-col min-h-screen [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]`}
       >
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        <ThemeProvider attribute="class" defaultTheme="light" forcedTheme="light" enableSystem={false}>
           <AuthProvider>
             <LanguageProvider>
               <SubscriptionProvider>

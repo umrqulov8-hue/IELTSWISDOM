@@ -42,6 +42,7 @@ const NAV_GROUPS = [
     {
         label: "ACCOUNT",
         items: [
+            { name: "Upgrade", href: "/pricing", icon: Trophy, badge: "PRO" },
             { name: "Profile", href: "/profile", icon: User },
             { name: "Settings", href: "/settings", icon: Settings },
         ]
@@ -107,6 +108,7 @@ export const Sidebar = memo(({ onMobileClose }: SidebarProps) => {
                                     item.name === "Articles" ? (lang === 'uz' ? "Maqolalar" : "Articles") :
                                     item.name === "Profile" ? (lang === 'uz' ? "Profil" : "Profile") :
                                     item.name === "Settings" ? (lang === 'uz' ? "Sozlamalar" : "Settings") :
+                                    item.name === "Upgrade" ? (lang === 'uz' ? "Premium Tariflar" : "Upgrade") :
                                     item.name;
 
                                 return (

@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
+    "@gsap/react": "^2.1.2",
     "@supabase/ssr": "^0.8.0",
     "@supabase/supabase-js": "^2.96.0",
     "bytez.js": "^3.0.0",
@@ -20,6 +21,7 @@
     "clsx": "^2.1.1",
     "critters": "^0.0.23",
     "framer-motion": "^12.34.1",
+    "gsap": "^3.15.0",
     "lenis": "^1.3.21",
     "lucide-react": "^0.574.0",
     "mathjs": "^15.1.1",

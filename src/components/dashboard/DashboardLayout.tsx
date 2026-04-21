@@ -1,7 +1,7 @@
 "use client";
 
 import { Sidebar } from "@/components/dashboard/Sidebar";
-import { X, Menu } from "lucide-react";
+import { X, Menu, Trophy, Zap } from "lucide-react";
 import { useState, useRef, useEffect, memo } from "react";
 import { useAuthContext } from "@/context/AuthContext";
 import { cn } from "@/lib/utils";
@@ -12,6 +12,7 @@ import { translations as T, tx } from "@/lib/translations";
 import { ActivityCalendar } from "@/components/dashboard/ActivityCalendar";
 import { createClient } from "@/utils/supabase/client";
 import Image from "next/image";
+import Link from "next/link";
 
 interface DashboardLayoutProps {
     children?: React.ReactNode;
@@ -162,6 +163,13 @@ export const DashboardLayout = memo(({
                                 </div>
                             </div>
                             <div className="flex items-center gap-4">
+                                <Link 
+                                    href="/pricing"
+                                    className="hidden sm:flex items-center gap-2 px-6 py-2.5 bg-black dark:bg-slate-100 text-white dark:text-black rounded-xl font-black text-[11px] uppercase tracking-widest shadow-xl shadow-slate-200 dark:shadow-none hover:scale-105 active:scale-95 transition-all"
+                                >
+                                    <Zap className="w-4 h-4 text-yellow-400 fill-yellow-400" />
+                                    <span>{lang === 'uz' ? "PRO ga o'tish" : "Go PRO"}</span>
+                                </Link>
                                 <ActivityCalendar />
                             </div>
                         </header>

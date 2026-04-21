@@ -40,3 +40,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local trash
+.next_old_*
+.next_trash_*
+build_error.log

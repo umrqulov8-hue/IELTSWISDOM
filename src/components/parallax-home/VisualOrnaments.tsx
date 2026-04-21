@@ -47,9 +47,10 @@ export const NeuralMasteryVisual = () => (
                 fill="none" 
                 stroke="#3B82F6" 
                 strokeWidth="2"
-                initial={{ pathLength: 0 }}
-                whileInView={{ pathLength: 1 }}
-                transition={{ duration: 3, repeat: Infinity }}
+                initial={{ pathLength: 0, opacity: 0 }}
+                whileInView={{ pathLength: 1, opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 3, ease: "easeInOut" }}
             />
         </svg>
     </div>
@@ -62,7 +63,7 @@ export const EvaluationVisual = () => (
                 scale: [1, 1.3, 1],
                 opacity: [0.1, 0.2, 0.1]
             }}
-            transition={{ duration: 15, repeat: Infinity }}
+            transition={{ duration: 15, repeat: Infinity, repeatType: "mirror" }}
             className="absolute inset-0 bg-[radial-gradient(circle_600px_at_50%_50%,#ef444433,transparent)]"
         />
         
@@ -70,12 +71,12 @@ export const EvaluationVisual = () => (
             <div className="relative">
                 <motion.div 
                     animate={{ rotate: 360 }}
-                    transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                    transition={{ duration: 20, repeat: Infinity, ease: "linear", repeatType: "loop" }}
                     className="w-80 h-80 md:w-[30rem] md:h-[30rem] border-4 border-dashed border-white/5 rounded-full" 
                 />
                 <motion.div 
                     animate={{ rotate: -360 }}
-                    transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+                    transition={{ duration: 15, repeat: Infinity, ease: "linear", repeatType: "loop" }}
                     className="absolute inset-10 border-2 border-white/10 rounded-full flex items-center justify-center overflow-hidden"
                 >
                     <div className="text-[12rem] font-black text-white mix-blend-difference opacity-5">AI</div>
