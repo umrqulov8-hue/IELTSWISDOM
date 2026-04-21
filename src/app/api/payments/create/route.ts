@@ -38,7 +38,7 @@ export async function POST(request: Request) {
 
         log(`Creating TSPay transaction for Order #${payment.order_id}, Amount: ${tiyinAmount} tiyins`);
 
-        const res = await fetch("https://test.tspay.uz/api/transactions", {
+        const res = await fetch("https://api.tspay.uz/api/transactions/", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -46,8 +46,8 @@ export async function POST(request: Request) {
             },
             body: JSON.stringify({
                 merchant_id: merchantId,
-                amount: tiyinAmount,
-                order_id: Number(payment.order_id), // Send as Number
+                amount: Number(amount), // Whole soums per docs
+                order_id: Number(payment.order_id),
                 redirect_url: redirectUrl,
             }),
         });
@@ -59,7 +59,7 @@ export async function POST(request: Request) {
                 errorData,
                 requestPayload: {
                     merchant_id: merchantId,
-                    amount: tiyinAmount,
+                    amount: Number(amount),
                     order_id: Number(payment.order_id),
                     redirect_url: redirectUrl
                 }
