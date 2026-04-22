@@ -1,4 +1,5 @@
 import { createClient } from "@/utils/supabase/server";
+import { createClient as createAdminClient } from "@supabase/supabase-js";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
@@ -15,7 +16,6 @@ export async function POST(request: Request) {
 
         // Use SERVICE ROLE KEY to bypass Row Level Security for inserting the payment
         // (Just in case the public.payments table doesn't have an INSERT policy for the user)
-        const { createClient: createAdminClient } = await import("@supabase/supabase-js");
         const adminSupabase = createAdminClient(
             process.env.NEXT_PUBLIC_SUPABASE_URL!,
             process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
