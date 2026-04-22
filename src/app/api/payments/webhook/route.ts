@@ -64,9 +64,7 @@ export async function POST(request: Request) {
                 return NextResponse.json({ allow: false, reason: "Buyurtma topilmadi" });
             }
 
-            // TSPay sends amount in tiyins. DB stores in so'ms.
-            const receivedAmountSoM = Math.round(Number(amount) / 100);
-            if (order.amount !== receivedAmountSoM) {
+            if (Number(order.amount) !== Number(amount)) {
                 return NextResponse.json({ allow: false, reason: "Summa mos emas" });
             }
 
@@ -84,9 +82,15 @@ export async function POST(request: Request) {
                 return NextResponse.json({ success: false, error: "Order not found" });
             }
 
-            const receivedAmountSoM = Math.round(Number(amount) / 100);
-            if (order.amount !== receivedAmountSoM) {
-                return NextResponse.json({ success: false, error: { code: -31001, message: "Summa xato" } });
+            if (order.cheque_id) {
+                if (Number(order.amount) !== Number(amount)) {
+                    return NextResponse.json({ error: { code: -31001, message: "Summa xato" } }, { status: 400 });
+                }
+                return NextResponse.json({ success: true, transaction_id: order.cheque_id });
+            }
+
+            if (Number(order.amount) !== Number(amount)) {
+                return NextResponse.json({ error: { code: -31001, message: "Summa xato" } }, { status: 400 });
             }
 
             const { error: updateError } = await supabase
@@ -98,7 +102,7 @@ export async function POST(request: Request) {
                 return NextResponse.json({ success: false });
             }
 
-            return NextResponse.json({ success: true, transaction_id: params.cheque_id });
+            return NextResponse.json({ success: true });
         }
 
         if (method === "performTransaction") {
