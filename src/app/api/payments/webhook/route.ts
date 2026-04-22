@@ -6,10 +6,6 @@ export async function POST(request: Request) {
         const body = await request.json();
         const headers = request.headers;
         
-        // DEEP LOGGING FOR SIGNATURE DEBUGGING
-        console.log("[TSPAY_WEBHOOK] FULL HEADERS:", Object.fromEntries(headers.entries()));
-        console.log("[TSPAY_WEBHOOK] FULL BODY:", JSON.stringify(body, null, 2));
-
         const sig = headers.get("x-signature") || "";
         const ts = headers.get("x-timestamp") || "";
         const { params, method } = body;
@@ -18,45 +14,30 @@ export async function POST(request: Request) {
             return NextResponse.json({ allow: false, reason: "Invalid request structure" }, { status: 400 });
         }
 
-        console.log(`[TSPAY_WEBHOOK] Received: ${method}`, params);
-
-        // 1. Signature Verification
-        const webhookSecret = (process.env.WEBHOOK_SECRET || process.env.TSPAY_API_KEY || "").trim();
+        const webhookSecret = (process.env.WEBHOOK_SECRET || "").trim();
         const orderId = String(params.order_id ?? "").trim();
         const amount = String(params.amount ?? "").trim();
         const timestamp = String(ts ?? "").trim();
         
-        // Formula: order_id:amount:timestamp
         const dataToSign = `${orderId}:${amount}:${timestamp}`;
-        const calculatedSig = "sha256=" + crypto
+        const expected = "sha256=" + crypto
             .createHmac("sha256", webhookSecret)
             .update(dataToSign)
             .digest("hex");
 
-        // DEBUG: Audit the signature components
-        console.log("[TSPAY_WEBHOOK] Audit:", {
-            received: sig,
-            calculated: calculatedSig,
-            stringTarget: dataToSign,
-            secretUsed: webhookSecret.substring(0, 4) + "****"
-        });
-
-        const expectedBuffer = Buffer.from(calculatedSig);
+        const expectedBuffer = Buffer.from(expected);
         const sigBuffer = Buffer.from(sig);
 
         if (sigBuffer.length !== expectedBuffer.length || !crypto.timingSafeEqual(sigBuffer, expectedBuffer)) {
-            console.error("[TSPAY_WEBHOOK] Signature mismatch!");
             return NextResponse.json({ allow: false, reason: "Invalid signature" }, { status: 401 });
         }
 
         const { createClient } = await import("@supabase/supabase-js");
         const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-        // Use SERVICE ROLE KEY to bypass Row Level Security because TSPay webhook has no user session
         const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
         
         const supabase = createClient(supabaseUrl, supabaseKey);
 
-        // 2. Handle Methods
         if (method === "checkPerform") {
             const { data: order, error } = await supabase
                 .from("payments")
@@ -110,7 +91,20 @@ export async function POST(request: Request) {
         }
 
         if (method === "performTransaction") {
-            // Finalize payment
+            const { data: currentPayment, error: fetchError } = await supabase
+                .from("payments")
+                .select("*")
+                .eq("order_id", orderId)
+                .single();
+
+            if (fetchError || !currentPayment) {
+                return NextResponse.json({ success: false, reason: "Payment not found" });
+            }
+
+            if (currentPayment.status === "success") {
+                return NextResponse.json({ success: true });
+            }
+
             const { data: payment, error: pError } = await supabase
                 .from("payments")
                 .update({ status: "success" })
@@ -122,11 +116,19 @@ export async function POST(request: Request) {
                 return NextResponse.json({ success: false });
             }
 
-            // Grant 30 days subscription
-            const expiresAt = new Date();
+            const { data: currentSub } = await supabase
+                .from("subscriptions")
+                .select("*")
+                .eq("user_id", payment.user_id)
+                .single();
+
+            let expiresAt = new Date();
+            if (currentSub && new Date(currentSub.expires_at) > new Date()) {
+                expiresAt = new Date(currentSub.expires_at);
+            }
             expiresAt.setDate(expiresAt.getDate() + 30);
 
-            const { error: sError } = await supabase
+            await supabase
                 .from("subscriptions")
                 .upsert({
                     user_id: payment.user_id,
@@ -135,20 +137,13 @@ export async function POST(request: Request) {
                     expires_at: expiresAt.toISOString(),
                 });
 
-            if (sError) {
-                console.error("[TSPAY_WEBHOOK] Subscription Update Error:", sError);
-                // We return success anyway because the payment is done, 
-                // but we might want to flag this for manual review.
-                return NextResponse.json({ success: true, note: "Subscription sync failed" });
-            }
-
             return NextResponse.json({ success: true });
         }
 
         return NextResponse.json({ allow: false, reason: "Noma'lum metod" }, { status: 400 });
 
     } catch (error: any) {
-        console.error("[TSPAY_WEBHOOK] Internal error:", error);
+        console.error("Internal error:", error);
         return NextResponse.json({ error: error.message }, { status: 500 });
     }
 }
