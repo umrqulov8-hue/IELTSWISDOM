@@ -17,10 +17,15 @@ export async function POST(request: Request) {
 
         const webhookSecret = (process.env.WEBHOOK_SECRET || "").trim();
         const orderId = String(params.order_id ?? "").trim();
-        const amount = String(params.amount ?? "").trim();
+        
+        let amountStr = String(params.amount ?? "").trim();
+        if (amountStr !== "" && !amountStr.includes(".")) {
+            amountStr += ".0";
+        }
+        
         const timestamp = String(ts ?? "").trim();
         
-        const dataToSign = `${orderId}:${amount}:${timestamp}`;
+        const dataToSign = `${orderId}:${amountStr}:${timestamp}`;
         const expected = "sha256=" + crypto
             .createHmac("sha256", webhookSecret)
             .update(dataToSign)
@@ -49,7 +54,7 @@ export async function POST(request: Request) {
                 return NextResponse.json({ allow: false, reason: "Buyurtma topilmadi" });
             }
 
-            if (Number(order.amount) !== Number(amount)) {
+            if (Number(order.amount) !== Number(amountStr)) {
                 return NextResponse.json({ allow: false, reason: "Summa mos emas" });
             }
 
@@ -68,13 +73,13 @@ export async function POST(request: Request) {
             }
 
             if (order.cheque_id) {
-                if (Number(order.amount) !== Number(amount)) {
+                if (Number(order.amount) !== Number(amountStr)) {
                     return NextResponse.json({ error: { code: -31001, message: "Summa xato" } }, { status: 400 });
                 }
                 return NextResponse.json({ success: true, transaction_id: order.cheque_id });
             }
 
-            if (Number(order.amount) !== Number(amount)) {
+            if (Number(order.amount) !== Number(amountStr)) {
                 return NextResponse.json({ error: { code: -31001, message: "Summa xato" } }, { status: 400 });
             }
 
