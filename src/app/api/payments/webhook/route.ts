@@ -1,4 +1,3 @@
-import { createClient } from "@/utils/supabase/server";
 import { NextResponse } from "next/server";
 import crypto from "crypto";
 
@@ -50,7 +49,12 @@ export async function POST(request: Request) {
             return NextResponse.json({ allow: false, reason: "Invalid signature" }, { status: 401 });
         }
 
-        const supabase = await createClient();
+        const { createClient } = await import("@supabase/supabase-js");
+        const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+        // Use SERVICE ROLE KEY to bypass Row Level Security because TSPay webhook has no user session
+        const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+        
+        const supabase = createClient(supabaseUrl, supabaseKey);
 
         // 2. Handle Methods
         if (method === "checkPerform") {

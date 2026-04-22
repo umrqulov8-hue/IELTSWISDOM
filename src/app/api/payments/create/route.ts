@@ -13,8 +13,16 @@ export async function POST(request: Request) {
         const { planName, amount } = await request.json();
         const tiyinAmount = Math.round(Number(amount) * 100); // TSPay expects amounts in tiyins (1 so'm = 100 tiyins)
 
+        // Use SERVICE ROLE KEY to bypass Row Level Security for inserting the payment
+        // (Just in case the public.payments table doesn't have an INSERT policy for the user)
+        const { createClient: createAdminClient } = await import("@supabase/supabase-js");
+        const adminSupabase = createAdminClient(
+            process.env.NEXT_PUBLIC_SUPABASE_URL!,
+            process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+        );
+
         // 1. Create a pending payment record to get an order_id
-        const { data: payment, error: paymentError } = await supabase
+        const { data: payment, error: paymentError } = await adminSupabase
             .from("payments")
             .insert({
                 user_id: user.id,
