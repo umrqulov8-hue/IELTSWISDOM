@@ -21,6 +21,10 @@ DROP POLICY IF EXISTS "Users can view their own payments" ON public.payments;
 CREATE POLICY "Users can view their own payments" ON public.payments 
   FOR SELECT USING (auth.uid() = user_id);
 
+DROP POLICY IF EXISTS "Users can insert their own payments" ON public.payments;
+CREATE POLICY "Users can insert their own payments" ON public.payments 
+  FOR INSERT WITH CHECK (auth.uid() = user_id);
+
 -- 2. SUBSCRIPTIONS TABLE
 -- Stores current active plan for each user
 CREATE TABLE IF NOT EXISTS public.subscriptions (
@@ -46,5 +50,8 @@ BEGIN
 END;
 $$ language 'plpgsql';
 
+DROP TRIGGER IF EXISTS update_payments_updated_at ON public.payments;
 CREATE TRIGGER update_payments_updated_at BEFORE UPDATE ON public.payments FOR EACH ROW EXECUTE PROCEDURE update_updated_at_column();
+
+DROP TRIGGER IF EXISTS update_subscriptions_updated_at ON public.subscriptions;
 CREATE TRIGGER update_subscriptions_updated_at BEFORE UPDATE ON public.subscriptions FOR EACH ROW EXECUTE PROCEDURE update_updated_at_column();
