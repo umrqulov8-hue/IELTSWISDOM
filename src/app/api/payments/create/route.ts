@@ -60,10 +60,18 @@ export async function POST(request: Request) {
             });
 
             // Extract message from various possible structures
-            const msg = errorData.message || 
-                        errorData.detail || 
-                        (errorData.error && typeof errorData.error === 'object' ? errorData.error.message : errorData.error) ||
-                        JSON.stringify(errorData);
+            let msg = "Unknown error";
+            if (Array.isArray(errorData.detail)) {
+                msg = errorData.detail.map((e: any) => `${e.loc?.join('.')}: ${e.msg}`).join(', ');
+            } else if (errorData.message) {
+                msg = errorData.message;
+            } else if (errorData.detail) {
+                msg = typeof errorData.detail === 'string' ? errorData.detail : JSON.stringify(errorData.detail);
+            } else if (errorData.error) {
+                msg = typeof errorData.error === 'object' ? errorData.error.message || JSON.stringify(errorData.error) : errorData.error;
+            } else {
+                msg = JSON.stringify(errorData);
+            }
 
             return NextResponse.json({ 
                 error: `TSPay Error (${res.status}): ${msg}`
